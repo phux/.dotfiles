@@ -220,4 +220,5 @@ exec pasystray
 exec xset -dpms; xset s off
 # start urxvt in daemon mode - faster, execute it with urxvtc
 exec urxvtd -f
-
+# make capslock an additional escape
+exec xmodmap ~/.capslock_to_escape
