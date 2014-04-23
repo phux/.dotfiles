@@ -1,0 +1,3 @@
+[submodule "php-vim-setup"]
+	path = php-vim-setup
+	url = https://github.com/phux/php-vim-setup.git
