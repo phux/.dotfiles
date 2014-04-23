@@ -14,3 +14,8 @@ ln -fs $DOTDIR/.Xdefaults $HOME/.Xdefaults
 
 echo 'linking ack config'
 ln -fs $DOTDIR/.ackrc $HOME/.ackrc
+
+echo 'linking vim files'
+ln -fs $DOTDIR/php-vim-setup/.vim $HOME/.vim
+ln -fs $DOTDIR/php-vim-setup/.vimrc $HOME/.vimrc
+ln -fs $DOTDIR/php-vim-setup/.gvimrc $HOME/.gvimrc
