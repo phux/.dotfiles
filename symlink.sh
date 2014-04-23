@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/zsh
 
 DOTDIR="$HOME/.dotfiles"
 
@@ -19,3 +19,9 @@ echo 'linking vim files'
 ln -fs $DOTDIR/php-vim-setup/.vim $HOME/
 ln -fs $DOTDIR/php-vim-setup/.vimrc $HOME/.vimrc
 ln -fs $DOTDIR/php-vim-setup/.gvimrc $HOME/.gvimrc
+
+echo 'setup prezto zsh'
+setopt EXTENDED_GLOB
+for rcfile in $DOTDIR/prezto/runcoms/^README.md(.N); do
+  ln -sf "$rcfile" "$HOME/.${rcfile:t}"
+done

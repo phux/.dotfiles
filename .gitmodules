@@ -1,3 +1,6 @@
 [submodule "php-vim-setup"]
 	path = php-vim-setup
 	url = https://github.com/phux/php-vim-setup.git
+[submodule "prezto"]
+	path = prezto
+	url = https://github.com/phux/prezto
