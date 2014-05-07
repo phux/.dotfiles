@@ -31,7 +31,7 @@ xscreensaver.dateFormat:    %I:%M%P %a %b %d, %Y
 URxvt*transparent: true
 URxvt*tintColor: White
 URxvt*shading: 30
-URxvt*saveLines: 2000
+URxvt*saveLines: 10000
 URxvt*font: xft:DejaVu Sans Mono:pixelsize=12
 URxvt*boldFont: xft:DejaVu Sans Mono:bold:pixelsize=12
 !URxvt*font: xft:Inconsolata:pixelsize=14
@@ -61,3 +61,9 @@ URxvt*color6: #98B9B1
 URxvt*color14: #CBE6CB
 URxvt*color7: #D0D0D0
 URxvt*color15: #E6E6E6
+
+URxvt.keysym.Shift-Control-V: perl:clipboard:paste
+ 
+URxvt.iso14755: False
+ 
+URxvt.perl-ext-common: default,clipboard
