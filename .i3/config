@@ -42,8 +42,8 @@ bindsym $mod+Tab workspace back_and_forth
 
 # Start common apps
 bindsym $mod+Shift+Return exec firefox
-bindsym $mod+Shift+M exec audacious; workspace 2
-bindsym $mod+Shift+T exec thunderbird; workspace 2
+bindsym $mod+Shift+M exec audacious; workspace 3
+bindsym $mod+Shift+T exec thunderbird; workspace 3
 
 # Change focused window
 bindsym $mod+j focus down
@@ -168,8 +168,9 @@ bindsym $mod+Shift+E exit
 
 ###  ADDED KEY BINDINGS  ###
 bindsym $MOD+SHIFT+f exec thunar
-bindsym $MOD+SHIFT+g exec gvim
+bindsym $MOD+SHIFT+g exec gvim; workspace 1
 bindsym $MOD+a exec gnome-do
+bindsym $mod+Shift+P exec i3lock
 
 
 # Start i3bar to display a workspace bar (plus the system information i3status
@@ -202,9 +203,11 @@ client.unfocused #333333 #747170 #ffffff
 
 
 # workspace targeting
-assign [class="Audacious"] 2
-assign [class="Skype"] 2
-assign [class="Thunderbird"] 2
+assign [class="Gvim"] 1
+assign [class="Firefox"] 2
+assign [class="Audacious"] 3
+assign [class="Skype"] 3
+assign [class="Thunderbird"] 3
 
 # default floating applications
 for_window [class="Xfce4-notifyd"] floating enable
