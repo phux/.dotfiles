@@ -25,6 +25,8 @@ ln -fs $DOTDIR/php-vim-setup/.gvimrc $HOME/.gvimrc
 echo 'installing vundle plugins'
 git clone https://github.com/gmarik/Vundle.vim.git ~/.vim/bundle/Vundle.vim
 vim +PluginInstall +qall
+echo 'compiling completion plugin'
+~/.vim/bundle/YouCompleteMe/install.sh
 
 echo 'setup prezto zsh'
 setopt EXTENDED_GLOB
