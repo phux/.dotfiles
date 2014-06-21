@@ -22,6 +22,9 @@ echo 'linking vim files'
 ln -fs $DOTDIR/php-vim-setup/.vim $HOME/
 ln -fs $DOTDIR/php-vim-setup/.vimrc $HOME/.vimrc
 ln -fs $DOTDIR/php-vim-setup/.gvimrc $HOME/.gvimrc
+echo 'installing vundle plugins'
+git clone https://github.com/gmarik/Vundle.vim.git ~/.vim/bundle/Vundle.vim
+vim +PluginInstall +qall
 
 echo 'setup prezto zsh'
 setopt EXTENDED_GLOB
