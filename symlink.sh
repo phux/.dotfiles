@@ -3,7 +3,7 @@
 DOTDIR="$HOME/.dotfiles"
 
 #fetch all submodules
-cd ~/.dotfiles && git submodule init && git submodule update
+cd ~/.dotfiles && git pull && git submodule update --init --recursive
 
 echo 'linking i3 config'
 ln -fs $DOTDIR/.i3/config $HOME/.i3/config
