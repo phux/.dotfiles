@@ -3,7 +3,7 @@
 DOTDIR="$HOME/.dotfiles"
 
 #fetch all submodules
-cd ~/.dotfiles && git pull && git submodule update --init --recursive
+cd ~/.dotfiles && git pull --recurse-submodules && git submodule update
 
 echo 'linking i3 config'
 ln -fs $DOTDIR/.i3/config $HOME/.i3/config
@@ -26,7 +26,7 @@ echo 'installing vundle plugins'
 git clone https://github.com/gmarik/Vundle.vim.git ~/.vim/bundle/Vundle.vim
 vim +PluginInstall +qall
 echo 'compiling completion plugin'
-~/.vim/bundle/YouCompleteMe/install.sh
+cd ~/.vim/bundle/YouCompleteMe/ && ./install.sh
 
 echo 'setup prezto zsh'
 setopt EXTENDED_GLOB
