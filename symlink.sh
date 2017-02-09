@@ -13,3 +13,7 @@ ln -fs $DOTDIR/.Xresources $HOME/.Xresources
 echo 'installing oh-my-zsh'
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
 ln -fs $DOTDIR/.zshrc $HOME/.zshrc
+
+echo 'linking nvim init.vim'
+mkdir -p $HOME/.config/nvim
+ln -fs $DOTDIR/init.vim $HOME/.config/nvim/
