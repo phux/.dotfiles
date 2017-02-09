@@ -4,7 +4,7 @@ DOTDIR="$HOME/.dotfiles"
 
 echo 'linking i3 config'
 mkdir -p $HOME/.i3
-cd $HOME/.i3/config
+cd $HOME/.i3/
 ln -fs $DOTDIR/* .
 
 echo 'linking .Xresources'
