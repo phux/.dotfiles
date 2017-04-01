@@ -1,3 +1,4 @@
+" Bootstrap {{{
 " Note: Skip initialization for vim-tiny or vim-small.
 if !1 | finish | endif
 
@@ -5,15 +6,18 @@ if &compatible
     set nocompatible
 endif
 
-" Autoinstall vim-plug {{{
+" }}}
+
+" plugins {{{
+" autoinstall {{{2
 if empty(glob('~/.config/nvim/autoload/plug.vim'))
   silent !curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs
     \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
   autocmd VimEnter * PlugInstall
 endif
+" }}}
 
-let mapleader = "\<Space>"
-
+" plugged {{{
 call plug#begin('~/.config/nvim/plugged')
 
 Plug 'tpope/vim-surround'
@@ -22,236 +26,103 @@ Plug 'ap/vim-buftabline'
 
 Plug 'henrik/vim-indexed-search'
 
-Plug 'scrooloose/nerdtree' , { 'on': 'NERDTreeToggle' }
-let g:NERDTreeMinimalUI = 1
-let g:NERDTreeHijackNetrw = 0
-let g:NERDTreeWinSize = 31
-let g:NERDTreeChDirMode = 2
-let g:NERDTreeAutoDeleteBuffer = 1
-let g:NERDTreeShowBookmarks = 0
-let g:NERDTreeCascadeOpenSingleChildDir = 1
+Plug 'scrooloose/nerdtree'
 
 Plug 'tpope/vim-commentary'
+
+Plug 'vim-scripts/netrw.vim'
 Plug 'majutsushi/tagbar'
+
 Plug 'Shougo/vimproc.vim', { 'do': 'make' }
+
 Plug 'itchyny/lightline.vim'
-let g:lightline = {
-      \ 'colorscheme': 'solarized',
-      \ 'active': {
-      \   'left': [ [ 'mode', 'paste' ], [ 'fugitive', 'filename' ], ['ctrlpmark'] ],
-      \   'right': [ [ 'lineinfo' ], ['percent'], [ 'fileformat', 'fileencoding', 'filetype' ] ]
-      \ },
-      \ 'component_function': {
-      \   'fugitive': 'LightlineFugitive',
-      \   'filename': 'LightlineFilename',
-      \   'fileformat': 'LightlineFileformat',
-      \   'filetype': 'LightlineFiletype',
-      \   'fileencoding': 'LightlineFileencoding',
-      \   'mode': 'LightlineMode',
-      \   'ctrlpmark': 'CtrlPMark',
-      \ },
-      \ 'separator': { 'left': "\ue0b0", 'right': "\ue0b2" },
-      \ 'subseparator': { 'left': "\ue0b1", 'right': "\ue0b3" }
-      \ }
-
-function! LightlineModified()
-  return &ft =~ 'help' ? '' : &modified ? '+' : &modifiable ? '' : '-'
-endfunction
-
-function! LightlineReadonly()
-  return &ft !~? 'help' && &readonly ? 'RO' : ''
-endfunction
-
-function! LightlineFilename()
-  let fname = expand('%')
-  return  fname == '__Tagbar__' ? g:lightline.fname :
-        \ fname =~ '__Gundo\|NERD_tree' ? '' :
-        \ &ft == 'vimfiler' ? vimfiler#get_status_string() :
-        \ &ft == 'unite' ? unite#get_status_string() :
-        \ &ft == 'vimshell' ? vimshell#get_status_string() :
-        \ ('' != LightlineReadonly() ? LightlineReadonly() . ' ' : '') .
-        \ ('' != fname ? fname : '[No Name]') .
-        \ ('' != LightlineModified() ? ' ' . LightlineModified() : '')
-endfunction
-
-function! LightlineFugitive()
-  try
-    if expand('%:t') !~? 'Tagbar\|Gundo\|NERD' && &ft !~? 'vimfiler' && exists('*fugitive#head')
-      let mark = ''  " edit here for cool mark
-      let branch = fugitive#head()
-      return branch !=# '' ? mark.branch : ''
-    endif
-  catch
-  endtry
-  return ''
-endfunction
-
-function! LightlineFileformat()
-  return winwidth(0) > 70 ? &fileformat : ''
-endfunction
-
-function! LightlineFiletype()
-  return winwidth(0) > 70 ? (&filetype !=# '' ? &filetype : 'no ft') : ''
-endfunction
-
-function! LightlineFileencoding()
-  return winwidth(0) > 70 ? (&fenc !=# '' ? &fenc : &enc) : ''
-endfunction
-
-function! LightlineMode()
-  let fname = expand('%:t')
-  return fname == '__Tagbar__' ? 'Tagbar' :
-        \ fname == '__Gundo__' ? 'Gundo' :
-        \ fname == '__Gundo_Preview__' ? 'Gundo Preview' :
-        \ fname =~ 'NERD_tree' ? 'NERDTree' :
-        \ &ft == 'unite' ? 'Unite' :
-        \ &ft == 'vimfiler' ? 'VimFiler' :
-        \ &ft == 'vimshell' ? 'VimShell' :
-        \ winwidth(0) > 60 ? lightline#mode() : ''
-endfunction
-
-
-
-
 
 Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
-let g:ultisnips_php_scalar_types = 1
-let g:UltiSnipsSnippetsDir = '~/.vim/plugged/vim-snippets/UltiSnips/'
-let g:UltiSnipsExpandTrigger="<c-j>"
-let g:UltiSnipsJumpForwardTrigger="<c-k>"
-let g:UltiSnipsJumpBackwardTrigger="<c-b>"
 
-Plug 'Townk/vim-autoclose'
+" Plug 'jiangmiao/auto-pairs'
+Plug 'cohama/lexima.vim'
 
 Plug 'amiorin/vim-project'
-let g:project_use_nerdtree = 0
-let g:project_enable_welcome = 0
-nmap <leader><F2> :e ~/dotfiles/vimprojects<cr>
 
 Plug 'tpope/vim-fugitive'
 Plug 'gregsexton/gitv'
 
 Plug 'tpope/vim-unimpaired'
-Plug 'YankRing.vim' | Plug 'L9'
 Plug 'moll/vim-bbye'
 Plug 'Lokaltog/vim-easymotion'
 Plug 'matchit.zip'
 Plug 'junegunn/vim-easy-align'
 Plug 'godlygeek/tabular'
 
-Plug 'nelstrom/vim-qargs'
-
 Plug 'altercation/vim-colors-solarized'
+Plug 'crusoexia/vim-monokai'
+Plug 'morhetz/gruvbox'
+Plug 'gko/vim-coloresque'
+" Plug 'jacoborus/tender.vim'
 
-Plug 'phux/vim-phpqa'
-nmap <leader>gw :let g:phpqa_messdetector_autorun = 0<cr>:let g:phpqa_codesniffer_autorun = 0<cr>:Gwrite<cr>:let g:phpqa_messdetector_autorun = 1<cr>:let g:phpqa_codesniffer_autorun = 1<cr>
-autocmd FileType php nmap <buffer> <leader>w :let g:phpqa_messdetector_autorun = 0<cr>:let g:phpqa_codesniffer_autorun = 0<cr>:w<cr>:let g:phpqa_messdetector_autorun = 1<cr>:let g:phpqa_codesniffer_autorun = 1<cr>
-
-
-
-
-
-Plug 'adoy/vim-php-refactoring-toolbox'
-
-let g:vim_php_refactoring_default_property_visibility = 'private'
-let g:vim_php_refactoring_default_method_visibility = 'private'
-let g:vim_php_refactoring_auto_validate_visibility = 1
-let g:vim_php_refactoring_phpdoc = "pdv#DocumentCurrentLine"
-
-let g:vim_php_refactoring_use_default_mapping = 0
-nnoremap <leader>rlv :call PhpRenameLocalVariable()<CR>
-nnoremap <leader>rcv :call PhpRenameClassVariable()<CR>
-nnoremap <leader>rrm :call PhpRenameMethod()<CR>
-nnoremap <leader>reu :call PhpExtractUse()<CR>
-vnoremap <leader>rec :call PhpExtractConst()<CR>
-nnoremap <leader>rep :call PhpExtractClassProperty()<CR>
-vnoremap <leader>rem :call PhpExtractMethod()<CR>
-nnoremap <leader>rnp :call PhpCreateProperty()<CR>
-nnoremap <leader>rdu :call PhpDetectUnusedUseStatements()<CR>
-vnoremap <leader>r== :call PhpAlignAssigns()<CR>
-nnoremap <leader>rsg :call PhpCreateSettersAndGetters()<CR>
-
-
-
-
-
-Plug 'shawncplus/phpcomplete.vim'
-let g:phpcomplete_complete_for_unknown_classes = 0
-let g:phpcomplete_relax_static_constraint=0
-let g:phpcomplete_search_tags_for_variables = 0
-let g:phpcomplete_parse_docblock_comments = 0
-let g:phpcomplete_enhance_jump_to_definition = 1
-autocmd FileType php setlocal omnifunc=phpcomplete#CompletePHP
-
-
+Plug 'veloce/vim-behat', {'for': 'behat'}
+let g:feature_filetype='behat'
 
 
 
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'zchee/deoplete-go', { 'do': 'make'}
-let g:deoplete#enable_at_startup = 1
-let g:deoplete#sources#syntax#min_keyword_length = 2
-let g:deoplete#enable_smart_case = 1
-let g:deoplete#enable_camel_case = 1
-let g:deoplete#auto_complete_delay = 10
-
-let g:deoplete#auto_refresh_delay = 5
-let g:deoplete#enable_auto_delimiter = 1
-let g:deoplete#max_list = 30
-inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
-
-let g:deoplete#omni_patterns = {}
-let g:deoplete#omni_patterns.php =
-            \ '[^. \t]->\%(\h\w*\)\?\|\h\w*::\%(\h\w*\)\?'
-
-
-Plug 'tobyS/pdv' | Plug 'tobyS/vmustache'
-nnoremap <leader>h :call pdv#DocumentWithSnip()<CR>
-let g:pdv_template_dir = $HOME."/.config/nvim/pdv_templates_snip"
 
 
 
-
-Plug 'arnaud-lb/vim-php-namespace'
-let g:php_namespace_sort_after_insert = 1
-noremap <leader>u :call PhpInsertUse()<CR>
-noremap <leader>e :call PhpExpandClass()<CR>
+Plug 'zhaocai/GoldenView.Vim'
 
 
+Plug 'w0rp/ale'
+" Plug 'phux/vim-phpqa', {'for': 'php'}
+" Plug 'neomake/neomake'
+" let &runtimepath.=',~/.config/nvim/plugged/ale'
+" filetype off
+" let g:ale_echo_msg_error_str = 'E'
+" let g:ale_echo_msg_warning_str = 'W'
+let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
+let g:ale_php_phpcs_standard = 'Symfony3Custom'
+" let g:ale_open_list = 0
+" Set this if you want to.
+" This can be useful if you are combining ALE with
+" some other plugin which sets quickfix errors, etc.
+" let g:ale_keep_list_window_open = 1
+" let g:ale_sign_error = 'EE'
+" let g:ale_sign_warning = 'ლ(╹o╹ლ )'
+let g:ale_php_phpmd_ruleset = 'cleancode,codesize,controversial,design,unusedcode'
+nmap <silent> gen <Plug>(ale_next_wrap)
+nmap <silent> gep <Plug>(ale_previous_wrap)
+let g:ale_lint_on_save=1
+" let g:ale_lint_on_text_changed = 'never'
+let g:ale_lint_on_enter=1
+let g:ale_sign_error = '✖'
+let g:ale_sign_warning = '►'
+let g:ale_statusline_format = ['E•%d', 'W•%d', 'OK']
 
-Plug 'joonty/vdebug'
+Plug 'adoy/vim-php-refactoring-toolbox', {'for': 'php'}
 
-let g:vdebug_options = {}
-let g:vdebug_options["port"] = 9000
-let g:vdebug_keymap = {
-\    "run" : "<F5>",
-\    "run_to_cursor" : "<F9>",
-\    "step_over" : "<F2>",
-\    "step_into" : "<F3>",
-\    "step_out" : "<F4>",
-\    "close" : "<F6>",
-\    "detach" : "<F7>",
-\    "set_breakpoint" : "<F10>",
-\    "get_context" : "<F11>",
-\    "eval_under_cursor" : "<F12>",
-\    "eval_visual" : "<F8>",
-\}
 
-Plug 'StanAngeloff/php.vim'
-Plug '2072/PHP-Indenting-for-VIm'
-Plug 'alvan/vim-php-manual'
+Plug 'Herzult/phpspec-vim', {'for': 'php'}
+let g:phpspec_executable = 'vendor/bin/phpspec'
+" Plug 'php-vim/phpcd.vim', { 'for': 'php' , 'do': 'composer install --no-dev' }
+Plug 'shawncplus/phpcomplete.vim', {'for': 'php'}
+" Plug 'm2mdas/phpcomplete-extended'
+Plug 'Rican7/php-doc-modded', {'for': 'php'}
+Plug 'arnaud-lb/vim-php-namespace', {'for': 'php'}
+Plug 'joonty/vdebug', {'for': 'php'}
 
+Plug 'StanAngeloff/php.vim', {'for': 'php'}
+Plug '2072/PHP-Indenting-for-VIm', {'for': 'php'}
+Plug 'alvan/vim-php-manual', {'for': 'php'}
 
 Plug 'evidens/vim-twig'
-Plug 'avakhov/vim-yaml'
+Plug 'avakhov/vim-yaml', {'for': 'yaml'}
 
-" Plug 'editorconfig/editorconfig-vim'
-" Plug 'suan/vim-instant-markdown'
 Plug 'phux/scratch.vim'
 Plug 'vitalk/vim-simple-todo'
 
-Plug 'fatih/vim-go'
-Plug 'buoto/gotests-vim'
+Plug 'fatih/vim-go', {'for':'go'}
+Plug 'buoto/gotests-vim', {'for':'go'}
 
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'tmux-plugins/vim-tmux-focus-events'
@@ -259,146 +130,41 @@ Plug 'tmux-plugins/vim-tmux'
 
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
-let g:fzf_layout = { 'down': '~40%' }
 
-" [Files] Extra options for fzf
-"   e.g. File preview using Highlight
-"        (http://www.andre-simon.de/doku/highlight/en/highlight.html)
-" let g:fzf_files_options =
-"   \ '--preview "(highlight -O ansi {} || cat {}) 2> /dev/null | head -'.&lines.'"'
-
-" [Buffers] Jump to the existing window if possible
-let g:fzf_buffers_jump = 1
-
-" [[B]Commits] Customize the options used by 'git log':
-let g:fzf_commits_log_options = '--graph --color=always --format="%C(auto)%h%d %s %C(black)%C(bold)%cr"'
-
-function! s:ag_to_qf(line)
-  let parts = split(a:line, ':')
-  return {'filename': parts[0], 'lnum': parts[1], 'col': parts[2],
-        \ 'text': join(parts[3:], ':')}
-endfunction
-
-function! s:ag_handler(lines)
-  if len(a:lines) < 2 | return | endif
-
-  let cmd = get({'ctrl-x': 'split',
-               \ 'ctrl-v': 'vertical split',
-               \ 'ctrl-t': 'tabe'}, a:lines[0], 'e')
-  let list = map(a:lines[1:], 's:ag_to_qf(v:val)')
-
-  let first = list[0]
-  execute cmd escape(first.filename, ' %#\')
-  execute first.lnum
-  execute 'normal!' first.col.'|zz'
-
-  if len(list) > 1
-    call setqflist(list)
-    copen
-    wincmd p
-  endif
-endfunction
-autocmd VimEnter * command! -nargs=* Ag call fzf#run({
-\ 'source':  printf('ag --nogroup --column --color "%s"',
-\                   escape(empty(<q-args>) ? '^(?=.)' : <q-args>, '"\')),
-\ 'sink*':    function('<sid>ag_handler'),
-\ 'options': '--ansi --expect=ctrl-t,ctrl-v,ctrl-x --delimiter : --nth 4.. '.
-\            '--multi --bind=ctrl-a:select-all,ctrl-d:deselect-all '.
-\            '--color hl:68,hl+:110',
-\ 'down':    '50%'
-\ })
-
-
-function! s:buflist()
-  redir => ls
-  silent ls
-  redir END
-  return split(ls, '\n')
-endfunction
-
-function! s:bufopen(e)
-  execute 'buffer' matchstr(a:e, '^[ 0-9]*')
-endfunction
-
-nnoremap <silent> <leader>d :call fzf#run({
-\   'source':  reverse(<sid>buflist()),
-\   'sink':    function('<sid>bufopen'),
-\   'options': '+m',
-\   'down':    len(<sid>buflist()) + 2
-\ })<CR>
-
-
-vnoremap // "hy:exec "Ag ".escape('<C-R>h', "/\.*$^~[()")<cr>
-
-function! s:tags_sink(line)
-  let parts = split(a:line, '\t\zs')
-  let excmd = matchstr(parts[2:], '^.*\ze;"\t')
-  execute 'silent e' parts[1][:-2]
-  let [magic, &magic] = [&magic, 0]
-  execute excmd
-  let &magic = magic
-endfunction
-
-function! s:tags()
-  if empty(tagfiles())
-    echohl WarningMsg
-    echom 'Preparing tags'
-    echohl None
-    silent! !eval '[ -f ".git/hooks/ctags" ] && .git/hooks/ctags' &
-  endif
-
-  call fzf#run({
-  \ 'source':  'cat '.join(map(tagfiles(), 'fnamemodify(v:val, ":S")')).
-  \            '| grep -v -a ^!',
-  \ 'options': '+m -d "\t" --with-nth 1,4.. -n 1 --tiebreak=index',
-  \ 'down':    '40%',
-  \ 'sink':    function('s:tags_sink')})
-endfunction
-
-command! Tags call s:tags()
-
-nmap <leader>s :Tags<cr>
-nmap <leader>, :Files<cr>
-
-
+Plug 'wincent/ferret'
 
 Plug 'Shougo/echodoc.vim'
-let g:echodoc_enable_at_startup=1
-set noshowmode
-" set cmdheight=2
 
+"Plug 'reedes/vim-wordy', { 'for': ['mail', 'markdown', 'vimwiki'] }
+Plug 'honza/dockerfile.vim', { 'for': 'docker' }
+
+" Plug 'Konfekt/FastFold'
+" let g:php_folding = 1
+Plug 'matze/vim-move'
+
+Plug 'tpope/vim-abolish'
+Plug 'tpope/vim-speeddating'
+Plug 'tpope/vim-sensible'
+
+Plug 'vim-scripts/YankRing.vim'
 call plug#end()
+" }}}
 
-set rtp+=~/.vim/bundle/vim-project/
-call project#rc("~/code")
+" }}}
 
-" ====================
-" = Settings: General
-" ====================
+" general {{{
 
 
-set nu " show line numbers
-set hidden
-" no backups
-set nobackup
-set nowritebackup
-set noswapfile
+" interface {{{2
+set t_Co=256
+" colorscheme tender
+set background=dark
+" colorscheme monokai
+colorscheme gruvbox
+" colorscheme color_1
 
-" write on focus loss
-au FocusLost * silent! wa
-
-" Instead of failing a command because of unsaved changes, instead raise a
-" dialogue asking if you wish to save changed files.
-set confirm
-
-" Copy to Clipboard (on Unix)
-set clipboard+=unnamed
-
-" use open windows/tabs for buffer switching
-set switchbuf=useopen,usetab
-
-" Show partial commands in the last line of the screen
-set showcmd
+set number
+set relativenumber
 
 " Line wrapping
 set wrap
@@ -406,301 +172,250 @@ set wrap
 set lbr
 " "show this in front of broken lines
 set showbreak=↪
-
-" split new window at the right of current
-set spr
-
 " Set the command window height to 1 lines
 set cmdheight=1
-
 " This makes more sense than the default of 1
 set winminheight=1
-
 " no welcome screen
 set shortmess+=filmnrxoOtT
-
-" highlight current line
-set cul
-
-" indentation
-set nojoinspaces
-set tabstop=4
-set shiftwidth=4
-set shiftround
-
-set expandtab
-set formatoptions+=tcqlr
-
 " highlight chars
 set list
 set listchars=tab:\ \ ,trail:•,extends:#,nbsp:. 
+" Show partial commands in the last line of the screen
+set showcmd
+
+" hi Visual guifg=NONE ctermfg=255 guibg=#040404 ctermbg=203 gui=NONE
+" hi SpecialKey       guifg=#343434     guibg=NONE     gui=NONE      ctermfg=NONE        ctermbg=NONE        cterm=NONE
+" }}}
+
+" find highlighting group under cursor {{{2
+nnoremap <leader>0 :call <SID>SynStack()<CR>
+function! <SID>SynStack()
+  if !exists("*synstack")
+    return
+  endif
+  echo map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")')
+endfunc
+" }}}
+
+set hidden
+
+" no backups {{{2
+set nobackup
+set nowritebackup
+set noswapfile
+" }}}
+
+" write on focus loss
+au FocusLost * silent! wa
+
+set formatoptions+=tcqlr
 
 " move over lines with following keys
 set whichwrap+=<,>,[,],h,l
 
-" ------
-" - Search settings
-" ------
+" Don't fail, ask
+set confirm
 
-" Highlight searches
-set hlsearch
+" Copy to Clipboard (on Unix)
+set clipboard+=unnamed
 
-" " Use case insensitive search, except when using capital letters
+" windows {{{2
+" use open windows/tabs for buffer switching
+set switchbuf=useopen,usetab
+" split new window at the right of current
+set spr
+" }}}
+
+" indentation {{{2
+set nojoinspaces
+set tabstop=4
+set shiftwidth=4
+set shiftround
+set expandtab
+" }}}
+
+" search {{{
+" Use case insensitive search, except when using capital letters
 set ignorecase
 set smartcase
+set hlsearch
+" }}}
 
-" undo
+" undo {{{2
 set undofile                " Save undo's after file closes
 set undodir=~/.undovim " where to save undo histories
 set undolevels=1000         " How many undos
 set undoreload=10000
+" }}}
 
+" completion {{{2
 " Better command-line completion
-set wildmenu
 " set wildignore+=*.pyc,*.zip,*.gz,*.bz,*.tar,*.jpg,*.png,*.gif,*.avi,*.wmv,*.ogg,*.mp3,*.mov
-set wildmode=list:longest,full
-
+" set wildmode=list:longest,full
+set wildmode=longest:full,full
 " Limit popup menu height
 set pumheight=15
+set completeopt=menuone,longest
+" }}}
 
+" diff {{{2
 " ignore whitespaces when vimdiff'ing
 set diffopt=iwhite
+set diffopt+=vertical
+" }}}
 
+" restore cursor position {{{2
+au BufReadPost * call RestorePosition()
+func! RestorePosition()
+    if exists("g:restore_position_ignore") && match(expand("%"), g:restore_position_ignore) > -1
+        return
+    endif
 
-set completeopt=longest,menuone
-
-
-" ====================
-" = Settings: Gui
-" ====================
-
-
-
-
-
-set background=dark
-" let g:solarized_termcolors=256
-colorscheme solarized
-
-
-
-
-
-" ====================
-" = Settings: Plugins
-" ====================
+    if line("'\"") > 1 && line("'\"") <= line("$")
+        exe "normal! g`\""
+    endif
+endfunc
+" }}}
 
 
 let g:PHP_removeCRwhenUnix = 1
 let g:PHP_vintage_case_default_indent = 1
 
-
-" let g:AutoPairs = {'(':')', '[':']', '{':'}',"'":"'",'"':'"', '`':'`'}
-let g:AutoPairsFlyMode = 0
-let g:AutoPairsShortcutBackInsert = '<c-h>'
-
-let g:vim_debug_disable_mappings = 1
-
-
-
-
-
-
-
-
-
-
-
-
-" ====================
-" = Mappings
-" ====================
-
-
-
-
-" ------
-" - Mappings: General
-" ------
-
-
+" Mappings {{{
+let mapleader = "\<Space>"
 " Edit the vimrc file
-nmap <silent> <leader><f5> :e $MYVIMRC<CR>
+nnoremap <silent> <leader><f5> :e $MYVIMRC<CR>
 
 inoremap jk <esc>
 
+" movement {{{
 " map j to gj and k to gk, so line navigation ignores line wrap
-nmap j gj
-nmap k gk
-
-" Copy Paste
-vmap <leader>y "+y
-vmap <leader>d "+d
-cmap ,p <C-R>+
-
-nnoremap <leader>x <c-w>c
-
-vnoremap <silent> y y`]
-vnoremap <silent> p p`]
-nnoremap <silent> p p`]
-
-
-"  select pasted text
-noremap gV `[v`]
-
-nmap <leader>W :set nowrap!<CR>
-
-
-" fast closing of html tags
-imap ;; </<c-x><c-o>
-
-vmap < <gv
-vmap > >gv
-" vmap <c-k> [egv
-" vmap <c-j> ]egv
-
-" command line bash behavior
-" cnoremap <C-A> <Home>
-cnoremap <C-B> <Left>
-cnoremap <C-E> <End>
-cnoremap <C-F> <Right>
-cnoremap <C-N> <End>
-cnoremap <C-P> <Up>
-
-" delete char after cursor in insert mode, same as del key
-inoremap <c-l> <del>
+nnoremap j gj
+nnoremap k gk
 
 " jump to line AND column
 nnoremap ' `
 nnoremap ` '
+" }}}
 
+" Copy Paste {{{
+vnoremap <leader>y "+y
+nnoremap <leader>p "+p
+vnoremap <leader>p "+p
+vnoremap <leader>d "+d
+vnoremap <silent> y y`]
+vnoremap <silent> p p`]
+nnoremap <silent> p p`]
+
+"  select pasted text
+noremap gV `[v`]
+" }}}
+
+nnoremap <leader>W :set nowrap!<CR>
+
+" fast closing of html tags
+inoremap ;; </<c-x><c-o>
+nnoremap <m-;> :ToggleGoldenViewAutoResize<cr>
+
+vnoremap < <gv
+vnoremap > >gv
+
+" cmd line {{{
+" command line bash behavior
+cnoremap <C-A> <Home>
+cnoremap <C-B> <Left>
+cnoremap <C-E> <End>
+cnoremap <C-F> <Right>
+cnoremap <C-N> <Down>
+cnoremap <C-P> <Up>
+" }}}
+
+" delete char after cursor in insert mode, same as del key
+inoremap <c-l> <del>
+
+" windows {{{
 " window switching
 noremap <silent> <c-l> <c-w>l
 noremap <silent> <c-j> <c-w>j
 noremap <silent> <c-k> <c-w>k
 noremap <silent> <c-h> <c-w>h
 
-nnoremap <silent> <leader>K :exe "resize " . (winheight(0) * 5/4)<CR>
-nnoremap <silent> <leader>J :exe "resize " . (winheight(0) * 4/5)<CR>
-nnoremap <silent> <leader>H :exe "vertical resize -15"<CR>
-nnoremap <silent> <leader>L :exe "vertical resize +15"<CR>
-
+" create splits
 nnoremap c<C-j> :bel sp<cr>
 nnoremap c<C-k> :abo sp<cr>
 nnoremap c<C-h> :lefta vsp<cr>
 nnoremap c<C-l> :rightb vsp<cr>
-nnoremap g<C-j> <C-w>j<C-w>_
-nnoremap g<C-k> <C-w>k<C-w>_
-nnoremap g<C-h> <C-w>h<C-w>_
-nnoremap g<C-l> <C-w>l<C-w>_
+
+" kill windows
 nnoremap d<C-j> <C-w>j<C-w>c
 nnoremap d<C-k> <C-w>k<C-w>c
 nnoremap d<C-h> <C-w>h<C-w>c
 nnoremap d<C-l> <C-w>l<C-w>c
+nnoremap <leader>x <c-w>c:GoldenViewResize<cr>:EnableGoldenViewAutoResize<cr>
 
+" resize
+nmap <silent> - :exe "vertical resize -15"<CR>
+nmap <silent> + :exe "vertical resize +15"<CR>
+" }}}
+
+" tag navigation {{{
 noremap <silent> <leader>tn :ptn<cr>
 noremap <silent> <leader>tp :ptp<cr>
 noremap <silent> <leader>tc :pc<cr>
 
+nnoremap <leader>o <c-w>g}
+" }}}
 
-" tag bindings
-nmap <leader>o <c-w>g}
 
-" delete word after cursor in insert mode
-" inoremap <c-s-l> <c-o>dw
-
-" Adjust viewports to the same size
-map <leader>= <C-w>=
 
 " Allow using the repeat operator with a visual selection (!)
 " http://stackoverflow.com/a/8064607/127816
 vnoremap . :normal .<CR>
 
+" search {{{
 " unmark search matches
-nmap <silent> ,/ :nohlsearch<CR>
+nnoremap <silent> ,/ :nohlsearch<CR>
+nnoremap n nzzzv
+nnoremap N Nzzzv
+" }}}
 
 " Refactor names easily (hit <leader>[ or <leader>] with cursor on the word you'd like to rename
 
 nnoremap <leader>[ :%s/<c-r><c-w>/<c-r><c-w>/g<left><left>
-nnoremap <leader>] :%SubstituteCase/\c<c-R><c-w>/<c-r><c-w>/g<left><left>
 
 " reformat html -> each tag on own row
-nmap <leader><F3> :%s/<[^>]*>/\r&\r/g<cr>gg=G:g/^$/d<cr><leader>/
+nnoremap <leader><F3> :%s/<[^>]*>/\r&\r/g<cr>gg=G:g/^$/d<cr><leader>/
 
 nnoremap <Tab> :bnext<CR>
 nnoremap <S-Tab> :bprev<CR>
 
-nnoremap <c-tab> :b#<cr>
+let g:php_manual_online_search_shortcut = '<leader>m'
+noremap <c-Tab> :tabnext<CR>
+noremap <C-S-Tab> :tabprev<CR>
 
 " ------
 " - Mappings: Plugins
 " ------
 
 
-vmap <Enter> <Plug>(EasyAlign)
-
-nmap <leader>z :Scratch<cr>
-
-nmap <leader>; :TagbarToggle<cr>
+vnoremap <Enter> <Plug>(EasyAlign)
 
 
-nmap <leader>gs :Gstatus<cr>
-nmap <leader>gc :Gcommit<cr>
-" nmap <leader>gb :Gbrowse<cr>
-nmap <leader>gp :!git push<cr>
-
-nmap <leader>gv :Gitv<cr>
-
-nmap <leader>n :NERDTreeToggle<CR>
-nmap <leader>N :NERDTreeFind<cr>
+nnoremap <leader>; :TagbarToggle<cr>
 
 
-command! -nargs=1 Silent execute ':silent !'.<q-args> | execute ':redraw!'
 
 
-nnoremap <silent> <leader>y :YRShow<CR>
 
-let g:scratch_top = 1
-let g:scratch_persistence_file = '.scratch.vim'
-"au FileType scratch setl ts=2 sw=2 fo+=n2a
+"}}}
 
-let g:simple_todo_map_keys = 0
-nmap ,i <Plug>(simple-todo-new)
-imap ,i <Plug>(simple-todo-new)
-nmap ,I <Plug>(simple-todo-new-start-of-line)
-imap ,I <Plug>(simple-todo-new-start-of-line)
-nmap ,o <Plug>(simple-todo-below)
-imap ,o <Plug>(simple-todo-below)
-nmap ,O <Plug>(simple-todo-above)
-imap ,O <Plug>(simple-todo-above)
-nmap ,x <Plug>(simple-todo-mark-as-done)
-imap ,x <Plug>(simple-todo-mark-as-done)
-nmap ,X <Plug>(simple-todo-mark-as-undone)
-imap ,X <Plug>(simple-todo-mark-as-undone)
-nmap ,s <Plug>(simple-todo-new-list-item)
-imap ,s <Plug>(simple-todo-new-list-item)
-
-
-nnoremap <leader>c :Commentary<cr>
-vnoremap <leader>c :Commentary<cr>
-
-nmap <leader>bd :Bdelete<cr>
-nmap <leader>bg :call SwitchLightAndDarkTheme()<cr>
-
-function! SwitchLightAndDarkTheme()
-    if &background == "dark"
-        :colorscheme solarized
-        :let &background =  "light"
-    else
-        :colorscheme solarized
-        :let &background = "dark"
-    endif
-endfunction
 
 " ====================
 " = Custom functions
 " ====================
 
+" FormatPHPLineLength {{{
 function! FormatPHPLineLength()
     let l:currentLine = getline('.')
     let l:isFunctionCallOrDefinitionOrArray = l:currentLine =~ ',' || l:currentLine =~ ';' || l:currentLine =~ ' array(' || l:currentLine =~ '(['
@@ -711,7 +426,9 @@ function! FormatPHPLineLength()
     if l:isConditional
         normal! F)
     elseif l:isFunctionCallOrDefinitionOrArray
+        let l:isFunctionCall = 0
         if l:currentLine =~ ';'
+            let l:isFunctionCall = 1
             normal! h
         else
             normal! Jh
@@ -725,6 +442,9 @@ function! FormatPHPLineLength()
     if l:isConditional
         :s/\(\s*&&\| and \|\s*||\| or \| ?\| :\)/\r\1/g
     elseif l:isFunctionCallOrDefinitionOrArray
+
+        " go into original line and split until last function call
+        " execute "normal! 0f=f>hi\n"
         execute "normal! 0f(a\n"
         if l:currentLine =~ ','
             :s/,\s/,\r/g
@@ -736,10 +456,11 @@ function! FormatPHPLineLength()
     normal! =
 endfunction
 
-nmap <leader>i :call FormatPHPLineLength()<cr>
+nnoremap <leader>i :call FormatPHPLineLength()<cr>
+" }}}
 
-let g:php_manual_online_search_shortcut = '<leader>k'
 
+" QFix toggle {{{
 " toggles the quickfix window.
 map <leader>q :QFix<cr>
 command! -bang -nargs=? QFix call QFixToggle(<bang>0)
@@ -748,8 +469,6 @@ augroup QFixToggle
     autocmd BufWinEnter quickfix let g:qfix_win = bufnr("$")
     autocmd BufWinLeave * if exists("g:qfix_win") && expand("<abuf>") == g:qfix_win | unlet! g:qfix_win | endif
 augroup END
-let g:jah_Quickfix_Win_Height=10
-
 
 function! QFixToggle(forced)
     if exists("g:qfix_win") && a:forced == 0
@@ -759,62 +478,10 @@ function! QFixToggle(forced)
     endif
 endfunction
 
-au BufReadPost * call RestorePosition()
+let g:jah_Quickfix_Win_Height=10
+"}}}
 
-func! RestorePosition()
-    if exists("g:restore_position_ignore") && match(expand("%"), g:restore_position_ignore) > -1
-        return
-    endif
-
-    if line("'\"") > 1 && line("'\"") <= line("$")
-        exe "normal! g`\""
-    endif
-endfunc
-
-function! ExtractMethod() range
-    normal gvd
-    exe "normal! ma"
-    let name = inputdialog("name of new method")
-    let params = inputdialog("parameters separated by ,")
-    exe "normal! O$ = $this->" . name . "(" . params . ");"
-    ?function
-    /{
-    %
-    exe "normal! O"
-    exe "normal! oprivate function " . name ."(" . params . ")"
-    exe "normal! mb"
-    exe "normal! o\{"
-    exe "normal! oreturn ;"
-    exe "normal! o\}"
-    normal kP
-    'b
-endfunction
-
-" call function by:
-"vmap <leader>em :call ExtractMethod()<cr>
-
-function! ExtractVoidMethod() range
-    normal gvd
-    exe "normal! ma"
-    let name = inputdialog("name of new method")
-    let params = inputdialog("parameters separated by ,")
-    exe "normal! O$this->" . name . "(" . params . ");"
-    ?function
-    /{
-    %
-    exe "normal! O"
-    exe "normal! oprivate function " . name ."(" . params . ")"
-    exe "normal! mb"
-    exe "normal! o\{"
-    normal kp
-    exe "normal! o\}"
-    'b
-endfunction
-
-" call function by:
-vmap <leader>vem :call ExtractVoidMethod()<cr>
-
-
+" switch between files {{{
 " Parameters:
 "
 " fileExtension: the file extension this script should act on, i.e. 'php'
@@ -852,46 +519,9 @@ function! SwitchBetweenFiles(fileExtension, firstDirBeginning, secondDirBeginnin
         endif
     endif
 endfunction
+"}}}
 
-
-" Parameters:
-"
-" fileExtension: the file extension this script should act on, i.e. 'php'
-" (without dot)
-"
-" firstDirBeginning: a file path that identifies the first type
-" of paths, i.e. 'tests/unit/'
-"
-" secondDirBeginning: a file path pattern that identifies the second type
-" of paths, i.e. 'src/'
-"
-" filenameAddition: string that should be removed from the first filename and
-" added to the second, i.e. 'Test' if your testfile filename has the suffix
-" 'Test' as in /path/MyServiceTest.php
-
-function! SwitchBetweenPhpunitAndClasses()
-    let f = bufname("%")
-    if f =~ '.php'
-        if f =~  '/Tests/' && f =~ 'Test\.php'
-            let filename = substitute(substitute(f, '/Tests/', '', ''), 'Test.php', '.php', '')
-            if !filereadable(filename)
-                let new_dir = substitute(filename, '/\w\+\.php', '', '')
-                exe ":!mkdir -p ".new_dir
-            endif
-            exe ":e ".filename
-        elseif f !~ 'Test\.php'
-            let filename = substitute(substitute(f, 'Bundle/', 'Bundle/Tests/', ''), '.php', 'Test.php', '')
-            if !filereadable(filename)
-                let new_dir = substitute(filename, '/\w\+Test\.php', '', '')
-                exe ":!mkdir -p ".new_dir
-            endif
-            exe ":e ".filename
-        else
-            echom "Could not switch because needed patterns not matched."
-        endif
-    endif
-endfunction
-
+" switch between files v2 {{{
 " Parameters:
 "
 " fileExtension: the file extension this script should act on, i.e. 'php'
@@ -929,47 +559,42 @@ function! SwitchBetweenFiles1(fileExtension, firstDirBeginning, secondDirBeginni
         endif
     endif
 endfunction
+" }}}
 
-nmap <leader>ta :call SymfonySwitchToAlternateFile()<cr>
-nmap <leader>tsa <c-w>v:call SymfonySwitchToAlternateFile()<cr>
+" SymfonySwitchToAlternateFile {{{
+nnoremap <leader>ta :call SymfonySwitchToAlternateFile()<cr>
+nnoremap <leader>tsa <c-w>v:call SymfonySwitchToAlternateFile()<cr>
 function! SymfonySwitchToAlternateFile()
-  let l:f = expand('%')
-  let l:preceedingDirsToKeep = 2
-  let l:is_test = expand('%:t') =~ "Test\."
-  if l:is_test
-    " remove phpunit_testroot
-    let l:f = substitute(l:f, 'Tests/','','')
-    " remove 'Test.' from filename
-    let l:f = substitute(l:f,'Test\.','.','')
-  else
-      let l:pathParts = split(expand('%:r'), '/')
-    let l:startingPath = l:pathParts[0:l:preceedingDirsToKeep]
-    let l:endPath = l:pathParts[(l:preceedingDirsToKeep+1):]
-    let l:combinedPath = l:startingPath + ['Tests'] + l:endPath
-    let l:f = join(l:combinedPath, '/') . 'Test.php'
-    if !filereadable(l:f)
-        let l:new_dir = substitute(l:f, '/\w\+\.php', '', '')
-        exe ":!mkdir -p ".l:new_dir
+    let l:f = expand('%')
+    let l:preceedingDirsToKeep = 2
+    let l:is_test = expand('%:t') =~ "Test\."
+    if l:is_test
+        " remove phpunit_testroot
+        let l:f = substitute(l:f, 'Tests/','','')
+        " remove 'Test.' from filename
+        let l:f = substitute(l:f,'Test\.','.','')
+    else
+        let l:pathParts = split(expand('%:r'), '/')
+        let l:startingPath = l:pathParts[0:l:preceedingDirsToKeep]
+        let l:endPath = l:pathParts[(l:preceedingDirsToKeep+1):]
+        let l:combinedPath = l:startingPath + ['Tests'] + l:endPath
+        let l:f = join(l:combinedPath, '/') . 'Test.php'
+        if !filereadable(l:f)
+            let l:new_dir = substitute(l:f, '/\w\+\.php', '', '')
+            exe ":!mkdir -p ".l:new_dir
+        endif
     endif
-  endif
-  " is there window with complent file open?
-  let win = bufwinnr(l:f)
-  if l:win > 0
-    execute l:win . "wincmd w"
-  else
-    execute ":e " . l:f
-  endif
-
+    " is there window with complent file open?
+    let win = bufwinnr(l:f)
+    if l:win > 0
+        execute l:win . "wincmd w"
+    else
+        execute ":e " . l:f
+    endif
 endfunction
+" }}}
 
-
-" set by vim-project
-" nmap <leader>tu :call SwitchBetweenFiles1('php', 'Bundle/Tests/', 'Bundle/', 'Test')<cr>
-" nmap <leader>tsu <c-w>v:call SwitchBetweenFiles1('php', 'Bundle/Tests/', 'Bundle/', 'Test')<cr>
-" nmap <leader>tu :call SwitchBetweenFiles('php', 'tests/', 'library/', 'Test')<cr>
-" nmap <leader>tsu <c-w>v:call SwitchBetweenFiles('php', 'tests/', 'library/', 'Test')<cr>
-
-
+" PrependTicketNumber {{{
 function! PrependTicketNumber()
     normal gg
     let l:branch = system("echo $(git branch | grep '*')")
@@ -978,49 +603,29 @@ function! PrependTicketNumber()
     exe "normal gg"
     :startinsert!
 endfunction
-
-" ====================
-" = Auto commands
-" ====================
-
-
 " insert ticket number into commit msg
-autocmd FileType gitcommit nmap <buffer> <leader>w :call PrependTicketNumber()<cr>
-au BufEnter * if &ft ==# 'gitcommit' | :call PrependTicketNumber() | endif
-
-" Enable omni completion.
-autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
-autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
-autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
-autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
-
-nmap <leader>w :w<cr>
-
-au BufWritePost *.php silent! !eval '[ -f ".git/hooks/ctags" ] && .git/hooks/ctags' &
-
-au BufNewFile,BufRead *.html,*.html.twig,*.htm,*.shtml,*.stm set ft=html.javascript
-au BufNewFile,BufRead *.phtml set ft=php.html
+" au BufEnter * if &ft ==# 'gitcommit' | :call PrependTicketNumber() | endif
+autocmd FileType gitcommit nnoremap <buffer> <leader>w :call PrependTicketNumber()<cr>
+" }}}
 
 
+nnoremap <leader>w :w<cr>
 
+nnoremap <leader>W :w<cr>:silent! !eval '[ -f ".git/hooks/ctags" ] && .git/hooks/ctags' &<cr>
 
-" ====================
-" = Settings: Performance
-" ====================
-
-
-
-
-set nocursorcolumn
-set nolazyredraw
+" performance settings {{{
+set nocursorcolumn       " do not highlight column
+set nocursorline         " do not highlight line
+syntax sync minlines=256 " start highlighting from 256 lines backwards
+set synmaxcol=300        " do not highlith very long lines
+set lazyredraw
 set scrolljump=5
-"syntax sync minlines=256
-" set synmaxcol=200
 let g:PHP_default_indenting=0
+" }}}
 
 
+" extract php interface {{{2
 nnoremap <leader>rei :call ExtractInterface()<cr>
-
 function! ExtractInterface()
     let l:file_path = expand('%:p:h')
     let l:baseFile = expand('%')
@@ -1046,48 +651,509 @@ function! ExtractInterface()
     exe "normal! ".l:interfaceImplementation
     exe ":w"
 endfunction
+" }}}
 
-function! Replace(bang, replace)
-    let search = '\<' . escape(expand('<cword>'), '/\.*$^~[') . '\>'
-    execute 'Ag '.expand('<cword>')
-    execute 'Qargs'
-    let replace = escape(a:replace, '/\&~')
-    let flag = 'cge'
-    execute 'argdo %s/' . search . '/' . replace . '/' . flag
-endfunction
-command! -nargs=1 -bang Replace :call Replace(<bang>0, <q-args>)
-nnoremap <leader>rip :call Replace(0, input('Replace '.expand('<cword>').' with: ', expand('<cword>')))<CR>
+" nnoremap <leader>rip :Ack input('Replace '.expand('<cword>').' with: ', expand('<cword>'))<CR>
 
-inoremap <silent> <Bar>   <Bar><Esc>:call <SID>align()<CR>a
 
-function! s:align()
-  let p = '^\s*|\s.*\s|\s*$'
-  if exists(':Tabularize') && getline('.') =~# '^\s*|' && (getline(line('.')-1) =~# p || getline(line('.')+1) =~# p)
-    let column = strlen(substitute(getline('.')[0:col('.')],'[^|]','','g'))
-    let position = strlen(matchstr(getline('.')[0:col('.')],'.*|\s*\zs.*'))
-    Tabularize/|/l1
-    normal! 0
-    call search(repeat('[^|]*|',column).'\s\{-\}'.repeat('.',position),'ce',line('.'))
-  endif
-endfunction
+" filetype settings {{{
+filetype on
+filetype plugin indent on
+syntax on
 
-nmap <leader>ga :Tabularize /\|<cr>
-vmap <leader>ga :Tabularize /\|<cr>
-
-au FileType cucumber setl sw=2 sts=2 et
+au FileType behat,cucumber setl sw=2 sts=2 et
 au FileType yaml setl sw=2 sts=2 et
 au FileType ruby setl sw=2 sts=2 et
+
+au FileType vim setl foldenable fdm=marker fmr={{{,}}} fdl=0
+autocmd BufNewFile,BufRead *.go setlocal noexpandtab tabstop=4 shiftwidth=4 
+autocmd FileType make setlocal noexpandtab tabstop=4 shiftwidth=4 
+
+au BufNewFile,BufRead *.phtml set ft=php.html
+
+autocmd BufRead,BufNewFile *.conf setf config
+
+autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
+autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+
+" linters {{{
+augroup linterConfiguration
+    autocmd FileType xml   setlocal  makeprg=xmllint\ -
+    autocmd FileType xml   setlocal  equalprg=xmllint\ --format\ -
+    autocmd FileType html  setlocal  equalprg=tidy\ -q\ -i\ -w\ 80\ -utf8\ --quote-nbsp\ no\ --output-xhtml\ yes\ --show-warnings\ no\ --show-body-only\ auto\ --tidy-mark\ no\ -
+    autocmd FileType xhtml setlocal  equalprg=tidy\ -q\ -i\ -w\ 80\ -utf8\ --quote-nbsp\ no\ --output-xhtml\ yes\ --show-warnings\ no\ --show-body-only\ auto\ --tidy-mark\ no\ -
+    autocmd FileType json  setlocal  equalprg=python\ -mjson.tool
+augroup END
+" }}}
 
 augroup reload_vimrc
     autocmd!
     autocmd BufWritePost $MYVIMRC nested source $MYVIMRC
 augroup END
 
-hi SpecialKey       guifg=#343434     guibg=NONE     gui=NONE      ctermfg=NONE        ctermbg=NONE        cterm=NONE
+
+autocmd filetype qf setlocal wrap
+
+" help {{{
+autocmd filetype help nnoremap <buffer> <CR> <c-]>
+autocmd filetype help nnoremap <buffer> <bs> <c-T>
+autocmd filetype help nnoremap <buffer> q :q<CR>
+autocmd filetype help set nonumber
+" }}}
+" }}}
+
+" override phpdoc syntax highlighting {{{
+function! PhpSyntaxOverride()
+    hi! def link phpDocTags  phpDefine
+    hi! def link phpDocParam phpType
+endfunction
+
+" augroup phpSyntaxOverride
+"   autocmd!
+"   autocmd FileType php call PhpSyntaxOverride()
+" augroup END
+" }}}
+
+" OpenQfixIfSyntaxError {{{
+function! OpenQfixIfSyntaxError()
+    :w
+    :silent setlocal makeprg=php
+    :silent make %
+    if len(getqflist()) > 0
+        :copen
+    else
+        :cclose
+    endif
+endfunction
+autocmd BufWritePost *.php call OpenQfixIfSyntaxError()
+" }}}
+
+noremap <C-d> <C-d>zz
+noremap <C-u> <C-u>zz
 
 
 
-let g:go_bin_path = expand("~/.gvm/gos/go1.7.3/bin")
+nnoremap <silent> <leader>tu :call SwitchBetweenFiles1('php', 'Bundle/Tests/', 'Bundle/', 'Test')<cr>
+nnoremap <silent> <leader>tsu <c-w>v:call SwitchBetweenFiles1('php', 'Bundle/Tests/', 'Bundle/', 'Test')<cr>
+
+
+nnoremap <bs> :Bdelete<cr>
+hi Search cterm=NONE ctermfg=white ctermbg=130
+
+
+" }}}
+
+" plugin settings {{{
+" NERDTree {{{2
+nnoremap <leader>n :NERDTreeToggle<CR>
+nnoremap <leader>N :NERDTreeFind<cr>
+
+let g:NERDTreeMinimalUI = 1
+let g:NERDTreeHijackNetrw = 0
+let g:NERDTreeWinSize = 31
+let g:NERDTreeChDirMode = 2
+let g:NERDTreeAutoDeleteBuffer = 1
+let g:NERDTreeShowBookmarks = 0
+let g:NERDTreeCascadeOpenSingleChildDir = 1
+" }}}
+
+" lightline.vim {{{2
+let g:lightline = {
+            \ 'active': {
+            \   'left': [ [ 'mode', 'paste' ], [ 'fugitive', 'filename' ], ['ale'] ],
+            \   'right': [ [ 'lineinfo' ], ['percent'], [ 'fileformat', 'fileencoding', 'filetype' ] ]
+            \ },
+            \ 'component_function': {
+            \   'fugitive': 'LightlineFugitive',
+            \   'filename': 'LightlineFilename',
+            \   'ale': 'LightLineAle',
+            \   'fileformat': 'LightlineFileformat',
+            \   'filetype': 'LightlineFiletype',
+            \   'fileencoding': 'LightlineFileencoding',
+            \   'mode': 'LightlineMode',
+            \ },
+            \ 'separator': { 'left': "\ue0b0", 'right': "\ue0b2" },
+            \ 'subseparator': { 'left': "\ue0b1", 'right': "\ue0b3" }
+            \ }
+
+let g:responsive_width_mid=70
+function! LightLineAle()
+    return winwidth(0) > g:responsive_width_mid && exists("*ALEGetStatusLine") ? ALEGetStatusLine() : ''
+endfunction
+
+function! LightlineModified()
+    return &ft =~ 'help' ? '' : &modified ? '+' : &modifiable ? '' : '-'
+endfunction
+
+function! LightlineReadonly()
+    return &ft !~? 'help' && &readonly ? 'RO' : ''
+endfunction
+
+function! LightlineFilename()
+    let fname = expand('%')
+    return  fname == '__Tagbar__' ? g:lightline.fname :
+                \ fname =~ '__Gundo\|NERD_tree' ? '' :
+                \ &ft == 'vimfiler' ? vimfiler#get_status_string() :
+                \ &ft == 'unite' ? unite#get_status_string() :
+                \ &ft == 'vimshell' ? vimshell#get_status_string() :
+                \ ('' != LightlineReadonly() ? LightlineReadonly() . ' ' : '') .
+                \ ('' != fname ? fname : '[No Name]') .
+                \ ('' != LightlineModified() ? ' ' . LightlineModified() : '')
+endfunction
+
+function! LightlineFugitive()
+    try
+        if expand('%:t') !~? 'Tagbar\|Gundo\|NERD' && &ft !~? 'vimfiler' && exists('*fugitive#head')
+            let mark = ''  " edit here for cool mark
+            let branch = fugitive#head()
+            return branch !=# '' ? mark.branch : ''
+        endif
+    catch
+    endtry
+    return ''
+endfunction
+
+function! LightlineFileformat()
+    return winwidth(0) > 70 ? &fileformat : ''
+endfunction
+
+function! LightlineFiletype()
+    return winwidth(0) > 70 ? (&filetype !=# '' ? &filetype : 'no ft') : ''
+endfunction
+
+function! LightlineFileencoding()
+    return winwidth(0) > 70 ? (&fenc !=# '' ? &fenc : &enc) : ''
+endfunction
+
+function! LightLineMode()
+  return &ft == 'help' ? 'help' :
+        \ &ft == 'undotree' ? 'undotree' :
+        \ &ft == 'fzf' ? 'fzf' :
+        \ &ft == 'vim-plug' ? 'plugin' :
+        \ &ft == 'qf' ? 'quickfix' :
+        \ winwidth(0) > 60 ? lightline#mode() : ''
+endfunction
+" function! LightlineMode()
+"     let fname = expand('%:t')
+"     return fname == '__Tagbar__' ? 'Tagbar' :
+"                 \ fname == '__Gundo__' ? 'Gundo' :
+"                 \ fname == '__Gundo_Preview__' ? 'Gundo Preview' :
+"                 \ fname =~ 'NERD_tree' ? 'NERDTree' :
+"                 \ &ft == 'unite' ? 'Unite' :
+"                 \ &ft == 'vimfiler' ? 'VimFiler' :
+"                 \ &ft == 'vimshell' ? 'VimShell' :
+"                 \ winwidth(0) > 60 ? lightline#mode() : ''
+" endfunction
+" }}}
+
+" ultisnips {{{2
+let g:ultisnips_php_scalar_types = 1
+let g:UltiSnipsSnippetsDir = '~/.config/nvim/UltiSnips/'
+let g:UltiSnipsExpandTrigger="<c-j>"
+let g:UltiSnipsJumpForwardTrigger="<c-k>"
+let g:UltiSnipsJumpBackwardTrigger="<c-b>"
+
+au BufNewFile,BufRead,BufWinEnter *Test.php exe ":UltiSnipsAddFiletypes php.phpunit"
+au BufNewFile,BufRead,BufWinEnter *Spec.php exe ":UltiSnipsAddFiletypes php.php-phpspec"
+" }}}
+
+" echodoc {{{2
+let g:echodoc_enable_at_startup=1
+set noshowmode
+" }}}
+
+" fzf {{{2
+let g:fzf_layout = { 'down': '~40%' }
+
+" [Files] Extra options for fzf
+"   e.g. File preview using Highlight
+"        (http://www.andre-simon.de/doku/highlight/en/highlight.html)
+" let g:fzf_files_options =
+"   \ '--preview "(highlight -O ansi {} || cat {}) 2> /dev/null | head -'.&lines.'"'
+
+" [Buffers] Jump to the existing window if possible
+let g:fzf_buffers_jump = 1
+
+" [[B]Commits] Customize the options used by 'git log':
+let g:fzf_commits_log_options = '--graph --color=always --format="%C(auto)%h%d %s %C(black)%C(bold)%cr"'
+
+function! s:ag_to_qf(line)
+    let parts = split(a:line, ':')
+    return {'filename': parts[0], 'lnum': parts[1], 'col': parts[2],
+                \ 'text': join(parts[3:], ':')}
+endfunction
+
+function! s:ag_handler(lines)
+    if len(a:lines) < 2 | return | endif
+
+    let cmd = get({'ctrl-x': 'split',
+                \ 'ctrl-v': 'vertical split',
+                \ 'ctrl-t': 'tabe'}, a:lines[0], 'e')
+    let list = map(a:lines[1:], 's:ag_to_qf(v:val)')
+
+    let first = list[0]
+    execute cmd escape(first.filename, ' %#\')
+    execute first.lnum
+    execute 'normal!' first.col.'|zz'
+
+    if len(list) > 1
+        call setqflist(list)
+        copen
+        wincmd p
+    endif
+endfunction
+autocmd VimEnter * command! -nargs=* Ag call fzf#run({
+            \ 'source':  printf('ag --nogroup --column --color "%s"',
+            \                   escape(empty(<q-args>) ? '^(?=.)' : <q-args>, '"\')),
+            \ 'sink*':    function('<sid>ag_handler'),
+            \ 'options': '--ansi --expect=ctrl-t,ctrl-v,ctrl-x --delimiter : --nth 4.. '.
+            \            '--multi --bind=ctrl-a:select-all,ctrl-d:deselect-all '.
+            \            '--color hl:68,hl+:110',
+            \ 'down':    '50%'
+            \ })
+
+autocmd VimEnter * command! -nargs=* Agu call fzf#run({
+            \ 'source':  printf('ag -U --nogroup --column --color "%s"',
+            \                   escape(empty(<q-args>) ? '^(?=.)' : <q-args>, '"\')),
+            \ 'sink*':    function('<sid>ag_handler'),
+            \ 'options': '--ansi --expect=ctrl-t,ctrl-v,ctrl-x --delimiter : --nth 4.. '.
+            \            '--multi --bind=ctrl-a:select-all,ctrl-d:deselect-all '.
+            \            '--color hl:68,hl+:110',
+            \ 'down':    '50%'
+            \ })
+
+function! s:buflist()
+    redir => ls
+    silent ls
+    redir END
+    return split(ls, '\n')
+endfunction
+
+function! s:bufopen(e)
+    execute 'buffer' matchstr(a:e, '^[ 0-9]*')
+endfunction
+
+nnoremap <silent> <leader>d :call fzf#run({
+            \   'source':  reverse(<sid>buflist()),
+            \   'sink':    function('<sid>bufopen'),
+            \   'options': '+m',
+            \   'down':    len(<sid>buflist()) + 2
+            \ })<CR>
+
+
+function! s:tags_sink(line)
+    let parts = split(a:line, '\t\zs')
+    let excmd = matchstr(parts[2:], '^.*\ze;"\t')
+    execute 'silent e' parts[1][:-2]
+    let [magic, &magic] = [&magic, 0]
+    execute excmd
+    let &magic = magic
+endfunction
+
+function! s:tags()
+    if empty(tagfiles())
+        echohl WarningMsg
+        echom 'Preparing tags'
+        echohl None
+        silent! !eval '[ -f ".git/hooks/ctags" ] && .git/hooks/ctags' &
+    endif
+
+    call fzf#run({
+                \ 'source':  'cat '.join(map(tagfiles(), 'fnamemodify(v:val, ":S")')).
+                \            '| grep -v -a ^!',
+                \ 'options': '+m -d "\t" --with-nth 1,4.. -n 1 --tiebreak=index',
+                \ 'down':    '40%',
+                \ 'sink':    function('s:tags_sink')})
+endfunction
+
+command! Tags call s:tags()
+
+vnoremap // "hy:exec "Ag ".escape('<C-R>h', "/\.*$^~[()")<cr>
+
+nnoremap <leader><Enter> :History<cr>
+nnoremap <leader>a :Ag<space>
+nnoremap <leader>A :exec "Ag ".expand("<cword>")<cr>
+
+nnoremap <leader>s :Tags<cr>
+nnoremap <leader>, :Files<cr>
+" }}}
+
+" auto-pairs {{{2
+let g:AutoPairsFlyMode = 0
+let g:AutoPairsShortcutBackInsert = '<c-h>'
+" }}}
+
+" vim-project {{{2
+let g:project_use_nerdtree = 0
+let g:project_enable_welcome = 0
+nnoremap <leader><F2> :e ~/dotfiles/vimprojects<cr>
+
+set rtp+=~/.config/nvim/plugged/vim-project/
+call project#rc("~/code")
+" }}}
+
+" fugitive {{{2
+nnoremap <leader>gw :Gwrite<cr>
+nnoremap <leader>gs :Gstatus<cr>
+nnoremap <leader>gc :Gcommit<cr>
+" nnoremap <leader>gb :Gbrowse<cr>
+nnoremap <leader>gp :!git push<cr>
+" }}}
+
+" gitv {{{2
+nnoremap <leader>gv :Gitv!<cr>
+nnoremap <leader>gV :Gitv<cr>
+" }}}
+
+" vim-phpqa {{{2
+au BufWinEnter,BufEnter *.php nnoremap <buffer> <leader>w :let g:phpqa_messdetector_autorun = 0<cr>:let g:phpqa_codesniffer_autorun = 0<cr>:w<cr>:let g:phpqa_messdetector_autorun = 1<cr>:let g:phpqa_codesniffer_autorun = 1<cr>
+let g:phpqa_messdetector_ruleset = "~/.config/phpmd-ruleset.xml"
+
+let g:phpqa_codesniffer_args = "--standard=Symfony3Custom"
+let g:php_cs_fixer_php_path = "php"
+
+command! -nargs=1 Silent execute ':silent !'.<q-args> | execute ':redraw!'
+map <c-s> <esc>:w<cr>:Silent phpcbf --standard=Symfony3Custom %:p<cr>:e<cr>
+" }}}
+
+" php-refactoring-toolbox {{{2
+let g:vim_php_refactoring_default_property_visibility = 'private'
+let g:vim_php_refactoring_default_method_visibility = 'private'
+let g:vim_php_refactoring_auto_validate_visibility = 1
+let g:vim_php_refactoring_phpdoc = "pdv#DocumentCurrentLine"
+
+let g:vim_php_refactoring_use_default_mapping = 0
+nnoremap <leader>rrv :call PhpRenameLocalVariable()<CR>
+nnoremap <leader>rrp :call PhpRenameClassVariable()<CR>
+nnoremap <leader>rrm :call PhpRenameMethod()<CR>
+nnoremap <leader>reu :call PhpExtractUse()<CR>
+vnoremap <leader>rec :call PhpExtractConst()<CR>
+nnoremap <leader>rep :call PhpExtractClassProperty()<CR>
+vnoremap <leader>rem :call PhpExtractMethod()<CR>
+nnoremap <leader>rcp :call PhpCreateProperty()<CR>
+nnoremap <leader>rdu :call PhpDetectUnusedUseStatements()<CR>
+vnoremap <leader>r== :call PhpAlignAssigns()<CR>
+nnoremap <leader>rsg :call PhpCreateSettersAndGetters()<CR>
+" }}}
+
+" phpcomplete {{{2
+let g:phpcomplete_complete_for_unknown_classes = 0
+let g:phpcomplete_relax_static_constraint=0
+let g:phpcomplete_search_tags_for_variables = 0
+let g:phpcomplete_parse_docblock_comments = 0
+let g:phpcomplete_enhance_jump_to_definition = 1
+autocmd FileType php setlocal omnifunc=phpcomplete#CompletePHP
+" }}}
+
+" deoplete {{{2
+let g:deoplete#enable_at_startup = 1
+let g:deoplete#sources#syntax#min_keyword_length = 2
+let g:deoplete#enable_smart_case = 1
+let g:deoplete#enable_camel_case = 1
+" let g:deoplete#disable_auto_complete = 1
+let g:deoplete#auto_refresh_delay = 100
+let g:deoplete#tag#cache_limit_size = 50000000
+let g:deoplete#enable_auto_delimiter = 1
+let g:deoplete#max_list = 10
+let g:deoplete#auto_complete_delay= 50
+inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
+inoremap <expr><S-TAB>  pumvisible() ? "\<C-p>" : "\<TAB>"
+
+let g:deoplete#keyword_patterns = {}
+let g:deoplete#keyword_patterns._ = '[a-zA-Z_]\k*\(?'
+let g:deoplete#omni_patterns = {}
+let g:deoplete#sources = {}
+let g:deoplete#sources._=['omni', 'buffer', 'member', 'tag', 'ultisnips', 'file']
+let g:deoplete#omni_patterns.php =
+            \ '$\h\w*\|[^. \t]->\%(\h\w*\)\?\|\h\w*::\%(\h\w*\)\?'
+let g:deoplete#omni_patterns.behat = '[^. \t]\(When\|Then\|Given\|And\)\s.*$'
+
+
+call deoplete#custom#set('_',
+            \ 'disabled_syntaxes', ['Comment', 'String'])
+
+" au BufNewFile,BufRead,BufWinEnter *Test.php exe ":let g:deoplete#omni_patterns.php = '[^. \\t]->\\w*|\\w+::\\w*'"
+" au BufNewFile,BufRead,BufWinEnter *Test.php exe ":let b:deoplete#sources = {} | :let b:deoplete#sources.php = ['buffer']"
+" au BufWinLeave,BufLeave *Test.php exe ':let g:deoplete#omni_patterns.php = "\\h\\w*\\|[^. \\t]->\\%(\\h\\w*\\)\\?\\|\\h\\w*::\\%(\\h\\w*\\)\\?"'
+" }}}
+
+" phpdoc {{{2
+let g:pdv_cfg_autoEndClass = 0
+let g:pdv_cfg_php4always = 0
+let g:pdv_cfg_autoEndFunction = 0
+let g:pdv_cfg_FunctionName = 0
+let g:pdv_cfg_Type = ""
+inoremap <C-d> <ESC>:call PhpDocSingle()<CR>
+nnoremap <leader>h :call PhpDocSingle()<CR>
+vnoremap <leader>h :call PhpDocRange()<CR>
+" }}}
+
+" php-namespace {{{2
+let g:php_namespace_sort_after_insert = 1
+noremap <leader>u :call PhpInsertUse()<CR>
+noremap <leader>e :call PhpExpandClass()<CR>
+" }}}
+
+" vdebug {{{2
+let g:vdebug_options = {}
+let g:vdebug_options["port"] = 9000
+let g:vim_debug_disable_mappings = 1
+let g:vdebug_keymap = {
+            \    "run" : "<F5>",
+            \    "run_to_cursor" : "<F9>",
+            \    "step_over" : "<F2>",
+            \    "step_into" : "<F3>",
+            \    "step_out" : "<F4>",
+            \    "close" : "<F6>",
+            \    "detach" : "<F7>",
+            \    "set_breakpoint" : "<F10>",
+            \    "get_context" : "<F11>",
+            \    "eval_under_cursor" : "<F12>",
+            \    "eval_visual" : "<F8>",
+            \}
+
+highlight DbgBreakptLine ctermbg=none ctermfg=none
+" }}}
+
+" simple-todo {{{2
+let g:simple_todo_map_keys = 0
+nnoremap ,i <Plug>(simple-todo-new)
+inoremap ,i <Plug>(simple-todo-new)
+nnoremap ,I <Plug>(simple-todo-new-start-of-line)
+inoremap ,I <Plug>(simple-todo-new-start-of-line)
+nnoremap ,o <Plug>(simple-todo-below)
+inoremap ,o <Plug>(simple-todo-below)
+nnoremap ,O <Plug>(simple-todo-above)
+inoremap ,O <Plug>(simple-todo-above)
+nnoremap ,x <Plug>(simple-todo-mark-as-done)
+inoremap ,x <Plug>(simple-todo-mark-as-done)
+nnoremap ,X <Plug>(simple-todo-mark-as-undone)
+inoremap ,X <Plug>(simple-todo-mark-as-undone)
+nnoremap ,s <Plug>(simple-todo-new-list-item)
+inoremap ,s <Plug>(simple-todo-new-list-item)
+" }}}
+
+" scratch {{{2
+nnoremap <leader>z :Scratch<cr>
+let g:scratch_top = 1
+let g:scratch_persistence_file = '.scratch.vim'
+" }}}
+
+" vim-go {{{2
+au FileType go nnoremap <leader>gf :GoCoverageToggle<cr>
+au FileType go nnoremap <leader>gr <Plug>(go-run)
+au FileType go nnoremap <leader>gb <Plug>(go-build)
+au FileType go nnoremap <leader>gt <Plug>(go-test)
+au FileType go nnoremap <leader>gd <Plug>(go-doc)
+au FileType go nnoremap <leader>gs <Plug>(go-implements)
+au FileType go nnoremap <leader>ge <Plug>(go-rename)
+let g:go_list_type = "location"
+
+au BufNewFile,BufRead,BufWinEnter *.go nnoremap <buffer> <leader>w :GoFmt<cr>
+
+let g:go_bin_path = expand("~/.gvm/gos/go1.8/bin")
 let g:go_highlight_functions = 1
 let g:go_highlight_methods = 1
 let g:go_highlight_fields = 1
@@ -1095,38 +1161,87 @@ let g:go_highlight_types = 1
 let g:go_highlight_operators = 1
 let g:go_highlight_build_constraints = 1
 let g:go_fmt_command = "goimports"
+let g:go_fmt_autosave = 0
+" }}}
 
-" function! PhpSyntaxOverride()
-  " hi! def link phpDocTags  phpDefine
-  " hi! def link phpDocParam phpType
-" endfunction
+" goldenview {{{2
+let g:goldenview__enable_default_mapping = 0
+nmap <silent> <C-g>  <Plug>GoldenViewSplit
+" 2. quickly switch current window with the main pane
+" and toggle back
+nnoremap <silent> <F8>   <Plug>GoldenViewSwitchMain
+nnoremap <silent> <F9> <Plug>GoldenViewSwitchToggle
+" }}}
 
-" augroup phpSyntaxOverride
-  " autocmd!
-  " autocmd FileType php call PhpSyntaxOverride()
-" augroup END
+" ferret {{{2
+function! LoadQuickfixBinds()
+    nnoremap <c-n> :cn<cr>
+    nnoremap <c-p> :cp<cr>
+endfunction
+
+autocmd BufWinEnter quickfix call LoadQuickfixBinds()
+function! LoadLocationlistBinds()
+    nnoremap <C-n> :lne<CR>
+    nnoremap <C-p> :lpre<CR>
+endfunction
+nnoremap <C-n> :lne<CR>
+nnoremap <C-p> :lpre<CR>
+nnoremap <leader>rip :call LoadQuickfixBinds()<cr>:Acks /<c-r><c-w>/<c-r><c-w>/gc<left><left>
+nnoremap <leader>/ :call LoadQuickfixBinds()<cr>:Ack <c-r><c-w><cr>
+nnoremap ,, :call LoadLocationlistBinds()<cr>
+" }}}
+
+" easymotion {{{2
+" Move to line
+map <Leader>L <Plug>(easymotion-bd-jk)
+nmap <Leader>L <Plug>(easymotion-overwin-line)
+
+map <Leader>j <Plug>(easymotion-j)
+map <Leader>k <Plug>(easymotion-k)
+map  <Leader>F <Plug>(easymotion-bd-w)
+nmap <Leader>F <Plug>(easymotion-overwin-w)
+nmap <Leader>f <Plug>(easymotion-w)
+map  <Leader>b <Plug>(easymotion-b)
+let g:EasyMotion_smartcase = 1
+
+" map  / <Plug>(easymotion-sn)
+" omap / <Plug>(easymotion-tn)
+" }}}
+
+" commentary {{{2
+nnoremap <leader>c :Commentary<cr>
+vnoremap <leader>c :Commentary<cr>
+" }}}
+
+
+" tabularize {{{2
+inoremap <silent> <Bar>   <Bar><Esc>:call <SID>align()<CR>a
+
+function! s:align()
+    let p = '^\s*|\s.*\s|\s*$'
+    if exists(':Tabularize') && getline('.') =~# '^\s*|' && (getline(line('.')-1) =~# p || getline(line('.')+1) =~# p)
+        let column = strlen(substitute(getline('.')[0:col('.')],'[^|]','','g'))
+        let position = strlen(matchstr(getline('.')[0:col('.')],'.*|\s*\zs.*'))
+        Tabularize/|/l1
+        normal! 0
+        call search(repeat('[^|]*|',column).'\s\{-\}'.repeat('.',position),'ce',line('.'))
+    endif
+endfunction
+
+nnoremap <leader>ga :Tabularize /\|<cr>
+vnoremap <leader>ga :Tabularize /\|<cr>
+" }}}
+
+" abolish {{{
+nnoremap <leader>] :%S/<c-R><c-w>/<c-r><c-w>/g<left><left>
+" }}}
+
+" YankRing.vim {{{
+nnoremap <m-y> :YRShow<CR>
+let g:yankring_replace_n_pkey = '<m-p>'
+let g:yankring_replace_n_nkey = '<m-n>'
+" }}}
+
+" }}}
 
 so ~/dotfiles/vimprojects
-
-
-nmap <leader><Enter> :History<cr>
-nnoremap <leader>a :Ag<space>
-nnoremap <leader>A :exec "Ag ".expand("<cword>")<cr>
-highlight DbgBreakptLine ctermbg=none ctermfg=none
-
-" au BufNewFile,BufRead,BufWinEnter *Test.php exe ":let g:neocomplete#sources#omni#input_patterns.php = '\\h\\w*'"
-" au BufWinLeave,BufLeave *Test.php exe ':let g:neocomplete#sources#omni#input_patterns.php = "[^. \\t]->\\%(\\h\\w*\\)\\?\\|\\h\\w*::\\%(\\h\\w*\\)\\?"'
-
-set nofoldenable
-au FileType go nmap <leader>gf :GoCoverageToggle<cr>
-au FileType go nmap <leader>gr <Plug>(go-run)
-au FileType go nmap <leader>gb <Plug>(go-build)
-au FileType go nmap <leader>gt <Plug>(go-test)
-au FileType go nmap <leader>gd <Plug>(go-doc)
-au FileType go nmap <leader>gs <Plug>(go-implements)
-au FileType go nmap <leader>ge <Plug>(go-rename)
-set rtp+=~/.config/nvim/plugged/vim-project/
-" custom starting path
-call project#rc("~/code")
-" default starting path (the home directory)
-call project#rc()

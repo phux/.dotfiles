@@ -6,6 +6,6 @@ Clone the repository:
 
 Execute the symlink.sh script:
 
-    cd .dotfiles && ./symlink.sh
+    cd .dotfiles && ./setup.sh
 
 Done.
