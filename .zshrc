@@ -64,12 +64,6 @@ export TMP=/tmp
 export TMPDIR=/tmp
 
 
-alias lonvim="cd $HOME/code/logistic && nvim"
-alias lanvim="cd $HOME/code/labelservice/ && nvim"
-alias shnvim="cd $HOME/code/shipment-service/ && nvim"
-# alias vim="nvim"
-
-export EDITOR=nvim
 
 PATH=/home/jm/.gvm/pkgsets/go1.8/global/bin:/home/jm/.gvm/gos/go1.8/bin:/home/jm/.gvm/pkgsets/go1.8/global/overlay/bin:/home/jm/.gvm/bin:/home/jm/.gvm/bin:/home/jm/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/home/jm/.config/composer/vendor/bin:/home/jm/.gvm/gos/go1.8/bin:/home/jm/.fzf/bin:/home/jm/.config/composer/vendor/bin:/home/jm/bin:/home/jm/go/bin:~/.config/composer/vendor/bin
 alias config='/usr/bin/git --git-dir=/home/jm/.cfg/ --work-tree=/home/jm'
