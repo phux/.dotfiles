@@ -4,7 +4,7 @@ Clone the repository:
 
     git clone https://github.com/phux/.dotfiles.git
 
-Execute the symlink.sh script:
+Execute the setup script:
 
     cd .dotfiles && ./setup.sh
 
