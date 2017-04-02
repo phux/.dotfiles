@@ -83,7 +83,7 @@ Plug 'evidens/vim-twig', {'for': 'twig'}
 Plug 'avakhov/vim-yaml', {'for': 'yaml'}
 
 Plug 'phux/scratch.vim'
-Plug 'vitalk/vim-simple-todo'
+Plug 'vitalk/vim-simple-todo', {'for': 'scratch'}
 
 Plug 'fatih/vim-go', {'for':'go'}
 Plug 'buoto/gotests-vim', {'for':'go'}
@@ -1134,11 +1134,7 @@ nnoremap <leader>h :call PhpDocSingle()<CR>
 vnoremap <leader>h :call PhpDocRange()<CR>
 " }}}
 
-" php-namespace {{{2
-let g:php_namespace_sort_after_insert = 1
-noremap <leader>u :call PhpInsertUse()<CR>
-noremap <leader>e :call PhpExpandClass()<CR>
-
+" vim-php (namespace) {{{2
 augroup VIM_PHP
     autocmd!
     autocmd FileType php nnoremap <Leader>u :PHPImportClass<cr>
