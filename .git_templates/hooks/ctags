@@ -1,0 +1,7 @@
+#!/bin/sh
+set -e
+PATH="/usr/local/bin:$PATH"
+dir="`git rev-parse --git-dir`"
+trap 'rm -f "$dir/$$.tags"' EXIT
+ctags --tag-relative -R -f "$dir/$$.tags" --fields=+aimlS --languages=php --PHP-kinds=+cf-va --exclude=var/cache --exclude=vendor/bin --exclude=composer.phar
+mv "$dir/$$.tags" "$dir/tags"

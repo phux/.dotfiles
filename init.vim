@@ -13,6 +13,7 @@ endif
 if empty(glob('~/.config/nvim/autoload/plug.vim'))
   silent !curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs
     \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+  autocmd!
   autocmd VimEnter * PlugInstall
 endif
 " }}}
@@ -23,81 +24,57 @@ call plug#begin('~/.config/nvim/plugged')
 Plug 'tpope/vim-surround'
 
 Plug 'ap/vim-buftabline'
+let g:buftabline_show = 1 " display only if more than 1 buffer open
 
 Plug 'henrik/vim-indexed-search'
 
-Plug 'scrooloose/nerdtree'
+" Plug 'scrooloose/nerdtree'
+Plug 'troydm/easytree.vim'
+map <m-d> :bp<bar>sp<bar>bn<bar>bd<CR>
 
-Plug 'tpope/vim-commentary'
+Plug 'tpope/vim-commentary', {'on': 'Commentary'}
 
-Plug 'vim-scripts/netrw.vim'
 Plug 'majutsushi/tagbar'
-
-Plug 'Shougo/vimproc.vim', { 'do': 'make' }
 
 Plug 'itchyny/lightline.vim'
 
 Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
 
 " Plug 'jiangmiao/auto-pairs'
-Plug 'cohama/lexima.vim'
+Plug 'vim-scripts/auto-pairs-gentle'
 
 Plug 'amiorin/vim-project'
+" Plug 'vim-addon-local-vimrc'
 
 Plug 'tpope/vim-fugitive'
-Plug 'gregsexton/gitv'
+Plug 'gregsexton/gitv', {'on': 'Gitv'}
 
 Plug 'tpope/vim-unimpaired'
-Plug 'moll/vim-bbye'
+" Plug 'moll/vim-bbye'
 Plug 'Lokaltog/vim-easymotion'
-Plug 'matchit.zip'
+" Plug 'matchit.zip'
 Plug 'junegunn/vim-easy-align'
-Plug 'godlygeek/tabular'
+Plug 'godlygeek/tabular', {'for': ['behat', 'cucumber']}
 
-Plug 'altercation/vim-colors-solarized'
-Plug 'crusoexia/vim-monokai'
+" Plug 'altercation/vim-colors-solarized'
+" Plug 'crusoexia/vim-monokai'
 Plug 'morhetz/gruvbox'
-Plug 'gko/vim-coloresque'
+" Plug 'gko/vim-coloresque'
 " Plug 'jacoborus/tender.vim'
 
-Plug 'veloce/vim-behat', {'for': 'behat'}
+Plug 'veloce/vim-behat', {'for': ['cucumber', 'behat']}
 let g:feature_filetype='behat'
-
-
+let g:behat_executables = ['vendor/bin/behat']
 
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'zchee/deoplete-go', { 'do': 'make'}
 
-
-
 Plug 'zhaocai/GoldenView.Vim'
 
-
-Plug 'w0rp/ale'
 " Plug 'phux/vim-phpqa', {'for': 'php'}
-" Plug 'neomake/neomake'
-" let &runtimepath.=',~/.config/nvim/plugged/ale'
-" filetype off
-" let g:ale_echo_msg_error_str = 'E'
-" let g:ale_echo_msg_warning_str = 'W'
-let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
-let g:ale_php_phpcs_standard = 'Symfony3Custom'
-" let g:ale_open_list = 0
-" Set this if you want to.
-" This can be useful if you are combining ALE with
-" some other plugin which sets quickfix errors, etc.
-" let g:ale_keep_list_window_open = 1
-" let g:ale_sign_error = 'EE'
-" let g:ale_sign_warning = 'ლ(╹o╹ლ )'
-let g:ale_php_phpmd_ruleset = 'cleancode,codesize,controversial,design,unusedcode'
-nmap <silent> gen <Plug>(ale_next_wrap)
-nmap <silent> gep <Plug>(ale_previous_wrap)
-let g:ale_lint_on_save=1
-" let g:ale_lint_on_text_changed = 'never'
-let g:ale_lint_on_enter=1
-let g:ale_sign_error = '✖'
-let g:ale_sign_warning = '►'
-let g:ale_statusline_format = ['E•%d', 'W•%d', 'OK']
+Plug 'neomake/neomake'
+Plug 'phpstan/vim-phpstan', {'for': 'php'}
+nnoremap <m-a> :PHPStanAnalyse -c phpstan.neon src<cr>
 
 Plug 'adoy/vim-php-refactoring-toolbox', {'for': 'php'}
 
@@ -108,14 +85,15 @@ let g:phpspec_executable = 'vendor/bin/phpspec'
 Plug 'shawncplus/phpcomplete.vim', {'for': 'php'}
 " Plug 'm2mdas/phpcomplete-extended'
 Plug 'Rican7/php-doc-modded', {'for': 'php'}
-Plug 'arnaud-lb/vim-php-namespace', {'for': 'php'}
+" Plug 'arnaud-lb/vim-php-namespace', {'for': 'php'}
+Plug 'sahibalejandro/vim-php', {'for': 'php'}
 Plug 'joonty/vdebug', {'for': 'php'}
 
-Plug 'StanAngeloff/php.vim', {'for': 'php'}
+" Plug 'StanAngeloff/php.vim', {'for': 'php'}
 Plug '2072/PHP-Indenting-for-VIm', {'for': 'php'}
 Plug 'alvan/vim-php-manual', {'for': 'php'}
 
-Plug 'evidens/vim-twig'
+Plug 'evidens/vim-twig', {'for': 'twig'}
 Plug 'avakhov/vim-yaml', {'for': 'yaml'}
 
 Plug 'phux/scratch.vim'
@@ -131,15 +109,12 @@ Plug 'tmux-plugins/vim-tmux'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 
-Plug 'wincent/ferret'
+Plug 'wincent/ferret', {'on': 'Ack'}
 
 Plug 'Shougo/echodoc.vim'
 
-"Plug 'reedes/vim-wordy', { 'for': ['mail', 'markdown', 'vimwiki'] }
 Plug 'honza/dockerfile.vim', { 'for': 'docker' }
 
-" Plug 'Konfekt/FastFold'
-" let g:php_folding = 1
 Plug 'matze/vim-move'
 
 Plug 'tpope/vim-abolish'
@@ -147,6 +122,8 @@ Plug 'tpope/vim-speeddating'
 Plug 'tpope/vim-sensible'
 
 Plug 'vim-scripts/YankRing.vim'
+
+Plug 'sjl/gundo.vim'
 call plug#end()
 " }}}
 
@@ -207,7 +184,7 @@ set noswapfile
 " }}}
 
 " write on focus loss
-au FocusLost * silent! wa
+au FocusLost * silent! update
 
 set formatoptions+=tcqlr
 
@@ -236,8 +213,6 @@ set expandtab
 " }}}
 
 " search {{{
-" Use case insensitive search, except when using capital letters
-set ignorecase
 set smartcase
 set hlsearch
 " }}}
@@ -312,7 +287,7 @@ nnoremap <silent> p p`]
 noremap gV `[v`]
 " }}}
 
-nnoremap <leader>W :set nowrap!<CR>
+nnoremap <m-w> :set nowrap!<CR>
 
 " fast closing of html tags
 inoremap ;; </<c-x><c-o>
@@ -353,6 +328,7 @@ nnoremap d<C-k> <C-w>k<C-w>c
 nnoremap d<C-h> <C-w>h<C-w>c
 nnoremap d<C-l> <C-w>l<C-w>c
 nnoremap <leader>x <c-w>c:GoldenViewResize<cr>:EnableGoldenViewAutoResize<cr>
+
 
 " resize
 nmap <silent> - :exe "vertical resize -15"<CR>
@@ -418,42 +394,74 @@ nnoremap <leader>; :TagbarToggle<cr>
 " FormatPHPLineLength {{{
 function! FormatPHPLineLength()
     let l:currentLine = getline('.')
-    let l:isFunctionCallOrDefinitionOrArray = l:currentLine =~ ',' || l:currentLine =~ ';' || l:currentLine =~ ' array(' || l:currentLine =~ '(['
-    let l:isConditional = l:currentLine =~ '\s*&&' || l:currentLine =~ ' and ' || l:currentLine =~ '\s*||' || l:currentLine =~ ' or ' || l:currentLine =~ '\s*?'
-
     normal! $
     normal! ma
-    if l:isConditional
-        normal! F)
-    elseif l:isFunctionCallOrDefinitionOrArray
-        let l:isFunctionCall = 0
-        if l:currentLine =~ ';'
-            let l:isFunctionCall = 1
-            normal! h
-        else
-            normal! Jh
-        endif
+
+    " multiple object operator split - repeatable
+    let l:numOfObjectOperators = len(split(getline('.'), '->', 1)) - 1
+    if l:numOfObjectOperators > 1
+        s/.*->.*\zs->/\r->/g
+        normal! ='a
+        return
     endif
 
-    execute "normal! i\n"
-    normal! mb
-    normal! k
+    " split params
+    let l:isFunctionCall = len(split(getline('.'), '->.\+(.\+)', 1)) - 1
+    echo l:isFunctionCall
+    if l:isFunctionCall
+->.\+(.\+)
+        s/.\+->.\+(\zs\(.\+\)\()\)/\r\1\r\2/
+        return
+    endif
 
-    if l:isConditional
-        :s/\(\s*&&\| and \|\s*||\| or \| ?\| :\)/\r\1/g
-    elseif l:isFunctionCallOrDefinitionOrArray
 
-        " go into original line and split until last function call
-        " execute "normal! 0f=f>hi\n"
-        execute "normal! 0f(a\n"
-        if l:currentLine =~ ','
+    " format array
+    let l:isArray = len(split(getline('.'), '.\+\zs\[.\+\]', 1)) - 1
+    echo l:isArray
+    if l:isArray
+        s/\(\[\)\(.\+\)\(]\)/\1\r\2\r\3
+        normal! k
+        if l:currentLine =~ ',\s'
             :s/,\s/,\r/g
+            normal! =a[
         endif
+        return
     endif
-    'b
-    normal! V
-    'a
-    normal! =
+
+    " let l:isFunctionCallOrDefinitionOrArray = l:currentLine =~ ',' || l:currentLine =~ ';' || l:currentLine =~ ' array(' || l:currentLine =~ '(['
+    " let l:isConditional = l:currentLine =~ '\s*&&' || l:currentLine =~ ' and ' || l:currentLine =~ '\s*||' || l:currentLine =~ ' or ' || l:currentLine =~ '\s*?'
+
+    " if l:isConditional
+    "     normal! F)
+    " elseif l:isFunctionCallOrDefinitionOrArray
+    "     let l:isFunctionCall = 0
+    "     if l:currentLine =~ ';'
+    "         let l:isFunctionCall = 1
+    "         normal! h
+    "     else
+    "         normal! Jh
+    "     endif
+    " endif
+
+    " execute "normal! i\n"
+    " normal! mb
+    " normal! k
+
+    " if l:isConditional
+    "     :s/\(\s*&&\| and \|\s*||\| or \| ?\| :\)/\r\1/g
+    " elseif l:isFunctionCallOrDefinitionOrArray
+
+    "     " go into original line and split until last function call
+    "     " execute "normal! 0f=f>hi\n"
+    "     execute "normal! 0f(a\n"
+    "     if l:currentLine =~ ','
+    "         :s/,\s/,\r/g
+    "     endif
+    " endif
+    " 'b
+    " normal! V
+    " 'a
+    " normal! =
 endfunction
 
 nnoremap <leader>i :call FormatPHPLineLength()<cr>
@@ -562,8 +570,19 @@ endfunction
 " }}}
 
 " SymfonySwitchToAlternateFile {{{
+
 nnoremap <leader>ta :call SymfonySwitchToAlternateFile()<cr>
 nnoremap <leader>tsa <c-w>v:call SymfonySwitchToAlternateFile()<cr>
+
+" changes to test/sut files
+" following structure:
+" sut: <dir1>/<dir2>/<dir3>/<dir4>/.../<file>.php
+" test: <dir1>/<dir2>/<dir3>/Tests/<dir4>/.../<file>Test.php
+"
+" example:
+" sut:  src/Acme/Bundle/Service/MyService.php
+" test: src/Acme/Bundle/Tests/Service/MyServiceTest.php
+
 function! SymfonySwitchToAlternateFile()
     let l:f = expand('%')
     let l:preceedingDirsToKeep = 2
@@ -584,7 +603,7 @@ function! SymfonySwitchToAlternateFile()
             exe ":!mkdir -p ".l:new_dir
         endif
     endif
-    " is there window with complent file open?
+    " is there window with alternate file open?
     let win = bufwinnr(l:f)
     if l:win > 0
         execute l:win . "wincmd w"
@@ -595,6 +614,8 @@ endfunction
 " }}}
 
 " PrependTicketNumber {{{
+
+" insert ticket number into commit msg
 function! PrependTicketNumber()
     normal gg
     let l:branch = system("echo $(git branch | grep '*')")
@@ -603,9 +624,11 @@ function! PrependTicketNumber()
     exe "normal gg"
     :startinsert!
 endfunction
-" insert ticket number into commit msg
-" au BufEnter * if &ft ==# 'gitcommit' | :call PrependTicketNumber() | endif
-autocmd FileType gitcommit nnoremap <buffer> <leader>w :call PrependTicketNumber()<cr>
+augroup git_commit
+    autocmd!
+    " au BufEnter * if &ft ==# 'gitcommit' | :call PrependTicketNumber() | endif
+    autocmd FileType gitcommit nnoremap <buffer> <leader>w :call PrependTicketNumber()<cr>
+augroup END
 " }}}
 
 
@@ -616,10 +639,11 @@ nnoremap <leader>W :w<cr>:silent! !eval '[ -f ".git/hooks/ctags" ] && .git/hooks
 " performance settings {{{
 set nocursorcolumn       " do not highlight column
 set nocursorline         " do not highlight line
-syntax sync minlines=256 " start highlighting from 256 lines backwards
-set synmaxcol=300        " do not highlith very long lines
+" syntax sync minlines=256 " start highlighting from 256 lines backwards
+" set synmaxcol=150        " do not highlith very long lines
 set lazyredraw
 set scrolljump=5
+set sidescroll=1
 let g:PHP_default_indenting=0
 " }}}
 
@@ -661,30 +685,43 @@ filetype on
 filetype plugin indent on
 syntax on
 
-au FileType behat,cucumber setl sw=2 sts=2 et
-au FileType yaml setl sw=2 sts=2 et
-au FileType ruby setl sw=2 sts=2 et
+augroup filetype_settings
+    autocmd!
+    au BufNewFile,BufRead *.feature set ft=behat
+    au FileType behat,cucumber setl sw=2 sts=2 et
+    au FileType yaml setl sw=2 sts=2 et
+    au FileType ruby setl sw=2 sts=2 et
 
-au FileType vim setl foldenable fdm=marker fmr={{{,}}} fdl=0
-autocmd BufNewFile,BufRead *.go setlocal noexpandtab tabstop=4 shiftwidth=4 
-autocmd FileType make setlocal noexpandtab tabstop=4 shiftwidth=4 
+    " au FileType vim setl foldenable fdm=marker fmr={{{,}}} fdl=0
+    autocmd BufNewFile,BufRead *.go setlocal noexpandtab tabstop=4 shiftwidth=4 
+    autocmd FileType make setlocal noexpandtab tabstop=4 shiftwidth=4 
 
-au BufNewFile,BufRead *.phtml set ft=php.html
+    autocmd BufRead,BufNewFile *.conf setf config
 
-autocmd BufRead,BufNewFile *.conf setf config
+    au BufNewFile,BufRead *.phtml set ft=php.html
 
-autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
-autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
-autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
-autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+    autocmd filetype qf setlocal wrap
+augroup END
+
+
+augroup filetype_omnifuncs
+    autocmd!
+    autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
+    autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+    autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+    autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+augroup END
+
 
 " linters {{{
 augroup linterConfiguration
-    autocmd FileType xml   setlocal  makeprg=xmllint\ -
-    autocmd FileType xml   setlocal  equalprg=xmllint\ --format\ -
-    autocmd FileType html  setlocal  equalprg=tidy\ -q\ -i\ -w\ 80\ -utf8\ --quote-nbsp\ no\ --output-xhtml\ yes\ --show-warnings\ no\ --show-body-only\ auto\ --tidy-mark\ no\ -
-    autocmd FileType xhtml setlocal  equalprg=tidy\ -q\ -i\ -w\ 80\ -utf8\ --quote-nbsp\ no\ --output-xhtml\ yes\ --show-warnings\ no\ --show-body-only\ auto\ --tidy-mark\ no\ -
-    autocmd FileType json  setlocal  equalprg=python\ -mjson.tool
+    autocmd!
+    autocmd FileType xml   setlocal makeprg=xmllint\ -
+    autocmd FileType xml   setlocal equalprg=xmllint\ --format\ -
+    autocmd FileType html  setlocal equalprg=tidy\ -q\ -i\ -w\ 80\ -utf8\ --quote-nbsp\ no\ --output-xhtml\ yes\ --show-warnings\ no\ --show-body-only\ auto\ --tidy-mark\ no\ -
+    autocmd FileType xhtml setlocal equalprg=tidy\ -q\ -i\ -w\ 80\ -utf8\ --quote-nbsp\ no\ --output-xhtml\ yes\ --show-warnings\ no\ --show-body-only\ auto\ --tidy-mark\ no\ -
+    autocmd FileType json  setlocal equalprg=python\ -mjson.tool
+    autocmd Filetype php nnoremap <buffer> <leader>w :update<cr>:silent call PhpSyntaxCheck()<cr>
 augroup END
 " }}}
 
@@ -694,13 +731,15 @@ augroup reload_vimrc
 augroup END
 
 
-autocmd filetype qf setlocal wrap
 
 " help {{{
-autocmd filetype help nnoremap <buffer> <CR> <c-]>
-autocmd filetype help nnoremap <buffer> <bs> <c-T>
-autocmd filetype help nnoremap <buffer> q :q<CR>
-autocmd filetype help set nonumber
+augroup help_settings
+    autocmd!
+    autocmd filetype help nnoremap <buffer> <CR> <c-]>
+    autocmd filetype help nnoremap <buffer> <bs> <c-T>
+    autocmd filetype help nnoremap <buffer> q :q<CR>
+    autocmd filetype help set nonumber
+augroup END
 " }}}
 " }}}
 
@@ -716,39 +755,40 @@ endfunction
 " augroup END
 " }}}
 
-" OpenQfixIfSyntaxError {{{
-function! OpenQfixIfSyntaxError()
-    :w
-    :silent setlocal makeprg=php
-    :silent make %
-    if len(getqflist()) > 0
-        :copen
-    else
-        :cclose
-    endif
+" PhpSyntaxCheck {{{
+function! PhpSyntaxCheck()
+    sil! setlocal makeprg=php\ -l\ %
+    sil! setlocal errorformat=%m\ in\ %f\ on\ line\ %l,%-GErrors\ parsing\ %f,%-G
+    sil! make
+    redraw!
+    cw
 endfunction
-autocmd BufWritePost *.php call OpenQfixIfSyntaxError()
 " }}}
 
 noremap <C-d> <C-d>zz
 noremap <C-u> <C-u>zz
 
 
+command! -nargs=1 Silent execute ':silent !'.<q-args> | execute ':redraw!'
 
 nnoremap <silent> <leader>tu :call SwitchBetweenFiles1('php', 'Bundle/Tests/', 'Bundle/', 'Test')<cr>
 nnoremap <silent> <leader>tsu <c-w>v:call SwitchBetweenFiles1('php', 'Bundle/Tests/', 'Bundle/', 'Test')<cr>
 
 
-nnoremap <bs> :Bdelete<cr>
 hi Search cterm=NONE ctermfg=white ctermbg=130
+set autoread
+
 
 
 " }}}
 
 " plugin settings {{{
 " NERDTree {{{2
-nnoremap <leader>n :NERDTreeToggle<CR>
-nnoremap <leader>N :NERDTreeFind<cr>
+" nnoremap <leader>N :NERDTreeFind<cr>
+nnoremap <leader>N :let @a = expand("%:t")<cr>:EasyTree %:p:h<cr>/<c-r>a<cr>:set nohls<cr>
+
+" nnoremap <leader>n :NERDTreeToggle<CR>
+nnoremap <leader>n :EasyTreeToggle<cr>
 
 let g:NERDTreeMinimalUI = 1
 let g:NERDTreeHijackNetrw = 0
@@ -762,13 +802,15 @@ let g:NERDTreeCascadeOpenSingleChildDir = 1
 " lightline.vim {{{2
 let g:lightline = {
             \ 'active': {
-            \   'left': [ [ 'mode', 'paste' ], [ 'fugitive', 'filename' ], ['ale'] ],
+            \   'left': [ [ 'mode', 'paste' ], [ 'fugitive', 'filename' ], [ 'tagbar' ] ],
             \   'right': [ [ 'lineinfo' ], ['percent'], [ 'fileformat', 'fileencoding', 'filetype' ] ]
+            \ },
+            \ 'component': {
+            \         'tagbar': '%{tagbar#currenttag("%s", "", "f")}',
             \ },
             \ 'component_function': {
             \   'fugitive': 'LightlineFugitive',
             \   'filename': 'LightlineFilename',
-            \   'ale': 'LightLineAle',
             \   'fileformat': 'LightlineFileformat',
             \   'filetype': 'LightlineFiletype',
             \   'fileencoding': 'LightlineFileencoding',
@@ -778,10 +820,6 @@ let g:lightline = {
             \ 'subseparator': { 'left': "\ue0b1", 'right': "\ue0b3" }
             \ }
 
-let g:responsive_width_mid=70
-function! LightLineAle()
-    return winwidth(0) > g:responsive_width_mid && exists("*ALEGetStatusLine") ? ALEGetStatusLine() : ''
-endfunction
 
 function! LightlineModified()
     return &ft =~ 'help' ? '' : &modified ? '+' : &modifiable ? '' : '-'
@@ -793,19 +831,25 @@ endfunction
 
 function! LightlineFilename()
     let fname = expand('%')
-    return  fname == '__Tagbar__' ? g:lightline.fname :
-                \ fname =~ '__Gundo\|NERD_tree' ? '' :
-                \ &ft == 'vimfiler' ? vimfiler#get_status_string() :
-                \ &ft == 'unite' ? unite#get_status_string() :
-                \ &ft == 'vimshell' ? vimshell#get_status_string() :
+    return fname =~ '__Gundo\|easytree' ? '' :
                 \ ('' != LightlineReadonly() ? LightlineReadonly() . ' ' : '') .
                 \ ('' != fname ? fname : '[No Name]') .
                 \ ('' != LightlineModified() ? ' ' . LightlineModified() : '')
+    " return  fname == '__Tagbar__' ? g:lightline.fname :
+    "             \ fname =~ '__Gundo\|NERD_tree' ? '' :
+    "             \ fname =~ '__Gundo\|easytree' ? '' :
+    "             \ &ft == 'vimfiler' ? vimfiler#get_status_string() :
+    "             \ &ft == 'unite' ? unite#get_status_string() :
+    "             \ &ft == 'vimshell' ? vimshell#get_status_string() :
+    "             \ ('' != LightlineReadonly() ? LightlineReadonly() . ' ' : '') .
+    "             \ ('' != fname ? fname : '[No Name]') .
+    "             \ ('' != LightlineModified() ? ' ' . LightlineModified() : '')
 endfunction
 
 function! LightlineFugitive()
     try
-        if expand('%:t') !~? 'Tagbar\|Gundo\|NERD' && &ft !~? 'vimfiler' && exists('*fugitive#head')
+        " if expand('%:t') !~? 'Tagbar\|Gundo\|NERD' && exists('*fugitive#head')
+        if expand('%:t') !~? 'Tagbar\|Gundo\|easytree' && exists('*fugitive#head')
             let mark = ''  " edit here for cool mark
             let branch = fugitive#head()
             return branch !=# '' ? mark.branch : ''
@@ -904,25 +948,29 @@ function! s:ag_handler(lines)
         wincmd p
     endif
 endfunction
-autocmd VimEnter * command! -nargs=* Ag call fzf#run({
-            \ 'source':  printf('ag --nogroup --column --color "%s"',
-            \                   escape(empty(<q-args>) ? '^(?=.)' : <q-args>, '"\')),
-            \ 'sink*':    function('<sid>ag_handler'),
-            \ 'options': '--ansi --expect=ctrl-t,ctrl-v,ctrl-x --delimiter : --nth 4.. '.
-            \            '--multi --bind=ctrl-a:select-all,ctrl-d:deselect-all '.
-            \            '--color hl:68,hl+:110',
-            \ 'down':    '50%'
-            \ })
 
-autocmd VimEnter * command! -nargs=* Agu call fzf#run({
-            \ 'source':  printf('ag -U --nogroup --column --color "%s"',
-            \                   escape(empty(<q-args>) ? '^(?=.)' : <q-args>, '"\')),
-            \ 'sink*':    function('<sid>ag_handler'),
-            \ 'options': '--ansi --expect=ctrl-t,ctrl-v,ctrl-x --delimiter : --nth 4.. '.
-            \            '--multi --bind=ctrl-a:select-all,ctrl-d:deselect-all '.
-            \            '--color hl:68,hl+:110',
-            \ 'down':    '50%'
-            \ })
+augroup fzf_ag
+    autocmd!
+    autocmd VimEnter * command! -nargs=* Ag call fzf#run({
+                \ 'source':  printf('ag --nogroup --column --color "%s"',
+                \                   escape(empty(<q-args>) ? '^(?=.)' : <q-args>, '"\')),
+                \ 'sink*':    function('<sid>ag_handler'),
+                \ 'options': '--ansi --expect=ctrl-t,ctrl-v,ctrl-x --delimiter : --nth 4.. '.
+                \            '--multi --bind=ctrl-a:select-all,ctrl-d:deselect-all '.
+                \            '--color hl:68,hl+:110',
+                \ 'down':    '50%'
+                \ })
+
+    autocmd VimEnter * command! -nargs=* Agu call fzf#run({
+                \ 'source':  printf('ag -U --nogroup --column --color "%s"',
+                \                   escape(empty(<q-args>) ? '^(?=.)' : <q-args>, '"\')),
+                \ 'sink*':    function('<sid>ag_handler'),
+                \ 'options': '--ansi --expect=ctrl-t,ctrl-v,ctrl-x --delimiter : --nth 4.. '.
+                \            '--multi --bind=ctrl-a:select-all,ctrl-d:deselect-all '.
+                \            '--color hl:68,hl+:110',
+                \ 'down':    '50%'
+                \ })
+augroup END
 
 function! s:buflist()
     redir => ls
@@ -988,7 +1036,8 @@ let g:AutoPairsShortcutBackInsert = '<c-h>'
 " vim-project {{{2
 let g:project_use_nerdtree = 0
 let g:project_enable_welcome = 0
-nnoremap <leader><F2> :e ~/dotfiles/vimprojects<cr>
+nnoremap <leader><F1> :e ~/.projects.public.vim<cr>
+nnoremap <leader><F2> :e ~/.projects.private.vim<cr>
 
 set rtp+=~/.config/nvim/plugged/vim-project/
 call project#rc("~/code")
@@ -1008,15 +1057,15 @@ nnoremap <leader>gV :Gitv<cr>
 " }}}
 
 " vim-phpqa {{{2
-au BufWinEnter,BufEnter *.php nnoremap <buffer> <leader>w :let g:phpqa_messdetector_autorun = 0<cr>:let g:phpqa_codesniffer_autorun = 0<cr>:w<cr>:let g:phpqa_messdetector_autorun = 1<cr>:let g:phpqa_codesniffer_autorun = 1<cr>
-let g:phpqa_messdetector_ruleset = "~/.config/phpmd-ruleset.xml"
+" au BufWinEnter,BufEnter *.php nnoremap <buffer> <leader>w :let g:phpqa_messdetector_autorun = 0<cr>:let g:phpqa_codesniffer_autorun = 0<cr>:w<cr>:let g:phpqa_messdetector_autorun = 1<cr>:let g:phpqa_codesniffer_autorun = 1<cr>
+" let g:phpqa_messdetector_ruleset = "~/.config/phpmd-ruleset.xml"
 
-let g:phpqa_codesniffer_args = "--standard=Symfony3Custom"
-let g:php_cs_fixer_php_path = "php"
+" let g:phpqa_codesniffer_args = "--standard=Symfony3Custom"
+" let g:php_cs_fixer_php_path = "php"
 
-command! -nargs=1 Silent execute ':silent !'.<q-args> | execute ':redraw!'
-map <c-s> <esc>:w<cr>:Silent phpcbf --standard=Symfony3Custom %:p<cr>:e<cr>
+
 " }}}
+
 
 " php-refactoring-toolbox {{{2
 let g:vim_php_refactoring_default_property_visibility = 'private'
@@ -1041,10 +1090,14 @@ nnoremap <leader>rsg :call PhpCreateSettersAndGetters()<CR>
 " phpcomplete {{{2
 let g:phpcomplete_complete_for_unknown_classes = 0
 let g:phpcomplete_relax_static_constraint=0
-let g:phpcomplete_search_tags_for_variables = 0
-let g:phpcomplete_parse_docblock_comments = 0
+let g:phpcomplete_search_tags_for_variables = 1
+let g:phpcomplete_parse_docblock_comments = 1
 let g:phpcomplete_enhance_jump_to_definition = 1
-autocmd FileType php setlocal omnifunc=phpcomplete#CompletePHP
+
+augroup phpcomplete_autogroup
+    autocmd!
+    autocmd FileType php setlocal omnifunc=phpcomplete#CompletePHP
+augroup END
 " }}}
 
 " deoplete {{{2
@@ -1077,6 +1130,14 @@ call deoplete#custom#set('_',
 " au BufNewFile,BufRead,BufWinEnter *Test.php exe ":let g:deoplete#omni_patterns.php = '[^. \\t]->\\w*|\\w+::\\w*'"
 " au BufNewFile,BufRead,BufWinEnter *Test.php exe ":let b:deoplete#sources = {} | :let b:deoplete#sources.php = ['buffer']"
 " au BufWinLeave,BufLeave *Test.php exe ':let g:deoplete#omni_patterns.php = "\\h\\w*\\|[^. \\t]->\\%(\\h\\w*\\)\\?\\|\\h\\w*::\\%(\\h\\w*\\)\\?"'
+augroup test_completion_fix
+    autocmd!
+    au BufNewFile,BufRead,BufWinEnter *Test.php exe ":let g:phpcomplete_search_tags_for_variables = 0 | :let g:phpcomplete_parse_docblock_comments = 0"
+    au BufWinLeave,BufLeave *Test.php exe ":let g:phpcomplete_search_tags_for_variables = 1 | :let g:phpcomplete_parse_docblock_comments = 1"
+
+    au BufNewFile,BufRead,BufWinEnter *Test.php exe ":let g:deoplete#omni_patterns.php = '[^. \\t]->\\w*|\\w+::\\w*'"
+    au BufWinLeave,BufLeave *Test.php exe ':let g:deoplete#omni_patterns.php = "\$\\h\\w*\\|[^. \\t]->\\%(\\h\\w*\\)\\?\\|\\h\\w*::\\%(\\h\\w*\\)\\?"'
+augroup END
 " }}}
 
 " phpdoc {{{2
@@ -1094,6 +1155,13 @@ vnoremap <leader>h :call PhpDocRange()<CR>
 let g:php_namespace_sort_after_insert = 1
 noremap <leader>u :call PhpInsertUse()<CR>
 noremap <leader>e :call PhpExpandClass()<CR>
+
+augroup VIM_PHP
+    autocmd!
+    autocmd FileType php nnoremap <Leader>u :PHPImportClass<cr>
+    autocmd FileType php nnoremap <Leader>e :PHPExpandFQCNAbsolute<cr>
+    autocmd FileType php nnoremap <Leader>E :PHPExpandFQCN<cr>
+augroup END
 " }}}
 
 " vdebug {{{2
@@ -1179,7 +1247,10 @@ function! LoadQuickfixBinds()
     nnoremap <c-p> :cp<cr>
 endfunction
 
-autocmd BufWinEnter quickfix call LoadQuickfixBinds()
+augroup QFIX
+    autocmd!
+    autocmd BufWinEnter quickfix call LoadQuickfixBinds()
+augroup END
 function! LoadLocationlistBinds()
     nnoremap <C-n> :lne<CR>
     nnoremap <C-p> :lpre<CR>
@@ -1213,7 +1284,6 @@ nnoremap <leader>c :Commentary<cr>
 vnoremap <leader>c :Commentary<cr>
 " }}}
 
-
 " tabularize {{{2
 inoremap <silent> <Bar>   <Bar><Esc>:call <SID>align()<CR>a
 
@@ -1242,6 +1312,18 @@ let g:yankring_replace_n_pkey = '<m-p>'
 let g:yankring_replace_n_nkey = '<m-n>'
 " }}}
 
+" neomake {{{
+augroup NEOMAKE
+    autocmd!
+    autocmd BufWritePost * Neomake
+augroup end
+
+let g:neomake_php_enabled_makers = ['phpcs', 'phpmd']
+let g:neomake_yaml_enabled_makers = ['yamllint']
+let g:neomake_json_enabled_makers = ['jsonlint']
+let g:neomake_markdown_enabled_makers = ['mdl']
+let g:neomake_sh_enabled_makers = ['sh', 'shellcheck']
+" }}}
 " }}}
 
-so ~/dotfiles/vimprojects
+so ~/.projects.public.vim
