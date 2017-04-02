@@ -28,7 +28,6 @@ let g:buftabline_show = 1 " display only if more than 1 buffer open
 
 Plug 'henrik/vim-indexed-search'
 
-" Plug 'scrooloose/nerdtree'
 Plug 'troydm/easytree.vim'
 map <m-d> :bp<bar>sp<bar>bn<bar>bd<CR>
 
@@ -40,26 +39,19 @@ Plug 'itchyny/lightline.vim'
 
 Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
 
-" Plug 'jiangmiao/auto-pairs'
 Plug 'vim-scripts/auto-pairs-gentle'
 
 Plug 'amiorin/vim-project'
-" Plug 'vim-addon-local-vimrc'
 
 Plug 'tpope/vim-fugitive'
 Plug 'gregsexton/gitv', {'on': 'Gitv'}
 
 Plug 'tpope/vim-unimpaired'
-" Plug 'moll/vim-bbye'
 Plug 'Lokaltog/vim-easymotion'
-" Plug 'matchit.zip'
-Plug 'junegunn/vim-easy-align'
 Plug 'godlygeek/tabular', {'for': ['behat', 'cucumber']}
 
-" Plug 'altercation/vim-colors-solarized'
 " Plug 'crusoexia/vim-monokai'
 Plug 'morhetz/gruvbox'
-" Plug 'gko/vim-coloresque'
 " Plug 'jacoborus/tender.vim'
 
 Plug 'veloce/vim-behat', {'for': ['cucumber', 'behat']}
@@ -75,25 +67,19 @@ Plug 'zhaocai/GoldenView.Vim'
 Plug 'neomake/neomake'
 Plug 'phpstan/vim-phpstan', {'for': 'php'}
 nnoremap <m-a> :PHPStanAnalyse -c phpstan.neon src<cr>
-
 Plug 'adoy/vim-php-refactoring-toolbox', {'for': 'php'}
-
-
 Plug 'Herzult/phpspec-vim', {'for': 'php'}
 let g:phpspec_executable = 'vendor/bin/phpspec'
-" Plug 'php-vim/phpcd.vim', { 'for': 'php' , 'do': 'composer install --no-dev' }
 Plug 'shawncplus/phpcomplete.vim', {'for': 'php'}
-" Plug 'm2mdas/phpcomplete-extended'
 Plug 'Rican7/php-doc-modded', {'for': 'php'}
-" Plug 'arnaud-lb/vim-php-namespace', {'for': 'php'}
 Plug 'sahibalejandro/vim-php', {'for': 'php'}
 Plug 'joonty/vdebug', {'for': 'php'}
-
 " Plug 'StanAngeloff/php.vim', {'for': 'php'}
 Plug '2072/PHP-Indenting-for-VIm', {'for': 'php'}
 Plug 'alvan/vim-php-manual', {'for': 'php'}
 
 Plug 'evidens/vim-twig', {'for': 'twig'}
+
 Plug 'avakhov/vim-yaml', {'for': 'yaml'}
 
 Plug 'phux/scratch.vim'
@@ -676,9 +662,6 @@ function! ExtractInterface()
     exe ":w"
 endfunction
 " }}}
-
-" nnoremap <leader>rip :Ack input('Replace '.expand('<cword>').' with: ', expand('<cword>'))<CR>
-
 
 " filetype settings {{{
 filetype on
