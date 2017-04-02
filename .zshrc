@@ -22,6 +22,7 @@ antigen apply
 
 
 
+export EDITOR=nvim
 
 
 
@@ -67,3 +68,21 @@ export TMPDIR=/tmp
 
 PATH=/home/jm/.gvm/pkgsets/go1.8/global/bin:/home/jm/.gvm/gos/go1.8/bin:/home/jm/.gvm/pkgsets/go1.8/global/overlay/bin:/home/jm/.gvm/bin:/home/jm/.gvm/bin:/home/jm/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/home/jm/.config/composer/vendor/bin:/home/jm/.gvm/gos/go1.8/bin:/home/jm/.fzf/bin:/home/jm/.config/composer/vendor/bin:/home/jm/bin:/home/jm/go/bin:~/.config/composer/vendor/bin
 alias config='/usr/bin/git --git-dir=/home/jm/.cfg/ --work-tree=/home/jm'
+
+
+# Increase Bash history size. Allow 32³ entries; the default is 500.
+export HISTSIZE='32768';
+export HISTFILESIZE="${HISTSIZE}";
+# Omit duplicates and commands that begin with a space from history.
+export HISTCONTROL='ignoreboth';
+
+# Prefer US English and use UTF-8.
+export LANG='en_US.UTF-8';
+export LC_ALL='en_US.UTF-8';
+
+# Highlight section titles in manual pages.
+export LESS_TERMCAP_md="${yellow}";
+
+# Don’t clear the screen after quitting a manual page.
+export MANPAGER='less -X';
+PATH=/home/jm/.gvm/pkgsets/go1.8/global/bin:/home/jm/.gvm/gos/go1.8/bin:/home/jm/.gvm/pkgsets/go1.8/global/overlay/bin:/home/jm/.gvm/bin:/home/jm/.gvm/bin:/home/jm/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/home/jm/.config/composer/vendor/bin:/home/jm/.gvm/gos/go1.8/bin:/home/jm/.fzf/bin:/home/jm/.config/composer/vendor/bin:/home/jm/bin:/home/jm/go/bin:/home/jm/.config/composer/vendor/bin:/home/jm/.composer/vendor/bin
