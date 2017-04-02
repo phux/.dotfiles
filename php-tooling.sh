@@ -9,7 +9,7 @@ else
     sudo mv composer.phar /usr/local/bin/composer
 fi
 
-composerDir="$HOME/.config/composer"
+composerDir="$HOME/.composer"
 composerJson="$composerDir/composer.json"
 
 if ! grep -q "$composerDir/vendor/bin" "$HOME/.zshrc"; then
