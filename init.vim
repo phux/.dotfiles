@@ -199,6 +199,7 @@ set expandtab
 " }}}
 
 " search {{{
+set ignorecase
 set smartcase
 set hlsearch
 " }}}
@@ -380,74 +381,56 @@ nnoremap <leader>; :TagbarToggle<cr>
 " FormatPHPLineLength {{{
 function! FormatPHPLineLength()
     let l:currentLine = getline('.')
-    normal! $
     normal! ma
 
-    " multiple object operator split - repeatable
-    let l:numOfObjectOperators = len(split(getline('.'), '->', 1)) - 1
-    if l:numOfObjectOperators > 1
-        s/.*->.*\zs->/\r->/g
-        normal! ='a
-        return
-    endif
-
     " split params
-    let l:isFunctionCall = len(split(getline('.'), '->.\+(.\+)', 1)) - 1
-    echo l:isFunctionCall
-    if l:isFunctionCall
-->.\+(.\+)
-        s/.\+->.\+(\zs\(.\+\)\()\)/\r\1\r\2/
-        return
+    let l:isFunctionCall = len(split(l:currentLine, '(.\+)', 1)) - 1
+    if l:isFunctionCall > 0
+        try
+            s#\((\)\([^)]\+\)\().*\)#\1\r\2\r\3#
+            normal! k
+            if getline('.') =~ ',\s'
+                s/,\s/,\r/g
+            endif
+            normal! j
+            if getline('.') =~ '))'
+                exe "normal! kJa\n"
+            endif
+            normal! =a(
+        catch
+        endtry
     endif
-
 
     " format array
-    let l:isArray = len(split(getline('.'), '.\+\zs\[.\+\]', 1)) - 1
-    echo l:isArray
-    if l:isArray
-        s/\(\[\)\(.\+\)\(]\)/\1\r\2\r\3
-        normal! k
-        if l:currentLine =~ ',\s'
-            :s/,\s/,\r/g
+    let l:isArray = len(split(l:currentLine, '.\+\zs\[.\+\]', 1)) - 1
+    if l:isArray > 0
+        try
+            s/\(\[\)\(.\+\)\(]\)/\1\r\2\r\3
+
+            normal! k
+
+            if l:currentLine =~ ',\s'
+                s/,\s/,\r/g
+            endif
+
+            if getline('.') !~ ',$'
+                normal! A,
+            endif
+
             normal! =a[
-        endif
-        return
+        catch
+        endtry
     endif
 
-    " let l:isFunctionCallOrDefinitionOrArray = l:currentLine =~ ',' || l:currentLine =~ ';' || l:currentLine =~ ' array(' || l:currentLine =~ '(['
-    " let l:isConditional = l:currentLine =~ '\s*&&' || l:currentLine =~ ' and ' || l:currentLine =~ '\s*||' || l:currentLine =~ ' or ' || l:currentLine =~ '\s*?'
-
-    " if l:isConditional
-    "     normal! F)
-    " elseif l:isFunctionCallOrDefinitionOrArray
-    "     let l:isFunctionCall = 0
-    "     if l:currentLine =~ ';'
-    "         let l:isFunctionCall = 1
-    "         normal! h
-    "     else
-    "         normal! Jh
-    "     endif
-    " endif
-
-    " execute "normal! i\n"
-    " normal! mb
-    " normal! k
-
-    " if l:isConditional
-    "     :s/\(\s*&&\| and \|\s*||\| or \| ?\| :\)/\r\1/g
-    " elseif l:isFunctionCallOrDefinitionOrArray
-
-    "     " go into original line and split until last function call
-    "     " execute "normal! 0f=f>hi\n"
-    "     execute "normal! 0f(a\n"
-    "     if l:currentLine =~ ','
-    "         :s/,\s/,\r/g
-    "     endif
-    " endif
-    " 'b
-    " normal! V
-    " 'a
-    " normal! =
+    " " multiple object operator split - repeatable
+    let l:numOfObjectOperators = len(split(l:currentLine, '->', 1)) - 1
+    if l:numOfObjectOperators > 1
+        try
+            s/.*->.*\zs->/\r->/g
+            normal! ='a
+        catch
+        endtry
+    endif
 endfunction
 
 nnoremap <leader>i :call FormatPHPLineLength()<cr>
