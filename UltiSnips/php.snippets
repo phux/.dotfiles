@@ -1,0 +1,266 @@
+priority 1
+
+
+## CLASS RELATED
+
+snippet io "instanceof"
+${1:object} instanceof ${2:class}
+endsnippet
+
+
+snippet ce "class_exists()"
+class_exists(${1:classname})$0
+endsnippet
+
+snippet m "method call $object->"
+$${1:object}->${2:method}($3)
+endsnippet
+
+snippet s "$obj->set()"
+$${1:obj}->set${2:Property}(${3:value})$0
+endsnippet
+
+snippet g "$obj->get()"
+$${1:obj}->get${2:Property}()$0
+endsnippet
+
+snippet gov "get_object_vars()"
+get_object_vars($${1:object})$0
+endsnippet
+
+snippet gc "get_class()"
+get_class(${1:object})$0
+endsnippet
+
+snippet gcm "get_class_methods()"
+get_class_methods(${1:object}$0
+endsnippet
+
+snippet ns "namespace" !b
+namespace $1;$0
+endsnippet
+
+
+snippet php "php tag"
+<?php
+	$0
+endsnippet
+
+snippet new "New class instance" !b
+$${1:variableName} = new ${2:${1/\w+\s*/\u$0/}}($3);
+$0
+endsnippet
+
+snippet con "constructor"
+/**
+ * @param ${1/, /\n * \@param mixed /g}
+ */
+public function __construct(${1:$dependencies})
+{
+    ${1/\$(\w+)(, )*/\n\t$this->$1 = $$1;/g}
+}$0
+endsnippet
+
+snippet vgs "PHP Class Getter Setter" !b
+/**
+ * @var ${2:type}
+ */
+private $${1:var};
+
+/**
+ * @return $2
+ */
+public function get${1/\w+\s*/\u$0/}(): $2
+{
+    return $this->$1;
+}
+
+/**
+ * @param $2 $$1
+ *
+ * @return $this
+ */
+public function set${1/\w+\s*/\u$0/}($2 $$1)
+{
+    $this->$1 = $$1;
+
+    return $this;
+}$0
+endsnippet
+
+snippet fek "foreach key value"
+foreach ($${1:variable} as $${2:key} => $${3:value}) {
+    ${4:// code...}
+}
+endsnippet
+
+snippet prt "print_r true"
+print_r($0, true);
+endsnippet
+
+snippet pr "print_r"
+print_r($0);
+endsnippet
+
+snippet e "echo"
+echo "$1";
+$0
+endsnippet
+
+snippet je "json_encode"
+json_encode($${1:stringToEncode)$0
+endsnippet
+
+snippet jd "json_decode"
+json_encode($${1:objectToDecode}, ${2:true})$0
+endsnippet
+
+## ARRAYS
+
+snippet ake "array_key_exists" i
+array_key_exists(${1:key}, ${2:array})
+endsnippet
+
+snippet av
+'${1:key}' => ${2:value},$3
+endsnippet
+
+snippet im "array implode"
+implode(${1:glue}, $${2:array})$0
+endsnippet
+
+snippet ex "array explode"
+explode(${1:delimiter}, $${2:array})$0
+endsnippet
+
+snippet sr "string replace"
+str_replace(${1:search}, ${2:replace}, $${3:haystack})$0
+endsnippet
+
+snippet sp "string position"
+strpos($${1:haystack}, ${2:search})$0
+endsnippet
+
+snippet sip "string case insensitive position"
+stripos($${1:haystack}, ${2:search})$0
+endsnippet
+
+snippet sl "string length"
+strlen($${1:string})$0
+endsnippet
+
+snippet iff "if false"
+if (false === $${1:what}) {
+    ${0:// code}
+}
+endsnippet
+
+snippet ift "if true"
+if (true === $${1:what}) {
+    ${0:// code}
+}
+endsnippet
+
+snippet ifc "if compare 2 values"
+if ($${1:a} === $${2:b}) {
+    ${0:// code}
+}
+endsnippet
+
+snippet r "return"
+return ${1:var};
+endsnippet
+
+snippet = "assign var" !b
+$${1:variable} = ${2:value};$0
+endsnippet
+
+snippet ? "ternary"
+(${1:condition}) ? ${2:true} : ${3:false}$0
+endsnippet
+
+snippet t "$this->" w!
+$this->$0
+endsnippet
+
+snippet ". "concat" i
+" . $1 . "$0
+endsnippet
+
+snippet '. "concat" i
+' . $1 . '$0
+endsnippet
+
+snippet el "error_log"
+error_log('$1 :' . $2);$0
+endsnippet
+
+snippet rt "return true"
+return true;$0
+endsnippet
+
+snippet rn "return null"
+return;$0
+endsnippet
+
+snippet rf "return false"
+return false;$0
+endsnippet
+
+snippet c "concatenate"
+$${1:var} .= $2;$0
+endsnippet
+
+snippet vd "sweet single var_dump"
+var_dump($1);
+endsnippet
+
+# killer backtrace:
+snippet kbt "killer backtrace"
+array_walk(debug_backtrace(),create_function('$a,$b','print "{$a[\'function\']}()(".basename($a[\'file\']).":{$a[\'line\']}); <br />";'));
+endsnippet
+
+snippet d "die()"
+die('after $1 in file '.basename(__FILE__).' in line '.__LINE__);$0
+endsnippet
+
+snippet vdd "sweet var_dump"
+var_dump('${1:var} in ' . basename(__FILE__));
+var_dump($1);
+endsnippet
+
+snippet ve "Dumb debug helper in cli"
+var_export($1);$0
+endsnippet
+
+
+snippet try "try/catch"
+try {
+    $1
+} catch (${2:Exception} $e) {
+    $3
+}
+endsnippet
+
+snippet pt "@throws"
+@throws $1Exception$0
+endsnippet
+
+snippet throw "throw new Exception"
+throw new $1Exception('${2:message}');$0
+endsnippet
+
+snippet /* "comment"
+/**
+ * ${1:comment}
+ */
+endsnippet
+
+snippet ee
+echo "$1".PHP_EOL;$0
+endsnippet
+
+snippet array "array" b
+$${1:arrayName} = ['${2}' => ${3}];$0
+endsnippet
+

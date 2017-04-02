@@ -19,6 +19,7 @@ fi
 echo 'linking init.vim'
 mkdir -p $HOME/.config/nvim
 ln -fs "$DIR/init.vim" $HOME/.config/nvim/
+ln -fs "$DIR/UltiSnips" $HOME/.config/nvim/
 
 echo 'linking public project config'
 ln -fs "$DIR/.projects.public.vim" $HOME/
