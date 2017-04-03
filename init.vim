@@ -72,9 +72,9 @@ Plug 'Herzult/phpspec-vim', {'for': 'php'}
 let g:phpspec_executable = 'vendor/bin/phpspec'
 Plug 'shawncplus/phpcomplete.vim', {'for': 'php'}
 Plug 'Rican7/php-doc-modded', {'for': 'php'}
-Plug 'sahibalejandro/vim-php', {'for': 'php'}
+Plug 'sahibalejandro/vim-php', {'for': ['php', 'yaml']}
 Plug 'joonty/vdebug', {'for': 'php'}
-" Plug 'StanAngeloff/php.vim', {'for': 'php'}
+Plug 'StanAngeloff/php.vim', {'for': 'php'}
 Plug '2072/PHP-Indenting-for-VIm', {'for': 'php'}
 Plug 'alvan/vim-php-manual', {'for': 'php'}
 
@@ -383,6 +383,15 @@ function! FormatPHPLineLength()
     let l:currentLine = getline('.')
     normal! ma
 
+    let l:isConditional = l:currentLine =~ '\s*&&' || l:currentLine =~ ' and ' || l:currentLine =~ '\s*||' || l:currentLine =~ ' or ' || l:currentLine =~ '\s*?.*:'
+    if l:isConditional
+        :s/\(\s*&&\| and \|\s*||\| or \| ?\| :\)/\r\1/g
+        if getline('.') =~ ') {'
+            exe "normal! $hhi\n"
+        endif
+        normal! =ip
+    endif
+
     " split params
     let l:isFunctionCall = len(split(l:currentLine, '(.\+)', 1)) - 1
     if l:isFunctionCall > 0
@@ -433,7 +442,7 @@ function! FormatPHPLineLength()
     endif
 endfunction
 
-nnoremap <leader>i :call FormatPHPLineLength()<cr>
+nnoremap <m-f> :call FormatPHPLineLength()<cr>
 " }}}
 
 
