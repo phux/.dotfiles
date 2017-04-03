@@ -67,6 +67,7 @@ Plug 'zhaocai/GoldenView.Vim'
 Plug 'neomake/neomake'
 Plug 'phpstan/vim-phpstan', {'for': 'php'}
 nnoremap <m-a> :PHPStanAnalyse -c phpstan.neon src<cr>
+let g:phpstan_analyse_level = 4
 Plug 'adoy/vim-php-refactoring-toolbox', {'for': 'php'}
 Plug 'Herzult/phpspec-vim', {'for': 'php'}
 let g:phpspec_executable = 'vendor/bin/phpspec'
@@ -705,8 +706,6 @@ augroup reload_vimrc
     autocmd BufWritePost $MYVIMRC nested source $MYVIMRC
 augroup END
 
-
-
 " help {{{
 augroup help_settings
     autocmd!
@@ -742,7 +741,6 @@ endfunction
 
 noremap <C-d> <C-d>zz
 noremap <C-u> <C-u>zz
-
 
 command! -nargs=1 Silent execute ':silent !'.<q-args> | execute ':redraw!'
 
@@ -1122,7 +1120,20 @@ let g:pdv_cfg_autoEndFunction = 0
 let g:pdv_cfg_FunctionName = 0
 let g:pdv_cfg_Type = ""
 inoremap <C-d> <ESC>:call PhpDocSingle()<CR>
-nnoremap <leader>h :call PhpDocSingle()<CR>
+nnoremap <leader>h :call UpdatePhpDocIfExists()<CR>
+function! UpdatePhpDocIfExists()
+    normal! k
+    if getline('.') =~ '/'
+        normal! V%d
+    else
+        normal! j
+    endif
+    call PhpDocSingle()
+    normal! k^%k$
+    if getline('.') =~ ';'
+        exe "normal! $svoid"
+    endif
+endfunction
 vnoremap <leader>h :call PhpDocRange()<CR>
 " }}}
 
@@ -1288,6 +1299,7 @@ augroup NEOMAKE
     autocmd!
     autocmd BufWritePost * Neomake
 augroup end
+
 
 let g:neomake_php_enabled_makers = ['phpcs', 'phpmd']
 let g:neomake_yaml_enabled_makers = ['yamllint']
