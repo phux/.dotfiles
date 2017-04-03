@@ -150,7 +150,7 @@ bindsym $mod+4 workspace number 4
 bindsym $mod+5 workspace number 5
 bindsym $mod+6 workspace number 6
 bindsym $mod+7 workspace number 7
-bindsym $mod+8 workspace $tag8
+bindsym $mod+8 workspace number 8
 bindsym $mod+9 workspace $tag9
 bindsym $mod+0 workspace $tag10
 
@@ -162,7 +162,7 @@ bindsym $mod+Shift+dollar move container to workspace number 4; workspace 4
 bindsym $mod+Shift+percent move container to workspace number 5
 bindsym $mod+Shift+asciicircum move container to workspace number 6
 bindsym $mod+Shift+ampersand move container to workspace number 7
-bindsym $mod+Shift+asterisk move container to workspace $tag8; workspace $tag8
+bindsym $mod+Shift+asterisk move container to workspace 8; workspace 8
 bindsym $mod+Shift+parenleft move container to workspace $tag9; workspace $tag9
 bindsym $mod+Shift+parenright move container to workspace $tag10; workspace $tag10
 
