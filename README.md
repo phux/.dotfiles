@@ -6,6 +6,8 @@ Clone the repository:
 
 Execute the setup script:
 
+Warning: this does not backup any existing files!
+
     cd .dotfiles && ./setup.sh
 
 Done.
