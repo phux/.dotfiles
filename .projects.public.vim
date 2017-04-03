@@ -12,6 +12,11 @@ function! Zf1(...) abort
 endfunction
 
 function! Symfony(...) abort
+    let g:neomake_php_phpmd_maker = {
+        \ 'args': ['%:p', 'text', 'codesize,design,unusedcode,cleancode,controversial'],
+        \ 'append_file' : 0,
+        \ 'errorformat': '%W%f:%l%\s%\s%#%m',
+        \ }
     let g:neomake_php_php_exe = 'php'
     let g:neomake_php_phpcs_args_standard="~/code/ruleset.xml"
     let g:ultisnips_php_scalar_types = 1
