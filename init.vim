@@ -29,6 +29,8 @@ let g:buftabline_show = 1 " display only if more than 1 buffer open
 Plug 'henrik/vim-indexed-search'
 
 Plug 'troydm/easytree.vim'
+" Plug '~/code/easytree.vim'
+" let g:easytree_width_auto_fit = 1
 map <m-d> :bp<bar>sp<bar>bn<bar>bd<CR>
 
 Plug 'tpope/vim-commentary', {'on': 'Commentary'}
@@ -46,7 +48,7 @@ Plug 'amiorin/vim-project'
 Plug 'tpope/vim-fugitive'
 Plug 'gregsexton/gitv', {'on': 'Gitv'}
 
-Plug 'tpope/vim-unimpaired'
+" Plug 'tpope/vim-unimpaired'
 Plug 'Lokaltog/vim-easymotion'
 Plug 'godlygeek/tabular', {'for': ['behat', 'cucumber']}
 
@@ -63,7 +65,6 @@ Plug 'zchee/deoplete-go', { 'do': 'make'}
 
 Plug 'zhaocai/GoldenView.Vim'
 
-" Plug 'phux/vim-phpqa', {'for': 'php'}
 Plug 'neomake/neomake'
 Plug 'phpstan/vim-phpstan', {'for': 'php'}
 nnoremap <m-a> :PHPStanAnalyse -c phpstan.neon src<cr>
@@ -118,7 +119,6 @@ call plug#end()
 
 " general {{{
 
-
 " interface {{{2
 set t_Co=256
 " colorscheme tender
@@ -140,8 +140,8 @@ set showbreak=↪
 set cmdheight=1
 " This makes more sense than the default of 1
 set winminheight=1
-" no welcome screen
-set shortmess+=filmnrxoOtT
+
+set shortmess+=cfilmnrxoOtT
 " highlight chars
 set list
 set listchars=tab:\ \ ,trail:•,extends:#,nbsp:. 
@@ -214,7 +214,7 @@ set undoreload=10000
 
 " completion {{{2
 " Better command-line completion
-" set wildignore+=*.pyc,*.zip,*.gz,*.bz,*.tar,*.jpg,*.png,*.gif,*.avi,*.wmv,*.ogg,*.mp3,*.mov
+set wildignore+=*.pyc,*.zip,*.gz,*.bz,*.tar,*.jpg,*.png,*.gif,*.avi,*.wmv,*.ogg,*.mp3,*.mov
 " set wildmode=list:longest,full
 set wildmode=longest:full,full
 " Limit popup menu height
@@ -275,7 +275,7 @@ nnoremap <silent> p p`]
 noremap gV `[v`]
 " }}}
 
-nnoremap <m-w> :set nowrap!<CR>
+nnoremap <leader>w :set nowrap!<CR>
 
 " fast closing of html tags
 inoremap ;; </<c-x><c-o>
@@ -328,7 +328,9 @@ noremap <silent> <leader>tn :ptn<cr>
 noremap <silent> <leader>tp :ptp<cr>
 noremap <silent> <leader>tc :pc<cr>
 
-nnoremap <leader>o <c-w>g}
+" nnoremap <leader>o :call GoldenView#Split()<cr><c-]>:SwitchGoldenViewMain<cr>
+nnoremap <leader>o :call GoldenView#Split()<cr><c-]>
+
 " }}}
 
 
@@ -339,7 +341,7 @@ vnoremap . :normal .<CR>
 
 " search {{{
 " unmark search matches
-nnoremap <silent> ,/ :nohlsearch<CR>
+nnoremap <silent> <m-/> :nohlsearch<CR>
 nnoremap n nzzzv
 nnoremap N Nzzzv
 " }}}
@@ -613,14 +615,14 @@ augroup END
 
 nnoremap <leader>w :w<cr>
 
-nnoremap <leader>W :w<cr>:silent! !eval '[ -f ".git/hooks/ctags" ] && .git/hooks/ctags' &<cr>
+nnoremap <m-w> :w<cr>:silent! !eval '[ -f ".git/hooks/ctags" ] && .git/hooks/ctags' &<cr>
 
 " performance settings {{{
 set nocursorcolumn       " do not highlight column
 set nocursorline         " do not highlight line
 " syntax sync minlines=256 " start highlighting from 256 lines backwards
 " set synmaxcol=150        " do not highlith very long lines
-set lazyredraw
+set nolazyredraw
 set scrolljump=5
 set sidescroll=1
 let g:PHP_default_indenting=0
@@ -756,20 +758,22 @@ set autoread
 " }}}
 
 " plugin settings {{{
-" NERDTree {{{2
-" nnoremap <leader>N :NERDTreeFind<cr>
-nnoremap <leader>N :let @a = expand("%:t")<cr>:EasyTree %:p:h<cr>/<c-r>a<cr>:set nohls<cr>
 
-" nnoremap <leader>n :NERDTreeToggle<CR>
+" easytree {{{2
+
+function! CloseOpenEasyTreeBuffers()
+    for i in range(1, winnr('$'))
+        let bnum = winbufnr(i)
+        if getbufvar(bnum, '&filetype') == 'easytree'
+            exe "bd ".bnum
+        endif
+    endfor
+endfunction
+
+" same like nerdtreefind file
+nnoremap <leader>N :let @a = expand("%:t")<cr>:call CloseOpenEasyTreeBuffers()<cr>:EasyTree %:p:h<cr>/<c-r>a<cr>:set nohls<cr>
+
 nnoremap <leader>n :EasyTreeToggle<cr>
-
-let g:NERDTreeMinimalUI = 1
-let g:NERDTreeHijackNetrw = 0
-let g:NERDTreeWinSize = 31
-let g:NERDTreeChDirMode = 2
-let g:NERDTreeAutoDeleteBuffer = 1
-let g:NERDTreeShowBookmarks = 0
-let g:NERDTreeCascadeOpenSingleChildDir = 1
 " }}}
 
 " lightline.vim {{{2
@@ -808,20 +812,10 @@ function! LightlineFilename()
                 \ ('' != LightlineReadonly() ? LightlineReadonly() . ' ' : '') .
                 \ ('' != fname ? fname : '[No Name]') .
                 \ ('' != LightlineModified() ? ' ' . LightlineModified() : '')
-    " return  fname == '__Tagbar__' ? g:lightline.fname :
-    "             \ fname =~ '__Gundo\|NERD_tree' ? '' :
-    "             \ fname =~ '__Gundo\|easytree' ? '' :
-    "             \ &ft == 'vimfiler' ? vimfiler#get_status_string() :
-    "             \ &ft == 'unite' ? unite#get_status_string() :
-    "             \ &ft == 'vimshell' ? vimshell#get_status_string() :
-    "             \ ('' != LightlineReadonly() ? LightlineReadonly() . ' ' : '') .
-    "             \ ('' != fname ? fname : '[No Name]') .
-    "             \ ('' != LightlineModified() ? ' ' . LightlineModified() : '')
 endfunction
 
 function! LightlineFugitive()
     try
-        " if expand('%:t') !~? 'Tagbar\|Gundo\|NERD' && exists('*fugitive#head')
         if expand('%:t') !~? 'Tagbar\|Gundo\|easytree' && exists('*fugitive#head')
             let mark = ''  " edit here for cool mark
             let branch = fugitive#head()
@@ -852,25 +846,14 @@ function! LightLineMode()
         \ &ft == 'qf' ? 'quickfix' :
         \ winwidth(0) > 60 ? lightline#mode() : ''
 endfunction
-" function! LightlineMode()
-"     let fname = expand('%:t')
-"     return fname == '__Tagbar__' ? 'Tagbar' :
-"                 \ fname == '__Gundo__' ? 'Gundo' :
-"                 \ fname == '__Gundo_Preview__' ? 'Gundo Preview' :
-"                 \ fname =~ 'NERD_tree' ? 'NERDTree' :
-"                 \ &ft == 'unite' ? 'Unite' :
-"                 \ &ft == 'vimfiler' ? 'VimFiler' :
-"                 \ &ft == 'vimshell' ? 'VimShell' :
-"                 \ winwidth(0) > 60 ? lightline#mode() : ''
-" endfunction
 " }}}
 
 " ultisnips {{{2
 let g:ultisnips_php_scalar_types = 1
 let g:UltiSnipsSnippetsDir = '~/.config/nvim/UltiSnips/'
-let g:UltiSnipsExpandTrigger="<c-j>"
-let g:UltiSnipsJumpForwardTrigger="<c-k>"
-let g:UltiSnipsJumpBackwardTrigger="<c-b>"
+let g:UltiSnipsExpandTrigger="<m-space>"
+let g:UltiSnipsJumpForwardTrigger="<m-space>"
+let g:UltiSnipsJumpBackwardTrigger="<m-b>"
 
 au BufNewFile,BufRead,BufWinEnter *Test.php exe ":UltiSnipsAddFiletypes php.phpunit"
 au BufNewFile,BufRead,BufWinEnter *Spec.php exe ":UltiSnipsAddFiletypes php.php-phpspec"
@@ -1029,17 +1012,6 @@ nnoremap <leader>gv :Gitv!<cr>
 nnoremap <leader>gV :Gitv<cr>
 " }}}
 
-" vim-phpqa {{{2
-" au BufWinEnter,BufEnter *.php nnoremap <buffer> <leader>w :let g:phpqa_messdetector_autorun = 0<cr>:let g:phpqa_codesniffer_autorun = 0<cr>:w<cr>:let g:phpqa_messdetector_autorun = 1<cr>:let g:phpqa_codesniffer_autorun = 1<cr>
-" let g:phpqa_messdetector_ruleset = "~/.config/phpmd-ruleset.xml"
-
-" let g:phpqa_codesniffer_args = "--standard=Symfony3Custom"
-" let g:php_cs_fixer_php_path = "php"
-
-
-" }}}
-
-
 " php-refactoring-toolbox {{{2
 let g:vim_php_refactoring_default_property_visibility = 'private'
 let g:vim_php_refactoring_default_method_visibility = 'private'
@@ -1063,8 +1035,8 @@ nnoremap <leader>rsg :call PhpCreateSettersAndGetters()<CR>
 " phpcomplete {{{2
 let g:phpcomplete_complete_for_unknown_classes = 0
 let g:phpcomplete_relax_static_constraint=0
-let g:phpcomplete_search_tags_for_variables = 1
-let g:phpcomplete_parse_docblock_comments = 1
+let g:phpcomplete_search_tags_for_variables = 0
+let g:phpcomplete_parse_docblock_comments = 0
 let g:phpcomplete_enhance_jump_to_definition = 1
 
 augroup phpcomplete_autogroup
@@ -1106,7 +1078,7 @@ call deoplete#custom#set('_',
 augroup test_completion_fix
     autocmd!
     au BufNewFile,BufRead,BufWinEnter *Test.php exe ":let g:phpcomplete_search_tags_for_variables = 0 | :let g:phpcomplete_parse_docblock_comments = 0"
-    au BufWinLeave,BufLeave *Test.php exe ":let g:phpcomplete_search_tags_for_variables = 1 | :let g:phpcomplete_parse_docblock_comments = 1"
+    au BufWinLeave,BufLeave *Test.php exe ":let g:phpcomplete_search_tags_for_variables = 0 | :let g:phpcomplete_parse_docblock_comments = 0"
 
     au BufNewFile,BufRead,BufWinEnter *Test.php exe ":let g:deoplete#omni_patterns.php = '[^. \\t]->\\w*|\\w+::\\w*'"
     au BufWinLeave,BufLeave *Test.php exe ':let g:deoplete#omni_patterns.php = "\$\\h\\w*\\|[^. \\t]->\\%(\\h\\w*\\)\\?\\|\\h\\w*::\\%(\\h\\w*\\)\\?"'
@@ -1219,8 +1191,8 @@ let g:goldenview__enable_default_mapping = 0
 nmap <silent> <C-g>  <Plug>GoldenViewSplit
 " 2. quickly switch current window with the main pane
 " and toggle back
-nnoremap <silent> <F8>   <Plug>GoldenViewSwitchMain
-nnoremap <silent> <F9> <Plug>GoldenViewSwitchToggle
+nnoremap <silent> <m-g> :SwitchGoldenViewSmallest<cr>
+nnoremap <silent> <m-l> :SwitchGoldenViewLargest<cr>
 " }}}
 
 " ferret {{{2
@@ -1300,7 +1272,15 @@ augroup NEOMAKE
     autocmd BufWritePost * Neomake
 augroup end
 
-
+let g:neomake_php_phpmd_maker = {
+    \ 'args': ['%:p', 'text', 'codesize,design,unusedcode,cleancode,controversial'],
+    \ 'append_file' : 0,
+    \ 'errorformat': '%W%f:%l%\s%\s%#%m',
+    \ }
+let g:neomake_php_php_exe = 'php'
+let g:neomake_php_phpcs_args_standard="~/code/ruleset.xml"
+let g:ultisnips_php_scalar_types = 1
+nnoremap <silent> <c-s> :update<cr>:Silent phpcbf --standard=Symfony3Custom %:p > /dev/null<cr>:e<cr>
 let g:neomake_php_enabled_makers = ['phpcs', 'phpmd']
 let g:neomake_yaml_enabled_makers = ['yamllint']
 let g:neomake_json_enabled_makers = ['jsonlint']
@@ -1310,3 +1290,11 @@ let g:neomake_sh_enabled_makers = ['sh', 'shellcheck']
 " }}}
 
 so ~/.projects.public.vim
+
+vnoremap <leader>i :call ShowFirstCommitOfStringForFile()<cr>
+function! ShowFirstCommitOfStringForFile()
+    let l:search = getline("'<")[getpos("'<")[2]-1:getpos("'>")[2]]
+    let l:file = expand("%.")
+    let l:cmd = "git log -n 1 -S '".l:search."' -- ".l:file
+    echom system(l:cmd)
+endfunction
