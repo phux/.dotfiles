@@ -12,9 +12,9 @@ antigen bundle gitfast
 
 antigen bundle djui/alias-tips
 antigen bundle zsh-users/zsh-completions
-antigen bundle zsh-users/zsh-autosuggestions
+# antigen bundle zsh-users/zsh-autosuggestions
 
-antigen bundle zsh-users/zsh-syntax-highlighting
+# antigen bundle zsh-users/zsh-syntax-highlighting
 
 antigen theme simple
 
@@ -85,4 +85,6 @@ export LESS_TERMCAP_md="${yellow}";
 
 # Don’t clear the screen after quitting a manual page.
 export MANPAGER='less -X';
-PATH=/home/jm/.gvm/pkgsets/go1.8/global/bin:/home/jm/.gvm/gos/go1.8/bin:/home/jm/.gvm/pkgsets/go1.8/global/overlay/bin:/home/jm/.gvm/bin:/home/jm/.gvm/bin:/home/jm/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/home/jm/.config/composer/vendor/bin:/home/jm/.gvm/gos/go1.8/bin:/home/jm/.fzf/bin:/home/jm/.config/composer/vendor/bin:/home/jm/bin:/home/jm/go/bin:/home/jm/.config/composer/vendor/bin:/home/jm/.composer/vendor/bin
+PATH=/home/jm/.gvm/pkgsets/go1.8/global/bin:/home/jm/.gvm/gos/go1.8/bin:/home/jm/.gvm/pkgsets/go1.8/global/overlay/bin:/home/jm/.gvm/bin:/home/jm/.gvm/bin:/home/jm/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/home/jm/.composer/vendor/bin:/home/jm/.fzf/bin
+
+alias internet_ftw='sudo dhclient -r;sudo dhclient &'
