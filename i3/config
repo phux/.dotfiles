@@ -20,11 +20,11 @@ focus_follows_mouse no
 force_focus_wrapping no
 
 # name the workspaces
-set $tag1 "1: sh"
-set $tag2 "2: vim"
-set $tag3 "3: db"
-set $tag9 "9: im"
-set $tag10 "10: www"
+# set $tag1 "1: sh"
+# set $tag2 "2: vim"
+# set $tag3 "3: db"
+# set $tag9 "9: im"
+# set $tag10 "10: www"
 
 #Back and Forth
 workspace_auto_back_and_forth no
@@ -143,28 +143,28 @@ bindsym $mod+o scratchpad show
 bindsym $mod+semicolon workspace next
 
 # switch to workspace
-bindsym $mod+1 workspace $tag1
-bindsym $mod+2 workspace $tag2
-bindsym $mod+3 workspace $tag3
+bindsym $mod+1 workspace number 1
+bindsym $mod+2 workspace number 2
+bindsym $mod+3 workspace number 3
 bindsym $mod+4 workspace number 4
 bindsym $mod+5 workspace number 5
 bindsym $mod+6 workspace number 6
 bindsym $mod+7 workspace number 7
 bindsym $mod+8 workspace number 8
-bindsym $mod+9 workspace $tag9
-bindsym $mod+0 workspace $tag10
+bindsym $mod+9 workspace number 9
+bindsym $mod+0 workspace number 10
 
 # move focused container to workspace
-bindsym $mod+Shift+exclam move container to workspace $tag1; workspace $tag1
-bindsym $mod+Shift+at move container to workspace $tag2; workspace $tag2
-bindsym $mod+Shift+numbersign move container to workspace $tag3; workspace $tag3
+bindsym $mod+Shift+exclam move container to workspace 1; workspace 1
+bindsym $mod+Shift+at move container to workspace 2; workspace 2
+bindsym $mod+Shift+numbersign move container to workspace 3; workspace 3
 bindsym $mod+Shift+dollar move container to workspace number 4; workspace 4
 bindsym $mod+Shift+percent move container to workspace number 5
 bindsym $mod+Shift+asciicircum move container to workspace number 6
 bindsym $mod+Shift+ampersand move container to workspace number 7
 bindsym $mod+Shift+asterisk move container to workspace 8; workspace 8
-bindsym $mod+Shift+parenleft move container to workspace $tag9; workspace $tag9
-bindsym $mod+Shift+parenright move container to workspace $tag10; workspace $tag10
+bindsym $mod+Shift+parenleft move container to workspace 9; workspace 9
+bindsym $mod+Shift+parenright move container to workspace 10; workspace 10
 
 # restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
 bindsym $mod+Shift+R restart
@@ -206,20 +206,20 @@ client.focused #61af5b #61af5b #ffffff
 client.unfocused #333333 #747170 #ffffff
 
 # workspace targeting
-assign [class="Gvim"] $tag2
-assign [class="Mysql-workbench-bin"] $tag3
-assign [class="Pidgin"] $tag9
-assign [class="Hipchat"] $tag9
-assign [class="Slack"] $tag9
-assign [class="Skype"] $tag9
-assign [class="Thunderbird"] $tag9
-assign [class="Chromium"] $tag10
+assign [class="Gvim"] 2
+assign [class="Mysql-workbench-bin"] 3
+assign [class="Pidgin"] 9
+assign [class="Hipchat"] 9
+assign [class="Slack"] 9
+assign [class="Skype"] 9
+assign [class="Thunderbird"] 9
+assign [class="Chromium"] 10
 
-workspace $tag1 output HDMI1
-workspace $tag9 output eDP1
-workspace $tag3 output HDMI1
-workspace $tag10 output HDMI1
-workspace $tag2 output HDMI2
+workspace 1 output HDMI1
+workspace 9 output eDP1
+workspace 3 output HDMI1
+workspace 10 output HDMI1
+workspace 2 output HDMI2
 
 # default floating applications
 for_window [class="Xfce4-notifyd"] floating enable
