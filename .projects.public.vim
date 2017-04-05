@@ -21,7 +21,7 @@ function! Symfony(...) abort
     let g:neomake_php_phpcs_args_standard="~/code/ruleset.xml"
     let g:ultisnips_php_scalar_types = 1
 
-    nnoremap <silent> <c-s> :update<cr>:Silent phpcbf --standard=Symfony3Custom %:p > /dev/null<cr>:e<cr>:Neomake<cr>
+    nnoremap <silent> <c-s> :update<cr>:Silent php-cs-fixer fix %:p --rules=@Symfony<cr>:Silent phpcbf --standard=Symfony3Custom %:p > /dev/null<cr>:e<cr>
 
     nnoremap <leader>tu :call SymfonySwitchToAlternateFile()<cr>
     nnoremap <leader>tsu <c-w>v:call SymfonySwitchToAlternateFile()<cr>
