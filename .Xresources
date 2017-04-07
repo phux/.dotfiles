@@ -1,4 +1,4 @@
-urxvt*font: xft:Hack:pixelsize=15
+urxvt*font: xft:Hack:pixelsize=14
 URxvt*scrollBar: false
 URxvt.saveLines: 32767
 URxvt*termName: rxvt
