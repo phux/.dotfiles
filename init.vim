@@ -31,7 +31,6 @@ Plug 'henrik/vim-indexed-search'
 Plug 'troydm/easytree.vim'
 " Plug '~/code/easytree.vim'
 " let g:easytree_width_auto_fit = 1
-map <m-d> :bp<bar>sp<bar>bn<bar>bd<CR>
 
 Plug 'tpope/vim-commentary', {'on': 'Commentary'}
 
@@ -111,7 +110,8 @@ Plug 'tpope/vim-sensible'
 
 Plug 'vim-scripts/YankRing.vim'
 
-Plug 'sjl/gundo.vim'
+" Plug 'sjl/gundo.vim'
+Plug 'merlinrebrovic/focus.vim'
 call plug#end()
 " }}}
 
@@ -187,8 +187,9 @@ set clipboard+=unnamed
 " windows {{{2
 " use open windows/tabs for buffer switching
 set switchbuf=useopen,usetab
-" split new window at the right of current
-set spr
+" split new window at the right bottom of current
+" set splitbelow
+" set splitright
 " }}}
 
 " indentation {{{2
@@ -275,10 +276,9 @@ nnoremap <silent> p p`]
 noremap gV `[v`]
 " }}}
 
-nnoremap <leader>w :set nowrap!<CR>
+nnoremap <leader>W :set nowrap!<CR>
 
 " fast closing of html tags
-inoremap ;; </<c-x><c-o>
 nnoremap <m-;> :ToggleGoldenViewAutoResize<cr>
 
 vnoremap < <gv
@@ -342,8 +342,8 @@ vnoremap . :normal .<CR>
 " search {{{
 " unmark search matches
 nnoremap <silent> <m-/> :nohlsearch<CR>
-nnoremap n nzzzv
-nnoremap N Nzzzv
+" nnoremap n nzzzv
+" nnoremap N Nzzzv
 " }}}
 
 " Refactor names easily (hit <leader>[ or <leader>] with cursor on the word you'd like to rename
@@ -357,8 +357,9 @@ nnoremap <Tab> :bnext<CR>
 nnoremap <S-Tab> :bprev<CR>
 
 let g:php_manual_online_search_shortcut = '<leader>m'
-noremap <c-Tab> :tabnext<CR>
-noremap <C-S-Tab> :tabprev<CR>
+
+" remove buffer without deleting window
+map <m-d> :bp<bar>sp<bar>bn<bar>bd<CR>
 
 " ------
 " - Mappings: Plugins
@@ -392,14 +393,26 @@ function! FormatPHPLineLength()
         if getline('.') =~ ') {'
             exe "normal! $hhi\n"
         endif
-        normal! =ip
+        normal! =ap
+        return
     endif
+
+    " " multiple object operator split - repeatable
+    let l:numOfObjectOperators = len(split(l:currentLine, '->', 1)) - 1
+    if l:numOfObjectOperators > 0
+        try
+            s/)->/)\r->/g
+        catch
+        endtry
+        normal! ='a
+    endif
+
 
     " split params
     let l:isFunctionCall = len(split(l:currentLine, '(.\+)', 1)) - 1
     if l:isFunctionCall > 0
         try
-            s#\((\)\([^)]\+\)\().*\)#\1\r\2\r\3#
+            s#(\([^)]\+\)\()\)#(\r\1\r\2#
             normal! k
             if getline('.') =~ ',\s'
                 s/,\s/,\r/g
@@ -412,6 +425,7 @@ function! FormatPHPLineLength()
         catch
         endtry
     endif
+
 
     " format array
     let l:isArray = len(split(l:currentLine, '.\+\zs\[.\+\]', 1)) - 1
@@ -430,16 +444,6 @@ function! FormatPHPLineLength()
             endif
 
             normal! =a[
-        catch
-        endtry
-    endif
-
-    " " multiple object operator split - repeatable
-    let l:numOfObjectOperators = len(split(l:currentLine, '->', 1)) - 1
-    if l:numOfObjectOperators > 1
-        try
-            s/.*->.*\zs->/\r->/g
-            normal! ='a
         catch
         endtry
     endif
@@ -677,6 +681,7 @@ augroup filetype_settings
     autocmd BufRead,BufNewFile *.conf setf config
 
     au BufNewFile,BufRead *.phtml set ft=php.html
+    autocmd FileType html,xml inoremap <m-;> </<c-x><c-o>
 
     autocmd filetype qf setlocal wrap
 augroup END
@@ -699,7 +704,7 @@ augroup linterConfiguration
     autocmd FileType html  setlocal equalprg=tidy\ -q\ -i\ -w\ 80\ -utf8\ --quote-nbsp\ no\ --output-xhtml\ yes\ --show-warnings\ no\ --show-body-only\ auto\ --tidy-mark\ no\ -
     autocmd FileType xhtml setlocal equalprg=tidy\ -q\ -i\ -w\ 80\ -utf8\ --quote-nbsp\ no\ --output-xhtml\ yes\ --show-warnings\ no\ --show-body-only\ auto\ --tidy-mark\ no\ -
     autocmd FileType json  setlocal equalprg=python\ -mjson.tool
-    autocmd Filetype php nnoremap <buffer> <leader>w :update<cr>:silent call PhpSyntaxCheck()<cr>
+    autocmd Filetype php nnoremap <buffer> <leader>w :let g:neomake_open_list=0<cr>:update<cr>:silent call PhpSyntaxCheck()<cr>:let g:neomake_open_list=2<cr>
 augroup END
 " }}}
 
@@ -735,14 +740,14 @@ endfunction
 function! PhpSyntaxCheck()
     sil! setlocal makeprg=php\ -l\ %
     sil! setlocal errorformat=%m\ in\ %f\ on\ line\ %l,%-GErrors\ parsing\ %f,%-G
-    sil! make
+    make
     redraw!
     cw
 endfunction
 " }}}
 
-noremap <C-d> <C-d>zz
-noremap <C-u> <C-u>zz
+" noremap <C-d> <C-d>zz
+" noremap <C-u> <C-u>zz
 
 command! -nargs=1 Silent execute ':silent !'.<q-args> | execute ':redraw!'
 
@@ -771,7 +776,7 @@ function! CloseOpenEasyTreeBuffers()
 endfunction
 
 " same like nerdtreefind file
-nnoremap <leader>N :let @a = expand("%:t")<cr>:call CloseOpenEasyTreeBuffers()<cr>:EasyTree %:p:h<cr>/<c-r>a<cr>:set nohls<cr>
+nnoremap <leader>N :let @a = expand("%:t")<cr>:call CloseOpenEasyTreeBuffers()<cr>:EasyTree %:p:h<cr>/<c-r>a<cr>:nohls<cr>
 
 nnoremap <leader>n :EasyTreeToggle<cr>
 " }}}
@@ -1141,20 +1146,20 @@ highlight DbgBreakptLine ctermbg=none ctermfg=none
 
 " simple-todo {{{2
 let g:simple_todo_map_keys = 0
-nnoremap ,i <Plug>(simple-todo-new)
-inoremap ,i <Plug>(simple-todo-new)
-nnoremap ,I <Plug>(simple-todo-new-start-of-line)
-inoremap ,I <Plug>(simple-todo-new-start-of-line)
-nnoremap ,o <Plug>(simple-todo-below)
-inoremap ,o <Plug>(simple-todo-below)
-nnoremap ,O <Plug>(simple-todo-above)
-inoremap ,O <Plug>(simple-todo-above)
-nnoremap ,x <Plug>(simple-todo-mark-as-done)
-inoremap ,x <Plug>(simple-todo-mark-as-done)
-nnoremap ,X <Plug>(simple-todo-mark-as-undone)
-inoremap ,X <Plug>(simple-todo-mark-as-undone)
-nnoremap ,s <Plug>(simple-todo-new-list-item)
-inoremap ,s <Plug>(simple-todo-new-list-item)
+" nnoremap ,i <Plug>(simple-todo-new)
+" inoremap ,i <Plug>(simple-todo-new)
+" nnoremap ,I <Plug>(simple-todo-new-start-of-line)
+" inoremap ,I <Plug>(simple-todo-new-start-of-line)
+" nnoremap ,o <Plug>(simple-todo-below)
+" inoremap ,o <Plug>(simple-todo-below)
+" nnoremap ,O <Plug>(simple-todo-above)
+" inoremap ,O <Plug>(simple-todo-above)
+" nnoremap ,x <Plug>(simple-todo-mark-as-done)
+" inoremap ,x <Plug>(simple-todo-mark-as-done)
+" nnoremap ,X <Plug>(simple-todo-mark-as-undone)
+" inoremap ,X <Plug>(simple-todo-mark-as-undone)
+" nnoremap ,s <Plug>(simple-todo-new-list-item)
+" inoremap ,s <Plug>(simple-todo-new-list-item)
 " }}}
 
 " scratch {{{2
@@ -1186,13 +1191,18 @@ let g:go_fmt_command = "goimports"
 let g:go_fmt_autosave = 0
 " }}}
 
+" focus.vim {{{
+let g:focus_use_default_mapping = 0
+nmap <c-w>o <Plug>FocusModeToggle
+" }}}
+
 " goldenview {{{2
 let g:goldenview__enable_default_mapping = 0
 nmap <silent> <C-g>  <Plug>GoldenViewSplit
 " 2. quickly switch current window with the main pane
 " and toggle back
 nnoremap <silent> <m-g> :SwitchGoldenViewSmallest<cr>
-nnoremap <silent> <m-l> :SwitchGoldenViewLargest<cr>
+nnoremap <silent> <m-l> :SwitchGoldenViewMain<cr>
 " }}}
 
 " ferret {{{2
@@ -1286,6 +1296,9 @@ let g:neomake_yaml_enabled_makers = ['yamllint']
 let g:neomake_json_enabled_makers = ['jsonlint']
 let g:neomake_markdown_enabled_makers = ['mdl']
 let g:neomake_sh_enabled_makers = ['sh', 'shellcheck']
+let g:neomake_place_signs = 0
+" let g:neomake_open_list = 0
+let g:neomake_open_list = 2
 " }}}
 " }}}
 
