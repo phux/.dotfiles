@@ -28,9 +28,9 @@ let g:buftabline_show = 1 " display only if more than 1 buffer open
 
 Plug 'henrik/vim-indexed-search'
 
-Plug 'troydm/easytree.vim'
-" Plug '~/code/easytree.vim'
-" let g:easytree_width_auto_fit = 1
+" Plug 'troydm/easytree.vim'
+Plug '~/code/easytree.vim'
+let g:easytree_width_auto_fit = 1
 
 Plug 'tpope/vim-commentary', {'on': 'Commentary'}
 
@@ -51,8 +51,10 @@ Plug 'gregsexton/gitv', {'on': 'Gitv'}
 Plug 'Lokaltog/vim-easymotion'
 Plug 'godlygeek/tabular', {'for': ['behat', 'cucumber']}
 
-" Plug 'crusoexia/vim-monokai'
+Plug 'crusoexia/vim-monokai'
 Plug 'morhetz/gruvbox'
+Plug 'altercation/vim-colors-solarized'
+" Plug 'vim-scripts/pyte'
 " Plug 'jacoborus/tender.vim'
 
 Plug 'veloce/vim-behat', {'for': ['cucumber', 'behat']}
@@ -62,9 +64,20 @@ let g:behat_executables = ['vendor/bin/behat']
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'zchee/deoplete-go', { 'do': 'make'}
 
+
 Plug 'zhaocai/GoldenView.Vim'
 
-Plug 'neomake/neomake'
+" Plug 'neomake/neomake'
+
+let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
+let g:ale_lint_on_text_changed = 'never'
+let g:ale_lint_on_enter = 0
+let g:ale_set_loclist = 0
+let g:ale_set_quickfix = 1
+let g:ale_php_phpcs_standard = '~/code/ruleset.xml'
+let g:ale_php_phpmd_ruleset = 'cleancode,codesize,controversial,design,unusedcode'
+Plug 'w0rp/ale'
+
 Plug 'phpstan/vim-phpstan', {'for': 'php'}
 nnoremap <m-a> :PHPStanAnalyse -c phpstan.neon src<cr>
 let g:phpstan_analyse_level = 4
@@ -112,6 +125,8 @@ Plug 'vim-scripts/YankRing.vim'
 
 " Plug 'sjl/gundo.vim'
 Plug 'merlinrebrovic/focus.vim'
+Plug 'romainl/vim-qf'
+Plug 'romainl/vim-cool'
 call plug#end()
 " }}}
 
@@ -120,11 +135,13 @@ call plug#end()
 " general {{{
 
 " interface {{{2
-set t_Co=256
 " colorscheme tender
 set background=dark
 " colorscheme monokai
 colorscheme gruvbox
+" let g:solarized_termcolors=256
+" colorscheme solarized
+" colorscheme apprentice
 " colorscheme color_1
 
 set number
@@ -134,6 +151,10 @@ set relativenumber
 set wrap
 " " but don't split words
 set lbr
+
+set textwidth=79
+set formatoptions=qrn1
+" set formatoptions+=tcqlr
 " "show this in front of broken lines
 set showbreak=↪
 " Set the command window height to 1 lines
@@ -147,6 +168,9 @@ set list
 set listchars=tab:\ \ ,trail:•,extends:#,nbsp:. 
 " Show partial commands in the last line of the screen
 set showcmd
+
+set encoding=utf-8 
+set fileformats=unix,dos,mac    " Prefer Unix over Windows over OS 9 formats
 
 " hi Visual guifg=NONE ctermfg=255 guibg=#040404 ctermbg=203 gui=NONE
 " hi SpecialKey       guifg=#343434     guibg=NONE     gui=NONE      ctermfg=NONE        ctermbg=NONE        cterm=NONE
@@ -170,10 +194,6 @@ set nowritebackup
 set noswapfile
 " }}}
 
-" write on focus loss
-au FocusLost * silent! update
-
-set formatoptions+=tcqlr
 
 " move over lines with following keys
 set whichwrap+=<,>,[,],h,l
@@ -201,9 +221,11 @@ set expandtab
 " }}}
 
 " search {{{
+hi Search cterm=NONE ctermfg=white ctermbg=130
 set ignorecase
 set smartcase
 set hlsearch
+set incsearch
 " }}}
 
 " undo {{{2
@@ -215,12 +237,13 @@ set undoreload=10000
 
 " completion {{{2
 " Better command-line completion
-set wildignore+=*.pyc,*.zip,*.gz,*.bz,*.tar,*.jpg,*.png,*.gif,*.avi,*.wmv,*.ogg,*.mp3,*.mov
+set wildignore+=*.pyc,*.zip,*.gz,*.bz,*.tar,*.jpg,*.png,*.gif,*.avi,*.wmv,*.ogg,*.mp3,*.mov,*.phar
 " set wildmode=list:longest,full
-set wildmode=longest:full,full
+set wildmode=list:full
 " Limit popup menu height
 set pumheight=15
 set completeopt=menuone,longest
+set complete=.,w,b,u,t
 " }}}
 
 " diff {{{2
@@ -334,16 +357,16 @@ nnoremap <leader>o :call GoldenView#Split()<cr><c-]>
 " }}}
 
 
-
 " Allow using the repeat operator with a visual selection (!)
 " http://stackoverflow.com/a/8064607/127816
 vnoremap . :normal .<CR>
 
+" Do not show stupid q: window
+map q: :q
+
 " search {{{
-" unmark search matches
-nnoremap <silent> <m-/> :nohlsearch<CR>
-" nnoremap n nzzzv
-" nnoremap N Nzzzv
+nnoremap n nzzzv
+nnoremap N Nzzzv
 " }}}
 
 " Refactor names easily (hit <leader>[ or <leader>] with cursor on the word you'd like to rename
@@ -359,21 +382,35 @@ nnoremap <S-Tab> :bprev<CR>
 let g:php_manual_online_search_shortcut = '<leader>m'
 
 " remove buffer without deleting window
-map <m-d> :bp<bar>sp<bar>bn<bar>bd<CR>
+nnoremap <m-d> :bp<bar>sp<bar>bn<bar>bd<CR>
 
-" ------
-" - Mappings: Plugins
-" ------
+" buffer cleanup {{{
+function! DeleteInactiveBufs()
+  "From tabpagebuflist() help, get a list of all buffers in all tabs
+  let tablist = []
+  for i in range(tabpagenr('$'))
+    call extend(tablist, tabpagebuflist(i + 1))
+  endfor
 
+  "Below originally inspired by Hara Krishna Dara and Keith Roberts
+  "http://tech.groups.yahoo.com/group/vim/message/56425
+  let nWipeouts = 0
+  for i in range(1, bufnr('$'))
+    if bufexists(i) && !getbufvar(i,"&mod") && index(tablist, i) == -1
+      "bufno exists AND isn't modified AND isn't in the list of buffers open in windows and tabs
+      silent exec 'bwipeout' i
+      let nWipeouts = nWipeouts + 1
+    endif
+  endfor
+  echomsg nWipeouts . ' buffer(s) wiped out'
+endfunction
+
+command! Ball :call DeleteInactiveBufs()
+" }}}
 
 vnoremap <Enter> <Plug>(EasyAlign)
 
-
 nnoremap <leader>; :TagbarToggle<cr>
-
-
-
-
 
 "}}}
 
@@ -626,7 +663,11 @@ set nocursorcolumn       " do not highlight column
 set nocursorline         " do not highlight line
 " syntax sync minlines=256 " start highlighting from 256 lines backwards
 " set synmaxcol=150        " do not highlith very long lines
-set nolazyredraw
+syntax sync minlines=256
+set synmaxcol=300
+set re=1
+set lazyredraw
+set ttyfast
 set scrolljump=5
 set sidescroll=1
 let g:PHP_default_indenting=0
@@ -667,6 +708,11 @@ filetype on
 filetype plugin indent on
 syntax on
 
+" set foldenable fdm=syntax foldnestmax=1
+" let g:vimsyn_folding='af'
+" let g:xml_syntax_folding = 1
+" let g:php_folding = 1
+
 augroup filetype_settings
     autocmd!
     au BufNewFile,BufRead *.feature set ft=behat
@@ -704,7 +750,6 @@ augroup linterConfiguration
     autocmd FileType html  setlocal equalprg=tidy\ -q\ -i\ -w\ 80\ -utf8\ --quote-nbsp\ no\ --output-xhtml\ yes\ --show-warnings\ no\ --show-body-only\ auto\ --tidy-mark\ no\ -
     autocmd FileType xhtml setlocal equalprg=tidy\ -q\ -i\ -w\ 80\ -utf8\ --quote-nbsp\ no\ --output-xhtml\ yes\ --show-warnings\ no\ --show-body-only\ auto\ --tidy-mark\ no\ -
     autocmd FileType json  setlocal equalprg=python\ -mjson.tool
-    autocmd Filetype php nnoremap <buffer> <leader>w :let g:neomake_open_list=0<cr>:update<cr>:silent call PhpSyntaxCheck()<cr>:let g:neomake_open_list=2<cr>
 augroup END
 " }}}
 
@@ -746,8 +791,8 @@ function! PhpSyntaxCheck()
 endfunction
 " }}}
 
-" noremap <C-d> <C-d>zz
-" noremap <C-u> <C-u>zz
+noremap <C-d> <C-d>zz
+noremap <C-u> <C-u>zz
 
 command! -nargs=1 Silent execute ':silent !'.<q-args> | execute ':redraw!'
 
@@ -755,9 +800,11 @@ nnoremap <silent> <leader>tu :call SwitchBetweenFiles1('php', 'Bundle/Tests/', '
 nnoremap <silent> <leader>tsu <c-w>v:call SwitchBetweenFiles1('php', 'Bundle/Tests/', 'Bundle/', 'Test')<cr>
 
 
-hi Search cterm=NONE ctermfg=white ctermbg=130
-set autoread
 
+set autowrite                   " Automatically save before :next, :make etc.
+set autoread                    " Automatically reread changed files without asking me anything
+" write on focus loss
+au FocusLost * silent! update
 
 
 " }}}
@@ -784,11 +831,8 @@ nnoremap <leader>n :EasyTreeToggle<cr>
 " lightline.vim {{{2
 let g:lightline = {
             \ 'active': {
-            \   'left': [ [ 'mode', 'paste' ], [ 'fugitive', 'filename' ], [ 'tagbar' ] ],
+            \   'left': [ [ 'mode', 'paste' ], [ 'fugitive', 'filename' ] ],
             \   'right': [ [ 'lineinfo' ], ['percent'], [ 'fileformat', 'fileencoding', 'filetype' ] ]
-            \ },
-            \ 'component': {
-            \         'tagbar': '%{tagbar#currenttag("%s", "", "f")}',
             \ },
             \ 'component_function': {
             \   'fugitive': 'LightlineFugitive',
@@ -860,8 +904,6 @@ let g:UltiSnipsExpandTrigger="<m-space>"
 let g:UltiSnipsJumpForwardTrigger="<m-space>"
 let g:UltiSnipsJumpBackwardTrigger="<m-b>"
 
-au BufNewFile,BufRead,BufWinEnter *Test.php exe ":UltiSnipsAddFiletypes php.phpunit"
-au BufNewFile,BufRead,BufWinEnter *Spec.php exe ":UltiSnipsAddFiletypes php.php-phpspec"
 " }}}
 
 " echodoc {{{2
@@ -1008,7 +1050,7 @@ call project#rc("~/code")
 nnoremap <leader>gw :Gwrite<cr>
 nnoremap <leader>gs :Gstatus<cr>
 nnoremap <leader>gc :Gcommit<cr>
-" nnoremap <leader>gb :Gbrowse<cr>
+nnoremap <leader>gl :Glog<cr>
 nnoremap <leader>gp :!git push<cr>
 " }}}
 
@@ -1024,69 +1066,71 @@ let g:vim_php_refactoring_auto_validate_visibility = 1
 let g:vim_php_refactoring_phpdoc = "pdv#DocumentCurrentLine"
 
 let g:vim_php_refactoring_use_default_mapping = 0
-nnoremap <leader>rrv :call PhpRenameLocalVariable()<CR>
-nnoremap <leader>rrp :call PhpRenameClassVariable()<CR>
-nnoremap <leader>rrm :call PhpRenameMethod()<CR>
-nnoremap <leader>reu :call PhpExtractUse()<CR>
-vnoremap <leader>rec :call PhpExtractConst()<CR>
-nnoremap <leader>rep :call PhpExtractClassProperty()<CR>
-vnoremap <leader>rem :call PhpExtractMethod()<CR>
-nnoremap <leader>rcp :call PhpCreateProperty()<CR>
-nnoremap <leader>rdu :call PhpDetectUnusedUseStatements()<CR>
-vnoremap <leader>r== :call PhpAlignAssigns()<CR>
-nnoremap <leader>rsg :call PhpCreateSettersAndGetters()<CR>
+nnoremap <leader>rv :call PhpRenameLocalVariable()<CR>
+nnoremap <leader>rp :call PhpRenameClassVariable()<CR>
+nnoremap <leader>rm :call PhpRenameMethod()<CR>
+nnoremap <leader>eu :call PhpExtractUse()<CR>
+vnoremap <leader>ec :call PhpExtractConst()<CR>
+nnoremap <leader>ep :call PhpExtractClassProperty()<CR>
+vnoremap <leader>em :call PhpExtractMethod()<CR>
 " }}}
 
 " phpcomplete {{{2
 let g:phpcomplete_complete_for_unknown_classes = 0
 let g:phpcomplete_relax_static_constraint=0
 let g:phpcomplete_search_tags_for_variables = 0
-let g:phpcomplete_parse_docblock_comments = 0
+let g:phpcomplete_parse_docblock_comments = 1
 let g:phpcomplete_enhance_jump_to_definition = 1
 
-augroup phpcomplete_autogroup
+inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+augroup php
     autocmd!
     autocmd FileType php setlocal omnifunc=phpcomplete#CompletePHP
+    autocmd Filetype php nnoremap <silent> <buffer> <leader>w :w<cr>:silent call PhpSyntaxCheck()<cr>
+    autocmd FileType php nnoremap <Leader>u :PHPImportClass<cr>
+    autocmd FileType php nnoremap <Leader>e :PHPExpandFQCNAbsolute<cr>
+    autocmd FileType php nnoremap <Leader>E :PHPExpandFQCN<cr>
 augroup END
 " }}}
 
 " deoplete {{{2
 let g:deoplete#enable_at_startup = 1
-let g:deoplete#sources#syntax#min_keyword_length = 2
-let g:deoplete#enable_smart_case = 1
-let g:deoplete#enable_camel_case = 1
-" let g:deoplete#disable_auto_complete = 1
+let g:deoplete#sources#syntax#min_keyword_length = 3
+" let g:deoplete#enable_smart_case = 1
+" let g:deoplete#enable_camel_case = 1
+" " let g:deoplete#disable_auto_complete = 1
 let g:deoplete#auto_refresh_delay = 100
-let g:deoplete#tag#cache_limit_size = 50000000
-let g:deoplete#enable_auto_delimiter = 1
-let g:deoplete#max_list = 10
-let g:deoplete#auto_complete_delay= 50
-inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
-inoremap <expr><S-TAB>  pumvisible() ? "\<C-p>" : "\<TAB>"
+" let g:deoplete#tag#cache_limit_size = 50000000
+" let g:deoplete#enable_auto_delimiter = 1
+" let g:deoplete#max_list = 10
+let g:deoplete#auto_complete_delay= 90
+" inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
+" inoremap <expr><S-TAB>  pumvisible() ? "\<C-p>" : "\<TAB>"
 
-let g:deoplete#keyword_patterns = {}
-let g:deoplete#keyword_patterns._ = '[a-zA-Z_]\k*\(?'
+" let g:deoplete#keyword_patterns = {}
+" let g:deoplete#keyword_patterns._ = '[a-zA-Z_]\k*\(?'
 let g:deoplete#omni_patterns = {}
-let g:deoplete#sources = {}
-let g:deoplete#sources._=['omni', 'buffer', 'member', 'tag', 'ultisnips', 'file']
 let g:deoplete#omni_patterns.php =
             \ '$\h\w*\|[^. \t]->\%(\h\w*\)\?\|\h\w*::\%(\h\w*\)\?'
-let g:deoplete#omni_patterns.behat = '[^. \t]\(When\|Then\|Given\|And\)\s.*$'
+" let g:deoplete#omni_patterns.behat = '[^. \t]\(When\|Then\|Given\|And\)\s.*$'
 
 
-call deoplete#custom#set('_',
-            \ 'disabled_syntaxes', ['Comment', 'String'])
+" call deoplete#custom#set('_',
+"             \ 'disabled_syntaxes', ['Comment', 'String'])
 
 " au BufNewFile,BufRead,BufWinEnter *Test.php exe ":let g:deoplete#omni_patterns.php = '[^. \\t]->\\w*|\\w+::\\w*'"
 " au BufNewFile,BufRead,BufWinEnter *Test.php exe ":let b:deoplete#sources = {} | :let b:deoplete#sources.php = ['buffer']"
 " au BufWinLeave,BufLeave *Test.php exe ':let g:deoplete#omni_patterns.php = "\\h\\w*\\|[^. \\t]->\\%(\\h\\w*\\)\\?\\|\\h\\w*::\\%(\\h\\w*\\)\\?"'
 augroup test_completion_fix
     autocmd!
-    au BufNewFile,BufRead,BufWinEnter *Test.php exe ":let g:phpcomplete_search_tags_for_variables = 0 | :let g:phpcomplete_parse_docblock_comments = 0"
-    au BufWinLeave,BufLeave *Test.php exe ":let g:phpcomplete_search_tags_for_variables = 0 | :let g:phpcomplete_parse_docblock_comments = 0"
+    " au BufNewFile,BufRead,BufWinEnter *Test.php exe ":let g:phpcomplete_search_tags_for_variables = 0 | :let g:phpcomplete_parse_docblock_comments = 0"
+    " au BufWinLeave,BufLeave *Test.php exe ":let g:phpcomplete_search_tags_for_variables = 0 | :let g:phpcomplete_parse_docblock_comments = 0"
 
-    au BufNewFile,BufRead,BufWinEnter *Test.php exe ":let g:deoplete#omni_patterns.php = '[^. \\t]->\\w*|\\w+::\\w*'"
+    au BufNewFile,BufRead,BufWinEnter,BufWritePost *Test.php exe ":let g:deoplete#omni_patterns.php = '[^. \\t]->\\w*|\\w+::\\w*'"
     au BufWinLeave,BufLeave *Test.php exe ':let g:deoplete#omni_patterns.php = "\$\\h\\w*\\|[^. \\t]->\\%(\\h\\w*\\)\\?\\|\\h\\w*::\\%(\\h\\w*\\)\\?"'
+    au BufNewFile,BufRead,BufWinEnter *Test.php exe ":UltiSnipsAddFiletypes php.phpunit"
+    au BufNewFile,BufRead,BufWinEnter *Spec.php exe ":UltiSnipsAddFiletypes php.php-phpspec"
 augroup END
 " }}}
 
@@ -1112,15 +1156,6 @@ function! UpdatePhpDocIfExists()
     endif
 endfunction
 vnoremap <leader>h :call PhpDocRange()<CR>
-" }}}
-
-" vim-php (namespace) {{{2
-augroup VIM_PHP
-    autocmd!
-    autocmd FileType php nnoremap <Leader>u :PHPImportClass<cr>
-    autocmd FileType php nnoremap <Leader>e :PHPExpandFQCNAbsolute<cr>
-    autocmd FileType php nnoremap <Leader>E :PHPExpandFQCN<cr>
-augroup END
 " }}}
 
 " vdebug {{{2
@@ -1206,24 +1241,8 @@ nnoremap <silent> <m-l> :SwitchGoldenViewMain<cr>
 " }}}
 
 " ferret {{{2
-function! LoadQuickfixBinds()
-    nnoremap <c-n> :cn<cr>
-    nnoremap <c-p> :cp<cr>
-endfunction
-
-augroup QFIX
-    autocmd!
-    autocmd BufWinEnter quickfix call LoadQuickfixBinds()
-augroup END
-function! LoadLocationlistBinds()
-    nnoremap <C-n> :lne<CR>
-    nnoremap <C-p> :lpre<CR>
-endfunction
-nnoremap <C-n> :lne<CR>
-nnoremap <C-p> :lpre<CR>
-nnoremap <leader>rip :call LoadQuickfixBinds()<cr>:Acks /<c-r><c-w>/<c-r><c-w>/gc<left><left>
-nnoremap <leader>/ :call LoadQuickfixBinds()<cr>:Ack <c-r><c-w><cr>
-nnoremap ,, :call LoadLocationlistBinds()<cr>
+nnoremap <leader>/ :Ack <c-r><c-w><cr>
+nnoremap <leader>rip :Acks /<c-r><c-w>/<c-r><c-w>/gc<left><left>
 " }}}
 
 " easymotion {{{2
@@ -1277,37 +1296,52 @@ let g:yankring_replace_n_nkey = '<m-n>'
 " }}}
 
 " neomake {{{
-augroup NEOMAKE
-    autocmd!
-    autocmd BufWritePost * Neomake
-augroup end
+" augroup NEOMAKE
+"     autocmd!
+"     autocmd BufWritePost * Neomake
+" augroup end
 
-let g:neomake_php_phpmd_maker = {
-    \ 'args': ['%:p', 'text', 'codesize,design,unusedcode,cleancode,controversial'],
-    \ 'append_file' : 0,
-    \ 'errorformat': '%W%f:%l%\s%\s%#%m',
-    \ }
-let g:neomake_php_php_exe = 'php'
-let g:neomake_php_phpcs_args_standard="~/code/ruleset.xml"
-let g:ultisnips_php_scalar_types = 1
-nnoremap <silent> <c-s> :update<cr>:Silent phpcbf --standard=Symfony3Custom %:p > /dev/null<cr>:e<cr>
-let g:neomake_php_enabled_makers = ['phpcs', 'phpmd']
-let g:neomake_yaml_enabled_makers = ['yamllint']
-let g:neomake_json_enabled_makers = ['jsonlint']
-let g:neomake_markdown_enabled_makers = ['mdl']
-let g:neomake_sh_enabled_makers = ['sh', 'shellcheck']
-let g:neomake_place_signs = 0
-" let g:neomake_open_list = 0
-let g:neomake_open_list = 2
+
+" let g:neomake_php_phpmd_maker = {
+"     \ 'args': ['%:p', 'text', 'codesize,design,unusedcode,cleancode,controversial'],
+"     \ 'append_file' : 0,
+"     \ 'errorformat': '%W%f:%l%\s%\s%#%m',
+"     \ }
+" let g:neomake_php_php_exe = 'php'
+" let g:neomake_php_phpcs_args_standard="~/code/ruleset.xml"
+" let g:neomake_php_enabled_makers = ['phpcs', 'phpmd']
+" let g:neomake_yaml_enabled_makers = ['yamllint']
+" let g:neomake_json_enabled_makers = ['jsonlint']
+" let g:neomake_markdown_enabled_makers = ['mdl']
+" let g:neomake_sh_enabled_makers = ['sh', 'shellcheck']
+" let g:neomake_place_signs = 0
+" " let g:neomake_open_list = 0
+" let g:neomake_open_list = 2
 " }}}
+
+" vim-qf {{{
+let g:qf_loclist_window_bottom = 0
+let g:qf_window_bottom = 0
+
+nmap <c-m> :cpre<cr>
+nmap <c-n> :cne<cr>
+let g:qf_loc_toggle_binds = 1
+function! ToggleQfLocListBinds()
+    if g:qf_loc_toggle_binds == 1
+        nmap <c-m> :lpre<cr>
+        nmap <c-n> :lnext<cr>
+        let g:qf_loc_toggle_binds = 0
+        echo "loc binds loaded"
+    else
+        let g:qf_loc_toggle_binds = 1
+        nmap <c-m> :cpre<cr>
+        nmap <c-n> :cne<cr>
+        echo "qf binds loaded"
+    endif
+endfunction
+nmap ,, :call ToggleQfLocListBinds()<cr>
+" }}}
+
 " }}}
 
 so ~/.projects.public.vim
-
-vnoremap <leader>i :call ShowFirstCommitOfStringForFile()<cr>
-function! ShowFirstCommitOfStringForFile()
-    let l:search = getline("'<")[getpos("'<")[2]-1:getpos("'>")[2]]
-    let l:file = expand("%.")
-    let l:cmd = "git log -n 1 -S '".l:search."' -- ".l:file
-    echom system(l:cmd)
-endfunction
