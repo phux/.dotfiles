@@ -6,6 +6,16 @@ if &compatible
     set nocompatible
 endif
 
+if has("nvim")
+    let $NVIM_TUI_ENABLE_TRUE_COLOR=1
+    let $NVIM_TUI_ENABLE_CURSOR_SHAPE=1
+endif
+
+set encoding=utf-8
+set fileformats=unix,dos,mac    " Prefer Unix over Windows over OS 9 formats
+set autowrite                   " Automatically save before :next, :make etc.
+set autoread                    " Automatically reread changed files without asking me anything
+
 " }}}
 
 " plugins {{{
@@ -19,6 +29,18 @@ endif
 " }}}
 
 " plugged {{{
+
+
+let g:ale_sign_error = '✖'
+let g:ale_sign_warning = '►'
+let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
+let g:ale_lint_on_text_changed = 'never'
+let g:ale_lint_on_enter = 0
+let g:ale_set_loclist = 0
+let g:ale_set_quickfix = 1
+let g:ale_php_phpcs_standard = '~/code/ruleset.xml'
+let g:ale_php_phpmd_ruleset = 'cleancode,codesize,design,unusedcode'
+
 call plug#begin('~/.config/nvim/plugged')
 
 Plug 'tpope/vim-surround'
@@ -28,8 +50,8 @@ let g:buftabline_show = 1 " display only if more than 1 buffer open
 
 Plug 'henrik/vim-indexed-search'
 
-" Plug 'troydm/easytree.vim'
-Plug '~/code/easytree.vim'
+Plug 'troydm/easytree.vim'
+" Plug '~/code/easytree.vim'
 let g:easytree_width_auto_fit = 1
 
 Plug 'tpope/vim-commentary', {'on': 'Commentary'}
@@ -46,15 +68,15 @@ Plug 'amiorin/vim-project'
 
 Plug 'tpope/vim-fugitive'
 Plug 'gregsexton/gitv', {'on': 'Gitv'}
+Plug 'int3/vim-extradite'
+nnoremap <leader>i :Extradite!<cr>
 
-" Plug 'tpope/vim-unimpaired'
 Plug 'Lokaltog/vim-easymotion'
 Plug 'godlygeek/tabular', {'for': ['behat', 'cucumber']}
 
 Plug 'crusoexia/vim-monokai'
 Plug 'morhetz/gruvbox'
-Plug 'altercation/vim-colors-solarized'
-" Plug 'vim-scripts/pyte'
+" Plug 'altercation/vim-colors-solarized'
 " Plug 'jacoborus/tender.vim'
 
 Plug 'veloce/vim-behat', {'for': ['cucumber', 'behat']}
@@ -62,20 +84,14 @@ let g:feature_filetype='behat'
 let g:behat_executables = ['vendor/bin/behat']
 
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+" note: in global composer json "minimum-stability":"dev"
+" composer global require mkusher/padawan
+" Plug 'padawan-php/deoplete-padawan', {'for': 'php'}
+Plug '~/code/deoplete-padawan', {'for': 'php'}
 Plug 'zchee/deoplete-go', { 'do': 'make'}
-
 
 Plug 'zhaocai/GoldenView.Vim'
 
-" Plug 'neomake/neomake'
-
-let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
-let g:ale_lint_on_text_changed = 'never'
-let g:ale_lint_on_enter = 0
-let g:ale_set_loclist = 0
-let g:ale_set_quickfix = 1
-let g:ale_php_phpcs_standard = '~/code/ruleset.xml'
-let g:ale_php_phpmd_ruleset = 'cleancode,codesize,controversial,design,unusedcode'
 Plug 'w0rp/ale'
 
 Plug 'phpstan/vim-phpstan', {'for': 'php'}
@@ -84,11 +100,11 @@ let g:phpstan_analyse_level = 4
 Plug 'adoy/vim-php-refactoring-toolbox', {'for': 'php'}
 Plug 'Herzult/phpspec-vim', {'for': 'php'}
 let g:phpspec_executable = 'vendor/bin/phpspec'
+let g:phpspec_default_mapping = 0
 Plug 'shawncplus/phpcomplete.vim', {'for': 'php'}
 Plug 'Rican7/php-doc-modded', {'for': 'php'}
 Plug 'sahibalejandro/vim-php', {'for': ['php', 'yaml']}
 Plug 'joonty/vdebug', {'for': 'php'}
-Plug 'StanAngeloff/php.vim', {'for': 'php'}
 Plug '2072/PHP-Indenting-for-VIm', {'for': 'php'}
 Plug 'alvan/vim-php-manual', {'for': 'php'}
 
@@ -111,7 +127,7 @@ Plug 'junegunn/fzf.vim'
 
 Plug 'wincent/ferret', {'on': 'Ack'}
 
-Plug 'Shougo/echodoc.vim'
+Plug '~/code/echodoc.vim'
 
 Plug 'honza/dockerfile.vim', { 'for': 'docker' }
 
@@ -123,10 +139,12 @@ Plug 'tpope/vim-sensible'
 
 Plug 'vim-scripts/YankRing.vim'
 
-" Plug 'sjl/gundo.vim'
 Plug 'merlinrebrovic/focus.vim'
 Plug 'romainl/vim-qf'
 Plug 'romainl/vim-cool'
+
+Plug 'takac/vim-hardtime'
+let g:hardtime_default_on = 0
 call plug#end()
 " }}}
 
@@ -137,8 +155,8 @@ call plug#end()
 " interface {{{2
 " colorscheme tender
 set background=dark
-" colorscheme monokai
 colorscheme gruvbox
+" colorscheme monokai
 " let g:solarized_termcolors=256
 " colorscheme solarized
 " colorscheme apprentice
@@ -152,9 +170,24 @@ set wrap
 " " but don't split words
 set lbr
 
+
+" diffing {{{
+set fillchars+=diff:⣿
+set diffopt=vertical                  " Use in vertical diff mode
+set diffopt+=filler                   " blank lines to keep sides aligned
+set diffopt+=iwhite                   " Ignore whitespace changes
+
+" Highlight VCS conflict markers
+" @see {@link https://bitbucket.org/sjl/dotfiles/src/83aac563abc9d0116894ac61db2c63c9a05f72be/vim/vimrc?at=default&fileviewer=file-view-default#vimrc-233}
+match ErrorMsg '^\(<\|=\|>\)\{7\}\([^=].\+\)\?$'
+" }}}
+
+
+set nrformats-=octal                  " never use octal when <C-x> or <C-a>
+
 set textwidth=79
-set formatoptions=qrn1
-" set formatoptions+=tcqlr
+set formatoptions=qrn1tcl
+set formatoptions-=o                  " do not continue comment using o or O
 " "show this in front of broken lines
 set showbreak=↪
 " Set the command window height to 1 lines
@@ -169,11 +202,7 @@ set listchars=tab:\ \ ,trail:•,extends:#,nbsp:.
 " Show partial commands in the last line of the screen
 set showcmd
 
-set encoding=utf-8 
-set fileformats=unix,dos,mac    " Prefer Unix over Windows over OS 9 formats
 
-" hi Visual guifg=NONE ctermfg=255 guibg=#040404 ctermbg=203 gui=NONE
-" hi SpecialKey       guifg=#343434     guibg=NONE     gui=NONE      ctermfg=NONE        ctermbg=NONE        cterm=NONE
 " }}}
 
 " find highlighting group under cursor {{{2
@@ -218,6 +247,32 @@ set tabstop=4
 set shiftwidth=4
 set shiftround
 set expandtab
+set autoindent                        " indent when creating newline
+
+" For autoindent, use same spaces/tabs mix as previous line, even if
+" tabs/spaces are mixed. Helps for docblock, where the block comments have a
+" space after the indent to align asterisks
+"
+" The test case what happens when using o/O and >> and << on these:
+"
+"     /**
+"      *
+"
+" Refer also to formatoptions+=o (copy comment indent to newline)
+set nocopyindent
+
+" Try not to change the indent structure on "<<" and ">>" commands. I.e. keep
+" block comments aligned with space if there is a space there.
+set nopreserveindent
+
+" Smart detect when in braces and parens. Has annoying side effect that it
+" won't indent lines beginning with '#'. Relying on syntax indentexpr instead.
+" 'smartindent' in general is a piece of garbage, never turn it on.
+set nosmartindent
+
+" Global setting. I don't edit C-style code all the time so don't default to
+" C-style indenting.
+set nocindent
 " }}}
 
 " search {{{
@@ -238,12 +293,12 @@ set undoreload=10000
 " completion {{{2
 " Better command-line completion
 set wildignore+=*.pyc,*.zip,*.gz,*.bz,*.tar,*.jpg,*.png,*.gif,*.avi,*.wmv,*.ogg,*.mp3,*.mov,*.phar
-" set wildmode=list:longest,full
-set wildmode=list:full
+set wildmode=list:longest,full
 " Limit popup menu height
 set pumheight=15
 set completeopt=menuone,longest
-set complete=.,w,b,u,t
+
+set complete=.,w,b,u
 " }}}
 
 " diff {{{2
@@ -265,9 +320,12 @@ func! RestorePosition()
 endfunc
 " }}}
 
+augroup echodoc_debug
+    autocmd!
+    " autocmd CompleteDone * echo v:completed_item
+augroup END
 
 let g:PHP_removeCRwhenUnix = 1
-let g:PHP_vintage_case_default_indent = 1
 
 " Mappings {{{
 let mapleader = "\<Space>"
@@ -280,6 +338,9 @@ inoremap jk <esc>
 " map j to gj and k to gk, so line navigation ignores line wrap
 nnoremap j gj
 nnoremap k gk
+
+nnoremap L g_
+nnoremap H ^
 
 " jump to line AND column
 nnoremap ' `
@@ -352,7 +413,7 @@ noremap <silent> <leader>tp :ptp<cr>
 noremap <silent> <leader>tc :pc<cr>
 
 " nnoremap <leader>o :call GoldenView#Split()<cr><c-]>:SwitchGoldenViewMain<cr>
-nnoremap <leader>o :call GoldenView#Split()<cr><c-]>
+nnoremap <leader>o :call GoldenView#Split()<cr>g<c-]>
 
 " }}}
 
@@ -642,8 +703,8 @@ function! PrependTicketNumber()
     normal gg
     let l:branch = system("echo $(git branch | grep '*')")
     let l:ticketNumber = '['.substitute(l:branch, '\* \(.*\)', '\1', '').'] '
-    exe "normal I".l:ticketNumber
-    exe "normal gg"
+    exe "normal i".l:ticketNumber
+    normal! kJx
     :startinsert!
 endfunction
 augroup git_commit
@@ -746,7 +807,7 @@ augroup END
 augroup linterConfiguration
     autocmd!
     autocmd FileType xml   setlocal makeprg=xmllint\ -
-    autocmd FileType xml   setlocal equalprg=xmllint\ --format\ -
+    " autocmd FileType xml   setlocal equalprg=xmllint\ --format\ -
     autocmd FileType html  setlocal equalprg=tidy\ -q\ -i\ -w\ 80\ -utf8\ --quote-nbsp\ no\ --output-xhtml\ yes\ --show-warnings\ no\ --show-body-only\ auto\ --tidy-mark\ no\ -
     autocmd FileType xhtml setlocal equalprg=tidy\ -q\ -i\ -w\ 80\ -utf8\ --quote-nbsp\ no\ --output-xhtml\ yes\ --show-warnings\ no\ --show-body-only\ auto\ --tidy-mark\ no\ -
     autocmd FileType json  setlocal equalprg=python\ -mjson.tool
@@ -800,9 +861,6 @@ nnoremap <silent> <leader>tu :call SwitchBetweenFiles1('php', 'Bundle/Tests/', '
 nnoremap <silent> <leader>tsu <c-w>v:call SwitchBetweenFiles1('php', 'Bundle/Tests/', 'Bundle/', 'Test')<cr>
 
 
-
-set autowrite                   " Automatically save before :next, :make etc.
-set autoread                    " Automatically reread changed files without asking me anything
 " write on focus loss
 au FocusLost * silent! update
 
@@ -900,9 +958,9 @@ endfunction
 " ultisnips {{{2
 let g:ultisnips_php_scalar_types = 1
 let g:UltiSnipsSnippetsDir = '~/.config/nvim/UltiSnips/'
-let g:UltiSnipsExpandTrigger="<m-space>"
-let g:UltiSnipsJumpForwardTrigger="<m-space>"
-let g:UltiSnipsJumpBackwardTrigger="<m-b>"
+let g:UltiSnipsExpandTrigger="<c-j>"
+let g:UltiSnipsJumpForwardTrigger="<c-j>"
+let g:UltiSnipsJumpBackwardTrigger="<c-k>"
 
 " }}}
 
@@ -1003,23 +1061,23 @@ function! s:tags_sink(line)
     let &magic = magic
 endfunction
 
-function! s:tags()
-    if empty(tagfiles())
-        echohl WarningMsg
-        echom 'Preparing tags'
-        echohl None
-        silent! !eval '[ -f ".git/hooks/ctags" ] && .git/hooks/ctags' &
-    endif
+" function! s:tags()
+"     if empty(tagfiles())
+"         echohl WarningMsg
+"         echom 'Preparing tags'
+"         echohl None
+"         silent! !eval '[ -f ".git/hooks/ctags" ] && .git/hooks/ctags' &
+"     endif
 
-    call fzf#run({
-                \ 'source':  'cat '.join(map(tagfiles(), 'fnamemodify(v:val, ":S")')).
-                \            '| grep -v -a ^!',
-                \ 'options': '+m -d "\t" --with-nth 1,4.. -n 1 --tiebreak=index',
-                \ 'down':    '40%',
-                \ 'sink':    function('s:tags_sink')})
-endfunction
+"     call fzf#run({
+"                 \ 'source':  'cat '.join(map(tagfiles(), 'fnamemodify(v:val, ":S")')).
+"                 \            '| grep -v -a ^!',
+"                 \ 'options': '+m -d "\t" --with-nth 1,4.. -n 1 --tiebreak=index',
+"                 \ 'down':    '40%',
+"                 \ 'sink':    function('s:tags_sink')})
+" endfunction
 
-command! Tags call s:tags()
+" command! Tags call s:tags()
 
 vnoremap // "hy:exec "Ag ".escape('<C-R>h', "/\.*$^~[()")<cr>
 
@@ -1027,7 +1085,7 @@ nnoremap <leader><Enter> :History<cr>
 nnoremap <leader>a :Ag<space>
 nnoremap <leader>A :exec "Ag ".expand("<cword>")<cr>
 
-nnoremap <leader>s :Tags<cr>
+nnoremap <leader>s :exec "Tags ".expand("<cword>")<cr>
 nnoremap <leader>, :Files<cr>
 " }}}
 
@@ -1079,14 +1137,11 @@ vnoremap <leader>em :call PhpExtractMethod()<CR>
 let g:phpcomplete_complete_for_unknown_classes = 0
 let g:phpcomplete_relax_static_constraint=0
 let g:phpcomplete_search_tags_for_variables = 0
-let g:phpcomplete_parse_docblock_comments = 1
+let g:phpcomplete_parse_docblock_comments = 0
 let g:phpcomplete_enhance_jump_to_definition = 1
 
-inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
-inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 augroup php
     autocmd!
-    autocmd FileType php setlocal omnifunc=phpcomplete#CompletePHP
     autocmd Filetype php nnoremap <silent> <buffer> <leader>w :w<cr>:silent call PhpSyntaxCheck()<cr>
     autocmd FileType php nnoremap <Leader>u :PHPImportClass<cr>
     autocmd FileType php nnoremap <Leader>e :PHPExpandFQCNAbsolute<cr>
@@ -1096,39 +1151,28 @@ augroup END
 
 " deoplete {{{2
 let g:deoplete#enable_at_startup = 1
-let g:deoplete#sources#syntax#min_keyword_length = 3
-" let g:deoplete#enable_smart_case = 1
-" let g:deoplete#enable_camel_case = 1
-" " let g:deoplete#disable_auto_complete = 1
+let g:deoplete#enable_smart_case = 1
+let g:deoplete#enable_camel_case = 1
 let g:deoplete#auto_refresh_delay = 100
-" let g:deoplete#tag#cache_limit_size = 50000000
-" let g:deoplete#enable_auto_delimiter = 1
-" let g:deoplete#max_list = 10
-let g:deoplete#auto_complete_delay= 90
-" inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
-" inoremap <expr><S-TAB>  pumvisible() ? "\<C-p>" : "\<TAB>"
+let g:deoplete#auto_complete_delay= 50
+let g:deoplete#sources#padawan#add_parentheses=0
 
-" let g:deoplete#keyword_patterns = {}
-" let g:deoplete#keyword_patterns._ = '[a-zA-Z_]\k*\(?'
-let g:deoplete#omni_patterns = {}
-let g:deoplete#omni_patterns.php =
-            \ '$\h\w*\|[^. \t]->\%(\h\w*\)\?\|\h\w*::\%(\h\w*\)\?'
-" let g:deoplete#omni_patterns.behat = '[^. \t]\(When\|Then\|Given\|And\)\s.*$'
+call deoplete#custom#set('_', 'converters',
+        \ ['converter_auto_delimiter', 'remove_overlap',
+        \ 'converter_auto_paren'])
 
+let g:deoplete#sources = {}
+let g:deoplete#sources._ = ['ultisnips', 'buffer']
+let g:deoplete#sources.php = ['padawan', 'ultisnips', 'buffer']
+
+inoremap <expr> <TAB> pumvisible() ? "\<c-n>" : "\<TAB>"
+inoremap <expr> <s-tab> pumvisible() ? "\<c-p>" : "\<TAB>"
+inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 
 " call deoplete#custom#set('_',
 "             \ 'disabled_syntaxes', ['Comment', 'String'])
-
-" au BufNewFile,BufRead,BufWinEnter *Test.php exe ":let g:deoplete#omni_patterns.php = '[^. \\t]->\\w*|\\w+::\\w*'"
-" au BufNewFile,BufRead,BufWinEnter *Test.php exe ":let b:deoplete#sources = {} | :let b:deoplete#sources.php = ['buffer']"
-" au BufWinLeave,BufLeave *Test.php exe ':let g:deoplete#omni_patterns.php = "\\h\\w*\\|[^. \\t]->\\%(\\h\\w*\\)\\?\\|\\h\\w*::\\%(\\h\\w*\\)\\?"'
 augroup test_completion_fix
     autocmd!
-    " au BufNewFile,BufRead,BufWinEnter *Test.php exe ":let g:phpcomplete_search_tags_for_variables = 0 | :let g:phpcomplete_parse_docblock_comments = 0"
-    " au BufWinLeave,BufLeave *Test.php exe ":let g:phpcomplete_search_tags_for_variables = 0 | :let g:phpcomplete_parse_docblock_comments = 0"
-
-    au BufNewFile,BufRead,BufWinEnter,BufWritePost *Test.php exe ":let g:deoplete#omni_patterns.php = '[^. \\t]->\\w*|\\w+::\\w*'"
-    au BufWinLeave,BufLeave *Test.php exe ':let g:deoplete#omni_patterns.php = "\$\\h\\w*\\|[^. \\t]->\\%(\\h\\w*\\)\\?\\|\\h\\w*::\\%(\\h\\w*\\)\\?"'
     au BufNewFile,BufRead,BufWinEnter *Test.php exe ":UltiSnipsAddFiletypes php.phpunit"
     au BufNewFile,BufRead,BufWinEnter *Spec.php exe ":UltiSnipsAddFiletypes php.php-phpspec"
 augroup END
@@ -1295,53 +1339,32 @@ let g:yankring_replace_n_pkey = '<m-p>'
 let g:yankring_replace_n_nkey = '<m-n>'
 " }}}
 
-" neomake {{{
-" augroup NEOMAKE
-"     autocmd!
-"     autocmd BufWritePost * Neomake
-" augroup end
-
-
-" let g:neomake_php_phpmd_maker = {
-"     \ 'args': ['%:p', 'text', 'codesize,design,unusedcode,cleancode,controversial'],
-"     \ 'append_file' : 0,
-"     \ 'errorformat': '%W%f:%l%\s%\s%#%m',
-"     \ }
-" let g:neomake_php_php_exe = 'php'
-" let g:neomake_php_phpcs_args_standard="~/code/ruleset.xml"
-" let g:neomake_php_enabled_makers = ['phpcs', 'phpmd']
-" let g:neomake_yaml_enabled_makers = ['yamllint']
-" let g:neomake_json_enabled_makers = ['jsonlint']
-" let g:neomake_markdown_enabled_makers = ['mdl']
-" let g:neomake_sh_enabled_makers = ['sh', 'shellcheck']
-" let g:neomake_place_signs = 0
-" " let g:neomake_open_list = 0
-" let g:neomake_open_list = 2
-" }}}
-
 " vim-qf {{{
 let g:qf_loclist_window_bottom = 0
 let g:qf_window_bottom = 0
 
-nmap <c-m> :cpre<cr>
+nmap <c-p> :cpre<cr>
 nmap <c-n> :cne<cr>
 let g:qf_loc_toggle_binds = 1
 function! ToggleQfLocListBinds()
     if g:qf_loc_toggle_binds == 1
-        nmap <c-m> :lpre<cr>
+        nmap <c-p> :lpre<cr>
         nmap <c-n> :lnext<cr>
         let g:qf_loc_toggle_binds = 0
         echo "loc binds loaded"
     else
         let g:qf_loc_toggle_binds = 1
-        nmap <c-m> :cpre<cr>
+        nmap <c-p> :cpre<cr>
         nmap <c-n> :cne<cr>
         echo "qf binds loaded"
     endif
 endfunction
-nmap ,, :call ToggleQfLocListBinds()<cr>
+" nmap ,, :call ToggleQfLocListBinds()<cr>
 " }}}
 
 " }}}
+
+" hi Visual guifg=NONE ctermfg=255 guibg=#040404 ctermbg=203 gui=NONE
+" hi SpecialKey       guifg=#343434     guibg=NONE     gui=NONE      ctermfg=NONE        ctermbg=NONE        cterm=NONE
 
 so ~/.projects.public.vim
