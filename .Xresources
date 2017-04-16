@@ -1,8 +1,9 @@
 urxvt*font: xft:Hack:pixelsize=14
 URxvt*scrollBar: false
-URxvt.saveLines: 32767
+URxvt.saveLines: 1000
 URxvt*termName: rxvt
 URxvt.intensityStyles: false
+URxvt*skipBuiltinGlyphs: true
 
 
 ! disable default Ctrl+Shift-Binding
@@ -163,39 +164,107 @@ URxvt.iso14755_32: False
 !*.color15:      #f9f7f3
 
 
-! special
-*.foreground:   #f8f8f2
-*.background:   #272822
-*.cursorColor:  #f8f8f2
+!! special
+!*.foreground:   #f8f8f2
+!*.background:   #272822
+!*.cursorColor:  #f8f8f2
+!
+!! black
+!*.color0:       #272822
+!*.color8:       #75715e
+!
+!! red
+!*.color1:       #f92672
+!*.color9:       #f92672
+!
+!! green
+!*.color2:       #a6e22e
+!*.color10:      #a6e22e
+!
+!! yellow
+!*.color3:       #f4bf75
+!*.color11:      #f4bf75
+!
+!! blue
+!*.color4:       #66d9ef
+!*.color12:      #66d9ef
+!
+!! magenta
+!*.color5:       #ae81ff
+!*.color13:      #ae81ff
+!
+!! cyan
+!*.color6:       #a1efe4
+!*.color14:      #a1efe4
+!
+!! white
+!*.color7:       #f8f8f2
+!*.color15:      #f9f8f5
 
-! black
-*.color0:       #272822
-*.color8:       #75715e
+!! solarized dark
+!! special
+!*.foreground:   #93a1a1
+!*.background:   #002b36
+!*.cursorColor:  #93a1a1
+!
+!! black
+!*.color0:       #002b36
+!*.color8:       #657b83
+!
+!! red
+!*.color1:       #dc322f
+!*.color9:       #dc322f
+!
+!! green
+!*.color2:       #859900
+!*.color10:      #859900
+!
+!! yellow
+!*.color3:       #b58900
+!*.color11:      #b58900
+!
+!! blue
+!*.color4:       #268bd2
+!*.color12:      #268bd2
+!
+!! magenta
+!*.color5:       #6c71c4
+!*.color13:      #6c71c4
+!
+!! cyan
+!*.color6:       #2aa198
+!*.color14:      #2aa198
+!
+!! white
+!*.color7:       #93a1a1
+!*.color15:      #fdf6e3
 
-! red
-*.color1:       #f92672
-*.color9:       #f92672
-
-! green
-*.color2:       #a6e22e
-*.color10:      #a6e22e
-
-! yellow
-*.color3:       #f4bf75
-*.color11:      #f4bf75
-
-! blue
-*.color4:       #66d9ef
-*.color12:      #66d9ef
-
-! magenta
-*.color5:       #ae81ff
-*.color13:      #ae81ff
-
-! cyan
-*.color6:       #a1efe4
-*.color14:      #a1efe4
-
-! white
-*.color7:       #f8f8f2
-*.color15:      #f9f8f5
+! gruvbox dark
+! hard contrast: *background: #1d2021
+*background: #282828
+! soft contrast: *background: #32302f
+*foreground: #ebdbb2
+! Black + DarkGrey
+*color0:  #282828
+*color8:  #928374
+! DarkRed + Red
+*color1:  #cc241d
+*color9:  #fb4934
+! DarkGreen + Green
+*color2:  #98971a
+*color10: #b8bb26
+! DarkYellow + Yellow
+*color3:  #d79921
+*color11: #fabd2f
+! DarkBlue + Blue
+*color4:  #458588
+*color12: #83a598
+! DarkMagenta + Magenta
+*color5:  #b16286
+*color13: #d3869b
+! DarkCyan + Cyan
+*color6:  #689d6a
+*color14: #8ec07c
+! LightGrey + White
+*color7:  #a89984
+*color15: #ebdbb2
