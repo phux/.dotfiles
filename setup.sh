@@ -11,9 +11,9 @@ ln -fs "$DIR/.Xresources" $HOME/
 
 echo 'setting up zsh'
 ln -fs "$DIR/.zshrc" $HOME/
-if [ ! -f "$HOME/antigen.zsh" ]; then
-    echo 'installing antigen for zsh'
-    curl -L git.io/antigen > "$HOME/antigen.zsh"
+if [ ! -d "$HOME/.zplug" ]; then
+    echo 'installing zplug for zsh'
+    curl -sL --proto-redir -all,https https://zplug.sh/installer | zsh
 fi
 
 echo 'linking init.vim'
@@ -33,3 +33,15 @@ git config --global init.templatedir '~/.git_templates'
 
 echo 'running php tooling setup'
 sh "$DIR/php-tooling.sh"
+
+if [ ! -f "$HOME/.local/share/fonts/Hack-Regular.ttf" ]; then
+    echo 'installing fonts'
+    # clone
+    git clone https://github.com/powerline/fonts.git /tmp/fonts
+    # install
+    cd /tmp/fonts
+    ./install.sh
+    # clean-up a bit
+    cd ..
+    rm -rf fonts
+fi
