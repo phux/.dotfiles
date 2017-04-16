@@ -7,7 +7,6 @@ if &compatible
 endif
 
 if has("nvim")
-    let $NVIM_TUI_ENABLE_TRUE_COLOR=1
     let $NVIM_TUI_ENABLE_CURSOR_SHAPE=1
 endif
 
@@ -58,7 +57,13 @@ Plug 'tpope/vim-commentary', {'on': 'Commentary'}
 
 Plug 'majutsushi/tagbar'
 
-Plug 'itchyny/lightline.vim'
+" Plug 'itchyny/lightline.vim'
+Plug 'vim-airline/vim-airline' | Plug 'vim-airline/vim-airline-themes'
+
+let g:airline_powerline_fonts = 1
+let g:airline#extensions#tagbar#enabled = 0
+let g:airline#extensions#virtualenv#enabled = 0
+let g:airline#extensions#whitespace#enabled = 0
 
 Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
 
@@ -67,14 +72,15 @@ Plug 'vim-scripts/auto-pairs-gentle'
 Plug 'amiorin/vim-project'
 
 Plug 'tpope/vim-fugitive'
-Plug 'gregsexton/gitv', {'on': 'Gitv'}
 Plug 'int3/vim-extradite'
 nnoremap <leader>i :Extradite!<cr>
+" Plug 'lambdalisue/gina.vim'
+Plug 'gregsexton/gitv', {'on': 'Gitv'}
 
 Plug 'Lokaltog/vim-easymotion'
 Plug 'godlygeek/tabular', {'for': ['behat', 'cucumber']}
 
-Plug 'crusoexia/vim-monokai'
+" Plug 'crusoexia/vim-monokai'
 Plug 'morhetz/gruvbox'
 " Plug 'altercation/vim-colors-solarized'
 " Plug 'jacoborus/tender.vim'
@@ -107,6 +113,7 @@ Plug 'sahibalejandro/vim-php', {'for': ['php', 'yaml']}
 Plug 'joonty/vdebug', {'for': 'php'}
 Plug '2072/PHP-Indenting-for-VIm', {'for': 'php'}
 Plug 'alvan/vim-php-manual', {'for': 'php'}
+Plug 'nrocco/vim-phplint'
 
 Plug 'evidens/vim-twig', {'for': 'twig'}
 
@@ -129,7 +136,7 @@ Plug 'wincent/ferret', {'on': 'Ack'}
 
 Plug '~/code/echodoc.vim'
 
-Plug 'honza/dockerfile.vim', { 'for': 'docker' }
+" Plug 'honza/dockerfile.vim', { 'for': 'docker' }
 
 Plug 'matze/vim-move'
 
@@ -143,8 +150,16 @@ Plug 'merlinrebrovic/focus.vim'
 Plug 'romainl/vim-qf'
 Plug 'romainl/vim-cool'
 
-Plug 'takac/vim-hardtime'
-let g:hardtime_default_on = 0
+Plug '~/code/vim-hardtime'
+let g:hardtime_ignore_quickfix = 1
+let g:hardtime_motion_with_count_resets = 1
+let g:hardtime_maxcount = 2
+let g:hardtime_allow_different_key = 1
+let g:hardtime_default_on = 1
+let g:hardtime_ignore_quickfix = 1
+
+Plug 'chaoren/vim-wordmotion'
+
 call plug#end()
 " }}}
 
@@ -237,7 +252,7 @@ set clipboard+=unnamed
 " use open windows/tabs for buffer switching
 set switchbuf=useopen,usetab
 " split new window at the right bottom of current
-" set splitbelow
+set splitbelow
 " set splitright
 " }}}
 
@@ -320,11 +335,6 @@ func! RestorePosition()
 endfunc
 " }}}
 
-augroup echodoc_debug
-    autocmd!
-    " autocmd CompleteDone * echo v:completed_item
-augroup END
-
 let g:PHP_removeCRwhenUnix = 1
 
 " Mappings {{{
@@ -336,8 +346,9 @@ inoremap jk <esc>
 
 " movement {{{
 " map j to gj and k to gk, so line navigation ignores line wrap
-nnoremap j gj
-nnoremap k gk
+" conflicts with <count>j, so disabled for now
+" nnoremap j gj
+" nnoremap k gk
 
 nnoremap L g_
 nnoremap H ^
@@ -360,7 +371,7 @@ nnoremap <silent> p p`]
 noremap gV `[v`]
 " }}}
 
-nnoremap <leader>W :set nowrap!<CR>
+" nnoremap <leader>W :set nowrap!<CR>
 
 " fast closing of html tags
 nnoremap <m-;> :ToggleGoldenViewAutoResize<cr>
@@ -553,23 +564,21 @@ nnoremap <m-f> :call FormatPHPLineLength()<cr>
 
 " QFix toggle {{{
 " toggles the quickfix window.
-map <leader>q :QFix<cr>
-command! -bang -nargs=? QFix call QFixToggle(<bang>0)
-augroup QFixToggle
-    autocmd!
-    autocmd BufWinEnter quickfix let g:qfix_win = bufnr("$")
-    autocmd BufWinLeave * if exists("g:qfix_win") && expand("<abuf>") == g:qfix_win | unlet! g:qfix_win | endif
-augroup END
+map <leader>q :Ctoggle<cr>
 
-function! QFixToggle(forced)
-    if exists("g:qfix_win") && a:forced == 0
-        cclose
-    else
-        execute "copen " . g:jah_Quickfix_Win_Height
-    endif
+function! s:qf_toggle()
+    for i in range(1, winnr('$'))
+        let bnum = winbufnr(i)
+        if getbufvar(bnum, '&buftype') == 'quickfix'
+            cclose
+            return
+        endif
+    endfor
+
+    cwindow
 endfunction
 
-let g:jah_Quickfix_Win_Height=10
+command! Ctoggle call s:qf_toggle() 
 "}}}
 
 " switch between files {{{
@@ -715,9 +724,9 @@ augroup END
 " }}}
 
 
-nnoremap <leader>w :w<cr>
+nnoremap <silent> <leader>w :w<cr>
+nnoremap <silent> <leader>W :w<cr>:ALEEnable<cr>:silent! !eval '[ -f ".git/hooks/ctags" ] && .git/hooks/ctags' &<cr>
 
-nnoremap <m-w> :w<cr>:silent! !eval '[ -f ".git/hooks/ctags" ] && .git/hooks/ctags' &<cr>
 
 " performance settings {{{
 set nocursorcolumn       " do not highlight column
@@ -887,72 +896,72 @@ nnoremap <leader>n :EasyTreeToggle<cr>
 " }}}
 
 " lightline.vim {{{2
-let g:lightline = {
-            \ 'active': {
-            \   'left': [ [ 'mode', 'paste' ], [ 'fugitive', 'filename' ] ],
-            \   'right': [ [ 'lineinfo' ], ['percent'], [ 'fileformat', 'fileencoding', 'filetype' ] ]
-            \ },
-            \ 'component_function': {
-            \   'fugitive': 'LightlineFugitive',
-            \   'filename': 'LightlineFilename',
-            \   'fileformat': 'LightlineFileformat',
-            \   'filetype': 'LightlineFiletype',
-            \   'fileencoding': 'LightlineFileencoding',
-            \   'mode': 'LightlineMode',
-            \ },
-            \ 'separator': { 'left': "\ue0b0", 'right': "\ue0b2" },
-            \ 'subseparator': { 'left': "\ue0b1", 'right': "\ue0b3" }
-            \ }
+" let g:lightline = {
+"             \ 'active': {
+"             \   'left': [ [ 'mode', 'paste' ], [ 'fugitive', 'filename' ] ],
+"             \   'right': [ [ 'lineinfo' ], ['percent'], [ 'fileformat', 'fileencoding', 'filetype' ] ]
+"             \ },
+"             \ 'component_function': {
+"             \   'fugitive': 'LightlineFugitive',
+"             \   'filename': 'LightlineFilename',
+"             \   'fileformat': 'LightlineFileformat',
+"             \   'filetype': 'LightlineFiletype',
+"             \   'fileencoding': 'LightlineFileencoding',
+"             \   'mode': 'LightlineMode',
+"             \ },
+"             \ 'separator': { 'left': "\ue0b0", 'right': "\ue0b2" },
+"             \ 'subseparator': { 'left': "\ue0b1", 'right': "\ue0b3" }
+"             \ }
 
 
-function! LightlineModified()
-    return &ft =~ 'help' ? '' : &modified ? '+' : &modifiable ? '' : '-'
-endfunction
+" function! LightlineModified()
+"     return &ft =~ 'help' ? '' : &modified ? '+' : &modifiable ? '' : '-'
+" endfunction
 
-function! LightlineReadonly()
-    return &ft !~? 'help' && &readonly ? 'RO' : ''
-endfunction
+" function! LightlineReadonly()
+"     return &ft !~? 'help' && &readonly ? 'RO' : ''
+" endfunction
 
-function! LightlineFilename()
-    let fname = expand('%')
-    return fname =~ '__Gundo\|easytree' ? '' :
-                \ ('' != LightlineReadonly() ? LightlineReadonly() . ' ' : '') .
-                \ ('' != fname ? fname : '[No Name]') .
-                \ ('' != LightlineModified() ? ' ' . LightlineModified() : '')
-endfunction
+" function! LightlineFilename()
+"     let fname = expand('%')
+"     return fname =~ '__Gundo\|easytree' ? '' :
+"                 \ ('' != LightlineReadonly() ? LightlineReadonly() . ' ' : '') .
+"                 \ ('' != fname ? fname : '[No Name]') .
+"                 \ ('' != LightlineModified() ? ' ' . LightlineModified() : '')
+" endfunction
 
-function! LightlineFugitive()
-    try
-        if expand('%:t') !~? 'Tagbar\|Gundo\|easytree' && exists('*fugitive#head')
-            let mark = ''  " edit here for cool mark
-            let branch = fugitive#head()
-            return branch !=# '' ? mark.branch : ''
-        endif
-    catch
-    endtry
-    return ''
-endfunction
+" function! LightlineFugitive()
+"     try
+"         if expand('%:t') !~? 'Tagbar\|Gundo\|easytree' && exists('*fugitive#head')
+"             let mark = ''  " edit here for cool mark
+"             let branch = fugitive#head()
+"             return branch !=# '' ? mark.branch : ''
+"         endif
+"     catch
+"     endtry
+"     return ''
+" endfunction
 
-function! LightlineFileformat()
-    return winwidth(0) > 70 ? &fileformat : ''
-endfunction
+" function! LightlineFileformat()
+"     return winwidth(0) > 70 ? &fileformat : ''
+" endfunction
 
-function! LightlineFiletype()
-    return winwidth(0) > 70 ? (&filetype !=# '' ? &filetype : 'no ft') : ''
-endfunction
+" function! LightlineFiletype()
+"     return winwidth(0) > 70 ? (&filetype !=# '' ? &filetype : 'no ft') : ''
+" endfunction
 
-function! LightlineFileencoding()
-    return winwidth(0) > 70 ? (&fenc !=# '' ? &fenc : &enc) : ''
-endfunction
+" function! LightlineFileencoding()
+"     return winwidth(0) > 70 ? (&fenc !=# '' ? &fenc : &enc) : ''
+" endfunction
 
-function! LightLineMode()
-  return &ft == 'help' ? 'help' :
-        \ &ft == 'undotree' ? 'undotree' :
-        \ &ft == 'fzf' ? 'fzf' :
-        \ &ft == 'vim-plug' ? 'plugin' :
-        \ &ft == 'qf' ? 'quickfix' :
-        \ winwidth(0) > 60 ? lightline#mode() : ''
-endfunction
+" function! LightLineMode()
+"   return &ft == 'help' ? 'help' :
+"         \ &ft == 'undotree' ? 'undotree' :
+"         \ &ft == 'fzf' ? 'fzf' :
+"         \ &ft == 'vim-plug' ? 'plugin' :
+"         \ &ft == 'qf' ? 'quickfix' :
+"         \ winwidth(0) > 60 ? lightline#mode() : ''
+" endfunction
 " }}}
 
 " ultisnips {{{2
@@ -1108,7 +1117,7 @@ call project#rc("~/code")
 nnoremap <leader>gw :Gwrite<cr>
 nnoremap <leader>gs :Gstatus<cr>
 nnoremap <leader>gc :Gcommit<cr>
-nnoremap <leader>gl :Glog<cr>
+nnoremap <leader>gl :silent! Gllog --<cr>
 nnoremap <leader>gp :!git push<cr>
 " }}}
 
@@ -1142,7 +1151,8 @@ let g:phpcomplete_enhance_jump_to_definition = 1
 
 augroup php
     autocmd!
-    autocmd Filetype php nnoremap <silent> <buffer> <leader>w :w<cr>:silent call PhpSyntaxCheck()<cr>
+    autocmd BufWritePost *.php silent Phplint
+    autocmd BufWritePost *.php silent! !eval '[ -f ".git/hooks/ctags" ] && .git/hooks/ctags' &
     autocmd FileType php nnoremap <Leader>u :PHPImportClass<cr>
     autocmd FileType php nnoremap <Leader>e :PHPExpandFQCNAbsolute<cr>
     autocmd FileType php nnoremap <Leader>E :PHPExpandFQCN<cr>
@@ -1155,12 +1165,22 @@ let g:deoplete#enable_smart_case = 1
 let g:deoplete#enable_camel_case = 1
 let g:deoplete#auto_refresh_delay = 100
 let g:deoplete#auto_complete_delay= 50
+" needed for echodoc to work
 let g:deoplete#sources#padawan#add_parentheses=0
 
 call deoplete#custom#set('_', 'converters',
-        \ ['converter_auto_delimiter', 'remove_overlap',
-        \ 'converter_auto_paren'])
+         \ ['converter_auto_delimiter', 'remove_overlap',
+        \ 'converter_truncate_abbr', 'converter_truncate_menu'])
+" call deoplete#custom#set('_', 'converters',
+"         \ ['converter_auto_delimiter', 'remove_overlap',
+"         \ 'converter_auto_paren'])
 
+
+
+augroup echodoc_debug
+    autocmd!
+    " autocmd CompleteDone * echo v:completed_item
+augroup END
 let g:deoplete#sources = {}
 let g:deoplete#sources._ = ['ultisnips', 'buffer']
 let g:deoplete#sources.php = ['padawan', 'ultisnips', 'buffer']
@@ -1359,7 +1379,7 @@ function! ToggleQfLocListBinds()
         echo "qf binds loaded"
     endif
 endfunction
-" nmap ,, :call ToggleQfLocListBinds()<cr>
+nmap <Down> :call ToggleQfLocListBinds()<cr>
 " }}}
 
 " }}}
