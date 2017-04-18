@@ -225,6 +225,8 @@ workspace 2 output HDMI2
 for_window [class="Xfce4-notifyd"] floating enable
 for_window [class="Xfce4-notifyd"] border none
 
+
+exec --no-startup-id xsetroot -solid "#333333"
 # disable screensaver
 exec xset -dpms; xset s off
 

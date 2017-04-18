@@ -11,7 +11,7 @@ function! Zf1(...) abort
     nnoremap <c-s> :update<cr>:Silent php-cs-fixer fix %:p --rules=@Symfony<cr>:e<cr>
 
 
-    nnoremap <silent> <leader>w :ALEDisable<cr>:w<cr>
+    nnoremap <silent> <leader>w :w<cr>
 
     nnoremap <silent> <leader>tu :call SwitchBetweenFiles('php', 'tests/', 'library/', 'Test')<cr>
     nnoremap <silent> <leader>tsu <c-w>v:call SwitchBetweenFiles('php', 'tests/', 'library/', 'Test')<cr>
