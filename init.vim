@@ -7,7 +7,7 @@ if &compatible
 endif
 
 if has("nvim")
-    let $NVIM_TUI_ENABLE_CURSOR_SHAPE=1
+    let $NVIM_TUI_ENABLE_CURSOR_SHAPE=0
 endif
 
 set encoding=utf-8
@@ -20,86 +20,85 @@ set autoread                    " Automatically reread changed files without ask
 " plugins {{{
 " autoinstall {{{2
 if empty(glob('~/.config/nvim/autoload/plug.vim'))
-  silent !curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs
-    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-  autocmd!
-  autocmd VimEnter * PlugInstall
+    silent !curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs
+                \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+    autocmd!
+    autocmd VimEnter * PlugInstall
 endif
 " }}}
 
 " plugged {{{
 
 
-let g:ale_sign_error = '✖'
-let g:ale_sign_warning = '►'
-let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
-let g:ale_lint_on_text_changed = 'never'
-let g:ale_lint_on_enter = 0
-let g:ale_set_loclist = 0
-let g:ale_set_quickfix = 1
-let g:ale_php_phpcs_standard = '~/code/ruleset.xml'
-let g:ale_php_phpmd_ruleset = 'cleancode,codesize,design,unusedcode'
-
 call plug#begin('~/.config/nvim/plugged')
 
+" mandatory tpope section
 Plug 'tpope/vim-surround'
+Plug 'tpope/vim-repeat'
+Plug 'tpope/vim-commentary', {'on': 'Commentary'}
+Plug 'tpope/vim-abolish'
+Plug 'tpope/vim-speeddating'
+Plug 'tpope/vim-sensible'
 
 Plug 'ap/vim-buftabline'
 let g:buftabline_show = 1 " display only if more than 1 buffer open
 
-Plug 'henrik/vim-indexed-search'
 
-Plug 'troydm/easytree.vim'
-" Plug '~/code/easytree.vim'
-let g:easytree_width_auto_fit = 1
-
-Plug 'tpope/vim-commentary', {'on': 'Commentary'}
-
-Plug 'majutsushi/tagbar'
-
-" Plug 'itchyny/lightline.vim'
 Plug 'vim-airline/vim-airline' | Plug 'vim-airline/vim-airline-themes'
-
-let g:airline_powerline_fonts = 1
-let g:airline#extensions#tagbar#enabled = 0
-let g:airline#extensions#virtualenv#enabled = 0
-let g:airline#extensions#whitespace#enabled = 0
 
 Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
 
-Plug 'vim-scripts/auto-pairs-gentle'
+" Plug 'vim-scripts/auto-pairs-gentle'
+Plug 'Townk/vim-autoclose'
 
 Plug 'amiorin/vim-project'
 
+" git {{{
 Plug 'tpope/vim-fugitive'
-Plug 'int3/vim-extradite'
-nnoremap <leader>i :Extradite!<cr>
-" Plug 'lambdalisue/gina.vim'
+Plug 'int3/vim-extradite', {'on': 'Extradite'}
+nnoremap <leader>i :Extradite<cr>
 Plug 'gregsexton/gitv', {'on': 'Gitv'}
+" }}}
 
+" navigating {{{
 Plug 'Lokaltog/vim-easymotion'
+Plug 'matze/vim-move'
+" jjjjjjjjjj is not cool
+Plug '~/code/vim-hardtime'
+" enhancing word recognition like camel case
+Plug 'chaoren/vim-wordmotion'
+
+Plug 'troydm/easytree.vim'
+Plug 'majutsushi/tagbar', {'on': 'TagbarToggle'}
+" }}}
+
 Plug 'godlygeek/tabular', {'for': ['behat', 'cucumber']}
 
+" color schemes {{{
 " Plug 'crusoexia/vim-monokai'
 Plug 'morhetz/gruvbox'
 " Plug 'altercation/vim-colors-solarized'
 " Plug 'jacoborus/tender.vim'
+" }}}
 
 Plug 'veloce/vim-behat', {'for': ['cucumber', 'behat']}
 let g:feature_filetype='behat'
 let g:behat_executables = ['vendor/bin/behat']
 
+" autocompletion {{{
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 " note: in global composer json "minimum-stability":"dev"
 " composer global require mkusher/padawan
 " Plug 'padawan-php/deoplete-padawan', {'for': 'php'}
 Plug '~/code/deoplete-padawan', {'for': 'php'}
 Plug 'zchee/deoplete-go', { 'do': 'make'}
+" }}}
 
 Plug 'zhaocai/GoldenView.Vim'
 
 Plug 'w0rp/ale'
 
+" php {{{
 Plug 'phpstan/vim-phpstan', {'for': 'php'}
 nnoremap <m-a> :PHPStanAnalyse -c phpstan.neon src<cr>
 let g:phpstan_analyse_level = 4
@@ -113,57 +112,51 @@ Plug 'sahibalejandro/vim-php', {'for': ['php', 'yaml']}
 Plug 'joonty/vdebug', {'for': 'php'}
 Plug '2072/PHP-Indenting-for-VIm', {'for': 'php'}
 Plug 'alvan/vim-php-manual', {'for': 'php'}
-Plug 'nrocco/vim-phplint'
+Plug 'nrocco/vim-phplint', {'for': 'php'}
+" }}}
 
 Plug 'evidens/vim-twig', {'for': 'twig'}
 
 Plug 'avakhov/vim-yaml', {'for': 'yaml'}
 
 Plug 'phux/scratch.vim'
-Plug 'vitalk/vim-simple-todo', {'for': 'scratch'}
 
 Plug 'fatih/vim-go', {'for':'go'}
 Plug 'buoto/gotests-vim', {'for':'go'}
 
+" tmux {{{
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'tmux-plugins/vim-tmux-focus-events'
 Plug 'tmux-plugins/vim-tmux'
+" }}}
 
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 
-Plug 'wincent/ferret', {'on': 'Ack'}
-
 Plug '~/code/echodoc.vim'
 
-" Plug 'honza/dockerfile.vim', { 'for': 'docker' }
-
-Plug 'matze/vim-move'
-
-Plug 'tpope/vim-abolish'
-Plug 'tpope/vim-speeddating'
-Plug 'tpope/vim-sensible'
-
-Plug 'vim-scripts/YankRing.vim'
-
 Plug 'merlinrebrovic/focus.vim'
+
 Plug 'romainl/vim-qf'
+" searching {{{
+Plug 'henrik/vim-indexed-search'
 Plug 'romainl/vim-cool'
+Plug 'wincent/ferret', {'on': 'Ack'}
+" }}}
 
-Plug '~/code/vim-hardtime'
-let g:hardtime_ignore_quickfix = 1
-let g:hardtime_motion_with_count_resets = 1
-let g:hardtime_maxcount = 2
-let g:hardtime_allow_different_key = 1
-let g:hardtime_default_on = 1
-let g:hardtime_ignore_quickfix = 1
 
-Plug 'chaoren/vim-wordmotion'
+" clipboard {{{
+Plug 'junegunn/vim-peekaboo'
+Plug 'maxbrunsfeld/vim-yankstack'
+" }}}
 
 call plug#end()
 " }}}
 
 " }}}
+
+" needs to be called before mappings like Y => y$ are done.
+call yankstack#setup()
 
 " general {{{
 
@@ -218,16 +211,6 @@ set listchars=tab:\ \ ,trail:•,extends:#,nbsp:.
 set showcmd
 
 
-" }}}
-
-" find highlighting group under cursor {{{2
-nnoremap <leader>0 :call <SID>SynStack()<CR>
-function! <SID>SynStack()
-  if !exists("*synstack")
-    return
-  endif
-  echo map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")')
-endfunc
 " }}}
 
 set hidden
@@ -291,7 +274,7 @@ set nocindent
 " }}}
 
 " search {{{
-hi Search cterm=NONE ctermfg=white ctermbg=130
+" hi Search cterm=NONE ctermfg=white ctermbg=130
 set ignorecase
 set smartcase
 set hlsearch
@@ -323,7 +306,6 @@ set diffopt+=vertical
 " }}}
 
 " restore cursor position {{{2
-au BufReadPost * call RestorePosition()
 func! RestorePosition()
     if exists("g:restore_position_ignore") && match(expand("%"), g:restore_position_ignore) > -1
         return
@@ -336,6 +318,9 @@ endfunc
 " }}}
 
 let g:PHP_removeCRwhenUnix = 1
+
+set timeout ttimeoutlen=0
+
 
 " Mappings {{{
 let mapleader = "\<Space>"
@@ -376,6 +361,13 @@ noremap gV `[v`]
 " fast closing of html tags
 nnoremap <m-;> :ToggleGoldenViewAutoResize<cr>
 
+map gn :bn<cr>
+map gp :bp<cr>
+
+" find next line with same indentation
+nnoremap [= 0y^/^<C-R>0\s\@!<CR>
+nnoremap ]= 0y^?^<C-R>0\s\@!<CR>
+" continue indenting
 vnoremap < <gv
 vnoremap > >gv
 
@@ -393,11 +385,11 @@ cnoremap <C-P> <Up>
 inoremap <c-l> <del>
 
 " windows {{{
-" window switching
-noremap <silent> <c-l> <c-w>l
-noremap <silent> <c-j> <c-w>j
-noremap <silent> <c-k> <c-w>k
-noremap <silent> <c-h> <c-w>h
+" disabled because of tmux-navigator
+" noremap <silent> <c-l> <c-w>l
+" noremap <silent> <c-j> <c-w>j
+" noremap <silent> <c-k> <c-w>k
+" noremap <silent> <c-h> <c-w>h
 
 " create splits
 nnoremap c<C-j> :bel sp<cr>
@@ -448,33 +440,30 @@ nnoremap <leader>[ :%s/<c-r><c-w>/<c-r><c-w>/g<left><left>
 " reformat html -> each tag on own row
 nnoremap <leader><F3> :%s/<[^>]*>/\r&\r/g<cr>gg=G:g/^$/d<cr><leader>/
 
-nnoremap <Tab> :bnext<CR>
-nnoremap <S-Tab> :bprev<CR>
-
 let g:php_manual_online_search_shortcut = '<leader>m'
 
 " remove buffer without deleting window
-nnoremap <m-d> :bp<bar>sp<bar>bn<bar>bd<CR>
+nnoremap <silent> <m-d> :bp<bar>sp<bar>bn<bar>bd<CR>
 
 " buffer cleanup {{{
 function! DeleteInactiveBufs()
-  "From tabpagebuflist() help, get a list of all buffers in all tabs
-  let tablist = []
-  for i in range(tabpagenr('$'))
-    call extend(tablist, tabpagebuflist(i + 1))
-  endfor
+    "From tabpagebuflist() help, get a list of all buffers in all tabs
+    let tablist = []
+    for i in range(tabpagenr('$'))
+        call extend(tablist, tabpagebuflist(i + 1))
+    endfor
 
-  "Below originally inspired by Hara Krishna Dara and Keith Roberts
-  "http://tech.groups.yahoo.com/group/vim/message/56425
-  let nWipeouts = 0
-  for i in range(1, bufnr('$'))
-    if bufexists(i) && !getbufvar(i,"&mod") && index(tablist, i) == -1
-      "bufno exists AND isn't modified AND isn't in the list of buffers open in windows and tabs
-      silent exec 'bwipeout' i
-      let nWipeouts = nWipeouts + 1
-    endif
-  endfor
-  echomsg nWipeouts . ' buffer(s) wiped out'
+    "Below originally inspired by Hara Krishna Dara and Keith Roberts
+    "http://tech.groups.yahoo.com/group/vim/message/56425
+    let nWipeouts = 0
+    for i in range(1, bufnr('$'))
+        if bufexists(i) && !getbufvar(i,"&mod") && index(tablist, i) == -1
+            "bufno exists AND isn't modified AND isn't in the list of buffers open in windows and tabs
+            silent exec 'bwipeout' i
+            let nWipeouts = nWipeouts + 1
+        endif
+    endfor
+    echomsg nWipeouts . ' buffer(s) wiped out'
 endfunction
 
 command! Ball :call DeleteInactiveBufs()
@@ -717,9 +706,9 @@ function! PrependTicketNumber()
     :startinsert!
 endfunction
 augroup git_commit
-    autocmd!
+    au!
     " au BufEnter * if &ft ==# 'gitcommit' | :call PrependTicketNumber() | endif
-    autocmd FileType gitcommit nnoremap <buffer> <leader>w :call PrependTicketNumber()<cr>
+    autocmd filetype gitcommit nnoremap <buffer> <leader>w :call PrependTicketNumber()<cr>
 augroup END
 " }}}
 
@@ -733,14 +722,13 @@ set nocursorcolumn       " do not highlight column
 set nocursorline         " do not highlight line
 " syntax sync minlines=256 " start highlighting from 256 lines backwards
 " set synmaxcol=150        " do not highlith very long lines
-syntax sync minlines=256
-set synmaxcol=300
-set re=1
-set lazyredraw
-set ttyfast
-set scrolljump=5
-set sidescroll=1
-let g:PHP_default_indenting=0
+" syntax sync minlines=256
+" set synmaxcol=300
+" set re=1
+" set lazyredraw
+" set scrolljump=5
+" set sidescroll=1
+" let g:PHP_default_indenting=0
 " }}}
 
 
@@ -774,9 +762,6 @@ endfunction
 " }}}
 
 " filetype settings {{{
-filetype on
-filetype plugin indent on
-syntax on
 
 " set foldenable fdm=syntax foldnestmax=1
 " let g:vimsyn_folding='af'
@@ -784,81 +769,54 @@ syntax on
 " let g:php_folding = 1
 
 augroup filetype_settings
-    autocmd!
+    au!
     au BufNewFile,BufRead *.feature set ft=behat
-    au FileType behat,cucumber setl sw=2 sts=2 et
-    au FileType yaml setl sw=2 sts=2 et
-    au FileType ruby setl sw=2 sts=2 et
+    au filetype behat,cucumber setl sw=2 sts=2 et
+    au filetype yaml setl sw=2 sts=2 et
+    au filetype ruby setl sw=2 sts=2 et
 
-    " au FileType vim setl foldenable fdm=marker fmr={{{,}}} fdl=0
-    autocmd BufNewFile,BufRead *.go setlocal noexpandtab tabstop=4 shiftwidth=4 
-    autocmd FileType make setlocal noexpandtab tabstop=4 shiftwidth=4 
+    " au filetype vim setl foldenable fdm=marker fmr={{{,}}} fdl=0
+    au BufNewFile,BufRead *.go setlocal noexpandtab tabstop=4 shiftwidth=4 
+    au filetype make setlocal noexpandtab tabstop=4 shiftwidth=4 
 
-    autocmd BufRead,BufNewFile *.conf setf config
+    au BufRead,BufNewFile *.conf setf config
 
     au BufNewFile,BufRead *.phtml set ft=php.html
-    autocmd FileType html,xml inoremap <m-;> </<c-x><c-o>
+    au filetype html,xml inoremap <m-;> </<c-x><c-o>
 
-    autocmd filetype qf setlocal wrap
+    au filetype qf setlocal wrap
+
+    au filetype css setlocal omnifunc=csscomplete#CompleteCSS
+    au filetype html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+    au filetype javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+    au filetype xml setlocal omnifunc=xmlcomplete#CompleteTags
+    au filetype xml   setlocal makeprg=xmllint\ -
+    " au filetype xml   setlocal equalprg=xmllint\ --format\ -
+    au filetype html  setlocal equalprg=tidy\ -q\ -i\ -w\ 80\ -utf8\ --quote-nbsp\ no\ --output-xhtml\ yes\ --show-warnings\ no\ --show-body-only\ auto\ --tidy-mark\ no\ -
+    au filetype xhtml setlocal equalprg=tidy\ -q\ -i\ -w\ 80\ -utf8\ --quote-nbsp\ no\ --output-xhtml\ yes\ --show-warnings\ no\ --show-body-only\ auto\ --tidy-mark\ no\ -
+    au filetype json  setlocal equalprg=python\ -mjson.tool
 augroup END
 
+augroup pre_post_hooks
+    au!
+    " no delay when ESC/jk
+    au InsertEnter * set timeoutlen=100
+    au InsertLeave * set timeoutlen=1000
 
-augroup filetype_omnifuncs
-    autocmd!
-    autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
-    autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
-    autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
-    autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
-augroup END
+    au BufReadPost * call RestorePosition()
 
-
-" linters {{{
-augroup linterConfiguration
-    autocmd!
-    autocmd FileType xml   setlocal makeprg=xmllint\ -
-    " autocmd FileType xml   setlocal equalprg=xmllint\ --format\ -
-    autocmd FileType html  setlocal equalprg=tidy\ -q\ -i\ -w\ 80\ -utf8\ --quote-nbsp\ no\ --output-xhtml\ yes\ --show-warnings\ no\ --show-body-only\ auto\ --tidy-mark\ no\ -
-    autocmd FileType xhtml setlocal equalprg=tidy\ -q\ -i\ -w\ 80\ -utf8\ --quote-nbsp\ no\ --output-xhtml\ yes\ --show-warnings\ no\ --show-body-only\ auto\ --tidy-mark\ no\ -
-    autocmd FileType json  setlocal equalprg=python\ -mjson.tool
-augroup END
-" }}}
-
-augroup reload_vimrc
-    autocmd!
-    autocmd BufWritePost $MYVIMRC nested source $MYVIMRC
-augroup END
+    au BufWritePost $MYVIMRC nested source $MYVIMRC
+augroup END 
 
 " help {{{
 augroup help_settings
-    autocmd!
-    autocmd filetype help nnoremap <buffer> <CR> <c-]>
-    autocmd filetype help nnoremap <buffer> <bs> <c-T>
-    autocmd filetype help nnoremap <buffer> q :q<CR>
-    autocmd filetype help set nonumber
+    au!
+    au filetype help nnoremap <buffer> <CR> <c-]>
+    au filetype help nnoremap <buffer> <bs> <c-T>
+    au filetype help nnoremap <buffer> q :q<CR>
+    au filetype help set nonumber
 augroup END
 " }}}
-" }}}
-
-" override phpdoc syntax highlighting {{{
-function! PhpSyntaxOverride()
-    hi! def link phpDocTags  phpDefine
-    hi! def link phpDocParam phpType
-endfunction
-
-" augroup phpSyntaxOverride
-"   autocmd!
-"   autocmd FileType php call PhpSyntaxOverride()
-" augroup END
-" }}}
-
-" PhpSyntaxCheck {{{
-function! PhpSyntaxCheck()
-    sil! setlocal makeprg=php\ -l\ %
-    sil! setlocal errorformat=%m\ in\ %f\ on\ line\ %l,%-GErrors\ parsing\ %f,%-G
-    make
-    redraw!
-    cw
-endfunction
 " }}}
 
 noremap <C-d> <C-d>zz
@@ -871,14 +829,17 @@ nnoremap <silent> <leader>tsu <c-w>v:call SwitchBetweenFiles1('php', 'Bundle/Tes
 
 
 " write on focus loss
-au FocusLost * silent! update
-
+augroup focus_lost
+    au!
+    au FocusLost * silent! update
+augroup END
 
 " }}}
 
 " plugin settings {{{
 
 " easytree {{{2
+let g:easytree_width_auto_fit = 1
 
 function! CloseOpenEasyTreeBuffers()
     for i in range(1, winnr('$'))
@@ -893,75 +854,6 @@ endfunction
 nnoremap <leader>N :let @a = expand("%:t")<cr>:call CloseOpenEasyTreeBuffers()<cr>:EasyTree %:p:h<cr>/<c-r>a<cr>:nohls<cr>
 
 nnoremap <leader>n :EasyTreeToggle<cr>
-" }}}
-
-" lightline.vim {{{2
-" let g:lightline = {
-"             \ 'active': {
-"             \   'left': [ [ 'mode', 'paste' ], [ 'fugitive', 'filename' ] ],
-"             \   'right': [ [ 'lineinfo' ], ['percent'], [ 'fileformat', 'fileencoding', 'filetype' ] ]
-"             \ },
-"             \ 'component_function': {
-"             \   'fugitive': 'LightlineFugitive',
-"             \   'filename': 'LightlineFilename',
-"             \   'fileformat': 'LightlineFileformat',
-"             \   'filetype': 'LightlineFiletype',
-"             \   'fileencoding': 'LightlineFileencoding',
-"             \   'mode': 'LightlineMode',
-"             \ },
-"             \ 'separator': { 'left': "\ue0b0", 'right': "\ue0b2" },
-"             \ 'subseparator': { 'left': "\ue0b1", 'right': "\ue0b3" }
-"             \ }
-
-
-" function! LightlineModified()
-"     return &ft =~ 'help' ? '' : &modified ? '+' : &modifiable ? '' : '-'
-" endfunction
-
-" function! LightlineReadonly()
-"     return &ft !~? 'help' && &readonly ? 'RO' : ''
-" endfunction
-
-" function! LightlineFilename()
-"     let fname = expand('%')
-"     return fname =~ '__Gundo\|easytree' ? '' :
-"                 \ ('' != LightlineReadonly() ? LightlineReadonly() . ' ' : '') .
-"                 \ ('' != fname ? fname : '[No Name]') .
-"                 \ ('' != LightlineModified() ? ' ' . LightlineModified() : '')
-" endfunction
-
-" function! LightlineFugitive()
-"     try
-"         if expand('%:t') !~? 'Tagbar\|Gundo\|easytree' && exists('*fugitive#head')
-"             let mark = ''  " edit here for cool mark
-"             let branch = fugitive#head()
-"             return branch !=# '' ? mark.branch : ''
-"         endif
-"     catch
-"     endtry
-"     return ''
-" endfunction
-
-" function! LightlineFileformat()
-"     return winwidth(0) > 70 ? &fileformat : ''
-" endfunction
-
-" function! LightlineFiletype()
-"     return winwidth(0) > 70 ? (&filetype !=# '' ? &filetype : 'no ft') : ''
-" endfunction
-
-" function! LightlineFileencoding()
-"     return winwidth(0) > 70 ? (&fenc !=# '' ? &fenc : &enc) : ''
-" endfunction
-
-" function! LightLineMode()
-"   return &ft == 'help' ? 'help' :
-"         \ &ft == 'undotree' ? 'undotree' :
-"         \ &ft == 'fzf' ? 'fzf' :
-"         \ &ft == 'vim-plug' ? 'plugin' :
-"         \ &ft == 'qf' ? 'quickfix' :
-"         \ winwidth(0) > 60 ? lightline#mode() : ''
-" endfunction
 " }}}
 
 " ultisnips {{{2
@@ -993,19 +885,19 @@ let g:fzf_buffers_jump = 1
 " [[B]Commits] Customize the options used by 'git log':
 let g:fzf_commits_log_options = '--graph --color=always --format="%C(auto)%h%d %s %C(black)%C(bold)%cr"'
 
-function! s:ag_to_qf(line)
+function! s:rg_to_qf(line)
     let parts = split(a:line, ':')
     return {'filename': parts[0], 'lnum': parts[1], 'col': parts[2],
                 \ 'text': join(parts[3:], ':')}
 endfunction
 
-function! s:ag_handler(lines)
+function! s:rg_handler(lines)
     if len(a:lines) < 2 | return | endif
 
     let cmd = get({'ctrl-x': 'split',
                 \ 'ctrl-v': 'vertical split',
                 \ 'ctrl-t': 'tabe'}, a:lines[0], 'e')
-    let list = map(a:lines[1:], 's:ag_to_qf(v:val)')
+    let list = map(a:lines[1:], 's:rg_to_qf(v:val)')
 
     let first = list[0]
     execute cmd escape(first.filename, ' %#\')
@@ -1019,27 +911,20 @@ function! s:ag_handler(lines)
     endif
 endfunction
 
-augroup fzf_ag
+augroup fzf_rg
     autocmd!
-    autocmd VimEnter * command! -nargs=* Ag call fzf#run({
-                \ 'source':  printf('ag --nogroup --column --color "%s"',
-                \                   escape(empty(<q-args>) ? '^(?=.)' : <q-args>, '"\')),
-                \ 'sink*':    function('<sid>ag_handler'),
+
+    " \ 'source':  printf('rg --column --smart-case --line-number --no-heading --fixed-strings --no-ignore --hidden --follow --glob "!.git/*" --color "always" "%s"',
+    " \                   escape(empty(<q-args>) ? '^(?=.)' : <q-args>, '"\')),
+    autocmd VimEnter * command! -nargs=* Rg call fzf#run({
+                \ 'source':  'rg --column --smart-case --line-number --no-heading --fixed-strings --no-ignore --hidden --follow --glob "!.git/*" --colors "match:fg:yellow" --colors "path:fg:green" --color "always" '. escape(empty(<q-args>) ? '^(?=.)' : <q-args>, '"\'),
+                \ 'sink*':    function('<sid>rg_handler'),
                 \ 'options': '--ansi --expect=ctrl-t,ctrl-v,ctrl-x --delimiter : --nth 4.. '.
                 \            '--multi --bind=ctrl-a:select-all,ctrl-d:deselect-all '.
                 \            '--color hl:68,hl+:110',
                 \ 'down':    '50%'
                 \ })
 
-    autocmd VimEnter * command! -nargs=* Agu call fzf#run({
-                \ 'source':  printf('ag -U --nogroup --column --color "%s"',
-                \                   escape(empty(<q-args>) ? '^(?=.)' : <q-args>, '"\')),
-                \ 'sink*':    function('<sid>ag_handler'),
-                \ 'options': '--ansi --expect=ctrl-t,ctrl-v,ctrl-x --delimiter : --nth 4.. '.
-                \            '--multi --bind=ctrl-a:select-all,ctrl-d:deselect-all '.
-                \            '--color hl:68,hl+:110',
-                \ 'down':    '50%'
-                \ })
 augroup END
 
 function! s:buflist()
@@ -1070,29 +955,27 @@ function! s:tags_sink(line)
     let &magic = magic
 endfunction
 
-" function! s:tags()
-"     if empty(tagfiles())
-"         echohl WarningMsg
-"         echom 'Preparing tags'
-"         echohl None
-"         silent! !eval '[ -f ".git/hooks/ctags" ] && .git/hooks/ctags' &
-"     endif
+function! s:tags()
+    if empty(tagfiles())
+        echo "no tag file found"
+        return
+    endif
 
-"     call fzf#run({
-"                 \ 'source':  'cat '.join(map(tagfiles(), 'fnamemodify(v:val, ":S")')).
-"                 \            '| grep -v -a ^!',
-"                 \ 'options': '+m -d "\t" --with-nth 1,4.. -n 1 --tiebreak=index',
-"                 \ 'down':    '40%',
-"                 \ 'sink':    function('s:tags_sink')})
-" endfunction
+    call fzf#run({
+                \ 'source':  'cat '.join(map(tagfiles(), 'fnamemodify(v:val, ":S")')).
+                \            '| grep -v -a ^!',
+                \ 'options': '+m -d "\t" --with-nth 1,4.. -n 1 --tiebreak=index',
+                \ 'down':    '40%',
+                \ 'sink':    function('s:tags_sink')})
+endfunction
 
-" command! Tags call s:tags()
+command! Tags call s:tags()
 
-vnoremap // "hy:exec "Ag ".escape('<C-R>h', "/\.*$^~[()")<cr>
+vnoremap // "hy:exec "Rg ".escape('<C-R>h', "/\.*$^~[()")<cr>
 
 nnoremap <leader><Enter> :History<cr>
-nnoremap <leader>a :Ag<space>
-nnoremap <leader>A :exec "Ag ".expand("<cword>")<cr>
+nnoremap <leader>a :Rg<space>
+nnoremap <leader>A :exec "Rg ".expand("<cword>")<cr>
 
 nnoremap <leader>s :exec "Tags ".expand("<cword>")<cr>
 nnoremap <leader>, :Files<cr>
@@ -1123,7 +1006,15 @@ nnoremap <leader>gp :!git push<cr>
 
 " gitv {{{2
 nnoremap <leader>gv :Gitv!<cr>
+vnoremap <leader>gv :Gitv!<cr>
 nnoremap <leader>gV :Gitv<cr>
+augroup gitv
+    au!
+    autocmd Filetype gitv nmap <buffer> <silent> <C-n> <Plug>(gitv-previous-commit)
+    autocmd Filetype gitv nmap <buffer> <silent> <C-p> <Plug>(gitv-next-commit)
+augroup END
+
+let g:Gitv_DoNotMapCtrlKey = 1
 " }}}
 
 " php-refactoring-toolbox {{{2
@@ -1150,12 +1041,12 @@ let g:phpcomplete_parse_docblock_comments = 0
 let g:phpcomplete_enhance_jump_to_definition = 1
 
 augroup php
-    autocmd!
+    au!
     autocmd BufWritePost *.php silent Phplint
     autocmd BufWritePost *.php silent! !eval '[ -f ".git/hooks/ctags" ] && .git/hooks/ctags' &
-    autocmd FileType php nnoremap <Leader>u :PHPImportClass<cr>
-    autocmd FileType php nnoremap <Leader>e :PHPExpandFQCNAbsolute<cr>
-    autocmd FileType php nnoremap <Leader>E :PHPExpandFQCN<cr>
+    autocmd filetype php nnoremap <Leader>u :PHPImportClass<cr>
+    autocmd filetype php nnoremap <Leader>e :PHPExpandFQCNAbsolute<cr>
+    autocmd filetype php nnoremap <Leader>E :PHPExpandFQCN<cr>
 augroup END
 " }}}
 
@@ -1169,18 +1060,18 @@ let g:deoplete#auto_complete_delay= 50
 let g:deoplete#sources#padawan#add_parentheses=0
 
 call deoplete#custom#set('_', 'converters',
-         \ ['converter_auto_delimiter', 'remove_overlap',
-        \ 'converter_truncate_abbr', 'converter_truncate_menu'])
+            \ ['converter_auto_delimiter', 'remove_overlap',
+            \ 'converter_truncate_abbr', 'converter_truncate_menu'])
 " call deoplete#custom#set('_', 'converters',
 "         \ ['converter_auto_delimiter', 'remove_overlap',
 "         \ 'converter_auto_paren'])
 
 
 
-augroup echodoc_debug
-    autocmd!
-    " autocmd CompleteDone * echo v:completed_item
-augroup END
+" augroup echodoc_debug
+" autocmd!
+" autocmd CompleteDone * echo v:completed_item
+" augroup END
 let g:deoplete#sources = {}
 let g:deoplete#sources._ = ['ultisnips', 'buffer']
 let g:deoplete#sources.php = ['padawan', 'ultisnips', 'buffer']
@@ -1192,7 +1083,7 @@ inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 " call deoplete#custom#set('_',
 "             \ 'disabled_syntaxes', ['Comment', 'String'])
 augroup test_completion_fix
-    autocmd!
+    au!
     au BufNewFile,BufRead,BufWinEnter *Test.php exe ":UltiSnipsAddFiletypes php.phpunit"
     au BufNewFile,BufRead,BufWinEnter *Spec.php exe ":UltiSnipsAddFiletypes php.php-phpspec"
 augroup END
@@ -1243,24 +1134,6 @@ let g:vdebug_keymap = {
 highlight DbgBreakptLine ctermbg=none ctermfg=none
 " }}}
 
-" simple-todo {{{2
-let g:simple_todo_map_keys = 0
-" nnoremap ,i <Plug>(simple-todo-new)
-" inoremap ,i <Plug>(simple-todo-new)
-" nnoremap ,I <Plug>(simple-todo-new-start-of-line)
-" inoremap ,I <Plug>(simple-todo-new-start-of-line)
-" nnoremap ,o <Plug>(simple-todo-below)
-" inoremap ,o <Plug>(simple-todo-below)
-" nnoremap ,O <Plug>(simple-todo-above)
-" inoremap ,O <Plug>(simple-todo-above)
-" nnoremap ,x <Plug>(simple-todo-mark-as-done)
-" inoremap ,x <Plug>(simple-todo-mark-as-done)
-" nnoremap ,X <Plug>(simple-todo-mark-as-undone)
-" inoremap ,X <Plug>(simple-todo-mark-as-undone)
-" nnoremap ,s <Plug>(simple-todo-new-list-item)
-" inoremap ,s <Plug>(simple-todo-new-list-item)
-" }}}
-
 " scratch {{{2
 nnoremap <leader>z :Scratch<cr>
 let g:scratch_top = 1
@@ -1268,16 +1141,19 @@ let g:scratch_persistence_file = '.scratch.vim'
 " }}}
 
 " vim-go {{{2
-au FileType go nnoremap <leader>gf :GoCoverageToggle<cr>
-au FileType go nnoremap <leader>gr <Plug>(go-run)
-au FileType go nnoremap <leader>gb <Plug>(go-build)
-au FileType go nnoremap <leader>gt <Plug>(go-test)
-au FileType go nnoremap <leader>gd <Plug>(go-doc)
-au FileType go nnoremap <leader>gs <Plug>(go-implements)
-au FileType go nnoremap <leader>ge <Plug>(go-rename)
+augroup go_plugin
+    au!
+    au filetype go nnoremap <leader>gf :GoCoverageToggle<cr>
+    au filetype go nnoremap <leader>gr <Plug>(go-run)
+    au filetype go nnoremap <leader>gb <Plug>(go-build)
+    au filetype go nnoremap <leader>gt <Plug>(go-test)
+    au filetype go nnoremap <leader>gd <Plug>(go-doc)
+    au filetype go nnoremap <leader>gs <Plug>(go-implements)
+    au filetype go nnoremap <leader>ge <Plug>(go-rename)
+    au BufNewFile,BufRead,BufWinEnter *.go nnoremap <buffer> <leader>w :GoFmt<cr>
+augroup END
 let g:go_list_type = "location"
 
-au BufNewFile,BufRead,BufWinEnter *.go nnoremap <buffer> <leader>w :GoFmt<cr>
 
 let g:go_bin_path = expand("~/.gvm/gos/go1.8/bin")
 let g:go_highlight_functions = 1
@@ -1305,8 +1181,9 @@ nnoremap <silent> <m-l> :SwitchGoldenViewMain<cr>
 " }}}
 
 " ferret {{{2
-nnoremap <leader>/ :Ack <c-r><c-w><cr>
-nnoremap <leader>rip :Acks /<c-r><c-w>/<c-r><c-w>/gc<left><left>
+nnoremap <leader>i :ALEToggle<cr>
+nnoremap <leader>/ :ALEDisable<cr>:Ack <c-r><c-w><cr>
+nnoremap <leader>rip :Acks /<c-r><c-w>/<c-r><c-w>/gc<left><left><left>
 " }}}
 
 " easymotion {{{2
@@ -1322,8 +1199,6 @@ nmap <Leader>f <Plug>(easymotion-w)
 map  <Leader>b <Plug>(easymotion-b)
 let g:EasyMotion_smartcase = 1
 
-" map  / <Plug>(easymotion-sn)
-" omap / <Plug>(easymotion-tn)
 " }}}
 
 " commentary {{{2
@@ -1353,10 +1228,13 @@ vnoremap <leader>ga :Tabularize /\|<cr>
 nnoremap <leader>] :%S/<c-R><c-w>/<c-r><c-w>/g<left><left>
 " }}}
 
-" YankRing.vim {{{
-nnoremap <m-y> :YRShow<CR>
-let g:yankring_replace_n_pkey = '<m-p>'
-let g:yankring_replace_n_nkey = '<m-n>'
+" Peekaboo {{{
+let g:peekaboo_window = 'vertical botright 70new'
+" }}}
+
+" easyclip {{{
+nnoremap gm m
+" nmap <silent> gs <plug>SubstituteOverMotionMap
 " }}}
 
 " vim-qf {{{
@@ -1382,9 +1260,45 @@ endfunction
 nmap <Down> :call ToggleQfLocListBinds()<cr>
 " }}}
 
+
+" hardtime {{{
+let g:hardtime_ignore_quickfix = 1
+let g:hardtime_motion_with_count_resets = 1
+let g:hardtime_maxcount = 2
+let g:hardtime_allow_different_key = 1
+let g:hardtime_default_on = 1
+let g:hardtime_ignore_quickfix = 1
 " }}}
 
-" hi Visual guifg=NONE ctermfg=255 guibg=#040404 ctermbg=203 gui=NONE
-" hi SpecialKey       guifg=#343434     guibg=NONE     gui=NONE      ctermfg=NONE        ctermbg=NONE        cterm=NONE
+" ale {{{
+let g:ale_sign_error = '✖'
+let g:ale_sign_warning = '►'
+let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
+let g:ale_lint_on_text_changed = 'never'
+let g:ale_lint_on_enter = 0
+let g:ale_set_loclist = 0
+let g:ale_set_quickfix = 1
+let g:ale_php_phpcs_standard = '~/code/ruleset.xml'
+let g:ale_php_phpmd_ruleset = 'cleancode,codesize,design,unusedcode'
+" }}}
+
+" airline {{{
+let g:airline_powerline_fonts = 1
+let g:airline#extensions#tagbar#enabled = 0
+let g:airline#extensions#virtualenv#enabled = 0
+let g:airline#extensions#whitespace#enabled = 0
+" }}}
+
+" }}}
 
 so ~/.projects.public.vim
+highlight Cursor ctermfg=white ctermbg=black
+filetype plugin indent on
+syntax on
+au BufEnter *.php setlocal ft=php
+let g:rg_command = '
+  \ rg --column --line-number --no-heading --fixed-strings --ignore-case --no-ignore --hidden --follow --color "always"
+  \ -g "*.{js,json,php,md,styl,jade,html,config,py,cpp,c,go,hs,rb,conf}"
+  \ -g "!{.git,node_modules,vendor}/*" '
+
+command! -bang -nargs=* F call fzf#vim#grep(g:rg_command .shellescape(<q-args>), 1, <bang>0)
