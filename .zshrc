@@ -1,23 +1,15 @@
 ZGEN_RESET_ON_CHANGE=(${HOME}/.zshrc)
 source ~/.zplug/init.zsh
 zplug "zplug/zplug", hook-build:"zplug --self-manage"
-zplug "plugins/git",   from:oh-my-zsh
-zplug "plugins/gitfast",   from:oh-my-zsh
-zplug "plugins/tmux",   from:oh-my-zsh
-zplug "plugins/tmuxinator",   from:oh-my-zsh
-zplug "themes/simple",   from:oh-my-zsh, as:theme
-# zplug "mafredri/zsh-async", from:github, defer:0
-# zplug "sindresorhus/pure", use:pure.zsh, from:github, as:theme
+# zplug "plugins/git",   from:oh-my-zsh
+zplug "plugins/gitfast", from:oh-my-zsh
+# ZSH_TMUX_AUTOSTART=true
+zplug "plugins/tmux", from:oh-my-zsh
+zplug "plugins/tmuxinator", from:oh-my-zsh
+zplug "plugins/composer", from:oh-my-zsh
+zplug "themes/simple", from:oh-my-zsh, as:theme
 # zplug "djui/alias-tips"
-
-# Grab binaries from GitHub Releases
-# and rename with the "rename-to:" tag
-zplug "junegunn/fzf-bin", \
-    from:gh-r, \
-    as:command, \
-    rename-to:fzf
 zplug "zsh-users/zsh-completions"
-
 
 # Install plugins if there are plugins that have not been installed
 if ! zplug check; then
@@ -30,10 +22,14 @@ fi
 # Then, source plugins and add commands to $PATH
 zplug load
 
-export EDITOR=nvim
+export EDITOR="nvim"
+export USE_EDITOR=$EDITOR
+export VISUAL=$EDITOR
+
 export TERM=xterm-256color
 
-export FZF_DEFAULT_COMMAND='ag --hidden --ignore .git -g ""'
+# export FZF_DEFAULT_COMMAND='ag --hidden --ignore .git -g ""'
+export FZF_DEFAULT_COMMAND='rg   --colors "match:fg:cyan" --colors "path:fg:green" --files --no-ignore --smart-case --hidden --follow --glob "!.git/*"'
 export GOPATH="$HOME/go"
 export LGOBIN="$HOME/go/bin"
 PATH=$PATH:~/.config/composer/vendor/bin:~/bin:$LGOBIN
@@ -80,13 +76,20 @@ alias vu='vagrant up'
 alias vs='vagrant ssh'
 alias vh='vagrant halt'
 alias ob='observr autotest.rb'
+alias ls="ls --color=auto"
+alias l='ls -lFh'     #size,show type,human readable
+alias la='ls -lAFh'   #long list,show almost all,show type,human readable
+alias lr='ls -tRFh'   #sorted by date,recursive,show type,human readable
+alias lt='ls -ltFh'   #long list,sorted by date,show type,human readable
+alias ll='ls -l'      #long list
+alias grep='grep --color'
 
 alias mux='tmuxinator'
 # Just fun
 alias fucking=sudo
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-autoload -U compinit && compinit
+# autoload -U compinit && compinit
 
 [[ -s "$HOME/.gvm/scripts/gvm" ]] && source "$HOME/.gvm/scripts/gvm"
 
@@ -103,6 +106,60 @@ alias gbd="git for-each-ref --sort=committerdate refs/heads/ --format='%(HEAD) %
 PATH=/home/jm/.gvm/pkgsets/go1.8/global/bin:/home/jm/.gvm/gos/go1.8/bin:/home/jm/.gvm/pkgsets/go1.8/global/overlay/bin:/home/jm/.gvm/bin:/home/jm/.gvm/bin:/home/jm/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/home/jm/.composer/vendor/bin:/home/jm/.fzf/bin
 
 alias canihazinterwebz='sudo dhclient -r;sudo dhclient &'
+alias tw='mux shell'
 
-setopt auto_cd
-setopt autopushd
+setopt AUTO_CD
+setopt AUTO_PUSHD PUSHD_TO_HOME
+alias d='dirs -v'
+
+setopt CORRECT
+
+my-backward-delete-word() {
+    local WORDCHARS=${WORDCHARS/\//}
+    zle backward-delete-word
+}
+zle -N my-backward-delete-word
+bindkey '^W' my-backward-delete-word
+
+function setgov ()
+{
+     for i in {0..7};
+     do
+         sudo cpufreq-set -c $i -g $1; 
+     done
+}
+
+# Modified version where you can press
+#   - CTRL-O to open with `open` command,
+#   - CTRL-E or Enter key to open with the $EDITOR
+fo() {
+  local out file key
+  IFS=$'\n' out=($(fzf-tmux --query="$1" --exit-0 --expect=ctrl-o,ctrl-e))
+  key=$(head -1 <<< "$out")
+  file=$(head -2 <<< "$out" | tail -1)
+  if [ -n "$file" ]; then
+    [ "$key" = ctrl-o ] && open "$file" || ${EDITOR:-vim} "$file"
+  fi
+}
+
+
+# fbr - checkout git branch (including remote branches), sorted by most recent commit, limit 30 last branches
+fbr() {
+  local branches branch
+  branches=$(git for-each-ref --count=30 --sort=-committerdate refs/heads/ --format="%(refname:short)") &&
+  branch=$(echo "$branches" |
+           fzf-tmux -d $(( 2 + $(wc -l <<< "$branches") )) +m) &&
+  git checkout $(echo "$branch" | sed "s/.* //" | sed "s#remotes/[^/]*/##")
+}
+
+# fshow - git commit browser
+fshow() {
+  git log --graph --color=always \
+      --format="%C(auto)%h%d %s %C(black)%C(bold)%cr" "$@" |
+  fzf --ansi --no-sort --reverse --tiebreak=index --bind=ctrl-s:toggle-sort \
+      --bind "ctrl-m:execute:
+                (grep -o '[a-f0-9]\{7\}' | head -1 |
+                xargs -I % sh -c 'git show --color=always % | less -R') << 'FZF-EOF'
+                {}
+FZF-EOF"
+}
