@@ -10,197 +10,6 @@ URxvt*skipBuiltinGlyphs: true
 URxvt.iso14755: False
 URxvt.iso14755_32: False
 
-!! special
-!*.foreground:   #c5c8c6
-!*.background:   #1d1f21
-!*.cursorColor:  #c5c8c6
-!
-!! black
-!*.color0:       #282a2e
-!*.color8:       #373b41
-!
-!! red
-!*.color1:       #a54242
-!*.color9:       #cc6666
-!
-!! green
-!*.color2:       #8c9440
-!*.color10:      #b5bd68
-!
-!! yellow
-!*.color3:       #de935f
-!*.color11:      #f0c674
-!
-!! blue
-!*.color4:       #5f819d
-!*.color12:      #81a2be
-!
-!! magenta
-!*.color5:       #85678f
-!*.color13:      #b294bb
-!
-!! cyan
-!*.color6:       #5e8d87
-!*.color14:      #8abeb7
-!
-!! white
-!*.color7:       #707880
-!*.color15:      #c5c8c6
-
-! chark.dark
-
-!! special
-!*.foreground:   #d0d0d0
-!*.background:   #151515
-!*.cursorColor:  #d0d0d0
-!
-!! black
-!*.color0:       #151515
-!*.color8:       #505050
-!
-!! red
-!*.color1:       #fb9fb1
-!*.color9:       #fb9fb1
-!
-!! green
-!*.color2:       #acc267
-!*.color10:      #acc267
-!
-!! yellow
-!*.color3:       #ddb26f
-!*.color11:      #ddb26f
-!
-!! blue
-!*.color4:       #6fc2ef
-!*.color12:      #6fc2ef
-!
-!! magenta
-!*.color5:       #e1a3ee
-!*.color13:      #e1a3ee
-!
-!! cyan
-!*.color6:       #12cfc0
-!*.color14:      #12cfc0
-!
-!! white
-!*.color7:       #d0d0d0
-!*.color15:      #f5f5f5
-
-!! belge
-!! special
-!*.foreground:   #ffffff
-!*.background:   #000000
-!*.cursorColor:  #ffffff
-!
-!! black
-!*.color0:       #252525
-!*.color8:       #454545
-!
-!! red
-!*.color1:       #ef6769
-!*.color9:       #fc7ca5
-!
-!! green
-!*.color2:       #a6e22e
-!*.color10:      #b6e354
-!
-!! yellow
-!*.color3:       #fd971f
-!*.color11:      #fd971f
-!
-!! blue
-!*.color4:       #6495ed
-!*.color12:      #87ceeb
-!
-!! magenta
-!*.color5:       #deb887
-!*.color13:      #996600
-!
-!! cyan
-!*.color6:       #b0c4de
-!*.color14:      #87ceeb
-!
-!! white
-!*.color7:       #dbdcdc
-!*.color15:      #fdfdfd
-
-!railscasts
-
-!! special
-!*.foreground:   #e6e1dc
-!*.background:   #2b2b2b
-!*.cursorColor:  #e6e1dc
-!
-!! black
-!*.color0:       #2b2b2b
-!*.color8:       #5a647e
-!
-!! red
-!*.color1:       #da4939
-!*.color9:       #da4939
-!
-!! green
-!*.color2:       #a5c261
-!*.color10:      #a5c261
-!
-!! yellow
-!*.color3:       #ffc66d
-!*.color11:      #ffc66d
-!
-!! blue
-!*.color4:       #6d9cbe
-!*.color12:      #6d9cbe
-!
-!! magenta
-!*.color5:       #b6b3eb
-!*.color13:      #b6b3eb
-!
-!! cyan
-!*.color6:       #519f50
-!*.color14:      #519f50
-!
-!! white
-!*.color7:       #e6e1dc
-!*.color15:      #f9f7f3
-
-
-!! special
-!*.foreground:   #f8f8f2
-!*.background:   #272822
-!*.cursorColor:  #f8f8f2
-!
-!! black
-!*.color0:       #272822
-!*.color8:       #75715e
-!
-!! red
-!*.color1:       #f92672
-!*.color9:       #f92672
-!
-!! green
-!*.color2:       #a6e22e
-!*.color10:      #a6e22e
-!
-!! yellow
-!*.color3:       #f4bf75
-!*.color11:      #f4bf75
-!
-!! blue
-!*.color4:       #66d9ef
-!*.color12:      #66d9ef
-!
-!! magenta
-!*.color5:       #ae81ff
-!*.color13:      #ae81ff
-!
-!! cyan
-!*.color6:       #a1efe4
-!*.color14:      #a1efe4
-!
-!! white
-!*.color7:       #f8f8f2
-!*.color15:      #f9f8f5
-
 !! solarized dark
 !! special
 !*.foreground:   #93a1a1
@@ -244,6 +53,8 @@ URxvt.iso14755_32: False
 *background: #282828
 ! soft contrast: *background: #32302f
 *foreground: #ebdbb2
+! cyan
+*.cursorColor:  #00FFFF
 ! Black + DarkGrey
 *color0:  #282828
 *color8:  #928374
@@ -268,3 +79,42 @@ URxvt.iso14755_32: False
 ! LightGrey + White
 *color7:  #a89984
 *color15: #ebdbb2
+
+
+!! ocean light
+!! special
+!*.foreground:   #4f5b66
+!*.background:   #eff1f5
+!*.cursorColor:  #00FFFF
+!
+!! black
+!*.color0:       #2b303b
+!*.color8:       #65737e
+!
+!! red
+!*.color1:       #bf616a
+!*.color9:       #bf616a
+!
+!! green
+!*.color2:       #a3be8c
+!*.color10:      #a3be8c
+!
+!! yellow
+!*.color3:       #ebcb8b
+!*.color11:      #ebcb8b
+!
+!! blue
+!*.color4:       #8fa1b3
+!*.color12:      #8fa1b3
+!
+!! magenta
+!*.color5:       #b48ead
+!*.color13:      #b48ead
+!
+!! cyan
+!*.color6:       #96b5b4
+!*.color14:      #96b5b4
+!
+!! white
+!*.color7:       #c0c5ce
+!*.color15:      #eff1f5
