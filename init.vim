@@ -38,7 +38,6 @@ Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-commentary', {'on': 'Commentary'}
 Plug 'tpope/vim-abolish'
 Plug 'tpope/vim-speeddating'
-Plug 'tpope/vim-sensible'
 
 Plug 'ap/vim-buftabline'
 let g:buftabline_show = 1 " display only if more than 1 buffer open
@@ -49,7 +48,9 @@ Plug 'vim-airline/vim-airline' | Plug 'vim-airline/vim-airline-themes'
 Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
 
 " Plug 'vim-scripts/auto-pairs-gentle'
-Plug 'Townk/vim-autoclose'
+Plug 'jiangmiao/auto-pairs'
+" Plug 'Raimondi/delimitMate'
+" Plug 'Townk/vim-autoclose'
 
 Plug 'amiorin/vim-project'
 
@@ -64,7 +65,7 @@ Plug 'gregsexton/gitv', {'on': 'Gitv'}
 Plug 'Lokaltog/vim-easymotion'
 Plug 'matze/vim-move'
 " jjjjjjjjjj is not cool
-Plug '~/code/vim-hardtime'
+Plug 'phux/vim-hardtime'
 " enhancing word recognition like camel case
 Plug 'chaoren/vim-wordmotion'
 
@@ -72,7 +73,7 @@ Plug 'troydm/easytree.vim'
 Plug 'majutsushi/tagbar', {'on': 'TagbarToggle'}
 " }}}
 
-Plug 'godlygeek/tabular', {'for': ['behat', 'cucumber']}
+Plug 'godlygeek/tabular', {'on': 'Tabularize'}
 
 " color schemes {{{
 " Plug 'crusoexia/vim-monokai'
@@ -89,8 +90,8 @@ let g:behat_executables = ['vendor/bin/behat']
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 " note: in global composer json "minimum-stability":"dev"
 " composer global require mkusher/padawan
-" Plug 'padawan-php/deoplete-padawan', {'for': 'php'}
-Plug '~/code/deoplete-padawan', {'for': 'php'}
+Plug 'padawan-php/deoplete-padawan', {'for': 'php'}
+" Plug '~/code/deoplete-padawan', {'for': 'php'}
 Plug 'zchee/deoplete-go', { 'do': 'make'}
 " }}}
 
@@ -100,7 +101,7 @@ Plug 'w0rp/ale'
 
 " php {{{
 Plug 'phpstan/vim-phpstan', {'for': 'php'}
-nnoremap <m-a> :PHPStanAnalyse -c phpstan.neon src<cr>
+nnoremap <silent> <m-a> :ALEDisable<cr>:PHPStanAnalyse -c phpstan.neon src<cr>
 let g:phpstan_analyse_level = 4
 Plug 'adoy/vim-php-refactoring-toolbox', {'for': 'php'}
 Plug 'Herzult/phpspec-vim', {'for': 'php'}
@@ -113,6 +114,8 @@ Plug 'joonty/vdebug', {'for': 'php'}
 Plug '2072/PHP-Indenting-for-VIm', {'for': 'php'}
 Plug 'alvan/vim-php-manual', {'for': 'php'}
 Plug 'nrocco/vim-phplint', {'for': 'php'}
+Plug 'phux/vim-php-refactoring', {'branch': 'develop', 'for': 'php'}
+let g:php_refactor_command='~/bin/refactor.phar'
 " }}}
 
 Plug 'evidens/vim-twig', {'for': 'twig'}
@@ -121,8 +124,8 @@ Plug 'avakhov/vim-yaml', {'for': 'yaml'}
 
 Plug 'phux/scratch.vim'
 
-Plug 'fatih/vim-go', {'for':'go'}
-Plug 'buoto/gotests-vim', {'for':'go'}
+Plug 'fatih/vim-go', {'for': 'go'}
+Plug 'buoto/gotests-vim', {'for': 'go'}
 
 " tmux {{{
 Plug 'christoomey/vim-tmux-navigator'
@@ -133,7 +136,7 @@ Plug 'tmux-plugins/vim-tmux'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 
-Plug '~/code/echodoc.vim'
+Plug 'Shougo/echodoc.vim'
 
 Plug 'merlinrebrovic/focus.vim'
 
@@ -149,10 +152,22 @@ Plug 'wincent/ferret', {'on': 'Ack'}
 Plug 'junegunn/vim-peekaboo'
 Plug 'maxbrunsfeld/vim-yankstack'
 " }}}
-
+Plug 'iamcco/markdown-preview.vim'
+Plug 'pbogut/fzf-mru.vim'
 call plug#end()
 " }}}
+let g:mkdp_path_to_chrome = "chromium-browser"
+let g:mkdp_auto_start = 1
+    " set to 1, the vim will open the preview window once enter the markdown
+    " buffer
 
+    let g:mkdp_auto_open = 1
+    " set to 1, the vim will auto open preview window when you edit the
+    " markdown file
+
+    let g:mkdp_auto_close = 1
+    " set to 1, the vim will auto close current preview window when change
+    " from markdown buffer to another buffer
 " }}}
 
 " needs to be called before mappings like Y => y$ are done.
@@ -283,7 +298,7 @@ set incsearch
 
 " undo {{{2
 set undofile                " Save undo's after file closes
-set undodir=~/.undovim " where to save undo histories
+set undodir=~/.undonvim " where to save undo histories
 set undolevels=1000         " How many undos
 set undoreload=10000
 " }}}
@@ -406,8 +421,8 @@ nnoremap <leader>x <c-w>c:GoldenViewResize<cr>:EnableGoldenViewAutoResize<cr>
 
 
 " resize
-nmap <silent> - :exe "vertical resize -15"<CR>
-nmap <silent> + :exe "vertical resize +15"<CR>
+nnoremap <silent> <leader>+ :exe "resize " . (winheight(0) * 3/2)<CR>
+nnoremap <silent> <leader>- :exe "resize " . (winheight(0) * 2/3)<CR>
 " }}}
 
 " tag navigation {{{
@@ -721,9 +736,8 @@ nnoremap <silent> <leader>W :w<cr>:ALEEnable<cr>:silent! !eval '[ -f ".git/hooks
 set nocursorcolumn       " do not highlight column
 set nocursorline         " do not highlight line
 " syntax sync minlines=256 " start highlighting from 256 lines backwards
-" set synmaxcol=150        " do not highlith very long lines
-" syntax sync minlines=256
-" set synmaxcol=300
+set synmaxcol=200 " do not highlith very long lines
+" autocmd BufWinEnter,Syntax * syn sync minlines=500 maxlines=500
 " set re=1
 " set lazyredraw
 " set scrolljump=5
@@ -773,6 +787,7 @@ augroup filetype_settings
     au BufNewFile,BufRead *.feature set ft=behat
     au filetype behat,cucumber setl sw=2 sts=2 et
     au filetype yaml setl sw=2 sts=2 et
+    au BufNewFile,BufRead *.yml.dist set ft=yaml
     au filetype ruby setl sw=2 sts=2 et
 
     " au filetype vim setl foldenable fdm=marker fmr={{{,}}} fdl=0
@@ -873,12 +888,6 @@ set noshowmode
 " fzf {{{2
 let g:fzf_layout = { 'down': '~40%' }
 
-" [Files] Extra options for fzf
-"   e.g. File preview using Highlight
-"        (http://www.andre-simon.de/doku/highlight/en/highlight.html)
-" let g:fzf_files_options =
-"   \ '--preview "(highlight -O ansi {} || cat {}) 2> /dev/null | head -'.&lines.'"'
-
 " [Buffers] Jump to the existing window if possible
 let g:fzf_buffers_jump = 1
 
@@ -917,7 +926,7 @@ augroup fzf_rg
     " \ 'source':  printf('rg --column --smart-case --line-number --no-heading --fixed-strings --no-ignore --hidden --follow --glob "!.git/*" --color "always" "%s"',
     " \                   escape(empty(<q-args>) ? '^(?=.)' : <q-args>, '"\')),
     autocmd VimEnter * command! -nargs=* Rg call fzf#run({
-                \ 'source':  'rg --column --smart-case --line-number --no-heading --fixed-strings --no-ignore --hidden --follow --glob "!.git/*" --colors "match:fg:yellow" --colors "path:fg:green" --color "always" '. escape(empty(<q-args>) ? '^(?=.)' : <q-args>, '"\'),
+                \ 'source':  'rg --column --smart-case --line-number --no-heading --fixed-strings --hidden --follow --glob "!.git/*" --colors "match:fg:yellow" --colors "path:fg:green" --color "always" --sort-files '. escape(empty(<q-args>) ? '^(?=.)' : <q-args>, '"\'),
                 \ 'sink*':    function('<sid>rg_handler'),
                 \ 'options': '--ansi --expect=ctrl-t,ctrl-v,ctrl-x --delimiter : --nth 4.. '.
                 \            '--multi --bind=ctrl-a:select-all,ctrl-d:deselect-all '.
@@ -926,6 +935,64 @@ augroup fzf_rg
                 \ })
 
 augroup END
+
+
+function! s:ag_to_qf(line)
+    let parts = split(a:line, ':')
+    return {'filename': parts[0], 'lnum': parts[1], 'col': parts[2],
+                \ 'text': join(parts[3:], ':')}
+endfunction
+
+function! s:ag_handler(lines)
+    if len(a:lines) < 2 | return | endif
+
+    let cmd = get({'ctrl-x': 'split',
+                \ 'ctrl-v': 'vertical split',
+                \ 'ctrl-t': 'tabe'}, a:lines[0], 'e')
+    let list = map(a:lines[1:], 's:ag_to_qf(v:val)')
+
+    let first = list[0]
+    execute cmd escape(first.filename, ' %#\')
+    execute first.lnum
+    execute 'normal!' first.col.'|zz'
+
+    if len(list) > 1
+        call setqflist(list)
+        copen
+        wincmd p
+    endif
+endfunction
+
+augroup fzf_ag
+    autocmd!
+    autocmd VimEnter * command! -nargs=* Ag call fzf#run({
+                \ 'source':  printf('ag --nogroup --column --color "%s"',
+                \                   escape(empty(<q-args>) ? '^(?=.)' : <q-args>, '"\')),
+                \ 'sink*':    function('<sid>ag_handler'),
+                \ 'options': '--ansi --expect=ctrl-t,ctrl-v,ctrl-x --delimiter : --nth 4.. '.
+                \            '--multi --bind=ctrl-a:select-all,ctrl-d:deselect-all '.
+                \            '--color hl:68,hl+:110',
+                \ 'down':    '50%'
+                \ })
+
+    autocmd VimEnter * command! -nargs=* Agu call fzf#run({
+                \ 'source':  printf('ag -U --nogroup --column --color "%s"',
+                \                   escape(empty(<q-args>) ? '^(?=.)' : <q-args>, '"\')),
+                \ 'sink*':    function('<sid>ag_handler'),
+                \ 'options': '--ansi --expect=ctrl-t,ctrl-v,ctrl-x --delimiter : --nth 4.. '.
+                \            '--multi --bind=ctrl-a:select-all,ctrl-d:deselect-all '.
+                \            '--color hl:68,hl+:110',
+                \ 'down':    '50%'
+                \ })
+augroup END
+
+function! GitRebaseAll()
+    normal! gg
+    s/pick/p/
+    normal! j
+    %s/^pick/squash/
+endfunction
+autocmd filetype gitrebase nnoremap <buffer> <leader>w :call GitRebaseAll()<cr>
 
 function! s:buflist()
     redir => ls
@@ -971,11 +1038,11 @@ endfunction
 
 command! Tags call s:tags()
 
-vnoremap // "hy:exec "Rg ".escape('<C-R>h', "/\.*$^~[()")<cr>
+vnoremap // "hy:exec "Ag".escape('<C-R>h', "/\.*$^~[()")<cr>
 
-nnoremap <leader><Enter> :History<cr>
-nnoremap <leader>a :Rg<space>
-nnoremap <leader>A :exec "Rg ".expand("<cword>")<cr>
+nnoremap <leader><Enter> :FZFMru<cr>
+nnoremap <leader>a :ALEDisable<cr>:Ag<space>
+nnoremap <leader>A :ALEDisable<cr>:exec "Ag".expand("<cword>")<cr>
 
 nnoremap <leader>s :exec "Tags ".expand("<cword>")<cr>
 nnoremap <leader>, :Files<cr>
@@ -983,6 +1050,11 @@ nnoremap <leader>, :Files<cr>
 
 " auto-pairs {{{2
 let g:AutoPairsFlyMode = 0
+let g:AutoPairsMapSpace = 0
+let g:AutoPairsMultilineClose = 0
+let g:AutoPairsShortcutToggle = ''
+let g:AutoPairsShortcutFastWrap = ''
+let g:AutoPairsShortcutJump = ''
 let g:AutoPairsShortcutBackInsert = '<c-h>'
 " }}}
 
@@ -1030,7 +1102,11 @@ nnoremap <leader>rm :call PhpRenameMethod()<CR>
 nnoremap <leader>eu :call PhpExtractUse()<CR>
 vnoremap <leader>ec :call PhpExtractConst()<CR>
 nnoremap <leader>ep :call PhpExtractClassProperty()<CR>
-vnoremap <leader>em :call PhpExtractMethod()<CR>
+" vnoremap <leader>em :call PhpExtractMethod()<CR>
+" https://github.com/QafooLabs/php-refactoring-browser/releases
+vnoremap <silent> <leader>em :call PhpRefactorExtractMethodDirectly()<CR>
+" https://github.com/dunglas/phpdoc-to-typehint/releases
+nnoremap <leader>rt :exec "!~/bin/phpdoc-to-typehint.phar ".expand('%:p:h')<cr>
 " }}}
 
 " phpcomplete {{{2
@@ -1056,38 +1132,48 @@ let g:deoplete#enable_smart_case = 1
 let g:deoplete#enable_camel_case = 1
 let g:deoplete#auto_refresh_delay = 100
 let g:deoplete#auto_complete_delay= 50
-" needed for echodoc to work
-let g:deoplete#sources#padawan#add_parentheses=0
+" let g:deoplete#sources#padawan#auto_update = 1
+
+let g:deoplete#sources#padawan#add_parentheses=1
+" needed for echodoc to work if add_parentheses is 1
+let g:deoplete#skip_chars = ['$']
 
 call deoplete#custom#set('_', 'converters',
             \ ['converter_auto_delimiter', 'remove_overlap',
             \ 'converter_truncate_abbr', 'converter_truncate_menu'])
+" call deoplete#custom#set('_', 'converters',
+"             \ ['converter_auto_delimiter', 'remove_overlap'])
 " call deoplete#custom#set('_', 'converters',
 "         \ ['converter_auto_delimiter', 'remove_overlap',
 "         \ 'converter_auto_paren'])
 
 
 
-" augroup echodoc_debug
-" autocmd!
+augroup echodoc_debug
+autocmd!
 " autocmd CompleteDone * echo v:completed_item
-" augroup END
+augroup END
 let g:deoplete#sources = {}
-let g:deoplete#sources._ = ['ultisnips', 'buffer']
+" let g:deoplete#sources._ = ['ultisnips', 'buffer']
 let g:deoplete#sources.php = ['padawan', 'ultisnips', 'buffer']
 
 inoremap <expr> <TAB> pumvisible() ? "\<c-n>" : "\<TAB>"
 inoremap <expr> <s-tab> pumvisible() ? "\<c-p>" : "\<TAB>"
 inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 
+" deoplete-go settings
+let g:deoplete#sources#go#gocode_binary = $GOPATH.'/bin/gocode'
+let g:deoplete#sources#go#sort_class = ['package', 'func', 'type', 'var', 'const']
+let g:deoplete#sources#go#use_cache = 1
+
 " call deoplete#custom#set('_',
 "             \ 'disabled_syntaxes', ['Comment', 'String'])
+" }}}
 augroup test_completion_fix
     au!
     au BufNewFile,BufRead,BufWinEnter *Test.php exe ":UltiSnipsAddFiletypes php.phpunit"
     au BufNewFile,BufRead,BufWinEnter *Spec.php exe ":UltiSnipsAddFiletypes php.php-phpspec"
 augroup END
-" }}}
 
 " phpdoc {{{2
 let g:pdv_cfg_autoEndClass = 0
@@ -1163,7 +1249,7 @@ let g:go_highlight_types = 1
 let g:go_highlight_operators = 1
 let g:go_highlight_build_constraints = 1
 let g:go_fmt_command = "goimports"
-let g:go_fmt_autosave = 0
+let g:go_fmt_autosave = 1
 " }}}
 
 " focus.vim {{{
@@ -1183,6 +1269,7 @@ nnoremap <silent> <m-l> :SwitchGoldenViewMain<cr>
 " ferret {{{2
 nnoremap <leader>i :ALEToggle<cr>
 nnoremap <leader>/ :ALEDisable<cr>:Ack <c-r><c-w><cr>
+" nnoremap <leader>, :ALEDisable<cr>:Ack
 nnoremap <leader>rip :Acks /<c-r><c-w>/<c-r><c-w>/gc<left><left><left>
 " }}}
 
@@ -1295,7 +1382,6 @@ so ~/.projects.public.vim
 highlight Cursor ctermfg=white ctermbg=black
 filetype plugin indent on
 syntax on
-au BufEnter *.php setlocal ft=php
 let g:rg_command = '
   \ rg --column --line-number --no-heading --fixed-strings --ignore-case --no-ignore --hidden --follow --color "always"
   \ -g "*.{js,json,php,md,styl,jade,html,config,py,cpp,c,go,hs,rb,conf}"

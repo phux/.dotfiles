@@ -45,3 +45,36 @@ fi
 if ! grep -q "mkusher/padawan" "$composerJson"; then
     composer global require "mkusher/padawan"
 fi
+
+if ! grep -q "jakub-onderka/php-parallel-lint" "$composerJson"; then
+    composer global require "jakub-onderka/php-parallel-lint"
+fi
+
+if ! grep -q "sebastian/phpcpd" "$composerJson"; then
+    composer global require "sebastian/phpcpd"
+fi
+
+if ! grep -q "phpro/grumphp" "$composerJson"; then
+    composer global require "phpro/grumphp"
+fi
+
+echo "Installing phars"
+if [ ! -d "$HOME/bin" ]; then
+    mkdir -p "$HOME/bin"
+fi
+
+typehintPhar="$HOME/phpdoc-to-typehint.phar"
+if [ ! -f $typehintPhar ]; then
+    wget -o $typehintPhar https://github.com/dunglas/phpdoc-to-typehint/releases/download/v0.1.0/phpdoc-to-typehint.phar
+    chmod +x $typehintPhar
+    echo "Installed $typehintPhar"
+fi
+
+refactoringPhar="$HOME/bin/refactor.phar"
+if [ ! -f $refactoringPhar ]; then
+    wget -o $refactoringPhar https://github.com/QafooLabs/php-refactoring-browser/releases/download/v0.1/refactor.phar
+    chmod +x $refactoringPhar
+    echo "Installed $refactoringPhar"
+fi
+
+echo "PHP tooling complete"
