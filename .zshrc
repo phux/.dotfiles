@@ -7,6 +7,9 @@ zplug "plugins/gitfast", from:oh-my-zsh
 zplug "plugins/tmux", from:oh-my-zsh
 zplug "plugins/tmuxinator", from:oh-my-zsh
 zplug "plugins/composer", from:oh-my-zsh
+zplug "plugins/colored-man-pages", from:oh-my-zsh
+zplug "plugins/docker", from:oh-my-zsh
+zplug "plugins/docker-compose", from:oh-my-zsh
 zplug "themes/simple", from:oh-my-zsh, as:theme
 # zplug "djui/alias-tips"
 zplug "zsh-users/zsh-completions"
@@ -29,10 +32,13 @@ export VISUAL=$EDITOR
 export TERM=xterm-256color
 
 # export FZF_DEFAULT_COMMAND='ag --hidden --ignore .git -g ""'
-export FZF_DEFAULT_COMMAND='rg   --colors "match:fg:cyan" --colors "path:fg:green" --files --no-ignore --smart-case --hidden --follow --glob "!.git/*"'
+export FZF_DEFAULT_COMMAND='rg  --colors "match:fg:cyan" --colors "path:fg:green" --files --smart-case --hidden --follow --sort-files --glob "!.git/*"'
+
+[[ -s "$HOME/.gvm/scripts/gvm" ]] && source "$HOME/.gvm/scripts/gvm"
 export GOPATH="$HOME/go"
 export LGOBIN="$HOME/go/bin"
-PATH=$PATH:~/.config/composer/vendor/bin:~/bin:$LGOBIN
+export FZF_BIN_PATH="$HOME/.fzf/bin"
+export PATH=$PATH:~/.config/composer/vendor/bin:~/bin:$LGOBIN:$FZF_BIN_PATH
 export NVIM_TUI_ENABLE_CURSOR_SHAPE=0
 export TMP=/tmp
 export TMPDIR=/tmp
@@ -91,8 +97,6 @@ alias fucking=sudo
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 # autoload -U compinit && compinit
 
-[[ -s "$HOME/.gvm/scripts/gvm" ]] && source "$HOME/.gvm/scripts/gvm"
-
 # disable c-s and c-q freeze
 stty stop ''
 stty start ''
@@ -103,7 +107,6 @@ alias gb="git for-each-ref --sort=committerdate refs/heads/ --format='%(committe
 alias gbd="git for-each-ref --sort=committerdate refs/heads/ --format='%(HEAD) %(color:yellow)%(refname:short)%(color:reset) - %(color:red)%(objectname:short)%(color:reset) - %(contents:subject) - %(authorname) (%(color:green)%(committerdate:relative)%(color:reset))'"
 
 
-PATH=/home/jm/.gvm/pkgsets/go1.8/global/bin:/home/jm/.gvm/gos/go1.8/bin:/home/jm/.gvm/pkgsets/go1.8/global/overlay/bin:/home/jm/.gvm/bin:/home/jm/.gvm/bin:/home/jm/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/home/jm/.composer/vendor/bin:/home/jm/.fzf/bin
 
 alias canihazinterwebz='sudo dhclient -r;sudo dhclient &'
 alias tw='mux shell'
@@ -144,7 +147,7 @@ fo() {
 
 
 # fbr - checkout git branch (including remote branches), sorted by most recent commit, limit 30 last branches
-fbr() {
+gbf() {
   local branches branch
   branches=$(git for-each-ref --count=30 --sort=-committerdate refs/heads/ --format="%(refname:short)") &&
   branch=$(echo "$branches" |
@@ -163,3 +166,6 @@ fshow() {
                 {}
 FZF-EOF"
 }
+
+bindkey -e
+PATH=/home/jm/.gvm/pkgsets/go1.8.1/global/bin:/home/jm/.gvm/gos/go1.8.1/bin:/home/jm/.gvm/pkgsets/go1.8.1/global/overlay/bin:/home/jm/.gvm/bin:/home/jm/.gvm/bin:/home/jm/.zplug/repos/zplug/zplug/bin:/home/jm/.cargo/bin:/home/jm/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/home/jm/.composer/vendor/bin:/home/jm/.gvm/gos/go1.8/bin:/home/jm/.composer/vendor/bin:/home/jm/.config/composer/vendor/bin:/home/jm/bin:/home/jm/go/bin:/home/jm/.fzf/bin:/home/jm/.composer/vendor/bin
