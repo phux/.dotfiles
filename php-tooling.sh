@@ -58,6 +58,10 @@ if ! grep -q "phpro/grumphp" "$composerJson"; then
     composer global require "phpro/grumphp"
 fi
 
+if ! grep -q "sensiolabs/security-checker" "$composerJson"; then
+    composer global require "sensiolabs/security-checker"
+fi
+
 echo "Installing phars"
 if [ ! -d "$HOME/bin" ]; then
     mkdir -p "$HOME/bin"
@@ -65,7 +69,7 @@ fi
 
 typehintPhar="$HOME/phpdoc-to-typehint.phar"
 if [ ! -f $typehintPhar ]; then
-    wget -o $typehintPhar https://github.com/dunglas/phpdoc-to-typehint/releases/download/v0.1.0/phpdoc-to-typehint.phar
+    wget -O $typehintPhar https://github.com/dunglas/phpdoc-to-typehint/releases/download/v0.1.0/phpdoc-to-typehint.phar
     chmod +x $typehintPhar
     echo "Installed $typehintPhar"
 fi
