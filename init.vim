@@ -65,7 +65,7 @@ Plug 'gregsexton/gitv', {'on': 'Gitv'}
 Plug 'Lokaltog/vim-easymotion'
 Plug 'matze/vim-move'
 " jjjjjjjjjj is not cool
-Plug 'phux/vim-hardtime'
+" Plug 'phux/vim-hardtime'
 " enhancing word recognition like camel case
 Plug 'chaoren/vim-wordmotion'
 
@@ -100,14 +100,17 @@ Plug 'zhaocai/GoldenView.Vim'
 Plug 'w0rp/ale'
 
 " php {{{
-Plug 'phpstan/vim-phpstan', {'for': 'php'}
-nnoremap <silent> <m-a> :ALEDisable<cr>:PHPStanAnalyse -c phpstan.neon src<cr>
+" Plug 'phpstan/vim-phpstan', {'for': 'php'}
+Plug 'phux/vim-phpstan', {'for': 'php'}
+" has issue with path
+" nnoremap <silent> <m-a> :ALEDisable<cr>:exec "PHPStanAnalyse -c phpstan.neon ".expand("%")<cr>
+nnoremap <silent> <m-a> :ALEDisable<cr>:exec "PHPStanAnalyse -c phpstan.neon src"<cr>
 let g:phpstan_analyse_level = 4
 Plug 'adoy/vim-php-refactoring-toolbox', {'for': 'php'}
 Plug 'Herzult/phpspec-vim', {'for': 'php'}
 let g:phpspec_executable = 'vendor/bin/phpspec'
 let g:phpspec_default_mapping = 0
-Plug 'shawncplus/phpcomplete.vim', {'for': 'php'}
+" Plug 'shawncplus/phpcomplete.vim', {'for': 'php'}
 Plug 'Rican7/php-doc-modded', {'for': 'php'}
 Plug 'sahibalejandro/vim-php', {'for': ['php', 'yaml']}
 Plug 'joonty/vdebug', {'for': 'php'}
@@ -1096,25 +1099,26 @@ let g:vim_php_refactoring_auto_validate_visibility = 1
 let g:vim_php_refactoring_phpdoc = "pdv#DocumentCurrentLine"
 
 let g:vim_php_refactoring_use_default_mapping = 0
-nnoremap <leader>rv :call PhpRenameLocalVariable()<CR>
 nnoremap <leader>rp :call PhpRenameClassVariable()<CR>
 nnoremap <leader>rm :call PhpRenameMethod()<CR>
 nnoremap <leader>eu :call PhpExtractUse()<CR>
 vnoremap <leader>ec :call PhpExtractConst()<CR>
-nnoremap <leader>ep :call PhpExtractClassProperty()<CR>
 " vnoremap <leader>em :call PhpExtractMethod()<CR>
 " https://github.com/QafooLabs/php-refactoring-browser/releases
+nnoremap <leader>ep :call PhpRefactorLocalVariableToInstanceVariable()<cr>
 vnoremap <silent> <leader>em :call PhpRefactorExtractMethodDirectly()<CR>
+" nnoremap <leader>rv :call PhpRenameLocalVariable()<CR>
+nnoremap <leader>rv :call PhpRefactorRenameLocalVariable()<cr>
 " https://github.com/dunglas/phpdoc-to-typehint/releases
-nnoremap <leader>rt :exec "!~/bin/phpdoc-to-typehint.phar ".expand('%:p:h')<cr>
+nnoremap <leader>rt :exec "Silent ~/bin/phpdoc-to-typehint.phar ".expand('%:p:h')<cr>:e<cr>
 " }}}
 
 " phpcomplete {{{2
-let g:phpcomplete_complete_for_unknown_classes = 0
-let g:phpcomplete_relax_static_constraint=0
-let g:phpcomplete_search_tags_for_variables = 0
-let g:phpcomplete_parse_docblock_comments = 0
-let g:phpcomplete_enhance_jump_to_definition = 1
+" let g:phpcomplete_complete_for_unknown_classes = 0
+" let g:phpcomplete_relax_static_constraint=0
+" let g:phpcomplete_search_tags_for_variables = 0
+" let g:phpcomplete_parse_docblock_comments = 0
+" let g:phpcomplete_enhance_jump_to_definition = 1
 
 augroup php
     au!
