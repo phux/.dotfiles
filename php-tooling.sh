@@ -67,7 +67,7 @@ if [ ! -d "$HOME/bin" ]; then
     mkdir -p "$HOME/bin"
 fi
 
-typehintPhar="$HOME/phpdoc-to-typehint.phar"
+typehintPhar="$HOME/bin/phpdoc-to-typehint.phar"
 if [ ! -f $typehintPhar ]; then
     wget -O $typehintPhar https://github.com/dunglas/phpdoc-to-typehint/releases/download/v0.1.0/phpdoc-to-typehint.phar
     chmod +x $typehintPhar
