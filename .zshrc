@@ -6,9 +6,9 @@ zplug "plugins/gitfast", from:oh-my-zsh
 # ZSH_TMUX_AUTOSTART=true
 zplug "plugins/tmux", from:oh-my-zsh
 zplug "plugins/tmuxinator", from:oh-my-zsh
-zplug "plugins/composer", from:oh-my-zsh
-zplug "plugins/colored-man-pages", from:oh-my-zsh
-zplug "plugins/docker", from:oh-my-zsh
+# zplug "plugins/composer", from:oh-my-zsh
+# zplug "plugins/colored-man-pages", from:oh-my-zsh
+# zplug "plugins/docker", from:oh-my-zsh
 zplug "plugins/docker-compose", from:oh-my-zsh
 zplug "themes/simple", from:oh-my-zsh, as:theme
 # zplug "djui/alias-tips"
@@ -39,7 +39,6 @@ export GOPATH="$HOME/go"
 export LGOBIN="$HOME/go/bin"
 export FZF_BIN_PATH="$HOME/.fzf/bin"
 export PATH=$PATH:~/.config/composer/vendor/bin:~/bin:$LGOBIN:$FZF_BIN_PATH
-export NVIM_TUI_ENABLE_CURSOR_SHAPE=0
 export TMP=/tmp
 export TMPDIR=/tmp
 
@@ -76,8 +75,8 @@ export LESS_TERMCAP_md="${yellow}";
 export MANPAGER='less -X';
 
 alias sdn='sudo shutdown now -h'
-alias update='sudo apt-fast update && sudo apt-fast upgrade'
-alias agi='sudo apt-fast install'
+alias update='sudo apt update && sudo apt upgrade'
+alias agi='sudo apt install'
 alias vu='vagrant up'
 alias vs='vagrant ssh'
 alias vh='vagrant halt'
@@ -103,7 +102,9 @@ stty start ''
 stty -ixon
 stty -ixoff
 
+# show branches ordered by last commit date
 alias gb="git for-each-ref --sort=committerdate refs/heads/ --format='%(committerdate:short) %(refname:short)'"
+# detailed view
 alias gbd="git for-each-ref --sort=committerdate refs/heads/ --format='%(HEAD) %(color:yellow)%(refname:short)%(color:reset) - %(color:red)%(objectname:short)%(color:reset) - %(contents:subject) - %(authorname) (%(color:green)%(committerdate:relative)%(color:reset))'"
 
 
@@ -168,4 +169,11 @@ FZF-EOF"
 }
 
 bindkey -e
-PATH=/home/jm/.gvm/pkgsets/go1.8.1/global/bin:/home/jm/.gvm/gos/go1.8.1/bin:/home/jm/.gvm/pkgsets/go1.8.1/global/overlay/bin:/home/jm/.gvm/bin:/home/jm/.gvm/bin:/home/jm/.zplug/repos/zplug/zplug/bin:/home/jm/.cargo/bin:/home/jm/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/home/jm/.composer/vendor/bin:/home/jm/.gvm/gos/go1.8/bin:/home/jm/.composer/vendor/bin:/home/jm/.config/composer/vendor/bin:/home/jm/bin:/home/jm/go/bin:/home/jm/.fzf/bin:/home/jm/.composer/vendor/bin
+PATH=/home/jm/.gvm/pkgsets/go1.8.3/global/bin:/home/jm/.gvm/gos/go1.8.3/bin:/home/jm/.gvm/pkgsets/go1.8.3/global/overlay/bin:/home/jm/.gvm/bin:/home/jm/.gvm/bin:/home/jm/.zplug/repos/zplug/zplug/bin:/home/jm/.cargo/bin:/home/jm/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/home/jm/.composer/vendor/bin:/home/jm/.gvm/gos/go1.8/bin:/home/jm/.composer/vendor/bin:/home/jm/.config/composer/vendor/bin:/home/jm/bin:/home/jm/go/bin:/home/jm/.fzf/bin:/home/jm/.composer/vendor/bin
+
+alias sukablyad='sudo'
+
+alias gstash='git stash --include-untracked'
+
+alias behat='dce php vendor/bin/behat'
+alias "vendor/bin/behat"="dce php vendor/bin/behat"
