@@ -6,10 +6,6 @@ if &compatible
     set nocompatible
 endif
 
-if has("nvim")
-    let $NVIM_TUI_ENABLE_CURSOR_SHAPE=0
-endif
-
 set encoding=utf-8
 set fileformats=unix,dos,mac    " Prefer Unix over Windows over OS 9 formats
 set autowrite                   " Automatically save before :next, :make etc.
@@ -47,78 +43,97 @@ Plug 'vim-airline/vim-airline' | Plug 'vim-airline/vim-airline-themes'
 
 Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
 
-" Plug 'vim-scripts/auto-pairs-gentle'
 Plug 'jiangmiao/auto-pairs'
-" Plug 'Raimondi/delimitMate'
-" Plug 'Townk/vim-autoclose'
 
+" project callbacks
 Plug 'amiorin/vim-project'
 
 " git {{{
 Plug 'tpope/vim-fugitive'
-Plug 'int3/vim-extradite', {'on': 'Extradite'}
-nnoremap <leader>i :Extradite<cr>
+Plug 'int3/vim-extradite'
 Plug 'gregsexton/gitv', {'on': 'Gitv'}
 " }}}
 
 " navigating {{{
+" jump jump jump
 Plug 'Lokaltog/vim-easymotion'
+" move lines around with auto indent
 Plug 'matze/vim-move'
 " jjjjjjjjjj is not cool
-" Plug 'phux/vim-hardtime'
-" enhancing word recognition like camel case
-Plug 'chaoren/vim-wordmotion'
+Plug 'phux/vim-hardtime'
 
-Plug 'troydm/easytree.vim'
+Plug 'scrooloose/nerdtree'
+Plug 'Xuyuanp/nerdtree-git-plugin'
+
 Plug 'majutsushi/tagbar', {'on': 'TagbarToggle'}
 " }}}
 
 Plug 'godlygeek/tabular', {'on': 'Tabularize'}
 
 " color schemes {{{
-" Plug 'crusoexia/vim-monokai'
 Plug 'morhetz/gruvbox'
-" Plug 'altercation/vim-colors-solarized'
-" Plug 'jacoborus/tender.vim'
+Plug 'jacoborus/tender.vim'
 " }}}
 
+
+" autocompletion {{{
+Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+Plug 'zchee/deoplete-go', { 'do': 'make'}
+Plug 'nsf/gocode', { 'rtp': 'nvim', 'do': '~/.config/nvim/plugged/gocode/nvim/symlink.sh' }
+" }}}
+
+" autoscale windows
+Plug 'zhaocai/GoldenView.Vim'
+
+" async linting
+let g:ale_lint_on_text_changed = 'never'
+Plug 'w0rp/ale'
+" let g:ale_php_phpstan_level = 4
+
+" php {{{
+" completion
+" note: in global composer json "minimum-stability":"dev"
+" composer global require mkusher/padawan
+Plug '~/code/padawan-navigator-vim'
+Plug 'padawan-php/deoplete-padawan', {'for': 'php'}
+
+" Plug '~/code/deoplete-padawan', {'for': 'php'}
+
+" phpdoc generator
+" Plug 'Rican7/php-doc-modded', {'for': 'php'}
+let g:pdv_cfg_InsertFuncName = 0
+let g:pdv_cfg_InsertVarName = 0
+Plug 'phux/php-doc-modded', {'for': 'php'}
+
+" namespace import|expansion
+Plug '~/code/vim-php', {'for': ['php', 'yaml']}
+
+Plug 'joonty/vdebug', {'for': 'php'}
+Plug '2072/PHP-Indenting-for-VIm', {'for': 'php'}
+Plug 'alvan/vim-php-manual', {'for': 'php'}
+Plug 'janko-m/vim-test'
+
+" code quality
+Plug 'phpstan/vim-phpstan', {'for': 'php'}
+let g:phpstan_analyse_level = 3
+" has issue with path
+nnoremap <silent> <m-a> :ALEDisable<cr>:exec "PHPStanAnalyse -c phpstan.neon src"<cr>
+Plug 'nrocco/vim-phplint', {'for': 'php'}
+
+" refactoring
+Plug 'vim-php/vim-php-refactoring', {'for': 'php'}
+Plug 'adoy/vim-php-refactoring-toolbox', {'for': 'php'}
+" https://github.com/AJenbo/php-refactoring-browser
+let g:php_refactor_command='php ~/compiles/php-refactoring-browser/refactor.phar'
+
+" testing
 Plug 'veloce/vim-behat', {'for': ['cucumber', 'behat']}
 let g:feature_filetype='behat'
 let g:behat_executables = ['vendor/bin/behat']
 
-" autocompletion {{{
-Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-" note: in global composer json "minimum-stability":"dev"
-" composer global require mkusher/padawan
-Plug 'padawan-php/deoplete-padawan', {'for': 'php'}
-" Plug '~/code/deoplete-padawan', {'for': 'php'}
-Plug 'zchee/deoplete-go', { 'do': 'make'}
-" }}}
-
-Plug 'zhaocai/GoldenView.Vim'
-
-Plug 'w0rp/ale'
-
-" php {{{
-" Plug 'phpstan/vim-phpstan', {'for': 'php'}
-Plug 'phux/vim-phpstan', {'for': 'php'}
-" has issue with path
-" nnoremap <silent> <m-a> :ALEDisable<cr>:exec "PHPStanAnalyse -c phpstan.neon ".expand("%")<cr>
-nnoremap <silent> <m-a> :ALEDisable<cr>:exec "PHPStanAnalyse -c phpstan.neon src"<cr>
-let g:phpstan_analyse_level = 4
-Plug 'adoy/vim-php-refactoring-toolbox', {'for': 'php'}
 Plug 'Herzult/phpspec-vim', {'for': 'php'}
 let g:phpspec_executable = 'vendor/bin/phpspec'
 let g:phpspec_default_mapping = 0
-" Plug 'shawncplus/phpcomplete.vim', {'for': 'php'}
-Plug 'Rican7/php-doc-modded', {'for': 'php'}
-Plug 'sahibalejandro/vim-php', {'for': ['php', 'yaml']}
-Plug 'joonty/vdebug', {'for': 'php'}
-Plug '2072/PHP-Indenting-for-VIm', {'for': 'php'}
-Plug 'alvan/vim-php-manual', {'for': 'php'}
-Plug 'nrocco/vim-phplint', {'for': 'php'}
-Plug 'phux/vim-php-refactoring', {'branch': 'develop', 'for': 'php'}
-let g:php_refactor_command='~/bin/refactor.phar'
 " }}}
 
 Plug 'evidens/vim-twig', {'for': 'twig'}
@@ -128,6 +143,7 @@ Plug 'avakhov/vim-yaml', {'for': 'yaml'}
 Plug 'phux/scratch.vim'
 
 Plug 'fatih/vim-go', {'for': 'go'}
+Plug 'godoctor/godoctor.vim', {'for': 'go'}
 Plug 'buoto/gotests-vim', {'for': 'go'}
 
 " tmux {{{
@@ -136,41 +152,65 @@ Plug 'tmux-plugins/vim-tmux-focus-events'
 Plug 'tmux-plugins/vim-tmux'
 " }}}
 
+" fzf {{{
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
+Plug 'pbogut/fzf-mru.vim'
+" }}}
 
-Plug 'Shougo/echodoc.vim'
+" display interactive function signature while typing
+Plug 'Shougo/echodoc.vim', {'for': ['go', 'php']}
 
 Plug 'merlinrebrovic/focus.vim'
 
+" quickfix enhancements
 Plug 'romainl/vim-qf'
+
 " searching {{{
 Plug 'henrik/vim-indexed-search'
+" automatic nohls
 Plug 'romainl/vim-cool'
+" search and replace
 Plug 'wincent/ferret', {'on': 'Ack'}
 " }}}
 
 
 " clipboard {{{
+" display register contents
 Plug 'junegunn/vim-peekaboo'
+" paste previously yanked stuff via <m-p> ... better than "1pu.
 Plug 'maxbrunsfeld/vim-yankstack'
 " }}}
+
+" nice markdown live preview
 Plug 'iamcco/markdown-preview.vim'
-Plug 'pbogut/fzf-mru.vim'
+
+" swap stuff
+Plug 'tommcdo/vim-exchange'
+Plug '~/code/LanguageClient-neovim', { 'do': ':UpdateRemotePlugins' }
+" Plug 'autozimu/LanguageClient-neovim', { 'do': ':UpdateRemotePlugins' }
+Plug 'roxma/LanguageServer-php-neovim',  {'do': 'composer install && composer run-script parse-stubs'}
+
+
+Plug 'airblade/vim-gitgutter'
+
+let g:gitgutter_map_keys = 0
+
 call plug#end()
 " }}}
+
 let g:mkdp_path_to_chrome = "chromium-browser"
 let g:mkdp_auto_start = 1
-    " set to 1, the vim will open the preview window once enter the markdown
-    " buffer
+" set to 1, the vim will open the preview window once enter the markdown
+" buffer
 
-    let g:mkdp_auto_open = 1
-    " set to 1, the vim will auto open preview window when you edit the
-    " markdown file
+let g:mkdp_auto_open = 1
+" set to 1, the vim will auto open preview window when you edit the
+" markdown file
 
-    let g:mkdp_auto_close = 1
-    " set to 1, the vim will auto close current preview window when change
-    " from markdown buffer to another buffer
+let g:mkdp_auto_close = 1
+" set to 1, the vim will auto close current preview window when change
+" from markdown buffer to another buffer
 " }}}
 
 " needs to be called before mappings like Y => y$ are done.
@@ -239,7 +279,6 @@ set nowritebackup
 set noswapfile
 " }}}
 
-
 " move over lines with following keys
 set whichwrap+=<,>,[,],h,l
 
@@ -292,7 +331,7 @@ set nocindent
 " }}}
 
 " search {{{
-" hi Search cterm=NONE ctermfg=white ctermbg=130
+hi Search cterm=NONE ctermfg=white ctermbg=130
 set ignorecase
 set smartcase
 set hlsearch
@@ -312,7 +351,7 @@ set wildignore+=*.pyc,*.zip,*.gz,*.bz,*.tar,*.jpg,*.png,*.gif,*.avi,*.wmv,*.ogg,
 set wildmode=list:longest,full
 " Limit popup menu height
 set pumheight=15
-set completeopt=menuone,longest
+set completeopt=menuone
 
 set complete=.,w,b,u
 " }}}
@@ -376,11 +415,12 @@ noremap gV `[v`]
 
 " nnoremap <leader>W :set nowrap!<CR>
 
-" fast closing of html tags
 nnoremap <m-;> :ToggleGoldenViewAutoResize<cr>
 
 map gn :bn<cr>
 map gp :bp<cr>
+nnoremap <tab> :bn<cr>
+nnoremap <s-tab> :bp<cr>
 
 " find next line with same indentation
 nnoremap [= 0y^/^<C-R>0\s\@!<CR>
@@ -391,7 +431,7 @@ vnoremap > >gv
 
 " cmd line {{{
 " command line bash behavior
-cnoremap <C-A> <Home>
+" cnoremap <C-A> <Home>
 cnoremap <C-B> <Left>
 cnoremap <C-E> <End>
 cnoremap <C-F> <Right>
@@ -421,23 +461,33 @@ nnoremap d<C-k> <C-w>k<C-w>c
 nnoremap d<C-h> <C-w>h<C-w>c
 nnoremap d<C-l> <C-w>l<C-w>c
 nnoremap <leader>x <c-w>c:GoldenViewResize<cr>:EnableGoldenViewAutoResize<cr>
+nnoremap <leader>x <c-w>c
 
 
 " resize
-nnoremap <silent> <leader>+ :exe "resize " . (winheight(0) * 3/2)<CR>
-nnoremap <silent> <leader>- :exe "resize " . (winheight(0) * 2/3)<CR>
+nnoremap <silent> <leader>+ :exe "resize " . (winheight(0) * 5/4)<CR>
+nnoremap <silent> <leader>- :exe "resize " . (winheight(0) * 4/5)<CR>
+
+nnoremap <silent> <leader>> :exe "vertical resize " . (winwidth(0) * 5/4)<CR>
+nnoremap <silent> <leader>< :exe "vertical resize " . (winwidth(0) * 4/5)<CR>
 " }}}
 
 " tag navigation {{{
-noremap <silent> <leader>tn :ptn<cr>
-noremap <silent> <leader>tp :ptp<cr>
-noremap <silent> <leader>tc :pc<cr>
+" noremap <silent> <leader>tn :ptn<cr>
+" noremap <silent> <leader>tp :ptp<cr>
+" noremap <silent> <leader>tc :pc<cr>
 
 " nnoremap <leader>o :call GoldenView#Split()<cr><c-]>:SwitchGoldenViewMain<cr>
 nnoremap <leader>o :call GoldenView#Split()<cr>g<c-]>
+nnoremap <leader>o g<c-]>
 
 " }}}
 
+" vim-test
+nnoremap <leader>tn :TestNearest<cr>
+nnoremap <leader>tv :TestVisit<cr>
+nnoremap <leader>tf :TestFile<cr>
+let test#strategy="neovim"
 
 " Allow using the repeat operator with a visual selection (!)
 " http://stackoverflow.com/a/8064607/127816
@@ -447,8 +497,10 @@ vnoremap . :normal .<CR>
 map q: :q
 
 " search {{{
-nnoremap n nzzzv
-nnoremap N Nzzzv
+nnoremap n nzz
+nnoremap N Nzz
+nnoremap * *zz
+nnoremap # #zz
 " }}}
 
 " Refactor names easily (hit <leader>[ or <leader>] with cursor on the word you'd like to rename
@@ -486,8 +538,6 @@ endfunction
 
 command! Ball :call DeleteInactiveBufs()
 " }}}
-
-vnoremap <Enter> <Plug>(EasyAlign)
 
 nnoremap <leader>; :TagbarToggle<cr>
 
@@ -682,9 +732,12 @@ nnoremap <leader>tsa <c-w>v:call SymfonySwitchToAlternateFile()<cr>
 " sut:  src/Acme/Bundle/Service/MyService.php
 " test: src/Acme/Bundle/Tests/Service/MyServiceTest.php
 
+let g:switch_alternate_dirs_to_keep = 2
 function! SymfonySwitchToAlternateFile()
     let l:f = expand('%')
-    let l:preceedingDirsToKeep = 2
+    if !exists("g:switch_alternate_dirs_to_keep")
+        let g:switch_alternate_dirs_to_keep = 2
+    endif
     let l:is_test = expand('%:t') =~ "Test\."
     if l:is_test
         " remove phpunit_testroot
@@ -693,8 +746,8 @@ function! SymfonySwitchToAlternateFile()
         let l:f = substitute(l:f,'Test\.','.','')
     else
         let l:pathParts = split(expand('%:r'), '/')
-        let l:startingPath = l:pathParts[0:l:preceedingDirsToKeep]
-        let l:endPath = l:pathParts[(l:preceedingDirsToKeep+1):]
+        let l:startingPath = l:pathParts[0:g:switch_alternate_dirs_to_keep]
+        let l:endPath = l:pathParts[(g:switch_alternate_dirs_to_keep+1):]
         let l:combinedPath = l:startingPath + ['Tests'] + l:endPath
         let l:f = join(l:combinedPath, '/') . 'Test.php'
         if !filereadable(l:f)
@@ -731,19 +784,20 @@ augroup END
 " }}}
 
 
+command! -bang PadawanGenerate call deoplete#sources#padawan#Generate(<bang>0)
 nnoremap <silent> <leader>w :w<cr>
-nnoremap <silent> <leader>W :w<cr>:ALEEnable<cr>:silent! !eval '[ -f ".git/hooks/ctags" ] && .git/hooks/ctags' &<cr>
+nnoremap <silent> <leader>W :w<cr>:ALEEnable<cr>:silent! !eval '[ -f ".git/hooks/ctags" ] && .git/hooks/ctags' &<cr>:PadawanGenerate<cr>:call deoplete#sources#padawan#RestartServer()<cr>
 
 
 " performance settings {{{
 set nocursorcolumn       " do not highlight column
 set nocursorline         " do not highlight line
-" syntax sync minlines=256 " start highlighting from 256 lines backwards
-set synmaxcol=200 " do not highlith very long lines
+syntax sync minlines=256 " start highlighting from 256 lines backwards
+" set synmaxcol=200 " do not highlith very long lines
 " autocmd BufWinEnter,Syntax * syn sync minlines=500 maxlines=500
-" set re=1
-" set lazyredraw
-" set scrolljump=5
+set re=1
+set lazyredraw
+set scrolljump=5
 " set sidescroll=1
 " let g:PHP_default_indenting=0
 " }}}
@@ -800,6 +854,7 @@ augroup filetype_settings
     au BufRead,BufNewFile *.conf setf config
 
     au BufNewFile,BufRead *.phtml set ft=php.html
+    au BufNewFile,BufRead composer.lock set ft=json
     au filetype html,xml inoremap <m-;> </<c-x><c-o>
 
     au filetype qf setlocal wrap
@@ -810,9 +865,19 @@ augroup filetype_settings
     au filetype xml setlocal omnifunc=xmlcomplete#CompleteTags
     au filetype xml   setlocal makeprg=xmllint\ -
     " au filetype xml   setlocal equalprg=xmllint\ --format\ -
-    au filetype html  setlocal equalprg=tidy\ -q\ -i\ -w\ 80\ -utf8\ --quote-nbsp\ no\ --output-xhtml\ yes\ --show-warnings\ no\ --show-body-only\ auto\ --tidy-mark\ no\ -
-    au filetype xhtml setlocal equalprg=tidy\ -q\ -i\ -w\ 80\ -utf8\ --quote-nbsp\ no\ --output-xhtml\ yes\ --show-warnings\ no\ --show-body-only\ auto\ --tidy-mark\ no\ -
+    " au filetype html  setlocal equalprg=tidy\ -q\ -i\ -w\ 80\ -utf8\ --quote-nbsp\ no\ --output-xhtml\ yes\ --show-warnings\ no\ --show-body-only\ auto\ --tidy-mark\ no\ -
+    " au filetype xhtml setlocal equalprg=tidy\ -q\ -i\ -w\ 80\ -utf8\ --quote-nbsp\ no\ --output-xhtml\ yes\ --show-warnings\ no\ --show-body-only\ auto\ --tidy-mark\ no\ -
     au filetype json  setlocal equalprg=python\ -mjson.tool
+
+
+    au FileType php LanguageClientStart
+    au FileType php nnoremap <silent> gd :call LanguageClient_textDocument_definition()<CR>
+    au FileType php nnoremap <silent> gr :call LanguageClient_textDocument_references()<CR>
+    let g:LanguageClient_signColumnAlwaysOn = 0
+    " nnoremap <leader>tt :call LanguageClient_textDocument_documentSymbol()<cr>
+    au FileType php nnoremap K :call LanguageClient_textDocument_hover()<cr>
+    let g:LanguageClient_selectionUI = 'fzf'
+    au FileType php nnoremap <leader>d :call fzf#vim#tags(expand('<cword>'), {'options': '--exact --select-1 --exit-0'})<CR>
 augroup END
 
 augroup pre_post_hooks
@@ -821,7 +886,7 @@ augroup pre_post_hooks
     au InsertEnter * set timeoutlen=100
     au InsertLeave * set timeoutlen=1000
 
-    au BufReadPost * call RestorePosition()
+    " au BufReadPost * call RestorePosition()
 
     au BufWritePost $MYVIMRC nested source $MYVIMRC
 augroup END 
@@ -837,8 +902,8 @@ augroup END
 " }}}
 " }}}
 
-noremap <C-d> <C-d>zz
-noremap <C-u> <C-u>zz
+" noremap <C-d> <C-d>zz
+" noremap <C-u> <C-u>zz
 
 command! -nargs=1 Silent execute ':silent !'.<q-args> | execute ':redraw!'
 
@@ -857,7 +922,7 @@ augroup END
 " plugin settings {{{
 
 " easytree {{{2
-let g:easytree_width_auto_fit = 1
+let g:easytree_width_auto_fit = 0
 
 function! CloseOpenEasyTreeBuffers()
     for i in range(1, winnr('$'))
@@ -869,9 +934,12 @@ function! CloseOpenEasyTreeBuffers()
 endfunction
 
 " same like nerdtreefind file
-nnoremap <leader>N :let @a = expand("%:t")<cr>:call CloseOpenEasyTreeBuffers()<cr>:EasyTree %:p:h<cr>/<c-r>a<cr>:nohls<cr>
+" nnoremap <leader>N :let @a = expand("%:t")<cr>:call CloseOpenEasyTreeBuffers()<cr>:EasyTree %:p:h<cr>/<c-r>a<cr>:nohls<cr>:echo @a<cr>
+" nnoremap <leader>N :let @a = expand("%:t")<cr>:call CloseOpenEasyTreeBuffers()<cr>:EasyTreeToggle %:p:h<cr>
+nnoremap <leader>N :NERDTreeFind<cr>
 
-nnoremap <leader>n :EasyTreeToggle<cr>
+nnoremap <leader>n :NERDTreeToggle<cr>
+" nnoremap <leader>n :EasyTreeToggle<cr>
 " }}}
 
 " ultisnips {{{2
@@ -923,23 +991,6 @@ function! s:rg_handler(lines)
     endif
 endfunction
 
-augroup fzf_rg
-    autocmd!
-
-    " \ 'source':  printf('rg --column --smart-case --line-number --no-heading --fixed-strings --no-ignore --hidden --follow --glob "!.git/*" --color "always" "%s"',
-    " \                   escape(empty(<q-args>) ? '^(?=.)' : <q-args>, '"\')),
-    autocmd VimEnter * command! -nargs=* Rg call fzf#run({
-                \ 'source':  'rg --column --smart-case --line-number --no-heading --fixed-strings --hidden --follow --glob "!.git/*" --colors "match:fg:yellow" --colors "path:fg:green" --color "always" --sort-files '. escape(empty(<q-args>) ? '^(?=.)' : <q-args>, '"\'),
-                \ 'sink*':    function('<sid>rg_handler'),
-                \ 'options': '--ansi --expect=ctrl-t,ctrl-v,ctrl-x --delimiter : --nth 4.. '.
-                \            '--multi --bind=ctrl-a:select-all,ctrl-d:deselect-all '.
-                \            '--color hl:68,hl+:110',
-                \ 'down':    '50%'
-                \ })
-
-augroup END
-
-
 function! s:ag_to_qf(line)
     let parts = split(a:line, ':')
     return {'filename': parts[0], 'lnum': parts[1], 'col': parts[2],
@@ -987,7 +1038,23 @@ augroup fzf_ag
                 \            '--color hl:68,hl+:110',
                 \ 'down':    '50%'
                 \ })
-augroup END
+    autocmd! VimEnter * command! -nargs=* AgRaw :call fzf#vim#ag_raw(<q-args>, fzf#wrap('ag-raw',
+    \ {'options': "--preview 'coderay $(cut -d: -f1 <<< {}) 2> /dev/null | sed -n $(cut -d: -f2 <<< {}),\\$p | head -".&lines."'"}))
+
+autocmd! VimEnter * command! -bang -nargs=* Rg
+  \ call fzf#vim#grep(
+  \   'rg --column --smart-case --line-number --no-heading --fixed-strings --follow --glob "!.git/*" '.shellescape(<q-args>), 1,
+  \   <bang>0 ? fzf#vim#with_preview('up:60%')
+  \           : fzf#vim#with_preview('right:50%:hidden', '?'),
+  \   <bang>0)
+
+  " \   'rg --column --line-number --hidden --no-heading --no-ignore --color=always '.shellescape(<q-args>), 1,
+autocmd! VimEnter * command! -bang -nargs=* RgRaw
+  \ call fzf#vim#grep(
+  \   'rg --column --smart-case --line-number --no-heading --fixed-strings --follow --color=always --glob "!.git/*" '.shellescape(<q-args>), 1,
+  \   <bang>0 ? fzf#vim#with_preview('up:60%')
+  \           : fzf#vim#with_preview('right:50%:hidden', '?'),
+  \   <bang>0)
 
 function! GitRebaseAll()
     normal! gg
@@ -1041,14 +1108,22 @@ endfunction
 
 command! Tags call s:tags()
 
-vnoremap // "hy:exec "Ag".escape('<C-R>h', "/\.*$^~[()")<cr>
+vnoremap // "hy:exec "Ag ".escape('<C-R>h', "/\.*$^~[()")<cr>
 
 nnoremap <leader><Enter> :FZFMru<cr>
 nnoremap <leader>a :ALEDisable<cr>:Ag<space>
-nnoremap <leader>A :ALEDisable<cr>:exec "Ag".expand("<cword>")<cr>
+nnoremap <leader>R :ALEDisable<cr>:exec "Rg ".expand("<cword>")<cr>
+nnoremap <leader>A :ALEDisable<cr>:exec "Ag ".expand("<cword>")<cr>
 
-nnoremap <leader>s :exec "Tags ".expand("<cword>")<cr>
+augroup godoctor
+    au!
+    autocmd Filetype go nnoremap <leader>r :Rename <c-r><c-w>
+augroup END
+
+" nnoremap <leader>s :Tags<cr>
 nnoremap <leader>, :Files<cr>
+nnoremap <leader>. :call fzf#run({'sink': 'e', 'right': '40%'})<cr>
+nnoremap <leader>tt :BTags<cr>
 " }}}
 
 " auto-pairs {{{2
@@ -1064,7 +1139,7 @@ let g:AutoPairsShortcutBackInsert = '<c-h>'
 " vim-project {{{2
 let g:project_use_nerdtree = 0
 let g:project_enable_welcome = 0
-nnoremap <leader><F1> :e ~/.projects.public.vim<cr>
+nnoremap <F1> :e ~/.projects.public.vim<cr>
 nnoremap <leader><F2> :e ~/.projects.private.vim<cr>
 
 set rtp+=~/.config/nvim/plugged/vim-project/
@@ -1103,22 +1178,16 @@ nnoremap <leader>rp :call PhpRenameClassVariable()<CR>
 nnoremap <leader>rm :call PhpRenameMethod()<CR>
 nnoremap <leader>eu :call PhpExtractUse()<CR>
 vnoremap <leader>ec :call PhpExtractConst()<CR>
-" vnoremap <leader>em :call PhpExtractMethod()<CR>
+vnoremap <leader>em :call PhpExtractMethod()<CR>
+nnoremap <leader>rv :call PhpRenameLocalVariable()<CR>
+nnoremap <leader>ep :call PhpExtractClassProperty()<cr>
 " https://github.com/QafooLabs/php-refactoring-browser/releases
 nnoremap <leader>ep :call PhpRefactorLocalVariableToInstanceVariable()<cr>
-vnoremap <silent> <leader>em :call PhpRefactorExtractMethodDirectly()<CR>
-" nnoremap <leader>rv :call PhpRenameLocalVariable()<CR>
+vnoremap <leader>em :call PhpRefactorExtractMethodDirectly()<CR>
 nnoremap <leader>rv :call PhpRefactorRenameLocalVariable()<cr>
 " https://github.com/dunglas/phpdoc-to-typehint/releases
-nnoremap <leader>rt :exec "Silent ~/bin/phpdoc-to-typehint.phar ".expand('%:p:h')<cr>:e<cr>
+nnoremap <leader>rt :exec "!~/bin/phpdoc-to-typehint.phar ".expand('%:p:h')<cr>:e<cr>
 " }}}
-
-" phpcomplete {{{2
-" let g:phpcomplete_complete_for_unknown_classes = 0
-" let g:phpcomplete_relax_static_constraint=0
-" let g:phpcomplete_search_tags_for_variables = 0
-" let g:phpcomplete_parse_docblock_comments = 0
-" let g:phpcomplete_enhance_jump_to_definition = 1
 
 augroup php
     au!
@@ -1134,45 +1203,32 @@ augroup END
 let g:deoplete#enable_at_startup = 1
 let g:deoplete#enable_smart_case = 1
 let g:deoplete#enable_camel_case = 1
-let g:deoplete#auto_refresh_delay = 100
-let g:deoplete#auto_complete_delay= 50
-" let g:deoplete#sources#padawan#auto_update = 1
-
 let g:deoplete#sources#padawan#add_parentheses=1
 " needed for echodoc to work if add_parentheses is 1
 let g:deoplete#skip_chars = ['$']
 
 call deoplete#custom#set('_', 'converters',
-            \ ['converter_auto_delimiter', 'remove_overlap',
+            \ ['converter_auto_delimiter',
             \ 'converter_truncate_abbr', 'converter_truncate_menu'])
-" call deoplete#custom#set('_', 'converters',
-"             \ ['converter_auto_delimiter', 'remove_overlap'])
-" call deoplete#custom#set('_', 'converters',
-"         \ ['converter_auto_delimiter', 'remove_overlap',
-"         \ 'converter_auto_paren'])
 
-
-
-augroup echodoc_debug
-autocmd!
-" autocmd CompleteDone * echo v:completed_item
-augroup END
-let g:deoplete#sources = {}
-" let g:deoplete#sources._ = ['ultisnips', 'buffer']
-let g:deoplete#sources.php = ['padawan', 'ultisnips', 'buffer']
 
 inoremap <expr> <TAB> pumvisible() ? "\<c-n>" : "\<TAB>"
 inoremap <expr> <s-tab> pumvisible() ? "\<c-p>" : "\<TAB>"
 inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 
 " deoplete-go settings
+let g:deoplete#sources = get(g:, 'deoplete#sources', {})
+let g:deoplete#sources._ = ['ultisnips', 'buffer']
+
+" let g:deoplete#sources.php = ['padawan', 'LanguageClient', 'ultisnips', 'buffer']
+let g:deoplete#sources.php = ['padawan', 'ultisnips', 'buffer']
+let g:deoplete#sources.go = ['go', 'ultisnips', 'buffer']
 let g:deoplete#sources#go#gocode_binary = $GOPATH.'/bin/gocode'
 let g:deoplete#sources#go#sort_class = ['package', 'func', 'type', 'var', 'const']
 let g:deoplete#sources#go#use_cache = 1
+let g:deoplete#sources#go#pointer = 1
+let g:deoplete#sources#go#json_directory = '~/.cache/deoplete/go/$GOOS_$GOARCH'
 
-" call deoplete#custom#set('_',
-"             \ 'disabled_syntaxes', ['Comment', 'String'])
-" }}}
 augroup test_completion_fix
     au!
     au BufNewFile,BufRead,BufWinEnter *Test.php exe ":UltiSnipsAddFiletypes php.phpunit"
@@ -1185,6 +1241,11 @@ let g:pdv_cfg_php4always = 0
 let g:pdv_cfg_autoEndFunction = 0
 let g:pdv_cfg_FunctionName = 0
 let g:pdv_cfg_Type = ""
+let g:pdv_cfg_annotation_Author = 0
+let g:pdv_cfg_annotation_Copyright = 0
+let g:pdv_cfg_annotation_License = 0
+let g:pdv_cfg_annotation_Package = 0
+let g:pdv_cfg_annotation_Version = 0
 inoremap <C-d> <ESC>:call PhpDocSingle()<CR>
 nnoremap <leader>h :call UpdatePhpDocIfExists()<CR>
 function! UpdatePhpDocIfExists()
@@ -1204,8 +1265,10 @@ vnoremap <leader>h :call PhpDocRange()<CR>
 " }}}
 
 " vdebug {{{2
-let g:vdebug_options = {}
+
+let g:vdebug_options = get(g:, 'vdebug_options', {})
 let g:vdebug_options["port"] = 9000
+
 let g:vim_debug_disable_mappings = 1
 let g:vdebug_keymap = {
             \    "run" : "<F5>",
@@ -1245,7 +1308,7 @@ augroup END
 let g:go_list_type = "location"
 
 
-let g:go_bin_path = expand("~/.gvm/gos/go1.8/bin")
+let g:go_bin_path = expand("~/.gvm/gos/go1.8.3/bin")
 let g:go_highlight_functions = 1
 let g:go_highlight_methods = 1
 let g:go_highlight_fields = 1
@@ -1253,7 +1316,7 @@ let g:go_highlight_types = 1
 let g:go_highlight_operators = 1
 let g:go_highlight_build_constraints = 1
 let g:go_fmt_command = "goimports"
-let g:go_fmt_autosave = 1
+let g:go_fmt_autosave = 0
 " }}}
 
 " focus.vim {{{
@@ -1271,7 +1334,7 @@ nnoremap <silent> <m-l> :SwitchGoldenViewMain<cr>
 " }}}
 
 " ferret {{{2
-nnoremap <leader>i :ALEToggle<cr>
+nnoremap <leader>I :ALEToggle<cr>
 nnoremap <leader>/ :ALEDisable<cr>:Ack <c-r><c-w><cr>
 " nnoremap <leader>, :ALEDisable<cr>:Ack
 nnoremap <leader>rip :Acks /<c-r><c-w>/<c-r><c-w>/gc<left><left><left>
@@ -1317,6 +1380,7 @@ vnoremap <leader>ga :Tabularize /\|<cr>
 
 " abolish {{{
 nnoremap <leader>] :%S/<c-R><c-w>/<c-r><c-w>/g<left><left>
+vnoremap <leader>] :%S//g<left><left>
 " }}}
 
 " Peekaboo {{{
@@ -1355,22 +1419,22 @@ nmap <Down> :call ToggleQfLocListBinds()<cr>
 " hardtime {{{
 let g:hardtime_ignore_quickfix = 1
 let g:hardtime_motion_with_count_resets = 1
-let g:hardtime_maxcount = 2
+let g:hardtime_maxcount = 1
 let g:hardtime_allow_different_key = 1
 let g:hardtime_default_on = 1
-let g:hardtime_ignore_quickfix = 1
+let g:hardtime_ignore_buffer_patterns = [ "NERD.*" ]
 " }}}
 
 " ale {{{
 let g:ale_sign_error = '✖'
-let g:ale_sign_warning = '►'
+let g:ale_sign_warning = '!'
 let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
-let g:ale_lint_on_text_changed = 'never'
 let g:ale_lint_on_enter = 0
 let g:ale_set_loclist = 0
 let g:ale_set_quickfix = 1
 let g:ale_php_phpcs_standard = '~/code/ruleset.xml'
-let g:ale_php_phpmd_ruleset = 'cleancode,codesize,design,unusedcode'
+let g:ale_php_phpmd_ruleset = './phpmd.xml'
+
 " }}}
 
 " airline {{{
@@ -1383,7 +1447,6 @@ let g:airline#extensions#whitespace#enabled = 0
 " }}}
 
 so ~/.projects.public.vim
-highlight Cursor ctermfg=white ctermbg=black
 filetype plugin indent on
 syntax on
 let g:rg_command = '
@@ -1392,3 +1455,108 @@ let g:rg_command = '
   \ -g "!{.git,node_modules,vendor}/*" '
 
 command! -bang -nargs=* F call fzf#vim#grep(g:rg_command .shellescape(<q-args>), 1, <bang>0)
+nnoremap <leader>i :Extradite<cr>
+
+" php...
+noremap <m-;> <Esc>A;<Esc>
+
+let g:padawan_navigator#server_command='~/code/padawan.php/bin/padawan-server'
+nnoremap <leader>gu :call PadawanGetParents()<cr>
+nnoremap <leader>gi :call PadawanGetImplementations()<cr>
+nnoremap <leader>gk :call padawan_navigator#CloseWindow()<cr>
+
+highlight DiffAdd cterm=none ctermfg=fg ctermbg=Blue gui=none guifg=fg guibg=Blue
+highlight DiffDelete cterm=none ctermfg=fg ctermbg=Blue gui=none guifg=fg guibg=Blue
+highlight DiffChange cterm=none ctermfg=fg ctermbg=Blue gui=none guifg=fg guibg=Blue
+highlight DiffText cterm=none ctermfg=bg ctermbg=White gui=none guifg=bg guibg=White
+
+
+nnoremap <leader>H :call PhpConstructorArgumentMagic()<cr>
+
+function! PhpConstructorArgumentMagic()
+    let l:currentLine = getline('.')
+    if l:currentLine !~ '\$'
+        echo "no $ found, are you on a line with an argument?"
+        return 0
+    endif
+
+    normal! 0f$
+    normal! mb
+
+    " yank variable
+    if l:currentLine =~ ','
+        normal! "ayt,
+    elseif l:currentLine =~ ')'
+        normal! "ayt)
+    else
+        normal! "ayW
+    endif
+
+    " search for closing brace
+    /{
+    normal! nf{
+    normal! %O
+
+    " property assignment
+    normal! "apa = 
+    normal! "apA;
+    s/\$/$this->/
+
+    " create property
+    normal! 2joprivate 
+    normal! "apa;
+    " mark for adding docblock
+    normal! mc
+
+    " jump back into __construct
+    normal! 'b
+
+    " has typehint?
+    if getline('.') =~ '\s*\S\+\s\$'
+        " create docblock
+        normal! 0f$b"ayt 'c
+        normal! O/**
+        normal! o@var 
+        normal! "apo/
+        " move var declaration up
+        normal! jd3kG%p%jo
+
+        " update phpdoc
+        if exists("*UpdatePhpDocIfExists")
+            /__construct
+            normal! n
+            :call UpdatePhpDocIfExists()
+        endif
+    endif
+
+    "cleanup
+    normal! gg=G
+    :w
+
+    " jump to where we have started
+    normal! 'b
+endfunction
+
+function! PhpDocOneliner()
+    let l:currentLine = getline('.')
+    if l:currentLine =~ '@'
+        normal! k
+    endif
+    if l:currentLine =~ '*/'
+        normal! 2k
+    endif
+    normal JxxJ
+endfunction
+
+nnoremap go :call PhpDocOneliner()<cr>
+
+vnoremap <leader>ev :call PHPExtractVariable()<cr>
+
+function! PHPExtractVariable()
+    let l:name = input("Name of new variable: $")
+    normal! gvx
+    execute "normal! i$".l:name
+    execute "normal! O$".l:name." = "
+    normal! pa;
+endfunction
+

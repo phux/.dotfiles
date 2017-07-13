@@ -8,12 +8,12 @@ if m:
 	snip.rv = m.group().replace('/', '\\')
 `};
 
+use \PHPUnit\Framework\TestCase;
+
 /**
  * Class ${1:`!p snip.rv=snip.fn.split('.')[0]`}
- *
- * @see \PHPUnit_Framework_TestCase
  */
-class $1 extends \PHPUnit_Framework_TestCase
+class $1 extends TestCase
 {
     $0
 }
@@ -43,6 +43,17 @@ snippet pc "Phake::capture()"
 Phake::capture($${1:object})$0
 endsnippet
 
+
+snippet tm "test method annotated" b
+/**
+ * @test
+ */
+public function $1()
+{
+    $0
+}
+endsnippet
+
 snippet setup "setup method" !b
 protected function setUp() {
     ${0:code ...}
@@ -68,18 +79,8 @@ snippet g "@group"
 @group $0
 endsnippet
 
-snippet ex "@expectedException "
-@expectedException $0
-endsnippet
-
-snippet tm "test method annotated" b
-/**
- * @test
- */
-public function should$1()
-{
-    $0
-}
+snippet ex "expectException()"
+$this->expectException(${1:\Exception}::class);
 endsnippet
 
 snippet stub "create a new stub" b
@@ -97,7 +98,7 @@ snippet tdp "test data provider"
 public function ${1:name}DataProvider()
 {
     return [
-        [${2:param1}],
+        '' => [${2:param1}],
     ];
 }
 endsnippet
@@ -133,65 +134,67 @@ endsnippet
 
 ### ASSERT
 
-snippet ta "test assert" b
+snippet sa "test assert" b
 self::assert($1);
 endsnippet
 
-snippet tae "assert equals" b
+snippet sae "assert equals" b
 self::assertEquals(${1:expected}, ${2:result});$0
 endsnippet
 
-snippet tac "assert contains" b
+snippet sacon "assert contains" b
 self::assertContains(${1:value}, ${2:haystack});$0
 endsnippet
 
-snippet taco "assert contains only" b
+snippet sai "assert instanceof" b
+self::assertInstanceOf(${1:class}::class, ${2:sut});$0
+endsnippet
+
+snippet sacono "assert contains only" b
 self::assertContainsOnly(${1:type}, ${2:var});$0
 endsnippet
 
-
-snippet tacn "assert count" b
+snippet sac "assert count" b
 self::assertCount(${1:number}, ${2:array});$0
 endsnippet
 
-snippet taem "assert empty" b
+snippet saem "assert empty" b
 self::assertEmpty(${1:var});
 endsnippet
 
-snippet tat "assert true" b
+snippet sat "assert true" b
 self::assertTrue(${1:var});
 endsnippet
 
-snippet taf "assert false" b
+snippet saf "assert false" b
 self::assertFalse(${1:var});
 endsnippet
 
-snippet tagt "assert greater than" b
+snippet sagt "assert greater than" b
 self::assertGreaterThan(${1:reference}, ${2:testValue});
 endsnippet
 
-snippet tajf "assert json string equals json file" b
+snippet sajf "assert json string equals json file" b
 self::assertJsonStringEqualsJsonFile(${1:jsonString}, ${2:jsonFile});
 endsnippet
 
-snippet tajs "assert json string equals json string" b
+snippet sajs "assert json string equals json string" b
 self::assertJsonStringEqualsJsonString(${1:jsonString}, ${2:jsonString2});
 endsnippet
 
-
-snippet taahk "test: assert array has key" b
+snippet saahk "test: assert array has key" b
 self::assertArrayHasKey(${1:key}, ${2:array});
 endsnippet
 
-snippet tacha "test: class has attribute" b
+snippet sacha "test: class has attribute" b
 self::assertArrayHasKey(${1:attribute}, '${2:class}'');
 endsnippet
 
-snippet teos "test: expect output string" b
+snippet seos "test: expect output string" b
 self::expectOutputString(${1:var});
 print "$1";
 endsnippet
 
-snippet teor "test: expect output regex" b
+snippet seor "test: expect output regex" b
 self::expectOutputRegex(${1:regex});
 endsnippet

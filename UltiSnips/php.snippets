@@ -47,9 +47,6 @@ $0
 endsnippet
 
 snippet con "constructor"
-/**
- * @param ${1/, /\n * \@param mixed /g}
- */
 public function __construct(${1:$dependencies})
 {
     ${1/\$(\w+)(, )*/\n\t$this->$1 = $$1;/g}
@@ -57,9 +54,6 @@ public function __construct(${1:$dependencies})
 endsnippet
 
 snippet vgs "PHP Class Getter Setter" !b
-/**
- * @var ${2:type}
- */
 private $${1:var};
 
 /**
@@ -81,6 +75,27 @@ public function set${1/\w+\s*/\u$0/}($2 $$1)
 
     return $this;
 }$0
+endsnippet
+
+snippet pub "Public function" b
+public function ${1:name}(${2:$param})
+{
+	$0
+}
+endsnippet
+
+snippet pro "Protected function" b
+protected function ${1:name}(${2:$param})
+{
+	$0
+}
+endsnippet
+
+snippet pri "Private function" b
+private function ${1:name}(${2:$param})
+{
+	$0
+}
 endsnippet
 
 snippet fek "foreach key value"
@@ -259,3 +274,68 @@ snippet array "array" b
 $${1:arrayName} = ['${2}' => ${3}];$0
 endsnippet
 
+snippet builder
+<?php
+
+namespace ${1:`!p
+relpath = os.path.relpath(path)
+m = re.search(r'[A-Z].+(?=/)', relpath)
+if m:
+	snip.rv = m.group().replace('/', '\\')
+`};
+
+/**
+ * Class $2Builder
+ */
+class $2Builder
+{
+    /**
+     * @return $2
+     */
+    public function build(): $2
+    {
+        $${2/\w+\s*/\l$0/} = (new $2());
+
+		return $${2/\w+\s*/\l$0/};
+	}
+}
+endsnippet
+
+snippet withc
+/**
+ * @var ${1/\w+\s*/\u$0/}
+ */
+private $${1:var};
+
+/**
+ * @param ${1/\w+\s*/\u$0/} $$1
+ *
+ * @return $2
+ */
+public function with${1/\w+\s*/\u$0/}(${1/\w+\s*/\u$0/} $$1): ${2:`!p snip.rv=snip.basename`}
+{
+    $this->$1 = $$1;
+
+    return $this;
+}$0
+endsnippet
+
+
+snippet withp
+/**
+ * @var $2
+ */
+private $${1:var};
+
+/**
+ * @param $2 $$1
+ *
+ * @return $3
+ */
+public function with${1/\w+\s*/\u$0/}($2 $$1): ${3:`!p snip.rv=snip.basename`}
+{
+    $this->$1 = $$1;
+
+    return $this;
+}$0
+endsnippet
