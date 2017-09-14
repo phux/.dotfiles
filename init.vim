@@ -39,7 +39,7 @@ Plug 'ap/vim-buftabline'
 let g:buftabline_show = 1 " display only if more than 1 buffer open
 
 
-Plug 'vim-airline/vim-airline' | Plug 'vim-airline/vim-airline-themes'
+" Plug 'vim-airline/vim-airline' | Plug 'vim-airline/vim-airline-themes'
 
 Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
 
@@ -52,7 +52,10 @@ Plug 'amiorin/vim-project'
 Plug 'tpope/vim-fugitive'
 Plug 'int3/vim-extradite'
 Plug 'gregsexton/gitv', {'on': 'Gitv'}
+Plug 'Xuyuanp/nerdtree-git-plugin'
 " }}}
+
+Plug 'scrooloose/nerdtree'
 
 " navigating {{{
 " jump jump jump
@@ -60,10 +63,7 @@ Plug 'Lokaltog/vim-easymotion'
 " move lines around with auto indent
 Plug 'matze/vim-move'
 " jjjjjjjjjj is not cool
-Plug 'phux/vim-hardtime'
-
-Plug 'scrooloose/nerdtree'
-Plug 'Xuyuanp/nerdtree-git-plugin'
+" Plug 'phux/vim-hardtime'
 
 Plug 'majutsushi/tagbar', {'on': 'TagbarToggle'}
 " }}}
@@ -72,29 +72,33 @@ Plug 'godlygeek/tabular', {'on': 'Tabularize'}
 
 " color schemes {{{
 Plug 'morhetz/gruvbox'
-Plug 'jacoborus/tender.vim'
+" Plug 'jacoborus/tender.vim'
+" Plug 'flazz/vim-colorschemes'
+" Plug 'qualiabyte/vim-colorstepper'
 " }}}
 
 
 " autocompletion {{{
+" Plug 'roxma/nvim-completion-manager'
+" let g:cm_sources_override = {
+"     \ 'cm-tags': {'enable':0}
+"     \ }
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-Plug 'zchee/deoplete-go', { 'do': 'make'}
-Plug 'nsf/gocode', { 'rtp': 'nvim', 'do': '~/.config/nvim/plugged/gocode/nvim/symlink.sh' }
+Plug 'zchee/deoplete-go', { 'do': 'make', 'for': 'go'}
+Plug 'nsf/gocode', { 'rtp': 'nvim', 'do': '~/.config/nvim/plugged/gocode/nvim/symlink.sh' , 'for': 'go'}
 " }}}
 
 " autoscale windows
 Plug 'zhaocai/GoldenView.Vim'
 
 " async linting
-let g:ale_lint_on_text_changed = 'never'
-Plug 'w0rp/ale'
-" let g:ale_php_phpstan_level = 4
+Plug 'neomake/neomake'
 
 " php {{{
 " completion
 " note: in global composer json "minimum-stability":"dev"
 " composer global require mkusher/padawan
-Plug '~/code/padawan-navigator-vim'
+Plug '~/code/padawan-navigator-vim', {'for': 'php'}
 Plug 'padawan-php/deoplete-padawan', {'for': 'php'}
 
 " Plug '~/code/deoplete-padawan', {'for': 'php'}
@@ -109,15 +113,14 @@ Plug 'phux/php-doc-modded', {'for': 'php'}
 Plug '~/code/vim-php', {'for': ['php', 'yaml']}
 
 Plug 'joonty/vdebug', {'for': 'php'}
-Plug '2072/PHP-Indenting-for-VIm', {'for': 'php'}
+" Plug '2072/PHP-Indenting-for-VIm', {'for': 'php'}
 Plug 'alvan/vim-php-manual', {'for': 'php'}
-Plug 'janko-m/vim-test'
 
 " code quality
 Plug 'phpstan/vim-phpstan', {'for': 'php'}
-let g:phpstan_analyse_level = 3
+let g:phpstan_analyse_level = 'max'
 " has issue with path
-nnoremap <silent> <m-a> :ALEDisable<cr>:exec "PHPStanAnalyse -c phpstan.neon src"<cr>
+nnoremap <silent> <m-a> :exec "PHPStanAnalyse -c phpstan.neon ".expand('%')<cr>
 Plug 'nrocco/vim-phplint', {'for': 'php'}
 
 " refactoring
@@ -134,6 +137,8 @@ let g:behat_executables = ['vendor/bin/behat']
 Plug 'Herzult/phpspec-vim', {'for': 'php'}
 let g:phpspec_executable = 'vendor/bin/phpspec'
 let g:phpspec_default_mapping = 0
+
+Plug 'janko-m/vim-test'
 " }}}
 
 Plug 'evidens/vim-twig', {'for': 'twig'}
@@ -164,7 +169,8 @@ Plug 'Shougo/echodoc.vim', {'for': ['go', 'php']}
 Plug 'merlinrebrovic/focus.vim'
 
 " quickfix enhancements
-Plug 'romainl/vim-qf'
+" Plug 'romainl/vim-qf'
+Plug 'milkypostman/vim-togglelist'
 
 " searching {{{
 Plug 'henrik/vim-indexed-search'
@@ -187,14 +193,30 @@ Plug 'iamcco/markdown-preview.vim'
 
 " swap stuff
 Plug 'tommcdo/vim-exchange'
-Plug '~/code/LanguageClient-neovim', { 'do': ':UpdateRemotePlugins' }
-" Plug 'autozimu/LanguageClient-neovim', { 'do': ':UpdateRemotePlugins' }
+Plug 'autozimu/LanguageClient-neovim', { 'do': ':UpdateRemotePlugins' }
 Plug 'roxma/LanguageServer-php-neovim',  {'do': 'composer install && composer run-script parse-stubs'}
 
 
 Plug 'airblade/vim-gitgutter'
 
+Plug 'git-time-metric/gtm-vim-plugin'
+let g:gtm_plugin_status_enabled = 1
+Plug 'wakatime/vim-wakatime'
+
 let g:gitgutter_map_keys = 0
+
+
+Plug 'sheerun/vim-polyglot'
+
+Plug 'Quramy/tsuquyomi', {'for': ['javascript', 'vue']}
+Plug 'Quramy/tsuquyomi-vue', {'for': ['javascript', 'vue']}
+Plug 'posva/vim-vue', {'for': ['javascript', 'vue']}
+Plug 'Quramy/vim-js-pretty-template', {'for': ['javascript', 'vue']}
+Plug 'pangloss/vim-javascript', {'for': ['javascript', 'vue']}
+Plug 'ternjs/tern_for_vim', { 'for': ['javascript', 'javascript.jsx'] }
+Plug 'carlitux/deoplete-ternjs', { 'for': ['javascript', 'javascript.jsx'] }
+Plug 'othree/jspc.vim', { 'for': ['javascript', 'javascript.jsx'] }
+Plug '1995eaton/vim-better-javascript-completion', {'for': ['javascript', 'javascript.jsx']}
 
 call plug#end()
 " }}}
@@ -220,10 +242,11 @@ call yankstack#setup()
 
 " interface {{{2
 " colorscheme tender
-set background=dark
 colorscheme gruvbox
-" colorscheme monokai
-" let g:solarized_termcolors=256
+set background=dark
+" colorscheme busybee
+" colorscheme molokai
+" set background=dark
 " colorscheme solarized
 " colorscheme apprentice
 " colorscheme color_1
@@ -351,7 +374,7 @@ set wildignore+=*.pyc,*.zip,*.gz,*.bz,*.tar,*.jpg,*.png,*.gif,*.avi,*.wmv,*.ogg,
 set wildmode=list:longest,full
 " Limit popup menu height
 set pumheight=15
-set completeopt=menuone
+set completeopt=menuone,longest
 
 set complete=.,w,b,u
 " }}}
@@ -786,7 +809,7 @@ augroup END
 
 command! -bang PadawanGenerate call deoplete#sources#padawan#Generate(<bang>0)
 nnoremap <silent> <leader>w :w<cr>
-nnoremap <silent> <leader>W :w<cr>:ALEEnable<cr>:silent! !eval '[ -f ".git/hooks/ctags" ] && .git/hooks/ctags' &<cr>:PadawanGenerate<cr>:call deoplete#sources#padawan#RestartServer()<cr>
+nnoremap <silent> <leader>W :w<cr>:silent! !eval '[ -f ".git/hooks/ctags" ] && .git/hooks/ctags' &<cr>:PadawanGenerate<cr>:call deoplete#sources#padawan#RestartServer()<cr>
 
 
 " performance settings {{{
@@ -796,41 +819,12 @@ syntax sync minlines=256 " start highlighting from 256 lines backwards
 " set synmaxcol=200 " do not highlith very long lines
 " autocmd BufWinEnter,Syntax * syn sync minlines=500 maxlines=500
 set re=1
-set lazyredraw
+set nolazyredraw
 set scrolljump=5
 " set sidescroll=1
 " let g:PHP_default_indenting=0
 " }}}
 
-
-" extract php interface {{{2
-nnoremap <leader>rei :call ExtractInterface()<cr>
-function! ExtractInterface()
-    let l:file_path = expand('%:p:h')
-    let l:baseFile = expand('%')
-    let l:name = inputdialog("Name of new interface:")
-    exe "normal Gointerface " . name . "\<Cr>{}\<c-o>i\<cr>"
-    :g/const/ :normal yyGP
-    ":g/public \$/ :normal yyGP
-    :g/public function \(__construct\)\@!/ :normal yyGP$a;
-    exe "normal! G?{\<cr>"
-    normal "adGdd
-    exe ":e ".l:file_path."/".l:name.".php"
-    exe ":w"
-    exe "normal i<?php\<cr>\<cr>interface ".l:name
-    exe "normal! ?interface\<cr>jdG"
-    normal "ap
-    exe ":e ".l:baseFile
-    exe "normal! gg/{\<cr>k"
-    if getline('.') =~ ' implements '
-        let l:interfaceImplementation = "A, ".l:name
-    else
-        let l:interfaceImplementation = "$a implements ".l:name
-    endif
-    exe "normal! ".l:interfaceImplementation
-    exe ":w"
-endfunction
-" }}}
 
 " filetype settings {{{
 
@@ -843,6 +837,7 @@ augroup filetype_settings
     au!
     au BufNewFile,BufRead *.feature set ft=behat
     au filetype behat,cucumber setl sw=2 sts=2 et
+    au filetype behat,cucumber nnoremap <buffer> gd :call BehatJumpToStepDefinition()<cr>
     au filetype yaml setl sw=2 sts=2 et
     au BufNewFile,BufRead *.yml.dist set ft=yaml
     au filetype ruby setl sw=2 sts=2 et
@@ -850,18 +845,26 @@ augroup filetype_settings
     " au filetype vim setl foldenable fdm=marker fmr={{{,}}} fdl=0
     au BufNewFile,BufRead *.go setlocal noexpandtab tabstop=4 shiftwidth=4 
     au filetype make setlocal noexpandtab tabstop=4 shiftwidth=4 
+    au filetype javascript setlocal noexpandtab tabstop=2 shiftwidth=2 
 
     au BufRead,BufNewFile *.conf setf config
 
     au BufNewFile,BufRead *.phtml set ft=php.html
     au BufNewFile,BufRead composer.lock set ft=json
-    au filetype html,xml inoremap <m-;> </<c-x><c-o>
+    au filetype html,xml inoremap <buffer> <m-;> </<c-x><c-o>
 
     au filetype qf setlocal wrap
 
     au filetype css setlocal omnifunc=csscomplete#CompleteCSS
+
+    au filetype php set omnifunc=LanguageClient#complete
     au filetype html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
     au filetype javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+    au filetype javascript LanguageClientStart
+    autocmd FileType javascript JsPreTmpl html
+    autocmd FileType javascript JsPreTmpl markdown
+    " autocmd FileType vue JsPreTmpl markdown
+    autocmd FileType typescript syn clear foldBraces " For leafgarland/typescript-vim users only. Please see #1 for details.
     au filetype xml setlocal omnifunc=xmlcomplete#CompleteTags
     au filetype xml   setlocal makeprg=xmllint\ -
     " au filetype xml   setlocal equalprg=xmllint\ --format\ -
@@ -870,15 +873,20 @@ augroup filetype_settings
     au filetype json  setlocal equalprg=python\ -mjson.tool
 
 
-    au FileType php LanguageClientStart
-    au FileType php nnoremap <silent> gd :call LanguageClient_textDocument_definition()<CR>
-    au FileType php nnoremap <silent> gr :call LanguageClient_textDocument_references()<CR>
+    au filetype php LanguageClientStart
+    let g:LanguageClient_diagnosticsEnable  = 0
     let g:LanguageClient_signColumnAlwaysOn = 0
     " nnoremap <leader>tt :call LanguageClient_textDocument_documentSymbol()<cr>
-    au FileType php nnoremap K :call LanguageClient_textDocument_hover()<cr>
-    let g:LanguageClient_selectionUI = 'fzf'
-    au FileType php nnoremap <leader>d :call fzf#vim#tags(expand('<cword>'), {'options': '--exact --select-1 --exit-0'})<CR>
+    let g:LanguageClient_selectionUI = 'location-list'
 augroup END
+
+nnoremap <silent> gd :call LanguageClient_textDocument_definition()<CR>
+nnoremap <silent> gr :call LanguageClient_textDocument_references()<CR>
+nnoremap K :call LanguageClient_textDocument_hover()<cr>
+nnoremap <leader>d :call fzf#vim#tags(expand('<cword>'), {'options': '--exact --select-1 --exit-0'})<CR>
+let g:LanguageClient_serverCommands = {
+	    \ 'javascript.jsx': ['~/compiles/javascript-typescript-langserver/lib/language-server-stdio.js']
+	    \ }
 
 augroup pre_post_hooks
     au!
@@ -948,7 +956,6 @@ let g:UltiSnipsSnippetsDir = '~/.config/nvim/UltiSnips/'
 let g:UltiSnipsExpandTrigger="<c-j>"
 let g:UltiSnipsJumpForwardTrigger="<c-j>"
 let g:UltiSnipsJumpBackwardTrigger="<c-k>"
-
 " }}}
 
 " echodoc {{{2
@@ -1043,12 +1050,11 @@ augroup fzf_ag
 
 autocmd! VimEnter * command! -bang -nargs=* Rg
   \ call fzf#vim#grep(
-  \   'rg --column --smart-case --line-number --no-heading --fixed-strings --follow --glob "!.git/*" '.shellescape(<q-args>), 1,
+  \   'rg --column --smart-case --line-number --color=always --no-heading --fixed-strings --follow --glob "!.git/*" '.shellescape(<q-args>), 1,
   \   <bang>0 ? fzf#vim#with_preview('up:60%')
   \           : fzf#vim#with_preview('right:50%:hidden', '?'),
   \   <bang>0)
 
-  " \   'rg --column --line-number --hidden --no-heading --no-ignore --color=always '.shellescape(<q-args>), 1,
 autocmd! VimEnter * command! -bang -nargs=* RgRaw
   \ call fzf#vim#grep(
   \   'rg --column --smart-case --line-number --no-heading --fixed-strings --follow --color=always --glob "!.git/*" '.shellescape(<q-args>), 1,
@@ -1111,9 +1117,10 @@ command! Tags call s:tags()
 vnoremap // "hy:exec "Ag ".escape('<C-R>h', "/\.*$^~[()")<cr>
 
 nnoremap <leader><Enter> :FZFMru<cr>
-nnoremap <leader>a :ALEDisable<cr>:Ag<space>
-nnoremap <leader>R :ALEDisable<cr>:exec "Rg ".expand("<cword>")<cr>
-nnoremap <leader>A :ALEDisable<cr>:exec "Ag ".expand("<cword>")<cr>
+nnoremap <leader>a :Ag<space>
+nnoremap <leader>s :Rg<space>
+nnoremap <leader>R :exec "Rg ".expand("<cword>")<cr>
+nnoremap <leader>A :exec "Ag ".expand("<cword>")<cr>
 
 augroup godoctor
     au!
@@ -1172,308 +1179,47 @@ let g:vim_php_refactoring_default_property_visibility = 'private'
 let g:vim_php_refactoring_default_method_visibility = 'private'
 let g:vim_php_refactoring_auto_validate_visibility = 1
 let g:vim_php_refactoring_phpdoc = "pdv#DocumentCurrentLine"
-
 let g:vim_php_refactoring_use_default_mapping = 0
-nnoremap <leader>rp :call PhpRenameClassVariable()<CR>
-nnoremap <leader>rm :call PhpRenameMethod()<CR>
-nnoremap <leader>eu :call PhpExtractUse()<CR>
-vnoremap <leader>ec :call PhpExtractConst()<CR>
-vnoremap <leader>em :call PhpExtractMethod()<CR>
-nnoremap <leader>rv :call PhpRenameLocalVariable()<CR>
-nnoremap <leader>ep :call PhpExtractClassProperty()<cr>
+" }}}
+
+" php refactoring  {{{2
+nnoremap <leader>rrp :call PhpRenameClassVariable()<CR>
+nnoremap <leader>rrm :call PhpRenameMethod()<CR>
+nnoremap <leader>reu :call PhpExtractUse()<CR>
+vnoremap <leader>rec :call PhpExtractConst()<CR>
+" vnoremap <leader>em :call PhpExtractMethod()<CR>
+" nnoremap <leader>rv :call PhpRenameLocalVariable()<CR>
+" nnoremap <leader>ep :call PhpExtractClassProperty()<cr>:e<cr>
 " https://github.com/QafooLabs/php-refactoring-browser/releases
-nnoremap <leader>ep :call PhpRefactorLocalVariableToInstanceVariable()<cr>
-vnoremap <leader>em :call PhpRefactorExtractMethodDirectly()<CR>
-nnoremap <leader>rv :call PhpRefactorRenameLocalVariable()<cr>
+nnoremap <leader>rep :call PhpRefactorLocalVariableToInstanceVariable()<cr>
+vnoremap <leader>rem :call PhpRefactorExtractMethodDirectly()<CR>
+nnoremap <leader>rrv :call PhpRefactorRenameLocalVariable()<cr>
 " https://github.com/dunglas/phpdoc-to-typehint/releases
-nnoremap <leader>rt :exec "!~/bin/phpdoc-to-typehint.phar ".expand('%:p:h')<cr>:e<cr>
-" }}}
-
-augroup php
-    au!
-    autocmd BufWritePost *.php silent Phplint
-    autocmd BufWritePost *.php silent! !eval '[ -f ".git/hooks/ctags" ] && .git/hooks/ctags' &
-    autocmd filetype php nnoremap <Leader>u :PHPImportClass<cr>
-    autocmd filetype php nnoremap <Leader>e :PHPExpandFQCNAbsolute<cr>
-    autocmd filetype php nnoremap <Leader>E :PHPExpandFQCN<cr>
-augroup END
-" }}}
-
-" deoplete {{{2
-let g:deoplete#enable_at_startup = 1
-let g:deoplete#enable_smart_case = 1
-let g:deoplete#enable_camel_case = 1
-let g:deoplete#sources#padawan#add_parentheses=1
-" needed for echodoc to work if add_parentheses is 1
-let g:deoplete#skip_chars = ['$']
-
-call deoplete#custom#set('_', 'converters',
-            \ ['converter_auto_delimiter',
-            \ 'converter_truncate_abbr', 'converter_truncate_menu'])
-
-
-inoremap <expr> <TAB> pumvisible() ? "\<c-n>" : "\<TAB>"
-inoremap <expr> <s-tab> pumvisible() ? "\<c-p>" : "\<TAB>"
-inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
-
-" deoplete-go settings
-let g:deoplete#sources = get(g:, 'deoplete#sources', {})
-let g:deoplete#sources._ = ['ultisnips', 'buffer']
-
-" let g:deoplete#sources.php = ['padawan', 'LanguageClient', 'ultisnips', 'buffer']
-let g:deoplete#sources.php = ['padawan', 'ultisnips', 'buffer']
-let g:deoplete#sources.go = ['go', 'ultisnips', 'buffer']
-let g:deoplete#sources#go#gocode_binary = $GOPATH.'/bin/gocode'
-let g:deoplete#sources#go#sort_class = ['package', 'func', 'type', 'var', 'const']
-let g:deoplete#sources#go#use_cache = 1
-let g:deoplete#sources#go#pointer = 1
-let g:deoplete#sources#go#json_directory = '~/.cache/deoplete/go/$GOOS_$GOARCH'
-
-augroup test_completion_fix
-    au!
-    au BufNewFile,BufRead,BufWinEnter *Test.php exe ":UltiSnipsAddFiletypes php.phpunit"
-    au BufNewFile,BufRead,BufWinEnter *Spec.php exe ":UltiSnipsAddFiletypes php.php-phpspec"
-augroup END
-
-" phpdoc {{{2
-let g:pdv_cfg_autoEndClass = 0
-let g:pdv_cfg_php4always = 0
-let g:pdv_cfg_autoEndFunction = 0
-let g:pdv_cfg_FunctionName = 0
-let g:pdv_cfg_Type = ""
-let g:pdv_cfg_annotation_Author = 0
-let g:pdv_cfg_annotation_Copyright = 0
-let g:pdv_cfg_annotation_License = 0
-let g:pdv_cfg_annotation_Package = 0
-let g:pdv_cfg_annotation_Version = 0
-inoremap <C-d> <ESC>:call PhpDocSingle()<CR>
-nnoremap <leader>h :call UpdatePhpDocIfExists()<CR>
-function! UpdatePhpDocIfExists()
-    normal! k
-    if getline('.') =~ '/'
-        normal! V%d
-    else
-        normal! j
-    endif
-    call PhpDocSingle()
-    normal! k^%k$
-    if getline('.') =~ ';'
-        exe "normal! $svoid"
-    endif
-endfunction
-vnoremap <leader>h :call PhpDocRange()<CR>
-" }}}
-
-" vdebug {{{2
-
-let g:vdebug_options = get(g:, 'vdebug_options', {})
-let g:vdebug_options["port"] = 9000
-
-let g:vim_debug_disable_mappings = 1
-let g:vdebug_keymap = {
-            \    "run" : "<F5>",
-            \    "run_to_cursor" : "<F9>",
-            \    "step_over" : "<F2>",
-            \    "step_into" : "<F3>",
-            \    "step_out" : "<F4>",
-            \    "close" : "<F6>",
-            \    "detach" : "<F7>",
-            \    "set_breakpoint" : "<F10>",
-            \    "get_context" : "<F11>",
-            \    "eval_under_cursor" : "<F12>",
-            \    "eval_visual" : "<F8>",
-            \}
-
-highlight DbgBreakptLine ctermbg=none ctermfg=none
-" }}}
-
-" scratch {{{2
-nnoremap <leader>z :Scratch<cr>
-let g:scratch_top = 1
-let g:scratch_persistence_file = '.scratch.vim'
-" }}}
-
-" vim-go {{{2
-augroup go_plugin
-    au!
-    au filetype go nnoremap <leader>gf :GoCoverageToggle<cr>
-    au filetype go nnoremap <leader>gr <Plug>(go-run)
-    au filetype go nnoremap <leader>gb <Plug>(go-build)
-    au filetype go nnoremap <leader>gt <Plug>(go-test)
-    au filetype go nnoremap <leader>gd <Plug>(go-doc)
-    au filetype go nnoremap <leader>gs <Plug>(go-implements)
-    au filetype go nnoremap <leader>ge <Plug>(go-rename)
-    au BufNewFile,BufRead,BufWinEnter *.go nnoremap <buffer> <leader>w :GoFmt<cr>
-augroup END
-let g:go_list_type = "location"
-
-
-let g:go_bin_path = expand("~/.gvm/gos/go1.8.3/bin")
-let g:go_highlight_functions = 1
-let g:go_highlight_methods = 1
-let g:go_highlight_fields = 1
-let g:go_highlight_types = 1
-let g:go_highlight_operators = 1
-let g:go_highlight_build_constraints = 1
-let g:go_fmt_command = "goimports"
-let g:go_fmt_autosave = 0
-" }}}
-
-" focus.vim {{{
-let g:focus_use_default_mapping = 0
-nmap <c-w>o <Plug>FocusModeToggle
-" }}}
-
-" goldenview {{{2
-let g:goldenview__enable_default_mapping = 0
-nmap <silent> <C-g>  <Plug>GoldenViewSplit
-" 2. quickly switch current window with the main pane
-" and toggle back
-nnoremap <silent> <m-g> :SwitchGoldenViewSmallest<cr>
-nnoremap <silent> <m-l> :SwitchGoldenViewMain<cr>
-" }}}
-
-" ferret {{{2
-nnoremap <leader>I :ALEToggle<cr>
-nnoremap <leader>/ :ALEDisable<cr>:Ack <c-r><c-w><cr>
-" nnoremap <leader>, :ALEDisable<cr>:Ack
-nnoremap <leader>rip :Acks /<c-r><c-w>/<c-r><c-w>/gc<left><left><left>
-" }}}
-
-" easymotion {{{2
-" Move to line
-map <Leader>L <Plug>(easymotion-bd-jk)
-nmap <Leader>L <Plug>(easymotion-overwin-line)
-
-map <Leader>j <Plug>(easymotion-j)
-map <Leader>k <Plug>(easymotion-k)
-map  <Leader>F <Plug>(easymotion-bd-w)
-nmap <Leader>F <Plug>(easymotion-overwin-w)
-nmap <Leader>f <Plug>(easymotion-w)
-map  <Leader>b <Plug>(easymotion-b)
-let g:EasyMotion_smartcase = 1
-
-" }}}
-
-" commentary {{{2
-nnoremap <leader>c :Commentary<cr>
-vnoremap <leader>c :Commentary<cr>
-" }}}
-
-" tabularize {{{2
-inoremap <silent> <Bar>   <Bar><Esc>:call <SID>align()<CR>a
-
-function! s:align()
-    let p = '^\s*|\s.*\s|\s*$'
-    if exists(':Tabularize') && getline('.') =~# '^\s*|' && (getline(line('.')-1) =~# p || getline(line('.')+1) =~# p)
-        let column = strlen(substitute(getline('.')[0:col('.')],'[^|]','','g'))
-        let position = strlen(matchstr(getline('.')[0:col('.')],'.*|\s*\zs.*'))
-        Tabularize/|/l1
-        normal! 0
-        call search(repeat('[^|]*|',column).'\s\{-\}'.repeat('.',position),'ce',line('.'))
-    endif
-endfunction
-
-nnoremap <leader>ga :Tabularize /\|<cr>
-vnoremap <leader>ga :Tabularize /\|<cr>
-" }}}
-
-" abolish {{{
-nnoremap <leader>] :%S/<c-R><c-w>/<c-r><c-w>/g<left><left>
-vnoremap <leader>] :%S//g<left><left>
-" }}}
-
-" Peekaboo {{{
-let g:peekaboo_window = 'vertical botright 70new'
-" }}}
-
-" easyclip {{{
-nnoremap gm m
-" nmap <silent> gs <plug>SubstituteOverMotionMap
-" }}}
-
-" vim-qf {{{
-let g:qf_loclist_window_bottom = 0
-let g:qf_window_bottom = 0
-
-nmap <c-p> :cpre<cr>
-nmap <c-n> :cne<cr>
-let g:qf_loc_toggle_binds = 1
-function! ToggleQfLocListBinds()
-    if g:qf_loc_toggle_binds == 1
-        nmap <c-p> :lpre<cr>
-        nmap <c-n> :lnext<cr>
-        let g:qf_loc_toggle_binds = 0
-        echo "loc binds loaded"
-    else
-        let g:qf_loc_toggle_binds = 1
-        nmap <c-p> :cpre<cr>
-        nmap <c-n> :cne<cr>
-        echo "qf binds loaded"
-    endif
-endfunction
-nmap <Down> :call ToggleQfLocListBinds()<cr>
-" }}}
-
-
-" hardtime {{{
-let g:hardtime_ignore_quickfix = 1
-let g:hardtime_motion_with_count_resets = 1
-let g:hardtime_maxcount = 1
-let g:hardtime_allow_different_key = 1
-let g:hardtime_default_on = 1
-let g:hardtime_ignore_buffer_patterns = [ "NERD.*" ]
-" }}}
-
-" ale {{{
-let g:ale_sign_error = '✖'
-let g:ale_sign_warning = '!'
-let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
-let g:ale_lint_on_enter = 0
-let g:ale_set_loclist = 0
-let g:ale_set_quickfix = 1
-let g:ale_php_phpcs_standard = '~/code/ruleset.xml'
-let g:ale_php_phpmd_ruleset = './phpmd.xml'
-
-" }}}
-
-" airline {{{
-let g:airline_powerline_fonts = 1
-let g:airline#extensions#tagbar#enabled = 0
-let g:airline#extensions#virtualenv#enabled = 0
-let g:airline#extensions#whitespace#enabled = 0
-" }}}
-
-" }}}
-
-so ~/.projects.public.vim
-filetype plugin indent on
-syntax on
-let g:rg_command = '
-  \ rg --column --line-number --no-heading --fixed-strings --ignore-case --no-ignore --hidden --follow --color "always"
-  \ -g "*.{js,json,php,md,styl,jade,html,config,py,cpp,c,go,hs,rb,conf}"
-  \ -g "!{.git,node_modules,vendor}/*" '
-
-command! -bang -nargs=* F call fzf#vim#grep(g:rg_command .shellescape(<q-args>), 1, <bang>0)
-nnoremap <leader>i :Extradite<cr>
-
-" php...
-noremap <m-;> <Esc>A;<Esc>
-
-let g:padawan_navigator#server_command='~/code/padawan.php/bin/padawan-server'
-nnoremap <leader>gu :call PadawanGetParents()<cr>
-nnoremap <leader>gi :call PadawanGetImplementations()<cr>
-nnoremap <leader>gk :call padawan_navigator#CloseWindow()<cr>
-
-highlight DiffAdd cterm=none ctermfg=fg ctermbg=Blue gui=none guifg=fg guibg=Blue
-highlight DiffDelete cterm=none ctermfg=fg ctermbg=Blue gui=none guifg=fg guibg=Blue
-highlight DiffChange cterm=none ctermfg=fg ctermbg=Blue gui=none guifg=fg guibg=Blue
-highlight DiffText cterm=none ctermfg=bg ctermbg=White gui=none guifg=bg guibg=White
-
-
-nnoremap <leader>H :call PhpConstructorArgumentMagic()<cr>
+nnoremap <leader>rrt :exec "!~/bin/phpdoc-to-typehint.phar ".expand('%:p:h')<cr>:e<cr>
+nnoremap <leader>rdo :call PhpDocOneliner()<cr>
+vnoremap <leader>rev :call PHPExtractVariable()<cr>
+nnoremap <leader>H :call PhpConstructorArgumentMagic2()<cr>
+nnoremap <leader>rmc :call PHPMoveClass()<cr>
+nnoremap <leader>rmd :call PHPMoveDir()<cr>
+nnoremap <leader>rcc :call PhpConstructorArgumentMagic()<cr>
+" nnoremap <leader>rcc :call PHPModify("complete_constructor")<cr>
+nnoremap <leader>ric :call PHPModify("implement_contracts")<cr>
+nnoremap <leader>raa :call PHPModify("add_missing_assignments")<cr>
+nnoremap <leader>rei :call PHPExtractInterface()<cr>
 
 function! PhpConstructorArgumentMagic()
+    " update phpdoc
+    if exists("*UpdatePhpDocIfExists")
+        normal! gg
+        /__construct
+        normal! n
+        :call UpdatePhpDocIfExists()
+        :w
+    endif
+    :call PHPModify("complete_constructor")
+endfunction
+
+function! PhpConstructorArgumentMagic2()
     let l:currentLine = getline('.')
     if l:currentLine !~ '\$'
         echo "no $ found, are you on a line with an argument?"
@@ -1548,15 +1294,467 @@ function! PhpDocOneliner()
     normal JxxJ
 endfunction
 
-nnoremap go :call PhpDocOneliner()<cr>
-
-vnoremap <leader>ev :call PHPExtractVariable()<cr>
-
 function! PHPExtractVariable()
     let l:name = input("Name of new variable: $")
     normal! gvx
     execute "normal! i$".l:name
     execute "normal! O$".l:name." = "
     normal! pa;
+    normal! bgr
 endfunction
 
+function! PHPMoveClass()
+    :w
+    let l:oldPath = expand('%')
+    let l:newPath = input("New path: ", l:oldPath)
+    execute "!phpactor class:move ".l:oldPath.' '.l:newPath
+    execute "bd ".l:oldPath
+    execute "e ". l:newPath
+endfunction
+
+function! PHPMoveDir()
+    :w
+    let l:oldPath = input("old path: ", expand('%:p:h'))
+    let l:newPath = input("New path: ", l:oldPath)
+    execute "!phpactor class:move ".l:oldPath.' '.l:newPath
+endfunction
+
+function! PHPModify(transformer)
+    :w
+    normal! ggdG
+    execute "read !phpactor class:transform ".expand('%').' --transform='.a:transformer
+    normal! ggdd
+    :w
+endfunction
+
+function! PHPExtractInterface()
+    :w
+    let l:interfaceFile = substitute(expand('%'), '.php', 'Interface.php', '')
+    execute "!phpactor class:inflect ".expand('%').' '.l:interfaceFile.' interface'
+    execute "e ". l:interfaceFile
+endfunction
+" }}}
+
+augroup php
+    au!
+    autocmd BufWritePost *.php silent Phplint
+    autocmd BufWritePost *.php silent! !eval '[ -f ".git/hooks/ctags" ] && .git/hooks/ctags' &
+    autocmd filetype php nnoremap <Leader>u :PHPImportClass<cr>
+    autocmd filetype php,yaml nnoremap <Leader>e :PHPExpandFQCNAbsolute<cr>
+    autocmd filetype php,yaml nnoremap <Leader>E :PHPExpandFQCN<cr>
+augroup END
+" }}}
+
+" deoplete {{{2
+let g:deoplete#enable_at_startup = 1
+let g:deoplete#enable_smart_case = 1
+let g:deoplete#enable_camel_case = 1
+let g:deoplete#sources#padawan#add_parentheses=1
+" needed for echodoc to work if add_parentheses is 1
+let g:deoplete#skip_chars = ['$']
+
+" call deoplete#custom#set('_', 'converters',
+"             \ ['converter_auto_delimiter',
+"             \ 'converter_truncate_abbr', 'converter_truncate_menu', 'converter_remove_overlap'])
+
+
+inoremap <expr> <TAB> pumvisible() ? "\<c-n>" : "\<TAB>"
+inoremap <expr> <s-tab> pumvisible() ? "\<c-p>" : "\<TAB>"
+inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+
+" deoplete-go settings
+let g:deoplete#sources = get(g:, 'deoplete#sources', {})
+let g:deoplete#sources._ = ['ultisnips', 'buffer']
+
+" let g:deoplete#sources.php = ['padawan', 'LanguageClient', 'ultisnips', 'buffer']
+" let g:deoplete#sources.php = ['LanguageClient']
+" let g:deoplete#auto_complete_delay = 147
+let g:deoplete#sources.php = ['padawan', 'ultisnips', 'buffer']
+
+" let g:deoplete#ignore_sources = {'php': ['LanguageClient']}
+let g:deoplete#sources.go = ['go', 'ultisnips', 'buffer']
+let g:deoplete#sources#go#gocode_binary = $GOPATH.'/bin/gocode'
+let g:deoplete#sources#go#sort_class = ['package', 'func', 'type', 'var', 'const']
+let g:deoplete#sources#go#use_cache = 1
+let g:deoplete#sources#go#pointer = 1
+let g:deoplete#sources#go#json_directory = '~/.cache/deoplete/go/$GOOS_$GOARCH'
+
+let g:tsuquyomi_completion_detail = 1
+" Use tern_for_vim.
+let g:deoplete#omni#functions = {}
+let g:deoplete#omni#functions.javascript = [
+  \ 'tern#Complete',
+  \ 'jspc#omni'
+\]
+let g:deoplete#sources['javascript.jsx'] = ['LanguageClient', 'TernJS', 'buffer', 'ultisnips']
+let g:tern#command = ['tern']
+let g:tern#arguments = ['--persistent']
+
+augroup test_snippets
+    au!
+    au BufNewFile,BufRead,BufWinEnter *Test.php exe ":UltiSnipsAddFiletypes php.phpunit"
+    au BufNewFile,BufRead,BufWinEnter *Spec.php exe ":UltiSnipsAddFiletypes php.php-phpspec"
+augroup END
+
+" phpdoc {{{2
+let g:pdv_cfg_autoEndClass = 0
+let g:pdv_cfg_php4always = 0
+let g:pdv_cfg_autoEndFunction = 0
+let g:pdv_cfg_FunctionName = 0
+let g:pdv_cfg_Type = ""
+let g:pdv_cfg_annotation_Author = 0
+let g:pdv_cfg_annotation_Copyright = 0
+let g:pdv_cfg_annotation_License = 0
+let g:pdv_cfg_annotation_Package = 0
+let g:pdv_cfg_annotation_Version = 0
+inoremap <C-d> <ESC>:call PhpDocSingle()<CR>
+nnoremap <leader>h :call UpdatePhpDocIfExists()<CR>
+function! UpdatePhpDocIfExists()
+    normal! k
+    if getline('.') =~ '/'
+        normal! V%d
+    else
+        normal! j
+    endif
+    call PhpDocSingle()
+    normal! k^%k$
+    if getline('.') =~ ';'
+        exe "normal! $svoid"
+    endif
+endfunction
+" }}}
+
+" vdebug {{{2
+
+let g:vdebug_options = get(g:, 'vdebug_options', {})
+let g:vdebug_options["port"] = 9000
+
+let g:vim_debug_disable_mappings = 1
+let g:vdebug_keymap = {
+            \    "run" : "<F5>",
+            \    "run_to_cursor" : "<F9>",
+            \    "step_over" : "<F2>",
+            \    "step_into" : "<F3>",
+            \    "step_out" : "<F4>",
+            \    "close" : "<F6>",
+            \    "detach" : "<F7>",
+            \    "set_breakpoint" : "<F10>",
+            \    "get_context" : "<F11>",
+            \    "eval_under_cursor" : "<F12>",
+            \    "eval_visual" : "<F8>",
+            \}
+
+highlight DbgBreakptLine ctermbg=none ctermfg=none
+" }}}
+
+" scratch {{{2
+nnoremap <leader>z :Scratch<cr>
+let g:scratch_top = 1
+let g:scratch_persistence_file = '.scratch.vim'
+" }}}
+
+" vim-go {{{2
+augroup go_plugin
+    au!
+    au filetype go nnoremap <leader>gf :GoCoverageToggle<cr>
+    au filetype go nnoremap <leader>gr <Plug>(go-run)
+    au filetype go nnoremap <leader>gb <Plug>(go-build)
+    au filetype go nnoremap <leader>gt <Plug>(go-test)
+    au filetype go nnoremap <leader>gd <Plug>(go-doc)
+    au filetype go nnoremap <leader>gs <Plug>(go-implements)
+    au filetype go nnoremap <leader>ge <Plug>(go-rename)
+    au BufNewFile,BufRead,BufWinEnter *.go nnoremap <buffer> <leader>w :GoFmt<cr>
+augroup END
+let g:go_list_type = "location"
+
+
+let g:go_bin_path = expand("~/.gvm/gos/go1.8.3/bin")
+let g:go_highlight_functions = 1
+let g:go_highlight_methods = 1
+let g:go_highlight_fields = 1
+let g:go_highlight_types = 1
+let g:go_highlight_operators = 1
+let g:go_highlight_build_constraints = 1
+let g:go_fmt_command = "goimports"
+let g:go_fmt_autosave = 0
+" }}}
+
+" focus.vim {{{
+let g:focus_use_default_mapping = 0
+nmap <c-w>o <Plug>FocusModeToggle
+" }}}
+
+" goldenview {{{2
+let g:goldenview__enable_default_mapping = 0
+nmap <silent> <C-g>  <Plug>GoldenViewSplit
+" 2. quickly switch current window with the main pane
+" and toggle back
+nnoremap <silent> <m-g> :SwitchGoldenViewSmallest<cr>
+nnoremap <silent> <m-l> :SwitchGoldenViewMain<cr>
+" }}}
+
+" ferret {{{2
+nnoremap <leader>/ :Ack <c-r><c-w><cr>
+" nnoremap <leader>, :Ack
+nnoremap <leader>rip :Acks /<c-r><c-w>/<c-r><c-w>/gc<left><left><left>
+" }}}
+
+" easymotion {{{2
+" Move to line
+map <Leader>L <Plug>(easymotion-bd-jk)
+nmap <Leader>L <Plug>(easymotion-overwin-line)
+
+map <Leader>j <Plug>(easymotion-j)
+map <Leader>k <Plug>(easymotion-k)
+map  <Leader>F <Plug>(easymotion-bd-w)
+nmap <Leader>F <Plug>(easymotion-overwin-w)
+nmap <Leader>f <Plug>(easymotion-w)
+map  <Leader>b <Plug>(easymotion-b)
+let g:EasyMotion_smartcase = 1
+
+" }}}
+
+" commentary {{{2
+nnoremap <leader>c :Commentary<cr>
+vnoremap <leader>c :Commentary<cr>
+" }}}
+
+" tabularize {{{2
+inoremap <silent> <Bar>   <Bar><Esc>:call <SID>align()<CR>a
+
+function! s:align()
+    let p = '^\s*|\s.*\s|\s*$'
+    if exists(':Tabularize') && getline('.') =~# '^\s*|' && (getline(line('.')-1) =~# p || getline(line('.')+1) =~# p)
+        let column = strlen(substitute(getline('.')[0:col('.')],'[^|]','','g'))
+        let position = strlen(matchstr(getline('.')[0:col('.')],'.*|\s*\zs.*'))
+        Tabularize/|/l1
+        normal! 0
+        call search(repeat('[^|]*|',column).'\s\{-\}'.repeat('.',position),'ce',line('.'))
+    endif
+endfunction
+
+nnoremap <leader>ga :Tabularize /\|<cr>
+vnoremap <leader>ga :Tabularize /\|<cr>
+" }}}
+
+" abolish {{{
+nnoremap <leader>] :%S/<c-R><c-w>/<c-r><c-w>/g<left><left>
+vnoremap <leader>] :%S//g<left><left>
+" }}}
+
+" Peekaboo {{{
+let g:peekaboo_window = 'vertical botright 70new'
+" }}}
+
+" easyclip {{{
+nnoremap gm m
+" nmap <silent> gs <plug>SubstituteOverMotionMap
+" }}}
+
+
+nmap <c-p> :lpre<cr>
+nmap <c-n> :lnext<cr>
+let g:qf_loc_toggle_binds = 0
+function! ToggleQfLocListBinds()
+    if g:qf_loc_toggle_binds == 1
+        nmap <c-p> :lpre<cr>
+        nmap <c-n> :lnext<cr>
+        let g:qf_loc_toggle_binds = 0
+        echo "loc binds loaded"
+    else
+        let g:qf_loc_toggle_binds = 1
+        nmap <c-p> :cpre<cr>
+        nmap <c-n> :cne<cr>
+        echo "qf binds loaded"
+    endif
+endfunction
+nmap <script> <silent> <leader>l :let g:qf_loc_toggle_binds=1<cr>:call ToggleLocationList()<CR>
+nmap <script> <silent> <leader>q :let g:qf_loc_toggle_binds=0<cr>:call ToggleQuickfixList()<CR>
+nmap <Down> :call ToggleQfLocListBinds()<cr>
+" }}}
+
+
+" hardtime {{{
+let g:hardtime_ignore_quickfix = 1
+let g:hardtime_motion_with_count_resets = 1
+let g:hardtime_maxcount = 1
+let g:hardtime_allow_different_key = 1
+let g:hardtime_default_on = 1
+let g:hardtime_ignore_buffer_patterns = [ "NERD.*" ]
+" }}}
+
+" ale {{{
+let g:ale_sign_error = '✖'
+let g:ale_sign_warning = '!'
+let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
+let g:ale_lint_on_enter = 0
+let g:ale_set_loclist = 0
+let g:ale_set_quickfix = 1
+let g:ale_php_phpcs_standard = '~/code/ruleset.xml'
+let g:ale_php_phpmd_ruleset = './phpmd.xml'
+
+" }}}
+
+" airline {{{
+let g:airline_powerline_fonts = 1
+let g:airline#extensions#tagbar#enabled = 0
+let g:airline#extensions#virtualenv#enabled = 0
+let g:airline#extensions#whitespace#enabled = 0
+let g:airline_theme='tender'
+function! AirlineInit()
+  if exists('*GTMStatusline')
+    call airline#parts#define_function('gtmstatus', 'GTMStatusline')
+    let g:airline_section_b = airline#section#create([g:airline_section_b, ' ', '[', 'gtmstatus', ']'])
+  endif
+endfunction
+autocmd User AirlineAfterInit call AirlineInit()
+" }}}
+
+" }}}
+
+so ~/.projects.public.vim
+filetype plugin indent on
+syntax on
+let g:rg_command = '
+  \ rg --column --line-number --no-heading --fixed-strings --ignore-case --no-ignore --hidden --follow --color "always"
+  \ -g "*.{js,json,php,md,styl,jade,html,config,py,cpp,c,go,hs,rb,conf}"
+  \ -g "!{.git,node_modules,vendor}/*" '
+
+command! -bang -nargs=* F call fzf#vim#grep(g:rg_command .shellescape(<q-args>), 1, <bang>0)
+nnoremap <leader>i :Extradite<cr>
+
+" php...
+noremap <m-;> <Esc>A;<Esc>
+
+let g:padawan_navigator#server_command='~/code/padawan.php/bin/padawan-server'
+let g:deoplete#sources#padawan#server_command='~/code/padawan.php/bin/padawan-server'
+
+nnoremap <leader>gu :call PadawanGetParents()<cr>
+nnoremap <leader>gi :call PadawanGetImplementations()<cr>
+nnoremap <leader>gk :call padawan_navigator#CloseWindow()<cr>
+
+highlight DiffAdd cterm=none ctermfg=fg ctermbg=Blue gui=none guifg=fg guibg=Blue
+highlight DiffDelete cterm=none ctermfg=fg ctermbg=Blue gui=none guifg=fg guibg=Blue
+highlight DiffChange cterm=none ctermfg=fg ctermbg=Blue gui=none guifg=fg guibg=Blue
+highlight DiffText cterm=none ctermfg=bg ctermbg=White gui=none guifg=bg guibg=White
+
+
+
+
+
+" neomake
+autocmd BufWritePost * Neomake
+let g:neomake_error_sign   = {'text': '✖', 'texthl': 'NeomakeErrorSign'}
+let g:neomake_warning_sign = {'text': '∆', 'texthl': 'NeomakeWarningSign'}
+let g:neomake_message_sign = {'text': '➤', 'texthl': 'NeomakeMessageSign'}
+let g:neomake_info_sign    = {'text': 'ℹ', 'texthl': 'NeomakeInfoSign'}
+let g:neomake_go_enabled_makers = [ 'go', 'gometalinter' ]
+let g:neomake_go_gometalinter_maker = {
+  \ 'args': [
+  \   '--tests',
+  \   '--enable-gc',
+  \   '--concurrency=3',
+  \   '--fast',
+  \   '-D', 'aligncheck',
+  \   '-D', 'dupl',
+  \   '-D', 'gocyclo',
+  \   '-D', 'gotype',
+  \   '-E', 'errcheck',
+  \   '-E', 'misspell',
+  \   '-E', 'unused',
+  \   '%:p:h',
+  \ ],
+  \ 'append_file': 0,
+  \ 'errorformat':
+  \   '%E%f:%l:%c:%trror: %m,' .
+  \   '%W%f:%l:%c:%tarning: %m,' .
+  \   '%E%f:%l::%trror: %m,' .
+  \   '%W%f:%l::%tarning: %m'
+  \ }
+
+" display warning for phpcs error
+function! SetWarningType(entry)
+  let a:entry.type = 'W'
+endfunction
+
+" function! SetErrorType(entry)
+"   let a:entry.type = 'E'
+" endfunction
+
+function! FormatPHPStanForNeomake(entry)
+    if a:entry.text !~ '\d'
+        let a:entry.valid = -1
+    endif
+endfunction
+
+let g:neomake_php_phpcs_maker = {
+        \ 'args': ['--report=csv'],
+        \ 'exe': './vendor/bin/phpcs',
+        \ 'errorformat':
+            \ '%-GFile\,Line\,Column\,Type\,Message\,Source\,Severity%.%#,'.
+            \ '"%f"\,%l\,%c\,%t%*[a-zA-Z]\,"%m"\,%*[a-zA-Z0-9_.-]\,%*[0-9]%.%#',
+        \ 'postprocess': function('SetWarningType'),
+ \ }
+
+" let g:neomake_php_phpmd_maker = {
+"         \ 'args': ['%:p', 'text'],
+"         \ 'errorformat': '%W%f:%l%\s%\s%#%m',
+"         \ 'postprocess': function('SetWarningType'),
+"  \ }
+let g:neomake_php_phpstan_maker = {
+        \ 'args': ['analyse', '--no-progress', '-lmax'],
+        \ 'errorformat': '%E%f:%l:%m',
+        \ 'postprocess': function('FormatPHPStanForNeomake'),
+ \ }
+
+" PHP-Indenting-for-Vim configuration
+let g:PHP_autoformatcomment = 1 " Format comments automatically
+
+highlight DiffAdd cterm=NONE ctermfg=black ctermbg=Green gui=NONE guifg=black guibg=Green 
+highlight DiffDelete cterm=NONE ctermfg=black ctermbg=Red gui=NONE guifg=black guibg=Red 
+highlight DiffChange cterm=NONE ctermfg=black ctermbg=Yellow gui=NONE guifg=black guibg=Yellow 
+highlight DiffText cterm=NONE ctermfg=black ctermbg=Magenta gui=NONE guifg=black guibg=Magenta
+
+let g:tagbar_sort = 0
+
+set t_Co=256
+set background=dark
+" colorscheme mustang
+highlight Normal ctermbg=NONE
+highlight nonText ctermbg=NONE
+" hi Visual term=reverse cterm=reverse guibg=Grey
+
+
+function! BehatJumpToStepDefinition()
+    let l:currentLine = getline('.')
+    let l:searchTerm = substitute(l:currentLine, 'Given\|When\|Then\|And\|:', '', 'g')
+    let l:searchTerm = substitute(l:searchTerm, '\s\+', ' ', 'g')
+    echo l:searchTerm
+    exe ":Ag ".l:searchTerm
+endfunction
+
+" set statusline=%<%.99f\ %h%w%m%r%y%=%-16(\ %l,%c-%v\ %)%P
+function! GitBranch()
+  return system("git rev-parse --abbrev-ref HEAD 2>/dev/null | tr -d '\n'")
+endfunction
+
+function! StatuslineGit()
+  let l:branchname = GitBranch()
+  return strlen(l:branchname) > 0?'  '.l:branchname.' ':''
+endfunction
+
+set statusline=
+" set statusline+=%#PmenuSel#
+set statusline+=%#LineNr#
+set statusline+=\ %f
+set statusline+=%m
+set statusline+=%=
+set statusline+=\ %y
+
+set statusline+=\ %{&fileencoding?&fileencoding:&encoding}
+" set statusline+=\[%{&fileformat}\]
+set statusline+=%10(%l:%c%)\ 
+" set statusline+=\ %l:%c
+" set statusline+=\ %p%%
+" set statusline+=%{StatuslineGit()}
+set statusline+=\ 
