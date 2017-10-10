@@ -81,4 +81,15 @@ if [ ! -f $refactoringPhar ]; then
     echo "Installed $refactoringPhar"
 fi
 
+phpactorExecutable="$HOME/bin/phpactor"
+if [ ! -f $phpactorExecutable ]; then
+    mkdir ~/.tooling/
+    git clone https://github.com/phpactor/phpactor.git ~/.tooling/phpactor
+    cd ~/.tooling/phpactor && composer install
+    cd -
+    ln -fs ~/.tooling/phpactor/bin/phpactor $phpactorExecutable
+    chmod +x $phpactorExecutable
+    echo "Installed $phpactorExecutable"
+fi
+
 echo "PHP tooling complete"
