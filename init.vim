@@ -98,7 +98,7 @@ Plug 'neomake/neomake'
 " completion
 " note: in global composer json "minimum-stability":"dev"
 " composer global require mkusher/padawan
-Plug '~/code/padawan-navigator-vim', {'for': 'php'}
+Plug '~/code/padawan-navigator-vim'
 Plug 'padawan-php/deoplete-padawan', {'for': 'php'}
 
 " Plug '~/code/deoplete-padawan', {'for': 'php'}
@@ -193,11 +193,12 @@ Plug 'iamcco/markdown-preview.vim'
 
 " swap stuff
 Plug 'tommcdo/vim-exchange'
-Plug 'autozimu/LanguageClient-neovim', { 'do': ':UpdateRemotePlugins' }
+" Plug 'autozimu/LanguageClient-neovim', { 'do': ':UpdateRemotePlugins' }
+Plug '~/code/LanguageClient-neovim', { 'do': ':UpdateRemotePlugins' }
 Plug 'roxma/LanguageServer-php-neovim',  {'do': 'composer install && composer run-script parse-stubs'}
 
 
-Plug 'airblade/vim-gitgutter'
+" Plug 'airblade/vim-gitgutter'
 
 Plug 'git-time-metric/gtm-vim-plugin'
 let g:gtm_plugin_status_enabled = 1
@@ -208,15 +209,19 @@ let g:gitgutter_map_keys = 0
 
 Plug 'sheerun/vim-polyglot'
 
-Plug 'Quramy/tsuquyomi', {'for': ['javascript', 'vue']}
-Plug 'Quramy/tsuquyomi-vue', {'for': ['javascript', 'vue']}
-Plug 'posva/vim-vue', {'for': ['javascript', 'vue']}
-Plug 'Quramy/vim-js-pretty-template', {'for': ['javascript', 'vue']}
-Plug 'pangloss/vim-javascript', {'for': ['javascript', 'vue']}
-Plug 'ternjs/tern_for_vim', { 'for': ['javascript', 'javascript.jsx'] }
-Plug 'carlitux/deoplete-ternjs', { 'for': ['javascript', 'javascript.jsx'] }
-Plug 'othree/jspc.vim', { 'for': ['javascript', 'javascript.jsx'] }
-Plug '1995eaton/vim-better-javascript-completion', {'for': ['javascript', 'javascript.jsx']}
+" Plug 'Quramy/tsuquyomi-vue', {'for': ['javascript', 'vue', 'typescript']}
+" Plug 'posva/vim-vue', {'for': ['javascript', 'vue', 'typescript']}
+" Plug 'pangloss/vim-javascript', {'for': ['javascript', 'vue', 'typescript']}
+" Plug 'Quramy/tsuquyomi'
+Plug 'mhartington/nvim-typescript', {'do': ':UpdateRemotePlugins'}
+Plug 'leafgarland/typescript-vim'
+Plug 'Quramy/vim-js-pretty-template'
+Plug 'othree/html5.vim'
+Plug 'hail2u/vim-css3-syntax'
+" Plug 'ternjs/tern_for_vim', { 'for': ['javascript', 'javascript.jsx', 'typescript'] }
+" Plug 'carlitux/deoplete-ternjs', { 'for': ['javascript', 'javascript.jsx', 'typescript'] }
+" Plug 'othree/jspc.vim', { 'for': ['javascript', 'javascript.jsx', 'typescript'] }
+" Plug '1995eaton/vim-better-javascript-completion', {'for': ['javascript', 'javascript.jsx', 'typescript']}
 
 call plug#end()
 " }}}
@@ -440,8 +445,6 @@ noremap gV `[v`]
 
 nnoremap <m-;> :ToggleGoldenViewAutoResize<cr>
 
-map gn :bn<cr>
-map gp :bp<cr>
 nnoremap <tab> :bn<cr>
 nnoremap <s-tab> :bp<cr>
 
@@ -816,10 +819,10 @@ nnoremap <silent> <leader>W :w<cr>:silent! !eval '[ -f ".git/hooks/ctags" ] && .
 set nocursorcolumn       " do not highlight column
 set nocursorline         " do not highlight line
 syntax sync minlines=256 " start highlighting from 256 lines backwards
-" set synmaxcol=200 " do not highlith very long lines
+set synmaxcol=200 " do not highlith very long lines
 " autocmd BufWinEnter,Syntax * syn sync minlines=500 maxlines=500
 set re=1
-set nolazyredraw
+set lazyredraw
 set scrolljump=5
 " set sidescroll=1
 " let g:PHP_default_indenting=0
@@ -846,6 +849,7 @@ augroup filetype_settings
     au BufNewFile,BufRead *.go setlocal noexpandtab tabstop=4 shiftwidth=4 
     au filetype make setlocal noexpandtab tabstop=4 shiftwidth=4 
     au filetype javascript setlocal noexpandtab tabstop=2 shiftwidth=2 
+    au filetype typescript setlocal noexpandtab tabstop=2 shiftwidth=2 
 
     au BufRead,BufNewFile *.conf setf config
 
@@ -859,12 +863,14 @@ augroup filetype_settings
 
     au filetype php set omnifunc=LanguageClient#complete
     au filetype html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
-    au filetype javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+    au filetype javascript setlocal omnifunc=tern#Complete
     au filetype javascript LanguageClientStart
-    autocmd FileType javascript JsPreTmpl html
-    autocmd FileType javascript JsPreTmpl markdown
+    " au filetype typescript LanguageClientStart
+    au filetype typescript nnoremap <buffer> gd :TSDef<CR>
+    au filetype typescript nnoremap <buffer> gr :TSRefs<CR>
+    au filetype typescript nnoremap <buffer> K :TSDefPreview<cr>
     " autocmd FileType vue JsPreTmpl markdown
-    autocmd FileType typescript syn clear foldBraces " For leafgarland/typescript-vim users only. Please see #1 for details.
+    " autocmd FileType typescript syn clear foldBraces " For leafgarland/typescript-vim users only. Please see #1 for details.
     au filetype xml setlocal omnifunc=xmlcomplete#CompleteTags
     au filetype xml   setlocal makeprg=xmllint\ -
     " au filetype xml   setlocal equalprg=xmllint\ --format\ -
@@ -885,9 +891,11 @@ nnoremap <silent> gr :call LanguageClient_textDocument_references()<CR>
 nnoremap K :call LanguageClient_textDocument_hover()<cr>
 nnoremap <leader>d :call fzf#vim#tags(expand('<cword>'), {'options': '--exact --select-1 --exit-0'})<CR>
 let g:LanguageClient_serverCommands = {
-	    \ 'javascript.jsx': ['~/compiles/javascript-typescript-langserver/lib/language-server-stdio.js']
+	    \ 'javascript.jsx': ['~/compiles/javascript-typescript-langserver/lib/language-server-stdio.js'],
+	    \ 'php': ['php', '~/code/php-language-server/bin/php-language-server.php']
 	    \ }
 
+	    " \ 'typescript': ['~/compiles/javascript-typescript-langserver/lib/language-server-stdio.js']
 augroup pre_post_hooks
     au!
     " no delay when ESC/jk
@@ -1127,7 +1135,7 @@ augroup godoctor
     autocmd Filetype go nnoremap <leader>r :Rename <c-r><c-w>
 augroup END
 
-" nnoremap <leader>s :Tags<cr>
+nnoremap <leader>S :Tags<cr>
 nnoremap <leader>, :Files<cr>
 nnoremap <leader>. :call fzf#run({'sink': 'e', 'right': '40%'})<cr>
 nnoremap <leader>tt :BTags<cr>
@@ -1353,9 +1361,9 @@ let g:deoplete#sources#padawan#add_parentheses=1
 " needed for echodoc to work if add_parentheses is 1
 let g:deoplete#skip_chars = ['$']
 
-" call deoplete#custom#set('_', 'converters',
-"             \ ['converter_auto_delimiter',
-"             \ 'converter_truncate_abbr', 'converter_truncate_menu', 'converter_remove_overlap'])
+call deoplete#custom#set('_', 'converters',
+            \ ['converter_auto_delimiter',
+            \ 'converter_remove_overlap'])
 
 
 inoremap <expr> <TAB> pumvisible() ? "\<c-n>" : "\<TAB>"
@@ -1366,29 +1374,17 @@ inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 let g:deoplete#sources = get(g:, 'deoplete#sources', {})
 let g:deoplete#sources._ = ['ultisnips', 'buffer']
 
-" let g:deoplete#sources.php = ['padawan', 'LanguageClient', 'ultisnips', 'buffer']
-" let g:deoplete#sources.php = ['LanguageClient']
-" let g:deoplete#auto_complete_delay = 147
 let g:deoplete#sources.php = ['padawan', 'ultisnips', 'buffer']
-
 " let g:deoplete#ignore_sources = {'php': ['LanguageClient']}
+" let g:deoplete#auto_complete_delay = 147
+" let g:deoplete#sources.php = ['LanguageClient']
+
 let g:deoplete#sources.go = ['go', 'ultisnips', 'buffer']
 let g:deoplete#sources#go#gocode_binary = $GOPATH.'/bin/gocode'
 let g:deoplete#sources#go#sort_class = ['package', 'func', 'type', 'var', 'const']
 let g:deoplete#sources#go#use_cache = 1
 let g:deoplete#sources#go#pointer = 1
 let g:deoplete#sources#go#json_directory = '~/.cache/deoplete/go/$GOOS_$GOARCH'
-
-let g:tsuquyomi_completion_detail = 1
-" Use tern_for_vim.
-let g:deoplete#omni#functions = {}
-let g:deoplete#omni#functions.javascript = [
-  \ 'tern#Complete',
-  \ 'jspc#omni'
-\]
-let g:deoplete#sources['javascript.jsx'] = ['LanguageClient', 'TernJS', 'buffer', 'ultisnips']
-let g:tern#command = ['tern']
-let g:tern#arguments = ['--persistent']
 
 augroup test_snippets
     au!
@@ -1583,18 +1579,6 @@ let g:hardtime_default_on = 1
 let g:hardtime_ignore_buffer_patterns = [ "NERD.*" ]
 " }}}
 
-" ale {{{
-let g:ale_sign_error = '✖'
-let g:ale_sign_warning = '!'
-let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
-let g:ale_lint_on_enter = 0
-let g:ale_set_loclist = 0
-let g:ale_set_quickfix = 1
-let g:ale_php_phpcs_standard = '~/code/ruleset.xml'
-let g:ale_php_phpmd_ruleset = './phpmd.xml'
-
-" }}}
-
 " airline {{{
 let g:airline_powerline_fonts = 1
 let g:airline#extensions#tagbar#enabled = 0
@@ -1627,6 +1611,7 @@ nnoremap <leader>i :Extradite<cr>
 noremap <m-;> <Esc>A;<Esc>
 
 let g:padawan_navigator#server_command='~/code/padawan.php/bin/padawan-server'
+let g:padawan_navigator#server_addr='http://127.0.0.1:15155'
 let g:deoplete#sources#padawan#server_command='~/code/padawan.php/bin/padawan-server'
 
 nnoremap <leader>gu :call PadawanGetParents()<cr>
@@ -1696,11 +1681,12 @@ let g:neomake_php_phpcs_maker = {
         \ 'postprocess': function('SetWarningType'),
  \ }
 
-" let g:neomake_php_phpmd_maker = {
-"         \ 'args': ['%:p', 'text'],
-"         \ 'errorformat': '%W%f:%l%\s%\s%#%m',
-"         \ 'postprocess': function('SetWarningType'),
-"  \ }
+let g:neomake_php_phpmd_maker = {
+        \ 'exe': './vendor/bin/phpcs',
+        \ 'args': ['%:p', 'text'],
+        \ 'errorformat': '%W%f:%l%\s%\s%#%m',
+        \ 'postprocess': function('SetWarningType'),
+ \ }
 let g:neomake_php_phpstan_maker = {
         \ 'args': ['analyse', '--no-progress', '-lmax'],
         \ 'errorformat': '%E%f:%l:%m',
@@ -1758,3 +1744,26 @@ set statusline+=%10(%l:%c%)\
 " set statusline+=\ %p%%
 " set statusline+=%{StatuslineGit()}
 set statusline+=\ 
+
+let g:nvim_typescript#loc_list_item_truncate_after = -1
+
+" autocmd FileType typescript JsPreTmpl html
+" autocmd FileType typescript syn clear foldBraces
+"
+let g:typescript_compiler_binary = 'tsc'
+let g:typescript_compiler_options = ''
+
+nmap <leader>mc :call MockConstructorArguments()<cr>
+
+function! MockConstructorArguments()
+    normal! gg
+    /__construct
+    normal! j
+    normal! V
+    /{
+    normal! k
+    normal! y
+    normal! p
+    normal! `[v`]
+    normal! <esc>
+endfunction
