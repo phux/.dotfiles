@@ -89,7 +89,7 @@ Plug 'nsf/gocode', { 'rtp': 'nvim', 'do': '~/.config/nvim/plugged/gocode/nvim/sy
 " }}}
 
 " autoscale windows
-Plug 'zhaocai/GoldenView.Vim'
+" Plug 'zhaocai/GoldenView.Vim'
 
 " async linting
 Plug 'neomake/neomake'
@@ -129,6 +129,8 @@ Plug 'adoy/vim-php-refactoring-toolbox', {'for': 'php'}
 " https://github.com/AJenbo/php-refactoring-browser
 let g:php_refactor_command='php ~/compiles/php-refactoring-browser/refactor.phar'
 
+Plug 'phpactor/phpactor', { 'do': ':call phpactor#Update()' }
+
 " testing
 Plug 'veloce/vim-behat', {'for': ['cucumber', 'behat']}
 let g:feature_filetype='behat'
@@ -145,7 +147,7 @@ Plug 'evidens/vim-twig', {'for': 'twig'}
 
 Plug 'avakhov/vim-yaml', {'for': 'yaml'}
 
-Plug 'phux/scratch.vim'
+" Plug 'phux/scratch.vim'
 
 Plug 'fatih/vim-go', {'for': 'go'}
 Plug 'godoctor/godoctor.vim', {'for': 'go'}
@@ -160,6 +162,7 @@ Plug 'tmux-plugins/vim-tmux'
 " fzf {{{
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
+let g:fzf_mru_relative = 1
 Plug 'pbogut/fzf-mru.vim'
 " }}}
 
@@ -193,15 +196,13 @@ Plug 'iamcco/markdown-preview.vim'
 
 " swap stuff
 Plug 'tommcdo/vim-exchange'
-" Plug 'autozimu/LanguageClient-neovim', { 'do': ':UpdateRemotePlugins' }
-Plug '~/code/LanguageClient-neovim', { 'do': ':UpdateRemotePlugins' }
+Plug 'autozimu/LanguageClient-neovim', { 'do': ':UpdateRemotePlugins' }
+" Plug '~/code/LanguageClient-neovim', { 'do': ':UpdateRemotePlugins' }
 Plug 'roxma/LanguageServer-php-neovim',  {'do': 'composer install && composer run-script parse-stubs'}
 
 
 " Plug 'airblade/vim-gitgutter'
 
-Plug 'git-time-metric/gtm-vim-plugin'
-let g:gtm_plugin_status_enabled = 1
 Plug 'wakatime/vim-wakatime'
 
 let g:gitgutter_map_keys = 0
@@ -222,6 +223,10 @@ Plug 'hail2u/vim-css3-syntax'
 " Plug 'carlitux/deoplete-ternjs', { 'for': ['javascript', 'javascript.jsx', 'typescript'] }
 " Plug 'othree/jspc.vim', { 'for': ['javascript', 'javascript.jsx', 'typescript'] }
 " Plug '1995eaton/vim-better-javascript-completion', {'for': ['javascript', 'javascript.jsx', 'typescript']}
+
+Plug 'simeji/winresizer'
+Plug 'rhysd/clever-f.vim'
+Plug 'wellle/targets.vim'
 
 call plug#end()
 " }}}
@@ -257,7 +262,7 @@ set background=dark
 " colorscheme color_1
 
 set number
-set relativenumber
+" set relativenumber
 
 " Line wrapping
 set wrap
@@ -381,6 +386,10 @@ set wildmode=list:longest,full
 set pumheight=15
 set completeopt=menuone,longest
 
+let g:gruvbox_invert_selection=0
+
+let g:gruvbox_hls_cursor='orange'
+
 set complete=.,w,b,u
 " }}}
 
@@ -420,8 +429,8 @@ inoremap jk <esc>
 " nnoremap j gj
 " nnoremap k gk
 
-nnoremap L g_
-nnoremap H ^
+" nnoremap L g_
+" nnoremap H ^
 
 " jump to line AND column
 nnoremap ' `
@@ -486,16 +495,16 @@ nnoremap d<C-j> <C-w>j<C-w>c
 nnoremap d<C-k> <C-w>k<C-w>c
 nnoremap d<C-h> <C-w>h<C-w>c
 nnoremap d<C-l> <C-w>l<C-w>c
-nnoremap <leader>x <c-w>c:GoldenViewResize<cr>:EnableGoldenViewAutoResize<cr>
+nnoremap <leader>x <c-w>c
 nnoremap <leader>x <c-w>c
 
 
 " resize
-nnoremap <silent> <leader>+ :exe "resize " . (winheight(0) * 5/4)<CR>
-nnoremap <silent> <leader>- :exe "resize " . (winheight(0) * 4/5)<CR>
+" nnoremap <silent> <leader>+ :exe "resize " . (winheight(0) * 5/4)<CR>
+" nnoremap <silent> <leader>- :exe "resize " . (winheight(0) * 4/5)<CR>
 
-nnoremap <silent> <leader>> :exe "vertical resize " . (winwidth(0) * 5/4)<CR>
-nnoremap <silent> <leader>< :exe "vertical resize " . (winwidth(0) * 4/5)<CR>
+" nnoremap <silent> <leader>> :exe "vertical resize " . (winwidth(0) * 5/4)<CR>
+" nnoremap <silent> <leader>< :exe "vertical resize " . (winwidth(0) * 4/5)<CR>
 " }}}
 
 " tag navigation {{{
@@ -503,9 +512,8 @@ nnoremap <silent> <leader>< :exe "vertical resize " . (winwidth(0) * 4/5)<CR>
 " noremap <silent> <leader>tp :ptp<cr>
 " noremap <silent> <leader>tc :pc<cr>
 
-" nnoremap <leader>o :call GoldenView#Split()<cr><c-]>:SwitchGoldenViewMain<cr>
-nnoremap <leader>o :call GoldenView#Split()<cr>g<c-]>
-nnoremap <leader>o g<c-]>
+nnoremap <leader>ov <c-w>v<c-w>l:call LanguageClient_textDocument_definition()<CR>
+nnoremap <leader>oh <c-w>S<c-w>j:call LanguageClient_textDocument_definition()<CR>
 
 " }}}
 
@@ -797,8 +805,9 @@ endfunction
 function! PrependTicketNumber()
     normal gg
     let l:branch = system("echo $(git branch | grep '*')")
-    let l:ticketNumber = '['.substitute(l:branch, '\* \(.*\)', '\1', '').'] '
-    exe "normal i".l:ticketNumber
+    let l:branchName = substitute(l:branch, '\* \(.*\)', '\1', '')
+    let l:ticketNumber = substitute(l:branchName, '\(\w\+-\d\+\).*', '\1', '')
+    exe "normal i[".l:ticketNumber."] "
     normal! kJx
     :startinsert!
 endfunction
@@ -818,12 +827,12 @@ nnoremap <silent> <leader>W :w<cr>:silent! !eval '[ -f ".git/hooks/ctags" ] && .
 " performance settings {{{
 set nocursorcolumn       " do not highlight column
 set nocursorline         " do not highlight line
-syntax sync minlines=256 " start highlighting from 256 lines backwards
-set synmaxcol=200 " do not highlith very long lines
-" autocmd BufWinEnter,Syntax * syn sync minlines=500 maxlines=500
+" syntax sync minlines=256 " start highlighting from 256 lines backwards
+" set synmaxcol=200 " do not highlith very long lines
 set re=1
 set lazyredraw
-set scrolljump=5
+set scrolljump=1
+set scrolloff=5
 " set sidescroll=1
 " let g:PHP_default_indenting=0
 " }}}
@@ -838,6 +847,7 @@ set scrolljump=5
 
 augroup filetype_settings
     au!
+    " autocmd BufWinEnter,Syntax * syn sync minlines=500 maxlines=500
     au BufNewFile,BufRead *.feature set ft=behat
     au filetype behat,cucumber setl sw=2 sts=2 et
     au filetype behat,cucumber nnoremap <buffer> gd :call BehatJumpToStepDefinition()<cr>
@@ -861,7 +871,7 @@ augroup filetype_settings
 
     au filetype css setlocal omnifunc=csscomplete#CompleteCSS
 
-    au filetype php set omnifunc=LanguageClient#complete
+    au FileType php setlocal omnifunc=phpactor#Complete
     au filetype html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
     au filetype javascript setlocal omnifunc=tern#Complete
     au filetype javascript LanguageClientStart
@@ -883,13 +893,25 @@ augroup filetype_settings
     let g:LanguageClient_diagnosticsEnable  = 0
     let g:LanguageClient_signColumnAlwaysOn = 0
     " nnoremap <leader>tt :call LanguageClient_textDocument_documentSymbol()<cr>
-    let g:LanguageClient_selectionUI = 'location-list'
+    let g:LanguageClient_selectionUI = 'fzf'
 augroup END
+
+function! ToggleLanguageClientSelection()
+    if g:LanguageClient_selectionUI == 'fzf'
+        let g:LanguageClient_selectionUI = 'location-list'
+        echo 'switched to loclist'
+    else
+        let g:LanguageClient_selectionUI = 'fzf'
+        echo 'switched to fzf'
+    endif
+endfunction
+nnoremap <up> :call ToggleLanguageClientSelection()<cr>
+
 
 nnoremap <silent> gd :call LanguageClient_textDocument_definition()<CR>
 nnoremap <silent> gr :call LanguageClient_textDocument_references()<CR>
 nnoremap K :call LanguageClient_textDocument_hover()<cr>
-nnoremap <leader>d :call fzf#vim#tags(expand('<cword>'), {'options': '--exact --select-1 --exit-0'})<CR>
+" nnoremap <leader>d :call fzf#vim#tags(expand('<cword>'), {'options': '--exact --select-1 --exit-0'})<CR>
 let g:LanguageClient_serverCommands = {
 	    \ 'javascript.jsx': ['~/compiles/javascript-typescript-langserver/lib/language-server-stdio.js'],
 	    \ 'php': ['php', '~/code/php-language-server/bin/php-language-server.php']
@@ -905,7 +927,7 @@ augroup pre_post_hooks
     " au BufReadPost * call RestorePosition()
 
     au BufWritePost $MYVIMRC nested source $MYVIMRC
-augroup END 
+augroup END
 
 " help {{{
 augroup help_settings
@@ -1089,13 +1111,6 @@ function! s:bufopen(e)
     execute 'buffer' matchstr(a:e, '^[ 0-9]*')
 endfunction
 
-nnoremap <silent> <leader>d :call fzf#run({
-            \   'source':  reverse(<sid>buflist()),
-            \   'sink':    function('<sid>bufopen'),
-            \   'options': '+m',
-            \   'down':    len(<sid>buflist()) + 2
-            \ })<CR>
-
 
 function! s:tags_sink(line)
     let parts = split(a:line, '\t\zs')
@@ -1124,21 +1139,24 @@ command! Tags call s:tags()
 
 vnoremap // "hy:exec "Ag ".escape('<C-R>h', "/\.*$^~[()")<cr>
 
+
 nnoremap <leader><Enter> :FZFMru<cr>
-nnoremap <leader>a :Ag<space>
+" nnoremap <leader>a :Ag<space>
 nnoremap <leader>s :Rg<space>
-nnoremap <leader>R :exec "Rg ".expand("<cword>")<cr>
-nnoremap <leader>A :exec "Ag ".expand("<cword>")<cr>
+nnoremap <leader>S :exec "Rg ".expand("<cword>")<cr>
+" nnoremap <leader>A :exec "Ag ".expand("<cword>")<cr>
 
 augroup godoctor
     au!
     autocmd Filetype go nnoremap <leader>r :Rename <c-r><c-w>
 augroup END
 
-nnoremap <leader>S :Tags<cr>
+nnoremap <leader><tab> :Buffers<cr>
 nnoremap <leader>, :Files<cr>
 nnoremap <leader>. :call fzf#run({'sink': 'e', 'right': '40%'})<cr>
-nnoremap <leader>tt :BTags<cr>
+nnoremap <leader>d :BTags<cr>
+nnoremap <leader>D :BTags <C-R><C-W><cr>
+nnoremap <leader>T :Tags<cr>
 " }}}
 
 " auto-pairs {{{2
@@ -1212,7 +1230,7 @@ nnoremap <leader>rmd :call PHPMoveDir()<cr>
 nnoremap <leader>rcc :call PhpConstructorArgumentMagic()<cr>
 " nnoremap <leader>rcc :call PHPModify("complete_constructor")<cr>
 nnoremap <leader>ric :call PHPModify("implement_contracts")<cr>
-nnoremap <leader>raa :call PHPModify("add_missing_assignments")<cr>
+nnoremap <leader>rap :call PHPModify("add_missing_properties")<cr>
 nnoremap <leader>rei :call PHPExtractInterface()<cr>
 
 function! PhpConstructorArgumentMagic()
@@ -1302,6 +1320,8 @@ function! PhpDocOneliner()
     normal JxxJ
 endfunction
 
+" visually mark the code you want to extract into variable
+" (for now only works with single line selection)
 function! PHPExtractVariable()
     let l:name = input("Name of new variable: $")
     normal! gvx
@@ -1311,11 +1331,12 @@ function! PHPExtractVariable()
     normal! bgr
 endfunction
 
+let g:phpactor_executable = '~/.config/nvim/plugged/phpactor/bin/phpactor'
 function! PHPMoveClass()
     :w
     let l:oldPath = expand('%')
     let l:newPath = input("New path: ", l:oldPath)
-    execute "!phpactor class:move ".l:oldPath.' '.l:newPath
+    execute "!".g:phpactor_executable." class:move ".l:oldPath.' '.l:newPath
     execute "bd ".l:oldPath
     execute "e ". l:newPath
 endfunction
@@ -1324,13 +1345,13 @@ function! PHPMoveDir()
     :w
     let l:oldPath = input("old path: ", expand('%:p:h'))
     let l:newPath = input("New path: ", l:oldPath)
-    execute "!phpactor class:move ".l:oldPath.' '.l:newPath
+    execute "!".g:phpactor_executable." class:move ".l:oldPath.' '.l:newPath
 endfunction
 
 function! PHPModify(transformer)
     :w
     normal! ggdG
-    execute "read !phpactor class:transform ".expand('%').' --transform='.a:transformer
+    execute "read !".g:phpactor_executable." class:transform ".expand('%').' --transform='.a:transformer
     normal! ggdd
     :w
 endfunction
@@ -1338,8 +1359,34 @@ endfunction
 function! PHPExtractInterface()
     :w
     let l:interfaceFile = substitute(expand('%'), '.php', 'Interface.php', '')
-    execute "!phpactor class:inflect ".expand('%').' '.l:interfaceFile.' interface'
+    execute "!".g:phpactor_executable." class:inflect ".expand('%').' '.l:interfaceFile.' interface'
     execute "e ". l:interfaceFile
+endfunction
+
+function! LegacyExtractInterface()		
+    let l:file_path = expand('%:p:h')		
+    let l:baseFile = expand('%')		
+    let l:name = inputdialog("Name of new interface:")		
+    exe "normal Gointerface " . name . "\<Cr>{}\<c-o>i\<cr>"		
+    :g/const/ :normal yyGP		
+    ":g/public \$/ :normal yyGP		
+    :g/public function \(__construct\)\@!/ :normal yyGP$a;		
+    exe "normal! G?{\<cr>"		
+    normal "adGdd		
+    exe ":e ".l:file_path."/".l:name.".php"		
+    exe ":w"		
+    exe "normal i<?php\<cr>\<cr>interface ".l:name		
+    exe "normal! ?interface\<cr>jdG"		
+    normal "ap		
+    exe ":e ".l:baseFile		
+    exe "normal! gg/{\<cr>k"		
+    if getline('.') =~ ' implements '		
+        let l:interfaceImplementation = "A, ".l:name		
+    else		
+        let l:interfaceImplementation = "$a implements ".l:name		
+    endif		
+    exe "normal! ".l:interfaceImplementation		
+    exe ":w"		
 endfunction
 " }}}
 
@@ -1444,7 +1491,7 @@ highlight DbgBreakptLine ctermbg=none ctermfg=none
 " }}}
 
 " scratch {{{2
-nnoremap <leader>z :Scratch<cr>
+" nnoremap <leader>z :Scratch<cr>
 let g:scratch_top = 1
 let g:scratch_persistence_file = '.scratch.vim'
 " }}}
@@ -1497,15 +1544,15 @@ nnoremap <leader>rip :Acks /<c-r><c-w>/<c-r><c-w>/gc<left><left><left>
 
 " easymotion {{{2
 " Move to line
-map <Leader>L <Plug>(easymotion-bd-jk)
+nmap <Leader>L <Plug>(easymotion-bd-jk)
 nmap <Leader>L <Plug>(easymotion-overwin-line)
 
-map <Leader>j <Plug>(easymotion-j)
-map <Leader>k <Plug>(easymotion-k)
-map  <Leader>F <Plug>(easymotion-bd-w)
+nmap <Leader>j <Plug>(easymotion-j)
+nmap <Leader>k <Plug>(easymotion-k)
+nmap  <Leader>F <Plug>(easymotion-bd-w)
 nmap <Leader>F <Plug>(easymotion-overwin-w)
 nmap <Leader>f <Plug>(easymotion-w)
-map  <Leader>b <Plug>(easymotion-b)
+nmap  <Leader>b <Plug>(easymotion-b)
 let g:EasyMotion_smartcase = 1
 
 " }}}
@@ -1753,17 +1800,46 @@ let g:nvim_typescript#loc_list_item_truncate_after = -1
 let g:typescript_compiler_binary = 'tsc'
 let g:typescript_compiler_options = ''
 
-nmap <leader>mc :call MockConstructorArguments()<cr>
+" nmap <leader>mc :call MockConstructorArguments()<cr>
 
 function! MockConstructorArguments()
     normal! gg
     /__construct
     normal! j
     normal! V
-    /{
+    while getline('.') !~ ')'
+        normal! j
+    endwhile
+
     normal! k
     normal! y
+
     normal! p
-    normal! `[v`]
-    normal! <esc>
+    normal! `[v`]x
+    " normal! <esc>
+
+    " echom l:firstLine.','.l:lastLine.'d'
+    " execute l:firstLine.','.l:lastLine.'s/\(\w\+)\) \(\$\w\+\),*/\2 = Phake::mock(\1::class);'
+    " execute l:firstLine.','.l:lastLine.'d'
 endfunction
+
+function! ParamDeclarationToPhakeMock()
+    :s/\(\w\+\) \(\$\w\+\),*/\2 = Phake::mock(\1::class);
+endfunction
+nnoremap <m-m> :call ParamDeclarationToPhakeMock()<cr>j
+
+function! ToSprintf()
+    normal! madibosprintf(
+    normal! o
+    normal! mbpo)
+    normal! o);
+    normal! 'a$xx
+    normal! V%='b
+    let g:lst = []
+    call substitute(getline('.'), "\..\+\.", '\=add(g:lst, submatch(0))', 'g')
+    echo g:lst
+endfunction
+
+map <Leader>' ysiw'
+map <Leader>" ysiw"
+hi pmenu ctermfg=White ctermbg=Yellow
