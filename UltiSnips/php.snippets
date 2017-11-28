@@ -1,5 +1,112 @@
 priority 1
 
+global !p
+def read_composer_json():
+	import json
+
+	composer_file = 'composer.json'
+	if not os.path.isfile(composer_file): return
+
+	with open(composer_file) as data_file:
+		config = json.load(data_file)
+
+	return config
+
+def get_autoload_paths():
+	config = read_composer_json()
+
+	if 'autoload' not in config: return []
+	if 'psr-4' not in config['autoload']: return []
+
+	paths = config['autoload']['psr-4']
+
+	if 'autoload-dev' in config and 'psr-4' in config['autoload-dev']:
+		 paths.update(config['autoload-dev']['psr-4'])
+
+	return paths
+
+def class_name_from_file():
+	return re.match(r'.*(?=\.)', fn).group()
+
+def get_namespace():
+	dir_path = os.path.dirname(path) + '/'
+	for ns, fp in get_autoload_paths().items():
+		m = re.search(r'' + re.escape(fp) + '(.*)', dir_path)
+		if m: return (ns.strip('\\') + '\\' + m.group(1).replace('/', '\\')).strip('\\')
+
+def is_custom_type(type):
+	return (len(t[1]) > 0 and t[1][0].isupper())
+
+def lowercase_first(string):
+	if len(string) < 1: return ''
+
+	return string[0].lower() + string[1:]
+
+def uppercase_first(string):
+	if len(string) < 1: return ''
+
+	return string[0].upper() + string[1:]
+
+def split_arg_and_type(arg):
+	parts = list(map(lambda s: s.strip(), arg.strip().split(' ')))
+
+	if len(parts) != 2:
+		return ['mixed', parts[0]]
+
+	return parts
+
+def generate_properties(args):
+	args = args.strip()
+
+	if args:
+		args = args.split(',')
+		args = list(map(split_arg_and_type, args))
+	else: 
+		args = []
+
+	properies = ''
+	for arg in args:
+		properies += '\n    /** @var ' + arg[0] + ' */'
+		properies += '\n    private ' + arg[1] + ';\n'
+
+	return properies
+
+def set_fields_from_arguments(args):
+	args = args.strip()
+
+	if args:
+		args = args.split(',')
+		args = list(map(split_arg_and_type, args))
+	else: 
+		args = []
+
+	properies = [] 
+	for arg in args:
+		properies.append('$this->' + arg[1][1:] + ' = ' + arg[1] + ';')
+
+	return properies
+
+def docblock(args):
+	args = args.strip()
+
+	if args:
+		args = args.split(',')
+		args = list(map(split_arg_and_type, args))
+	else: 
+		args = []
+
+	from functools import reduce
+	max_type_len = reduce(lambda curr, arg: len(arg[0]) if len(arg[0]) > curr else curr, args, 0)
+
+	block = ''
+	for arg in args:
+		block += '\n     * @param ' + arg[0].ljust(max_type_len) +' ' + arg[1]
+
+	if block: block += '\n     *'
+
+	return block
+endglobal
+
 
 ## CLASS RELATED
 
@@ -10,10 +117,6 @@ endsnippet
 
 snippet ce "class_exists()"
 class_exists(${1:classname})$0
-endsnippet
-
-snippet m "method call $object->"
-$${1:object}->${2:method}($3)
 endsnippet
 
 snippet s "$obj->set()"
@@ -44,12 +147,6 @@ endsnippet
 snippet new "New class instance" !b
 $${1:variableName} = new ${2:${1/\w+\s*/\u$0/}}($3);
 $0
-endsnippet
-
-snippet con "constructor"
-public function __construct($1)
-{
-}$0
 endsnippet
 
 snippet vgs "PHP Class Getter Setter" !b
@@ -216,7 +313,7 @@ snippet rf "return false"
 return false;$0
 endsnippet
 
-snippet c "concatenate"
+snippet . "concatenate"
 $${1:var} .= $2;$0
 endsnippet
 
@@ -276,17 +373,9 @@ endsnippet
 snippet builder
 <?php
 
-namespace ${1:`!p
-relpath = os.path.relpath(path)
-m = re.search(r'[A-Z].+(?=/)', relpath)
-if m:
-	snip.rv = m.group().replace('/', '\\')
-`};
+namespace `!p snip.rv = get_namespace()`;
 
-/**
- * Class $2Builder
- */
-class $2Builder
+final class `!p snip.rv = class_name_from_file()`
 {
     /**
      * @return $2
@@ -377,5 +466,102 @@ if m:
 interface `!p snip.rv=snip.basename`
 {
 	public function ${1:someFunction}();$2
+}
+endsnippet
+snippet c "php namespace and class" b
+<?php
+
+namespace `!p snip.rv = get_namespace()`;
+
+final class `!p snip.rv = class_name_from_file()`
+{
+	$0
+}
+endsnippet
+
+snippet __ "php constructor" b
+`!p snip.rv = generate_properties(t[1])`
+/**`!p snip.rv = docblock(t[1])`/
+public function __construct($1)
+{
+	${0:`!p
+snip >> 1
+for l in set_fields_from_arguments(t[1]): snip += l`}
+}
+endsnippet
+
+snippet m "method" b
+/**`!p snip.rv = docblock(t[3])`
+ * @return $4
+ */
+${1:public} function ${2}(${3})
+{
+	$0
+}
+endsnippet
+
+snippet ms "method signature" b
+/**`!p snip.rv = docblock(t[2])`
+ * @return $3
+ */
+public function $1($2);
+
+endsnippet
+
+snippet map "array map" b
+array_map(function($${1:value}) {
+	return $3;
+}, $$2);
+endsnippet
+
+snippet filter "array filter" b
+array_filter($$1, function($${2:value}) {
+	return $3;
+});
+endsnippet
+
+snippet reduce "array reduce" b
+array_reduce($$1, function($${2:carry}, $${3:value}) {
+	return $4;
+});
+endsnippet
+snippet sg "Setter and Getter" b
+
+/**
+ * @var ${1}
+ */
+private $${2:`!p if is_custom_type(t[1]): snip.rv = lowercase_first(t[1])`};
+
+`!p snip.rv = '/** @param ' + t[1] + ' $' + t[2] + ' */'`
+public function set`!p snip.rv = uppercase_first(t[2])`(`!p if is_custom_type(t[1]): snip.rv = t[1] + ' '`$$2)
+{
+	$this->$2 = `!p snip.rv = '' if is_custom_type(t[1]) else '(' + t[1] + ') '`$$2;
+}
+
+/**
+ * @return $1
+ */
+public function get`!p snip.rv = uppercase_first(t[2])`()
+{
+	return $this->$2;
+}
+endsnippet
+
+snippet if "php if" !b
+if (${1}) {
+	$0
+}
+endsnippet
+
+snippet tc "TestClass"
+<?php
+
+namespace `!p snip.rv = get_namespace()`;
+
+use \PHPUnit\Framework\TestCase;
+
+class `!p snip.rv = class_name_from_file()` extends TestCase
+{
+    $0
 }
 endsnippet
