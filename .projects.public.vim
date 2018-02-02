@@ -4,6 +4,7 @@ function! Zf1(...) abort
     let g:ultisnips_php_scalar_types = 0
 
     nnoremap <c-s> :update<cr>:Silent php-cs-fixer fix %:p --rules=@Symfony<cr>:Silent phpcbf --standard=Symfony3Custom %:p > /dev/null<cr>:e<cr>
+    nnoremap <c-s> :update<cr>:Silent php-cs-fixer fix %:p --rules=@Symfony<cr>:Silent phpcbf %:p > /dev/null<cr>:e<cr>
 
     nnoremap <silent> <leader>w :w<cr>
 
@@ -12,10 +13,14 @@ function! Zf1(...) abort
     " set omnifunc=LanguageClient#complete
     " autocmd FileType php LanguageClientStart
     nnoremap <silent> gd :call LanguageClient_textDocument_definition()<CR>
+
+    vnoremap <leader>rem :call PhpRefactorExtractMethodDirectly()<CR>
     nnoremap <silent> gr :call LanguageClient_textDocument_references()<CR>
     let g:cm_auto_popup=0 " disable nvim-completion-manager
     call deoplete#enable()
 
+    let g:neomake_php_enabled_makers = ['php', 'phpmd', 'phpcs']
+    let g:neomake_open_list = 2
     " au filetype php set omnifunc=phpcomplete#CompletePHP
 endfunction
 
@@ -31,7 +36,11 @@ function! Symfony(...) abort
     nnoremap <leader>tsu <c-w>v:call SymfonySwitchToAlternateFile()<cr>
     nnoremap <silent> gd :call phpactor#GotoDefinition()<CR>
     nnoremap <silent> gr :call phpactor#FindReferences()<CR>
-    vnoremap <leader>rem :call phpactor#ExtractMethod()<cr>
+    vmap <silent><Leader>em :<C-U>call phpactor#ExtractMethod()<CR>
+    nnoremap <leader>tt :call phpactor#Transform()<cr>
+
     let g:deoplete#sources.php = []
     au filetype php set omnifunc=phpactor#Complete
+    let g:neomake_php_enabled_makers = ['php', 'phpmd', 'phpcs', 'phpstan']
+    let g:neomake_open_list = 2
 endfunction

@@ -352,10 +352,6 @@ snippet pt "@throws"
 @throws $1Exception$0
 endsnippet
 
-snippet throw "throw new Exception"
-throw new $1Exception('${2:message}');$0
-endsnippet
-
 snippet /* "comment"
 /**
  * ${1:comment}
@@ -453,19 +449,10 @@ snippet interface "Interface declaration template" b
 
 declare(strict_types = 1);
 
-namespace `!p
-relpath = os.path.relpath(path)
-m = re.search(r'[A-Z].+(?=/)', relpath)
-if m:
-	snip.rv = m.group().replace('/', '\\')
-`;
+namespace `!p snip.rv = get_namespace()`;
 
-/**
- * Interface `!p snip.rv=snip.basename`
- */
-interface `!p snip.rv=snip.basename`
+interface `!p snip.rv = class_name_from_file()`
 {
-	public function ${1:someFunction}();$2
 }
 endsnippet
 snippet c "php namespace and class" b
@@ -563,5 +550,152 @@ use \PHPUnit\Framework\TestCase;
 class `!p snip.rv = class_name_from_file()` extends TestCase
 {
     $0
+}
+endsnippet
+
+snippet throw "Throw a new exception"
+throw new ${1:\\Exception}(${2:sprintf('$3', )});
+endsnippet
+
+snippet throbf "Throw a BadFunctionCallException"
+throw new \\BadFunctionCallException(${1:sprintf('$2', )});
+endsnippet
+
+snippet throwbm "Throw a BadMethodCallException"
+throw new \\BadMethodCallException(${1:sprintf('$2', )});
+endsnippet
+
+snippet throwd "Throw a DomainException"
+throw new \\DomainException(${1:sprintf('$2', )});
+endsnippet
+
+snippet throwi "Throw an InvalidArgumentException"
+throw new \\InvalidArgumentException(${1:sprintf('$2', )});
+endsnippet
+
+snippet throwle "Throw a LengthException"
+throw new \\LengthException(${1:sprintf('$2', )});
+endsnippet
+
+snippet throwlo "Throw a LogicException"
+throw new \\LogicException(${1:sprintf('$2', )});
+endsnippet
+
+snippet throwob "Throw an OutOfBoundsException"
+throw new \\OutOfBoundsException(${1:sprintf('$2', )});
+endsnippet
+
+snippet throwor "Throw an OutOfRangeException"
+throw new \\OutOfRangeException(${1:sprintf('$2', )});
+endsnippet
+
+snippet throwo "Throw an OverflowException"
+throw new \\OverflowException(${1:sprintf('$2', )});
+endsnippet
+
+snippet throwra "Throw a RangeException"
+throw new \\RangeException(${1:sprintf('$2', )});
+endsnippet
+
+snippet throwru "Throw a RuntimeException"
+throw new \\RuntimeException(${1:sprintf('$2', )});
+endsnippet
+
+snippet throwu "Throw an UnderflowException"
+throw new \\UnderflowException(${1:sprintf('$2', )});
+endsnippet
+
+snippet throwuv "Throw an UnexpectedValueException"
+throw new \\UnexpectedValueException(${1:sprintf('$2', )});
+endsnippet
+
+snippet uuid "Uuid wrapper class"
+<?php
+
+namespace `!p snip.rv = get_namespace()`;
+
+use Ramsey\Uuid\UuidInterface;
+use Ramsey\Uuid\Uuid;
+
+final class `!p snip.rv = class_name_from_file()`
+{
+    /** @var UuidInterface */
+    private $uuid;
+
+    /**
+     * @param UuidInterface $uuid
+     */
+    public function __construct(UuidInterface $uuid)
+    {
+        $this->uuid = $uuid;
+    }
+
+    /**
+     * @return string
+     */
+    public function toString(): string
+    {
+        return $this->uuid->toString();
+    }
+
+    /**
+     * @return `!p snip.rv = class_name_from_file()`
+     */
+    public static function generate(): self
+    {
+        return new self(Uuid::uuid4());
+    }
+
+    /**
+     * @param string $id
+     *
+     * @return `!p snip.rv = class_name_from_file()`
+     */
+    public static function fromString(string $id): self
+    {
+        return new self(Uuid::fromString($id));
+    }
+}
+endsnippet
+
+snippet ptc "prooph base test"
+<?php
+
+namespace `!p snip.rv = get_namespace()`;
+
+use \PHPUnit\Framework\TestCase;
+use Prooph\EventSourcing\Aggregate\AggregateType;
+use Prooph\EventSourcing\AggregateRoot;
+use Prooph\EventSourcing\EventStoreIntegration\AggregateTranslator;
+
+abstract class BaseTest extends TestCase
+{
+    /**
+     * @var AggregateTranslator
+     */
+    private $aggregateTranslator;
+
+    protected function popRecordedEvents(AggregateRoot $aggregateRoot): array
+    {
+        return $this->getAggregateTranslator()->extractPendingStreamEvents($aggregateRoot);
+    }
+    /**
+     * @return object
+     */
+    protected function reconstituteAggregateFromHistory(string $aggregateRootClass, array $events)
+    {
+        return $this->getAggregateTranslator()->reconstituteAggregateFromHistory(
+            AggregateType::fromAggregateRootClass($aggregateRootClass),
+            new \ArrayIterator($events)
+        );
+    }
+
+    private function getAggregateTranslator(): AggregateTranslator
+    {
+        if (null === $this->aggregateTranslator) {
+            $this->aggregateTranslator = new AggregateTranslator();
+        }
+        return $this->aggregateTranslator;
+    }
 }
 endsnippet

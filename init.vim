@@ -24,6 +24,14 @@ Plug 'gregsexton/gitv'
 
 Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'scrooloose/nerdtree'
+let g:NERDTreeUpdateOnCursorHold = 0
+let g:NERDTreeQuitOnOpen = 1
+let g:NERDTreeWinSize = 40
+let g:NERDTreeMinimalUI=1
+let g:NERDTreeCascadeSingleChildDir=0
+let g:NERDTreeAutoDeleteBuffer=1
+" Plug 'troydm/easytree.vim'
+" Plug 'mhinz/vim-grepper', { 'on': ['Grepper', '<plug>(GrepperOperator)'] }
 
 Plug 'Lokaltog/vim-easymotion'
 Plug 'matze/vim-move'
@@ -33,10 +41,14 @@ Plug 'morhetz/gruvbox'
 
 
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+Plug 'roxma/nvim-completion-manager'
+Plug 'roxma/ncm-phpactor'
+" Plug 'fgrsnau/ncm-otherbuf'
 
-Plug 'neomake/neomake'
+Plug '~/code/neomake'
 
 Plug 'padawan-php/deoplete-padawan', {'for': 'php'}
+" Plug 'padawan-php/padawan.vim'
 
 let g:pdv_cfg_InsertFuncName = 0
 let g:pdv_cfg_InsertVarName = 0
@@ -45,14 +57,14 @@ Plug '~/code/vim-php', {'for': ['php', 'yaml']}
 Plug 'StanAngeloff/php.vim', {'for': 'php'}
 
 Plug 'alvan/vim-php-manual', {'for': 'php'}
-Plug 'nrocco/vim-phplint', {'for': 'php'}
+" Plug 'nrocco/vim-phplint', {'for': 'php'}
 
 Plug 'vim-php/vim-php-refactoring', {'for': 'php'}
 Plug 'adoy/vim-php-refactoring-toolbox', {'for': 'php'}
 " https://github.com/AJenbo/php-refactoring-browser
 let g:php_refactor_command='php ~/compiles/php-refactoring-browser/refactor.phar'
 
-Plug 'phpactor/phpactor', {'for': 'php', 'do': ':call phpactor#Update()' }
+Plug '~/.tooling/phpactor', {'for': 'php', 'do': ':call phpactor#Update()' }
 
 Plug 'janko-m/vim-test'
 
@@ -80,14 +92,38 @@ Plug 'wincent/ferret', {'on': 'Ack'}
 let g:FerretHlsearch=1
 
 Plug 'autozimu/LanguageClient-neovim', { 'do': ':UpdateRemotePlugins' }
+" Plug 'roxma/LanguageServer-php-neovim',  {'do': 'composer install && composer run-script parse-stubs'}
 
 Plug 'simeji/winresizer'
 Plug 'wellle/targets.vim'
 
+
+" Plug 'wincent/loupe'
 " Plug 'milkypostman/vim-togglelist'
 Plug 'romainl/vim-qf'
 Plug 'rafi/awesome-vim-colorschemes'
-Plug 'godlygeek/tabular', {'for': 'cucumber'}
+Plug 'godlygeek/tabular'
+Plug 'tpope/vim-surround'
+Plug 'tpope/vim-repeat'
+Plug 'tpope/vim-abolish'
+Plug 'vim-scripts/YankRing.vim'
+Plug 'nrocco/vim-phplint', {'for': 'php'}
+Plug 'gabrielelana/vim-markdown', {'for': 'markdown'}
+Plug 'junegunn/goyo.vim'
+Plug 'shime/vim-livedown'
+" Plug 'dahu/vim-fanfingtastic'
+" Plug 'justinmk/vim-sneak'
+" Plug 'rhysd/clever-f.vim'
+" Plug 't9md/vim-smalls'
+
+
+Plug 'mhartington/nvim-typescript', {'do': ':UpdateRemotePlugins'}
+Plug 'leafgarland/typescript-vim'
+Plug 'Quramy/vim-js-pretty-template'
+Plug 'othree/html5.vim'
+Plug 'hail2u/vim-css3-syntax'
+Plug 'nelsyeung/twig.vim'
+Plug 'mtth/scratch.vim'
 call plug#end()
 
 let mapleader = "\<Space>"
@@ -97,7 +133,8 @@ inoremap jk <esc>
 " interface
 set t_Co=256
 set background=dark
-colorscheme deus
+colorscheme gruvbox
+" colorscheme apprentice
 
 let $NVIM_TUI_ENABLE_TRUE_COLOR=1
 
@@ -147,7 +184,7 @@ augroup everything
 
     au filetype css setlocal omnifunc=csscomplete#CompleteCSS
 
-    au FileType php setlocal omnifunc=phpactor#Complete
+    " au filetype php LanguageClientStart
     au filetype html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
     au filetype javascript setlocal omnifunc=tern#Complete
     au filetype xml setlocal omnifunc=xmlcomplete#CompleteTags
@@ -155,16 +192,17 @@ augroup everything
     au filetype json  setlocal equalprg=python\ -mjson.tool
 
 
-    au filetype php LanguageClientStart
-
     " no delay when ESC/jk
     au InsertEnter * set timeoutlen=100
     au InsertLeave * set timeoutlen=1000
 
-    au FocusLost * silent! update
-    autocmd BufWritePost *.php silent Phplint
-    autocmd BufWritePost *.php silent! !eval '[ -f ".git/hooks/ctags" ] && .git/hooks/ctags' &
+    " au filetype php silent! call StartLanguageClientOnce
 
+    " au FocusLost * silent! update
+    " autocmd BufWritePost *.php silent Phplint
+    autocmd BufWritePost *.php silent! !eval '[ -f ".git/hooks/ctags" ] && .git/hooks/ctags' &
+    " When writing a buffer, and on normal mode changes (after 750ms).
+    call neomake#configure#automake('w')
 
     au filetype go nnoremap <leader>gf :GoCoverageToggle<cr>
     au filetype go nnoremap <leader>gr <Plug>(go-run)
@@ -179,12 +217,27 @@ augroup everything
 
     au BufNewFile,BufRead,BufWinEnter *Test.php exe ":UltiSnipsAddFiletypes php.phpunit"
     au BufNewFile,BufRead,BufWinEnter *Spec.php exe ":UltiSnipsAddFiletypes php.php-phpspec"
+
+    autocmd CursorHold * normal! m'
+    autocmd BufWritePost *.php silent Phplint
+
+
+    au filetype javascript setlocal omnifunc=tern#Complete
+    au filetype javascript LanguageClientStart
+    au filetype typescript LanguageClientStart
+    au filetype typescript nnoremap <buffer> gd :TSDef<CR>
+    au filetype typescript nnoremap <buffer> gr :TSRefs<CR>
+    au filetype typescript nnoremap <buffer> K :TSDefPreview<cr>
+
+    " au filetype php set omnifunc=phpactor#Complete
 augroup END
 
+" nnoremap <leader>n :EasyTreeToggle<cr>
 nnoremap <leader>n :NERDTreeToggle<cr>
 nnoremap <leader>N :NERDTreeFind<cr>
 
 let g:LanguageClient_diagnosticsEnable  = 0
+let g:LanguageClient_diagnosticsList = ''
 let g:LanguageClient_signColumnAlwaysOn = 0
 let g:LanguageClient_selectionUI = 'fzf'
 
@@ -193,6 +246,7 @@ nnoremap <silent> gr :call LanguageClient_textDocument_references()<CR>
 nnoremap K :call LanguageClient_textDocument_hover()<cr>
 let g:LanguageClient_serverCommands = {
             \ 'javascript.jsx': ['~/compiles/javascript-typescript-langserver/lib/language-server-stdio.js'],
+            \ 'typescript': ['~/compiles/javascript-typescript-langserver/lib/language-server-stdio.js'],
             \ 'php': ['php', '~/code/php-language-server/bin/php-language-server.php']
             \ }
 
@@ -239,7 +293,7 @@ set timeout ttimeoutlen=0
 
 nnoremap <silent> <leader>w :w<cr>
 command! -bang PadawanGenerate call deoplete#sources#padawan#Generate(<bang>0)
-nnoremap <silent> <leader>W :w<cr>:silent! !eval '[ -f ".git/hooks/ctags" ] && .git/hooks/ctags' &<cr>:PadawanGenerate!<cr>:call deoplete#sources#padawan#RestartServer()<cr>
+nnoremap <silent> <leader>W :w<cr>:silent! !eval '[ -f ".git/hooks/ctags" ] && .git/hooks/ctags' &<cr>:PadawanGenerate<cr>
 
 
 set scrolloff=5
@@ -262,8 +316,11 @@ let g:fzf_buffers_jump = 1
 " [[B]Commits] Customize the options used by 'git log':
 let g:fzf_commits_log_options = '--graph --color=always --format="%C(auto)%h%d %s %C(black)%C(bold)%cr"'
 
+" command! -bang -nargs=? -complete=dir Files
+"   \ call fzf#vim#files(<q-args>, fzf#vim#with_preview(), <bang>0)
 
 vnoremap // "hy:exec "Ag ".escape('<C-R>h', "/\.*$^~[()")<cr>
+
 
 
 nnoremap <leader><Enter> :FZFMru<cr>
@@ -273,6 +330,7 @@ nnoremap <leader>S :exec "Rg ".expand("<cword>")<cr>
 
 nnoremap <leader><tab> :Buffers<cr>
 nnoremap <leader>, :Files<cr>
+nnoremap <leader>. :FZFAllFiles<cr>
 nnoremap <leader>d :BTags<cr>
 nnoremap <leader>D :BTags <C-R><C-W><cr>
 nnoremap <leader>T :Tags<cr>
@@ -307,7 +365,6 @@ vnoremap <leader>rec :call PhpExtractConst()<CR>
 
 
 nnoremap <leader>rep :call PhpRefactorLocalVariableToInstanceVariable()<cr>
-vnoremap <leader>rem :call PhpRefactorExtractMethodDirectly()<CR>
 nnoremap <leader>rrv :call PhpRefactorRenameLocalVariable()<cr>
 
 
@@ -317,6 +374,7 @@ nnoremap <leader>H :call PhpConstructorArgumentMagic2()<cr>
 nnoremap <leader>rmc :call PHPMoveClass()<cr>
 nnoremap <leader>rmd :call PHPMoveDir()<cr>
 nnoremap <leader>rcc :call PhpConstructorArgumentMagic()<cr>
+nnoremap <m-a> :call phpactor#ContextMenu()<cr>
 nnoremap <leader>ric :call PHPModify("implement_contracts")<cr>
 nnoremap <leader>rap :call PHPModify("add_missing_properties")<cr>
 nnoremap <leader>rei :call PHPExtractInterface()<cr>
@@ -420,7 +478,7 @@ function! PHPExtractVariable()
     normal! bgr
 endfunction
 
-let g:phpactor_executable = '~/.config/nvim/plugged/phpactor/bin/phpactor'
+let g:phpactor_executable = '~/.tooling/phpactor/bin/phpactor'
 function! PHPMoveClass()
     :w
     let l:oldPath = expand('%')
@@ -449,6 +507,13 @@ function! PHPExtractInterface()
     :w
     let l:interfaceFile = substitute(expand('%'), '.php', 'Interface.php', '')
     execute "!".g:phpactor_executable." class:inflect ".expand('%').' '.l:interfaceFile.' interface'
+    execute "e ". l:interfaceFile
+endfunction
+
+function! PHPCreateBuilder()
+    :w
+    let l:interfaceFile = substitute(expand('%'), '.php', 'Builder.php', '')
+    execute "!".g:phpactor_executable." class:inflect ".expand('%').' '.l:interfaceFile.' builder'
     execute "e ". l:interfaceFile
 endfunction
 
@@ -538,8 +603,7 @@ nnoremap <leader>/ :Ack <c-r><c-w><cr>
 nnoremap <leader>rip :Acks /<c-r><c-w>/<c-r><c-w>/gc<left><left><left>
 
 nmap <Leader>L <Plug>(easymotion-bd-jk)
-nmap <Leader>L <Plug>(easymotion-overwin-line)
-
+nmap <Leader>L <Plug>(easymotion-overwin-line) 
 nmap <Leader>j <Plug>(easymotion-j)
 nmap <Leader>k <Plug>(easymotion-k)
 nmap  <Leader>F <Plug>(easymotion-bd-w)
@@ -551,15 +615,12 @@ let g:EasyMotion_smartcase = 1
 nnoremap <leader>c :Commentary<cr>
 vnoremap <leader>c :Commentary<cr>
 
-nnoremap <leader>] :%S/<c-R><c-w>/<c-r><c-w>/g<left><left>
-vnoremap <leader>] :%S//g<left><left>
+nnoremap <leader>] :%Subvert/<c-R><c-w>/<c-r><c-w>/g<left><left>
+vnoremap <leader>] :%Subvert//g<left><left>
 
-so ~/.projects.public.vim
 filetype plugin indent on
 syntax on
 
-let g:padawan_navigator#server_command='~/code/padawan.php/bin/padawan-server'
-let g:padawan_navigator#server_addr='http://127.0.0.1:15155'
 let g:deoplete#sources#padawan#server_command='~/code/padawan.php/bin/padawan-server'
 
 function! ParamDeclarationToPhakeMock()
@@ -598,10 +659,13 @@ nnoremap <tab> :bn<cr>
 nnoremap <s-tab> :bp<cr>
 
 nnoremap <leader>tn :TestNearest<cr>
+nnoremap <leader>tf :TestFile<cr>
+nnoremap <silent> <leader>tl :TestLast<CR>
+nnoremap <silent> <leader>tv :TestVisit<CR>
 
 set completeopt=menuone,longest
-highlight Normal ctermbg=NONE
-highlight nonText ctermbg=NONE
+set complete-=t
+
 
 
 nnoremap <c-p> :cp<cr>
@@ -748,9 +812,50 @@ command! -nargs=1 Silent execute ':silent !'.<q-args> | execute ':redraw!'
 
 " remove buffer without deleting window
 nnoremap <silent> <m-d> :bp<bar>sp<bar>bn<bar>bd<CR>
+nnoremap <c-j> <c-w>j
+nnoremap <c-k> <c-w>k
+nnoremap <c-h> <c-w>h
+nnoremap <c-l> <c-w>l
 
 command! -bang -nargs=* Rg call fzf#vim#grep('rg --column --line-number --no-heading --fixed-strings --ignore-case --hidden --follow --glob "!.git/*" --color "always" '.shellescape(<q-args>).'| tr -d "\017"', 1, fzf#vim#with_preview('right:50%:hidden', '?'), <bang>0)
-let g:ackprg = 'rg --vimgrep --no-heading'
+" let g:ackprg = 'rg --vimgrep --no-heading'
+command! -bang -nargs=* FZFAllFiles call fzf#run({'source': 'find * -type f', 'sink': 'e'})
+
+function! s:ag_to_qf(line)
+  let parts = split(a:line, ':')
+  return {'filename': parts[0], 'lnum': parts[1], 'col': parts[2],
+        \ 'text': join(parts[3:], ':')}
+endfunction
+
+function! s:ag_handler(lines)
+  if len(a:lines) < 2 | return | endif
+
+  let cmd = get({'ctrl-x': 'split',
+               \ 'ctrl-v': 'vertical split',
+               \ 'ctrl-t': 'tabe'}, a:lines[0], 'e')
+  let list = map(a:lines[1:], 's:ag_to_qf(v:val)')
+
+  let first = list[0]
+  execute cmd escape(first.filename, ' %#\')
+  execute first.lnum
+  execute 'normal!' first.col.'|zz'
+
+  if len(list) > 1
+    call setqflist(list)
+    copen
+    wincmd p
+  endif
+endfunction
+
+command! -nargs=* Ag call fzf#run({
+\ 'source':  printf('ag --nogroup --column --color "%s"',
+\                   escape(empty(<q-args>) ? '^(?=.)' : <q-args>, '"\')),
+\ 'sink*':    function('<sid>ag_handler'),
+\ 'options': '--ansi --expect=ctrl-t,ctrl-v,ctrl-x --delimiter : --nth 4.. '.
+\            '--multi --bind=ctrl-a:select-all,ctrl-d:deselect-all '.
+\            '--color hl:68,hl+:110',
+\ 'down':    '50%'
+\ })
 
 set wildmenu
 set wildmode=list:longest,full
@@ -768,7 +873,7 @@ function! FormatPHPLineLength()
             exe "normal! $hhi\n"
         endif
         normal! =ap
-        return
+        " return
     endif
 
     " " multiple object operator split - repeatable
@@ -779,6 +884,7 @@ function! FormatPHPLineLength()
         catch
         endtry
         normal! ='a
+        " return
     endif
 
 
@@ -798,6 +904,7 @@ function! FormatPHPLineLength()
             normal! =a(
         catch
         endtry
+        " return
     endif
 
 
@@ -820,6 +927,7 @@ function! FormatPHPLineLength()
             normal! =a[
         catch
         endtry
+        " return
     endif
 endfunction
 
@@ -840,3 +948,73 @@ endfunction
 
 nnoremap <leader>ga :Tabularize /\|<cr>
 vnoremap <leader>ga :Tabularize /\|<cr>
+
+so ~/.projects.public.vim
+
+nnoremap <leader><F3> :%s/<[^>]*>/\r&\r/g<cr>gg=G:g/^$/d<cr><leader>/
+
+function! DeleteInactiveBufs()
+    "From tabpagebuflist() help, get a list of all buffers in all tabs
+    let tablist = []
+    for i in range(tabpagenr('$'))
+        call extend(tablist, tabpagebuflist(i + 1))
+    endfor
+
+    "Below originally inspired by Hara Krishna Dara and Keith Roberts
+    "http://tech.groups.yahoo.com/group/vim/message/56425
+    let nWipeouts = 0
+    for i in range(1, bufnr('$'))
+        if bufexists(i) && !getbufvar(i,"&mod") && index(tablist, i) == -1
+            "bufno exists AND isn't modified AND isn't in the list of buffers open in windows and tabs
+            silent exec 'bwipeout' i
+            let nWipeouts = nWipeouts + 1
+        endif
+    endfor
+    echomsg nWipeouts . ' buffer(s) wiped out'
+endfunction
+
+command! Ball :call DeleteInactiveBufs()
+
+let test#strategy='neovim'
+
+let g:yankring_replace_n_pkey = '<m-h>'
+let g:yankring_replace_n_nkey = '<m-H>'
+set diffopt+=vertical
+
+nnoremap dg3 :diffget //3<cr>
+nnoremap dg2 :diffget //2<cr>
+
+" nmap gs  <plug>(GrepperOperator)
+" xmap gs  <plug>(GrepperOperator)
+
+set confirm
+
+let g:scratch_persistence_file = '.scratch.vim'
+nnoremap <leader>z :Scratch<cr>
+
+" don't give |ins-completion-menu| messages.  For example,
+" '-- XXX completion (YYY)', 'match 1 of 2', 'The only match',
+set shortmess+=c
+
+let g:cm_sources_override = {
+\ 'cm-tags': {'enable':0}
+\ }
+let g:cm_complete_start_delay=20
+
+
+let g:netrw_banner = 0
+let g:netrw_liststyle = 3
+let g:netrw_browse_split = 4
+let g:netrw_altv = 1
+let g:netrw_winsize = 25
+" set cul
+
+highlight Normal ctermbg=NONE
+highlight nonText ctermbg=NONE
+
+" workaround for single location list entries
+nmap <silent> ,,    <Plug>qf_loc_previous              
+nmap <silent> ..    <Plug>qf_loc_next
+
+" per default disabled
+let g:neomake_open_list = 0
