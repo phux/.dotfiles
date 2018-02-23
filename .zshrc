@@ -46,7 +46,7 @@ export TMPDIR=/tmp
 HISTSIZE='32768';
 HISTFILESIZE="${HISTSIZE}";
 HISTFILE="$HOME/.zsh_history"
-SAVEHIST=5000
+SAVEHIST=32768
 HISTDUP=erase               #Erase duplicates in the history file
 setopt    appendhistory     #Append history to the history file (no overwriting)
 setopt    sharehistory      #Share history across terminals
@@ -177,3 +177,15 @@ alias gstash='git stash --include-untracked'
 
 alias behat='dce php vendor/bin/behat'
 alias "vendor/bin/behat"="dce php vendor/bin/behat"
+
+
+# http://www.drbunsen.org/vim-croquet/ analysing
+alias nvim='nvim -w ~/.nvim_keylog "$@"'
+
+alias n='nvim'
+alias s='sudo'
+alias c='composer'
+alias ci='composer install'
+alias cu='composer update'
+
+alias airtame='/opt/airtame-application/launch-airtame.sh'
