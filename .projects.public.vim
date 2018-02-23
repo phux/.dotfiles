@@ -10,8 +10,7 @@ function! Zf1(...) abort
 
     nnoremap <silent> <leader>tu :call SwitchBetweenFiles('php', 'tests/', 'library/', 'Test')<cr>
     nnoremap <silent> <leader>tsu <c-w>v:call SwitchBetweenFiles('php', 'tests/', 'library/', 'Test')<cr>
-    " set omnifunc=LanguageClient#complete
-    " autocmd FileType php LanguageClientStart
+    autocmd FileType php set omnifunc=LanguageClient#complete
     nnoremap <silent> gd :call LanguageClient_textDocument_definition()<CR>
 
     vnoremap <leader>rem :call PhpRefactorExtractMethodDirectly()<CR>

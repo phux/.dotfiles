@@ -66,7 +66,9 @@ def generate_properties(args):
 
 	properies = ''
 	for arg in args:
-		properies += '\n    /** @var ' + arg[0] + ' */'
+		properies += '\n    /**'
+		properies += '\n     * @var ' + arg[0]
+		properies += '\n     */'
 		properies += '\n    private ' + arg[1] + ';\n'
 
 	return properies
@@ -360,10 +362,6 @@ endsnippet
 
 snippet ee
 echo "$1".PHP_EOL;$0
-endsnippet
-
-snippet array "array" b
-$${1:arrayName} = ['${2}' => ${3}];$0
 endsnippet
 
 snippet builder
@@ -697,5 +695,15 @@ abstract class BaseTest extends TestCase
         }
         return $this->aggregateTranslator;
     }
+}
+endsnippet
+
+snippet su "phpunit setup"
+/**
+ * {@inheritDoc}
+ */
+protected function setUp()
+{
+    $1
 }
 endsnippet
