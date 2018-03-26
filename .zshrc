@@ -32,7 +32,9 @@ export VISUAL=$EDITOR
 export TERM=xterm-256color
 
 # export FZF_DEFAULT_COMMAND='ag --hidden --ignore .git -g ""'
-export FZF_DEFAULT_COMMAND='rg  --colors "match:fg:cyan" --colors "path:fg:green" --files --smart-case --hidden --follow --sort-files --glob "!.git/*"'
+# export FZF_DEFAULT_COMMAND='rg  --colors "match:fg:cyan" --colors "path:fg:green" --files --smart-case --hidden --follow --sort-files --glob "!.git/*"'
+# same colors as ag
+export FZF_DEFAULT_COMMAND='rg --colors 'match:bg:yellow' --colors 'match:fg:black' --colors 'match:style:nobold' --colors 'path:fg:green' --colors 'path:style:bold' --colors 'line:fg:yellow' --colors 'line:style:bold'  --files --smart-case --hidden --follow --sort-files --glob "!.git/*"'
 
 [[ -s "$HOME/.gvm/scripts/gvm" ]] && source "$HOME/.gvm/scripts/gvm"
 export GOPATH="$HOME/go"
@@ -90,7 +92,7 @@ alias ll='ls -l'      #long list
 alias grep='grep --color'
 
 alias mux='tmuxinator'
-# Just fun
+
 alias fucking=sudo
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
@@ -150,7 +152,7 @@ fo() {
 # fbr - checkout git branch (including remote branches), sorted by most recent commit, limit 30 last branches
 gbf() {
   local branches branch
-  branches=$(git for-each-ref --count=30 --sort=-committerdate refs/heads/ --format="%(refname:short)") &&
+  branches=$(git for-each-ref --count=90 --sort=-committerdate refs/heads/ --format="%(refname:short)") &&
   branch=$(echo "$branches" |
            fzf-tmux -d $(( 2 + $(wc -l <<< "$branches") )) +m) &&
   git checkout $(echo "$branch" | sed "s/.* //" | sed "s#remotes/[^/]*/##")
@@ -180,7 +182,7 @@ alias "vendor/bin/behat"="dce php vendor/bin/behat"
 
 
 # http://www.drbunsen.org/vim-croquet/ analysing
-alias nvim='nvim -w ~/.nvim_keylog "$@"'
+# alias nvim='nvim -w ~/.nvim_keylog "$@"'
 
 alias n='nvim'
 alias s='sudo'
@@ -189,3 +191,5 @@ alias ci='composer install'
 alias cu='composer update'
 
 alias airtame='/opt/airtame-application/launch-airtame.sh'
+
+source ~/gruvbox.sh
