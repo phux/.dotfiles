@@ -10,16 +10,16 @@ function! Zf1(...) abort
 
     nnoremap <silent> <leader>tu :call SwitchBetweenFiles('php', 'tests/', 'library/', 'Test')<cr>
     nnoremap <silent> <leader>tsu <c-w>v:call SwitchBetweenFiles('php', 'tests/', 'library/', 'Test')<cr>
-    autocmd FileType php set omnifunc=LanguageClient#complete
-    nnoremap <silent> gd :call LanguageClient_textDocument_definition()<CR>
+    autocmd FileType php set omnifunc=phpcd
+    nnoremap <silent> gd g<c-]>
 
     vnoremap <leader>rem :call PhpRefactorExtractMethodDirectly()<CR>
-    nnoremap <silent> gr :call LanguageClient_textDocument_references()<CR>
     let g:cm_auto_popup=0 " disable nvim-completion-manager
     call deoplete#enable()
 
     let g:neomake_php_enabled_makers = ['php', 'phpmd', 'phpcs']
     let g:neomake_open_list = 2
+
     " au filetype php set omnifunc=phpcomplete#CompletePHP
 endfunction
 

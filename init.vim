@@ -21,11 +21,12 @@ Plug 'amiorin/vim-project'
 Plug 'tpope/vim-fugitive'
 Plug 'int3/vim-extradite'
 Plug 'gregsexton/gitv'
+Plug 'junegunn/gv.vim'
 
 Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'scrooloose/nerdtree'
 let g:NERDTreeUpdateOnCursorHold = 0
-let g:NERDTreeQuitOnOpen = 1
+let g:NERDTreeQuitOnOpen = 0
 let g:NERDTreeWinSize = 40
 let g:NERDTreeMinimalUI=1
 let g:NERDTreeCascadeSingleChildDir=0
@@ -42,10 +43,11 @@ Plug 'morhetz/gruvbox'
 
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'roxma/nvim-completion-manager'
-Plug 'roxma/ncm-phpactor'
+Plug '~/code/ncm-phpactor', {'for': 'php'}
 " Plug 'fgrsnau/ncm-otherbuf'
 
-Plug '~/code/neomake'
+" Plug '~/code/neomake'
+Plug 'neomake/neomake'
 
 Plug 'padawan-php/deoplete-padawan', {'for': 'php'}
 " Plug 'padawan-php/padawan.vim'
@@ -53,11 +55,10 @@ Plug 'padawan-php/deoplete-padawan', {'for': 'php'}
 let g:pdv_cfg_InsertFuncName = 0
 let g:pdv_cfg_InsertVarName = 0
 Plug 'phux/php-doc-modded', {'for': 'php'}
-Plug '~/code/vim-php', {'for': ['php', 'yaml']}
+Plug 'sahibalejandro/vim-php', {'for': ['php', 'yaml']}
 Plug 'StanAngeloff/php.vim', {'for': 'php'}
 
 Plug 'alvan/vim-php-manual', {'for': 'php'}
-" Plug 'nrocco/vim-phplint', {'for': 'php'}
 
 Plug 'vim-php/vim-php-refactoring', {'for': 'php'}
 Plug 'adoy/vim-php-refactoring-toolbox', {'for': 'php'}
@@ -92,6 +93,7 @@ Plug 'wincent/ferret', {'on': 'Ack'}
 let g:FerretHlsearch=1
 
 Plug 'autozimu/LanguageClient-neovim', { 'do': ':UpdateRemotePlugins' }
+Plug 'lvht/phpcd.vim', { 'for': 'php', 'do': 'composer install' }
 " Plug 'roxma/LanguageServer-php-neovim',  {'do': 'composer install && composer run-script parse-stubs'}
 
 Plug 'simeji/winresizer'
@@ -107,10 +109,10 @@ Plug 'tpope/vim-surround'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-abolish'
 Plug 'vim-scripts/YankRing.vim'
-Plug 'nrocco/vim-phplint', {'for': 'php'}
+" Plug 'nrocco/vim-phplint', {'for': 'php'}
 Plug 'gabrielelana/vim-markdown', {'for': 'markdown'}
-Plug 'junegunn/goyo.vim'
-Plug 'shime/vim-livedown'
+Plug 'junegunn/goyo.vim', {'for': 'markdown'}
+Plug 'shime/vim-livedown', {'for': 'markdown'}
 " Plug 'dahu/vim-fanfingtastic'
 " Plug 'justinmk/vim-sneak'
 " Plug 'rhysd/clever-f.vim'
@@ -118,12 +120,15 @@ Plug 'shime/vim-livedown'
 
 
 Plug 'mhartington/nvim-typescript', {'do': ':UpdateRemotePlugins'}
-Plug 'leafgarland/typescript-vim'
-Plug 'Quramy/vim-js-pretty-template'
-Plug 'othree/html5.vim'
-Plug 'hail2u/vim-css3-syntax'
-Plug 'nelsyeung/twig.vim'
+Plug 'leafgarland/typescript-vim', {'for': 'js'}
+Plug 'Quramy/vim-js-pretty-template', {'for': 'js'}
+Plug 'othree/html5.vim', {'for': 'html'} 
+Plug 'hail2u/vim-css3-syntax', {'for': 'css'}
+Plug 'nelsyeung/twig.vim', {'for': 'twig'}
 Plug 'mtth/scratch.vim'
+
+Plug 'davidhalter/jedi-vim', {'for': 'python'}
+Plug 'junegunn/vim-peekaboo'
 call plug#end()
 
 let mapleader = "\<Space>"
@@ -133,7 +138,9 @@ inoremap jk <esc>
 " interface
 set t_Co=256
 set background=dark
+" colorscheme base16-ashes
 colorscheme gruvbox
+" colorscheme seoul256
 " colorscheme apprentice
 
 let $NVIM_TUI_ENABLE_TRUE_COLOR=1
@@ -155,11 +162,24 @@ set cmdheight=1
 set winminheight=1
 
 set formatoptions=qrn1tcl
+
+if has('patch-7.3.541')
+  set formatoptions+=j
+endif
+" if has('patch-7.4.338')
+  let &showbreak = '↳ '
+"   set breakindent
+  set breakindentopt=sbr
+" endif
+
 set formatoptions-=o                  " do not continue comment using o or O
 " "show this in front of broken lines
-set showbreak=↪
+" set showbreak=↪
 " Line wrapping
 set wrap
+" move over lines with following keys
+set whichwrap+=<,>,[,],h,l
+
 " " but don't split words
 set lbr
 
@@ -171,10 +191,12 @@ augroup everything
     au BufNewFile,BufRead *.yml.dist set ft=yaml
     au filetype ruby setl sw=2 sts=2 et
 
-    au BufNewFile,BufRead *.go setlocal noexpandtab tabstop=4 shiftwidth=4 
-    au filetype make setlocal noexpandtab tabstop=4 shiftwidth=4 
-    au filetype javascript setlocal noexpandtab tabstop=2 shiftwidth=2 
-    au filetype typescript setlocal noexpandtab tabstop=2 shiftwidth=2 
+    " au BufNewFile,BufRead *.go setlocal noexpandtab tabstop=4 shiftwidth=4 
+    " au BufNewFile,BufRead *.go setlocal noexpandtab tabstop=4 shiftwidth=4 
+    " au filetype make setlocal noexpandtab tabstop=4 shiftwidth=4 
+    au filetype php setlocal tabstop=4 shiftwidth=4 
+    " au filetype javascript setlocal noexpandtab tabstop=2 shiftwidth=2 
+    " au filetype typescript setlocal noexpandtab tabstop=2 shiftwidth=2 
 
     au BufRead,BufNewFile *.conf setf config
 
@@ -194,7 +216,7 @@ augroup everything
 
     " no delay when ESC/jk
     au InsertEnter * set timeoutlen=100
-    au InsertLeave * set timeoutlen=1000
+    au InsertLeave * set timeoutlen=500
 
     " au filetype php silent! call StartLanguageClientOnce
 
@@ -219,7 +241,6 @@ augroup everything
     au BufNewFile,BufRead,BufWinEnter *Spec.php exe ":UltiSnipsAddFiletypes php.php-phpspec"
 
     autocmd CursorHold * normal! m'
-    autocmd BufWritePost *.php silent Phplint
 
 
     au filetype javascript setlocal omnifunc=tern#Complete
@@ -241,13 +262,12 @@ let g:LanguageClient_diagnosticsList = ''
 let g:LanguageClient_signColumnAlwaysOn = 0
 let g:LanguageClient_selectionUI = 'fzf'
 
-nnoremap <silent> gd :call LanguageClient_textDocument_definition()<CR>
-nnoremap <silent> gr :call LanguageClient_textDocument_references()<CR>
-nnoremap K :call LanguageClient_textDocument_hover()<cr>
+" nnoremap <silent> gd :call LanguageClient_textDocument_definition()<CR>
+" nnoremap <silent> gr :call LanguageClient_textDocument_references()<CR>
+" nnoremap K :call LanguageClient_textDocument_hover()<cr>
 let g:LanguageClient_serverCommands = {
             \ 'javascript.jsx': ['~/compiles/javascript-typescript-langserver/lib/language-server-stdio.js'],
-            \ 'typescript': ['~/compiles/javascript-typescript-langserver/lib/language-server-stdio.js'],
-            \ 'php': ['php', '~/code/php-language-server/bin/php-language-server.php']
+            \ 'typescript': ['~/compiles/javascript-typescript-langserver/lib/language-server-stdio.js']
             \ }
 
 set encoding=utf-8
@@ -255,15 +275,13 @@ set fileformats=unix,dos,mac    " Prefer Unix over Windows over OS 9 formats
 set autowrite                   " Automatically save before :next, :make etc.
 set autoread                    " Automatically reread changed files without asking me anything
 set hidden
+set nojoinspaces
 
 " no backups {{{2
 set nobackup
 set nowritebackup
 set noswapfile
 " }}}
-
-" move over lines with following keys
-set whichwrap+=<,>,[,],h,l
 
 
 
@@ -280,29 +298,24 @@ vnoremap <silent> p p`]
 nnoremap <silent> p p`]
 
 
-
-set ignorecase
-set smartcase
-set hlsearch
-set incsearch
-
-
-let g:PHP_removeCRwhenUnix = 1
-set timeout ttimeoutlen=0
-
-
 nnoremap <silent> <leader>w :w<cr>
 command! -bang PadawanGenerate call deoplete#sources#padawan#Generate(<bang>0)
 nnoremap <silent> <leader>W :w<cr>:silent! !eval '[ -f ".git/hooks/ctags" ] && .git/hooks/ctags' &<cr>:PadawanGenerate<cr>
 
 
-set scrolloff=5
 
 let g:ultisnips_php_scalar_types = 1
 let g:UltiSnipsSnippetsDir = '~/.config/nvim/UltiSnips/'
 let g:UltiSnipsExpandTrigger="<c-j>"
 let g:UltiSnipsJumpForwardTrigger="<c-j>"
 let g:UltiSnipsJumpBackwardTrigger="<c-k>"
+
+if !exists('$TMUX')
+  nnoremap <c-j> <c-w>j
+  nnoremap <c-k> <c-w>k
+  nnoremap <c-h> <c-w>h
+  nnoremap <c-l> <c-w>l
+endif
 
 
 let g:echodoc_enable_at_startup=1
@@ -365,6 +378,7 @@ vnoremap <leader>rec :call PhpExtractConst()<CR>
 
 
 nnoremap <leader>rep :call PhpRefactorLocalVariableToInstanceVariable()<cr>
+nnoremap <leader>rep :call PhpExtractClassProperty()<cr>
 nnoremap <leader>rrv :call PhpRefactorRenameLocalVariable()<cr>
 
 
@@ -547,17 +561,6 @@ nnoremap <Leader>u :PHPImportClass<cr>
 nnoremap <Leader>e :PHPExpandFQCNAbsolute<cr>
 nnoremap <Leader>E :PHPExpandFQCN<cr>
 
-let g:deoplete#enable_at_startup = 1
-let g:deoplete#enable_smart_case = 1
-let g:deoplete#enable_camel_case = 1
-let g:deoplete#sources#padawan#add_parentheses=1
-let g:deoplete#skip_chars = ['$']
-
-inoremap <expr> <TAB> pumvisible() ? "\<c-n>" : "\<TAB>"
-inoremap <expr> <s-tab> pumvisible() ? "\<c-p>" : "\<TAB>"
-inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
-
-
 let g:pdv_cfg_autoEndClass = 0
 let g:pdv_cfg_php4always = 0
 let g:pdv_cfg_autoEndFunction = 0
@@ -621,22 +624,55 @@ vnoremap <leader>] :%Subvert//g<left><left>
 filetype plugin indent on
 syntax on
 
-let g:deoplete#sources#padawan#server_command='~/code/padawan.php/bin/padawan-server'
-
-function! ParamDeclarationToPhakeMock()
-    :s/\(\w\+\) \(\$\w\+\),*/\2 = Phake::mock(\1::class);
+function! PHPUnitSetupMethod()
+    normal! oprotected function setUp()
+    normal! o{
+    normal! o}
+    normal! kp
+    while getline('.') =~ '\$'
+      normal! ==
+      :s/\(\w\+\) \(\$\w\+\),*/\2 = Phake::mock(\1::class);
+      normal! 0f$l
+      call PhpExtractClassProperty()
+      normal! j
+    endwhile
 endfunction
-nnoremap <m-m> :call ParamDeclarationToPhakeMock()<cr>j
+nnoremap <m-m> :call PHPUnitSetupMethod()<cr>
 
-set tabstop=4
-set shiftwidth=4
+set tabstop=2
+set shiftwidth=2
+set scrolloff=5
 set shiftround
-set expandtab
+set expandtab smarttab
 set autoindent                        " indent when creating newline
+set smartindent
+set lazyredraw
+set modelines=2
+set synmaxcol=1000
 
+
+set ignorecase smartcase
+set hlsearch
+set incsearch
+
+
+let g:PHP_removeCRwhenUnix = 1
+set timeout ttimeoutlen=0
+
+inoremap <expr> <TAB> pumvisible() ? "\<c-n>" : "\<TAB>"
+inoremap <expr> <s-tab> pumvisible() ? "\<c-p>" : "\<TAB>"
+inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+
+let g:deoplete#enable_at_startup = 1
+let g:deoplete#enable_smart_case = 1
+let g:deoplete#enable_camel_case = 1
 let g:deoplete#sources = get(g:, 'deoplete#sources', {})
 let g:deoplete#sources._ = ['ultisnips', 'buffer']
+
+let g:deoplete#sources#padawan#add_parentheses=1
+let g:deoplete#sources#padawan#server_command='~/code/padawan.php/bin/padawan-server'
 let g:deoplete#sources.php = ['padawan', 'ultisnips', 'buffer']
+let g:deoplete#skip_chars = ['$']
 
 let g:deoplete#sources.go = ['go', 'ultisnips', 'buffer']
 let g:deoplete#sources#go#gocode_binary = $GOPATH.'/bin/gocode'
@@ -664,7 +700,14 @@ nnoremap <silent> <leader>tl :TestLast<CR>
 nnoremap <silent> <leader>tv :TestVisit<CR>
 
 set completeopt=menuone,longest
-set complete-=t
+set complete-=i
+
+set textwidth=0
+if exists('&colorcolumn')
+  " set colorcolumn=80
+endif
+
+set nostartofline
 
 
 
@@ -719,7 +762,7 @@ let g:Gitv_DoNotMapCtrlKey = 1
 
 let g:php_manual_online_search_shortcut = '<leader>m'
 
-nnoremap <leader>; :TagbarToggle<cr>
+nnoremap <F10> :TagbarToggle<cr>
 
 " SymfonySwitchToAlternateFile {{{
 
@@ -812,13 +855,22 @@ command! -nargs=1 Silent execute ':silent !'.<q-args> | execute ':redraw!'
 
 " remove buffer without deleting window
 nnoremap <silent> <m-d> :bp<bar>sp<bar>bn<bar>bd<CR>
-nnoremap <c-j> <c-w>j
-nnoremap <c-k> <c-w>k
-nnoremap <c-h> <c-w>h
-nnoremap <c-l> <c-w>l
 
-command! -bang -nargs=* Rg call fzf#vim#grep('rg --column --line-number --no-heading --fixed-strings --ignore-case --hidden --follow --glob "!.git/*" --color "always" '.shellescape(<q-args>).'| tr -d "\017"', 1, fzf#vim#with_preview('right:50%:hidden', '?'), <bang>0)
-" let g:ackprg = 'rg --vimgrep --no-heading'
+command! -bang -nargs=* Rg
+  \ call fzf#vim#grep(
+  \   'rg --line-number --no-heading --ignore-case --follow --color=always --colors "match:bg:yellow" --colors "match:fg:black" --colors "match:style:nobold" --colors "path:fg:green" --colors "path:style:bold" --colors "line:fg:yellow" --colors "line:style:bold" '.shellescape(<q-args>), 1,
+  \   <bang>0 ? fzf#vim#with_preview('up:60%')
+  \           : fzf#vim#with_preview('right:50%:hidden', '?'),
+  \   <bang>0)
+" --no-ignore for searching in all files
+command! -bang -nargs=* RgRaw
+  \ call fzf#vim#grep(
+  \   'rg --no-ignore --line-number --no-heading --ignore-case --follow --hidden --color=always --colors "match:bg:yellow" --colors "match:fg:black" --colors "match:style:nobold" --colors "path:fg:green" --colors "path:style:bold" --colors "line:fg:yellow" --colors "line:style:bold" '.shellescape(<q-args>), 1,
+  \   <bang>0 ? fzf#vim#with_preview('up:60%')
+  \           : fzf#vim#with_preview('right:50%:hidden', '?'),
+  \   <bang>0)
+let g:ackprg = 'rg --vimgrep --no-heading'
+
 command! -bang -nargs=* FZFAllFiles call fzf#run({'source': 'find * -type f', 'sink': 'e'})
 
 function! s:ag_to_qf(line)
@@ -979,7 +1031,8 @@ let test#strategy='neovim'
 
 let g:yankring_replace_n_pkey = '<m-h>'
 let g:yankring_replace_n_nkey = '<m-H>'
-set diffopt+=vertical
+" set diffopt+=vertical
+set diffopt=vertical,filler
 
 nnoremap dg3 :diffget //3<cr>
 nnoremap dg2 :diffget //2<cr>
@@ -1013,8 +1066,12 @@ highlight Normal ctermbg=NONE
 highlight nonText ctermbg=NONE
 
 " workaround for single location list entries
-nmap <silent> ,,    <Plug>qf_loc_previous              
-nmap <silent> ..    <Plug>qf_loc_next
+nmap <silent> <m-p> <Plug>qf_loc_previous              
+nmap <silent> <m-n> <Plug>qf_loc_next
 
 " per default disabled
 let g:neomake_open_list = 0
+
+set cul
+
+set notagrelative
