@@ -1,0 +1,1 @@
+gometalinter --install
