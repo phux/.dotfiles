@@ -10,7 +10,7 @@ function! Zf1(...) abort
 
     nnoremap <silent> <leader>tu :call SwitchBetweenFiles('php', 'tests/', 'library/', 'Test')<cr>
     nnoremap <silent> <leader>tsu <c-w>v:call SwitchBetweenFiles('php', 'tests/', 'library/', 'Test')<cr>
-    autocmd FileType php set omnifunc=phpcd
+    " autocmd FileType php set omnifunc=phpcd
     nnoremap <silent> gd g<c-]>
 
     vnoremap <leader>rem :call PhpRefactorExtractMethodDirectly()<CR>

@@ -263,6 +263,18 @@ if (false === $${1:what}) {
 }
 endsnippet
 
+snippet ifi "if isset"
+if (isset($${1:what})) {
+    ${0:// code}
+}
+endsnippet
+
+snippet ifni "if not isset"
+if (!isset($${1:what})) {
+    ${0:// code}
+}
+endsnippet
+
 snippet ift "if true"
 if (true === $${1:what}) {
     ${0:// code}

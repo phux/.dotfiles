@@ -17,13 +17,15 @@ function installIt() {
         curl -sL --proto-redir -all,https https://zplug.sh/installer | zsh
     fi
 
+    NVIM_DIR="$HOME/.config/nvim"
     echo 'linking init.vim'
-    mkdir -p $HOME/.config/nvim
-    ln -fs "$DIR/init.vim" $HOME/.config/nvim/
-    ln -fs "$DIR/UltiSnips" $HOME/.config/nvim/
+    mkdir -p "$NVIM_DIR/ftplugin/"
+    ln -fs "$DIR/init.vim" $NVIM_DIR
+    ln -fs "$DIR/UltiSnips" $NVIM_DIR
+    ln -fs "$DIR/ftplugin/*.vim" "$NVIM_DIR/ftplugin/"
 
     echo 'linking public project config'
-    ln -fs "$DIR/.projects.public.vim" $HOME/
+    ln -fs "$DIR/.projects.public.vim" $NVIM_DIR
 
     echo 'linking tmux conf'
     ln -fs "$DIR/.tmux.conf" $HOME/
