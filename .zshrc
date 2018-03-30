@@ -31,8 +31,6 @@ export VISUAL=$EDITOR
 
 export TERM=xterm-256color
 
-# export FZF_DEFAULT_COMMAND='ag --hidden --ignore .git -g ""'
-# export FZF_DEFAULT_COMMAND='rg  --colors "match:fg:cyan" --colors "path:fg:green" --files --smart-case --hidden --follow --sort-files --glob "!.git/*"'
 # same colors as ag
 export FZF_DEFAULT_COMMAND='rg --colors 'match:bg:yellow' --colors 'match:fg:black' --colors 'match:style:nobold' --colors 'path:fg:green' --colors 'path:style:bold' --colors 'line:fg:yellow' --colors 'line:style:bold'  --files --smart-case --hidden --follow --sort-files --glob "!.git/*"'
 
@@ -40,7 +38,7 @@ export FZF_DEFAULT_COMMAND='rg --colors 'match:bg:yellow' --colors 'match:fg:bla
 export GOPATH="$HOME/go"
 export LGOBIN="$HOME/go/bin"
 export FZF_BIN_PATH="$HOME/.fzf/bin"
-export PATH=$PATH:~/.config/composer/vendor/bin:~/bin:$LGOBIN:$FZF_BIN_PATH
+export PATH=$PATH:~/bin:$LGOBIN:$FZF_BIN_PATH
 export TMP=/tmp
 export TMPDIR=/tmp
 
@@ -171,7 +169,7 @@ FZF-EOF"
 }
 
 bindkey -e
-PATH=/home/jm/.gvm/pkgsets/go1.8.3/global/bin:/home/jm/.gvm/gos/go1.8.3/bin:/home/jm/.gvm/pkgsets/go1.8.3/global/overlay/bin:/home/jm/.gvm/bin:/home/jm/.gvm/bin:/home/jm/.zplug/repos/zplug/zplug/bin:/home/jm/.cargo/bin:/home/jm/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/home/jm/.composer/vendor/bin:/home/jm/.gvm/gos/go1.8/bin:/home/jm/.composer/vendor/bin:/home/jm/.config/composer/vendor/bin:/home/jm/bin:/home/jm/go/bin:/home/jm/.fzf/bin:/home/jm/.composer/vendor/bin
+PATH=/home/jm/.gvm/bin:/home/jm/.zplug/repos/zplug/zplug/bin:/home/jm/.cargo/bin:/home/jm/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/home/jm/.composer/vendor/bin:/home/jm/go/bin:/home/jm/.fzf/bin:/home/jm/.gvm/gos/go1.10/bin
 
 alias sukablyad='sudo'
 
@@ -191,5 +189,10 @@ alias ci='composer install'
 alias cu='composer update'
 
 alias airtame='/opt/airtame-application/launch-airtame.sh'
+
+alias efg='exercism fetch go'
+alias es='exercism submit'
+alias eg='cd ~/exercism/go'
+alias gtb='go test -bench .'
 
 source ~/gruvbox.sh
