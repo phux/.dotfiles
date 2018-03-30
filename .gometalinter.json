@@ -1,0 +1,20 @@
+{
+  "EnableGC": true,
+  "Test": true,
+  "Concurrency": 8,
+  "Enable": [
+      "gas",
+      "goconst",
+      "gocyclo",
+      "golint",
+      "ineffassign",
+      "interfacer",
+      "maligned",
+      "megacheck",
+      "misspell",
+      "structcheck",
+      "unconvert",
+      "varcheck",
+      "vet"
+  ]
+}
