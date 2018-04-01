@@ -60,6 +60,8 @@ Plug '~/.tooling/phpactor', {'for': 'php', 'do': ':call phpactor#Update()' }
 Plug 'lvht/phpcd.vim', { 'for': 'php', 'do': 'composer install' }
 
 Plug 'fatih/vim-go', {'for': 'go'}
+" Plug 'jodosha/vim-godebug', {'for': 'go'}
+Plug 'sebdah/vim-delve', {'for': 'go'}
 Plug 'godoctor/godoctor.vim', {'for': 'go'}
 Plug 'buoto/gotests-vim', {'for': 'go'}
 Plug 'zchee/deoplete-go', { 'do': 'make', 'for': 'go'}
@@ -294,6 +296,8 @@ nnoremap <leader>. :FZFAllFiles<cr>
 nnoremap <leader>d :BTags<cr>
 nnoremap <leader>D :BTags <C-R><C-W><cr>
 nnoremap <leader>T :Tags<cr>
+nnoremap <leader>; :TagbarToggle<cr>
+set notagrelative
 
 
 let g:project_use_nerdtree = 0
@@ -338,7 +342,6 @@ set shiftwidth=2
 set scrolloff=5
 set shiftround
 set expandtab smarttab
-set autoindent                        " indent when creating newline
 set smartindent
 set lazyredraw
 set modelines=2
@@ -372,6 +375,7 @@ let g:deoplete#skip_chars = ['$']
 let g:deoplete#sources#go = ['go', 'ultisnips', 'buffer']
 let g:deoplete#sources#go#gocode_binary = $GOPATH.'/bin/gocode'
 let g:deoplete#sources#go#sort_class = ['package', 'func', 'type', 'var', 'const']
+let g:deoplete#sources#go#align_class = 1
 let g:deoplete#sources#go#use_cache = 1
 let g:deoplete#sources#go#pointer = 1
 let g:deoplete#sources#go#json_directory = '~/.cache/deoplete/go/$GOOS_$GOARCH'
@@ -452,7 +456,6 @@ let g:Gitv_DoNotMapCtrlKey = 1
 
 let g:php_manual_online_search_shortcut = '<leader>m'
 
-nnoremap <leader>; :TagbarToggle<cr>
 
 " remove buffer without deleting window
 nnoremap <silent> <m-d> :bp<bar>sp<bar>bn<bar>bd<CR>
@@ -643,15 +646,14 @@ highlight Normal ctermbg=NONE
 highlight nonText ctermbg=NONE
 
 " workaround for single location list entries
-" nmap <silent> <m-p> <Plug>qf_loc_previous              
-" nmap <silent> <m-n> <Plug>qf_loc_next
+nmap <silent> <m-p> <Plug>qf_loc_previous              
+nmap <silent> <m-n> <Plug>qf_loc_next
 
 set cul
 
-set notagrelative
 
 call neomake#configure#automake('w')
-" per default disabled
+" keep cursor position
 let g:neomake_open_list = 2
 
 function! EditFtPluginFile()

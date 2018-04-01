@@ -286,6 +286,12 @@ let g:pdv_cfg_annotation_Copyright = 0
 let g:pdv_cfg_annotation_License = 0
 let g:pdv_cfg_annotation_Package = 0
 let g:pdv_cfg_annotation_Version = 0
+let g:pdv_cfg_InsertFuncName = 0
+let g:pdv_cfg_InsertVarName = 0
+
+" https://github.com/AJenbo/php-refactoring-browser
+let g:php_refactor_command='php ~/compiles/php-refactoring-browser/refactor.phar'
+
 
 function! UpdatePhpDocIfExists()
     normal! k

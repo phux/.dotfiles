@@ -1,4 +1,4 @@
-set noexpandtab tabstop=4 shiftwidth=4 
+set noexpandtab tabstop=4 shiftwidth=4
 
 nnoremap <m-c> :GoCoverageToggle<cr>
 nnoremap <leader>h :call GoComment()<cr>
@@ -56,26 +56,26 @@ function! GoExtractVariable()
   normal! bgr
 endfunction
 
-let g:pdv_cfg_InsertFuncName = 0
-let g:pdv_cfg_InsertVarName = 0
-
-" https://github.com/AJenbo/php-refactoring-browser
-let g:php_refactor_command='php ~/compiles/php-refactoring-browser/refactor.phar'
-
 let g:go_list_type = "locationlist"
 let g:go_bin_path = expand("~/.gvm/gos/go1.10/bin")
+" Enable syntax highlighting per default
+let g:go_highlight_types = 1
+let g:go_highlight_fields = 1
 let g:go_highlight_functions = 1
 let g:go_highlight_methods = 1
-let g:go_highlight_fields = 1
-let g:go_highlight_types = 1
+let g:go_highlight_structs = 1
 let g:go_highlight_operators = 1
 let g:go_highlight_build_constraints = 1
+let g:go_highlight_extra_types = 1
 let g:go_fmt_command = "goimports"
 let g:go_fmt_autosave = 1
 let g:go_metalinter_autosave = 0
-let g:go_metalinter_deadline = '10s'
-let g:go_metalinter_enabled = ["deadcode", "unconvert", "gocyclo", "maligned", "dupl", "ineffassign", "goconst", "megacheck", "interfacer", "vet", "varcheck", "structcheck"]
+let g:go_metalinter_deadline = '20s'
+let g:go_metalinter_enabled = [ "gas", "goconst", "gocyclo", "golint", "ineffassign", "interfacer", "maligned", "megacheck", "misspell", "structcheck", "unconvert", "varcheck", "vet"]
 " let g:go_metalinter_enabled = ["unconvert", "gocyclo", "maligned", "ineffassign", "goconst"]
+
+" let g:go_auto_sameids = 1
+" let g:go_auto_type_info = 1
 
 let g:go_term_enabled=0
 let g:go_disable_autoinstall = 0
@@ -127,3 +127,20 @@ let g:neomake_go_gometalinter_maker = {
   \   '%W%f:%l::%tarning: %m'
 \ }
 let g:neomake_go_enabled_makers = [ 'go', 'gometalinter' ]
+
+command! -nargs=* -bang GoDebug call godebug#debug(<bang>0, 0, <f-args>)
+nnoremap <f5> :GoDebug<cr>
+command! -nargs=* -bang GoDebugTestNvim call godebug#debugtest(<bang>0, 0, <f-args>)
+nnoremap <f6> :GoDebugTestNvim<cr>
+command! -nargs=* -bang GoToggleBreakpointNvim call godebug#toggleBreakpoint(expand('%:p'), line('.'), <f-args>)
+nnoremap <f7> :GoToggleBreakpointNvim<cr>
+
+" let g:delve_new_command = 'new'
+let g:delve_backend = "native"
+nnoremap <f5> :DlvDebug<cr>
+nnoremap <f6> :DlvTest<cr>
+nnoremap <f7> :DlvToggleBreakpoint<cr>
+nnoremap <f8> :DlvToggleTracepoint<cr>
+
+nnoremap <leader>d :GoDeclsDir<cr>
+nnoremap <F10> :GoTest -short<cr>
