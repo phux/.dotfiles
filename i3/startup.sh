@@ -1,7 +1,6 @@
 #!/bin/sh
 
-# feh --bg-fill /home/jm/Documents/your_computer_is_on.jpg
-# feh --bg-max /home/jm/Pictures/swanson.jpg
+feh --bg-max /home/jm/Pictures/success.jpg
 
 syndaemon -R -k -i 0.5 -d
 

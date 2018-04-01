@@ -215,11 +215,11 @@ assign [class="Skype"] 9
 assign [class="Thunderbird"] 9
 assign [class="Chromium"] 10
 
-workspace 1 output HDMI1
-workspace 9 output eDP1
-workspace 3 output HDMI1
-workspace 10 output HDMI1
-workspace 2 output HDMI2
+# workspace 1 output HDMI1
+# workspace 9 output eDP1
+# workspace 3 output HDMI1
+# workspace 10 output HDMI1
+# workspace 2 output HDMI2
 
 # default floating applications
 for_window [class="Xfce4-notifyd"] floating enable
@@ -231,6 +231,5 @@ exec --no-startup-id xsetroot -solid "#333333"
 exec xset -dpms; xset s off
 
 exec --no-startup-id nm-applet
-exec --no-startup-id pasystray
 
 exec --no-startup-id sh ~/.i3/startup.sh
