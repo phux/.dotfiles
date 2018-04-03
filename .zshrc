@@ -1,28 +1,11 @@
 ZGEN_RESET_ON_CHANGE=(${HOME}/.zshrc)
 source ~/.zplug/init.zsh
 zplug "zplug/zplug", hook-build:"zplug --self-manage"
-# zplug "plugins/git",   from:oh-my-zsh
 zplug "plugins/gitfast", from:oh-my-zsh
-# ZSH_TMUX_AUTOSTART=true
 zplug "plugins/tmux", from:oh-my-zsh
 zplug "plugins/tmuxinator", from:oh-my-zsh
-# zplug "plugins/composer", from:oh-my-zsh
-# zplug "plugins/colored-man-pages", from:oh-my-zsh
-# zplug "plugins/docker", from:oh-my-zsh
-zplug "plugins/docker-compose", from:oh-my-zsh
 zplug "themes/simple", from:oh-my-zsh, as:theme
-# zplug "djui/alias-tips"
 zplug "zsh-users/zsh-completions"
-
-# Install plugins if there are plugins that have not been installed
-if ! zplug check; then
-    printf "Install? [y/N]: "
-    if read -q; then
-        echo; zplug install
-    fi
-fi
-
-# Then, source plugins and add commands to $PATH
 zplug load
 
 export EDITOR="nvim"
@@ -91,10 +74,7 @@ alias grep='grep --color'
 
 alias mux='tmuxinator'
 
-alias fucking=sudo
-
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-# autoload -U compinit && compinit
 
 # disable c-s and c-q freeze
 stty stop ''
@@ -172,12 +152,12 @@ bindkey -e
 PATH=/home/jm/.gvm/bin:/home/jm/.zplug/repos/zplug/zplug/bin:/home/jm/.cargo/bin:/home/jm/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/home/jm/.composer/vendor/bin:/home/jm/go/bin:/home/jm/.fzf/bin:/home/jm/.gvm/gos/go1.10/bin
 
 alias sukablyad='sudo'
+alias fucking=sudo
 
 alias gstash='git stash --include-untracked'
 
 alias behat='dce php vendor/bin/behat'
 alias "vendor/bin/behat"="dce php vendor/bin/behat"
-
 
 # http://www.drbunsen.org/vim-croquet/ analysing
 # alias nvim='nvim -w ~/.nvim_keylog "$@"'
