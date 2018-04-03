@@ -24,15 +24,15 @@ if ! grep -q "hirak/prestissimo" "$composerJson"; then
 fi
 
 echo "setting up phpcs"
-# if ! grep -q "object-calisthenics/phpcs-calisthenics-rules" "$composerJson"; then
-#     composer global require "object-calisthenics/phpcs-calisthenics-rules"
-# fi
-if ! grep -q "endouble/symfony3-custom-coding-standard" "$composerJson"; then
-    composer global require "endouble/symfony3-custom-coding-standard"
+if ! grep -q "object-calisthenics/phpcs-calisthenics-rules" "$composerJson"; then
+    composer global require "object-calisthenics/phpcs-calisthenics-rules"
+fi
+if ! grep -q "escapestudios/symfony2-coding-standard" "$composerJson"; then
+    composer global require "escapestudios/symfony2-coding-standard"
 fi
 phpcs --config-set encoding utf-8
-# phpcs --config-set installed_paths "$composerDir/vendor/object-calisthenics/phpcs-calisthenics-rules/src,$composerDir/vendor/endouble/symfony3-custom-coding-standard"
-phpcs --config-set installed_paths "$composerDir/vendor/endouble/symfony3-custom-coding-standard"
+phpcs --config-set installed_paths "$composerDir/vendor/object-calisthenics/phpcs-calisthenics-rules/src,$composerDir/vendor/escapestudios/symfony2-coding-standard"
+# phpcs --config-set installed_paths "$composerDir/vendor/endouble/symfony3-custom-coding-standard"
 
 if ! grep -q "phpmd/phpmd" "$composerJson"; then
     composer global require "phpmd/phpmd"
@@ -40,10 +40,6 @@ fi
 
 if ! grep -q "phpstan/phpstan" "$composerJson"; then
     composer global require "phpstan/phpstan"
-fi
-
-if ! grep -q "mkusher/padawan" "$composerJson"; then
-    composer global require "mkusher/padawan"
 fi
 
 if ! grep -q "jakub-onderka/php-parallel-lint" "$composerJson"; then
