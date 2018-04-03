@@ -56,7 +56,7 @@ Plug 'StanAngeloff/php.vim', {'for': 'php'}
 Plug 'alvan/vim-php-manual', {'for': 'php'}
 Plug 'vim-php/vim-php-refactoring', {'for': 'php'}
 Plug 'adoy/vim-php-refactoring-toolbox', {'for': 'php'}
-Plug '~/.tooling/phpactor', {'for': 'php', 'do': ':call phpactor#Update()' }
+Plug 'phpactor/phpactor', {'for': 'php', 'do': ':call phpactor#Update()' }
 Plug 'lvht/phpcd.vim', { 'for': 'php', 'do': 'composer install' }
 
 Plug 'fatih/vim-go', {'for': 'go'}
@@ -177,15 +177,28 @@ set whichwrap+=<,>,[,],h,l
 " " but don't split words
 set lbr
 
+augroup nvim
+  au!
+  au BufWritePost *.vim nested source $MYVIMRC
+  au CursorHold * normal! m'
+  " no delay when ESC/jk
+  au InsertEnter * set timeoutlen=100
+  au InsertLeave * set timeoutlen=500
+augroup END
+augroup js
+  au!
+
+    au FileType javascript setlocal omnifunc=tern#Complete
+    au FileType javascript setlocal omnifunc=tern#Complete
+    au FileType javascript LanguageClientStart
+    au FileType typescript LanguageClientStart
+    au FileType typescript nnoremap <buffer> gd :TSDef<CR>
+    au FileType typescript nnoremap <buffer> gr :TSRefs<CR>
+    au FileType typescript nnoremap <buffer> K :TSDefPreview<cr>
+augroup END
+
 augroup everything
     au!
-    au BufWritePost $MYVIMRC nested source $MYVIMRC
-
-    autocmd CursorHold * normal! m'
-
-    " no delay when ESC/jk
-    au InsertEnter * set timeoutlen=100
-    au InsertLeave * set timeoutlen=500
 
     au FileType yaml setl sw=2 sts=2 et
     au BufNewFile,BufRead *.yml.dist set ft=yaml
@@ -197,7 +210,6 @@ augroup everything
     au FileType todo nnoremap <buffer> <cr> :VimTodoListsToggleItem<CR>
 
     au FileType css setlocal omnifunc=csscomplete#CompleteCSS
-
     au FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
     au FileType html,xml inoremap <buffer> <m-;> </<c-x><c-o>
     au FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
@@ -207,14 +219,6 @@ augroup everything
     autocmd FileType gitcommit nnoremap <buffer> <leader>w :call PrependTicketNumber()<cr>
     autocmd FileType gitv nmap <buffer> <silent> <C-n> <Plug>(gitv-previous-commit)
     autocmd FileType gitv nmap <buffer> <silent> <C-p> <Plug>(gitv-next-commit)
-
-    au FileType javascript setlocal omnifunc=tern#Complete
-    au FileType javascript setlocal omnifunc=tern#Complete
-    au FileType javascript LanguageClientStart
-    au FileType typescript LanguageClientStart
-    au FileType typescript nnoremap <buffer> gd :TSDef<CR>
-    au FileType typescript nnoremap <buffer> gr :TSRefs<CR>
-    au FileType typescript nnoremap <buffer> K :TSDefPreview<cr>
 augroup END
 
 let g:LanguageClient_diagnosticsEnable  = 0
@@ -257,7 +261,6 @@ nnoremap <leader>n :NERDTreeToggle<cr>
 nnoremap <leader>N :NERDTreeFind<cr>
 
 nnoremap <silent> <leader>w :w<cr>
-command! -bang PadawanGenerate call deoplete#sources#padawan#Generate(<bang>0)
 
 let g:ultisnips_php_scalar_types = 1
 let g:UltiSnipsSnippetsDir = '~/.config/nvim/UltiSnips/'
@@ -313,6 +316,7 @@ nnoremap <leader>gs :Gstatus<cr>
 nnoremap <leader>gc :Gcommit<cr>
 nnoremap <leader>gl :Extradite!<cr>
 
+nnoremap <f11> :NeomakeToggle<cr>
 nnoremap <silent> <m-,> :lclose<cr>:cclose<cr>
 
 nnoremap <leader>/ :Ack <c-r><c-w><cr>
@@ -660,5 +664,9 @@ function! EditFtPluginFile()
   exec ":e ~/.config/nvim/ftplugin/".expand('%:e').".vim"
 endfunction
 nnoremap <F12> :call EditFtPluginFile()<cr>
+
+let g:vim_php_refactoring_use_default_mapping = 0
+
+command! -bang PadawanGenerate call deoplete#sources#padawan#Generate(<bang>0)
 
 so ~/.config/nvim/.projects.public.vim

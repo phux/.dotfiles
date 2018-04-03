@@ -1,19 +1,38 @@
-set noexpandtab tabstop=4 shiftwidth=4
+setlocal noexpandtab tabstop=4 shiftwidth=4
 
-nnoremap <m-c> :GoCoverageToggle<cr>
-nnoremap <leader>h :call GoComment()<cr>
-nnoremap <silent> <m-a> :GoAlternate!<cr>
+nnoremap <buffer> <buffer> <leader>w :w<cr>
+
+nnoremap <buffer> <leader>h :call GoComment()<cr>
+nnoremap <buffer> <leader>gr :GoRename <c-r><c-w>
+vnoremap <buffer> <leader>em :Refactor extract 
+vnoremap <buffer> <leader>ev :call GoExtractVariable()<cr>
+
+nnoremap <buffer> gr :GoReferrers<cr>
+nnoremap <buffer> <leader>gi :GoImplements<cr>
+
+nnoremap <leader>d :GoDeclsDir<cr>
+nnoremap <buffer> <silent> <m-a> :GoAlternate!<cr>
+nnoremap <buffer> <m-c> :GoCoverageToggle<cr>
+nnoremap <buffer> <m-f> :GoTest! -short<cr>
+nnoremap <buffer> <m-m> :GoMetaLinter<cr>
 " run :GoBuild or :GoTestCompile based on the go file
-nnoremap <m-b> :<C-u>call <SID>build_go_files()<CR>
-nnoremap <m-t> :GoTest!<cr>
-nnoremap <m-f> :GoTest!<cr>
-nnoremap <leader>gi :GoImplements<cr>
-nnoremap <leader>gr :GoRename <c-r><c-w>
-nnoremap gr :GoReferrers<cr>
-nnoremap <buffer> <leader>w :w<cr>
-vnoremap <leader>em :Refactor extract 
-vnoremap <leader>ev :call GoExtractVariable()<cr>
-nnoremap <m-m> :GoMetaLinter<cr>
+nnoremap <buffer> <m-b> :<C-u>call <SID>build_go_files()<CR>
+
+" let g:delve_new_command = 'new'
+" let g:delve_backend = "native"
+nnoremap <buffer> <f5> :DlvDebug<cr>
+nnoremap <buffer> <f6> :DlvTest<cr>
+nnoremap <buffer> <f7> :DlvToggleBreakpoint<cr>
+nnoremap <buffer> <f8> :DlvToggleTracepoint<cr>
+
+
+" command! -nargs=* -bang GoDebug call godebug#debug(<bang>0, 0, <f-args>)
+" nnoremap <f5> :GoDebug<cr>
+" command! -nargs=* -bang GoDebugTestNvim call godebug#debugtest(<bang>0, 0, <f-args>)
+" nnoremap <f6> :GoDebugTestNvim<cr>
+" command! -nargs=* -bang GoToggleBreakpointNvim call godebug#toggleBreakpoint(expand('%:p'), line('.'), <f-args>)
+" nnoremap <f7> :GoToggleBreakpointNvim<cr>
+
 
 let g:cm_auto_popup=1
 
@@ -108,6 +127,7 @@ let g:tagbar_type_go = {
     \ 'ctagsargs' : '-sort -silent'
 \ }
 
+let g:neomake_go_enabled_makers = [ 'go', 'gometalinter' ]
 let g:neomake_go_gometalinter_maker = {
   \ 'args': [
   \   '--enable-all',
@@ -126,21 +146,3 @@ let g:neomake_go_gometalinter_maker = {
   \   '%E%f:%l::%trror: %m,' .
   \   '%W%f:%l::%tarning: %m'
 \ }
-let g:neomake_go_enabled_makers = [ 'go', 'gometalinter' ]
-
-command! -nargs=* -bang GoDebug call godebug#debug(<bang>0, 0, <f-args>)
-nnoremap <f5> :GoDebug<cr>
-command! -nargs=* -bang GoDebugTestNvim call godebug#debugtest(<bang>0, 0, <f-args>)
-nnoremap <f6> :GoDebugTestNvim<cr>
-command! -nargs=* -bang GoToggleBreakpointNvim call godebug#toggleBreakpoint(expand('%:p'), line('.'), <f-args>)
-nnoremap <f7> :GoToggleBreakpointNvim<cr>
-
-" let g:delve_new_command = 'new'
-let g:delve_backend = "native"
-nnoremap <f5> :DlvDebug<cr>
-nnoremap <f6> :DlvTest<cr>
-nnoremap <f7> :DlvToggleBreakpoint<cr>
-nnoremap <f8> :DlvToggleTracepoint<cr>
-
-nnoremap <leader>d :GoDeclsDir<cr>
-nnoremap <F10> :GoTest -short<cr>

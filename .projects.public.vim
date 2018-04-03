@@ -8,7 +8,7 @@ function! Zf1(...) abort
 
     nnoremap <silent> <leader>w :w<cr>
 
-    nnoremap <silent> <leader>tu :call SwitchBetweenFiles('php', 'tests/', 'library/', 'Test')<cr>
+    nnoremap <silent> <m-a> :call SwitchBetweenFiles('php', 'tests/', 'library/', 'Test')<cr>
     nnoremap <silent> <leader>tsu <c-w>v:call SwitchBetweenFiles('php', 'tests/', 'library/', 'Test')<cr>
     " autocmd FileType php set omnifunc=phpcd
     nnoremap <silent> gd g<c-]>
@@ -31,7 +31,7 @@ function! Symfony(...) abort
     " nnoremap <silent> <c-s> gg=G:update<cr>:Silent php-cs-fixer fix %:p<cr>:Silent phpcbf --standard=Symfony3Custom %:p > /dev/null<cr>:e<cr>:w<cr>
     " nnoremap <silent> <c-s> :update<cr>:Silent php-cs-fixer fix %:p<cr>:Silent phpcbf %:p > /dev/null<cr>:e<cr>:w<cr>
 
-    nnoremap <leader>tu :call SymfonySwitchToAlternateFile()<cr>
+    nnoremap <m-a> :call SymfonySwitchToAlternateFile()<cr>
     nnoremap <leader>tsu <c-w>v:call SymfonySwitchToAlternateFile()<cr>
     nnoremap <silent> gd :call phpactor#GotoDefinition()<CR>
     nnoremap <silent> gr :call phpactor#FindReferences()<CR>

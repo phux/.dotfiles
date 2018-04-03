@@ -1,4 +1,5 @@
 augroup php
+  au!
   au BufNewFile,BufRead *.phtml set ft=php.html
   au BufNewFile,BufRead,BufWinEnter *Test.php exe ":UltiSnipsAddFiletypes php.phpunit"
   au BufNewFile,BufRead,BufWinEnter *Spec.php exe ":UltiSnipsAddFiletypes php.php-phpspec"
@@ -7,10 +8,12 @@ augroup END
 
 setlocal tabstop=4 shiftwidth=4 
 
+let g:cm_auto_popup=1
+
 nnoremap <buffer> <silent> <leader>W :w<cr>:PadawanGenerate<cr>
-nnoremap <buffer> <leader>ta :call SymfonySwitchToAlternateFile()<cr>
+nnoremap <buffer> <m-a> :call SymfonySwitchToAlternateFile()<cr>
 nnoremap <buffer> <leader>tsa <c-w>v:call SymfonySwitchToAlternateFile()<cr>
-nnoremap <buffer> <m-m> :call PHPUnitSetupMethod()<cr>
+" nnoremap <buffer> <m-m> :call PHPUnitSetupMethod()<cr>
 nnoremap <buffer> <leader>rrp :call PhpRenameClassVariable()<CR>
 nnoremap <buffer> <leader>rrm :call PhpRenameMethod()<CR>
 nnoremap <buffer> <leader>reu :call PhpExtractUse()<CR>
@@ -24,7 +27,7 @@ nnoremap <buffer> <leader>H :call PhpConstructorArgumentMagic2()<cr>
 nnoremap <buffer> <leader>rmc :call PHPMoveClass()<cr>
 nnoremap <buffer> <leader>rmd :call PHPMoveDir()<cr>
 nnoremap <buffer> <leader>rcc :call PhpConstructorArgumentMagic()<cr>
-nnoremap <buffer> <m-a> :call phpactor#ContextMenu()<cr>
+nnoremap <buffer> <m-m> :call phpactor#ContextMenu()<cr>
 nnoremap <buffer> <leader>ric :call PHPModify("implement_contracts")<cr>
 nnoremap <buffer> <leader>rap :call PHPModify("add_missing_properties")<cr>
 nnoremap <buffer> <leader>rei :call PHPExtractInterface()<cr>
