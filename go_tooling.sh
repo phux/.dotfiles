@@ -1,6 +1,6 @@
-#!/usr/bin/env zsh
+#!/bin/sh
 
-mkdir -p $HOME/code/go/{src,bin,pkg}
+mkdir -p $HOME/code/go/{bin,pkg,src}
 curl -s -S -L https://raw.githubusercontent.com/moovweb/gvm/master/binscripts/gvm-installer | sh
 gvm install go1.4 -B
 gvm use go1.4
