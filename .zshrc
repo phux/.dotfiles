@@ -1,5 +1,6 @@
 PROMPT_LEAN_COLOR2=120
 
+export NVM_LAZY_LOAD=true
 source ~/.zsh_plugins.sh
 
 alias update_antibody='antibody bundle < ~/.zsh_plugins.txt  > ~/.zsh_plugins.sh'
@@ -118,14 +119,6 @@ my-backward-delete-word() {
 zle -N my-backward-delete-word
 bindkey '^W' my-backward-delete-word
 
-function setgov ()
-{
-     for i in {0..7};
-     do
-         sudo cpufreq-set -c $i -g $1; 
-     done
-}
-
 # Modified version where you can press
 #   - CTRL-O to open with `open` command,
 #   - CTRL-E or Enter key to open with the $EDITOR
@@ -162,7 +155,7 @@ FZF-EOF"
 }
 
 bindkey -e
-PATH=/home/jm/.gvm/bin:/home/jm/.cargo/bin:/home/jm/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/home/jm/.composer/vendor/bin:/home/jm/go/bin:/home/jm/.fzf/bin:/home/jm/.gvm/gos/go1.10/bin
+export PATH=$HOME/.rbenv/bin:/home/jm/.gvm/bin:/home/jm/.cargo/bin:/home/jm/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/home/jm/.composer/vendor/bin:/home/jm/go/bin:/home/jm/.fzf/bin:/home/jm/.gvm/gos/go1.10/bin:$PATH
 
 alias sukablyad='sudo'
 alias fucking=sudo
@@ -190,4 +183,4 @@ alias gtb='go test -bench .'
 
 alias ez='n ~/.zshrc'
 
-source ~/gruvbox.sh
+source ~/.gruvbox.sh

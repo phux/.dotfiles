@@ -1,8 +1,10 @@
 # djui/alias-tips
 
 robbyrussell/oh-my-zsh folder:plugins/tmuxinator
+robbyrussell/oh-my-zsh folder:plugins/tmux
+zsh-users/zsh-syntax-highlighting
+lukechilds/zsh-nvm
 # robbyrussell/oh-my-zsh folder:themes/
-# zsh-users/zsh-syntax-highlighting
 # zsh-users/zsh-completions
 
 # prompt

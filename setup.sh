@@ -17,6 +17,8 @@ function installIt() {
     ln -fs "$DIR/.zsh_plugins.txt" $HOME/
     # compile initially
     antibody bundle < ~/.zsh_plugins.txt  > ~/.zsh_plugins.sh
+    ln -fs "$DIR/gruvbox.sh" $HOME/.gruvbox.sh
+    source ~/.zshrc
 
     NVIM_DIR="$HOME/.config/nvim"
     echo 'linking init.vim'
@@ -49,6 +51,34 @@ function installIt() {
         cd ..
         rm -rf fonts
     fi
+
+    # mmh
+    echo 'Installing Node'
+    # curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.8/install.sh | bash
+    nvm install node
+
+    echo 'Installing pip'
+    curl -o- https://bootstrap.pypa.io/get-pip.py | python
+
+    echo 'Installing rbenv'
+    git clone https://github.com/rbenv/rbenv.git ~/.rbenv
+    cd ~/.rbenv && src/configure && make -C src
+    ~/.rbenv/bin/rbenv init
+
+    echo 'Installing linters'
+    sudo pip install --upgrade pyflakes
+    sudo pip install --upgrade flake8
+    sudo pip install --upgrade proselint
+
+    npm install -g write-good
+    gem install mdl
+    npm install -g markdownlint-cli
+    npm install jsonlint -g
+    npm install -g stylelint
+    gem install scss_lint
+    sudo apt-get install shellcheck
+    gem install sqlint
+    sudo pip install yamllint
 }
 
 if [ "$1" == "--force" -o "$1" == "-f" ]; then
