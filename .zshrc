@@ -18,7 +18,10 @@ export FZF_DEFAULT_COMMAND='rg --colors 'match:bg:yellow' --colors 'match:fg:bla
 export GOPATH="$HOME/code/go"
 export LGOBIN="$HOME/code/go/bin"
 export FZF_BIN_PATH="$HOME/.fzf/bin"
-export PATH=$PATH:$HOME/.rbenv/bin:$HOME/.cargo/bin:$HOME/bin:$HOME/.composer/vendor/bin:$HOME/code/go/bin:$HOME/.gvm/gos/go1.10/bin:$HOME/.gvm/bin:$LGOBIN:$FZF_BIN_PATH
+export PATH=$PATH:$HOME/.rbenv/bin:$HOME/.rbenv/shims/$HOME/.cargo/bin:$HOME/bin:$HOME/.composer/vendor/bin:$HOME/code/go/bin:$HOME/.gvm/gos/go1.10/bin:$HOME/.gvm/bin:$LGOBIN:$FZF_BIN_PATH
+
+eval "$(rbenv init -)"
+
 export TMP=/tmp
 export TMPDIR=/tmp
 
@@ -177,4 +180,3 @@ alias gtb='go test -bench .'
 alias ez='n ~/.zshrc'
 
 source ~/.gruvbox.sh
-PATH=/home/jm/.gvm/pkgsets/go1.10/global/bin:/home/jm/.gvm/gos/go1.10/bin:/home/jm/.gvm/pkgsets/go1.10/global/overlay/bin:/home/jm/.gvm/bin:/home/jm/.gvm/bin:/home/jm/.gvm/pkgsets/go1.10/global/bin:/home/jm/.gvm/gos/go1.10/bin:/home/jm/.gvm/pkgsets/go1.10/global/overlay/bin:/home/jm/.gvm/bin:/home/jm/.gvm/bin:/home/jm/.cargo/bin:/home/jm/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/home/jm/.composer/vendor/bin:/home/jm/.gvm/gos/go1.8/bin:/home/jm/.rbenv/bin:/home/jm/.cargo/bin:/home/jm/bin:/home/jm/.composer/vendor/bin:/home/jm/code/go/bin:/home/jm/.gvm/gos/go1.10/bin:/home/jm/.gvm/bin:/home/jm/code/go/bin:/home/jm/.fzf/bin:/home/jm/.rbenv/bin:/home/jm/.cargo/bin:/home/jm/bin:/home/jm/.composer/vendor/bin:/home/jm/code/go/bin:/home/jm/.gvm/gos/go1.10/bin:/home/jm/.gvm/bin:/home/jm/code/go/bin:/home/jm/.fzf/bin:/home/jm/.composer/vendor/bin
