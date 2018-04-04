@@ -76,7 +76,7 @@ function! GoExtractVariable()
 endfunction
 
 let g:go_list_type = "locationlist"
-let g:go_bin_path = expand("~/.gvm/gos/go1.10/bin")
+let g:go_bin_path = expand("~/.gvm/gos/go1.10.1/bin")
 " Enable syntax highlighting per default
 let g:go_highlight_types = 1
 let g:go_highlight_fields = 1
