@@ -1,12 +1,15 @@
 #!/bin/sh
+if [ ! -d "$HOME/bin" ]; then
+    mkdir -p "$HOME/bin"
+fi
 
 if which composer >/dev/null; then
     echo "Updating composer"
-    sudo composer self-update
+    composer self-update
 else
     echo "Installing composer"
     curl -sS https://getcomposer.org/installer | php
-    sudo mv composer.phar /usr/local/bin/composer
+    mv composer.phar $HOME/bin/composer
 fi
 
 composerDir="$HOME/.composer"
@@ -59,9 +62,6 @@ if ! grep -q "sensiolabs/security-checker" "$composerJson"; then
 fi
 
 echo "Installing phars"
-if [ ! -d "$HOME/bin" ]; then
-    mkdir -p "$HOME/bin"
-fi
 
 typehintPhar="$HOME/bin/phpdoc-to-typehint.phar"
 if [ ! -f $typehintPhar ]; then
@@ -75,17 +75,6 @@ if [ ! -f $refactoringPhar ]; then
     wget -o $refactoringPhar https://github.com/QafooLabs/php-refactoring-browser/releases/download/v0.1/refactor.phar
     chmod +x $refactoringPhar
     echo "Installed $refactoringPhar"
-fi
-
-phpactorExecutable="$HOME/bin/phpactor"
-if [ ! -f $phpactorExecutable ]; then
-    mkdir ~/.tooling/
-    git clone https://github.com/phpactor/phpactor.git ~/.tooling/phpactor
-    cd ~/.tooling/phpactor && composer install
-    cd -
-    ln -fs ~/.tooling/phpactor/bin/phpactor $phpactorExecutable
-    chmod +x $phpactorExecutable
-    echo "Installed $phpactorExecutable"
 fi
 
 echo "PHP tooling complete"
