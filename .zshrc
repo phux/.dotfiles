@@ -13,23 +13,21 @@ export TERM=xterm-256color
 # same colors as ag
 export FZF_DEFAULT_COMMAND='rg --colors 'match:bg:yellow' --colors 'match:fg:black' --colors 'match:style:nobold' --colors 'path:fg:green' --colors 'path:style:bold' --colors 'line:fg:yellow' --colors 'line:style:bold'  --files --smart-case --hidden --follow --sort-files --glob "!.git/*"'
 
+
 [[ -s "$HOME/.gvm/scripts/gvm" ]] && source "$HOME/.gvm/scripts/gvm"
-export GOPATH="$HOME/go"
-export LGOBIN="$HOME/go/bin"
+export GOPATH="$HOME/code/go"
+export LGOBIN="$HOME/code/go/bin"
 export FZF_BIN_PATH="$HOME/.fzf/bin"
-export PATH=$PATH:~/bin:$LGOBIN:$FZF_BIN_PATH
+export PATH=$PATH:$HOME/.rbenv/bin:$HOME/.cargo/bin:$HOME/bin:$HOME/.composer/vendor/bin:$HOME/code/go/bin:$HOME/.gvm/gos/go1.10/bin:$HOME/.gvm/bin:$LGOBIN:$FZF_BIN_PATH
 export TMP=/tmp
 export TMPDIR=/tmp
 
-# Increase Bash history size. Allow 32³ entries; the default is 500.
 HISTSIZE='32768';
 HISTFILESIZE="${HISTSIZE}";
 HISTFILE="$HOME/.zsh_history"
 SAVEHIST=32768
-HISTDUP=erase               #Erase duplicates in the history file
-setopt    appendhistory     #Append history to the history file (no overwriting)
-setopt    sharehistory      #Share history across terminals
-setopt    incappendhistory  #Immediately append to the history file, not just when a term is killed
+HISTDUP=erase 
+setopt appendhistory             #Append history to the history file (no overwriting)
 setopt BANG_HIST                 # Treat the '!' character specially during expansion.
 setopt EXTENDED_HISTORY          # Write the history file in the ":start:elapsed;command" format.
 setopt INC_APPEND_HISTORY        # Write to the history file immediately, not when the shell exits.
@@ -42,6 +40,9 @@ setopt HIST_IGNORE_SPACE         # Don't record an entry starting with a space.
 setopt HIST_SAVE_NO_DUPS         # Don't write duplicate entries in the history file.
 setopt HIST_REDUCE_BLANKS        # Remove superfluous blanks before recording entry.
 setopt HIST_VERIFY               # Don't execute immediately upon history expansion.
+setopt CORRECT
+setopt AUTO_CD
+setopt AUTO_PUSHD PUSHD_TO_HOME
 
 # Prefer US English and use UTF-8.
 export LANG='en_US.UTF-8';
@@ -106,11 +107,7 @@ alias gstaa='git stash apply'
 alias canihazinterwebz='sudo dhclient -r;sudo dhclient &'
 alias tw='mux shell'
 
-setopt AUTO_CD
-setopt AUTO_PUSHD PUSHD_TO_HOME
 alias d='dirs -v'
-
-setopt CORRECT
 
 my-backward-delete-word() {
     local WORDCHARS=${WORDCHARS/\//}
@@ -155,10 +152,6 @@ FZF-EOF"
 }
 
 bindkey -e
-export PATH=$HOME/.rbenv/bin:/home/jm/.gvm/bin:/home/jm/.cargo/bin:/home/jm/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/home/jm/.composer/vendor/bin:/home/jm/go/bin:/home/jm/.fzf/bin:/home/jm/.gvm/gos/go1.10/bin:$PATH
-
-alias sukablyad='sudo'
-alias fucking=sudo
 
 alias behat='dce php vendor/bin/behat'
 alias "vendor/bin/behat"="dce php vendor/bin/behat"

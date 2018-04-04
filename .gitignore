@@ -1,0 +1,8 @@
+tags
+.scratch.vim
+.php_cs.cache
+.cfg
+.padawan
+.gtm
+phpactor.log
+npm-debug.log

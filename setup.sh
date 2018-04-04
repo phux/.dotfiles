@@ -33,9 +33,9 @@ function installIt() {
     echo 'linking tmux conf'
     ln -fs "$DIR/.tmux.conf" $HOME/
 
-    echo 'setting up git hooks'
-    ln -fs "$DIR/.git_templates" $HOME/
-    git config --global init.templatedir '~/.git_templates'
+    echo 'setting up git'
+    ln -fs "$DIR/git_ignore" "$HOME/.git_ignore"
+    git config --global init.templatedir "$DIR/.git_templates"
 
     echo 'running php tooling setup'
     sh "$DIR/php-tooling.sh"
