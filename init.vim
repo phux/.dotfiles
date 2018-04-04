@@ -1,8 +1,8 @@
 if empty(glob('~/.config/nvim/autoload/plug.vim'))
-    silent !curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs
-                \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-    autocmd!
-    autocmd VimEnter * PlugInstall
+  silent !curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs
+        \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+  autocmd!
+  autocmd VimEnter * PlugInstall
 endif
 
 call plug#begin('~/.config/nvim/plugged')
@@ -46,7 +46,7 @@ Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 
 Plug 'roxma/nvim-completion-manager'
 
-Plug 'neomake/neomake'
+Plug '~/code/neomake'
 
 Plug '~/code/ncm-phpactor', {'for': 'php'}
 Plug 'padawan-php/deoplete-padawan', {'for': 'php'}
@@ -59,7 +59,7 @@ Plug 'adoy/vim-php-refactoring-toolbox', {'for': 'php'}
 Plug 'phpactor/phpactor', {'for': 'php', 'do': ':call phpactor#Update()' }
 Plug 'lvht/phpcd.vim', { 'for': 'php', 'do': 'composer install' }
 
-Plug 'fatih/vim-go', {'for': 'go'}
+Plug 'fatih/vim-go', {'for': 'go', 'do': ':GoUpdateBinaries'}
 " Plug 'jodosha/vim-godebug', {'for': 'go'}
 Plug 'sebdah/vim-delve', {'for': 'go'}
 Plug 'godoctor/godoctor.vim', {'for': 'go'}
@@ -122,6 +122,8 @@ Plug 'mtth/scratch.vim'
 
 Plug 'junegunn/vim-peekaboo'
 
+Plug 'sjl/gundo.vim', {'on': 'GundoToggle'}
+
 Plug 'aserebryakov/vim-todo-lists'
 call plug#end()
 
@@ -161,9 +163,9 @@ if has('patch-7.3.541')
   set formatoptions+=j
 endif
 " if has('patch-7.4.338')
-  let &showbreak = '↳ '
+let &showbreak = '↳ '
 "   set breakindent
-  set breakindentopt=sbr
+set breakindentopt=sbr
 " endif
 
 set formatoptions-=o                  " do not continue comment using o or O
@@ -188,37 +190,37 @@ augroup END
 augroup js
   au!
 
-    au FileType javascript setlocal omnifunc=tern#Complete
-    au FileType javascript setlocal omnifunc=tern#Complete
-    au FileType javascript LanguageClientStart
-    au FileType typescript LanguageClientStart
-    au FileType typescript nnoremap <buffer> gd :TSDef<CR>
-    au FileType typescript nnoremap <buffer> gr :TSRefs<CR>
-    au FileType typescript nnoremap <buffer> K :TSDefPreview<cr>
+  au FileType javascript setlocal omnifunc=tern#Complete
+  au FileType javascript setlocal omnifunc=tern#Complete
+  au FileType javascript LanguageClientStart
+  au FileType typescript LanguageClientStart
+  au FileType typescript nnoremap <buffer> gd :TSDef<CR>
+  au FileType typescript nnoremap <buffer> gr :TSRefs<CR>
+  au FileType typescript nnoremap <buffer> K :TSDefPreview<cr>
 augroup END
 
 augroup everything
-    au!
+  au!
 
-    au FileType yaml setl sw=2 sts=2 et
-    au BufNewFile,BufRead *.yml.dist set ft=yaml
-    au FileType ruby setl sw=2 sts=2 et
-    au BufRead,BufNewFile *.conf setf config
-    au BufNewFile,BufRead composer.lock set ft=json
+  au FileType yaml setl sw=2 sts=2 et
+  au BufNewFile,BufRead *.yml.dist set ft=yaml
+  au FileType ruby setl sw=2 sts=2 et
+  au BufRead,BufNewFile *.conf setf config
+  au BufNewFile,BufRead composer.lock set ft=json
 
-    au FileType scratch :call VimTodoListsInit()
-    au FileType todo nnoremap <buffer> <cr> :VimTodoListsToggleItem<CR>
+  au FileType scratch :call VimTodoListsInit()
+  au FileType todo nnoremap <buffer> <cr> :VimTodoListsToggleItem<CR>
 
-    au FileType css setlocal omnifunc=csscomplete#CompleteCSS
-    au FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
-    au FileType html,xml inoremap <buffer> <m-;> </<c-x><c-o>
-    au FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
-    au FileType xml   setlocal makeprg=xmllint\ -
-    au FileType json  setlocal equalprg=python\ -mjson.tool
+  au FileType css setlocal omnifunc=csscomplete#CompleteCSS
+  au FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+  au FileType html,xml inoremap <buffer> <m-;> </<c-x><c-o>
+  au FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+  au FileType xml   setlocal makeprg=xmllint\ -
+  au FileType json  setlocal equalprg=python\ -mjson.tool
 
-    autocmd FileType gitcommit nnoremap <buffer> <leader>w :call PrependTicketNumber()<cr>
-    autocmd FileType gitv nmap <buffer> <silent> <C-n> <Plug>(gitv-previous-commit)
-    autocmd FileType gitv nmap <buffer> <silent> <C-p> <Plug>(gitv-next-commit)
+  autocmd FileType gitcommit nnoremap <buffer> <leader>w :call PrependTicketNumber()<cr>
+  autocmd FileType gitv nmap <buffer> <silent> <C-n> <Plug>(gitv-previous-commit)
+  autocmd FileType gitv nmap <buffer> <silent> <C-p> <Plug>(gitv-next-commit)
 augroup END
 
 let g:LanguageClient_diagnosticsEnable  = 0
@@ -226,9 +228,9 @@ let g:LanguageClient_diagnosticsList = ''
 let g:LanguageClient_signColumnAlwaysOn = 0
 let g:LanguageClient_selectionUI = 'fzf'
 let g:LanguageClient_serverCommands = {
-            \ 'javascript.jsx': ['~/compiles/javascript-typescript-langserver/lib/language-server-stdio.js'],
-            \ 'typescript': ['~/compiles/javascript-typescript-langserver/lib/language-server-stdio.js']
-            \ }
+      \ 'javascript.jsx': ['~/compiles/javascript-typescript-langserver/lib/language-server-stdio.js'],
+      \ 'typescript': ['~/compiles/javascript-typescript-langserver/lib/language-server-stdio.js']
+      \ }
 
 set encoding=utf-8
 set fileformats=unix,dos,mac    " Prefer Unix over Windows over OS 9 formats
@@ -241,6 +243,11 @@ set nojoinspaces
 set nobackup
 set nowritebackup
 set noswapfile
+
+set undofile " Maintain undo history between sessions
+set undodir=~/.vim_undodir
+
+
 " }}}
 
 
@@ -414,21 +421,21 @@ set nostartofline
 
 
 
-nnoremap <c-p> :lpre<cr>
-nnoremap <c-n> :lnext<cr>
+nmap <c-p> <Plug>(qf_loc_previous)
+nmap <c-n> <Plug>(qf_loc_next)
 let g:qf_loc_toggle_binds = 0
 function! ToggleQfLocListBinds()
-    if g:qf_loc_toggle_binds == 1
-        nmap <c-p> :lpre<cr>
-        nmap <c-n> :lnext<cr>
-        let g:qf_loc_toggle_binds = 0
-        echo "loc binds loaded"
-    else
-        let g:qf_loc_toggle_binds = 1
-        nmap <c-p> :cpre<cr>
-        nmap <c-n> :cne<cr>
-        echo "qf binds loaded"
-    endif
+  if g:qf_loc_toggle_binds == 1
+    nmap <c-p> <Plug>(qf_loc_previous)
+    nmap <c-n> <Plug>(qf_loc_next)
+    let g:qf_loc_toggle_binds = 0
+    echo "loc binds loaded"
+  else
+    let g:qf_loc_toggle_binds = 1
+    nmap <c-p> <Plug>(qf_qf_previous)
+    nmap <c-n> <Plug>(qf_qf_next)
+    echo "qf binds loaded"
+  endif
 endfunction
 nmap <Down> :call ToggleQfLocListBinds()<cr>
 
@@ -438,13 +445,13 @@ nnoremap <leader>A :exec "Ag ".expand("<cword>")<cr>
 nnoremap <leader>x <c-w>c
 
 function! PrependTicketNumber()
-    normal gg
-    let l:branch = system("echo $(git branch | grep '*')")
-    let l:branchName = substitute(l:branch, '\* \(.*\)', '\1', '')
-    let l:ticketNumber = substitute(l:branchName, '\(\w\+-\d\+\).*', '\1', '')
-    exe "normal i[".l:ticketNumber."] "
-    normal! kJx
-    :startinsert!
+  normal gg
+  let l:branch = system("echo $(git branch | grep '*')")
+  let l:branchName = substitute(l:branch, '\* \(.*\)', '\1', '')
+  let l:ticketNumber = substitute(l:branchName, '\(\w\+-\d\+\).*', '\1', '')
+  exe "normal i[".l:ticketNumber."] "
+  normal! kJx
+  :startinsert!
 endfunction
 
 " Move by screen line not file line
@@ -503,26 +510,26 @@ nnoremap dg2 :diffget //2<cr>
 " 'Test' as in /path/MyServiceTest.php
 
 function! SwitchBetweenFiles(fileExtension, firstDirBeginning, secondDirBeginning, filenameAddition)
-    let f = bufname("%")
-    if f =~ '.'.a:fileExtension
-        if f =~ '\<'.a:firstDirBeginning && f =~ a:filenameAddition.'\.'.a:fileExtension
-            let filename = substitute(substitute(f, a:firstDirBeginning, '', ''), a:filenameAddition, '', '')
-            if !filereadable(filename)
-                let new_dir = substitute(filename, '/\w\+\.'.a:fileExtension, '', '')
-                exe ":!mkdir -p ".new_dir
-            endif
-            exe ":e ".filename
-        elseif f =~ '\<'.a:secondDirBeginning && f !~ a:filenameAddition.'\.'.a:fileExtension
-            let filename = substitute(substitute(f, a:secondDirBeginning, a:firstDirBeginning.a:secondDirBeginning, ''), '.'.a:fileExtension, a:filenameAddition.'.'.a:fileExtension, '')
-            if !filereadable(filename)
-                let new_dir = substitute(filename, '/\w\+'.a:filenameAddition.'\.'.a:fileExtension, '', '')
-                exe ":!mkdir -p ".new_dir
-            endif
-            exe ":e ".filename
-        else
-            echom "Could not switch because needed patterns not matched."
-        endif
+  let f = bufname("%")
+  if f =~ '.'.a:fileExtension
+    if f =~ '\<'.a:firstDirBeginning && f =~ a:filenameAddition.'\.'.a:fileExtension
+      let filename = substitute(substitute(f, a:firstDirBeginning, '', ''), a:filenameAddition, '', '')
+      if !filereadable(filename)
+        let new_dir = substitute(filename, '/\w\+\.'.a:fileExtension, '', '')
+        exe ":!mkdir -p ".new_dir
+      endif
+      exe ":e ".filename
+    elseif f =~ '\<'.a:secondDirBeginning && f !~ a:filenameAddition.'\.'.a:fileExtension
+      let filename = substitute(substitute(f, a:secondDirBeginning, a:firstDirBeginning.a:secondDirBeginning, ''), '.'.a:fileExtension, a:filenameAddition.'.'.a:fileExtension, '')
+      if !filereadable(filename)
+        let new_dir = substitute(filename, '/\w\+'.a:filenameAddition.'\.'.a:fileExtension, '', '')
+        exe ":!mkdir -p ".new_dir
+      endif
+      exe ":e ".filename
+    else
+      echom "Could not switch because needed patterns not matched."
     endif
+  endif
 endfunction
 "}}}
 
@@ -530,18 +537,18 @@ command! -nargs=1 Silent execute ':silent !'.<q-args> | execute ':redraw!'
 
 
 command! -bang -nargs=* Rg
-  \ call fzf#vim#grep(
-  \   'rg --line-number --no-heading --ignore-case --follow --color=always --colors "match:bg:yellow" --colors "match:fg:black" --colors "match:style:nobold" --colors "path:fg:green" --colors "path:style:bold" --colors "line:fg:yellow" --colors "line:style:bold" '.shellescape(<q-args>), 1,
-  \   <bang>0 ? fzf#vim#with_preview('up:60%')
-  \           : fzf#vim#with_preview('right:50%:hidden', '?'),
-  \   <bang>0)
+      \ call fzf#vim#grep(
+      \   'rg --line-number --no-heading --ignore-case --follow --color=always --colors "match:bg:yellow" --colors "match:fg:black" --colors "match:style:nobold" --colors "path:fg:green" --colors "path:style:bold" --colors "line:fg:yellow" --colors "line:style:bold" '.shellescape(<q-args>), 1,
+      \   <bang>0 ? fzf#vim#with_preview('up:60%')
+      \           : fzf#vim#with_preview('right:50%:hidden', '?'),
+      \   <bang>0)
 " --no-ignore for searching in all files
 command! -bang -nargs=* RgRaw
-  \ call fzf#vim#grep(
-  \   'rg --no-ignore --line-number --no-heading --ignore-case --follow --hidden --color=always --colors "match:bg:yellow" --colors "match:fg:black" --colors "match:style:nobold" --colors "path:fg:green" --colors "path:style:bold" --colors "line:fg:yellow" --colors "line:style:bold" '.shellescape(<q-args>), 1,
-  \   <bang>0 ? fzf#vim#with_preview('up:60%')
-  \           : fzf#vim#with_preview('right:50%:hidden', '?'),
-  \   <bang>0)
+      \ call fzf#vim#grep(
+      \   'rg --no-ignore --line-number --no-heading --ignore-case --follow --hidden --color=always --colors "match:bg:yellow" --colors "match:fg:black" --colors "match:style:nobold" --colors "path:fg:green" --colors "path:style:bold" --colors "line:fg:yellow" --colors "line:style:bold" '.shellescape(<q-args>), 1,
+      \   <bang>0 ? fzf#vim#with_preview('up:60%')
+      \           : fzf#vim#with_preview('right:50%:hidden', '?'),
+      \   <bang>0)
 let g:ackprg = 'rg --vimgrep --no-heading'
 
 command! -bang -nargs=* FZFAllFiles call fzf#run({'source': 'find * -type f', 'sink': 'e'})
@@ -556,8 +563,8 @@ function! s:ag_handler(lines)
   if len(a:lines) < 2 | return | endif
 
   let cmd = get({'ctrl-x': 'split',
-               \ 'ctrl-v': 'vertical split',
-               \ 'ctrl-t': 'tabe'}, a:lines[0], 'e')
+        \ 'ctrl-v': 'vertical split',
+        \ 'ctrl-t': 'tabe'}, a:lines[0], 'e')
   let list = map(a:lines[1:], 's:ag_to_qf(v:val)')
 
   let first = list[0]
@@ -573,48 +580,48 @@ function! s:ag_handler(lines)
 endfunction
 
 command! -nargs=* Ag call fzf#run({
-\ 'source':  printf('ag --nogroup --column --color "%s"',
-\                   escape(empty(<q-args>) ? '^(?=.)' : <q-args>, '"\')),
-\ 'sink*':    function('<sid>ag_handler'),
-\ 'options': '--ansi --expect=ctrl-t,ctrl-v,ctrl-x --delimiter : --nth 4.. '.
-\            '--multi --bind=ctrl-a:select-all,ctrl-d:deselect-all '.
-\            '--color hl:68,hl+:110',
-\ 'down':    '50%'
-\ })
+      \ 'source':  printf('ag --nogroup --column --color "%s"',
+      \                   escape(empty(<q-args>) ? '^(?=.)' : <q-args>, '"\')),
+      \ 'sink*':    function('<sid>ag_handler'),
+      \ 'options': '--ansi --expect=ctrl-t,ctrl-v,ctrl-x --delimiter : --nth 4.. '.
+      \            '--multi --bind=ctrl-a:select-all,ctrl-d:deselect-all '.
+      \            '--color hl:68,hl+:110',
+      \ 'down':    '50%'
+      \ })
 
 set wildmenu
 set wildmode=list:longest,full
 
 
 function! s:align()
-    let p = '^\s*|\s.*\s|\s*$'
-    if exists(':Tabularize') && getline('.') =~# '^\s*|' && (getline(line('.')-1) =~# p || getline(line('.')+1) =~# p)
-        let column = strlen(substitute(getline('.')[0:col('.')],'[^|]','','g'))
-        let position = strlen(matchstr(getline('.')[0:col('.')],'.*|\s*\zs.*'))
-        Tabularize/|/l1
-        normal! 0
-        call search(repeat('[^|]*|',column).'\s\{-\}'.repeat('.',position),'ce',line('.'))
-    endif
+  let p = '^\s*|\s.*\s|\s*$'
+  if exists(':Tabularize') && getline('.') =~# '^\s*|' && (getline(line('.')-1) =~# p || getline(line('.')+1) =~# p)
+    let column = strlen(substitute(getline('.')[0:col('.')],'[^|]','','g'))
+    let position = strlen(matchstr(getline('.')[0:col('.')],'.*|\s*\zs.*'))
+    Tabularize/|/l1
+    normal! 0
+    call search(repeat('[^|]*|',column).'\s\{-\}'.repeat('.',position),'ce',line('.'))
+  endif
 endfunction
 
 function! DeleteInactiveBufs()
-    "From tabpagebuflist() help, get a list of all buffers in all tabs
-    let tablist = []
-    for i in range(tabpagenr('$'))
-        call extend(tablist, tabpagebuflist(i + 1))
-    endfor
+  "From tabpagebuflist() help, get a list of all buffers in all tabs
+  let tablist = []
+  for i in range(tabpagenr('$'))
+    call extend(tablist, tabpagebuflist(i + 1))
+  endfor
 
-    "Below originally inspired by Hara Krishna Dara and Keith Roberts
-    "http://tech.groups.yahoo.com/group/vim/message/56425
-    let nWipeouts = 0
-    for i in range(1, bufnr('$'))
-        if bufexists(i) && !getbufvar(i,"&mod") && index(tablist, i) == -1
-            "bufno exists AND isn't modified AND isn't in the list of buffers open in windows and tabs
-            silent exec 'bwipeout' i
-            let nWipeouts = nWipeouts + 1
-        endif
-    endfor
-    echomsg nWipeouts . ' buffer(s) wiped out'
+  "Below originally inspired by Hara Krishna Dara and Keith Roberts
+  "http://tech.groups.yahoo.com/group/vim/message/56425
+  let nWipeouts = 0
+  for i in range(1, bufnr('$'))
+    if bufexists(i) && !getbufvar(i,"&mod") && index(tablist, i) == -1
+      "bufno exists AND isn't modified AND isn't in the list of buffers open in windows and tabs
+      silent exec 'bwipeout' i
+      let nWipeouts = nWipeouts + 1
+    endif
+  endfor
+  echomsg nWipeouts . ' buffer(s) wiped out'
 endfunction
 
 command! Ball :call DeleteInactiveBufs()
@@ -635,8 +642,8 @@ nnoremap <m-z> :ScratchPreview<cr>
 set shortmess+=c
 
 let g:cm_sources_override = {
-\ 'cm-tags': {'enable':0}
-\ }
+      \ 'cm-tags': {'enable':0}
+      \ }
 let g:cm_complete_start_delay=20
 
 let g:netrw_banner = 0
@@ -648,10 +655,6 @@ let g:netrw_winsize = 25
 
 highlight Normal ctermbg=NONE
 highlight nonText ctermbg=NONE
-
-" workaround for single location list entries
-nmap <silent> <m-p> <Plug>qf_loc_previous              
-nmap <silent> <m-n> <Plug>qf_loc_next
 
 set cul
 
@@ -670,3 +673,16 @@ let g:vim_php_refactoring_use_default_mapping = 0
 command! -bang PadawanGenerate call deoplete#sources#padawan#Generate(<bang>0)
 
 so ~/.config/nvim/.projects.public.vim
+nnoremap <leader>u :GundoToggle<CR>
+let g:gundo_width = 60
+let g:gundo_preview_height = 40
+let g:gundo_right = 1
+
+let g:qf_loclist_window_bottom = 0
+let g:qf_nowrap = 0
+let g:qf_mapping_ack_style = 1
+
+let g:qf_statusline = {}
+let g:qf_statusline.before = '%<\ '
+let g:qf_statusline.after = '\ %f%=%l\/%-6L\ \ \ \ \ '
+
