@@ -40,6 +40,8 @@ function installIt() {
   nvim +GoUpdateBinaries +qall /tmp/needed_file.go
   gometalinter --install
 
+
+
   echo 'linking tmux conf'
   ln -fs "$DIR/.tmux.conf" $HOME/
 
@@ -85,7 +87,13 @@ function installIt() {
     rbenv global 2.5.1
   fi
 
+  echo 'Installing vim deps'
+  if ! type "livedown" > /dev/null; then
+    npm install -g livedown
+  fi
+
   echo 'Installing linters'
+
   if ! type "pyflakes" > /dev/null; then
     pip install --upgrade pyflakes
   fi
@@ -126,6 +134,7 @@ function installIt() {
   if ! type "shellcheck" > /dev/null; then
     sudo apt-get install shellcheck
   fi
+
 }
 
 vared -p "This may overwrite existing files in your home directory. Are you sure? (y/n) " -c tmp;
