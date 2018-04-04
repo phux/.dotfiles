@@ -1,13 +1,8 @@
-ZGEN_RESET_ON_CHANGE=(${HOME}/.zshrc)
-source ~/.zplug/init.zsh
-zplug "zplug/zplug", hook-build:"zplug --self-manage"
-zplug "plugins/gitfast", from:oh-my-zsh
-zplug "plugins/tmux", from:oh-my-zsh
-zplug "plugins/tmuxinator", from:oh-my-zsh
-zplug "themes/simple", from:oh-my-zsh, as:theme
-zplug "zsh-users/zsh-completions"
-zplug load
+PROMPT_LEAN_COLOR2=120
 
+source ~/.zsh_plugins.sh
+
+alias update_antibody='antibody bundle < ~/.zsh_plugins.txt  > ~/.zsh_plugins.sh'
 export EDITOR="nvim"
 export USE_EDITOR=$EDITOR
 export VISUAL=$EDITOR
@@ -87,6 +82,24 @@ alias gb="git for-each-ref --sort=committerdate refs/heads/ --format='%(committe
 # detailed view
 alias gbd="git for-each-ref --sort=committerdate refs/heads/ --format='%(HEAD) %(color:yellow)%(refname:short)%(color:reset) - %(color:red)%(objectname:short)%(color:reset) - %(contents:subject) - %(authorname) (%(color:green)%(committerdate:relative)%(color:reset))'"
 
+alias gstash='git stash --include-untracked'
+alias gst='git status'
+alias ga='git add'
+alias gc='git commit -v'
+alias gb='git branch'
+alias gcb='git checkout -b'
+alias gco='git checkout'
+alias gd='git diff'
+alias gfa='git fetch --all'
+alias glum='git pull upstream master'
+alias gpsup='git push --set-upstream origin $(git_current_branch)'
+alias gl='git pull'
+alias glog='git log --oneline --decorate --color --graph'
+alias gm='git merge'
+alias gp='git push'
+alias gsta='git stash save'
+alias gstaa='git stash apply'
+
 
 
 alias canihazinterwebz='sudo dhclient -r;sudo dhclient &'
@@ -149,12 +162,10 @@ FZF-EOF"
 }
 
 bindkey -e
-PATH=/home/jm/.gvm/bin:/home/jm/.zplug/repos/zplug/zplug/bin:/home/jm/.cargo/bin:/home/jm/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/home/jm/.composer/vendor/bin:/home/jm/go/bin:/home/jm/.fzf/bin:/home/jm/.gvm/gos/go1.10/bin
+PATH=/home/jm/.gvm/bin:/home/jm/.cargo/bin:/home/jm/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/home/jm/.composer/vendor/bin:/home/jm/go/bin:/home/jm/.fzf/bin:/home/jm/.gvm/gos/go1.10/bin
 
 alias sukablyad='sudo'
 alias fucking=sudo
-
-alias gstash='git stash --include-untracked'
 
 alias behat='dce php vendor/bin/behat'
 alias "vendor/bin/behat"="dce php vendor/bin/behat"
@@ -168,11 +179,15 @@ alias c='composer'
 alias ci='composer install'
 alias cu='composer update'
 
+alias upn='cd ~/compiles/neovim; git pull; make clean; make CMAKE_BUILD_TYPE=Release;sudo make install'
+
 alias airtame='/opt/airtame-application/launch-airtame.sh'
 
 alias efg='exercism fetch go'
 alias es='exercism submit'
 alias eg='cd $HOME/exercism/go/$(ls -t $HOME/exercism/go/ | head -1)'
 alias gtb='go test -bench .'
+
+alias ez='n ~/.zshrc'
 
 source ~/gruvbox.sh

@@ -12,10 +12,11 @@ function installIt() {
 
     echo 'setting up zsh'
     ln -fs "$DIR/.zshrc" $HOME/
-    if [ ! -d "$HOME/.zplug" ]; then
-        echo 'installing zplug for zsh'
-        curl -sL --proto-redir -all,https https://zplug.sh/installer | zsh
-    fi
+    echo 'installing antibody for zsh'
+    curl -sL git.io/antibody | bash -s
+    ln -fs "$DIR/.zsh_plugins.txt" $HOME/
+    # compile initially
+    antibody bundle < ~/.zsh_plugins.txt  > ~/.zsh_plugins.sh
 
     NVIM_DIR="$HOME/.config/nvim"
     echo 'linking init.vim'

@@ -1,0 +1,14 @@
+# djui/alias-tips
+
+robbyrussell/oh-my-zsh folder:plugins/tmuxinator
+# robbyrussell/oh-my-zsh folder:themes/
+# zsh-users/zsh-syntax-highlighting
+# zsh-users/zsh-completions
+
+# prompt
+miekg/lean
+# belak/pure-zsh-theme
+# yardnsm/blox-zsh-theme
+# carloscuesta/materialshell
+# akz92/clean
+# sindresorhus/pure
