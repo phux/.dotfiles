@@ -8,7 +8,8 @@ lukechilds/zsh-nvm
 # zsh-users/zsh-completions
 
 # prompt
-miekg/lean
+# miekg/lean
+phux/lean branch:pwd_position
 # belak/pure-zsh-theme
 # yardnsm/blox-zsh-theme
 # carloscuesta/materialshell
