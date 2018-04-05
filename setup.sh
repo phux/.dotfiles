@@ -37,7 +37,8 @@ function installIt() {
 
   echo 'Loading nvim plugins'
   nvim +PlugInstall +qall
-  nvim +GoUpdateBinaries +qall /tmp/needed_file.go
+  nvim +GoUpdateBinaries +GoDoctorInstall +qall /tmp/needed_file.go # opening file to load vim-go
+
   gometalinter --install
 
 
@@ -83,7 +84,7 @@ function installIt() {
     eval "$(rbenv init -)"
     mkdir -p "$(rbenv root)"/plugins
     git clone https://github.com/rbenv/ruby-build.git "$(rbenv root)"/plugins/ruby-build
-    rbenv install 2.5.1
+    rbenv install 2.5.1 #todo: figure out how to get latest version
     rbenv global 2.5.1
   fi
 
