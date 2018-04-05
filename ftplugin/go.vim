@@ -2,10 +2,12 @@ setlocal noexpandtab tabstop=4 shiftwidth=4
 
 nnoremap <buffer> <buffer> <leader>w :w<cr>
 
-nnoremap <buffer> <leader>h :call GoComment()<cr>
 nnoremap <buffer> <leader>gr :GoRename <c-r><c-w>
 vnoremap <buffer> <leader>em :Refactor extract 
-vnoremap <buffer> <leader>ev :call GoExtractVariable()<cr>
+vnoremap <buffer> <leader>ev :Refactor var 
+noremap <buffer> <leader>: :Refactor toggle<cr> 
+noremap <buffer> <leader>h :Refactor godoc<cr>
+" nnoremap <buffer> <leader>h :call GoComment()<cr>
 
 nnoremap <buffer> gr :GoReferrers<cr>
 nnoremap <buffer> <leader>gi :GoImplements<cr>
@@ -46,22 +48,22 @@ function! s:build_go_files()
 endfunction
 
 " Inserts comment boilerplate
-function! GoComment()
-  let l:currentLine = getline(".")
-  if l:currentLine =~ "^type "
-    normal! 0wywO// 
-    normal! pa.
-  endif
-  if l:currentLine =~ "^func "
-    normal! 0w
-    if l:currentLine =~ "^func \("
-      normal! %w
-    endif
-    normal! ywO// 
-    normal! pa .
-  endif
-  startinsert
-endfunction
+" function! GoComment()
+"   let l:currentLine = getline(".")
+"   if l:currentLine =~ "^type "
+"     normal! 0wywO// 
+"     normal! pa.
+"   endif
+"   if l:currentLine =~ "^func "
+"     normal! 0w
+"     if l:currentLine =~ "^func \("
+"       normal! %w
+"     endif
+"     normal! ywO// 
+"     normal! pa .
+"   endif
+"   startinsert
+" endfunction
 
 
 " visually mark the code you want to extract into variable
