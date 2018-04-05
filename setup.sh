@@ -52,6 +52,8 @@ function installIt() {
 
   echo 'running php tooling setup'
   sh "$DIR/php-tooling.sh"
+  ln -fs "$DIR/.easy-coding-standard5.yml" $HOME/
+  ln -fs "$DIR/.easy-coding-standard7.yml" $HOME/
 
   if [ ! -f "$HOME/.local/share/fonts/Hack-Regular.ttf" ]; then
     echo 'installing fonts'
