@@ -1,9 +1,11 @@
+WORDCHARS="${WORDCHARS//\/}"
+
 PROMPT_LEAN_COLOR2=120
 
 export NVM_LAZY_LOAD=true
 source ~/.zsh_plugins.sh
 
-alias update_antibody='antibody bundle < ~/.zsh_plugins.txt  > ~/.zsh_plugins.sh'
+alias update_antibody='antibody update; antibody bundle < ~/.zsh_plugins.txt  > ~/.zsh_plugins.sh'
 export EDITOR="nvim"
 export USE_EDITOR=$EDITOR
 export VISUAL=$EDITOR
@@ -107,6 +109,17 @@ alias gstaa='git stash apply'
 
 
 
+function git_current_branch() {
+  local ref
+  ref=$(command git symbolic-ref --quiet HEAD 2> /dev/null)
+  local ret=$?
+  if [[ $ret != 0 ]]; then
+    [[ $ret == 128 ]] && return  # no git repo.
+    ref=$(command git rev-parse --short HEAD 2> /dev/null) || return
+  fi
+  echo ${ref#refs/heads/}
+}
+
 alias canihazinterwebz='sudo dhclient -r;sudo dhclient &'
 alias tw='mux shell'
 
@@ -178,5 +191,6 @@ alias eg='cd $HOME/exercism/go/$(ls -t $HOME/exercism/go/ | head -1)'
 alias gtb='go test -bench .'
 
 alias ez='n ~/.zshrc'
+alias .d='cd ~/.dotfiles'
 
 source ~/.gruvbox.sh
