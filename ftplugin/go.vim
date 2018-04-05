@@ -1,6 +1,6 @@
 setlocal noexpandtab tabstop=4 shiftwidth=4
 
-nnoremap <buffer> <buffer> <leader>w :w<cr>
+nnoremap <silent><buffer> <leader>w :lclose<cr>:w<cr>
 
 nnoremap <buffer> <leader>gr :GoRename <c-r><c-w>
 vnoremap <buffer> <leader>em :Refactor extract 
