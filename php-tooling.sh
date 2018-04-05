@@ -27,9 +27,10 @@ if ! grep -q "hirak/prestissimo" "$composerJson"; then
 fi
 
 echo "setting up phpcs"
-if ! grep -q "object-calisthenics/phpcs-calisthenics-rules" "$composerJson"; then
-    composer global require "object-calisthenics/phpcs-calisthenics-rules"
-fi
+# if ! grep -q "object-calisthenics/phpcs-calisthenics-rules" "$composerJson"; then
+#     composer global require "object-calisthenics/phpcs-calisthenics-rules"
+# fi
+
 if ! grep -q "escapestudios/symfony2-coding-standard" "$composerJson"; then
     composer global require "escapestudios/symfony2-coding-standard"
 fi
@@ -41,8 +42,12 @@ if ! grep -q "phpmd/phpmd" "$composerJson"; then
     composer global require "phpmd/phpmd"
 fi
 
-if ! grep -q "phpstan/phpstan" "$composerJson"; then
-    composer global require "phpstan/phpstan"
+# if ! grep -q "phpstan/phpstan" "$composerJson"; then
+#     composer global require "phpstan/phpstan"
+# fi
+
+if ! grep -q "symplify/easy-coding-standard" "$composerJson"; then
+    composer global require "symplify/easy-coding-standard"
 fi
 
 if ! grep -q "jakub-onderka/php-parallel-lint" "$composerJson"; then
@@ -53,9 +58,9 @@ if ! grep -q "sebastian/phpcpd" "$composerJson"; then
     composer global require "sebastian/phpcpd"
 fi
 
-if ! grep -q "phpro/grumphp" "$composerJson"; then
-    composer global require "phpro/grumphp"
-fi
+# if ! grep -q "phpro/grumphp" "$composerJson"; then
+#     composer global require "phpro/grumphp"
+# fi
 
 if ! grep -q "sensiolabs/security-checker" "$composerJson"; then
     composer global require "sensiolabs/security-checker"

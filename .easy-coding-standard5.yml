@@ -1,0 +1,12 @@
+imports:
+  - {resource: '.composer/vendor/symplify/easy-coding-standard/config/psr2.yml'}
+  - {resource: '.composer/vendor/symplify/easy-coding-standard/config/clean-code.yml'}
+  - {resource: '.composer/vendor/symplify/easy-coding-standard/config/symplify.yml'}
+  - {resource: '.composer/vendor/symplify/easy-coding-standard/config/common.yml'}
+
+services:
+  # code complexity
+  PHP_CodeSniffer\Standards\Generic\Sniffs\Metrics\CyclomaticComplexitySniff:
+    absoluteComplexity: 8
+  PHP_CodeSniffer\Standards\Generic\Sniffs\Metrics\NestingLevelSniff:
+    absoluteNestingLevel: 3
