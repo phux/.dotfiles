@@ -125,6 +125,8 @@ Plug 'junegunn/vim-peekaboo'
 Plug 'sjl/gundo.vim', {'on': 'GundoToggle'}
 
 Plug 'aserebryakov/vim-todo-lists'
+
+Plug 'zhaocai/GoldenView.Vim'
 call plug#end()
 
 let mapleader = "\<Space>"
@@ -186,6 +188,9 @@ augroup nvim
   " no delay when ESC/jk
   au InsertEnter * set timeoutlen=100
   au InsertLeave * set timeoutlen=500
+
+  " fix issue when leaving vim
+  au WinEnter * :EnableGoldenViewAutoResize
 augroup END
 augroup js
   au!
@@ -297,8 +302,8 @@ let g:fzf_commits_log_options = '--graph --color=always --format="%C(auto)%h%d %
 vnoremap // "hy:exec "Ag ".escape('<C-R>h', "/\.*$^~[()")<cr>
 
 nnoremap <leader><Enter> :FZFMru<cr>
-nnoremap <leader>s :Rg<space>
-nnoremap <leader>S :exec "Rg ".expand("<cword>")<cr>
+" nnoremap <leader>s :Rg<space>
+" nnoremap <leader>S :exec "Rg ".expand("<cword>")<cr>
 
 nnoremap <leader><tab> :Buffers<cr>
 nnoremap <leader>, :Files<cr>
@@ -686,3 +691,7 @@ let g:qf_statusline = {}
 let g:qf_statusline.before = '%<\ '
 let g:qf_statusline.after = '\ %f%=%l\/%-6L\ \ \ \ \ '
 
+let g:goldenview__enable_default_mapping = 0
+let g:goldenview__enable_at_startup = 1
+nmap <silent> <leader>s <Plug>GoldenViewSplit
+nmap <silent> <m-g> <Plug>GoldenViewSwitchWithLargest
