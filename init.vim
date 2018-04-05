@@ -126,7 +126,7 @@ Plug 'sjl/gundo.vim', {'on': 'GundoToggle'}
 
 Plug 'aserebryakov/vim-todo-lists'
 
-Plug 'zhaocai/GoldenView.Vim'
+" Plug 'zhaocai/GoldenView.Vim'
 call plug#end()
 
 let mapleader = "\<Space>"
@@ -190,7 +190,7 @@ augroup nvim
   au InsertLeave * set timeoutlen=500
 
   " fix issue when leaving vim
-  au WinEnter * :EnableGoldenViewAutoResize
+  " au WinEnter * :EnableGoldenViewAutoResize
 augroup END
 augroup js
   au!
@@ -272,7 +272,7 @@ nnoremap <silent> p p`]
 nnoremap <leader>n :NERDTreeToggle<cr>
 nnoremap <leader>N :NERDTreeFind<cr>
 
-nnoremap <silent> <leader>w :w<cr>
+nnoremap <silent> <leader>w :lclose<cr>:w<cr> 
 
 let g:ultisnips_php_scalar_types = 1
 let g:UltiSnipsSnippetsDir = '~/.config/nvim/UltiSnips/'
@@ -312,7 +312,7 @@ nnoremap <leader>d :BTags<cr>
 nnoremap <leader>D :BTags <C-R><C-W><cr>
 nnoremap <leader>T :Tags<cr>
 nnoremap <leader>; :TagbarToggle<cr>
-set notagrelative
+" set notagrelative
 
 
 let g:project_use_nerdtree = 0
@@ -691,7 +691,7 @@ let g:qf_statusline = {}
 let g:qf_statusline.before = '%<\ '
 let g:qf_statusline.after = '\ %f%=%l\/%-6L\ \ \ \ \ '
 
-let g:goldenview__enable_default_mapping = 0
-let g:goldenview__enable_at_startup = 1
-nmap <silent> <leader>s <Plug>GoldenViewSplit
-nmap <silent> <m-g> <Plug>GoldenViewSwitchWithLargest
+" let g:goldenview__enable_default_mapping = 0
+" let g:goldenview__enable_at_startup = 0
+" nmap <silent> <leader>s <Plug>GoldenViewResize
+" nmap <silent> <m-g> <Plug>GoldenViewSwitchWithLargest
