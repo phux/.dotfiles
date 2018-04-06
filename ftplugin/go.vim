@@ -47,24 +47,6 @@ function! s:build_go_files()
   endif
 endfunction
 
-" Inserts comment boilerplate
-" function! GoComment()
-"   let l:currentLine = getline(".")
-"   if l:currentLine =~ "^type "
-"     normal! 0wywO// 
-"     normal! pa.
-"   endif
-"   if l:currentLine =~ "^func "
-"     normal! 0w
-"     if l:currentLine =~ "^func \("
-"       normal! %w
-"     endif
-"     normal! ywO// 
-"     normal! pa .
-"   endif
-"   startinsert
-" endfunction
-
 
 " visually mark the code you want to extract into variable
 " (for now only works with single line selection)
@@ -129,16 +111,28 @@ let g:tagbar_type_go = {
     \ 'ctagsargs' : '-sort -silent'
 \ }
 
+
+  " \ '--disable-all',
+  " \   '%:p:h',
 let g:neomake_go_enabled_makers = [ 'go', 'gometalinter' ]
+let g:neomake_go_enabled_makers = [ 'gometalinter' ]
 let g:neomake_go_gometalinter_maker = {
+  \ 'exe': 'zb',
   \ 'args': [
-  \   '--enable-all',
-  \   '--tests',
-  \   '--disable=lll',
-  \   '--disable=dupl',
-  \   '--concurrency=8',
-  \   '--fast',
-  \   '%:p:h',
+  \ 'lint',
+  \ '--enable=gas',
+  \ '--enable=goconst',
+  \ '--enable=gocyclo',
+  \ '--enable=golint',
+  \ '--enable=ineffassign',
+  \ '--enable=interfacer',
+  \ '--enable=maligned',
+  \ '--enable=megacheck',
+  \ '--enable=misspell',
+  \ '--enable=structcheck',
+  \ '--enable=unconvert',
+  \ '--enable=varcheck',
+  \ '--enable=vet',
   \ ],
   \ 'cwd': '%:h',
   \ 'append_file': 0,
