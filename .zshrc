@@ -6,6 +6,7 @@ export NVM_LAZY_LOAD=true
 source ~/.zsh_plugins.sh
 
 alias update_antibody='antibody update; antibody bundle < ~/.zsh_plugins.txt  > ~/.zsh_plugins.sh'
+
 export EDITOR="nvim"
 export USE_EDITOR=$EDITOR
 export VISUAL=$EDITOR
@@ -16,16 +17,12 @@ export TERM=xterm-256color
 export FZF_DEFAULT_COMMAND='rg --colors 'match:bg:yellow' --colors 'match:fg:black' --colors 'match:style:nobold' --colors 'path:fg:green' --colors 'path:style:bold' --colors 'line:fg:yellow' --colors 'line:style:bold'  --files --smart-case --hidden --follow --sort-files --glob "!.git/*"'
 
 
+
 [[ -s "$HOME/.gvm/scripts/gvm" ]] && source "$HOME/.gvm/scripts/gvm"
 export GOPATH="$HOME/code/go"
 export LGOBIN="$HOME/code/go/bin"
 export FZF_BIN_PATH="$HOME/.fzf/bin"
-export PATH=$PATH:$HOME/.rbenv/bin:$HOME/.rbenv/shims/$HOME/.cargo/bin:$HOME/bin:$HOME/.composer/vendor/bin:$HOME/code/go/bin:$HOME/.gvm/gos/go1.10/bin:$HOME/.gvm/bin:$LGOBIN:$FZF_BIN_PATH
-
-eval "$(rbenv init -)"
-
-export TMP=/tmp
-export TMPDIR=/tmp
+export PATH=$PATH:$HOME/.cargo/bin:$HOME/bin:$HOME/.composer/vendor/bin:$FZF_BIN_PATH:$LGOBIN
 
 HISTSIZE='32768';
 HISTFILESIZE="${HISTSIZE}";

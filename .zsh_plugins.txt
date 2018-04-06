@@ -2,8 +2,11 @@
 
 robbyrussell/oh-my-zsh folder:plugins/tmuxinator
 robbyrussell/oh-my-zsh folder:plugins/tmux
-zsh-users/zsh-syntax-highlighting
+
+robbyrussell/oh-my-zsh folder:plugins/rbenv
 lukechilds/zsh-nvm
+
+zsh-users/zsh-syntax-highlighting
 # robbyrussell/oh-my-zsh folder:themes/
 # zsh-users/zsh-completions
 

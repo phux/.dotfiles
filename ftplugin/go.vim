@@ -112,10 +112,7 @@ let g:tagbar_type_go = {
 \ }
 
 
-  " \ '--disable-all',
-  " \   '%:p:h',
 let g:neomake_go_enabled_makers = [ 'go', 'gometalinter' ]
-let g:neomake_go_enabled_makers = [ 'gometalinter' ]
 let g:neomake_go_gometalinter_maker = {
   \ 'exe': 'zb',
   \ 'args': [
