@@ -28,11 +28,13 @@ Plug 'junegunn/gv.vim'
 Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'scrooloose/nerdtree'
 let g:NERDTreeUpdateOnCursorHold = 0
-let g:NERDTreeQuitOnOpen = 0
+let g:NERDTreeQuitOnOpen = 1
 let g:NERDTreeWinSize = 40
 let g:NERDTreeMinimalUI=1
 let g:NERDTreeCascadeSingleChildDir=0
 let g:NERDTreeAutoDeleteBuffer=1
+let g:NERDTreeWinPos = 'right'
+
 " Plug 'troydm/easytree.vim'
 " Plug 'mhinz/vim-grepper', { 'on': ['Grepper', '<plug>(GrepperOperator)'] }
 
@@ -40,7 +42,15 @@ Plug 'Lokaltog/vim-easymotion'
 Plug 'matze/vim-move'
 Plug 'majutsushi/tagbar', {'on': 'TagbarToggle'}
 
-Plug 'morhetz/gruvbox'
+Plug 'rafi/awesome-vim-colorschemes'
+Plug 'xolox/vim-misc'
+Plug 'xolox/vim-colorscheme-switcher'
+" Plug 'morhetz/gruvbox'
+" Plug 'xero/blaquemagick.vim'
+" Plug 'ajmwagar/vim-deus'
+Plug 'fxn/vim-monochrome'
+" Plug 'ikaros/smpl-vim'
+" Plug 'jnurmine/Zenburn'
 
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 
@@ -59,12 +69,13 @@ Plug 'adoy/vim-php-refactoring-toolbox', {'for': 'php'}
 Plug 'phpactor/phpactor', {'for': 'php', 'do': ':call phpactor#Update()' }
 Plug 'lvht/phpcd.vim', { 'for': 'php', 'do': 'composer install' }
 
-Plug 'fatih/vim-go', {'for': 'go', 'do': ':GoUpdateBinaries', 'tag': '*'}
+" Plug 'fatih/vim-go', {'for': 'go', 'do': ':GoUpdateBinaries', 'tag': '*'}
+Plug 'fatih/vim-go', {'for': 'go', 'do': ':GoInstallBinaries'}
 " Plug 'jodosha/vim-godebug', {'for': 'go'}
 Plug 'sebdah/vim-delve', {'for': 'go'}
 Plug 'godoctor/godoctor.vim', {'for': 'go'}
 Plug 'buoto/gotests-vim', {'for': 'go'}
-Plug 'zchee/deoplete-go', { 'do': 'make', 'for': 'go'}
+" Plug 'zchee/deoplete-go', { 'do': 'make', 'for': 'go'}
 Plug 'nsf/gocode', { 'rtp': 'nvim', 'do': '~/.config/nvim/plugged/gocode/nvim/symlink.sh' , 'for': 'go'}
 
 Plug 'christoomey/vim-tmux-navigator'
@@ -86,15 +97,15 @@ Plug 'gabrielelana/vim-markdown', {'for': 'markdown'}
 Plug 'junegunn/goyo.vim', {'for': 'markdown'}
 Plug 'shime/vim-livedown', {'for': 'markdown'}
 
-Plug 'autozimu/LanguageClient-neovim', { 'do': ':UpdateRemotePlugins' }
-Plug 'mhartington/nvim-typescript', {'do': ':UpdateRemotePlugins'}
-Plug 'leafgarland/typescript-vim', {'for': 'js'}
-Plug 'Quramy/vim-js-pretty-template', {'for': 'js'}
-Plug 'othree/html5.vim', {'for': 'html'} 
-Plug 'hail2u/vim-css3-syntax', {'for': 'css'}
+" Plug 'autozimu/LanguageClient-neovim', { 'do': ':UpdateRemotePlugins' }
+" Plug 'mhartington/nvim-typescript', {'do': ':UpdateRemotePlugins'}
+" Plug 'leafgarland/typescript-vim', {'for': 'js'}
+" Plug 'Quramy/vim-js-pretty-template', {'for': 'js'}
+" Plug 'othree/html5.vim', {'for': 'html'} 
+" Plug 'hail2u/vim-css3-syntax', {'for': 'css'}
 Plug 'nelsyeung/twig.vim', {'for': 'twig'}
 
-Plug 'davidhalter/jedi-vim', {'for': 'python'}
+" Plug 'davidhalter/jedi-vim', {'for': 'python'}
 
 Plug 'henrik/vim-indexed-search'
 Plug 'romainl/vim-cool'
@@ -104,7 +115,6 @@ let g:FerretHlsearch=1
 " Plug 'wincent/loupe'
 " Plug 'milkypostman/vim-togglelist'
 Plug 'romainl/vim-qf'
-Plug 'rafi/awesome-vim-colorschemes'
 Plug 'godlygeek/tabular'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-repeat'
@@ -127,6 +137,7 @@ Plug 'sjl/gundo.vim', {'on': 'GundoToggle'}
 Plug 'aserebryakov/vim-todo-lists'
 
 " Plug 'zhaocai/GoldenView.Vim'
+" Plug 'roman/golden-ratio'
 call plug#end()
 
 let mapleader = "\<Space>"
@@ -135,11 +146,18 @@ inoremap jk <esc>
 
 " interface
 set t_Co=256
-set background=dark
-" colorscheme base16-ashes
-colorscheme gruvbox
-" colorscheme seoul256
+" set background=dark
+
+" colorscheme gruvbox
 " colorscheme apprentice
+" colorscheme seoul256
+" colorscheme zenburn
+set background=dark
+" colorscheme 256_noir " fav mono
+color lucius " fav low contrast
+" colorscheme hybrid " fav bright
+" color github
+" colorscheme smpl
 
 let $NVIM_TUI_ENABLE_TRUE_COLOR=1
 
@@ -272,7 +290,7 @@ nnoremap <silent> p p`]
 nnoremap <leader>n :NERDTreeToggle<cr>
 nnoremap <leader>N :NERDTreeFind<cr>
 
-nnoremap <silent> <leader>w :lclose<cr>:w<cr> 
+nnoremap <silent> <leader>w :lclose<cr>:w<cr>
 
 let g:ultisnips_php_scalar_types = 1
 let g:UltiSnipsSnippetsDir = '~/.config/nvim/UltiSnips/'
@@ -656,12 +674,11 @@ let g:netrw_liststyle = 3
 let g:netrw_browse_split = 4
 let g:netrw_altv = 1
 let g:netrw_winsize = 25
-" set cul
 
-highlight Normal ctermbg=NONE
-highlight nonText ctermbg=NONE
+" highlight Normal ctermbg=NONE
+" highlight nonText ctermbg=NONE
 
-set cul
+set nocul
 
 
 call neomake#configure#automake('w')
@@ -691,7 +708,14 @@ let g:qf_statusline = {}
 let g:qf_statusline.before = '%<\ '
 let g:qf_statusline.after = '\ %f%=%l\/%-6L\ \ \ \ \ '
 
-" let g:goldenview__enable_default_mapping = 0
+let g:goldenview__enable_default_mapping = 0
 " let g:goldenview__enable_at_startup = 0
 " nmap <silent> <leader>s <Plug>GoldenViewResize
 " nmap <silent> <m-g> <Plug>GoldenViewSwitchWithLargest
+nnoremap <m-n> :NextColorScheme<cr>:redraw<cr>:color<cr>
+function! LightScheme()
+  set background=light
+  color solarized8_flat
+  set cul
+  " hi CursorLine   cterm=NONE ctermbg=7 ctermfg=NONE
+endfunction

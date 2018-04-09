@@ -186,8 +186,9 @@ alias efg='exercism fetch go'
 alias es='exercism submit'
 alias eg='cd $HOME/exercism/go/$(ls -t $HOME/exercism/go/ | head -1)'
 alias gtb='go test -bench .'
+alias gt='go test .'
 
 alias ez='n ~/.zshrc'
 alias .d='cd ~/.dotfiles'
 
-source ~/.gruvbox.sh
+# source ~/.gruvbox.sh

@@ -12,12 +12,15 @@ noremap <buffer> <leader>h :Refactor godoc<cr>
 nnoremap <buffer> gr :GoReferrers<cr>
 nnoremap <buffer> gi :GoImplements<cr>
 
-nnoremap <leader>d :GoDeclsDir<cr>
+nnoremap <buffer> <leader>d :GoDeclsDir<cr>
 nnoremap <buffer> <silent> <m-a> :GoAlternate!<cr>
 nnoremap <buffer> <m-c> :GoCoverageToggle<cr>
+
 " disable vet as before testing 
-nnoremap <buffer> <m-f> :GoTest! -short -vet off<cr>
+nnoremap <buffer> <m-f> :GoTest!<cr>
 nnoremap <buffer> <m-m> :GoMetaLinter<cr>
+nnoremap <buffer> <c-s> :GoFmt<cr>
+
 " run :GoBuild or :GoTestCompile based on the go file
 nnoremap <buffer> <m-b> :<C-u>call <SID>build_go_files()<CR>
 
@@ -60,7 +63,7 @@ function! GoExtractVariable()
   normal! bgr
 endfunction
 
-" let g:go_list_type = "locationlist"
+let g:go_list_type = "locationlist"
 let g:go_bin_path = expand("~/.gvm/gos/go1.10.1/bin")
 " Enable syntax highlighting per default
 let g:go_highlight_types = 1
@@ -168,3 +171,7 @@ let g:neomake_go_gometalinter_maker = {
   \   '%E%f:%l::%trror: %m,' .
   \   '%W%f:%l::%tarning: %m'
 \ }
+
+  let g:go_fmt_options = {
+    \ 'gofmt': '-s',
+    \ }
