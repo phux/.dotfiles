@@ -7,3 +7,5 @@ gvm use go1.4
 export GOROOT_BOOTSTRAP=$GOROOT
 gvm install go1.10.1
 gvm use go1.10.1 --default
+
+go get -u github.com/cweill/gotests/...
