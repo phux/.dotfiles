@@ -3,8 +3,7 @@ URxvt*scrollBar: false
 URxvt.saveLines: 32767
 URxvt*termName: rxvt
 URxvt.intensityStyles: false
-URxvt*.termName: rxvt-unicode-256color:w
-
+URxvt*.termName: rxvt-unicode-256color
 
 
 ! disable default Ctrl+Shift-Binding
