@@ -42,14 +42,18 @@ Plug 'Lokaltog/vim-easymotion'
 Plug 'matze/vim-move'
 Plug 'majutsushi/tagbar', {'on': 'TagbarToggle'}
 
+
 Plug 'rafi/awesome-vim-colorschemes'
 Plug 'xolox/vim-misc'
+" must be defined before plugin
+" let g:cycle_colorscheme_shortlist = ['256_noir', 'lucius', 'apprentice', 'deus', 'hybrid']
+" Plug 'promptworks/vim-cycle-colorscheme-shortlist'
 Plug 'xolox/vim-colorscheme-switcher'
 " Plug 'morhetz/gruvbox'
 " Plug 'xero/blaquemagick.vim'
 " Plug 'ajmwagar/vim-deus'
 Plug 'fxn/vim-monochrome'
-" Plug 'ikaros/smpl-vim'
+Plug 'ikaros/smpl-vim'
 " Plug 'jnurmine/Zenburn'
 
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
@@ -154,7 +158,8 @@ set t_Co=256
 " colorscheme zenburn
 set background=dark
 " colorscheme 256_noir " fav mono
-color lucius " fav low contrast
+" color lucius " fav low contrast
+color deus
 " colorscheme hybrid " fav bright
 " color github
 " colorscheme smpl
@@ -712,7 +717,7 @@ let g:goldenview__enable_default_mapping = 0
 " let g:goldenview__enable_at_startup = 0
 " nmap <silent> <leader>s <Plug>GoldenViewResize
 " nmap <silent> <m-g> <Plug>GoldenViewSwitchWithLargest
-nnoremap <m-n> :NextColorScheme<cr>:redraw<cr>:color<cr>
+nnoremap <m-n> :CycleColorschemeShortlist<cr>:redraw<cr>:color<cr>
 function! LightScheme()
   set background=light
   color solarized8_flat

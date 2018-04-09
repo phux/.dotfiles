@@ -17,6 +17,7 @@ URxvt.perl-ext-common: default,clipboard
 URxvt.keysym.Shift-Control-C: perl:clipboard:copy
 URxvt.keysym.Shift-Control-V: perl:clipboard:paste
 
+URxvt*cursorColor: #fb4934
 
 URxvt.letterSpace: -1
 
