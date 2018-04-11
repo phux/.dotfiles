@@ -33,10 +33,7 @@ let g:NERDTreeWinSize = 40
 let g:NERDTreeMinimalUI=1
 let g:NERDTreeCascadeSingleChildDir=0
 let g:NERDTreeAutoDeleteBuffer=1
-let g:NERDTreeWinPos = 'right'
-
-" Plug 'troydm/easytree.vim'
-" Plug 'mhinz/vim-grepper', { 'on': ['Grepper', '<plug>(GrepperOperator)'] }
+" let g:NERDTreeWinPos = 'right'
 
 Plug 'Lokaltog/vim-easymotion'
 Plug 'matze/vim-move'
@@ -45,16 +42,9 @@ Plug 'majutsushi/tagbar', {'on': 'TagbarToggle'}
 
 Plug 'rafi/awesome-vim-colorschemes'
 Plug 'xolox/vim-misc'
-" must be defined before plugin
-" let g:cycle_colorscheme_shortlist = ['256_noir', 'lucius', 'apprentice', 'deus', 'hybrid']
-" Plug 'promptworks/vim-cycle-colorscheme-shortlist'
 Plug 'xolox/vim-colorscheme-switcher'
-" Plug 'morhetz/gruvbox'
-" Plug 'xero/blaquemagick.vim'
-" Plug 'ajmwagar/vim-deus'
 Plug 'fxn/vim-monochrome'
 Plug 'ikaros/smpl-vim'
-" Plug 'jnurmine/Zenburn'
 
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 
@@ -63,7 +53,7 @@ Plug 'roxma/nvim-completion-manager'
 Plug '~/code/neomake'
 
 Plug '~/code/ncm-phpactor', {'for': 'php'}
-Plug 'padawan-php/deoplete-padawan', {'for': 'php'}
+Plug 'padawan-php/deoplete-padawan', {'for': 'php', 'do': 'composer install'}
 Plug 'phux/php-doc-modded', {'for': 'php'}
 Plug 'sahibalejandro/vim-php', {'for': ['php', 'yaml']}
 Plug 'StanAngeloff/php.vim', {'for': 'php'}
@@ -75,11 +65,9 @@ Plug 'lvht/phpcd.vim', { 'for': 'php', 'do': 'composer install' }
 
 " Plug 'fatih/vim-go', {'for': 'go', 'do': ':GoUpdateBinaries', 'tag': '*'}
 Plug 'fatih/vim-go', {'for': 'go', 'do': ':GoInstallBinaries'}
-" Plug 'jodosha/vim-godebug', {'for': 'go'}
-Plug 'sebdah/vim-delve', {'for': 'go'}
+Plug '~/code/vim-delve', {'for': 'go'}
 Plug 'godoctor/godoctor.vim', {'for': 'go'}
 Plug 'buoto/gotests-vim', {'for': 'go'}
-" Plug 'zchee/deoplete-go', { 'do': 'make', 'for': 'go'}
 Plug 'nsf/gocode', { 'rtp': 'nvim', 'do': '~/.config/nvim/plugged/gocode/nvim/symlink.sh' , 'for': 'go'}
 
 Plug 'christoomey/vim-tmux-navigator'
@@ -101,33 +89,21 @@ Plug 'gabrielelana/vim-markdown', {'for': 'markdown'}
 Plug 'junegunn/goyo.vim', {'for': 'markdown'}
 Plug 'shime/vim-livedown', {'for': 'markdown'}
 
-" Plug 'autozimu/LanguageClient-neovim', { 'do': ':UpdateRemotePlugins' }
-" Plug 'mhartington/nvim-typescript', {'do': ':UpdateRemotePlugins'}
-" Plug 'leafgarland/typescript-vim', {'for': 'js'}
-" Plug 'Quramy/vim-js-pretty-template', {'for': 'js'}
-" Plug 'othree/html5.vim', {'for': 'html'} 
-" Plug 'hail2u/vim-css3-syntax', {'for': 'css'}
+Plug 'autozimu/LanguageClient-neovim', { 'do': ':UpdateRemotePlugins' }
 Plug 'nelsyeung/twig.vim', {'for': 'twig'}
 
-" Plug 'davidhalter/jedi-vim', {'for': 'python'}
 
 Plug 'henrik/vim-indexed-search'
 Plug 'romainl/vim-cool'
 Plug 'wincent/ferret', {'on': 'Ack'}
 let g:FerretHlsearch=1
 
-" Plug 'wincent/loupe'
-" Plug 'milkypostman/vim-togglelist'
 Plug 'romainl/vim-qf'
 Plug 'godlygeek/tabular'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-abolish'
 Plug 'vim-scripts/YankRing.vim'
-" Plug 'dahu/vim-fanfingtastic'
-" Plug 'justinmk/vim-sneak'
-" Plug 'rhysd/clever-f.vim'
-" Plug 't9md/vim-smalls'
 
 Plug 'simeji/winresizer'
 Plug 'wellle/targets.vim'
@@ -139,9 +115,6 @@ Plug 'junegunn/vim-peekaboo'
 Plug 'sjl/gundo.vim', {'on': 'GundoToggle'}
 
 Plug 'aserebryakov/vim-todo-lists'
-
-" Plug 'zhaocai/GoldenView.Vim'
-" Plug 'roman/golden-ratio'
 call plug#end()
 
 let mapleader = "\<Space>"
@@ -407,7 +380,8 @@ let g:deoplete#sources = get(g:, 'deoplete#sources', {})
 let g:deoplete#sources._ = ['ultisnips', 'buffer']
 
 let g:deoplete#sources#padawan#add_parentheses=1
-let g:deoplete#sources#padawan#server_command='~/code/padawan.php/bin/padawan-server'
+let g:deoplete#sources#padawan#server_command='~/.config/nvim/plugged/deoplete-padawan/vendor/bin/padawan-server'
+let g:deoplete#sources#padawan#auto_update=1
 let g:deoplete#sources.php = ['padawan', 'ultisnips', 'buffer']
 let g:deoplete#skip_chars = ['$']
 
@@ -471,6 +445,7 @@ nnoremap <leader>a :Ag<space>
 nnoremap <leader>A :exec "Ag ".expand("<cword>")<cr>
 
 nnoremap <leader>x <c-w>c
+nnoremap <leader>s <c-w>v
 
 function! PrependTicketNumber()
   normal gg
@@ -562,22 +537,6 @@ endfunction
 "}}}
 
 command! -nargs=1 Silent execute ':silent !'.<q-args> | execute ':redraw!'
-
-
-command! -bang -nargs=* Rg
-      \ call fzf#vim#grep(
-      \   'rg --line-number --no-heading --ignore-case --follow --color=always --colors "match:bg:yellow" --colors "match:fg:black" --colors "match:style:nobold" --colors "path:fg:green" --colors "path:style:bold" --colors "line:fg:yellow" --colors "line:style:bold" '.shellescape(<q-args>), 1,
-      \   <bang>0 ? fzf#vim#with_preview('up:60%')
-      \           : fzf#vim#with_preview('right:50%:hidden', '?'),
-      \   <bang>0)
-" --no-ignore for searching in all files
-command! -bang -nargs=* RgRaw
-      \ call fzf#vim#grep(
-      \   'rg --no-ignore --line-number --no-heading --ignore-case --follow --hidden --color=always --colors "match:bg:yellow" --colors "match:fg:black" --colors "match:style:nobold" --colors "path:fg:green" --colors "path:style:bold" --colors "line:fg:yellow" --colors "line:style:bold" '.shellescape(<q-args>), 1,
-      \   <bang>0 ? fzf#vim#with_preview('up:60%')
-      \           : fzf#vim#with_preview('right:50%:hidden', '?'),
-      \   <bang>0)
-let g:ackprg = 'rg --vimgrep --no-heading'
 
 command! -bang -nargs=* FZFAllFiles call fzf#run({'source': 'find * -type f', 'sink': 'e'})
 
@@ -680,8 +639,8 @@ let g:netrw_browse_split = 4
 let g:netrw_altv = 1
 let g:netrw_winsize = 25
 
-" highlight Normal ctermbg=NONE
-" highlight nonText ctermbg=NONE
+highlight Normal ctermbg=NONE
+highlight nonText ctermbg=NONE
 
 set nocul
 
@@ -713,11 +672,6 @@ let g:qf_statusline = {}
 let g:qf_statusline.before = '%<\ '
 let g:qf_statusline.after = '\ %f%=%l\/%-6L\ \ \ \ \ '
 
-let g:goldenview__enable_default_mapping = 0
-" let g:goldenview__enable_at_startup = 0
-" nmap <silent> <leader>s <Plug>GoldenViewResize
-" nmap <silent> <m-g> <Plug>GoldenViewSwitchWithLargest
-nnoremap <m-n> :CycleColorschemeShortlist<cr>:redraw<cr>:color<cr>
 function! LightScheme()
   set background=light
   color solarized8_flat
