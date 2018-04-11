@@ -62,6 +62,9 @@ alias agi='sudo apt install'
 alias vu='vagrant up'
 alias vs='vagrant ssh'
 alias vh='vagrant halt'
+alias vp='vagrant provision'
+alias dcup='docker-compose up'
+alias dcstop='docker-compose stop'
 alias ob='observr autotest.rb'
 alias ls="ls --color=auto"
 alias l='ls -lFh'     #size,show type,human readable
@@ -120,7 +123,7 @@ function git_current_branch() {
 alias canihazinterwebz='sudo dhclient -r;sudo dhclient &'
 alias tw='mux shell'
 
-alias d='dirs -v'
+# alias d='dirs -v'
 
 my-backward-delete-word() {
     local WORDCHARS=${WORDCHARS/\//}
@@ -173,7 +176,7 @@ alias "vendor/bin/behat"="dce php vendor/bin/behat"
 # alias nvim='nvim -w ~/.nvim_keylog "$@"'
 
 alias n='nvim'
-alias s='sudo'
+# alias s='sudo'
 alias c='composer'
 alias ci='composer install'
 alias cu='composer update'
@@ -186,9 +189,11 @@ alias efg='exercism fetch go'
 alias es='exercism submit'
 alias eg='cd $HOME/exercism/go/$(ls -t $HOME/exercism/go/ | head -1)'
 alias gtb='go test -bench .'
-alias gt='go test .'
+alias gt='richgo test ./...'
 
 alias ez='n ~/.zshrc'
 alias .d='cd ~/.dotfiles'
 
 # source ~/.gruvbox.sh
+
+export ANSIBLE_NOCOWS=1
