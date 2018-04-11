@@ -115,6 +115,8 @@ Plug 'junegunn/vim-peekaboo'
 Plug 'sjl/gundo.vim', {'on': 'GundoToggle'}
 
 Plug 'aserebryakov/vim-todo-lists'
+" Plug 'mhinz/vim-startify'
+Plug 'pearofducks/ansible-vim', { 'do': 'cd ./UltiSnips; python2 generate.py' }
 call plug#end()
 
 let mapleader = "\<Space>"
@@ -295,11 +297,9 @@ let g:fzf_buffers_jump = 1
 " [[B]Commits] Customize the options used by 'git log':
 let g:fzf_commits_log_options = '--graph --color=always --format="%C(auto)%h%d %s %C(black)%C(bold)%cr"'
 
-vnoremap // "hy:exec "Ag ".escape('<C-R>h', "/\.*$^~[()")<cr>
+vnoremap <leader>/ "hy:exec "Ag ".escape('<C-R>h', "/\.*$^~[()")<cr>
 
 nnoremap <leader><Enter> :FZFMru<cr>
-" nnoremap <leader>s :Rg<space>
-" nnoremap <leader>S :exec "Rg ".expand("<cword>")<cr>
 
 nnoremap <leader><tab> :Buffers<cr>
 nnoremap <leader>, :Files<cr>

@@ -13,7 +13,7 @@ function! Zf1(...) abort
     " autocmd FileType php set omnifunc=phpcd
     nnoremap <silent> gd g<c-]>
 
-    vnoremap <leader>rem :call PhpRefactorExtractMethodDirectly()<CR>
+    " vnoremap <leader>rem :call PhpRefactorExtractMethodDirectly()<CR>
     let g:cm_auto_popup=0 " disable nvim-completion-manager
     call deoplete#enable()
 
@@ -37,7 +37,6 @@ function! Symfony(...) abort
     nnoremap <leader>tsu <c-w>v:call SymfonySwitchToAlternateFile()<cr>
     nnoremap <silent> gd :call phpactor#GotoDefinition()<CR>
     nnoremap <silent> gr :call phpactor#FindReferences()<CR>
-    vmap <silent><Leader>em :<C-U>call phpactor#ExtractMethod()<CR>
     nnoremap <leader>tt :call phpactor#Transform()<cr>
 
     let g:deoplete#sources.php = []

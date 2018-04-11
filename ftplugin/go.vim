@@ -83,6 +83,7 @@ let g:go_metalinter_enabled = [ "gas", "goconst", "gocyclo", "golint", "ineffass
 
 " let g:go_auto_sameids = 1
 " let g:go_auto_type_info = 1
+" let g:go_info_mode = 'gocode'
 
 let g:go_term_enabled=0
 let g:go_disable_autoinstall = 0

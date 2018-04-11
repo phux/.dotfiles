@@ -36,6 +36,10 @@ nnoremap <buffer> <Leader>e :PHPExpandFQCNAbsolute<cr>
 nnoremap <buffer> <Leader>E :PHPExpandFQCN<cr>
 inoremap <buffer> <C-d> <ESC>:call PhpDocSingle()<CR>
 nnoremap <buffer> <leader>h :call UpdatePhpDocIfExists()<CR>
+vnoremap <silent><Leader>em :<C-U>call phpactor#ExtractMethod()<CR>
+
+nnoremap <silent> <leader>gd g<c-]>
+nnoremap <silent> gd :call phpactor#GotoDefinition()<CR>
 
 function! PHPUnitSetupMethod()
   normal! oprotected function setUp()
