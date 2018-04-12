@@ -39,9 +39,7 @@
     - php-redis
     - php-xdebug
 
-
-- name: Check if composer is installed
-  command: which composer
+- stat: path=/usr/local/bin/composer
   register: composer_check
 
 - block:
@@ -74,10 +72,10 @@
       state: file
     tags: composer
 
-  - name: Create composer directory
-    file: path={{ ansible_env.HOME }}/.config/composer state=directory
+  when: composer_check.stat.exists == False
 
-  when: composer_check.stdout.find('composer not found') != -1
+- name: Create composer directory
+  file: path={{ ansible_env.HOME }}/.config/composer state=directory
 
 - name: Link composer files
   file: src={{item}} dest={{ ansible_env.HOME }}/.config/composer/{{ item | basename }} state=link

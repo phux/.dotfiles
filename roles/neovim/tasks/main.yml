@@ -41,10 +41,6 @@
   with_fileglob:
     - ftplugin/*
 
-- name: install | plugins
-  command: "nvim +silent! +PlugInstall! +UpdateRemotePlugins! +qall!"
-  ignore_errors: true
-
 - name: Create UltiSnips dir
   shell: mkdir -p {{ neovim_config_dir }}/UltiSnips
 
