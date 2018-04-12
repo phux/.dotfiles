@@ -22,7 +22,7 @@ export FZF_DEFAULT_COMMAND='rg --colors 'match:bg:yellow' --colors 'match:fg:bla
 export GOPATH="$HOME/code/go"
 export LGOBIN="$HOME/code/go/bin"
 export FZF_BIN_PATH="$HOME/.fzf/bin"
-export PATH=$PATH:$HOME/.cargo/bin:$HOME/bin:$HOME/.local/bin:$HOME/.composer/vendor/bin:$FZF_BIN_PATH:$LGOBIN
+export PATH=$PATH:$HOME/.cargo/bin:$HOME/bin:$HOME/.local/bin:$HOME/.composer/vendor/bin:$FZF_BIN_PATH:$LGOBIN:$HOME/.config/composer/vendor/bin
 
 HISTSIZE='32768';
 HISTFILESIZE="${HISTSIZE}";
