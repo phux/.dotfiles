@@ -3,5 +3,9 @@
   roles:
     - apt
     - terminal
+    - urxvt
+    - neovim
     - i3
     - php
+    - tmux
+    - zsh
