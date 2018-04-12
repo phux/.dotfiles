@@ -1,0 +1,7 @@
+---
+- name: terminal
+  become: yes
+  apt: name={{ item }} state=latest
+  with_items:
+    - ncdu
+    - htop
