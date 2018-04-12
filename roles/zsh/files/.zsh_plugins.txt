@@ -1,0 +1,20 @@
+# djui/alias-tips
+
+robbyrussell/oh-my-zsh folder:plugins/tmuxinator
+robbyrussell/oh-my-zsh folder:plugins/tmux
+
+robbyrussell/oh-my-zsh folder:plugins/rbenv
+lukechilds/zsh-nvm
+
+zsh-users/zsh-syntax-highlighting
+# robbyrussell/oh-my-zsh folder:themes/
+# zsh-users/zsh-completions
+
+# prompt
+# miekg/lean
+phux/lean branch:pwd_position
+# belak/pure-zsh-theme
+# yardnsm/blox-zsh-theme
+# carloscuesta/materialshell
+# akz92/clean
+# sindresorhus/pure

@@ -1,0 +1,23 @@
+---
+- name: zsh
+  become: yes
+  apt: name={{ item }} state=latest
+  with_items:
+    - zsh
+
+- name: "Make ZSH default shell for user {{ ansible_env.USER }}"
+  user: name={{ ansible_env.USER }} shell=/bin/zsh
+  become: yes
+
+- name: Link .zsh files
+  file: src={{item}} dest={{ ansible_env.HOME }}/{{ item | basename }} state=link
+  with_fileglob:
+   - .zsh*
+
+- name: install antibody
+  shell: curl -sL git.io/antibody | bash -s
+  ignore_errors: true
+
+- name: create zsh plugins file
+  shell: antibody bundle < ~/.zsh_plugins.txt  > ~/.zsh_plugins.sh
+  ignore_errors: true
