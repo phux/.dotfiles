@@ -2,7 +2,7 @@ WORDCHARS="${WORDCHARS//\/}"
 
 PROMPT_LEAN_COLOR2=120
 
-export NVM_LAZY_LOAD=true
+# export NVM_LAZY_LOAD=true
 source $HOME/.zsh_plugins.sh
 
 alias update_antibody='antibody update; antibody bundle < ~/.zsh_plugins.txt  > ~/.zsh_plugins.sh'

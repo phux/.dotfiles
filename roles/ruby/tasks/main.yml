@@ -1,0 +1,41 @@
+---
+- stat: path={{ ansible_env.HOME }}/.rbenv
+  register: rbenv_check
+
+- name: ruby deps
+  become: yes
+  apt: name={{ item }} state=present
+  with_items:
+    - libssl-dev
+    - libreadline-dev
+    - zlib1g-dev
+
+- block:
+  - name: checkout rbenv repo
+    git: >
+      repo=https://github.com/rbenv/rbenv.git
+      dest={{ ansible_env.HOME }}/.rbenv
+      version=v1.1.1
+      accept_hostkey=yes
+      force=yes
+    ignore_errors: yes
+
+  - name: create plugins directory
+    file: state=directory path={{ ansible_env.HOME }}/.rbenv/plugins
+    ignore_errors: yes
+
+  - name: configure rbenv
+    shell: cd ~/.rbenv && src/configure && make -C src && eval "$(rbenv init -)"
+
+  - name: checkout rbenv ruby-build repo
+    git: >
+      repo=https://github.com/rbenv/ruby-build.git
+      dest={{ ansible_env.HOME }}/.rbenv/plugins/ruby-build
+      accept_hostkey=yes
+      force=yes
+    ignore_errors: yes
+
+  when: rbenv_check.stat.exists == False
+
+- name: install ruby 2.5.1
+  shell: $SHELL -lc "{{ ansible_env.HOME }}/.rbenv/bin/rbenv install --skip-existing 2.5.1 && {{ ansible_env.HOME }}/.rbenv/bin/rbenv global 2.5.1"
