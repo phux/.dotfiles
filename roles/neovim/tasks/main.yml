@@ -31,6 +31,17 @@
   with_fileglob:
     - conf/*
 
+- name: Create ftplugin dir
+  shell: mkdir -p {{ neovim_config_dir }}/ftplugin
+
+- name: Link ftplugin files
+  file:
+    src: "{{ item }}"
+    dest: "{{ neovim_config_dir }}/ftplugin/{{ item | basename }}"
+    state: link
+  with_fileglob:
+    - ftplugin/*
+
 - name: install | plugins
-  command: "nvim +silent! +PlugUpdate! +UpdateRemotePlugins! +qall!"
+  command: "nvim +silent! +PlugInstall! +UpdateRemotePlugins! +qall!"
   ignore_errors: true
