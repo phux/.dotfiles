@@ -4,15 +4,19 @@ Clone the repository:
 
     git clone https://github.com/phux/.dotfiles.git
 
-Execute the setup script:
+Install ansible:
 
-Warning: this does not backup any existing files!
+    cd .dotfiles && make
 
-    cd .dotfiles && ./setup.sh
+If you want to execute installation in vagrant:
+    
+    make test
 
-Done.
+To install on localhost (will override your files, no backup!):
+    
+    make provision
 
-## Some stuff it does (check setup.sh for up-to-date list)
+## Some stuff it does
 
 * pip
 * rbenv & ruby
@@ -21,4 +25,4 @@ Done.
 * composer
 * linking dotfiles
 * antibody (zsh)
-* linters
+* php & golang linters
