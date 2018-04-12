@@ -1,0 +1,40 @@
+---
+- name: Add co-installable PHP 5.6 and PHP 7.2 to source list
+  apt_repository: repo="ppa:ondrej/php" state=present
+  become: yes
+
+- name: Install PHP 5.6 and PHP 7.2
+  apt: name={{item}} state=latest
+  become: yes
+  with_items:
+    - php5.6
+    - php7.2
+    - php5.6-common
+    - php7.2-common
+    - php5.6-fpm
+    - php7.2-fpm
+    - php5.6-mysql
+    - php7.2-mysql
+    - php5.6-mcrypt
+    - php5.6-mbstring
+    - php7.2-mbstring
+    - php5.6-json
+    - php7.2-json
+    - php5.6-curl
+    - php7.2-curl
+    - php5.6-gd
+    - php7.2-gd
+    - php5.6-intl
+    - php7.2-intl
+    - php5.6-cli
+    - php7.2-cli
+    - php5.6-xml
+    - php7.2-xml
+    - php5.6-bz2
+    - php7.2-bz2
+    - mcrypt
+    - openssl
+    - php-imagick
+    - php-memcached
+    - php-redis
+    - php-xdebug
