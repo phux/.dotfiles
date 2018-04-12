@@ -1,0 +1,4 @@
+---
+- name: Install silversearcher (ag)
+  apt: name=silversearcher-ag state=latest
+  become: yes
