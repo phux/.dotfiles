@@ -16,7 +16,27 @@
   with_fileglob:
     - git_templates/*
 
-- name: copy gitconfig
-  copy: src={{ item }}/ dest={{ ansible_env.HOME }}/.git_config
-  with_fileglob:
-    - gitconfig
+- git_config:
+    name: init.templatedir
+    scope: global
+    value: ~/.git_templates
+
+- git_config:
+    name: alias.cleanup
+    scope: global
+    value: "!git branch --merged | grep  -v '\\*\\|master\\|develop' | xargs -n 1 git branch -d"
+
+- name: install diff-so-fancy
+  get_url: url=https://raw.githubusercontent.com/so-fancy/diff-so-fancy/master/third_party/build_fatpack/diff-so-fancy dest=~/.local/bin/
+
+- name: make diff-so-fancy executable
+  file:
+    path: ~/.local/bin/diff-so-fancy
+    mode: a+x
+    state: file
+
+- git_config:
+    name: core.pager
+    scope: global
+    value: diff-so-fancy | less --tabs=4 -RFX
+
