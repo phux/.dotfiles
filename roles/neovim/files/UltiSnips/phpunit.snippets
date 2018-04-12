@@ -1,0 +1,200 @@
+snippet tc "TestClass"
+<?php
+
+namespace ${1:`!p
+abspath = os.path.abspath(path)
+m = re.search(r'[A-Z].+(?=/)', abspath)
+if m:
+	snip.rv = m.group().replace('/', '\\')
+`};
+
+use \PHPUnit\Framework\TestCase;
+
+/**
+ * Class ${1:`!p snip.rv=snip.fn.split('.')[0]`}
+ */
+class $1 extends TestCase
+{
+    $0
+}
+endsnippet
+
+snippet p "Phake::"
+Phake::$0;
+endsnippet
+
+snippet pm "Phake::mock"
+$${1:var} = Phake::mock(${2:class}${3:::class});$0
+endsnippet
+
+snippet pv "Phake::verify"
+Phake::verify($${1:mock})->${2:method};$0
+endsnippet
+
+snippet pw "Phake::when"
+Phake::when($${1:mock})->$3->thenReturn(${2:value});$0
+endsnippet
+
+snippet pa "Phake::anyParameters()"
+Phake::anyParameters()$0
+endsnippet
+
+snippet pc "Phake::capture()"
+Phake::capture($${1:object})$0
+endsnippet
+
+
+snippet tm "test method annotated" b
+/**
+ * @test
+ */
+public function $1()
+{
+    $0
+}
+endsnippet
+
+snippet setup "setup method" !b
+protected function setUp() {
+    ${0:code ...}
+}
+endsnippet
+
+snippet teardown "teardown method" !b
+protected function tearDown()
+{
+    ${0:code ...}
+}
+endsnippet
+
+snippet tmi "test mark incomplete" b
+$this->markTestIncomplete('Test is incomplete.');
+endsnippet
+
+snippet tms "test mark skipped" b
+$this->markTestSkipped('This test has not been implemented yet.');
+endsnippet
+
+snippet g "@group"
+@group $0
+endsnippet
+
+snippet ex "expectException()"
+$this->expectException(${1:\Exception}::class);
+endsnippet
+
+snippet stub "create a new stub" b
+$${1/\w+\s*/\l$0/g}Stub = $this->getMock('${1:TheClassToStub}');
+
+$$1Stub->expects($this->any())
+	 ->method('${2:theAPIMethod}')
+	 ->will($this->returnValue(${3:fakeReturnValue}));
+endsnippet
+
+snippet tdp "test data provider"
+/*
+ * @return array
+ */
+public function ${1:name}DataProvider()
+{
+    return [
+        '' => [${2:param1}],
+    ];
+}
+endsnippet
+
+snippet tmbe "mockbuilder with expects"
+$${1:obj} = $this->getMockBuilder('$2')
+    ->disableOriginalConstructor()
+    ->getMock();
+$$1->expects($3)
+    ->method('${4}')$0;
+endsnippet
+
+snippet tmbm "mockbuilder with expects"
+$${1:obj}= $this->getMockBuilder('$2')
+    ->disableOriginalConstructor()
+    ->getMock();
+$$1->method('${3}')$0;
+endsnippet
+
+snippet tmb "mockbuilder"
+$${1:obj} = $this->getMockBuilder('$2')
+    ->disableOriginalConstructor()
+    ->getMock();
+endsnippet
+
+snippet wr "willReturn"
+->willReturn($1)$0
+endsnippet
+
+snippet dp "dataProvider"
+@dataProvider $1DataProvider$0
+endsnippet
+
+### ASSERT
+
+snippet sa "test assert" b
+self::assert($1);
+endsnippet
+
+snippet sae "assert equals" b
+self::assertEquals(${1:expected}, ${2:result});$0
+endsnippet
+
+snippet sacon "assert contains" b
+self::assertContains(${1:value}, ${2:haystack});$0
+endsnippet
+
+snippet sai "assert instanceof" b
+self::assertInstanceOf(${1:class}::class, ${2:sut});$0
+endsnippet
+
+snippet sacono "assert contains only" b
+self::assertContainsOnly(${1:type}, ${2:var});$0
+endsnippet
+
+snippet sac "assert count" b
+self::assertCount(${1:number}, ${2:array});$0
+endsnippet
+
+snippet saem "assert empty" b
+self::assertEmpty(${1:var});
+endsnippet
+
+snippet sat "assert true" b
+self::assertTrue(${1:var});
+endsnippet
+
+snippet saf "assert false" b
+self::assertFalse(${1:var});
+endsnippet
+
+snippet sagt "assert greater than" b
+self::assertGreaterThan(${1:reference}, ${2:testValue});
+endsnippet
+
+snippet sajf "assert json string equals json file" b
+self::assertJsonStringEqualsJsonFile(${1:jsonString}, ${2:jsonFile});
+endsnippet
+
+snippet sajs "assert json string equals json string" b
+self::assertJsonStringEqualsJsonString(${1:jsonString}, ${2:jsonString2});
+endsnippet
+
+snippet saahk "test: assert array has key" b
+self::assertArrayHasKey(${1:key}, ${2:array});
+endsnippet
+
+snippet sacha "test: class has attribute" b
+self::assertArrayHasKey(${1:attribute}, '${2:class}'');
+endsnippet
+
+snippet seos "test: expect output string" b
+self::expectOutputString(${1:var});
+print "$1";
+endsnippet
+
+snippet seor "test: expect output regex" b
+self::expectOutputRegex(${1:regex});
+endsnippet

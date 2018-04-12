@@ -193,6 +193,8 @@ alias gt='richgo test ./...'
 
 alias ez='n ~/.zshrc'
 alias .d='cd ~/.dotfiles'
+alias m='make'
+alias mt='make test'
 
 # source ~/.gruvbox.sh
 

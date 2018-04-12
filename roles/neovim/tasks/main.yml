@@ -44,3 +44,18 @@
 - name: install | plugins
   command: "nvim +silent! +PlugInstall! +UpdateRemotePlugins! +qall!"
   ignore_errors: true
+
+- name: Create UltiSnips dir
+  shell: mkdir -p {{ neovim_config_dir }}/UltiSnips
+
+- name: Link UltiSnips snippets
+  file:
+    src: "{{ item }}"
+    dest: "{{ neovim_config_dir }}/UltiSnips/{{ item | basename }}"
+    state: link
+  with_fileglob:
+    - UltiSnips/*
+
+- name: install | plugins
+  command: "nvim +silent! +PlugInstall! +UpdateRemotePlugins! +qall!"
+  ignore_errors: true
