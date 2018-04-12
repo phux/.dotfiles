@@ -6,3 +6,4 @@ tags
 .gtm
 phpactor.log
 npm-debug.log
+.vagrant/
