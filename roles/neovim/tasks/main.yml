@@ -1,10 +1,9 @@
 ---
 - name: pip2 | neovim
-  shell: /home/vagrant/.local/bin/pip install --user --upgrade neovim
+  shell: "{{ ansible_env.HOME }}/.local/bin/pip install --user --upgrade neovim"
 
 - name: pip3 | neovim
-  shell: /home/vagrant/.local/bin/pip3 install --user --upgrade neovim
-  # pip: name=neovim executable=pip3 state={{ neovim_install_state }} extra_args=--user
+  shell: "{{ ansible_env.HOME }}/.local/bin/pip3 install --user --upgrade neovim"
 
 - name: neovim ppa
   become: yes

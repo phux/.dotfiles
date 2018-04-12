@@ -5,3 +5,4 @@ dependencies:
   - {role: php}
   - {role: ag}
   - {role: zip}
+  - {role: go}

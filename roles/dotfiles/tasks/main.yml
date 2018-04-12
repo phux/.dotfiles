@@ -1,0 +1,9 @@
+---
+- name: go
+  file:
+    src: "/drupal/drush/{{ item.path }}.aliases.drushrc.php"
+    dest: "/home/vagrant/.drush/{{ item.dest }}.aliases.drushrc.php"
+    state: link
+  with_items:
+    - {path: 'new', dest: 'new'}
+    - {path: 'vmdev', dest: 'vmdev'}
