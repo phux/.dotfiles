@@ -4,8 +4,9 @@
     - apt
     - terminal
     - urxvt
-    - neovim
-    - i3
-    - php
     - tmux
     - zsh
+    - i3
+    - php
+    - go
+    - neovim

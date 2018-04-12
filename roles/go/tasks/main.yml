@@ -1,0 +1,46 @@
+---
+- stat: path={{ ansible_env.HOME }}/.gvm
+  register: gvm_check
+
+- block:
+
+  - name: install gvm dependencies
+    become: yes
+    apt: name=bison state=present
+
+  - name: Install Golang gvm
+    shell: bash < <(curl -s -S -L https://raw.githubusercontent.com/moovweb/gvm/master/binscripts/gvm-installer)
+        executable="/bin/bash"
+    ignore_errors: yes
+
+  - name: install golang1.4
+    shell: source ~/.zshrc && gvm install go1.4 executable=/bin/zsh
+
+  - name: use golang1.4
+    shell: source ~/.zshrc && gvm use go1.4 --default executable=/bin/zsh
+
+  - name: install latest golang
+    shell: source ~/.zshrc && gvm install {{ go_version }} executable=/bin/zsh
+
+  - name: use latest golang
+    shell: source ~/.zshrc && gvm use {{ go_version }} --default executable=/bin/zsh
+
+  when: gvm_check.stat.exists == False
+
+- name: Check if gotests is installed
+  command: which gotests
+  register: gotests_check
+  ignore_errors: yes
+
+- name: install gotests
+  shell: source ~/.zshrc && go get -u github.com/cweill/gotests/... executable=/bin/zsh
+  when: gotests_check.stdout.find('gotests not found') != -1
+
+- name: Check if glide is installed
+  command: which glide
+  register: glide_check
+  ignore_errors: yes
+
+- name: install glide
+  shell: source ~/.zshrc && curl https://glide.sh/get | sh executable=/bin/zsh
+  when: glide_check.stdout.find('glide not found') != -1
