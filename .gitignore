@@ -7,3 +7,4 @@ tags
 phpactor.log
 npm-debug.log
 .vagrant/
+playbook.retry
