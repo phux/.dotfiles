@@ -1,0 +1,7 @@
+---
+dependencies:
+  - {role: pip}
+  - {role: zsh}
+  - {role: php}
+  - {role: ag}
+  - {role: zip}
