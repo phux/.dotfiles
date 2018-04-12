@@ -44,12 +44,3 @@
     file: state=absent path=/tmp/pip3.py
 
   when: pip3_is_installed.rc != 0
-
-# - name: Ensure pip is installed.
-#   shell: wget https://bootstrap.pypa.io/get-pip.py -O /tmp/pip.py && python /tmp/pip.py --user
-
-# - name: Ensure pip3 is installed.
-#   shell: wget https://bootstrap.pypa.io/3.2/get-pip.py -O /tmp/pip3.py && python /tmp/pip3.py --user
-
-# - name: ensure pip path
-#   shell: export PATH={{ ansible_env.PATH }}:{{ ansible_env.HOME }}/.local/bin

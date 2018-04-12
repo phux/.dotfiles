@@ -14,10 +14,15 @@
   with_fileglob:
    - .zsh*
 
-- name: install antibody
-  shell: curl -sL git.io/antibody | bash -s
-  ignore_errors: true
+- stat: path={{ ansible_env.HOME }}/.cache/antibody
+  register: antibody_check
 
-- name: create zsh plugins file
-  shell: antibody bundle < ~/.zsh_plugins.txt  > ~/.zsh_plugins.sh
-  ignore_errors: true
+- block:
+  - name: install antibody
+    shell: curl -sL git.io/antibody | bash -s
+    ignore_errors: true
+
+  - name: create zsh plugins file
+    shell: antibody bundle < ~/.zsh_plugins.txt  > ~/.zsh_plugins.sh
+    ignore_errors: true
+  when: antibody_check.stat.exists == False

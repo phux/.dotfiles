@@ -121,6 +121,7 @@ Plug 'sjl/gundo.vim', {'on': 'GundoToggle'}
 Plug 'aserebryakov/vim-todo-lists'
 " Plug 'mhinz/vim-startify'
 Plug 'pearofducks/ansible-vim', { 'do': 'cd ./UltiSnips; python2 generate.py' }
+Plug 'machakann/vim-highlightedyank'
 call plug#end()
 
 let mapleader = "\<Space>"
@@ -684,3 +685,5 @@ function! LightScheme()
   set cul
   " hi CursorLine   cterm=NONE ctermbg=7 ctermfg=NONE
 endfunction
+
+set inccommand=nosplit
