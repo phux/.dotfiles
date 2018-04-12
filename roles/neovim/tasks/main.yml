@@ -89,8 +89,8 @@
   when: npm_check.stdout.find('_zsh_nvm_load') != -1
 
 
-- name: installing linters via npm
-  shell: "gem install {{ item }}"
+- name: installing linters via gem
+  shell: "{{ ansible_env.HOME }}/.rbenv/versions/2.5.1/bin/gem install {{ item }}"
   with_items:
     - mdl
     - scss_lint
