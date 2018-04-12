@@ -7,4 +7,4 @@ provision:
 	ansible-playbook playbook.yml
 
 test:
-	vagrant provision
+	vagrant up --provision
