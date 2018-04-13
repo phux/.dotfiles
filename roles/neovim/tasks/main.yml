@@ -53,11 +53,18 @@
     - UltiSnips/*
 
 - name: install | plugins
-  command: "nvim +silent! +PlugInstall! +UpdateRemotePlugins! +GoInstallBinaries! +GoDoctorInstall! +qall! /tmp/needed_file.go"
+  # opening file to load vim-go
+  command: >
+    nvim +silent!
+    +PlugInstall!
+    +UpdateRemotePlugins!
+    +GoInstallBinaries!
+    +GoDoctorInstall!
+    +qall!
+    /tmp/needed_file.go
   ignore_errors: true
 
 - name: installing metalinter deps
-  # opening file to load vim-go
   shell: source ~/.zshrc && gometalinter --install executable=/bin/zsh
 
 - name: installing linters via apt
@@ -73,6 +80,18 @@
     - flake8
     - proselint
     - yamllint
+    - ansible-lint
+
+- name: create yamllint dir
+  file: path={{ config_dir }}/yamllint state=directory
+
+- name: link yamllint cfg
+  file:
+    src: "{{ item }}"
+    dest: "{{ config_dir }}/yamllint/config"
+    state: link
+  with_fileglob:
+    - linters/yamllint
 
 - name: Check if npm is installed/loaded
   command: which npm
@@ -88,9 +107,8 @@
     - markdown-lint-cli
   when: npm_check.stdout.find('_zsh_nvm_load') != -1
 
-
 - name: installing linters via gem
-  shell: "{{ ansible_env.HOME }}/.rbenv/versions/2.5.1/bin/gem install {{ item }}"
+  shell: "{{  ansible_env.HOME }}/.rbenv/versions/2.5.1/bin/gem install {{ item }}"
   with_items:
     - mdl
     - scss_lint

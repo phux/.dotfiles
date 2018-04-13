@@ -649,8 +649,8 @@ highlight nonText ctermbg=NONE
 
 set nocul
 
-if exists('neomake#configure#automake')
-  call neomake#configure#automake('w')
+if &rtp =~ 'neomake'
+    call neomake#configure#automake('w')
 endif
 
 " keep cursor position
