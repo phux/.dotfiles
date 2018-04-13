@@ -386,7 +386,6 @@ let g:deoplete#sources._ = ['ultisnips', 'buffer']
 
 let g:deoplete#sources#padawan#add_parentheses=1
 let g:deoplete#sources#padawan#server_command='~/.config/nvim/plugged/deoplete-padawan/vendor/bin/padawan-server'
-let g:deoplete#sources#padawan#auto_update=1
 let g:deoplete#sources.php = ['padawan', 'ultisnips', 'buffer']
 let g:deoplete#skip_chars = ['$']
 

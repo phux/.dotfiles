@@ -21,7 +21,7 @@
     src: "{{ item }}"
     dest: "{{ ansible_env.HOME }}/.{{ item | basename }}"
     state: link
-  with_items:
+  with_fileglob:
     - gitignore
 
 - git_config:

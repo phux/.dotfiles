@@ -52,6 +52,9 @@
   with_fileglob:
     - UltiSnips/*
 
+- name: creating project file
+  file: path="{{ ansible_env.HOME }}/.projects.private.vim" state=present
+
 - name: install | plugins
   # opening file to load vim-go
   command: >
@@ -114,3 +117,11 @@
     - mdl
     - scss_lint
     - sqlint
+
+- name: link easy-coding-standard configs
+  file:
+    src: "{{ item }}"
+    dest: "{{ ansible_env.HOME }}/{{ item | basename }}"
+    state: link
+  with_fileglob:
+    - linters/.easy-coding-standard*

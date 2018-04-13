@@ -1,6 +1,4 @@
-if filereadable("~/.projects.private.vim")
-  so ~/.projects.private.vim
-endif
+so ~/.projects.private.vim
 
 function! Zf1(...) abort
     let g:ultisnips_php_scalar_types = 0
@@ -14,6 +12,7 @@ function! Zf1(...) abort
     nnoremap <silent> <leader>tsu <c-w>v:call SwitchBetweenFiles('php', 'tests/', 'library/', 'Test')<cr>
     " autocmd FileType php set omnifunc=phpcd
     nnoremap <silent> gd g<c-]>
+    vnoremap <unique> <Leader>em :call PhpExtractMethod()<CR>
 
     let g:cm_auto_popup=0 " disable nvim-completion-manager
     call deoplete#enable()
