@@ -92,7 +92,7 @@ Plug 'shime/vim-livedown', {'for': 'markdown'}
 " Plug 'autozimu/LanguageClient-neovim', { 'do': ':UpdateRemotePlugins' }
 Plug 'autozimu/LanguageClient-neovim', {
     \ 'branch': 'next',
-    \ 'do': 'bash install.sh',
+    \ 'do': ['bash install.sh', ':UpdateRemotePlugins'],
     \ }
 Plug 'nelsyeung/twig.vim', {'for': 'twig'}
 
