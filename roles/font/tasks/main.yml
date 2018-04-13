@@ -1,0 +1,24 @@
+---
+- stat: path={{ ansible_env.HOME }}/.local/share/fonts/Hack-Regular.ttf
+  register: hack_font_check
+
+- block:
+
+  - name: make font dir
+    file: path={{ ansible_env.HOME }}/.local/share/fonts/ type=directory
+
+  - name: checkout hack-font repo
+    git: >
+      repo=https://github.com/powerline/fonts.git
+      dest=/tmp/hackfont
+      accept_hostkey=yes
+      force=yes
+    ignore_errors: yes
+
+  - name: install font
+    shell: /tmp/hackfont/install.sh
+
+  - name: cleanup font
+    file: path=/tmp/hackfont/ state=absent
+
+  when: hack_font_check.stat.exists == False

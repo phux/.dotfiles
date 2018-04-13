@@ -7,3 +7,4 @@ dependencies:
   - {role: zip}
   - {role: go}
   - {role: ruby}
+  - {role: font}

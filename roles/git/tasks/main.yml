@@ -16,6 +16,14 @@
   with_fileglob:
     - git_templates/*
 
+- name: Link global gitignore
+  file:
+    src: "{{ item }}"
+    dest: "{{ ansible_env.HOME }}/.{{ item | basename }}"
+    state: link
+  with_items:
+    - gitignore
+
 - git_config:
     name: init.templatedir
     scope: global
@@ -27,7 +35,9 @@
     value: "!git branch --merged | grep  -v '\\*\\|master\\|develop' | xargs -n 1 git branch -d"
 
 - name: install diff-so-fancy
-  get_url: url=https://raw.githubusercontent.com/so-fancy/diff-so-fancy/master/third_party/build_fatpack/diff-so-fancy dest=~/.local/bin/
+  get_url:
+    url=https://raw.githubusercontent.com/so-fancy/diff-so-fancy/master/third_party/build_fatpack/diff-so-fancy
+    dest=~/.local/bin/
 
 - name: make diff-so-fancy executable
   file:
@@ -39,4 +49,3 @@
     name: core.pager
     scope: global
     value: diff-so-fancy | less --tabs=4 -RFX
-

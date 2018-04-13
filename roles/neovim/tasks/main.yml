@@ -98,13 +98,14 @@
   register: npm_check
   ignore_errors: yes
 
-- name: installing linters via npm
+- name: installing linters/tools via npm
   shell: "npm install -g {{ item }}"
   with_items:
     - stylelint
     - jsonlint
     - write-good
     - markdown-lint-cli
+    - livedown
   when: npm_check.stdout.find('_zsh_nvm_load') != -1
 
 - name: installing linters via gem

@@ -15,7 +15,6 @@ function! Zf1(...) abort
     " autocmd FileType php set omnifunc=phpcd
     nnoremap <silent> gd g<c-]>
 
-    " vnoremap <leader>rem :call PhpRefactorExtractMethodDirectly()<CR>
     let g:cm_auto_popup=0 " disable nvim-completion-manager
     call deoplete#enable()
 

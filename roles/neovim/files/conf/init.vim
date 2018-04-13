@@ -58,7 +58,7 @@ Plug 'phux/php-doc-modded', {'for': 'php'}
 Plug 'sahibalejandro/vim-php', {'for': ['php', 'yaml']}
 Plug 'StanAngeloff/php.vim', {'for': 'php'}
 Plug 'alvan/vim-php-manual', {'for': 'php'}
-Plug 'vim-php/vim-php-refactoring', {'for': 'php'}
+" Plug 'vim-php/vim-php-refactoring', {'for': 'php'}
 Plug 'adoy/vim-php-refactoring-toolbox', {'for': 'php'}
 Plug 'phpactor/phpactor', {'for': 'php', 'do': ':call phpactor#Update()' }
 Plug 'lvht/phpcd.vim', { 'for': 'php', 'do': 'composer install' }
