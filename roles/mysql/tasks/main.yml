@@ -1,8 +1,6 @@
 ---
-- name: terminal
+- name: install mysql-workbench
   become: yes
   apt: name={{ item }} state=latest
   with_items:
-    - ncdu
-    - htop
-    - ranger
+    - mysql-workbench

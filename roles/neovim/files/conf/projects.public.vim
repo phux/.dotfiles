@@ -12,7 +12,7 @@ function! Zf1(...) abort
     nnoremap <silent> <leader>tsu <c-w>v:call SwitchBetweenFiles('php', 'tests/', 'library/', 'Test')<cr>
     " autocmd FileType php set omnifunc=phpcd
     nnoremap <silent> gd g<c-]>
-    vnoremap <unique> <Leader>em :call PhpExtractMethod()<CR>
+    vnoremap <Leader>em :call PhpExtractMethod()<CR>
 
     let g:cm_auto_popup=0 " disable nvim-completion-manager
     call deoplete#enable()

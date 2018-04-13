@@ -7,12 +7,10 @@
     },
     "minimum-stability": "dev",
     "require": {
-        "hirak/prestissimo": "^0.3",
+        "hirak/prestissimo": "dev-master",
         "phpmd/phpmd": "^2.6",
         "friendsofphp/php-cs-fixer": "^2.2",
         "phploc/phploc": "^4.0",
-        "phpro/grumphp": "dev-master",
-        "sebastian/phpcpd": "^3.0@dev",
         "jakub-onderka/php-parallel-lint": "dev-master",
         "sensiolabs/security-checker": "^4.0@dev",
         "spatie/phpunit-watcher": "dev-master",

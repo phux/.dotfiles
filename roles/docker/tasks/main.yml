@@ -1,0 +1,23 @@
+---
+
+- name: check to see if docker is already installed
+  command: "docker --version"
+  ignore_errors: true
+  register: docker_is_installed
+  changed_when: false
+
+- block:
+
+  - name: download get-docker.sh
+    get_url: url=get.docker.com  dest=/tmp/get-docker.sh
+
+  - name: install docker
+    command: "sh /tmp/get-docker.sh"
+
+  - name: delete get-docker.sh
+    file: state=absent path=/tmp/get-docker.sh
+
+  when: docker_is_installed.rc != 0
+
+- name: install docker-compose
+  shell: "{{ ansible_env.HOME }}/.local/bin/pip install --user --upgrade docker-compose"

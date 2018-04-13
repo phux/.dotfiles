@@ -53,7 +53,10 @@
     - UltiSnips/*
 
 - name: creating project file
-  file: path="{{ ansible_env.HOME }}/.projects.private.vim" state=present
+  copy:
+    content: ""
+    dest: "{{ ansible_env.HOME }}/.projects.private.vim"
+    force: no
 
 - name: install | plugins
   # opening file to load vim-go
@@ -75,6 +78,10 @@
   apt: name={{ item }} state=present
   with_items:
     - shellcheck
+
+- name: install ffi as ansible-lint dependency
+  become: yes
+  apt: package=libffi-dev state=present
 
 - name: installing linters via pip
   shell: "{{ ansible_env.HOME }}/.local/bin/pip install --user {{ item }}"
@@ -125,3 +132,26 @@
     state: link
   with_fileglob:
     - linters/.easy-coding-standard*
+
+- name: Check if ctags is installed
+  command: ctags --version
+  register: ctags_check
+  ignore_errors: yes
+
+- block:
+
+  - name: clone ctags
+    git: >
+      repo=https://github.com/universal-ctags/ctags.git
+      dest=/tmp/ctags
+      accept_hostkey=yes
+      force=yes
+    ignore_errors: yes
+
+  - name: prepare ctags
+    shell: cd /tmp/ctags/ && ./autogen.sh && ./configure && make
+
+  - name: install ctags
+    become: yes
+    shell: cd /tmp/ctags/ && make install
+  when: ctags_check.stdout.find('Universal Ctags') == -1

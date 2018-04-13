@@ -8,3 +8,4 @@ dependencies:
   - {role: go}
   - {role: ruby}
   - {role: font}
+  - {role: common}

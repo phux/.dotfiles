@@ -1,0 +1,20 @@
+---
+- name: install various tools
+  become: yes
+  apt: name={{ item }} state=latest
+  with_items:
+    - wget
+    - build-essential
+    - automake
+    - autoconf
+    - pkg-config
+    - python-software-properties
+    - libssl-dev
+    - curl
+    - gdebi
+    - filezilla
+    - vagrant
+    - virtualbox
+    - thunar
+    - chromium-browser
+    - mousepad

@@ -5,7 +5,7 @@
 - block:
 
   - name: make font dir
-    file: path={{ ansible_env.HOME }}/.local/share/fonts/ type=directory
+    file: path={{ ansible_env.HOME }}/.local/share/fonts/ state=directory
 
   - name: checkout hack-font repo
     git: >
