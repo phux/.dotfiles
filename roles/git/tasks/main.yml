@@ -6,7 +6,7 @@
     state: present
 
 - name: Create git_templates dir
-  shell: mkdir -p {{ ansible_env.HOME }}/.git_templates
+  file: path={{ ansible_env.HOME }}/.git_templates state=directory
 
 - name: Link git template files
   file:

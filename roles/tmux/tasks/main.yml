@@ -19,7 +19,7 @@
 - block:
 
   - name: ensure tpm dir
-    shell: mkdir -p {{ ansible_env.HOME }}/.tmux/plugins/tpm
+    file: path={{ ansible_env.HOME }}/.tmux/plugins/tpm state=directory
 
   - name: clone tpm
     shell: git clone https://github.com/tmux-plugins/tpm {{ ansible_env.HOME }}/.tmux/plugins/tpm

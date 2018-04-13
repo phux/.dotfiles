@@ -31,7 +31,7 @@
     - conf/*
 
 - name: Create ftplugin dir
-  shell: mkdir -p {{ neovim_config_dir }}/ftplugin
+  file: path={{ neovim_config_dir }}/ftplugin state=directory
 
 - name: Link ftplugin files
   file:
@@ -42,7 +42,7 @@
     - ftplugin/*
 
 - name: Create UltiSnips dir
-  shell: mkdir -p {{ neovim_config_dir }}/UltiSnips
+  file: path={{ neovim_config_dir }}/UltiSnips state=directory
 
 - name: Link UltiSnips snippets
   file:
