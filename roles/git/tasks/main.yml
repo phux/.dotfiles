@@ -5,7 +5,7 @@
 
 - name: git
   become: yes
-  apt:
+  package:
     name: git
     state: latest
 

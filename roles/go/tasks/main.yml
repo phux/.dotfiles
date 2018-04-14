@@ -6,7 +6,7 @@
 
   - name: install gvm dependencies
     become: yes
-    apt: name=bison state=present
+    package: name=bison state=present
 
   - name: Install Golang gvm
     shell: bash < <(curl -s -S -L https://raw.githubusercontent.com/moovweb/gvm/master/binscripts/gvm-installer)
@@ -43,3 +43,4 @@
 - name: install glide
   shell: source ~/.zshrc && curl https://glide.sh/get | sh executable=/bin/zsh
   when: glide_check.stdout.find('glide not found') != -1
+

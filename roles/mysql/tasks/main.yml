@@ -1,6 +1,6 @@
 ---
 - name: install mysql-workbench
   become: yes
-  apt: name={{ item }} state=latest
+  package: name={{ item }} state=latest
   with_items:
     - mysql-workbench

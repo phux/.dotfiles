@@ -1,7 +1,7 @@
 ---
 - name: install various tools
   become: yes
-  apt: name={{ item }} state=latest
+  package: name={{ item }} state=latest
   with_items:
     - wget
     - build-essential

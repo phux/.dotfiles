@@ -1,15 +1,9 @@
 ---
-- name: check to see if pip is already installed
-  command: "pip --version"
-  ignore_errors: true
+- stat: path={{ ansible_env.HOME }}/.local/bin/pip
   register: pip_is_installed
-  changed_when: false
 
-- name: check to see if pip3 is already installed
-  command: "pip3 --version"
-  ignore_errors: true
+- stat: path={{ ansible_env.HOME }}/.local/bin/pip3
   register: pip3_is_installed
-  changed_when: false
 
 - block:
 
@@ -26,7 +20,7 @@
   - name: delete get-pip.py
     file: state=absent path=/tmp/get-pip.py
 
-  when: pip_is_installed.rc != 0
+  when: pip_is_installed.stat.exists == False
 
 - block:
 
@@ -43,4 +37,4 @@
   - name: delete pip3.py
     file: state=absent path=/tmp/pip3.py
 
-  when: pip3_is_installed.rc != 0
+  when: pip3_is_installed.stat.exists == False

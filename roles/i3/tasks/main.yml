@@ -4,7 +4,7 @@
 
 - name: Install i3 and deps
   become: yes
-  apt: name={{ item }} state=latest
+  package: name={{ item }} state=latest
   with_items:
    - i3
    - i3lock

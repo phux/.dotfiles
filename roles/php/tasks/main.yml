@@ -4,7 +4,7 @@
   become: yes
 
 - name: Install PHP 5.6 and PHP 7.2
-  apt: name={{item}} state=latest
+  package: name={{item}} state=latest
   become: yes
   with_items:
     - php5.6

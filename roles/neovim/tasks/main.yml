@@ -70,18 +70,29 @@
     /tmp/needed_file.go
   ignore_errors: true
 
+- name: installing metalinter
+  shell: source ~/.zshrc && go get -u github.com/alecthomas/gometalinter executable=/bin/zsh
+
 - name: installing metalinter deps
   shell: source ~/.zshrc && gometalinter --install executable=/bin/zsh
 
+- name: Link .gometalinter config
+  file: src={{item}} dest={{ ansible_env.HOME }}/{{ item | basename }} state=link
+  with_fileglob:
+   - .gometalinter.json
+
+- name: installing zb
+  shell: source ~/.zshrc && go get jrubin.io/zb executable=/bin/zsh
+
 - name: installing linters via apt
   become: yes
-  apt: name={{ item }} state=present
+  package: name={{ item }} state=present
   with_items:
     - shellcheck
 
 - name: install ffi as ansible-lint dependency
   become: yes
-  apt: package=libffi-dev state=present
+  package: package=libffi-dev state=present
 
 - name: installing linters via pip
   shell: "{{ ansible_env.HOME }}/.local/bin/pip install --user {{ item }}"
@@ -134,7 +145,7 @@
     - linters/.easy-coding-standard*
 
 - name: Check if ctags is installed
-  command: ctags --version
+  command: which ctags
   register: ctags_check
   ignore_errors: yes
 
@@ -154,4 +165,5 @@
   - name: install ctags
     become: yes
     shell: cd /tmp/ctags/ && make install
-  when: ctags_check.stdout.find('Universal Ctags') == -1
+
+  when: ctags_check.stdout.find('not found') == -1
