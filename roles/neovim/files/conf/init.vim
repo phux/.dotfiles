@@ -665,7 +665,7 @@ let g:vim_php_refactoring_use_default_mapping = 0
 command! -bang PadawanGenerate call deoplete#sources#padawan#Generate(<bang>0)
 
 so ~/.config/nvim/projects.public.vim
-nnoremap <leader>u :GundoToggle<CR>
+nnoremap <m-u> :GundoToggle<CR>
 let g:gundo_width = 60
 let g:gundo_preview_height = 40
 let g:gundo_right = 1
@@ -686,3 +686,5 @@ function! LightScheme()
 endfunction
 
 set inccommand=nosplit
+let g:livedown_autorun = 1
+let g:livedown_open = 1 

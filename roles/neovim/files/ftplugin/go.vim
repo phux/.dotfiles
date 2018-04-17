@@ -7,6 +7,7 @@ vnoremap <buffer> <leader>em :Refactor extract
 vnoremap <buffer> <leader>ev :Refactor var 
 noremap <buffer> <leader>: :Refactor toggle<cr> 
 noremap <buffer> <leader>h :Refactor godoc<cr>
+noremap <buffer> <leader>u :exec "GoImport ".expand("<cword>")<cr>
 " nnoremap <buffer> <leader>h :call GoComment()<cr>
 
 nnoremap <buffer> gr :GoReferrers<cr>
