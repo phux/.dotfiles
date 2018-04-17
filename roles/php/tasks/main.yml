@@ -75,10 +75,10 @@
   when: composer_check.stat.exists == False
 
 - name: Create composer directory
-  file: path={{ ansible_env.HOME }}/.config/composer state=directory
+  file: path={{ ansible_env.HOME }}/.composer state=directory
 
 - name: Link composer files
-  file: src={{item}} dest={{ ansible_env.HOME }}/.config/composer/{{ item | basename }} state=link
+  file: src={{item}} dest={{ ansible_env.HOME }}/.composer/{{ item | basename }} state=link
   with_fileglob:
     - composer.* 
 
