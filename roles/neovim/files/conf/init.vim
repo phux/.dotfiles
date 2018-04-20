@@ -1,8 +1,7 @@
 if empty(glob('~/.config/nvim/autoload/plug.vim'))
-  silent !curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs
-        \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-  autocmd!
-  autocmd VimEnter * PlugInstall
+  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
 endif
 
 call plug#begin('~/.config/nvim/plugged')
@@ -60,7 +59,8 @@ Plug 'StanAngeloff/php.vim', {'for': 'php'}
 Plug 'alvan/vim-php-manual', {'for': 'php'}
 " Plug 'vim-php/vim-php-refactoring', {'for': 'php'}
 Plug 'adoy/vim-php-refactoring-toolbox', {'for': 'php'}
-Plug 'phpactor/phpactor', {'for': 'php', 'do': ':call phpactor#Update()' }
+let g:phpactorBranch = 'develop'
+Plug 'phpactor/phpactor', {'for': 'php', 'do': ':call phpactor#Update()'}
 Plug 'lvht/phpcd.vim', { 'for': 'php', 'do': 'composer install' }
 
 " Plug 'fatih/vim-go', {'for': 'go', 'do': ':GoUpdateBinaries', 'tag': '*'}
@@ -89,10 +89,9 @@ Plug 'gabrielelana/vim-markdown', {'for': 'markdown'}
 Plug 'junegunn/goyo.vim', {'for': 'markdown'}
 Plug 'shime/vim-livedown', {'for': 'markdown'}
 
-" Plug 'autozimu/LanguageClient-neovim', { 'do': ':UpdateRemotePlugins' }
 Plug 'autozimu/LanguageClient-neovim', {
     \ 'branch': 'next',
-    \ 'do': ['bash install.sh', ':UpdateRemotePlugins'],
+    \ 'do': 'bash install.sh',
     \ }
 Plug 'nelsyeung/twig.vim', {'for': 'twig'}
 
@@ -195,6 +194,15 @@ augroup nvim
   " fix issue when leaving vim
   " au WinEnter * :EnableGoldenViewAutoResize
 augroup END
+
+augroup qf_loc_lists
+  au!
+  autocmd FileType qf nmap <c-p> <Plug>(qf_qf_previous)
+  autocmd FileType qf nmap <c-n> <Plug>(qf_qf_next)
+  " autocmd FileType lf nmap <c-n> <Plug>(qf_loc_next)
+  " autocmd FileType lc nmap <c-p> <Plug>(qf_loc_previous)
+augroup END
+
 augroup js
   au!
 
@@ -336,12 +344,13 @@ nnoremap <leader>/ :Ack <c-r><c-w><cr>
 nnoremap <leader>rip :Acks /<c-r><c-w>/<c-r><c-w>/gc<left><left><left>
 
 nmap <Leader>L <Plug>(easymotion-bd-jk)
-nmap <Leader>L <Plug>(easymotion-overwin-line) 
-nmap <Leader>j <Plug>(easymotion-j)
-nmap <Leader>k <Plug>(easymotion-k)
-nmap  <Leader>F <Plug>(easymotion-bd-w)
-nmap <Leader>F <Plug>(easymotion-overwin-w)
-nmap <Leader>f <Plug>(easymotion-w)
+" nmap <Leader>L <Plug>(easymotion-overwin-line) 
+" nmap <Leader>j <Plug>(easymotion-j)
+" nmap <Leader>k <Plug>(easymotion-k)
+nmap <Leader>F <Plug>(easymotion-bd-w)
+" nmap <leader>s <Plug>(easymotion-overwin-f)
+nmap <Leader>f <Plug>(easymotion-overwin-w)
+" nmap <Leader>f <Plug>(easymotion-w)
 nmap  <Leader>b <Plug>(easymotion-b)
 let g:EasyMotion_smartcase = 1
 
