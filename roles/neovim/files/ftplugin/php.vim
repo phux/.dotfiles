@@ -13,7 +13,7 @@ let g:cm_auto_popup=1
 nnoremap <buffer> <silent> <leader>W :w<cr>:PadawanGenerate<cr>
 nnoremap <buffer> <m-a> :call SymfonySwitchToAlternateFile()<cr>
 nnoremap <buffer> <leader>tsa <c-w>v:call SymfonySwitchToAlternateFile()<cr>
-" nnoremap <buffer> <m-m> :call PHPUnitSetupMethod()<cr>
+nnoremap <buffer> <m-f> :call PHPUnitSetupMethod()<cr>
 nnoremap <buffer> <leader>rrp :call PhpRenameClassVariable()<CR>
 nnoremap <buffer> <leader>rrm :call PhpRenameMethod()<CR>
 nnoremap <buffer> <leader>reu :call PhpExtractUse()<CR>
@@ -38,7 +38,6 @@ inoremap <buffer> <C-d> <ESC>:call PhpDocSingle()<CR>
 nnoremap <buffer> <leader>h :call UpdatePhpDocIfExists()<CR>
 vnoremap <silent><Leader>em :<C-U>call phpactor#ExtractMethod()<CR>
 
-nnoremap <silent> <leader>gd g<c-]>
 nnoremap <silent> gd :call phpactor#GotoDefinition()<CR>
 
 function! PHPUnitSetupMethod()
