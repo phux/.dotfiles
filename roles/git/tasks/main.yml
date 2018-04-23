@@ -9,16 +9,16 @@
     name: git
     state: latest
 
-- name: Create git_templates dir
-  file: path={{ ansible_env.HOME }}/.git_templates state=directory
+- name: Create git_templates/hooks dir
+  file: path={{ ansible_env.HOME }}/.git_templates/hooks state=directory
 
 - name: Link git template files
   file:
     src: "{{ item }}"
-    dest: "{{ ansible_env.HOME }}/.git_templates/{{ item | basename }}"
+    dest: "{{ ansible_env.HOME }}/.git_templates/hooks/{{ item | basename }}"
     state: link
   with_fileglob:
-    - git_templates/*
+    - git_templates/hooks/*
 
 - name: Link global gitignore
   file:
