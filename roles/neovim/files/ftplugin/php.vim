@@ -11,8 +11,6 @@ setlocal tabstop=4 shiftwidth=4
 let g:cm_auto_popup=1
 
 nnoremap <buffer> <silent> <leader>W :w<cr>:PadawanGenerate<cr>
-nnoremap <buffer> <m-a> :call SymfonySwitchToAlternateFile()<cr>
-nnoremap <buffer> <leader>tsa <c-w>v:call SymfonySwitchToAlternateFile()<cr>
 nnoremap <buffer> <m-f> :call PHPUnitSetupMethod()<cr>
 nnoremap <buffer> <leader>rrp :call PhpRenameClassVariable()<CR>
 nnoremap <buffer> <leader>rrm :call PhpRenameMethod()<CR>
@@ -39,6 +37,9 @@ nnoremap <buffer> <leader>h :call UpdatePhpDocIfExists()<CR>
 vnoremap <silent><Leader>em :<C-U>call phpactor#ExtractMethod()<CR>
 
 nnoremap <silent> gd :call phpactor#GotoDefinition()<CR>
+
+" nnoremap <buffer> <m-a> :call SymfonySwitchToAlternateFile()<cr> " set via projects.public.vim
+" nnoremap <buffer> <leader>tsa <c-w>v:call SymfonySwitchToAlternateFile()<cr>
 
 function! PHPUnitSetupMethod()
   normal! oprotected function setUp()

@@ -1,8 +1,8 @@
-if empty(glob('~/.config/nvim/autoload/plug.vim'))
-  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
-    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
-endif
+" if empty(glob('~/.config/nvim/autoload/plug.vim'))
+"   silent !curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs
+"     \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+"   autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+" endif
 
 call plug#begin('~/.config/nvim/plugged')
 
@@ -120,7 +120,7 @@ Plug 'sjl/gundo.vim', {'on': 'GundoToggle'}
 Plug 'aserebryakov/vim-todo-lists'
 " Plug 'mhinz/vim-startify'
 Plug 'pearofducks/ansible-vim', { 'do': 'cd ./UltiSnips; python2 generate.py' }
-Plug 'machakann/vim-highlightedyank'
+" Plug 'machakann/vim-highlightedyank'
 call plug#end()
 
 let mapleader = "\<Space>"
@@ -433,8 +433,6 @@ if exists('&colorcolumn')
 endif
 
 set nostartofline
-
-
 
 nmap <c-p> <Plug>(qf_loc_previous)
 nmap <c-n> <Plug>(qf_loc_next)

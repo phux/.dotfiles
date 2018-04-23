@@ -9,7 +9,7 @@ function! Zf1(...) abort
     nnoremap <silent> <leader>w :w<cr>
 
     nnoremap <silent> <m-a> :call SwitchBetweenFiles('php', 'tests/', 'library/', 'Test')<cr>
-    nnoremap <silent> <leader>tsu <c-w>v:call SwitchBetweenFiles('php', 'tests/', 'library/', 'Test')<cr>
+    nnoremap <silent> <leader>tsa <c-w>v:call SwitchBetweenFiles('php', 'tests/', 'library/', 'Test')<cr>
     " autocmd FileType php set omnifunc=phpcd
     " nnoremap <silent> gd g<c-]>
     " vnoremap <Leader>em :call PhpExtractMethod()<CR>
@@ -34,7 +34,7 @@ function! Symfony(...) abort
     nnoremap <silent> <c-s> :update<cr>:Silent php-cs-fixer fix %:p --rules=@Symfony<cr>:Silent phpcbf --standard=Symfony3Custom %:p > /dev/null<cr>:e<cr>
 
     nnoremap <m-a> :call SymfonySwitchToAlternateFile()<cr>
-    nnoremap <leader>tsu <c-w>v:call SymfonySwitchToAlternateFile()<cr>
+    nnoremap <leader>tsa <c-w>v:call SymfonySwitchToAlternateFile()<cr>
     nnoremap <silent> gd :call phpactor#GotoDefinition()<CR>
     nnoremap <silent> gr :call phpactor#FindReferences()<CR>
     nnoremap <leader>tt :call phpactor#Transform()<cr>
