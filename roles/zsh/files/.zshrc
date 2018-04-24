@@ -65,7 +65,11 @@ alias vh='vagrant halt'
 alias vp='vagrant provision'
 alias dcup='docker-compose up'
 alias dcstop='docker-compose stop'
+alias dcdn='docker-compose down'
 alias dce='docker-compose exec'
+alias dcl='docker-compose logs'
+alias dclf='docker-compose logs -f'
+
 alias ob='observr autotest.rb'
 alias ls="ls --color=auto"
 alias l='ls -lFh'     #size,show type,human readable
