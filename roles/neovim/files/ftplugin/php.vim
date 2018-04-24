@@ -55,64 +55,6 @@ function! PHPUnitSetupMethod()
   endwhile
 endfunction
 
-" SymfonySwitchToAlternateFile {{{
-
-" changes to test/sut files
-" following structure:
-" sut: <dir1>/<dir2>/<dir3>/<dir4>/.../<file>.php
-" test: <dir1>/<dir2>/<dir3>/Tests/<dir4>/.../<file>Test.php
-"
-" example:
-" sut:  src/Acme/Bundle/Service/MyService.php
-" test: src/Acme/Bundle/Tests/Service/MyServiceTest.php
-
-let g:switch_alternate_dirs_to_keep = 2
-function! SymfonySwitchToAlternateFile()
-  let l:f = expand('%')
-  if !exists("g:switch_alternate_dirs_to_keep")
-    let g:switch_alternate_dirs_to_keep = 2
-  endif
-  let l:is_test = expand('%:t') =~ "Test\."
-  if l:is_test
-    " remove phpunit_testroot
-    let l:f = substitute(l:f, 'Tests/','','')
-    " remove 'Test.' from filename
-    let l:f = substitute(l:f,'Test\.','.','')
-  else
-    let l:pathParts = split(expand('%:r'), '/')
-    let l:startingPath = l:pathParts[0:g:switch_alternate_dirs_to_keep]
-    let l:endPath = l:pathParts[(g:switch_alternate_dirs_to_keep+1):]
-    let l:combinedPath = l:startingPath + ['Tests'] + l:endPath
-    let l:f = join(l:combinedPath, '/') . 'Test.php'
-    if !filereadable(l:f)
-      let l:new_dir = substitute(l:f, '/\w\+\.php', '', '')
-      exe ":!mkdir -p ".l:new_dir
-    endif
-  endif
-  " is there window with alternate file open?
-  let win = bufwinnr(l:f)
-  if l:win > 0
-    execute l:win . "wincmd w"
-  else
-    execute ":e " . l:f
-  endif
-endfunction
-" }}}
-
-function! PHPUnitSetupMethod()
-  normal! oprotected function setUp()
-  normal! o{
-  normal! o}
-  normal! kp
-  while getline('.') =~ '\$'
-    normal! ==
-    :s/\(\w\+\) \(\$\w\+\),*/\2 = Phake::mock(\1::class);
-    normal! 0f$l
-    call PhpExtractClassProperty()
-    normal! j
-  endwhile
-endfunction
-
 let g:vim_php_refactoring_default_property_visibility = 'private'
 let g:vim_php_refactoring_default_method_visibility = 'private'
 let g:vim_php_refactoring_auto_validate_visibility = 1

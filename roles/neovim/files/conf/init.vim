@@ -695,3 +695,46 @@ endfunction
 set inccommand=nosplit
 let g:livedown_autorun = 1
 let g:livedown_open = 1 
+
+" SymfonySwitchToAlternateFile {{{
+
+" changes to test/sut files
+" following structure:
+" sut: <dir1>/<dir2>/<dir3>/<dir4>/.../<file>.php
+" test: <dir1>/<dir2>/<dir3>/Tests/<dir4>/.../<file>Test.php
+"
+" example:
+" sut:  src/Acme/Bundle/Service/MyService.php
+" test: src/Acme/Bundle/Tests/Service/MyServiceTest.php
+
+function! SymfonySwitchToAlternateFile()
+  let l:f = expand('%')
+  if !exists("g:switch_alternate_dirs_to_keep")
+    let g:switch_alternate_dirs_to_keep = 2
+  endif
+  let l:is_test = expand('%:t') =~ "Test\."
+  if l:is_test
+    " remove phpunit_testroot
+    let l:f = substitute(l:f, 'Tests/','','')
+    " remove 'Test.' from filename
+    let l:f = substitute(l:f,'Test\.','.','')
+  else
+    let l:pathParts = split(expand('%:r'), '/')
+    let l:startingPath = l:pathParts[0:g:switch_alternate_dirs_to_keep]
+    let l:endPath = l:pathParts[(g:switch_alternate_dirs_to_keep+1):]
+    let l:combinedPath = l:startingPath + ['Tests'] + l:endPath
+    let l:f = join(l:combinedPath, '/') . 'Test.php'
+    if !filereadable(l:f)
+      let l:new_dir = substitute(l:f, '/\w\+\.php', '', '')
+      exe ":!mkdir -p ".l:new_dir
+    endif
+  endif
+  " is there window with alternate file open?
+  let win = bufwinnr(l:f)
+  if l:win > 0
+    execute l:win . "wincmd w"
+  else
+    execute ":e " . l:f
+  endif
+endfunction
+" }}}
