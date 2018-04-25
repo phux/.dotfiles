@@ -46,12 +46,14 @@ Plug 'fxn/vim-monochrome'
 Plug 'ikaros/smpl-vim'
 
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+Plug 'kristijanhusak/deoplete-phpactor', { 'do': ':UpdateRemotePlugins' }
+Plug 'Shougo/neosnippet.vim'
 
-Plug 'roxma/nvim-completion-manager'
+" Plug 'roxma/nvim-completion-manager'
 
 Plug 'neomake/neomake'
 
-Plug 'phux/ncm-phpactor', {'for': 'php', 'branch':'feature/Local_Variable_Completion'}
+" Plug 'phux/ncm-phpactor', {'for': 'php', 'branch':'feature/Local_Variable_Completion'}
 Plug 'padawan-php/deoplete-padawan', {'for': 'php', 'do': 'composer install'}
 Plug 'phux/php-doc-modded', {'for': 'php'}
 Plug 'sahibalejandro/vim-php', {'for': ['php', 'yaml']}
@@ -387,7 +389,7 @@ inoremap <expr> <s-tab> pumvisible() ? "\<c-p>" : "\<TAB>"
 inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 
 let g:cm_auto_popup=0 " disable nvim-completion-manager
-let g:deoplete#enable_at_startup = 0
+let g:deoplete#enable_at_startup = 1
 let g:deoplete#enable_smart_case = 1
 let g:deoplete#enable_camel_case = 1
 let g:deoplete#sources = get(g:, 'deoplete#sources', {})
@@ -738,3 +740,14 @@ function! SymfonySwitchToAlternateFile()
   endif
 endfunction
 " }}}
+
+imap <C-k> <Plug>(neosnippet_expand_or_jump)
+smap <C-k> <Plug>(neosnippet_expand_or_jump)
+xmap <C-k> <Plug>(neosnippet_expand_target)
+let g:neosnippet#enable_completed_snippet=1
+if has('conceal')
+  set conceallevel=2 concealcursor=niv
+endif
+let g:neosnippet#disable_runtime_snippets = {
+\   '_' : 1,
+\ }

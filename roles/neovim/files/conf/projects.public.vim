@@ -4,6 +4,9 @@ function! Zf1(...) abort
     let g:ultisnips_php_scalar_types = 0
 
     nnoremap <c-s> :update<cr>:Silent php-cs-fixer fix %:p --rules=@Symfony<cr>:Silent phpcbf %:p > /dev/null<cr>:e<cr>
+
+    nnoremap <silent> <c-s> :update<cr>:Silent php-cs-fixer fix %:p --rules=@Symfony<cr>:Silent phpcbf --standard=Symfony3Custom %:p > /dev/null<cr>:e<cr>
+
     nnoremap <silent> <leader>w :w<cr>
 
     nnoremap <silent> <m-a> :call SwitchBetweenFiles('php', 'tests/', 'library/', 'Test')<cr>
@@ -17,9 +20,11 @@ function! Zf1(...) abort
 endfunction
 
 function! Symfony(...) abort
-    call deoplete#disable()
+    " call deoplete#disable()
     let g:deoplete#sources.php = []
-    let g:cm_matcher.module = 'cm_matchers.abbrev_matcher'
+    " let g:cm_matcher.module = 'cm_matchers.abbrev_matcher'
+    let g:deoplete#sources.php = ['phpactor', 'ultisnips', 'buffer']
+    call deoplete#enable()
     let g:ultisnips_php_scalar_types = 1
 
     nnoremap <silent> <c-s> :update<cr>:Silent php-cs-fixer fix %:p --rules=@Symfony<cr>:Silent phpcbf --standard=Symfony3Custom %:p > /dev/null<cr>:e<cr>
@@ -32,6 +37,6 @@ function! Symfony(...) abort
     au filetype php set omnifunc=phpactor#Complete
 
     let g:neomake_php_enabled_makers = ['php', 'phpmd', 'phpcs', 'phpstan']
-    " let g:neomake_php_enabled_makers = ['php', 'phpmd', 'phpcs']
+    let g:neomake_php_enabled_makers = ['php', 'phpmd', 'phpcs']
     let g:neomake_open_list = 2
 endfunction
