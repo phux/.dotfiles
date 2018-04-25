@@ -160,44 +160,55 @@ function! PHPExtractVariable()
     normal! bgr
 endfunction
 
-let g:phpactor_executable = '~/.tooling/phpactor/bin/phpactor'
-function! PHPMoveClass()
-    :w
-    let l:oldPath = expand('%')
-    let l:newPath = input("New path: ", l:oldPath)
-    execute "!".g:phpactor_executable." class:move ".l:oldPath.' '.l:newPath
-    execute "bd ".l:oldPath
-    execute "e ". l:newPath
-endfunction
+let g:phpactor_executable = '~/.config/nvim/plugged/phpactor/bin/phpactor'
 
-function! PHPMoveDir()
-    :w
-    let l:oldPath = input("old path: ", expand('%:p:h'))
-    let l:newPath = input("New path: ", l:oldPath)
-    execute "!".g:phpactor_executable." class:move ".l:oldPath.' '.l:newPath
-endfunction
+if !exists("*PHPMoveClass")
+  function! PHPMoveClass()
+      :w
+      let l:oldPath = expand('%')
+      let l:newPath = input("New path: ", l:oldPath)
+      execute "!".g:phpactor_executable." class:move ".l:oldPath.' '.l:newPath
+      execute "bd ".l:oldPath
+      execute "e ". l:newPath
+  endfunction
+endif
 
-function! PHPModify(transformer)
-    :w
-    normal! ggdG
-    execute "read !".g:phpactor_executable." class:transform ".expand('%').' --transform='.a:transformer
-    normal! ggdd
-    :w
-endfunction
+if !exists("*PHPMoveDir")
+  function! PHPMoveDir()
+      :w
+      let l:oldPath = input("old path: ", expand('%:p:h'))
+      let l:newPath = input("New path: ", l:oldPath)
+      execute "!".g:phpactor_executable." class:move ".l:oldPath.' '.l:newPath
+  endfunction
+endif
 
-function! PHPExtractInterface()
-    :w
-    let l:interfaceFile = substitute(expand('%'), '.php', 'Interface.php', '')
-    execute "!".g:phpactor_executable." class:inflect ".expand('%').' '.l:interfaceFile.' interface'
-    execute "e ". l:interfaceFile
-endfunction
+if !exists("*PHPModify")
+  function! PHPModify(transformer)
+      :w
+      normal! ggdG
+      execute "read !".g:phpactor_executable." class:transform ".expand('%').' --transform='.a:transformer
+      normal! ggdd
+      :w
+  endfunction
+endif
 
-function! PHPCreateBuilder()
-    :w
-    let l:interfaceFile = substitute(expand('%'), '.php', 'Builder.php', '')
-    execute "!".g:phpactor_executable." class:inflect ".expand('%').' '.l:interfaceFile.' builder'
-    execute "e ". l:interfaceFile
-endfunction
+if !exists("*PHPExtractInterface")
+  function! PHPExtractInterface()
+      :w
+      let l:interfaceFile = substitute(expand('%'), '.php', 'Interface.php', '')
+      execute "!".g:phpactor_executable." class:inflect ".expand('%').' '.l:interfaceFile.' interface'
+      execute "e ". l:interfaceFile
+  endfunction
+endif
+
+if !exists("*PHPExtractInterface")
+  function! PHPCreateBuilder()
+      :w
+      let l:interfaceFile = substitute(expand('%'), '.php', 'Builder.php', '')
+      execute "!".g:phpactor_executable." class:inflect ".expand('%').' '.l:interfaceFile.' builder'
+      execute "e ". l:interfaceFile
+  endfunction
+endif
 
 function! LegacyExtractInterface()		
     let l:file_path = expand('%:p:h')		
@@ -256,3 +267,50 @@ function! UpdatePhpDocIfExists()
     endif
 endfunction
 let g:neomake_phpstan_level=7
+
+
+
+" SymfonySwitchToAlternateFile {{{
+
+" changes to test/sut files
+" following structure:
+" sut: <dir1>/<dir2>/<dir3>/<dir4>/.../<file>.php
+" test: <dir1>/<dir2>/<dir3>/Tests/<dir4>/.../<file>Test.php
+"
+" example:
+" sut:  src/Acme/Bundle/Service/MyService.php
+" test: src/Acme/Bundle/Tests/Service/MyServiceTest.php
+
+if !exists("*SymfonySwitchToAlternateFile")
+  function! SymfonySwitchToAlternateFile()
+    let l:f = expand('%')
+    if !exists("g:switch_alternate_dirs_to_keep")
+      let g:switch_alternate_dirs_to_keep = 2
+    endif
+    let l:is_test = expand('%:t') =~ "Test\."
+    if l:is_test
+      " remove phpunit_testroot
+      let l:f = substitute(l:f, 'Tests/','','')
+      " remove 'Test.' from filename
+      let l:f = substitute(l:f,'Test\.','.','')
+    else
+      let l:pathParts = split(expand('%:r'), '/')
+      let l:startingPath = l:pathParts[0:g:switch_alternate_dirs_to_keep]
+      let l:endPath = l:pathParts[(g:switch_alternate_dirs_to_keep+1):]
+      let l:combinedPath = l:startingPath + ['Tests'] + l:endPath
+      let l:f = join(l:combinedPath, '/') . 'Test.php'
+      if !filereadable(l:f)
+        let l:new_dir = substitute(l:f, '/\w\+\.php', '', '')
+        exe ":!mkdir -p ".l:new_dir
+      endif
+    endif
+    " is there window with alternate file open?
+    let win = bufwinnr(l:f)
+    if l:win > 0
+      execute l:win . "wincmd w"
+    else
+      execute ":e " . l:f
+    endif
+  endfunction
+endif
+" }}}
