@@ -8,7 +8,6 @@
     - automake
     - autoconf
     - pkg-config
-    - python-software-properties
     - libssl-dev
     - curl
     - gdebi
