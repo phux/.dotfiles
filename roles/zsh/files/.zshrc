@@ -22,7 +22,7 @@ export FZF_DEFAULT_COMMAND='rg --colors 'match:bg:yellow' --colors 'match:fg:bla
 export GOPATH="$HOME/code/go"
 export LGOBIN="$HOME/code/go/bin"
 export FZF_BIN_PATH="$HOME/.fzf/bin"
-export PATH=$PATH:$HOME/.cargo/bin:$HOME/bin:$HOME/.local/bin:$HOME/.composer/vendor/bin:$FZF_BIN_PATH:$LGOBIN:$HOME/.config/composer/vendor/bin
+export PATH=$PATH:$HOME/bin:$HOME/.local/bin:$HOME/.composer/vendor/bin:$FZF_BIN_PATH:$LGOBIN:$HOME/.config/composer/vendor/bin
 
 HISTSIZE='32768';
 HISTFILESIZE="${HISTSIZE}";
@@ -192,7 +192,7 @@ alias airtame='/opt/airtame-application/launch-airtame.sh'
 
 alias efg='exercism fetch go'
 alias es='exercism submit'
-alias eg='cd $HOME/exercism/go/$(ls -t $HOME/exercism/go/ | head -1)'
+alias eg='cd $HOME/code/exercism/go/$(ls -t $HOME/code/exercism/go/ | head -1)'
 alias gtb='go test -bench .'
 alias gt='richgo test ./...'
 
