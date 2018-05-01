@@ -45,16 +45,16 @@ Plug 'xolox/vim-colorscheme-switcher'
 Plug 'fxn/vim-monochrome'
 Plug 'ikaros/smpl-vim'
 
-Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-Plug 'kristijanhusak/deoplete-phpactor', { 'do': ':UpdateRemotePlugins' }
-Plug 'Shougo/neosnippet.vim'
+" Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+" Plug 'kristijanhusak/deoplete-phpactor', { 'do': ':UpdateRemotePlugins' }
+" Plug 'Shougo/neosnippet.vim'
 
-" Plug 'roxma/nvim-completion-manager'
+Plug 'roxma/nvim-completion-manager'
 
 Plug 'neomake/neomake'
 
-" Plug 'phux/ncm-phpactor', {'for': 'php', 'branch':'feature/Local_Variable_Completion'}
-Plug 'padawan-php/deoplete-padawan', {'for': 'php', 'do': 'composer install'}
+Plug 'phux/ncm-phpactor', {'for': 'php', 'branch':'feature/Local_Variable_Completion'}
+" Plug 'padawan-php/deoplete-padawan', {'for': 'php', 'do': 'composer install'}
 Plug 'phux/php-doc-modded', {'for': 'php'}
 Plug 'sahibalejandro/vim-php', {'for': ['php', 'yaml']}
 Plug 'StanAngeloff/php.vim', {'for': 'php'}
@@ -137,10 +137,10 @@ set t_Co=256
 " colorscheme apprentice
 " colorscheme seoul256
 " colorscheme zenburn
-set background=dark
 " colorscheme 256_noir " fav mono
 " color lucius " fav low contrast
 color deus
+set background=light
 " colorscheme hybrid " fav bright
 " color github
 " colorscheme smpl
@@ -273,7 +273,7 @@ set undodir=~/.vim_undodir
 " Copy Paste {{{
 
 " Copy to Clipboard (on Unix)
-set clipboard+=unnamed
+set clipboard+=unnamedplus
 vnoremap <leader>y "+y
 nnoremap <leader>p "+p
 vnoremap <leader>p "+p
@@ -389,24 +389,24 @@ inoremap <expr> <s-tab> pumvisible() ? "\<c-p>" : "\<TAB>"
 inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 
 let g:cm_auto_popup=0 " disable nvim-completion-manager
-let g:deoplete#enable_at_startup = 1
-let g:deoplete#enable_smart_case = 1
-let g:deoplete#enable_camel_case = 1
-let g:deoplete#sources = get(g:, 'deoplete#sources', {})
-let g:deoplete#sources._ = ['ultisnips', 'buffer']
+" let g:deoplete#enable_at_startup = 1
+" let g:deoplete#enable_smart_case = 1
+" let g:deoplete#enable_camel_case = 1
+" let g:deoplete#sources = get(g:, 'deoplete#sources', {})
+" let g:deoplete#sources._ = ['ultisnips', 'buffer']
 
-let g:deoplete#sources#padawan#add_parentheses=1
-let g:deoplete#sources#padawan#server_command='~/.config/nvim/plugged/deoplete-padawan/vendor/bin/padawan-server'
-let g:deoplete#sources.php = ['padawan', 'ultisnips', 'buffer']
-let g:deoplete#skip_chars = ['$']
+" let g:deoplete#sources#padawan#add_parentheses=1
+" let g:deoplete#sources#padawan#server_command='~/.config/nvim/plugged/deoplete-padawan/vendor/bin/padawan-server'
+" let g:deoplete#sources.php = ['padawan', 'ultisnips', 'buffer']
+" let g:deoplete#skip_chars = ['$']
 
-let g:deoplete#sources#go = ['go', 'ultisnips', 'buffer']
-let g:deoplete#sources#go#gocode_binary = $GOPATH.'/bin/gocode'
-let g:deoplete#sources#go#sort_class = ['package', 'func', 'type', 'var', 'const']
-let g:deoplete#sources#go#align_class = 1
-let g:deoplete#sources#go#use_cache = 1
-let g:deoplete#sources#go#pointer = 1
-let g:deoplete#sources#go#json_directory = '~/.cache/deoplete/go/$GOOS_$GOARCH'
+" let g:deoplete#sources#go = ['go', 'ultisnips', 'buffer']
+" let g:deoplete#sources#go#gocode_binary = $GOPATH.'/bin/gocode'
+" let g:deoplete#sources#go#sort_class = ['package', 'func', 'type', 'var', 'const']
+" let g:deoplete#sources#go#align_class = 1
+" let g:deoplete#sources#go#use_cache = 1
+" let g:deoplete#sources#go#pointer = 1
+" let g:deoplete#sources#go#json_directory = '~/.cache/deoplete/go/$GOOS_$GOARCH'
 
 
 inoremap <c-l> <del>
@@ -671,7 +671,7 @@ nnoremap <F12> :call EditFtPluginFile()<cr>
 
 let g:vim_php_refactoring_use_default_mapping = 0
 
-command! -bang PadawanGenerate call deoplete#sources#padawan#Generate(<bang>0)
+" command! -bang PadawanGenerate call deoplete#sources#padawan#Generate(<bang>0)
 
 so ~/.config/nvim/projects.public.vim
 nnoremap <m-u> :GundoToggle<CR>
@@ -698,13 +698,13 @@ set inccommand=nosplit
 let g:livedown_autorun = 1
 let g:livedown_open = 1 
 
-imap <C-k> <Plug>(neosnippet_expand_or_jump)
-smap <C-k> <Plug>(neosnippet_expand_or_jump)
-xmap <C-k> <Plug>(neosnippet_expand_target)
-let g:neosnippet#enable_completed_snippet=1
-if has('conceal')
-  set conceallevel=2 concealcursor=niv
-endif
-let g:neosnippet#disable_runtime_snippets = {
-\   '_' : 1,
-\ }
+" imap <C-k> <Plug>(neosnippet_expand_or_jump)
+" smap <C-k> <Plug>(neosnippet_expand_or_jump)
+" xmap <C-k> <Plug>(neosnippet_expand_target)
+" let g:neosnippet#enable_completed_snippet=1
+" if has('conceal')
+"   set conceallevel=2 concealcursor=niv
+" endif
+" let g:neosnippet#disable_runtime_snippets = {
+" \   '_' : 1,
+" \ }

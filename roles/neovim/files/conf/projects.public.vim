@@ -20,11 +20,6 @@ function! Zf1(...) abort
 endfunction
 
 function! Symfony(...) abort
-    " call deoplete#disable()
-    let g:deoplete#sources.php = []
-    " let g:cm_matcher.module = 'cm_matchers.abbrev_matcher'
-    let g:deoplete#sources.php = ['phpactor', 'ultisnips', 'buffer']
-    call deoplete#enable()
     let g:ultisnips_php_scalar_types = 1
 
     nnoremap <silent> <c-s> :update<cr>:Silent php-cs-fixer fix %:p --rules=@Symfony<cr>:Silent phpcbf --standard=Symfony3Custom %:p > /dev/null<cr>:e<cr>

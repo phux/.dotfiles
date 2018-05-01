@@ -10,7 +10,7 @@ setlocal tabstop=4 shiftwidth=4
 
 let g:cm_auto_popup=1
 
-nnoremap <buffer> <silent> <leader>W :w<cr>:PadawanGenerate<cr>
+nnoremap <buffer> <silent> <leader>W :w<cr>
 nnoremap <buffer> <m-f> :call PHPUnitSetupMethod()<cr>
 nnoremap <buffer> <leader>rrp :call PhpRenameClassVariable()<CR>
 nnoremap <buffer> <leader>rrm :call PhpRenameMethod()<CR>
