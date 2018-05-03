@@ -76,9 +76,14 @@ bindsym $mod+Control+h resize shrink width 5 px or 5 ppt
 bindsym $mod+Up exec --no-startup-id /home/jm/.i3/audio.sh inc
 bindsym $mod+Down exec --no-startup-id /home/jm/.i3/audio.sh dec
 bindsym $mod+Shift+s exec --no-startup-id /home/jm/.i3/audio.sh mute
+bindsym XF86AudioRaiseVolume exec ~/.i3/audio.sh inc
+bindsym XF86AudioLowerVolume exec ~/.i3/audio.sh dec
+bindsym XF86AudioMute exec ~/.i3/audio.sh mute
 
-bindsym $mod+Right exec /usr/bin/xbacklight -inc 10
-bindsym $mod+Left exec /usr/bin/xbacklight -dec 10
+# bindsym $mod+Right exec /usr/bin/xbacklight -inc 10
+# bindsym $mod+Left exec /usr/bin/xbacklight -dec 10
+bindsym XF86MonBrightnessUp exec light -A 10 # increase screen brightness
+bindsym XF86MonBrightnessDown exec light -U 10 # decrease screen brightness
 
 # resize window (you can also use the mouse for that)
 mode "resize" {

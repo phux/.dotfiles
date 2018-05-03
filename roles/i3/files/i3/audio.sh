@@ -13,7 +13,7 @@
 
 #### Set variables
 
-AMIXER_CARD="1"
+AMIXER_CARD="0"
 VOL_INCREMENT="3%"
 
 ################
@@ -36,7 +36,7 @@ case "$1" in
         unmute
         ;;
     mute) 
-       pactl set-sink-mute 1 toggle 
+       pactl set-sink-mute $AMIXER_CARD toggle 
        ;;
     *)
         echo "Usage: $0 {inc|dec|mute}"
