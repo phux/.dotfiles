@@ -35,6 +35,9 @@
   shell: source ~/.zshrc && go get -u github.com/cweill/gotests/... executable=/bin/zsh
   when: gotests_check.stdout.find('gotests not found') != -1
 
+- name: install richgo
+  shell: source ~/.zshrc && go get -u github.com/kyoh86/richgo executable=/bin/zsh
+
 - name: Check if glide is installed
   command: which glide
   register: glide_check
