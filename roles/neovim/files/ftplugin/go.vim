@@ -189,7 +189,19 @@ let g:tagbar_type_go = {
 let g:neomake_go_enabled_makers = [ 'go', 'gometalinter' ]
 let g:neomake_go_gometalinter_maker = {
         \ 'args': [
-          \ '--fast',
+          \ '--disable-all',
+          \ '--enable=gas',
+          \ '--enable=goconst',
+          \ '--enable=golint',
+          \ '--enable=ineffassign',
+          \ '--enable=interfacer',
+          \ '--enable=maligned',
+          \ '--enable=megacheck',
+          \ '--enable=misspell',
+          \ '--enable=structcheck',
+          \ '--enable=unconvert',
+          \ '--enable=varcheck',
+          \ '--enable=vet',
           \ '--exclude=unexported',
         \ ],
         \ 'append_file': 0,
@@ -201,3 +213,7 @@ let g:neomake_go_gometalinter_maker = {
 let g:go_fmt_options = {
   \ 'gofmt': '-s',
   \ }
+
+if IsOnBattery()
+  call add(g:neomake_go_gometalinter_maker['args'], '--fast')
+endif

@@ -66,7 +66,7 @@ Plug 'phpactor/phpactor', {'for': 'php', 'do': ':call phpactor#Update()'}
 Plug 'lvht/phpcd.vim', { 'for': 'php', 'do': 'composer install' }
 
 " Plug 'fatih/vim-go', {'for': 'go', 'do': ':GoUpdateBinaries', 'tag': '*'}
-Plug 'fatih/vim-go', {'for': 'go', 'do': ':GoInstallBinaries'}
+Plug 'fatih/vim-go', {'for': 'go', 'do': ':GoInstallBinaries', 'tag': '*'}
 Plug 'sebdah/vim-delve', {'for': 'go'}
 Plug 'godoctor/godoctor.vim', {'for': 'go'}
 Plug 'buoto/gotests-vim', {'for': 'go'}
@@ -89,7 +89,11 @@ Plug 'AndrewRadev/splitjoin.vim'
 
 Plug 'gabrielelana/vim-markdown', {'for': 'markdown'}
 Plug 'junegunn/goyo.vim', {'for': 'markdown'}
-Plug 'shime/vim-livedown', {'for': 'markdown'}
+Plug 'JamshedVesuna/vim-markdown-preview', {'for': 'markdown'}
+let vim_markdown_preview_toggle=0
+let vim_markdown_preview_hotkey='<m-o>'
+let vim_markdown_preview_browser='firefox'
+let vim_markdown_preview_github=1
 
 Plug 'autozimu/LanguageClient-neovim', {
     \ 'branch': 'next',
@@ -125,6 +129,7 @@ Plug 'pearofducks/ansible-vim', { 'do': 'cd ./UltiSnips; python2 generate.py' }
 " Plug 'machakann/vim-highlightedyank'
 Plug 'sjl/tslime.vim', {'for': 'scheme'}
 
+Plug 'itchyny/lightline.vim'
 call plug#end()
 
 let mapleader = "\<Space>"
@@ -142,22 +147,33 @@ set t_Co=256
 " colorscheme 256_noir " fav mono
 " color lucius " fav low contrast
 color deus
-set background=light
+" set background=light
 " colorscheme hybrid " fav bright
 " color github
 " colorscheme smpl
 
 let $NVIM_TUI_ENABLE_TRUE_COLOR=1
 
-set statusline=
-set statusline+=%#LineNr#
-set statusline+=\ %f
-set statusline+=%m
-set statusline+=%=
-set statusline+=\ %y
-set statusline+=\ %{&fileencoding?&fileencoding:&encoding}
-set statusline+=%10(%l:%c%)\ 
-set statusline+=\ 
+let g:lightline = {
+      \ 'colorscheme': 'wombat',
+      \ 'active': {
+      \   'left': [ [ 'mode', 'paste' ],
+      \             [ 'gitbranch', 'readonly', 'filename', 'modified' ] ]
+      \ },
+      \ 'component_function': {
+      \   'gitbranch': 'fugitive#head'
+      \ },
+      \ }
+" testing lightline
+" set statusline=
+" set statusline+=%#LineNr#
+" set statusline+=\ %f
+" set statusline+=%m
+" set statusline+=%=
+" set statusline+=\ %y
+" set statusline+=\ %{&fileencoding?&fileencoding:&encoding}
+" set statusline+=%10(%l:%c%)\ 
+" set statusline+=\ 
 
 set number
 " Set the command window height to 1 lines
@@ -697,8 +713,6 @@ function! LightScheme()
 endfunction
 
 set inccommand=nosplit
-let g:livedown_autorun = 1
-let g:livedown_open = 1 
 
 " imap <C-k> <Plug>(neosnippet_expand_or_jump)
 " smap <C-k> <Plug>(neosnippet_expand_or_jump)
@@ -710,3 +724,8 @@ let g:livedown_open = 1
 " let g:neosnippet#disable_runtime_snippets = {
 " \   '_' : 1,
 " \ }
+
+function! IsOnBattery()
+  " might be AC instead of ACAD on your machine
+  return readfile('/sys/class/power_supply/ACAD/online') == ['0']
+endfunction
