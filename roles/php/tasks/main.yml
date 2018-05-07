@@ -11,8 +11,6 @@
     - php7.2
     - php5.6-common
     - php7.2-common
-    - php5.6-fpm
-    - php7.2-fpm
     - php5.6-mysql
     - php7.2-mysql
     - php5.6-mcrypt
