@@ -65,7 +65,7 @@ function! GoExtractVariable()
 endfunction
 
 let g:go_list_type = "locationlist"
-let g:go_bin_path = expand("~/.gvm/gos/go1.10.1/bin")
+let g:go_bin_path = expand("~/code/go/bin")
 " Enable syntax highlighting per default
 let g:go_highlight_types = 1
 let g:go_highlight_fields = 1
@@ -118,7 +118,6 @@ let g:tagbar_type_go = {
 \ }
 
 
-let g:neomake_go_enabled_makers = [ 'go', 'gometalinter' ]
   " \ '--enable=gocyclo',
 
   " \ '--enable=gas',
@@ -158,22 +157,47 @@ let g:neomake_go_enabled_makers = [ 'go', 'gometalinter' ]
   " \ '--enable=varcheck',
   " \ '--enable=vet',
   " \ '--exclude=unexported',
-let g:neomake_go_gometalinter_maker = {
-  \ 'exe': 'zb',
-  \ 'args': [
-  \   'lint',
-  \   '--exclude=unexported',
-  \   '--fast',
-  \ ],
-  \ 'cwd': '%:h',
-  \ 'append_file': 0,
-  \ 'errorformat':
-  \   '%E%f:%l:%c:%trror: %m,' .
-  \   '%W%f:%l:%c:%tarning: %m,' .
-  \   '%E%f:%l::%trror: %m,' .
-  \   '%W%f:%l::%tarning: %m'
-\ }
+" let g:neomake_go_gometalinter_maker = {
+"   \ 'exe': 'zb',
+"   \ 'args': [
+"   \   'lint',
+"   \   '--fast',
+"   \ ],
+"   \ 'cwd': '%:h',
+"   \ 'append_file': 0,
+"   \ 'errorformat':
+"   \   '%E%f:%l:%c:%trror: %m,' .
+"   \   '%W%f:%l:%c:%tarning: %m,' .
+"   \   '%E%f:%l::%trror: %m,' .
+"   \   '%W%f:%l::%tarning: %m'
+" \ }
 
-  let g:go_fmt_options = {
-    \ 'gofmt': '-s',
-    \ }
+          " \ '--enable=gas',
+          " \ '--enable=goconst',
+          " \ '--enable=golint',
+          " \ '--enable=ineffassign',
+          " \ '--enable=interfacer',
+          " \ '--enable=maligned',
+          " \ '--enable=megacheck',
+          " \ '--enable=misspell',
+          " \ '--enable=structcheck',
+          " \ '--enable=unconvert',
+          " \ '--enable=varcheck',
+          " \ '--enable=vet',
+    
+      " \ 'args': ['--disable-all', '--enable=errcheck', '--enable=megacheck', '--vendor'],
+let g:neomake_go_enabled_makers = [ 'go', 'gometalinter' ]
+let g:neomake_go_gometalinter_maker = {
+        \ 'args': [
+          \ '--fast',
+          \ '--exclude=unexported',
+        \ ],
+        \ 'append_file': 0,
+        \ 'cwd': '%:h',
+        \ 'errorformat':
+            \ '%f:%l:%c:%t%*[^:]: %m,' .
+            \ '%f:%l::%t%*[^:]: %m'
+        \ }
+let g:go_fmt_options = {
+  \ 'gofmt': '-s',
+  \ }

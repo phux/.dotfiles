@@ -61,7 +61,7 @@ Plug 'StanAngeloff/php.vim', {'for': 'php'}
 Plug 'alvan/vim-php-manual', {'for': 'php'}
 " Plug 'vim-php/vim-php-refactoring', {'for': 'php'}
 Plug 'adoy/vim-php-refactoring-toolbox', {'for': 'php'}
-let g:phpactorBranch = 'develop'
+" let g:phpactorBranch = 'develop'
 Plug 'phpactor/phpactor', {'for': 'php', 'do': ':call phpactor#Update()'}
 Plug 'lvht/phpcd.vim', { 'for': 'php', 'do': 'composer install' }
 
@@ -123,11 +123,13 @@ Plug 'aserebryakov/vim-todo-lists'
 " Plug 'mhinz/vim-startify'
 Plug 'pearofducks/ansible-vim', { 'do': 'cd ./UltiSnips; python2 generate.py' }
 " Plug 'machakann/vim-highlightedyank'
+Plug 'sjl/tslime.vim', {'for': 'scheme'}
+
 call plug#end()
 
 let mapleader = "\<Space>"
 nnoremap <silent> <leader><f5> :e $MYVIMRC<CR>
-inoremap jk <esc>
+imap jk <esc>
 
 " interface
 set t_Co=256
@@ -371,7 +373,7 @@ set scrolloff=5
 set shiftround
 set expandtab smarttab
 set smartindent
-set lazyredraw
+set nolazyredraw
 set modelines=2
 set synmaxcol=1000
 

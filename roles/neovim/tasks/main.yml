@@ -114,20 +114,12 @@
   with_fileglob:
     - linters/yamllint
 
-- name: Check if npm is installed/loaded
-  command: which npm
-  register: npm_check
-  ignore_errors: yes
+- name: installing node & npm
+  shell: source ~/.zshrc && nvm install --lts executable=/bin/zsh
 
 - name: installing linters/tools via npm
   shell: "npm install -g {{ item }}"
-  with_items:
-    - stylelint
-    - jsonlint
-    - write-good
-    - markdown-lint-cli
-    - livedown
-  when: npm_check.stdout.find('_zsh_nvm_load') != -1
+  shell: source ~/.zshrc && npm install -g stylelint jsonlint write-good markdownlint-cli livedown executable=/bin/zsh
 
 - name: installing linters via gem
   shell: "{{  ansible_env.HOME }}/.rbenv/versions/2.5.1/bin/gem install {{ item }}"
