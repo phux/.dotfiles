@@ -73,9 +73,9 @@ bindsym $mod+Control+l resize grow width 5 px or 5 ppt
 bindsym $mod+Control+h resize shrink width 5 px or 5 ppt
 
 # pulse audio volume control
-bindsym $mod+Up exec --no-startup-id /home/jm/.i3/audio.sh inc
-bindsym $mod+Down exec --no-startup-id /home/jm/.i3/audio.sh dec
-bindsym $mod+Shift+s exec --no-startup-id /home/jm/.i3/audio.sh mute
+bindsym $mod+Up exec --no-startup-id ~/.i3/audio.sh inc
+bindsym $mod+Down exec --no-startup-id ~/.i3/audio.sh dec
+bindsym $mod+Shift+s exec --no-startup-id ~/.i3/audio.sh mute
 bindsym XF86AudioRaiseVolume exec ~/.i3/audio.sh inc
 bindsym XF86AudioLowerVolume exec ~/.i3/audio.sh dec
 bindsym XF86AudioMute exec ~/.i3/audio.sh mute
@@ -179,6 +179,7 @@ bindsym $mod+Shift+E exit
 
 ###  ADDED KEY BINDINGS  ###
 bindsym $MOD+SHIFT+f exec thunar
+bindsym $MOD+g exec go-for-it
 bindsym $MOD+SHIFT+o exec urxvt -e 'ranger'
 bindsym $MOD+SHIFT+m exec mysql-workbench
 # bindsym $MOD+SHIFT+g exec gvim
@@ -218,15 +219,17 @@ assign [class="Mysql-workbench-bin"] 3
 assign [class="Pidgin"] 9
 assign [class="Hipchat"] 9
 assign [class="Slack"] 9
+assign [class="yakyak"] 9
 assign [class="Skype"] 9
 assign [class="Thunderbird"] 9
 assign [class="Chromium"] 10
+assign [class="Firefox"] 10
 
-# workspace 1 output HDMI1
-# workspace 9 output eDP1
+workspace 1 output DP1
+workspace 9 output DP1
 # workspace 3 output HDMI1
-# workspace 10 output HDMI1
-# workspace 2 output HDMI2
+workspace 10 output DP1
+workspace 2 output HDMI1
 
 # default floating applications
 for_window [class="Xfce4-notifyd"] floating enable

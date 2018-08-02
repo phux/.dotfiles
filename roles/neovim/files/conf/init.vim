@@ -89,16 +89,25 @@ Plug 'AndrewRadev/splitjoin.vim'
 
 Plug 'gabrielelana/vim-markdown', {'for': 'markdown'}
 Plug 'junegunn/goyo.vim', {'for': 'markdown'}
-Plug 'JamshedVesuna/vim-markdown-preview', {'for': 'markdown'}
-let vim_markdown_preview_toggle=0
-let vim_markdown_preview_hotkey='<m-o>'
-let vim_markdown_preview_browser='firefox'
-let vim_markdown_preview_github=1
+" Plug 'JamshedVesuna/vim-markdown-preview', {'for': 'markdown'}
+" let vim_markdown_preview_toggle=0
+" let vim_markdown_preview_hotkey='<m-o>'
+" let vim_markdown_preview_browser='firefox'
+" let vim_markdown_preview_github=0
+Plug 'shime/vim-livedown', {'for': 'markdown'}
+" should markdown preview get shown automatically upon opening markdown buffer
+let g:livedown_autorun = 1
+" should the browser window pop-up upon previewing
+let g:livedown_open = 1 
+" the port on which Livedown server will run
+let g:livedown_port = 1337
+" the browser to use
+let g:livedown_browser = "firefox"
 
-Plug 'autozimu/LanguageClient-neovim', {
-    \ 'branch': 'next',
-    \ 'do': 'bash install.sh',
-    \ }
+" Plug 'autozimu/LanguageClient-neovim', {
+"     \ 'branch': 'next',
+"     \ 'do': 'bash install.sh',
+"     \ }
 Plug 'nelsyeung/twig.vim', {'for': 'twig'}
 
 
@@ -228,8 +237,8 @@ augroup js
 
   au FileType javascript setlocal omnifunc=tern#Complete
   au FileType javascript setlocal omnifunc=tern#Complete
-  au FileType javascript LanguageClientStart
-  au FileType typescript LanguageClientStart
+  " au FileType javascript LanguageClientStart
+  " au FileType typescript LanguageClientStart
   au FileType typescript nnoremap <buffer> gd :TSDef<CR>
   au FileType typescript nnoremap <buffer> gr :TSRefs<CR>
   au FileType typescript nnoremap <buffer> K :TSDefPreview<cr>

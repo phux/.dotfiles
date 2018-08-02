@@ -23,6 +23,6 @@
     ignore_errors: true
 
   - name: create zsh plugins file
-    shell: antibody bundle < ~/.zsh_plugins.txt  > ~/.zsh_plugins.sh
+    shell: /bin/zsh antibody bundle < ~/.zsh_plugins.txt  > ~/.zsh_plugins.sh
     ignore_errors: true
   when: antibody_check.stat.exists == False
