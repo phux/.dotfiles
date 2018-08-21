@@ -32,6 +32,10 @@
     name: init.templatedir
     scope: global
     value: ~/.git_templates
+- git_config:
+    name: core.excludesfile
+    scope: global
+    value: ~/.gitignore
 
 - git_config:
     name: alias.cleanup

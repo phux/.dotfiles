@@ -1,5 +1,4 @@
 tags
-.scratch.vim
 .php_cs.cache
 .cfg
 .padawan
@@ -8,3 +7,6 @@ phpactor.log
 npm-debug.log
 .vagrant/
 playbook.retry
+*.scratch.vim*
+.scratch.vim
+.virtualgo
