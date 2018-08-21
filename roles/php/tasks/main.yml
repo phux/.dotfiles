@@ -36,6 +36,7 @@
     - php-memcached
     - php-redis
     - php-xdebug
+    - php-zip
 
 - stat: path=/usr/local/bin/composer
   register: composer_check

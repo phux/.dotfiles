@@ -21,7 +21,8 @@
         "nette/utils": "^2.4",
         "object-calisthenics/phpcs-calisthenics-rules": "dev-master",
         "symplify/coding-standard": "^4.0@dev",
-        "symplify/easy-coding-standard": "^4.0@dev"
+        "symplify/easy-coding-standard": "^4.0@dev",
+        "phpstan/phpstan": "^0.10.0@dev"
     },
     "require-dev": {}
 }
