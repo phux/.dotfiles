@@ -98,6 +98,7 @@ alias gstash='git stash --include-untracked'
 alias gst='git status'
 alias ga='git add'
 alias gc='git commit -v'
+alias gca='git commit -v --amend'
 alias gb='git branch'
 alias gcb='git checkout -b'
 alias gco='git checkout'
@@ -107,6 +108,7 @@ alias glum='git pull upstream master'
 alias gpsup='git push --set-upstream origin $(git_current_branch)'
 alias gl='git pull'
 alias glog='git log --oneline --decorate --color --graph'
+alias glog='git log --graph --pretty=format:"%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset" --abbrev-commit'
 alias gm='git merge'
 alias gp='git push'
 alias gsta='git stash save'
@@ -183,14 +185,14 @@ alias "vendor/bin/behat"="dce php vendor/bin/behat"
 alias n='nvim'
 # alias s='sudo'
 alias c='composer'
-alias ci='composer install'
-alias cu='composer update'
+alias ci='composer install --no-progress --prefer-dist --profile'
+alias cu='composer update --no-progress --prefer-dist --profile'
 
 alias upn='cd ~/compiles/neovim; git pull; make clean; make CMAKE_BUILD_TYPE=Release;sudo make install'
 
 alias airtame='/opt/airtame-application/launch-airtame.sh'
 
-alias efg='exercism fetch go'
+alias efg='exercism download --track=go'
 alias es='exercism submit'
 alias eg='cd $HOME/code/exercism/go/$(ls -t $HOME/code/exercism/go/ | head -1)'
 alias gtb='go test -bench .'
@@ -200,7 +202,50 @@ alias ez='n ~/.zshrc'
 alias .d='cd ~/.dotfiles'
 alias m='make'
 alias mt='make test'
+alias idea='~/tools/idea-IC-182.3684.101/bin/idea.sh'
 
 # source ~/.gruvbox.sh
 
 export ANSIBLE_NOCOWS=1
+
+zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
+
+# tabtab source for serverless package
+# uninstall by removing these lines or running `tabtab uninstall serverless`
+[[ -f /home/janmolowitz/.nvm/versions/node/v8.11.3/lib/node_modules/serverless/node_modules/tabtab/.completions/serverless.zsh ]] && . /home/janmolowitz/.nvm/versions/node/v8.11.3/lib/node_modules/serverless/node_modules/tabtab/.completions/serverless.zsh
+# tabtab source for sls package
+# uninstall by removing these lines or running `tabtab uninstall sls`
+[[ -f /home/janmolowitz/.nvm/versions/node/v8.11.3/lib/node_modules/serverless/node_modules/tabtab/.completions/sls.zsh ]] && . /home/janmolowitz/.nvm/versions/node/v8.11.3/lib/node_modules/serverless/node_modules/tabtab/.completions/sls.zsh
+
+_tmuxinator() {
+  local commands projects
+  commands=(${(f)"$(tmuxinator commands zsh)"})
+  projects=(${(f)"$(tmuxinator completions start)"})
+
+  if (( CURRENT == 2 )); then
+    _alternative \
+      'commands:: _describe -t commands "tmuxinator subcommands" commands' \
+      'projects:: _describe -t projects "tmuxinator projects" projects'
+  elif (( CURRENT == 3)); then
+    case $words[2] in
+      copy|debug|delete|open|start)
+        _arguments '*:projects:($projects)'
+      ;;
+    esac
+  fi
+
+  return
+}
+
+compdef _tmuxinator tmuxinator mux
+alias mux="tmuxinator"
+
+# Local Variables:
+# mode: Shell-Script
+# sh-indentation: 2
+# indent-tabs-mode: nil
+# sh-basic-offset: 2
+# End:
+# vim: ft=zsh sw=2 ts=2 et
+
+command -v vg >/dev/null 2>&1 && eval "$(vg eval --shell zsh)"
