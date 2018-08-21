@@ -204,6 +204,10 @@ alias m='make'
 alias mt='make test'
 alias idea='~/tools/idea-IC-182.3684.101/bin/idea.sh'
 
+gppriv() {
+  GIT_SSH_COMMAND='ssh -i ~/.ssh/id_rsa_priv' git push
+}
+
 # source ~/.gruvbox.sh
 
 export ANSIBLE_NOCOWS=1
