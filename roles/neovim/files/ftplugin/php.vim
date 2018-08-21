@@ -3,7 +3,6 @@ augroup php
   au BufNewFile,BufRead *.phtml set ft=php.html
   au BufNewFile,BufRead,BufWinEnter *Test.php exe ":UltiSnipsAddFiletypes php.phpunit"
   au BufNewFile,BufRead,BufWinEnter *Spec.php exe ":UltiSnipsAddFiletypes php.php-phpspec"
-  au BufWritePost *.php silent! !eval '[ -f ".git/hooks/ctags" ] && .git/hooks/ctags' &
 augroup END
 
 setlocal tabstop=4 shiftwidth=4 
@@ -314,3 +313,6 @@ if !exists("*SymfonySwitchToAlternateFile")
   endfunction
 endif
 " }}}
+
+let g:php_manual_online_search_shortcut = '<leader>m'
+

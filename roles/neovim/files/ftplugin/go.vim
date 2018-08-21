@@ -7,6 +7,7 @@ vnoremap <buffer> <leader>em :Refactor extract
 vnoremap <buffer> <leader>ev :Refactor var 
 noremap <buffer> <leader>: :Refactor toggle<cr> 
 noremap <buffer> <leader>h :Refactor godoc<cr>
+noremap <buffer> <leader>m :GoDoc<cr>
 noremap <buffer> <leader>u :exec "GoImport ".expand("<cword>")<cr>
 " nnoremap <buffer> <leader>h :call GoComment()<cr>
 
@@ -80,6 +81,7 @@ let g:go_fmt_autosave = 1
 let g:go_metalinter_autosave = 0
 let g:go_metalinter_deadline = '20s'
 let g:go_metalinter_enabled = [ "gas", "goconst", "gocyclo", "golint", "ineffassign", "interfacer", "maligned", "megacheck", "misspell", "structcheck", "unconvert", "varcheck", "vet"]
+let g:go_metalinter_enabled = [ "goconst", "gocyclo", "golint", "ineffassign", "interfacer", "maligned", "megacheck", "misspell", "structcheck", "unconvert", "varcheck", "vet"]
 " let g:go_metalinter_enabled = ["unconvert", "gocyclo", "maligned", "ineffassign", "goconst"]
 
 " let g:go_auto_sameids = 1
@@ -157,20 +159,20 @@ let g:tagbar_type_go = {
   " \ '--enable=varcheck',
   " \ '--enable=vet',
   " \ '--exclude=unexported',
-" let g:neomake_go_gometalinter_maker = {
-"   \ 'exe': 'zb',
-"   \ 'args': [
-"   \   'lint',
-"   \   '--fast',
-"   \ ],
-"   \ 'cwd': '%:h',
-"   \ 'append_file': 0,
-"   \ 'errorformat':
-"   \   '%E%f:%l:%c:%trror: %m,' .
-"   \   '%W%f:%l:%c:%tarning: %m,' .
-"   \   '%E%f:%l::%trror: %m,' .
-"   \   '%W%f:%l::%tarning: %m'
-" \ }
+let g:neomake_go_gometalinter_maker = {
+  \ 'exe': 'zb',
+  \ 'args': [
+  \   'lint',
+  \   '--fast',
+  \ ],
+  \ 'cwd': '%:h',
+  \ 'append_file': 0,
+  \ 'errorformat':
+  \   '%E%f:%l:%c:%trror: %m,' .
+  \   '%W%f:%l:%c:%tarning: %m,' .
+  \   '%E%f:%l::%trror: %m,' .
+  \   '%W%f:%l::%tarning: %m'
+\ }
 
           " \ '--enable=gas',
           " \ '--enable=goconst',
@@ -187,29 +189,28 @@ let g:tagbar_type_go = {
     
       " \ 'args': ['--disable-all', '--enable=errcheck', '--enable=megacheck', '--vendor'],
 let g:neomake_go_enabled_makers = [ 'go', 'gometalinter' ]
-let g:neomake_go_gometalinter_maker = {
-        \ 'args': [
-          \ '--disable-all',
-          \ '--enable=gas',
-          \ '--enable=goconst',
-          \ '--enable=golint',
-          \ '--enable=ineffassign',
-          \ '--enable=interfacer',
-          \ '--enable=maligned',
-          \ '--enable=megacheck',
-          \ '--enable=misspell',
-          \ '--enable=structcheck',
-          \ '--enable=unconvert',
-          \ '--enable=varcheck',
-          \ '--enable=vet',
-          \ '--exclude=unexported',
-        \ ],
-        \ 'append_file': 0,
-        \ 'cwd': '%:h',
-        \ 'errorformat':
-            \ '%f:%l:%c:%t%*[^:]: %m,' .
-            \ '%f:%l::%t%*[^:]: %m'
-        \ }
+" let g:neomake_go_gometalinter_maker = {
+"         \ 'args': [
+"           \ '--disable-all',
+"           \ '--enable=goconst',
+"           \ '--enable=golint',
+"           \ '--enable=ineffassign',
+"           \ '--enable=interfacer',
+"           \ '--enable=maligned',
+"           \ '--enable=megacheck',
+"           \ '--enable=misspell',
+"           \ '--enable=structcheck',
+"           \ '--enable=unconvert',
+"           \ '--enable=varcheck',
+"           \ '--enable=vet',
+"           \ '--exclude=unexported',
+"         \ ],
+"         \ 'append_file': 0,
+"         \ 'cwd': '%:h',
+"         \ 'errorformat':
+"             \ '%f:%l:%c:%t%*[^:]: %m,' .
+"             \ '%f:%l::%t%*[^:]: %m'
+"         \ }
 let g:go_fmt_options = {
   \ 'gofmt': '-s',
   \ }
@@ -217,3 +218,6 @@ let g:go_fmt_options = {
 if IsOnBattery()
   call add(g:neomake_go_gometalinter_maker['args'], '--fast')
 endif
+
+let g:go_def_mode = 'godef'
+" let g:go_auto_sameids = 1 " too confusing

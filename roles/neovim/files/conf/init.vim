@@ -38,6 +38,25 @@ Plug 'Lokaltog/vim-easymotion'
 Plug 'matze/vim-move'
 Plug 'majutsushi/tagbar', {'on': 'TagbarToggle'}
 
+Plug 'ncm2/ncm2'
+Plug 'roxma/nvim-yarp'
+Plug 'ncm2/ncm2-bufword'
+Plug 'ncm2/ncm2-tmux'
+Plug 'ncm2/ncm2-path'
+Plug 'ncm2/ncm2-jedi'
+Plug 'python-mode/python-mode'
+let g:pymode_folding = 0
+let g:pymode_python = 'python3'
+let g:pymode_lint = 0
+let g:neomake_python_pep8_exe = 'python3'
+" let g:neomake_python_enabled_makers = ['pep8']
+Plug 'ncm2/ncm2-cssomni'
+Plug 'ncm2/ncm2-tern',  {'do': 'npm install'}
+Plug 'ncm2/nvim-typescript', {'do': './install.sh'}
+Plug 'ncm2/ncm2-go'
+Plug 'ncm2/ncm2-ultisnips'
+Plug 'phpactor/ncm2-phpactor'
+Plug 'ternjs/tern_for_vim', {'do': 'npm install', 'for': ['typescript','javascript']}
 
 Plug 'rafi/awesome-vim-colorschemes'
 Plug 'xolox/vim-misc'
@@ -49,12 +68,8 @@ Plug 'ikaros/smpl-vim'
 " Plug 'kristijanhusak/deoplete-phpactor', { 'do': ':UpdateRemotePlugins' }
 " Plug 'Shougo/neosnippet.vim'
 
-Plug 'roxma/nvim-completion-manager'
+Plug '~/code/neomake'
 
-Plug 'neomake/neomake'
-
-Plug 'phux/ncm-phpactor', {'for': 'php', 'branch':'feature/Local_Variable_Completion'}
-" Plug 'padawan-php/deoplete-padawan', {'for': 'php', 'do': 'composer install'}
 Plug 'phux/php-doc-modded', {'for': 'php'}
 Plug 'sahibalejandro/vim-php', {'for': ['php', 'yaml']}
 Plug 'StanAngeloff/php.vim', {'for': 'php'}
@@ -66,7 +81,7 @@ Plug 'phpactor/phpactor', {'for': 'php', 'do': ':call phpactor#Update()'}
 Plug 'lvht/phpcd.vim', { 'for': 'php', 'do': 'composer install' }
 
 " Plug 'fatih/vim-go', {'for': 'go', 'do': ':GoUpdateBinaries', 'tag': '*'}
-Plug 'fatih/vim-go', {'for': 'go', 'do': ':GoInstallBinaries', 'tag': '*'}
+Plug 'fatih/vim-go', {'for': 'go', 'do': ':GoInstallBinaries'}
 Plug 'sebdah/vim-delve', {'for': 'go'}
 Plug 'godoctor/godoctor.vim', {'for': 'go'}
 Plug 'buoto/gotests-vim', {'for': 'go'}
@@ -104,12 +119,16 @@ let g:livedown_port = 1337
 " the browser to use
 let g:livedown_browser = "firefox"
 
-" Plug 'autozimu/LanguageClient-neovim', {
-"     \ 'branch': 'next',
-"     \ 'do': 'bash install.sh',
-"     \ }
+Plug 'autozimu/LanguageClient-neovim', {
+    \ 'do': 'bash install.sh',
+    \ }
+let g:LanguageClient_serverCommands = {
+  \ 'typescript': ['javascript-typescript-stdio'],
+  \ 'javascript': ['javascript-typescript-stdio']
+  \ }
 Plug 'nelsyeung/twig.vim', {'for': 'twig'}
-
+Plug 'maksimr/vim-jsbeautify'
+map <c-f> :call JsBeautify()<cr>
 
 Plug 'henrik/vim-indexed-search'
 Plug 'romainl/vim-cool'
@@ -138,7 +157,11 @@ Plug 'pearofducks/ansible-vim', { 'do': 'cd ./UltiSnips; python2 generate.py' }
 " Plug 'machakann/vim-highlightedyank'
 Plug 'sjl/tslime.vim', {'for': 'scheme'}
 
+Plug 'm-kat/aws-vim'
+
 Plug 'itchyny/lightline.vim'
+
+
 call plug#end()
 
 let mapleader = "\<Space>"
@@ -220,25 +243,25 @@ augroup nvim
   au InsertEnter * set timeoutlen=100
   au InsertLeave * set timeoutlen=500
 
+  autocmd BufEnter * call ncm2#enable_for_buffer()
+  au User Ncm2PopupOpen set completeopt=noinsert,menuone,noselect
+  au User Ncm2PopupClose set completeopt=menuone
+
   " fix issue when leaving vim
   " au WinEnter * :EnableGoldenViewAutoResize
 augroup END
 
 augroup qf_loc_lists
   au!
-  autocmd FileType qf nmap <c-p> <Plug>(qf_qf_previous)
-  autocmd FileType qf nmap <c-n> <Plug>(qf_qf_next)
-  " autocmd FileType lf nmap <c-n> <Plug>(qf_loc_next)
-  " autocmd FileType lc nmap <c-p> <Plug>(qf_loc_previous)
+  " autocmd FileType qf nmap <c-p> <Plug>(qf_qf_previous)
+  " autocmd FileType qf nmap <c-n> <Plug>(qf_qf_next)
+  autocmd FileType qf nmap <c-n> <Plug>(qf_loc_next)
+  autocmd FileType qf nmap <c-p> <Plug>(qf_loc_previous)
 augroup END
 
 augroup js
   au!
 
-  au FileType javascript setlocal omnifunc=tern#Complete
-  au FileType javascript setlocal omnifunc=tern#Complete
-  " au FileType javascript LanguageClientStart
-  " au FileType typescript LanguageClientStart
   au FileType typescript nnoremap <buffer> gd :TSDef<CR>
   au FileType typescript nnoremap <buffer> gr :TSRefs<CR>
   au FileType typescript nnoremap <buffer> K :TSDefPreview<cr>
@@ -256,16 +279,16 @@ augroup everything
   au FileType scratch :call VimTodoListsInit()
   au FileType todo nnoremap <buffer> <cr> :VimTodoListsToggleItem<CR>
 
-  au FileType css setlocal omnifunc=csscomplete#CompleteCSS
-  au FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
   au FileType html,xml inoremap <buffer> <m-;> </<c-x><c-o>
-  au FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
   au FileType xml   setlocal makeprg=xmllint\ -
   au FileType json  setlocal equalprg=python\ -mjson.tool
 
-  autocmd FileType gitcommit nnoremap <buffer> <leader>w :call PrependTicketNumber()<cr>
+  " autocmd FileType gitcommit nnoremap <buffer> <leader>w :call PrependTicketNumber()<cr>
+  autocmd FileType gitcommit nnoremap <buffer> <leader>w :x<cr>
   autocmd FileType gitv nmap <buffer> <silent> <C-n> <Plug>(gitv-previous-commit)
   autocmd FileType gitv nmap <buffer> <silent> <C-p> <Plug>(gitv-next-commit)
+
+  au BufWritePost * silent! !eval '[ -f ".git/hooks/ctags" ] && .git/hooks/ctags' &
 augroup END
 
 let g:LanguageClient_diagnosticsEnable  = 0
@@ -300,7 +323,7 @@ set undodir=~/.vim_undodir
 " Copy Paste {{{
 
 " Copy to Clipboard (on Unix)
-set clipboard+=unnamedplus
+"set clipboard+=unnamedplus
 vnoremap <leader>y "+y
 nnoremap <leader>p "+p
 vnoremap <leader>p "+p
@@ -315,8 +338,13 @@ nnoremap <leader>N :NERDTreeFind<cr>
 nnoremap <silent> <leader>w :lclose<cr>:w<cr>
 
 let g:ultisnips_php_scalar_types = 1
-let g:UltiSnipsSnippetsDir = '~/.config/nvim/UltiSnips/'
+let g:UltiSnipsSnippetsDir = ['~/.config/nvim/UltiSnips/', './plugged/aws-vim/snips'] 
 let g:UltiSnipsExpandTrigger="<c-j>"
+
+" use ncm2 ultisnips expansion and autopairs indentation
+inoremap <expr> <CR> (pumvisible() ? ncm2_ultisnips#expand_or("\<CR>", 'n') : "\<CR>")
+
+" inoremap <silent> <expr> <CR> 
 let g:UltiSnipsJumpForwardTrigger="<c-j>"
 let g:UltiSnipsJumpBackwardTrigger="<c-k>"
 
@@ -338,8 +366,6 @@ let g:fzf_buffers_jump = 1
 
 " [[B]Commits] Customize the options used by 'git log':
 let g:fzf_commits_log_options = '--graph --color=always --format="%C(auto)%h%d %s %C(black)%C(bold)%cr"'
-
-vnoremap <leader>/ "hy:exec "Ag ".escape('<C-R>h', "/\.*$^~[()")<cr>
 
 nnoremap <leader><Enter> :FZFMru<cr>
 
@@ -413,9 +439,8 @@ set timeout ttimeoutlen=0
 
 inoremap <expr> <TAB> pumvisible() ? "\<c-n>" : "\<TAB>"
 inoremap <expr> <s-tab> pumvisible() ? "\<c-p>" : "\<TAB>"
-inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+" inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 
-let g:cm_auto_popup=0 " disable nvim-completion-manager
 " let g:deoplete#enable_at_startup = 1
 " let g:deoplete#enable_smart_case = 1
 " let g:deoplete#enable_camel_case = 1
@@ -453,8 +478,9 @@ nnoremap <leader>tf :TestFile<cr>
 nnoremap <silent> <leader>tl :TestLast<CR>
 nnoremap <silent> <leader>tv :TestVisit<CR>
 
-set completeopt=menuone,longest
+" set completeopt=menuone,longest
 set complete-=i
+set complete+=w
 
 set textwidth=0
 if exists('&colorcolumn')
@@ -481,8 +507,6 @@ function! ToggleQfLocListBinds()
 endfunction
 nmap <Down> :call ToggleQfLocListBinds()<cr>
 
-nnoremap <leader>a :Ag<space>
-nnoremap <leader>A :exec "Ag ".expand("<cword>")<cr>
 
 nnoremap <leader>x <c-w>c
 nnoremap <leader>s <c-w>v
@@ -492,7 +516,8 @@ function! PrependTicketNumber()
   let l:branch = system("echo $(git branch | grep '*')")
   let l:branchName = substitute(l:branch, '\* \(.*\)', '\1', '')
   let l:ticketNumber = substitute(l:branchName, '\(\w\+-\d\+\).*', '\1', '')
-  exe "normal i[".l:ticketNumber."] "
+  let l:ticketNumber = substitute(l:ticketNumber, 'feature/', '', '')
+  exe "normal i".l:ticketNumber." "
   normal! kJx
   :startinsert!
 endfunction
@@ -668,11 +693,6 @@ nnoremap <m-z> :ScratchPreview<cr>
 " '-- XXX completion (YYY)', 'match 1 of 2', 'The only match',
 set shortmess+=c
 
-let g:cm_sources_override = {
-      \ 'cm-tags': {'enable':0}
-      \ }
-let g:cm_complete_start_delay=20
-
 let g:netrw_banner = 0
 let g:netrw_liststyle = 3
 let g:netrw_browse_split = 4
@@ -738,3 +758,42 @@ function! IsOnBattery()
   " might be AC instead of ACAD on your machine
   return readfile('/sys/class/power_supply/ACAD/online') == ['0']
 endfunction
+
+
+nnoremap <leader>gp :!git push<cr>
+" --column: Show column number
+" --line-number: Show line number
+" --no-heading: Do not show file headings in results
+" --fixed-strings: Search term as a literal string
+" --ignore-case: Case insensitive search
+" --no-ignore: Do not respect .gitignore, etc...
+" --hidden: Search hidden files and folders
+" --follow: Follow symlinks
+" --glob: Additional conditions for search (in this case ignore everything in the .git/ folder)
+" --color: Search color options
+
+vnoremap <leader>/ "hy:exec "Find ".escape('<C-R>h', "/\.*$^~[()")<cr>
+nnoremap <leader>a :Ag<space>
+nnoremap <leader>a :Find<space>
+nnoremap <leader>A :exec "Ag ".expand("<cword>")<cr>
+nnoremap <leader>A :exec "Find ".expand("<cword>")<cr>
+nnoremap <leader>R :exec "Rg ".expand("<cword>")<cr>
+command! -bang -nargs=* Rg
+      \ call fzf#vim#grep(
+      \   'rg --column --line-number --no-heading --color=always --smart-case  --colors "match:bg:yellow" --colors "match:fg:black" --colors "match:style:nobold" --colors "path:fg:green" --colors "path:style:bold" --colors "line:fg:yellow" --colors "line:style:bold" '.shellescape(<q-args>), 1,
+      \   <bang>0 ? fzf#vim#with_preview('up:60%')
+      \           : fzf#vim#with_preview('right:50%:hidden', '?'),
+      \   <bang>0)
+
+command! -nargs=* RgAg call fzf#run({
+      \ 'source':  printf('rg --column --line-number --no-heading --color=always --smart-case  --colors "match:bg:yellow" --colors "match:fg:black" --colors "match:style:nobold" --colors "path:fg:green" --colors "path:style:bold" --colors "line:fg:yellow" --colors "line:style:bold" '.shellescape(<q-args>),
+      \                   escape(empty(<q-args>) ? '^(?=.)' : <q-args>, '"\')),
+      \ 'sink*':    function('<sid>ag_handler'),
+      \ 'options': '--ansi --expect=ctrl-t,ctrl-v,ctrl-x --delimiter : --nth 4.. '.
+      \            '--multi --bind=ctrl-a:select-all,ctrl-d:deselect-all '.
+      \            '--color hl:68,hl+:110',
+      \ 'down':    '50%'
+      \ })
+command! -bang -nargs=* Find call fzf#vim#grep('rg --column --line-number --no-heading --fixed-strings --colors "match:bg:yellow" --colors "match:fg:black" --colors "match:style:nobold" --colors "path:fg:green" --colors "path:style:bold" --colors "line:fg:yellow" --colors "line:style:bold" --smart-case  --no-ignore --hidden --follow --glob "!.git/*" --color "always" '.shellescape(<q-args>), 1, <bang>0)
+
+set grepprg=rg\ --vimgrep
