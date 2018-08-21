@@ -73,12 +73,12 @@ bindsym $mod+Control+l resize grow width 5 px or 5 ppt
 bindsym $mod+Control+h resize shrink width 5 px or 5 ppt
 
 # pulse audio volume control
-bindsym $mod+Up exec --no-startup-id ~/.i3/audio.sh inc
-bindsym $mod+Down exec --no-startup-id ~/.i3/audio.sh dec
-bindsym $mod+Shift+s exec --no-startup-id ~/.i3/audio.sh mute
-bindsym XF86AudioRaiseVolume exec ~/.i3/audio.sh inc
-bindsym XF86AudioLowerVolume exec ~/.i3/audio.sh dec
-bindsym XF86AudioMute exec ~/.i3/audio.sh mute
+bindsym $mod+Up exec --no-startup-id ~/.i3/audio2.sh raise
+bindsym XF86AudioRaiseVolume exec ~/.i3/audio2.sh raise
+bindsym $mod+Down exec --no-startup-id ~/.i3/audio2.sh lower
+bindsym XF86AudioLowerVolume exec ~/.i3/audio2.sh lower
+bindsym $mod+Shift+s exec --no-startup-id ~/.i3/audio2.sh mute
+bindsym XF86AudioMute exec ~/.i3/audio2.sh mute
 
 # bindsym $mod+Right exec /usr/bin/xbacklight -inc 10
 # bindsym $mod+Left exec /usr/bin/xbacklight -dec 10
@@ -179,7 +179,7 @@ bindsym $mod+Shift+E exit
 
 ###  ADDED KEY BINDINGS  ###
 bindsym $MOD+SHIFT+f exec thunar
-bindsym $MOD+g exec go-for-it
+bindsym $MOD+g exec pomodoneapp
 bindsym $MOD+SHIFT+o exec urxvt -e 'ranger'
 bindsym $MOD+SHIFT+m exec mysql-workbench
 # bindsym $MOD+SHIFT+g exec gvim
@@ -225,21 +225,27 @@ assign [class="Thunderbird"] 9
 assign [class="Chromium"] 10
 assign [class="Firefox"] 10
 
-workspace 1 output DP1
-workspace 9 output DP1
+workspace 1 output DP-1
+workspace 9 output DP-1
 # workspace 3 output HDMI1
-workspace 10 output DP1
+workspace 10 output DP-1
 workspace 2 output HDMI1
 
 # default floating applications
 for_window [class="Xfce4-notifyd"] floating enable
 for_window [class="Xfce4-notifyd"] border none
+for_window [class="pomodoneapp"] floating enable
+for_window [class="pomodoneapp"] border none
 
+
+for_window [class="Gnome-calculator"] floating enable
+for_window [class="Gnome-calculator"] border none
 
 exec --no-startup-id xsetroot -solid "#333333"
 # disable screensaver
 exec xset -dpms; xset s off
 
 exec --no-startup-id nm-applet
+exec --no-startup-id pasystray
 
 exec --no-startup-id sh ~/.i3/startup.sh
