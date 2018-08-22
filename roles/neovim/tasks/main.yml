@@ -159,3 +159,10 @@
     shell: cd /tmp/ctags/ && make install
 
   when: ctags_check.stdout.find('not found') == -1
+
+- name: Link global .tern-config
+  file:
+    src: ".tern-config"
+    dest: "{{ ansible_env.HOME }}/.tern-config"
+    state: link
+
