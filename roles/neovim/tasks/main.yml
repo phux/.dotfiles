@@ -118,7 +118,6 @@
   shell: source ~/.zshrc && nvm install --lts executable=/bin/zsh
 
 - name: installing linters/tools via npm
-  shell: "npm install -g {{ item }}"
   shell: source ~/.zshrc && npm install -g stylelint jsonlint write-good markdownlint-cli livedown executable=/bin/zsh
 
 - name: installing linters via gem
