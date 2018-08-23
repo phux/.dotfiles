@@ -32,7 +32,6 @@ let g:NERDTreeWinSize = 40
 let g:NERDTreeMinimalUI=1
 let g:NERDTreeCascadeSingleChildDir=0
 let g:NERDTreeAutoDeleteBuffer=1
-" let g:NERDTreeWinPos = 'right'
 
 Plug 'Lokaltog/vim-easymotion'
 Plug 'matze/vim-move'
@@ -43,20 +42,22 @@ Plug 'roxma/nvim-yarp'
 Plug 'ncm2/ncm2-bufword'
 Plug 'ncm2/ncm2-tmux'
 Plug 'ncm2/ncm2-path'
+Plug 'ncm2/ncm2-cssomni'
+Plug 'ncm2/ncm2-go'
+Plug 'ncm2/ncm2-ultisnips'
+Plug 'phpactor/ncm2-phpactor'
+
+Plug 'ncm2/ncm2-tern',  {'do': 'npm install'}
+Plug 'ternjs/tern_for_vim', {'do': 'npm install', 'for': ['typescript','javascript']}
+Plug 'ncm2/nvim-typescript', {'do': './install.sh'}
+
+
 Plug 'ncm2/ncm2-jedi'
 Plug 'python-mode/python-mode'
 let g:pymode_folding = 0
 let g:pymode_python = 'python3'
 let g:pymode_lint = 0
 let g:neomake_python_pep8_exe = 'python3'
-" let g:neomake_python_enabled_makers = ['pep8']
-Plug 'ncm2/ncm2-cssomni'
-Plug 'ncm2/ncm2-tern',  {'do': 'npm install'}
-Plug 'ncm2/nvim-typescript', {'do': './install.sh'}
-Plug 'ncm2/ncm2-go'
-Plug 'ncm2/ncm2-ultisnips'
-Plug 'phpactor/ncm2-phpactor'
-Plug 'ternjs/tern_for_vim', {'do': 'npm install', 'for': ['typescript','javascript']}
 
 Plug 'rafi/awesome-vim-colorschemes'
 Plug 'xolox/vim-misc'
@@ -64,23 +65,16 @@ Plug 'xolox/vim-colorscheme-switcher'
 Plug 'fxn/vim-monochrome'
 Plug 'ikaros/smpl-vim'
 
-" Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-" Plug 'kristijanhusak/deoplete-phpactor', { 'do': ':UpdateRemotePlugins' }
-" Plug 'Shougo/neosnippet.vim'
-
 Plug '~/code/neomake'
 
 Plug 'phux/php-doc-modded', {'for': 'php'}
 Plug 'sahibalejandro/vim-php', {'for': ['php', 'yaml']}
 Plug 'StanAngeloff/php.vim', {'for': 'php'}
 Plug 'alvan/vim-php-manual', {'for': 'php'}
-" Plug 'vim-php/vim-php-refactoring', {'for': 'php'}
 Plug 'adoy/vim-php-refactoring-toolbox', {'for': 'php'}
-" let g:phpactorBranch = 'develop'
 Plug 'phpactor/phpactor', {'for': 'php', 'do': ':call phpactor#Update()'}
 Plug 'lvht/phpcd.vim', { 'for': 'php', 'do': 'composer install' }
 
-" Plug 'fatih/vim-go', {'for': 'go', 'do': ':GoUpdateBinaries', 'tag': '*'}
 Plug 'fatih/vim-go', {'for': 'go', 'do': ':GoInstallBinaries'}
 Plug 'sebdah/vim-delve', {'for': 'go'}
 Plug 'godoctor/godoctor.vim', {'for': 'go'}
@@ -104,11 +98,6 @@ Plug 'AndrewRadev/splitjoin.vim'
 
 Plug 'gabrielelana/vim-markdown', {'for': 'markdown'}
 Plug 'junegunn/goyo.vim', {'for': 'markdown'}
-" Plug 'JamshedVesuna/vim-markdown-preview', {'for': 'markdown'}
-" let vim_markdown_preview_toggle=0
-" let vim_markdown_preview_hotkey='<m-o>'
-" let vim_markdown_preview_browser='firefox'
-" let vim_markdown_preview_github=0
 Plug 'shime/vim-livedown', {'for': 'markdown'}
 " should markdown preview get shown automatically upon opening markdown buffer
 let g:livedown_autorun = 1
@@ -152,10 +141,7 @@ Plug 'junegunn/vim-peekaboo'
 Plug 'sjl/gundo.vim', {'on': 'GundoToggle'}
 
 Plug 'aserebryakov/vim-todo-lists'
-" Plug 'mhinz/vim-startify'
 Plug 'pearofducks/ansible-vim', { 'do': 'cd ./UltiSnips; python2 generate.py' }
-" Plug 'machakann/vim-highlightedyank'
-Plug 'sjl/tslime.vim', {'for': 'scheme'}
 
 Plug 'm-kat/aws-vim'
 

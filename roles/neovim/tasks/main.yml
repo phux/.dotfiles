@@ -118,7 +118,7 @@
   shell: source ~/.zshrc && nvm install --lts executable=/bin/zsh
 
 - name: installing linters/tools via npm
-  shell: source ~/.zshrc && npm install -g stylelint jsonlint write-good markdownlint-cli livedown executable=/bin/zsh
+  shell: source ~/.zshrc && npm install -g stylelint jsonlint write-good markdownlint-cli livedown tern eslint_d jshint jslinter tern-lint serverless neovim typescript javascript-typescript-langserver livedown instant-markdown-d executable=/bin/zsh
 
 - name: installing linters via gem
   shell: "{{  ansible_env.HOME }}/.rbenv/versions/2.5.1/bin/gem install {{ item }}"
@@ -126,6 +126,7 @@
     - mdl
     - scss_lint
     - sqlint
+    - observr #autotest
 
 - name: link easy-coding-standard configs
   file:

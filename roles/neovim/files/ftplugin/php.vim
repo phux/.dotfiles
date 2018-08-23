@@ -31,7 +31,6 @@ nnoremap <buffer> <leader>rei :call PHPExtractInterface()<cr>
 nnoremap <buffer> <Leader>u :PHPImportClass<cr>
 nnoremap <buffer> <Leader>e :PHPExpandFQCNAbsolute<cr>
 nnoremap <buffer> <Leader>E :PHPExpandFQCN<cr>
-inoremap <buffer> <C-d> <ESC>:call PhpDocSingle()<CR>
 nnoremap <buffer> <leader>h :call UpdatePhpDocIfExists()<CR>
 vnoremap <silent><Leader>em :<C-U>call phpactor#ExtractMethod()<CR>
 
