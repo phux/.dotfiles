@@ -200,7 +200,7 @@ alias gt='richgo test ./...'
 
 alias ez='n ~/.zshrc'
 alias .d='cd ~/.dotfiles'
-alias m='make'
+alias ma='make'
 alias mt='make test'
 alias idea='~/tools/idea-IC-182.3684.101/bin/idea.sh'
 
@@ -253,3 +253,6 @@ alias mux="tmuxinator"
 # vim: ft=zsh sw=2 ts=2 et
 
 command -v vg >/dev/null 2>&1 && eval "$(vg eval --shell zsh)"
+
+# if [ "$TMUX" = "" ]; then tmux attach-session -t local || tmux new-session -s local; fi
+alias m='tmux attach-session -t local || tmux new-session -s local'
