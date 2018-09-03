@@ -79,7 +79,7 @@ Plug 'fatih/vim-go', {'for': 'go', 'do': ':GoInstallBinaries'}
 Plug 'sebdah/vim-delve', {'for': 'go'}
 Plug 'godoctor/godoctor.vim', {'for': 'go'}
 Plug 'buoto/gotests-vim', {'for': 'go'}
-Plug 'nsf/gocode', { 'rtp': 'nvim', 'do': '~/.config/nvim/plugged/gocode/nvim/symlink.sh' , 'for': 'go'}
+Plug 'mdempsky/gocode', { 'rtp': 'nvim', 'do': '~/.config/nvim/plugged/gocode/nvim/symlink.sh' , 'for': 'go'}
 
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'tmux-plugins/vim-tmux-focus-events'
@@ -146,7 +146,7 @@ Plug 'pearofducks/ansible-vim', { 'do': 'cd ./UltiSnips; python2 generate.py' }
 Plug 'm-kat/aws-vim'
 
 Plug 'itchyny/lightline.vim'
-
+Plug 'tpope/vim-apathy'
 
 call plug#end()
 
@@ -154,21 +154,8 @@ let mapleader = "\<Space>"
 nnoremap <silent> <leader><f5> :e $MYVIMRC<CR>
 imap jk <esc>
 
-" interface
 set t_Co=256
-" set background=dark
-
-" colorscheme gruvbox
-" colorscheme apprentice
-" colorscheme seoul256
-" colorscheme zenburn
-" colorscheme 256_noir " fav mono
-" color lucius " fav low contrast
 color deus
-" set background=light
-" colorscheme hybrid " fav bright
-" color github
-" colorscheme smpl
 
 let $NVIM_TUI_ENABLE_TRUE_COLOR=1
 
@@ -182,16 +169,6 @@ let g:lightline = {
       \   'gitbranch': 'fugitive#head'
       \ },
       \ }
-" testing lightline
-" set statusline=
-" set statusline+=%#LineNr#
-" set statusline+=\ %f
-" set statusline+=%m
-" set statusline+=%=
-" set statusline+=\ %y
-" set statusline+=\ %{&fileencoding?&fileencoding:&encoding}
-" set statusline+=%10(%l:%c%)\ 
-" set statusline+=\ 
 
 set number
 " Set the command window height to 1 lines
@@ -235,6 +212,7 @@ augroup nvim
 
   " fix issue when leaving vim
   " au WinEnter * :EnableGoldenViewAutoResize
+
 augroup END
 
 augroup qf_loc_lists
@@ -327,6 +305,7 @@ let g:ultisnips_php_scalar_types = 1
 let g:UltiSnipsSnippetsDir = ['~/.config/nvim/UltiSnips/', './plugged/aws-vim/snips'] 
 let g:UltiSnipsExpandTrigger="<c-j>"
 
+let g:AutoPairsMapCR=0
 " use ncm2 ultisnips expansion and autopairs indentation
 inoremap <expr> <CR> (pumvisible() ? ncm2_ultisnips#expand_or("\<CR>", 'n') : "\<CR>")
 
@@ -425,27 +404,6 @@ set timeout ttimeoutlen=0
 
 inoremap <expr> <TAB> pumvisible() ? "\<c-n>" : "\<TAB>"
 inoremap <expr> <s-tab> pumvisible() ? "\<c-p>" : "\<TAB>"
-" inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
-
-" let g:deoplete#enable_at_startup = 1
-" let g:deoplete#enable_smart_case = 1
-" let g:deoplete#enable_camel_case = 1
-" let g:deoplete#sources = get(g:, 'deoplete#sources', {})
-" let g:deoplete#sources._ = ['ultisnips', 'buffer']
-
-" let g:deoplete#sources#padawan#add_parentheses=1
-" let g:deoplete#sources#padawan#server_command='~/.config/nvim/plugged/deoplete-padawan/vendor/bin/padawan-server'
-" let g:deoplete#sources.php = ['padawan', 'ultisnips', 'buffer']
-" let g:deoplete#skip_chars = ['$']
-
-" let g:deoplete#sources#go = ['go', 'ultisnips', 'buffer']
-" let g:deoplete#sources#go#gocode_binary = $GOPATH.'/bin/gocode'
-" let g:deoplete#sources#go#sort_class = ['package', 'func', 'type', 'var', 'const']
-" let g:deoplete#sources#go#align_class = 1
-" let g:deoplete#sources#go#use_cache = 1
-" let g:deoplete#sources#go#pointer = 1
-" let g:deoplete#sources#go#json_directory = '~/.cache/deoplete/go/$GOOS_$GOARCH'
-
 
 inoremap <c-l> <del>
 
@@ -617,16 +575,6 @@ function! s:ag_handler(lines)
   endif
 endfunction
 
-command! -nargs=* Ag call fzf#run({
-      \ 'source':  printf('ag --nogroup --column --color "%s"',
-      \                   escape(empty(<q-args>) ? '^(?=.)' : <q-args>, '"\')),
-      \ 'sink*':    function('<sid>ag_handler'),
-      \ 'options': '--ansi --expect=ctrl-t,ctrl-v,ctrl-x --delimiter : --nth 4.. '.
-      \            '--multi --bind=ctrl-a:select-all,ctrl-d:deselect-all '.
-      \            '--color hl:68,hl+:110',
-      \ 'down':    '50%'
-      \ })
-
 set wildmenu
 set wildmode=list:longest,full
 
@@ -704,8 +652,6 @@ nnoremap <F12> :call EditFtPluginFile()<cr>
 
 let g:vim_php_refactoring_use_default_mapping = 0
 
-" command! -bang PadawanGenerate call deoplete#sources#padawan#Generate(<bang>0)
-
 so ~/.config/nvim/projects.public.vim
 nnoremap <m-u> :GundoToggle<CR>
 let g:gundo_width = 60
@@ -729,17 +675,6 @@ endfunction
 
 set inccommand=nosplit
 
-" imap <C-k> <Plug>(neosnippet_expand_or_jump)
-" smap <C-k> <Plug>(neosnippet_expand_or_jump)
-" xmap <C-k> <Plug>(neosnippet_expand_target)
-" let g:neosnippet#enable_completed_snippet=1
-" if has('conceal')
-"   set conceallevel=2 concealcursor=niv
-" endif
-" let g:neosnippet#disable_runtime_snippets = {
-" \   '_' : 1,
-" \ }
-
 function! IsOnBattery()
   " might be AC instead of ACAD on your machine
   return readfile('/sys/class/power_supply/ACAD/online') == ['0']
@@ -747,22 +682,12 @@ endfunction
 
 
 nnoremap <leader>gp :!git push<cr>
-" --column: Show column number
-" --line-number: Show line number
-" --no-heading: Do not show file headings in results
-" --fixed-strings: Search term as a literal string
-" --ignore-case: Case insensitive search
-" --no-ignore: Do not respect .gitignore, etc...
-" --hidden: Search hidden files and folders
-" --follow: Follow symlinks
-" --glob: Additional conditions for search (in this case ignore everything in the .git/ folder)
-" --color: Search color options
 
 vnoremap <leader>/ "hy:exec "Find ".escape('<C-R>h', "/\.*$^~[()")<cr>
 nnoremap <leader>a :Ag<space>
-nnoremap <leader>a :Find<space>
+" nnoremap <leader>a :Find<space>
 nnoremap <leader>A :exec "Ag ".expand("<cword>")<cr>
-nnoremap <leader>A :exec "Find ".expand("<cword>")<cr>
+" nnoremap <leader>A :exec "Find ".expand("<cword>")<cr>
 nnoremap <leader>R :exec "Rg ".expand("<cword>")<cr>
 command! -bang -nargs=* Rg
       \ call fzf#vim#grep(
@@ -771,15 +696,8 @@ command! -bang -nargs=* Rg
       \           : fzf#vim#with_preview('right:50%:hidden', '?'),
       \   <bang>0)
 
-command! -nargs=* RgAg call fzf#run({
-      \ 'source':  printf('rg --column --line-number --no-heading --color=always --smart-case  --colors "match:bg:yellow" --colors "match:fg:black" --colors "match:style:nobold" --colors "path:fg:green" --colors "path:style:bold" --colors "line:fg:yellow" --colors "line:style:bold" '.shellescape(<q-args>),
-      \                   escape(empty(<q-args>) ? '^(?=.)' : <q-args>, '"\')),
-      \ 'sink*':    function('<sid>ag_handler'),
-      \ 'options': '--ansi --expect=ctrl-t,ctrl-v,ctrl-x --delimiter : --nth 4.. '.
-      \            '--multi --bind=ctrl-a:select-all,ctrl-d:deselect-all '.
-      \            '--color hl:68,hl+:110',
-      \ 'down':    '50%'
-      \ })
 command! -bang -nargs=* Find call fzf#vim#grep('rg --column --line-number --no-heading --fixed-strings --colors "match:bg:yellow" --colors "match:fg:black" --colors "match:style:nobold" --colors "path:fg:green" --colors "path:style:bold" --colors "line:fg:yellow" --colors "line:style:bold" --smart-case  --no-ignore --hidden --follow --glob "!.git/*" --color "always" '.shellescape(<q-args>), 1, <bang>0)
 
 set grepprg=rg\ --vimgrep
+vnoremap <leader>64 :!python -m base64 -d<cr>
+
