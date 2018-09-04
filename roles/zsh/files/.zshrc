@@ -45,6 +45,7 @@ setopt HIST_VERIFY               # Don't execute immediately upon history expans
 setopt CORRECT
 setopt AUTO_CD
 setopt AUTO_PUSHD PUSHD_TO_HOME
+# setopt interactivecomments
 
 # Prefer US English and use UTF-8.
 export LANG='en_US.UTF-8';
@@ -256,3 +257,10 @@ command -v vg >/dev/null 2>&1 && eval "$(vg eval --shell zsh)"
 
 # if [ "$TMUX" = "" ]; then tmux attach-session -t local || tmux new-session -s local; fi
 alias m='tmux attach-session -t local || tmux new-session -s local'
+
+alias gw="JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64 ./gradlew"
+
+alias zlibdecode="cat /tmp/base | base64 -d | zlib -d"
+function zdecode() {
+  echo -n "$1" | base64 -d | zlib -d
+}
