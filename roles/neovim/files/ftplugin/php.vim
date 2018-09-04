@@ -19,7 +19,8 @@ nnoremap <buffer> <leader>rep :call PhpRefactorLocalVariableToInstanceVariable()
 nnoremap <buffer> <leader>rep :call PhpExtractClassProperty()<cr>
 nnoremap <buffer> <leader>rrv :call PhpRefactorRenameLocalVariable()<cr>
 nnoremap <buffer> <leader>rdo :call PhpDocOneliner()<cr>
-vnoremap <buffer> <leader>ev :call PHPExtractVariable()<cr>
+vnoremap <buffer> <silent><Leader>ee :<C-U>call phpactor#ExtractExpression(v:true)<CR>
+nnoremap <buffer> <silent><Leader>ee :call phpactor#ExtractExpression(v:false)<CR>
 nnoremap <buffer> <leader>H :call PhpConstructorArgumentMagic2()<cr>
 nnoremap <buffer> <leader>rmc :call PHPMoveClass()<cr>
 nnoremap <buffer> <leader>rmd :call PHPMoveDir()<cr>
