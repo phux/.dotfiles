@@ -41,6 +41,16 @@
   with_fileglob:
     - ftplugin/*
 
+- name: Create colors dir
+  file: path={{ neovim_config_dir }}/colors state=directory
+- name: Link colorschemes
+  file:
+    src: "{{ item }}"
+    dest: "{{ neovim_config_dir }}/colors/{{ item | basename }}"
+    state: link
+  with_fileglob:
+    - colors/*
+
 - name: Create UltiSnips dir
   file: path={{ neovim_config_dir }}/UltiSnips state=directory
 
