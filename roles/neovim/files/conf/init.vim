@@ -20,11 +20,11 @@ let g:AutoPairsShortcutToggle = ''
 Plug 'amiorin/vim-project'
 
 Plug 'tpope/vim-fugitive'
-Plug 'int3/vim-extradite'
+" Plug 'int3/vim-extradite'
 Plug 'gregsexton/gitv'
-Plug 'junegunn/gv.vim'
+" Plug 'junegunn/gv.vim'
 
-Plug 'Xuyuanp/nerdtree-git-plugin'
+" Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'scrooloose/nerdtree'
 let g:NERDTreeUpdateOnCursorHold = 0
 let g:NERDTreeQuitOnOpen = 1
@@ -34,7 +34,7 @@ let g:NERDTreeCascadeSingleChildDir=0
 let g:NERDTreeAutoDeleteBuffer=1
 
 Plug 'Lokaltog/vim-easymotion'
-Plug 'matze/vim-move'
+" Plug 'matze/vim-move'
 Plug 'majutsushi/tagbar', {'on': 'TagbarToggle'}
 
 Plug 'ncm2/ncm2'
@@ -46,26 +46,24 @@ Plug 'ncm2/ncm2-cssomni'
 Plug 'ncm2/ncm2-go'
 Plug 'ncm2/ncm2-ultisnips'
 Plug 'phpactor/ncm2-phpactor'
-
+Plug 'yuki-ycino/ncm2-dictionary'
 Plug 'ncm2/ncm2-tern',  {'do': 'npm install'}
-Plug 'ternjs/tern_for_vim', {'do': 'npm install', 'for': ['typescript','javascript']}
 Plug 'ncm2/nvim-typescript', {'do': './install.sh'}
-
-
 Plug 'ncm2/ncm2-jedi'
+
+Plug 'ternjs/tern_for_vim', {'do': 'npm install', 'for': ['typescript','javascript']}
+
+Plug 'reedes/vim-lexical'
+
 Plug 'python-mode/python-mode'
 let g:pymode_folding = 0
 let g:pymode_python = 'python3'
 let g:pymode_lint = 0
 let g:neomake_python_pep8_exe = 'python3'
 
-Plug 'rafi/awesome-vim-colorschemes'
 Plug 'xolox/vim-misc'
-Plug 'xolox/vim-colorscheme-switcher'
-Plug 'fxn/vim-monochrome'
-Plug 'ikaros/smpl-vim'
 
-Plug '~/code/neomake'
+Plug 'neomake/neomake'
 
 Plug 'phux/php-doc-modded', {'for': 'php'}
 Plug 'sahibalejandro/vim-php', {'for': ['php', 'yaml']}
@@ -108,14 +106,15 @@ let g:livedown_port = 1337
 " the browser to use
 let g:livedown_browser = "firefox"
 
-Plug 'autozimu/LanguageClient-neovim', {
-    \ 'do': 'bash install.sh',
-    \ }
-let g:LanguageClient_serverCommands = {
-  \ 'typescript': ['javascript-typescript-stdio'],
-  \ 'javascript': ['javascript-typescript-stdio']
-  \ }
-Plug 'nelsyeung/twig.vim', {'for': 'twig'}
+" Plug 'autozimu/LanguageClient-neovim', {
+"     \ 'do': 'bash install.sh',
+"     \ }
+" let g:LanguageClient_serverCommands = {
+"   \ 'typescript': ['javascript-typescript-stdio'],
+"   \ 'javascript': ['javascript-typescript-stdio']
+"   \ }
+" Plug 'nelsyeung/twig.vim', {'for': 'twig'}
+
 Plug 'maksimr/vim-jsbeautify'
 map <c-f> :call JsBeautify()<cr>
 
@@ -129,25 +128,27 @@ Plug 'godlygeek/tabular'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-abolish'
-Plug 'vim-scripts/YankRing.vim'
+" Plug 'vim-scripts/YankRing.vim'
 
 Plug 'simeji/winresizer'
 Plug 'wellle/targets.vim'
 
-Plug 'mtth/scratch.vim'
+" Plug 'mtth/scratch.vim'
 
-Plug 'junegunn/vim-peekaboo'
+" Plug 'junegunn/vim-peekaboo'
 
 Plug 'sjl/gundo.vim', {'on': 'GundoToggle'}
 
-Plug 'aserebryakov/vim-todo-lists'
+" Plug 'aserebryakov/vim-todo-lists'
 Plug 'pearofducks/ansible-vim', { 'do': 'cd ./UltiSnips; python2 generate.py' }
 
 Plug 'm-kat/aws-vim'
 
 Plug 'itchyny/lightline.vim'
+" Set the 'path' option for miscellaneous file types 
 Plug 'tpope/vim-apathy'
 
+Plug 'tpope/vim-rhubarb'
 call plug#end()
 
 let mapleader = "\<Space>"
@@ -170,7 +171,7 @@ let g:lightline = {
       \ },
       \ }
 
-set number
+set relativenumber
 " Set the command window height to 1 lines
 set cmdheight=1
 " This makes more sense than the default of 1
@@ -231,6 +232,7 @@ augroup js
   au FileType typescript nnoremap <buffer> K :TSDefPreview<cr>
 augroup END
 
+let g:lexical#thesaurus = ['~/.config/nvim/thesaurus.txt',]
 augroup everything
   au!
 
@@ -239,6 +241,13 @@ augroup everything
   au FileType ruby setl sw=2 sts=2 et
   au BufRead,BufNewFile *.conf setf config
   au BufNewFile,BufRead composer.lock set ft=json
+
+
+  " au FileType text setlocal spell spelllang=en_us
+  autocmd FileType markdown,mkd call lexical#init()
+  autocmd FileType textile call lexical#init()
+  au FileType text execute 'setlocal dictionary+=/usr/share/dict/cracklib-small'
+  autocmd FileType text call lexical#init({ 'spell': 0 })
 
   au FileType scratch :call VimTodoListsInit()
   au FileType todo nnoremap <buffer> <cr> :VimTodoListsToggleItem<CR>
@@ -388,7 +397,7 @@ set shiftwidth=2
 set scrolloff=5
 set shiftround
 set expandtab smarttab
-set smartindent
+set cindent
 set nolazyredraw
 set modelines=2
 set synmaxcol=1000
@@ -466,9 +475,9 @@ function! PrependTicketNumber()
   :startinsert!
 endfunction
 
-" Move by screen line not file line
-nnoremap j gj
-nnoremap k gk
+" Move by screen line not file line, but only if no count provided
+noremap <silent> <expr> j (v:count == 0 ? 'gj' : 'j')
+noremap <silent> <expr> k (v:count == 0 ? 'gk' : 'k')
 
 
 nnoremap <leader>gv :Gitv!<cr>
@@ -701,3 +710,4 @@ command! -bang -nargs=* Find call fzf#vim#grep('rg --column --line-number --no-h
 set grepprg=rg\ --vimgrep
 vnoremap <leader>64 :!python -m base64 -d<cr>
 
+let g:neomake_javascript_jshintrc_path='~/.jshintrc'
