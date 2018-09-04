@@ -37,7 +37,8 @@ floating_modifier Mod1
 
 # start a terminal
 #bindsym $mod+Return exec i3-sensible-terminal
-bindsym $mod+Return exec urxvtc
+# bindsym $mod+Return exec urxvtc
+bindsym $mod+Return exec urxvtc -e zsh -c "tmux -q has-session -t local && tmux attach-session -d -t local || tmux new-session -slocal"
 
 # kill focused window
 bindsym $mod+Shift+Q kill
@@ -67,10 +68,10 @@ bindsym $mod+Shift+L move right
 bindsym $mod+Shift+H move left
 
 # Resize Containers, Vim-style
-bindsym $mod+Control+j resize grow height 5 px or 5 ppt
-bindsym $mod+Control+k resize shrink height 5 px or 5 ppt
-bindsym $mod+Control+l resize grow width 5 px or 5 ppt
-bindsym $mod+Control+h resize shrink width 5 px or 5 ppt
+bindsym $mod+Control+j resize grow height 15 px or 15 ppt
+bindsym $mod+Control+k resize shrink height 15 px or 15 ppt
+bindsym $mod+Control+l resize grow width 15 px or 15 ppt
+bindsym $mod+Control+h resize shrink width 15 px or 15 ppt
 
 # pulse audio volume control
 bindsym $mod+Up exec --no-startup-id ~/.i3/audio2.sh raise
@@ -214,32 +215,20 @@ client.focused #61af5b #61af5b #ffffff
 client.unfocused #333333 #747170 #ffffff
 
 # workspace targeting
-assign [class="Gvim"] 2
-assign [class="Mysql-workbench-bin"] 3
-assign [class="Pidgin"] 9
-assign [class="Hipchat"] 9
-assign [class="Slack"] 9
-assign [class="yakyak"] 9
-assign [class="Skype"] 9
-assign [class="Thunderbird"] 9
 assign [class="Chromium"] 10
 assign [class="Firefox"] 10
 
-workspace 1 output DP-1
-workspace 9 output DP-1
-# workspace 3 output HDMI1
-workspace 10 output DP-1
-workspace 2 output HDMI1
+# workspace 1 output DP-1
+# workspace 9 output DP-1
+# # workspace 3 output HDMI1
+# workspace 10 output DP-1
+# workspace 2 output HDMI1
 
 # default floating applications
-for_window [class="Xfce4-notifyd"] floating enable
 for_window [class="Xfce4-notifyd"] border none
-for_window [class="pomodoneapp"] floating enable
-for_window [class="pomodoneapp"] border none
-
-
+for_window [class="Xfce4-notifyd"] floating enable
+for_window [class="PomoDoneApp"] floating enable
 for_window [class="Gnome-calculator"] floating enable
-for_window [class="Gnome-calculator"] border none
 
 exec --no-startup-id xsetroot -solid "#333333"
 # disable screensaver
