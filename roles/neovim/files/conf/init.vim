@@ -6,6 +6,7 @@ endif
 
 call plug#begin('~/.config/nvim/plugged')
 
+Plug 'sheerun/vim-polyglot', {'do': './build'}
 Plug 'tpope/vim-commentary', {'on': 'Commentary'}
 
 Plug 'ap/vim-buftabline'
@@ -67,7 +68,6 @@ Plug 'neomake/neomake'
 
 Plug 'phux/php-doc-modded', {'for': 'php'}
 Plug 'sahibalejandro/vim-php', {'for': ['php', 'yaml']}
-Plug 'StanAngeloff/php.vim', {'for': 'php'}
 Plug 'alvan/vim-php-manual', {'for': 'php'}
 Plug 'adoy/vim-php-refactoring-toolbox', {'for': 'php'}
 Plug 'phpactor/phpactor', {'for': 'php', 'do': ':call phpactor#Update()'}
@@ -77,7 +77,6 @@ Plug 'fatih/vim-go', {'for': 'go', 'do': ':GoInstallBinaries'}
 Plug 'sebdah/vim-delve', {'for': 'go'}
 Plug 'godoctor/godoctor.vim', {'for': 'go'}
 Plug 'buoto/gotests-vim', {'for': 'go'}
-Plug 'mdempsky/gocode', { 'rtp': 'nvim', 'do': '~/.config/nvim/plugged/gocode/nvim/symlink.sh' , 'for': 'go'}
 
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'tmux-plugins/vim-tmux-focus-events'
@@ -91,7 +90,6 @@ Plug 'pbogut/fzf-mru.vim'
 Plug 'Shougo/echodoc.vim'
 
 Plug 'janko-m/vim-test'
-
 Plug 'AndrewRadev/splitjoin.vim'
 
 Plug 'gabrielelana/vim-markdown', {'for': 'markdown'}
@@ -113,7 +111,6 @@ let g:livedown_browser = "firefox"
 "   \ 'typescript': ['javascript-typescript-stdio'],
 "   \ 'javascript': ['javascript-typescript-stdio']
 "   \ }
-" Plug 'nelsyeung/twig.vim', {'for': 'twig'}
 
 Plug 'maksimr/vim-jsbeautify'
 map <c-f> :call JsBeautify()<cr>
@@ -264,14 +261,10 @@ augroup everything
   au BufWritePost * silent! !eval '[ -f ".git/hooks/ctags" ] && .git/hooks/ctags' &
 augroup END
 
-let g:LanguageClient_diagnosticsEnable  = 0
-let g:LanguageClient_diagnosticsList = ''
-let g:LanguageClient_signColumnAlwaysOn = 0
-let g:LanguageClient_selectionUI = 'fzf'
-let g:LanguageClient_serverCommands = {
-      \ 'javascript.jsx': ['~/compiles/javascript-typescript-langserver/lib/language-server-stdio.js'],
-      \ 'typescript': ['~/compiles/javascript-typescript-langserver/lib/language-server-stdio.js']
-      \ }
+" let g:LanguageClient_diagnosticsEnable  = 0
+" let g:LanguageClient_diagnosticsList = ''
+" let g:LanguageClient_signColumnAlwaysOn = 0
+" let g:LanguageClient_selectionUI = 'fzf'
 
 set encoding=utf-8
 set fileformats=unix,dos,mac    " Prefer Unix over Windows over OS 9 formats
