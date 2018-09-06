@@ -46,7 +46,7 @@ Plug 'ncm2/ncm2-path'
 Plug 'ncm2/ncm2-cssomni'
 Plug 'ncm2/ncm2-go'
 Plug 'ncm2/ncm2-ultisnips'
-Plug 'phpactor/ncm2-phpactor'
+Plug 'ncm2/ncm2-phpactor'
 Plug 'yuki-ycino/ncm2-dictionary'
 Plug 'ncm2/ncm2-tern',  {'do': 'npm install'}
 Plug 'ncm2/nvim-typescript', {'do': './install.sh'}
