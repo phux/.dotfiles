@@ -134,7 +134,6 @@
 - name: installing linters via gem
   shell: "{{  ansible_env.HOME }}/.rbenv/versions/2.5.1/bin/gem install {{ item }}"
   with_items:
-    - mdl
     - scss_lint
     - sqlint
     - observr #autotest

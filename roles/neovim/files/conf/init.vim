@@ -69,10 +69,18 @@ Plug 'w0rp/ale'
 let g:ale_lint_on_text_changed = 'never'
 let g:ale_lint_on_enter = 0
 let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
+" linters are by default disabled for text
+let g:ale_linters = {'text':['proselint', 'textlint', 'writegood']}
 let g:ale_open_list = 1
 let g:ale_list_window_size = 5
-let g:ale_fixers = {'*': ['remove_trailing_lines', 'trim_whitespace']}
+let g:ale_fixers = {
+  \ '*': ['remove_trailing_lines', 'trim_whitespace'],
+  \ 'php': ['phpcbf', 'php_cs_fixer']
+  \}
 let g:ale_fix_on_save=1
+let g:ale_php_phpcbf_standard='Symfony'
+let g:ale_php_phpcs_standard='phpcs.xml.dist'
+let g:ale_php_phpmd_ruleset='phpmd.xml'
 
 Plug 'phux/php-doc-modded', {'for': 'php'}
 Plug 'sahibalejandro/vim-php', {'for': ['php', 'yaml']}
@@ -100,7 +108,8 @@ Plug 'Shougo/echodoc.vim'
 Plug 'janko-m/vim-test'
 Plug 'AndrewRadev/splitjoin.vim'
 
-Plug 'suan/vim-instant-markdown'
+Plug 'suan/vim-instant-markdown', {'for': 'markdown'}
+let g:instant_markdown_slow = 1
 Plug 'gabrielelana/vim-markdown', {'for': 'markdown'}
 Plug 'junegunn/goyo.vim', {'for': 'markdown'}
 
@@ -246,7 +255,7 @@ augroup everything
   au FileType css,markdown,json,less,scss,yaml let b:ale_fixers = ['prettier']
   autocmd FileType textile call lexical#init()
   au FileType text execute 'setlocal dictionary+=/usr/share/dict/cracklib-small'
-  au FileType text let b:ale_fixers = ['vale']
+
   au FileType python let b:ale_fixers = ['autopep8']
   autocmd FileType text call lexical#init({ 'spell': 0 })
 
