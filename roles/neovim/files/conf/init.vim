@@ -240,7 +240,6 @@ augroup everything
   au BufNewFile,BufRead composer.lock set ft=json
 
 
-  " au FileType text setlocal spell spelllang=en_us
   autocmd FileType markdown,mkd call lexical#init()
   autocmd FileType textile call lexical#init()
   au FileType text execute 'setlocal dictionary+=/usr/share/dict/cracklib-small'
@@ -255,6 +254,7 @@ augroup everything
 
   " autocmd FileType gitcommit nnoremap <buffer> <leader>w :call PrependTicketNumber()<cr>
   autocmd FileType gitcommit nnoremap <buffer> <leader>w :x<cr>
+  autocmd FileType gitcommit call lexical#init({ 'spell': 1 })
   autocmd FileType gitv nmap <buffer> <silent> <C-n> <Plug>(gitv-previous-commit)
   autocmd FileType gitv nmap <buffer> <silent> <C-p> <Plug>(gitv-next-commit)
 
