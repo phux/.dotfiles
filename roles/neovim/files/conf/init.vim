@@ -60,11 +60,17 @@ Plug 'python-mode/python-mode'
 let g:pymode_folding = 0
 let g:pymode_python = 'python3'
 let g:pymode_lint = 0
-let g:neomake_python_pep8_exe = 'python3'
+" let g:neomake_python_pep8_exe = 'python3'
 
 Plug 'xolox/vim-misc'
 
-Plug 'neomake/neomake'
+" Plug 'neomake/neomake'
+Plug 'w0rp/ale'
+let g:ale_lint_on_text_changed = 'never'
+let g:ale_lint_on_enter = 0
+let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
+let g:ale_open_list = 1
+let g:ale_list_window_size = 5
 
 Plug 'phux/php-doc-modded', {'for': 'php'}
 Plug 'sahibalejandro/vim-php', {'for': ['php', 'yaml']}
@@ -92,17 +98,9 @@ Plug 'Shougo/echodoc.vim'
 Plug 'janko-m/vim-test'
 Plug 'AndrewRadev/splitjoin.vim'
 
+Plug 'suan/vim-instant-markdown'
 Plug 'gabrielelana/vim-markdown', {'for': 'markdown'}
 Plug 'junegunn/goyo.vim', {'for': 'markdown'}
-Plug 'shime/vim-livedown', {'for': 'markdown'}
-" should markdown preview get shown automatically upon opening markdown buffer
-let g:livedown_autorun = 1
-" should the browser window pop-up upon previewing
-let g:livedown_open = 1 
-" the port on which Livedown server will run
-let g:livedown_port = 1337
-" the browser to use
-let g:livedown_browser = "firefox"
 
 " Plug 'autozimu/LanguageClient-neovim', {
 "     \ 'do': 'bash install.sh',
@@ -359,7 +357,7 @@ nnoremap <leader>gs :Gstatus<cr>
 nnoremap <leader>gc :Gcommit<cr>
 nnoremap <leader>gl :Extradite!<cr>
 
-nnoremap <f11> :NeomakeToggle<cr>
+" nnoremap <f11> :NeomakeToggle<cr>
 nnoremap <silent> <m-,> :lclose<cr>:cclose<cr>
 
 nnoremap <leader>/ :Ack <c-r><c-w><cr>
@@ -640,12 +638,12 @@ highlight nonText ctermbg=NONE
 
 set nocul
 
-if &rtp =~ 'neomake'
-    call neomake#configure#automake('w')
-endif
+" if &rtp =~ 'neomake'
+    " call neomake#configure#automake('w')
+" endif
 
 " keep cursor position
-let g:neomake_open_list = 2
+" let g:neomake_open_list = 2
 
 function! EditFtPluginFile()
   exec ":e ~/.config/nvim/ftplugin/".expand('%:e').".vim"
@@ -703,4 +701,4 @@ command! -bang -nargs=* Find call fzf#vim#grep('rg --column --line-number --no-h
 set grepprg=rg\ --vimgrep
 vnoremap <leader>64 :!python -m base64 -d<cr>
 
-let g:neomake_javascript_jshintrc_path='~/.jshintrc'
+" let g:neomake_javascript_jshintrc_path='~/.jshintrc'
