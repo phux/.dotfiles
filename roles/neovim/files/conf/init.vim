@@ -71,6 +71,8 @@ let g:ale_lint_on_enter = 0
 let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
 let g:ale_open_list = 1
 let g:ale_list_window_size = 5
+let g:ale_fixers = {'*': ['remove_trailing_lines', 'trim_whitespace']}
+let g:ale_fix_on_save=1
 
 Plug 'phux/php-doc-modded', {'for': 'php'}
 Plug 'sahibalejandro/vim-php', {'for': ['php', 'yaml']}
@@ -140,7 +142,7 @@ Plug 'pearofducks/ansible-vim', { 'do': 'cd ./UltiSnips; python2 generate.py' }
 Plug 'm-kat/aws-vim'
 
 Plug 'itchyny/lightline.vim'
-" Set the 'path' option for miscellaneous file types 
+" Set the 'path' option for miscellaneous file types
 Plug 'tpope/vim-apathy'
 
 Plug 'tpope/vim-rhubarb'
@@ -222,6 +224,8 @@ augroup END
 augroup js
   au!
 
+  au FileType javascript,typescript let b:ale_fixers = ['prettier', 'eslint']
+
   au FileType typescript nnoremap <buffer> gd :TSDef<CR>
   au FileType typescript nnoremap <buffer> gr :TSRefs<CR>
   au FileType typescript nnoremap <buffer> K :TSDefPreview<cr>
@@ -239,8 +243,11 @@ augroup everything
 
 
   autocmd FileType markdown,mkd call lexical#init()
+  au FileType css,markdown,json,less,scss,yaml let b:ale_fixers = ['prettier']
   autocmd FileType textile call lexical#init()
   au FileType text execute 'setlocal dictionary+=/usr/share/dict/cracklib-small'
+  au FileType text let b:ale_fixers = ['vale']
+  au FileType python let b:ale_fixers = ['autopep8']
   autocmd FileType text call lexical#init({ 'spell': 0 })
 
   au FileType scratch :call VimTodoListsInit()
@@ -302,14 +309,14 @@ nnoremap <leader>N :NERDTreeFind<cr>
 nnoremap <silent> <leader>w :lclose<cr>:w<cr>
 
 let g:ultisnips_php_scalar_types = 1
-let g:UltiSnipsSnippetsDir = ['~/.config/nvim/UltiSnips/', './plugged/aws-vim/snips'] 
+let g:UltiSnipsSnippetsDir = ['~/.config/nvim/UltiSnips/', './plugged/aws-vim/snips']
 let g:UltiSnipsExpandTrigger="<c-j>"
 
 let g:AutoPairsMapCR=0
 " use ncm2 ultisnips expansion and autopairs indentation
 inoremap <expr> <CR> (pumvisible() ? ncm2_ultisnips#expand_or("\<CR>", 'n') : "\<CR>")
 
-" inoremap <silent> <expr> <CR> 
+" inoremap <silent> <expr> <CR>
 let g:UltiSnipsJumpForwardTrigger="<c-j>"
 let g:UltiSnipsJumpBackwardTrigger="<c-k>"
 
@@ -364,7 +371,7 @@ nnoremap <leader>/ :Ack <c-r><c-w><cr>
 nnoremap <leader>rip :Acks /<c-r><c-w>/<c-r><c-w>/gc<left><left><left>
 
 nmap <Leader>L <Plug>(easymotion-bd-jk)
-" nmap <Leader>L <Plug>(easymotion-overwin-line) 
+" nmap <Leader>L <Plug>(easymotion-overwin-line)
 " nmap <Leader>j <Plug>(easymotion-j)
 " nmap <Leader>k <Plug>(easymotion-k)
 nmap <Leader>F <Plug>(easymotion-bd-w)
