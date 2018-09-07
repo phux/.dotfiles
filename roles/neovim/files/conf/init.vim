@@ -17,6 +17,8 @@ Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
 Plug 'jiangmiao/auto-pairs'
 let g:AutoPairsShortcutJump = ''
 let g:AutoPairsShortcutToggle = ''
+Plug 'andymass/vim-matchup'
+ let g:matchup_transmute_enabled = 1
 
 Plug 'amiorin/vim-project'
 
@@ -46,7 +48,7 @@ Plug 'ncm2/ncm2-path'
 Plug 'ncm2/ncm2-cssomni'
 Plug 'ncm2/ncm2-go'
 Plug 'ncm2/ncm2-ultisnips'
-Plug 'ncm2/ncm2-phpactor'
+Plug 'phpactor/ncm2-phpactor'
 Plug 'yuki-ycino/ncm2-dictionary'
 Plug 'ncm2/ncm2-tern',  {'do': 'npm install'}
 Plug 'ncm2/nvim-typescript', {'do': './install.sh'}
@@ -686,11 +688,13 @@ endfunction
 nnoremap <leader>gp :!git push<cr>
 
 vnoremap <leader>/ "hy:exec "Find ".escape('<C-R>h', "/\.*$^~[()")<cr>
-nnoremap <leader>a :Ag<space>
+nnoremap <leader>a :Rg<space>
 " nnoremap <leader>a :Find<space>
-nnoremap <leader>A :exec "Ag ".expand("<cword>")<cr>
+nnoremap <m-r> :exec "Rg ".expand("<cword>")<cr>
+nnoremap <m-s-r> :exec "Find ".expand("<cword>")<cr>
+nnoremap <leader>A :exec "Rg ".expand("<cword>")<cr>
 " nnoremap <leader>A :exec "Find ".expand("<cword>")<cr>
-nnoremap <leader>R :exec "Rg ".expand("<cword>")<cr>
+" nnoremap <leader>R :exec "Rg ".expand("<cword>")<cr>
 command! -bang -nargs=* Rg
       \ call fzf#vim#grep(
       \   'rg --column --line-number --no-heading --color=always --smart-case  --colors "match:bg:yellow" --colors "match:fg:black" --colors "match:style:nobold" --colors "path:fg:green" --colors "path:style:bold" --colors "line:fg:yellow" --colors "line:style:bold" '.shellescape(<q-args>), 1,
