@@ -62,11 +62,27 @@ Plug 'python-mode/python-mode'
 let g:pymode_folding = 0
 let g:pymode_python = 'python3'
 let g:pymode_lint = 0
-let g:neomake_python_pep8_exe = 'python3'
+" let g:neomake_python_pep8_exe = 'python3'
 
 Plug 'xolox/vim-misc'
 
-Plug 'neomake/neomake'
+" Plug 'neomake/neomake'
+Plug 'w0rp/ale'
+let g:ale_lint_on_text_changed = 'never'
+let g:ale_lint_on_enter = 0
+let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
+" linters are by default disabled for text
+let g:ale_linters = {'text':['proselint', 'textlint', 'writegood']}
+let g:ale_open_list = 1
+let g:ale_list_window_size = 5
+let g:ale_fixers = {
+  \ '*': ['remove_trailing_lines', 'trim_whitespace'],
+  \ 'php': ['phpcbf', 'php_cs_fixer']
+  \}
+let g:ale_fix_on_save=1
+let g:ale_php_phpcbf_standard='Symfony'
+let g:ale_php_phpcs_standard='phpcs.xml.dist'
+let g:ale_php_phpmd_ruleset='phpmd.xml'
 
 Plug 'phux/php-doc-modded', {'for': 'php'}
 Plug 'sahibalejandro/vim-php', {'for': ['php', 'yaml']}
@@ -94,17 +110,10 @@ Plug 'Shougo/echodoc.vim'
 Plug 'janko-m/vim-test'
 Plug 'AndrewRadev/splitjoin.vim'
 
+Plug 'suan/vim-instant-markdown', {'for': 'markdown'}
+let g:instant_markdown_slow = 1
 Plug 'gabrielelana/vim-markdown', {'for': 'markdown'}
 Plug 'junegunn/goyo.vim', {'for': 'markdown'}
-Plug 'shime/vim-livedown', {'for': 'markdown'}
-" should markdown preview get shown automatically upon opening markdown buffer
-let g:livedown_autorun = 1
-" should the browser window pop-up upon previewing
-let g:livedown_open = 1 
-" the port on which Livedown server will run
-let g:livedown_port = 1337
-" the browser to use
-let g:livedown_browser = "firefox"
 
 " Plug 'autozimu/LanguageClient-neovim', {
 "     \ 'do': 'bash install.sh',
@@ -144,7 +153,7 @@ Plug 'pearofducks/ansible-vim', { 'do': 'cd ./UltiSnips; python2 generate.py' }
 Plug 'm-kat/aws-vim'
 
 Plug 'itchyny/lightline.vim'
-" Set the 'path' option for miscellaneous file types 
+" Set the 'path' option for miscellaneous file types
 Plug 'tpope/vim-apathy'
 
 Plug 'tpope/vim-rhubarb'
@@ -226,6 +235,8 @@ augroup END
 augroup js
   au!
 
+  au FileType javascript,typescript let b:ale_fixers = ['prettier', 'eslint']
+
   au FileType typescript nnoremap <buffer> gd :TSDef<CR>
   au FileType typescript nnoremap <buffer> gr :TSRefs<CR>
   au FileType typescript nnoremap <buffer> K :TSDefPreview<cr>
@@ -242,10 +253,12 @@ augroup everything
   au BufNewFile,BufRead composer.lock set ft=json
 
 
-  " au FileType text setlocal spell spelllang=en_us
   autocmd FileType markdown,mkd call lexical#init()
+  au FileType css,markdown,json,less,scss,yaml let b:ale_fixers = ['prettier']
   autocmd FileType textile call lexical#init()
   au FileType text execute 'setlocal dictionary+=/usr/share/dict/cracklib-small'
+
+  au FileType python let b:ale_fixers = ['autopep8']
   autocmd FileType text call lexical#init({ 'spell': 0 })
 
   au FileType scratch :call VimTodoListsInit()
@@ -257,6 +270,7 @@ augroup everything
 
   " autocmd FileType gitcommit nnoremap <buffer> <leader>w :call PrependTicketNumber()<cr>
   autocmd FileType gitcommit nnoremap <buffer> <leader>w :x<cr>
+  autocmd FileType gitcommit call lexical#init({ 'spell': 1 })
   autocmd FileType gitv nmap <buffer> <silent> <C-n> <Plug>(gitv-previous-commit)
   autocmd FileType gitv nmap <buffer> <silent> <C-p> <Plug>(gitv-next-commit)
 
@@ -306,14 +320,14 @@ nnoremap <leader>N :NERDTreeFind<cr>
 nnoremap <silent> <leader>w :lclose<cr>:w<cr>
 
 let g:ultisnips_php_scalar_types = 1
-let g:UltiSnipsSnippetsDir = ['~/.config/nvim/UltiSnips/', './plugged/aws-vim/snips'] 
+let g:UltiSnipsSnippetsDir = ['~/.config/nvim/UltiSnips/', './plugged/aws-vim/snips']
 let g:UltiSnipsExpandTrigger="<c-j>"
 
 let g:AutoPairsMapCR=0
 " use ncm2 ultisnips expansion and autopairs indentation
 inoremap <expr> <CR> (pumvisible() ? ncm2_ultisnips#expand_or("\<CR>", 'n') : "\<CR>")
 
-" inoremap <silent> <expr> <CR> 
+" inoremap <silent> <expr> <CR>
 let g:UltiSnipsJumpForwardTrigger="<c-j>"
 let g:UltiSnipsJumpBackwardTrigger="<c-k>"
 
@@ -361,14 +375,14 @@ nnoremap <leader>gs :Gstatus<cr>
 nnoremap <leader>gc :Gcommit<cr>
 nnoremap <leader>gl :Extradite!<cr>
 
-nnoremap <f11> :NeomakeToggle<cr>
+" nnoremap <f11> :NeomakeToggle<cr>
 nnoremap <silent> <m-,> :lclose<cr>:cclose<cr>
 
 nnoremap <leader>/ :Ack <c-r><c-w><cr>
 nnoremap <leader>rip :Acks /<c-r><c-w>/<c-r><c-w>/gc<left><left><left>
 
 nmap <Leader>L <Plug>(easymotion-bd-jk)
-" nmap <Leader>L <Plug>(easymotion-overwin-line) 
+" nmap <Leader>L <Plug>(easymotion-overwin-line)
 " nmap <Leader>j <Plug>(easymotion-j)
 " nmap <Leader>k <Plug>(easymotion-k)
 nmap <Leader>F <Plug>(easymotion-bd-w)
@@ -642,12 +656,12 @@ highlight nonText ctermbg=NONE
 
 set nocul
 
-if &rtp =~ 'neomake'
-    call neomake#configure#automake('w')
-endif
+" if &rtp =~ 'neomake'
+    " call neomake#configure#automake('w')
+" endif
 
 " keep cursor position
-let g:neomake_open_list = 2
+" let g:neomake_open_list = 2
 
 function! EditFtPluginFile()
   exec ":e ~/.config/nvim/ftplugin/".expand('%:e').".vim"
@@ -707,4 +721,4 @@ command! -bang -nargs=* Find call fzf#vim#grep('rg --column --line-number --no-h
 set grepprg=rg\ --vimgrep
 vnoremap <leader>64 :!python -m base64 -d<cr>
 
-let g:neomake_javascript_jshintrc_path='~/.jshintrc'
+" let g:neomake_javascript_jshintrc_path='~/.jshintrc'

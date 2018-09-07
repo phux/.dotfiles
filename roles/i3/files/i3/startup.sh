@@ -9,3 +9,5 @@ xrdb ~/.Xresources
 if ! urxvtc "$@"; then
   urxvtd -q -o -f
 fi
+
+tmux new-session -d -s local

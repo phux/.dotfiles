@@ -1,4 +1,3 @@
----
 - name: pip2 | neovim
   shell: "{{ ansible_env.HOME }}/.local/bin/pip install --user --upgrade neovim"
 
@@ -89,7 +88,7 @@
 - name: Link .gometalinter config
   file: src={{item}} dest={{ ansible_env.HOME }}/{{ item | basename }} state=link
   with_fileglob:
-   - .gometalinter.json
+    - .gometalinter.json
 
 - name: installing zb
   shell: source ~/.zshrc && go get jrubin.io/zb executable=/bin/zsh
@@ -112,6 +111,8 @@
     - proselint
     - yamllint
     - ansible-lint
+    - vim-vint
+    - autopep8
 
 - name: create yamllint dir
   file: path={{ config_dir }}/yamllint state=directory
@@ -128,12 +129,11 @@
   shell: source ~/.zshrc && nvm install --lts executable=/bin/zsh
 
 - name: installing linters/tools via npm
-  shell: source ~/.zshrc && npm install -g stylelint jsonlint write-good markdownlint-cli livedown tern eslint_d jshint jslinter tern-lint serverless neovim typescript javascript-typescript-langserver livedown instant-markdown-d executable=/bin/zsh
+  shell: source ~/.zshrc && npm install -g stylelint jsonlint write-good markdownlint-cli instant-markdown-d tern eslint_d tern-lint serverless neovim typescript javascript-typescript-langserver prettier executable=/bin/zsh
 
 - name: installing linters via gem
   shell: "{{  ansible_env.HOME }}/.rbenv/versions/2.5.1/bin/gem install {{ item }}"
   with_items:
-    - mdl
     - scss_lint
     - sqlint
     - observr #autotest
@@ -152,21 +152,20 @@
   ignore_errors: yes
 
 - block:
+    - name: clone ctags
+      git: >
+        repo=https://github.com/universal-ctags/ctags.git
+        dest=/tmp/ctags
+        accept_hostkey=yes
+        force=yes
+      ignore_errors: yes
 
-  - name: clone ctags
-    git: >
-      repo=https://github.com/universal-ctags/ctags.git
-      dest=/tmp/ctags
-      accept_hostkey=yes
-      force=yes
-    ignore_errors: yes
+    - name: prepare ctags
+      shell: cd /tmp/ctags/ && ./autogen.sh && ./configure && make
 
-  - name: prepare ctags
-    shell: cd /tmp/ctags/ && ./autogen.sh && ./configure && make
-
-  - name: install ctags
-    become: yes
-    shell: cd /tmp/ctags/ && make install
+    - name: install ctags
+      become: yes
+      shell: cd /tmp/ctags/ && make install
 
   when: ctags_check.stdout.find('not found') == -1
 
@@ -175,4 +174,3 @@
     src: ".tern-config"
     dest: "{{ ansible_env.HOME }}/.tern-config"
     state: link
-
