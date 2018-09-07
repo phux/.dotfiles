@@ -37,8 +37,8 @@ floating_modifier Mod1
 
 # start a terminal
 #bindsym $mod+Return exec i3-sensible-terminal
-# bindsym $mod+Return exec urxvtc
-bindsym $mod+Return exec urxvtc -e zsh -c "tmux -q has-session -t local && tmux attach-session -d -t local || tmux new-session -slocal"
+bindsym $mod+Return exec urxvtc
+bindsym Mod1+Return exec urxvtc -e zsh -c "tmux -q has-session -t local && tmux attach-session -d -t local || tmux new-session -slocal"
 
 # kill focused window
 bindsym $mod+Shift+Q kill
