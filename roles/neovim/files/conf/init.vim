@@ -77,7 +77,8 @@ let g:ale_open_list = 1
 let g:ale_list_window_size = 5
 let g:ale_fixers = {
   \ '*': ['remove_trailing_lines', 'trim_whitespace'],
-  \ 'php': ['phpcbf', 'php_cs_fixer']
+  \ 'php': ['phpcbf', 'php_cs_fixer'],
+  \ 'json': ['fixjson', 'prettier']
   \}
 let g:ale_fix_on_save=1
 let g:ale_php_phpcbf_standard='Symfony'
