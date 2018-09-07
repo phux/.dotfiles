@@ -170,7 +170,6 @@
   when: ctags_check.stdout.find('not found') == -1
 
 - name: Link global .tern-config
-  file:
-    src: ".tern-config"
-    dest: "{{ ansible_env.HOME }}/.tern-config"
-    state: link
+  file: src={{item}} dest={{ ansible_env.HOME }}/{{ item | basename }} state=link
+  with_fileglob:
+    - .tern-config
