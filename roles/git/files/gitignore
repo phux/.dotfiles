@@ -10,3 +10,4 @@ playbook.retry
 *.scratch.vim*
 .scratch.vim
 .virtualgo
+.ropeproject/

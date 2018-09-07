@@ -115,6 +115,7 @@ alias gm='git merge'
 alias gp='git push'
 alias gsta='git stash save'
 alias gstaa='git stash apply'
+alias gfi='git fixup HEAD^'
 
 
 function git_current_branch() {
