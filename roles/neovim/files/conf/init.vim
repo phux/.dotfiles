@@ -1,6 +1,10 @@
+set encoding=utf-8
+scriptencoding utf-8
+
 if empty(glob('~/.config/nvim/autoload/plug.vim'))
   silent !curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs
     \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+  " vint: next-line -ProhibitAutocmdWithNoGroup
   autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
 endif
 
@@ -206,7 +210,7 @@ set wrap
 set whichwrap+=<,>,[,],h,l
 
 " " but don't split words
-set lbr
+set linebreak
 
 augroup nvim
   au!
@@ -283,7 +287,6 @@ augroup END
 " let g:LanguageClient_signColumnAlwaysOn = 0
 " let g:LanguageClient_selectionUI = 'fzf'
 
-set encoding=utf-8
 set fileformats=unix,dos,mac    " Prefer Unix over Windows over OS 9 formats
 set autowrite                   " Automatically save before :next, :make etc.
 set autoread                    " Automatically reread changed files without asking me anything
@@ -322,15 +325,15 @@ nnoremap <silent> <leader>w :lclose<cr>:w<cr>
 
 let g:ultisnips_php_scalar_types = 1
 let g:UltiSnipsSnippetsDir = ['~/.config/nvim/UltiSnips/', './plugged/aws-vim/snips']
-let g:UltiSnipsExpandTrigger="<c-j>"
+let g:UltiSnipsExpandTrigger='<c-j>'
 
 let g:AutoPairsMapCR=0
 " use ncm2 ultisnips expansion and autopairs indentation
 inoremap <expr> <CR> (pumvisible() ? ncm2_ultisnips#expand_or("\<CR>", 'n') : "\<CR>")
 
 " inoremap <silent> <expr> <CR>
-let g:UltiSnipsJumpForwardTrigger="<c-j>"
-let g:UltiSnipsJumpBackwardTrigger="<c-k>"
+let g:UltiSnipsJumpForwardTrigger='<c-j>'
+let g:UltiSnipsJumpBackwardTrigger='<c-k>'
 
 if !exists('$TMUX')
   nnoremap <c-j> <c-w>j
@@ -368,8 +371,8 @@ let g:project_enable_welcome = 0
 nnoremap <F1> :e ~/.config/nvim/projects.public.vim<cr>
 nnoremap <leader><F2> :e ~/.projects.private.vim<cr>
 
-set rtp+=~/.config/nvim/plugged/vim-project/
-call project#rc("~/code")
+set runtimepath+=~/.config/nvim/plugged/vim-project/
+call project#rc('~/code')
 
 nnoremap <leader>gw :Gwrite<cr>
 nnoremap <leader>gs :Gstatus<cr>
@@ -460,12 +463,12 @@ function! ToggleQfLocListBinds()
     nmap <c-p> <Plug>(qf_loc_previous)
     nmap <c-n> <Plug>(qf_loc_next)
     let g:qf_loc_toggle_binds = 0
-    echo "loc binds loaded"
+    echo 'loc binds loaded'
   else
     let g:qf_loc_toggle_binds = 1
     nmap <c-p> <Plug>(qf_qf_previous)
     nmap <c-n> <Plug>(qf_qf_next)
-    echo "qf binds loaded"
+    echo 'qf binds loaded'
   endif
 endfunction
 nmap <Down> :call ToggleQfLocListBinds()<cr>
@@ -475,12 +478,12 @@ nnoremap <leader>x <c-w>c
 nnoremap <leader>s <c-w>v
 
 function! PrependTicketNumber()
-  normal gg
+  normal! gg
   let l:branch = system("echo $(git branch | grep '*')")
   let l:branchName = substitute(l:branch, '\* \(.*\)', '\1', '')
   let l:ticketNumber = substitute(l:branchName, '\(\w\+-\d\+\).*', '\1', '')
   let l:ticketNumber = substitute(l:ticketNumber, 'feature/', '', '')
-  exe "normal i".l:ticketNumber." "
+  exe 'normal i'.l:ticketNumber.' '
   normal! kJx
   :startinsert!
 endfunction
@@ -541,24 +544,24 @@ nnoremap dg2 :diffget //2<cr>
 " 'Test' as in /path/MyServiceTest.php
 
 function! SwitchBetweenFiles(fileExtension, firstDirBeginning, secondDirBeginning, filenameAddition)
-  let f = bufname("%")
+  let f = bufname('%')
   if f =~ '.'.a:fileExtension
     if f =~ '\<'.a:firstDirBeginning && f =~ a:filenameAddition.'\.'.a:fileExtension
       let filename = substitute(substitute(f, a:firstDirBeginning, '', ''), a:filenameAddition, '', '')
       if !filereadable(filename)
         let new_dir = substitute(filename, '/\w\+\.'.a:fileExtension, '', '')
-        exe ":!mkdir -p ".new_dir
+        exe ':!mkdir -p '.new_dir
       endif
-      exe ":e ".filename
+      exe ':e '.filename
     elseif f =~ '\<'.a:secondDirBeginning && f !~ a:filenameAddition.'\.'.a:fileExtension
       let filename = substitute(substitute(f, a:secondDirBeginning, a:firstDirBeginning.a:secondDirBeginning, ''), '.'.a:fileExtension, a:filenameAddition.'.'.a:fileExtension, '')
       if !filereadable(filename)
         let new_dir = substitute(filename, '/\w\+'.a:filenameAddition.'\.'.a:fileExtension, '', '')
-        exe ":!mkdir -p ".new_dir
+        exe ':!mkdir -p '.new_dir
       endif
-      exe ":e ".filename
+      exe ':e '.filename
     else
-      echom "Could not switch because needed patterns not matched."
+      echom 'Could not switch because needed patterns not matched.'
     endif
   endif
 endfunction
@@ -620,7 +623,7 @@ function! DeleteInactiveBufs()
   "http://tech.groups.yahoo.com/group/vim/message/56425
   let nWipeouts = 0
   for i in range(1, bufnr('$'))
-    if bufexists(i) && !getbufvar(i,"&mod") && index(tablist, i) == -1
+    if bufexists(i) && !getbufvar(i,'&mod') && index(tablist, i) == -1
       "bufno exists AND isn't modified AND isn't in the list of buffers open in windows and tabs
       silent exec 'bwipeout' i
       let nWipeouts = nWipeouts + 1
@@ -655,7 +658,7 @@ let g:netrw_winsize = 25
 highlight Normal ctermbg=NONE
 highlight nonText ctermbg=NONE
 
-set nocul
+set nocursorline
 
 " if &rtp =~ 'neomake'
     " call neomake#configure#automake('w')
@@ -665,7 +668,7 @@ set nocul
 " let g:neomake_open_list = 2
 
 function! EditFtPluginFile()
-  exec ":e ~/.config/nvim/ftplugin/".expand('%:e').".vim"
+  exec ':e ~/.config/nvim/ftplugin/'.expand('%:e').'.vim'
 endfunction
 nnoremap <F12> :call EditFtPluginFile()<cr>
 
@@ -688,7 +691,7 @@ let g:qf_statusline.after = '\ %f%=%l\/%-6L\ \ \ \ \ '
 function! LightScheme()
   set background=light
   color solarized8_flat
-  set cul
+  set cursorline
   " hi CursorLine   cterm=NONE ctermbg=7 ctermfg=NONE
 endfunction
 
