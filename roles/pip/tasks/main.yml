@@ -38,3 +38,6 @@
     file: state=absent path=/tmp/pip3.py
 
   when: pip3_is_installed.stat.exists == False
+
+- name: installing pipenv
+  shell: "{{ ansible_env.HOME }}/.local/bin/pip install --user pipenv"

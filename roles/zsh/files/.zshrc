@@ -28,7 +28,7 @@ HISTSIZE='32768';
 HISTFILESIZE="${HISTSIZE}";
 HISTFILE="$HOME/.zsh_history"
 SAVEHIST=32768
-HISTDUP=erase 
+HISTDUP=erase
 setopt appendhistory             #Append history to the history file (no overwriting)
 setopt BANG_HIST                 # Treat the '!' character specially during expansion.
 setopt EXTENDED_HISTORY          # Write the history file in the ":start:elapsed;command" format.
@@ -115,7 +115,6 @@ alias gm='git merge'
 alias gp='git push'
 alias gsta='git stash save'
 alias gstaa='git stash apply'
-
 
 
 function git_current_branch() {
