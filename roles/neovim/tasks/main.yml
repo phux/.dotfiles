@@ -2,7 +2,8 @@
   shell: "{{ ansible_env.HOME }}/.local/bin/pip install --user --upgrade neovim"
 
 - name: pip3 | neovim
-  shell: "{{ ansible_env.HOME }}/.local/bin/pip3 install --user --upgrade neovim"
+  shell: >
+    "{{ ansible_env.HOME }}/.local/bin/pip3 install --user --upgrade neovim"
 
 - name: neovim ppa
   become: yes
@@ -80,13 +81,19 @@
   ignore_errors: true
 
 - name: installing metalinter
-  shell: source ~/.zshrc && go get -u github.com/alecthomas/gometalinter executable=/bin/zsh
+  shell: >
+    source ~/.zshrc &&
+    go get -u github.com/alecthomas/gometalinter
+    executable=/bin/zsh
 
 - name: installing metalinter deps
   shell: source ~/.zshrc && gometalinter --install executable=/bin/zsh
 
 - name: Link .gometalinter config
-  file: src={{item}} dest={{ ansible_env.HOME }}/{{ item | basename }} state=link
+  file: >
+    src={{item}}
+    dest={{ ansible_env.HOME }}/{{ item | basename }}
+    state=link
   with_fileglob:
     - .gometalinter.json
 
@@ -129,10 +136,16 @@
   shell: source ~/.zshrc && nvm install --lts executable=/bin/zsh
 
 - name: installing linters/tools via npm
-  shell: source ~/.zshrc && npm install -g stylelint jsonlint write-good markdownlint-cli instant-markdown-d tern eslint tern-lint serverless neovim typescript javascript-typescript-langserver prettier fixjson executable=/bin/zsh
+  shell: >
+    source ~/.zshrc &&
+    npm install -g jsonlint fixjson markdownlint-cli instant-markdown-d
+    serverless neovim stylelint write-good
+    tern eslint tern-lint typescript javascript-typescript-langserver
+    prettierexecutable=/bin/zsh
 
 - name: installing linters via gem
-  shell: "{{  ansible_env.HOME }}/.rbenv/versions/2.5.1/bin/gem install {{ item }}"
+  shell: >
+    "{{  ansible_env.HOME }}/.rbenv/versions/2.5.1/bin/gem install {{ item }}"
   with_items:
     - scss_lint
     - sqlint
@@ -170,6 +183,9 @@
   when: ctags_check.stdout.find('not found') == -1
 
 - name: Link global .tern-config
-  file: src={{item}} dest={{ ansible_env.HOME }}/{{ item | basename }} state=link
+  file: >
+    src={{item}}
+    dest={{ ansible_env.HOME }}/{{ item | basename }}
+    state=link
   with_fileglob:
     - .tern-config
