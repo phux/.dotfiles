@@ -81,8 +81,8 @@ bindsym XF86AudioLowerVolume exec ~/.i3/audio2.sh lower
 bindsym $mod+Shift+s exec --no-startup-id ~/.i3/audio2.sh mute
 bindsym XF86AudioMute exec ~/.i3/audio2.sh mute
 
-# bindsym $mod+Right exec /usr/bin/xbacklight -inc 10
-# bindsym $mod+Left exec /usr/bin/xbacklight -dec 10
+bindsym $mod+Right exec /usr/bin/xbacklight -inc 10
+bindsym $mod+Left exec /usr/bin/xbacklight -dec 10
 bindsym XF86MonBrightnessUp exec light -A 10 # increase screen brightness
 bindsym XF86MonBrightnessDown exec light -U 10 # decrease screen brightness
 

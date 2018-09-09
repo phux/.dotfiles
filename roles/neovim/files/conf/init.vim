@@ -28,11 +28,11 @@ Plug 'amiorin/vim-project'
 
 Plug 'tpope/vim-fugitive'
 " Plug 'int3/vim-extradite'
-Plug 'gregsexton/gitv'
+Plug 'gregsexton/gitv', {'on': 'Gitv'}
 " Plug 'junegunn/gv.vim'
 
 " Plug 'Xuyuanp/nerdtree-git-plugin'
-Plug 'scrooloose/nerdtree'
+Plug 'scrooloose/nerdtree', {'on': 'NERDTreeToggle'}
 let g:NERDTreeUpdateOnCursorHold = 0
 let g:NERDTreeQuitOnOpen = 1
 let g:NERDTreeWinSize = 40
@@ -49,28 +49,26 @@ Plug 'roxma/nvim-yarp'
 Plug 'ncm2/ncm2-bufword'
 Plug 'ncm2/ncm2-tmux'
 Plug 'ncm2/ncm2-path'
-Plug 'ncm2/ncm2-cssomni'
-Plug 'ncm2/ncm2-go'
+Plug 'ncm2/ncm2-cssomni', {'for': 'css'}
+Plug 'ncm2/ncm2-go', {'for': 'go'}
 Plug 'ncm2/ncm2-ultisnips'
-Plug 'phpactor/ncm2-phpactor'
+Plug 'phpactor/ncm2-phpactor', {'for': 'php'}
 Plug 'yuki-ycino/ncm2-dictionary'
-Plug 'ncm2/ncm2-tern',  {'do': 'npm install'}
-Plug 'ncm2/nvim-typescript', {'do': './install.sh'}
-Plug 'ncm2/ncm2-jedi'
+Plug 'ncm2/ncm2-tern',  {'do': 'npm install', 'for': 'javascript'}
+Plug 'ncm2/nvim-typescript', {'do': './install.sh', 'for': 'typescript'}
+Plug 'ncm2/ncm2-jedi', {'for': 'python'}
 
 Plug 'ternjs/tern_for_vim', {'do': 'npm install', 'for': ['typescript','javascript']}
 
 Plug 'reedes/vim-lexical'
 
-Plug 'python-mode/python-mode'
+Plug 'python-mode/python-mode', {'for': 'python'}
 let g:pymode_folding = 0
 let g:pymode_python = 'python3'
 let g:pymode_lint = 0
-" let g:neomake_python_pep8_exe = 'python3'
 
 Plug 'xolox/vim-misc'
 
-" Plug 'neomake/neomake'
 Plug 'w0rp/ale'
 let g:ale_lint_on_text_changed = 'never'
 let g:ale_lint_on_enter = 0
@@ -108,12 +106,12 @@ Plug 'tmux-plugins/vim-tmux'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 let g:fzf_mru_relative = 1
-Plug 'pbogut/fzf-mru.vim'
+Plug 'pbogut/fzf-mru.vim', {'on': 'FZFMru'}
 
 Plug 'Shougo/echodoc.vim'
 
 Plug 'janko-m/vim-test'
-Plug 'AndrewRadev/splitjoin.vim'
+Plug 'AndrewRadev/splitjoin.vim', {'on': ['SplitjoinSplit', 'SplitjoinJoin']}
 
 Plug 'suan/vim-instant-markdown', {'for': 'markdown'}
 let g:instant_markdown_slow = 1
@@ -127,6 +125,10 @@ Plug 'junegunn/goyo.vim', {'for': 'markdown'}
 "   \ 'typescript': ['javascript-typescript-stdio'],
 "   \ 'javascript': ['javascript-typescript-stdio']
 "   \ }
+" let g:LanguageClient_diagnosticsEnable  = 0
+" let g:LanguageClient_diagnosticsList = ''
+" let g:LanguageClient_signColumnAlwaysOn = 0
+" let g:LanguageClient_selectionUI = 'fzf'
 
 Plug 'maksimr/vim-jsbeautify'
 map <c-f> :call JsBeautify()<cr>
@@ -143,7 +145,7 @@ Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-abolish'
 " Plug 'vim-scripts/YankRing.vim'
 
-Plug 'simeji/winresizer'
+Plug 'simeji/winresizer', {'on': 'WinResizerStartResize'}
 Plug 'wellle/targets.vim'
 
 " Plug 'mtth/scratch.vim'
@@ -184,33 +186,30 @@ let g:lightline = {
       \ },
       \ }
 
+set number
 set relativenumber
+
 " Set the command window height to 1 lines
 set cmdheight=1
 " This makes more sense than the default of 1
 set winminheight=1
 
-set formatoptions=qrn1tcl
+set formatoptions=qrn1tclj
 
-if has('patch-7.3.541')
-  set formatoptions+=j
-endif
-" if has('patch-7.4.338')
-let &showbreak = '↳ '
-"   set breakindent
+set showbreak=↪
+" set breakindent
 set breakindentopt=sbr
-" endif
 
-set formatoptions-=o                  " do not continue comment using o or O
-" "show this in front of broken lines
-" set showbreak=↪
+" do not continue comment using o or O
+set formatoptions-=o
+
 " Line wrapping
 set wrap
+" but don't split words
+set linebreak
+
 " move over lines with following keys
 set whichwrap+=<,>,[,],h,l
-
-" " but don't split words
-set linebreak
 
 augroup nvim
   au!
@@ -223,9 +222,6 @@ augroup nvim
   autocmd BufEnter * call ncm2#enable_for_buffer()
   au User Ncm2PopupOpen set completeopt=noinsert,menuone,noselect
   au User Ncm2PopupClose set completeopt=menuone
-
-  " fix issue when leaving vim
-  " au WinEnter * :EnableGoldenViewAutoResize
 
 augroup END
 
@@ -248,6 +244,7 @@ augroup js
 augroup END
 
 let g:lexical#thesaurus = ['~/.config/nvim/thesaurus.txt',]
+
 augroup everything
   au!
 
@@ -256,7 +253,6 @@ augroup everything
   au FileType ruby setl sw=2 sts=2 et
   au BufRead,BufNewFile *.conf setf config
   au BufNewFile,BufRead composer.lock set ft=json
-
 
   autocmd FileType markdown,mkd call lexical#init()
   au FileType css,markdown,json,less,scss,yaml let b:ale_fixers = ['prettier']
@@ -281,11 +277,6 @@ augroup everything
 
   au BufWritePost * silent! !eval '[ -f ".git/hooks/ctags" ] && .git/hooks/ctags' &
 augroup END
-
-" let g:LanguageClient_diagnosticsEnable  = 0
-" let g:LanguageClient_diagnosticsList = ''
-" let g:LanguageClient_signColumnAlwaysOn = 0
-" let g:LanguageClient_selectionUI = 'fzf'
 
 set fileformats=unix,dos,mac    " Prefer Unix over Windows over OS 9 formats
 set autowrite                   " Automatically save before :next, :make etc.
@@ -328,10 +319,8 @@ let g:UltiSnipsSnippetsDir = ['~/.config/nvim/UltiSnips/', './plugged/aws-vim/sn
 let g:UltiSnipsExpandTrigger='<c-j>'
 
 let g:AutoPairsMapCR=0
-" use ncm2 ultisnips expansion and autopairs indentation
 inoremap <expr> <CR> (pumvisible() ? ncm2_ultisnips#expand_or("\<CR>", 'n') : "\<CR>")
 
-" inoremap <silent> <expr> <CR>
 let g:UltiSnipsJumpForwardTrigger='<c-j>'
 let g:UltiSnipsJumpBackwardTrigger='<c-k>'
 
@@ -341,7 +330,6 @@ if !exists('$TMUX')
   nnoremap <c-h> <c-w>h
   nnoremap <c-l> <c-w>l
 endif
-
 
 let g:echodoc_enable_at_startup=1
 set noshowmode
@@ -363,8 +351,6 @@ nnoremap <leader>d :BTags<cr>
 nnoremap <leader>D :BTags <C-R><C-W><cr>
 nnoremap <leader>T :Tags<cr>
 nnoremap <leader>; :TagbarToggle<cr>
-" set notagrelative
-
 
 let g:project_use_nerdtree = 0
 let g:project_enable_welcome = 0
@@ -379,20 +365,14 @@ nnoremap <leader>gs :Gstatus<cr>
 nnoremap <leader>gc :Gcommit<cr>
 nnoremap <leader>gl :Extradite!<cr>
 
-" nnoremap <f11> :NeomakeToggle<cr>
 nnoremap <silent> <m-,> :lclose<cr>:cclose<cr>
 
 nnoremap <leader>/ :Ack <c-r><c-w><cr>
 nnoremap <leader>rip :Acks /<c-r><c-w>/<c-r><c-w>/gc<left><left><left>
 
 nmap <Leader>L <Plug>(easymotion-bd-jk)
-" nmap <Leader>L <Plug>(easymotion-overwin-line)
-" nmap <Leader>j <Plug>(easymotion-j)
-" nmap <Leader>k <Plug>(easymotion-k)
 nmap <Leader>F <Plug>(easymotion-bd-w)
-" nmap <leader>s <Plug>(easymotion-overwin-f)
 nmap <Leader>f <Plug>(easymotion-overwin-w)
-" nmap <Leader>f <Plug>(easymotion-w)
 nmap  <Leader>b <Plug>(easymotion-b)
 let g:EasyMotion_smartcase = 1
 
@@ -415,11 +395,9 @@ set nolazyredraw
 set modelines=2
 set synmaxcol=1000
 
-
 set ignorecase smartcase
 set hlsearch
 set incsearch
-
 
 let g:PHP_removeCRwhenUnix = 1
 set timeout ttimeoutlen=0
@@ -444,14 +422,10 @@ nnoremap <leader>tf :TestFile<cr>
 nnoremap <silent> <leader>tl :TestLast<CR>
 nnoremap <silent> <leader>tv :TestVisit<CR>
 
-" set completeopt=menuone,longest
 set complete-=i
 set complete+=w
 
 set textwidth=0
-if exists('&colorcolumn')
-  " set colorcolumn=80
-endif
 
 set nostartofline
 
@@ -473,7 +447,6 @@ function! ToggleQfLocListBinds()
 endfunction
 nmap <Down> :call ToggleQfLocListBinds()<cr>
 
-
 nnoremap <leader>x <c-w>c
 nnoremap <leader>s <c-w>v
 
@@ -492,7 +465,6 @@ endfunction
 noremap <silent> <expr> j (v:count == 0 ? 'gj' : 'j')
 noremap <silent> <expr> k (v:count == 0 ? 'gk' : 'k')
 
-
 nnoremap <leader>gv :Gitv!<cr>
 vnoremap <leader>gv :Gitv!<cr>
 nnoremap <leader>gV :Gitv<cr>
@@ -500,7 +472,6 @@ nnoremap <leader>gV :Gitv<cr>
 let g:Gitv_DoNotMapCtrlKey = 1
 
 let g:php_manual_online_search_shortcut = '<leader>m'
-
 
 " remove buffer without deleting window
 nnoremap <silent> <m-d> :bp<bar>sp<bar>bn<bar>bd<CR>
@@ -525,7 +496,6 @@ cnoremap <M-f> <S-Right>
 
 nnoremap dg3 :diffget //3<cr>
 nnoremap dg2 :diffget //2<cr>
-
 
 " switch between files {{{
 " Parameters:
@@ -600,7 +570,6 @@ endfunction
 set wildmenu
 set wildmode=list:longest,full
 
-
 function! s:align()
   let p = '^\s*|\s.*\s|\s*$'
   if exists(':Tabularize') && getline('.') =~# '^\s*|' && (getline(line('.')-1) =~# p || getline(line('.')+1) =~# p)
@@ -660,13 +629,6 @@ highlight nonText ctermbg=NONE
 
 set nocursorline
 
-" if &rtp =~ 'neomake'
-    " call neomake#configure#automake('w')
-" endif
-
-" keep cursor position
-" let g:neomake_open_list = 2
-
 function! EditFtPluginFile()
   exec ':e ~/.config/nvim/ftplugin/'.expand('%:e').'.vim'
 endfunction
@@ -674,7 +636,6 @@ nnoremap <F12> :call EditFtPluginFile()<cr>
 
 let g:vim_php_refactoring_use_default_mapping = 0
 
-so ~/.config/nvim/projects.public.vim
 nnoremap <m-u> :GundoToggle<CR>
 let g:gundo_width = 60
 let g:gundo_preview_height = 40
@@ -692,7 +653,6 @@ function! LightScheme()
   set background=light
   color solarized8_flat
   set cursorline
-  " hi CursorLine   cterm=NONE ctermbg=7 ctermfg=NONE
 endfunction
 
 set inccommand=nosplit
@@ -702,17 +662,13 @@ function! IsOnBattery()
   return readfile('/sys/class/power_supply/ACAD/online') == ['0']
 endfunction
 
-
 nnoremap <leader>gp :!git push<cr>
 
-vnoremap <leader>/ "hy:exec "Find ".escape('<C-R>h', "/\.*$^~[()")<cr>
 nnoremap <leader>a :Rg<space>
-" nnoremap <leader>a :Find<space>
-nnoremap <m-r> :exec "Rg ".expand("<cword>")<cr>
-nnoremap <m-s-r> :exec "Find ".expand("<cword>")<cr>
 nnoremap <leader>A :exec "Rg ".expand("<cword>")<cr>
-" nnoremap <leader>A :exec "Find ".expand("<cword>")<cr>
-" nnoremap <leader>R :exec "Rg ".expand("<cword>")<cr>
+nnoremap <m-r> :exec "Rg ".expand("<cword>")<cr>
+vnoremap <m-r>  "hy:exec "Find ".escape('<C-R>h', "/\.*$^~[()")<cr>
+nnoremap <m-s-r> :exec "Find ".expand("<cword>")<cr>
 command! -bang -nargs=* Rg
       \ call fzf#vim#grep(
       \   'rg --column --line-number --no-heading --color=always --smart-case  --colors "match:bg:yellow" --colors "match:fg:black" --colors "match:style:nobold" --colors "path:fg:green" --colors "path:style:bold" --colors "line:fg:yellow" --colors "line:style:bold" '.shellescape(<q-args>), 1,
@@ -725,4 +681,4 @@ command! -bang -nargs=* Find call fzf#vim#grep('rg --column --line-number --no-h
 set grepprg=rg\ --vimgrep
 vnoremap <leader>64 :!python -m base64 -d<cr>
 
-" let g:neomake_javascript_jshintrc_path='~/.jshintrc'
+so ~/.config/nvim/projects.public.vim
