@@ -5,7 +5,7 @@ augroup php
   au BufNewFile,BufRead,BufWinEnter *Spec.php exe ":UltiSnipsAddFiletypes php.php-phpspec"
 augroup END
 
-setlocal tabstop=4 shiftwidth=4 
+setlocal tabstop=4 shiftwidth=4
 
 let g:cm_auto_popup=1
 
@@ -36,6 +36,14 @@ nnoremap <buffer> <leader>h :call UpdatePhpDocIfExists()<CR>
 vnoremap <silent><Leader>em :<C-U>call phpactor#ExtractMethod()<CR>
 
 nnoremap <silent> gd :call phpactor#GotoDefinition()<CR>
+
+let g:ale_php_phpcbf_standard='PSR2'
+" let g:ale_php_phpcbf_standard='Symfony'
+let g:ale_php_phpcs_standard='phpcs.xml.dist'
+let g:ale_php_phpmd_ruleset='phpmd.xml'
+let g:ultisnips_php_scalar_types = 1
+let g:PHP_removeCRwhenUnix = 1
+let g:php_manual_online_search_shortcut = '<leader>m'
 
 " nnoremap <buffer> <m-a> :call SymfonySwitchToAlternateFile()<cr> " set via projects.public.vim
 " nnoremap <buffer> <leader>tsa <c-w>v:call SymfonySwitchToAlternateFile()<cr>
@@ -98,12 +106,12 @@ function! PhpConstructorArgumentMagic2()
     normal! %O
 
     " property assignment
-    normal! "apa = 
+    normal! "apa =
     normal! "apA;
     s/\$/$this->/
 
     " create property
-    normal! 2joprivate 
+    normal! 2joprivate
     normal! "apa;
     " mark for adding docblock
     normal! mc
@@ -116,7 +124,7 @@ function! PhpConstructorArgumentMagic2()
         " create docblock
         normal! 0f$b"ayt 'c
         normal! O/**
-        normal! o@var 
+        normal! o@var
         normal! "apo/
         " move var declaration up
         normal! jd3kG%p%jo
@@ -209,30 +217,30 @@ if !exists("*PHPExtractInterface")
   endfunction
 endif
 
-function! LegacyExtractInterface()		
-    let l:file_path = expand('%:p:h')		
-    let l:baseFile = expand('%')		
-    let l:name = inputdialog("Name of new interface:")		
-    exe "normal Gointerface " . name . "\<Cr>{}\<c-o>i\<cr>"		
-    :g/const/ :normal yyGP		
-    ":g/public \$/ :normal yyGP		
-    :g/public function \(__construct\)\@!/ :normal yyGP$a;		
-    exe "normal! G?{\<cr>"		
-    normal "adGdd		
-    exe ":e ".l:file_path."/".l:name.".php"		
-    exe ":w"		
-    exe "normal i<?php\<cr>\<cr>interface ".l:name		
-    exe "normal! ?interface\<cr>jdG"		
-    normal "ap		
-    exe ":e ".l:baseFile		
-    exe "normal! gg/{\<cr>k"		
-    if getline('.') =~ ' implements '		
-        let l:interfaceImplementation = "A, ".l:name		
-    else		
-        let l:interfaceImplementation = "$a implements ".l:name		
-    endif		
-    exe "normal! ".l:interfaceImplementation		
-    exe ":w"		
+function! LegacyExtractInterface()
+    let l:file_path = expand('%:p:h')
+    let l:baseFile = expand('%')
+    let l:name = inputdialog("Name of new interface:")
+    exe "normal Gointerface " . name . "\<Cr>{}\<c-o>i\<cr>"
+    :g/const/ :normal yyGP
+    ":g/public \$/ :normal yyGP
+    :g/public function \(__construct\)\@!/ :normal yyGP$a;
+    exe "normal! G?{\<cr>"
+    normal "adGdd
+    exe ":e ".l:file_path."/".l:name.".php"
+    exe ":w"
+    exe "normal i<?php\<cr>\<cr>interface ".l:name
+    exe "normal! ?interface\<cr>jdG"
+    normal "ap
+    exe ":e ".l:baseFile
+    exe "normal! gg/{\<cr>k"
+    if getline('.') =~ ' implements '
+        let l:interfaceImplementation = "A, ".l:name
+    else
+        let l:interfaceImplementation = "$a implements ".l:name
+    endif
+    exe "normal! ".l:interfaceImplementation
+    exe ":w"
 endfunction
 
 let g:pdv_cfg_autoEndClass = 0
@@ -315,4 +323,3 @@ endif
 " }}}
 
 let g:php_manual_online_search_shortcut = '<leader>m'
-

@@ -32,7 +32,7 @@ Plug 'gregsexton/gitv', {'on': 'Gitv'}
 " Plug 'junegunn/gv.vim'
 
 " Plug 'Xuyuanp/nerdtree-git-plugin'
-Plug 'scrooloose/nerdtree', {'on': 'NERDTreeToggle'}
+Plug 'scrooloose/nerdtree', {'on': ['NERDTreeToggle', 'NERDTreeFind']}
 let g:NERDTreeUpdateOnCursorHold = 0
 let g:NERDTreeQuitOnOpen = 1
 let g:NERDTreeWinSize = 40
@@ -60,7 +60,7 @@ Plug 'ncm2/ncm2-jedi', {'for': 'python'}
 
 Plug 'ternjs/tern_for_vim', {'do': 'npm install', 'for': ['typescript','javascript']}
 
-Plug 'reedes/vim-lexical'
+Plug 'reedes/vim-lexical', {'for': ['text', 'markdown', 'gitcommit']}
 
 Plug 'python-mode/python-mode', {'for': 'python'}
 let g:pymode_folding = 0
@@ -83,10 +83,8 @@ let g:ale_fixers = {
   \ 'json': ['fixjson', 'prettier']
   \}
 let g:ale_fix_on_save=1
-let g:ale_php_phpcbf_standard='Symfony'
-let g:ale_php_phpcs_standard='phpcs.xml.dist'
-let g:ale_php_phpmd_ruleset='phpmd.xml'
 
+let g:vim_php_refactoring_use_default_mapping = 0
 Plug 'phux/php-doc-modded', {'for': 'php'}
 Plug 'sahibalejandro/vim-php', {'for': ['php', 'yaml']}
 Plug 'alvan/vim-php-manual', {'for': 'php'}
@@ -114,7 +112,6 @@ Plug 'janko-m/vim-test'
 Plug 'AndrewRadev/splitjoin.vim', {'on': ['SplitjoinSplit', 'SplitjoinJoin']}
 
 Plug 'suan/vim-instant-markdown', {'for': 'markdown'}
-let g:instant_markdown_slow = 1
 Plug 'gabrielelana/vim-markdown', {'for': 'markdown'}
 Plug 'junegunn/goyo.vim', {'for': 'markdown'}
 
@@ -225,18 +222,8 @@ augroup nvim
 
 augroup END
 
-augroup qf_loc_lists
-  au!
-  " autocmd FileType qf nmap <c-p> <Plug>(qf_qf_previous)
-  " autocmd FileType qf nmap <c-n> <Plug>(qf_qf_next)
-  autocmd FileType qf nmap <c-n> <Plug>(qf_loc_next)
-  autocmd FileType qf nmap <c-p> <Plug>(qf_loc_previous)
-augroup END
-
 augroup js
   au!
-
-  au FileType javascript,typescript let b:ale_fixers = ['prettier', 'eslint']
 
   au FileType typescript nnoremap <buffer> gd :TSDef<CR>
   au FileType typescript nnoremap <buffer> gr :TSRefs<CR>
@@ -248,22 +235,14 @@ let g:lexical#thesaurus = ['~/.config/nvim/thesaurus.txt',]
 augroup everything
   au!
 
-  au FileType yaml setl sw=2 sts=2 et
   au BufNewFile,BufRead *.yml.dist set ft=yaml
-  au FileType ruby setl sw=2 sts=2 et
   au BufRead,BufNewFile *.conf setf config
   au BufNewFile,BufRead composer.lock set ft=json
 
-  autocmd FileType markdown,mkd call lexical#init()
-  au FileType css,markdown,json,less,scss,yaml let b:ale_fixers = ['prettier']
-  autocmd FileType textile call lexical#init()
-  au FileType text execute 'setlocal dictionary+=/usr/share/dict/cracklib-small'
+  au FileType css,less,scss let b:ale_fixers = ['prettier']
 
-  au FileType python let b:ale_fixers = ['autopep8']
+  au FileType text setlocal dictionary+=/usr/share/dict/cracklib-small
   autocmd FileType text call lexical#init({ 'spell': 0 })
-
-  au FileType scratch :call VimTodoListsInit()
-  au FileType todo nnoremap <buffer> <cr> :VimTodoListsToggleItem<CR>
 
   au FileType html,xml inoremap <buffer> <m-;> </<c-x><c-o>
   au FileType xml   setlocal makeprg=xmllint\ -
@@ -284,20 +263,12 @@ set autoread                    " Automatically reread changed files without ask
 set hidden
 set nojoinspaces
 
-" no backups {{{2
 set nobackup
 set nowritebackup
 set noswapfile
 
 set undofile " Maintain undo history between sessions
 set undodir=~/.vim_undodir
-
-
-" }}}
-
-
-
-" Copy Paste {{{
 
 " Copy to Clipboard (on Unix)
 "set clipboard+=unnamedplus
@@ -306,15 +277,14 @@ nnoremap <leader>p "+p
 vnoremap <leader>p "+p
 vnoremap <leader>d "+d
 vnoremap <silent> y y`]
-vnoremap <silent> p p`]
-nnoremap <silent> p p`]
+vnoremap <silent> p p=`]
+nnoremap <silent> p p=`]
 
 nnoremap <leader>n :NERDTreeToggle<cr>
 nnoremap <leader>N :NERDTreeFind<cr>
 
 nnoremap <silent> <leader>w :lclose<cr>:w<cr>
 
-let g:ultisnips_php_scalar_types = 1
 let g:UltiSnipsSnippetsDir = ['~/.config/nvim/UltiSnips/', './plugged/aws-vim/snips']
 let g:UltiSnipsExpandTrigger='<c-j>'
 
@@ -399,7 +369,6 @@ set ignorecase smartcase
 set hlsearch
 set incsearch
 
-let g:PHP_removeCRwhenUnix = 1
 set timeout ttimeoutlen=0
 
 inoremap <expr> <TAB> pumvisible() ? "\<c-n>" : "\<TAB>"
@@ -410,6 +379,7 @@ inoremap <c-l> <del>
 " keep selection after indent
 vnoremap < <gv
 vnoremap > >gv
+
 " Map tab to indent in visual mode
 vmap <Tab> >gv
 vmap <S-Tab> <gv
@@ -471,7 +441,6 @@ nnoremap <leader>gV :Gitv<cr>
 
 let g:Gitv_DoNotMapCtrlKey = 1
 
-let g:php_manual_online_search_shortcut = '<leader>m'
 
 " remove buffer without deleting window
 nnoremap <silent> <m-d> :bp<bar>sp<bar>bn<bar>bd<CR>
@@ -633,25 +602,16 @@ function! EditFtPluginFile()
   exec ':e ~/.config/nvim/ftplugin/'.expand('%:e').'.vim'
 endfunction
 nnoremap <F12> :call EditFtPluginFile()<cr>
-
-let g:vim_php_refactoring_use_default_mapping = 0
+nnoremap <leader><F12> :e ~/.config/nvim/ftplugin/.vim<left><left><left><left>
 
 nnoremap <m-u> :GundoToggle<CR>
 let g:gundo_width = 60
 let g:gundo_preview_height = 40
 let g:gundo_right = 1
 
-let g:qf_loclist_window_bottom = 0
-let g:qf_nowrap = 0
-let g:qf_mapping_ack_style = 1
-
-let g:qf_statusline = {}
-let g:qf_statusline.before = '%<\ '
-let g:qf_statusline.after = '\ %f%=%l\/%-6L\ \ \ \ \ '
-
 function! LightScheme()
   set background=light
-  color solarized8_flat
+  color one
   set cursorline
 endfunction
 
