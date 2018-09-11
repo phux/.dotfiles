@@ -100,11 +100,18 @@
 - name: installing zb
   shell: source ~/.zshrc && go get jrubin.io/zb executable=/bin/zsh
 
+- name: installing sqlfmt
+  shell: >
+    source ~/.zshrc &&
+    go get -u github.com/jackc/sqlfmt/...
+    executable=/bin/zsh
+
 - name: installing linters via apt
   become: yes
   package: name={{ item }} state=present
   with_items:
     - shellcheck
+    - libxml2-utils
 
 - name: install ffi as ansible-lint dependency
   become: yes
@@ -120,6 +127,8 @@
     - ansible-lint
     - vim-vint
     - autopep8
+    - cfn-lint
+    - gitlint
 
 - name: create yamllint dir
   file: path={{ config_dir }}/yamllint state=directory
@@ -138,10 +147,11 @@
 - name: installing linters/tools via npm
   shell: >
     source ~/.zshrc &&
-    npm install -g jsonlint fixjson markdownlint-cli instant-markdown-d
-    serverless neovim stylelint write-good
-    tern eslint tern-lint typescript javascript-typescript-langserver
-    prettierexecutable=/bin/zsh
+    npm install -g
+    jsonlint fixjson markdownlint-cli instant-markdown-d serverless neovim
+    stylelint write-good remark-lint tern eslint tern-lint typescript
+    javascript-typescript-langserver tslint htmllint csslint prettier
+    executable=/bin/zsh
 
 - name: installing linters via gem
   shell: >
@@ -150,6 +160,9 @@
     - scss_lint
     - sqlint
     - observr #autotest
+    - rubocop
+    - reek
+    - rails_best_practices
 
 - name: link easy-coding-standard configs
   file:

@@ -5,6 +5,11 @@ augroup php
   au BufNewFile,BufRead,BufWinEnter *Spec.php exe ":UltiSnipsAddFiletypes php.php-phpspec"
 augroup END
 
+let g:php_folding = 1
+set foldmethod=syntax
+set foldlevel=0
+set foldnestmax=1
+
 setlocal tabstop=4 shiftwidth=4
 
 let g:cm_auto_popup=1

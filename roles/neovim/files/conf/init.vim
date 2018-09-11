@@ -1,13 +1,14 @@
 set encoding=utf-8
 scriptencoding utf-8
 
-if empty(glob('~/.config/nvim/autoload/plug.vim'))
-  silent !curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs
-    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-  " vint: next-line -ProhibitAutocmdWithNoGroup
-  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+if !filereadable(expand('~/.config/nvim/autoload/plug.vim'))
+    echo "Installing vim-plug and plugins. Restart vim after finishing the process."
+    silent call mkdir(expand("~/.config/nvim/autoload", 1), 'p')
+    execute "!curl -fLo ".expand("~/.config/nvim/autoload/plug.vim", 1)." https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim"
+    autocmd VimEnter * PlugInstall
 endif
 
+command! PU PlugUpdate | PlugUpgrade
 call plug#begin('~/.config/nvim/plugged')
 
 Plug 'sheerun/vim-polyglot', {'do': './build'}
@@ -74,7 +75,10 @@ let g:ale_lint_on_text_changed = 'never'
 let g:ale_lint_on_enter = 0
 let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
 " linters are by default disabled for text
-let g:ale_linters = {'text':['proselint', 'textlint', 'writegood']}
+if !exists('g:ale_linters')
+  let g:ale_linters = {}
+endif
+let g:ale_linters['text'] = ['proselint', 'textlint', 'writegood']
 let g:ale_open_list = 1
 let g:ale_list_window_size = 5
 let g:ale_fixers = {
@@ -84,10 +88,10 @@ let g:ale_fixers = {
   \}
 let g:ale_fix_on_save=1
 
-let g:vim_php_refactoring_use_default_mapping = 0
 Plug 'phux/php-doc-modded', {'for': 'php'}
 Plug 'sahibalejandro/vim-php', {'for': ['php', 'yaml']}
 Plug 'alvan/vim-php-manual', {'for': 'php'}
+let g:vim_php_refactoring_use_default_mapping = 0
 Plug 'adoy/vim-php-refactoring-toolbox', {'for': 'php'}
 Plug 'phpactor/phpactor', {'for': 'php', 'do': ':call phpactor#Update()'}
 Plug 'lvht/phpcd.vim', { 'for': 'php', 'do': 'composer install' }
@@ -161,7 +165,14 @@ Plug 'itchyny/lightline.vim'
 Plug 'tpope/vim-apathy'
 
 Plug 'tpope/vim-rhubarb'
+
+Plug 'timeyyy/orchestra.nvim'
+Plug 'timeyyy/clackclack.symphony'
+Plug 'timeyyy/bubbletrouble.symphony'
 call plug#end()
+" call orchestra#prelude()
+" call orchestra#set_tune('bubbletrouble')
+"call orchestra#set_tune('clackclack')
 
 let mapleader = "\<Space>"
 nnoremap <silent> <leader><f5> :e $MYVIMRC<CR>
@@ -169,8 +180,6 @@ imap jk <esc>
 
 set t_Co=256
 color deus
-
-let $NVIM_TUI_ENABLE_TRUE_COLOR=1
 
 let g:lightline = {
       \ 'colorscheme': 'wombat',
@@ -246,11 +255,10 @@ augroup everything
 
   au FileType html,xml inoremap <buffer> <m-;> </<c-x><c-o>
   au FileType xml   setlocal makeprg=xmllint\ -
-  au FileType json  setlocal equalprg=python\ -mjson.tool
+
+  " au FileType json  setlocal equalprg=python\ -mjson.tool
 
   " autocmd FileType gitcommit nnoremap <buffer> <leader>w :call PrependTicketNumber()<cr>
-  autocmd FileType gitcommit nnoremap <buffer> <leader>w :x<cr>
-  autocmd FileType gitcommit call lexical#init({ 'spell': 1 })
   autocmd FileType gitv nmap <buffer> <silent> <C-n> <Plug>(gitv-previous-commit)
   autocmd FileType gitv nmap <buffer> <silent> <C-p> <Plug>(gitv-next-commit)
 
@@ -333,7 +341,7 @@ call project#rc('~/code')
 nnoremap <leader>gw :Gwrite<cr>
 nnoremap <leader>gs :Gstatus<cr>
 nnoremap <leader>gc :Gcommit<cr>
-nnoremap <leader>gl :Extradite!<cr>
+nnoremap <leader>gl :Gitv<cr>
 
 nnoremap <silent> <m-,> :lclose<cr>:cclose<cr>
 
@@ -361,7 +369,7 @@ set scrolloff=5
 set shiftround
 set expandtab smarttab
 set cindent
-set nolazyredraw
+set lazyredraw
 set modelines=2
 set synmaxcol=1000
 
@@ -639,6 +647,11 @@ command! -bang -nargs=* Rg
 command! -bang -nargs=* Find call fzf#vim#grep('rg --column --line-number --no-heading --fixed-strings --colors "match:bg:yellow" --colors "match:fg:black" --colors "match:style:nobold" --colors "path:fg:green" --colors "path:style:bold" --colors "line:fg:yellow" --colors "line:style:bold" --smart-case  --no-ignore --hidden --follow --glob "!.git/*" --color "always" '.shellescape(<q-args>), 1, <bang>0)
 
 set grepprg=rg\ --vimgrep
-vnoremap <leader>64 :!python -m base64 -d<cr>
 
 so ~/.config/nvim/projects.public.vim
+let g:xml_syntax_folding = 1
+let g:sh_fold_enabled= 7
+let g:ruby_fold = 1
+set foldmethod=syntax
+set foldlevel=1
+set foldnestmax=1
