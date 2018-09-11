@@ -12,8 +12,8 @@
 set $mod Mod4
 
 # new window default border
-new_window pixel 2
-new_float pixel 2
+new_window pixel 1
+new_float pixel 1
 
 focus_follows_mouse no
 
@@ -211,8 +211,9 @@ bar {
 
 # changed these colours for readability
 # class border backgr. text
-client.focused #61af5b #61af5b #ffffff
-client.unfocused #333333 #747170 #ffffff
+# client.focused #61af5b #61af5b #ffffff
+client.focused #a84a28 #ce7e61 #ffffff
+client.unfocused #333333 #333333 #ffffff
 
 # workspace targeting
 assign [class="Chromium"] 10
