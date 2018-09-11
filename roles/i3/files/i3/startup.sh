@@ -11,3 +11,4 @@ if ! urxvtc "$@"; then
 fi
 
 tmux new-session -d -s local
+ xset r rate 300 35
