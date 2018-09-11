@@ -261,7 +261,7 @@ alias m='tmux attach-session -t local || tmux new-session -s local'
 
 alias gw="JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64 ./gradlew"
 
-alias zlibdecode="cat /tmp/base | base64 -d | zlib -d"
 function zdecode() {
-  echo -n "$1" | base64 -d | zlib -d
+  cat /tmp/base | sed -r 's/\\\\r\\\\n//g' | base64 -d | zlib -d > /tmp/base.json | n /tmp/base.json
+  # echo -n "$1" | base64 -d | zlib -d
 }
