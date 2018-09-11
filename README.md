@@ -2,19 +2,27 @@
 
 Clone the repository:
 
-    git clone https://github.com/phux/.dotfiles.git
+```shell
+git clone https://github.com/phux/.dotfiles.git
+```
 
 Install ansible:
 
-    cd .dotfiles && make
+```shell
+cd .dotfiles && make
+```
 
 If you want to execute installation in vagrant:
 
-    make test
+```shell
+make test
+```
 
 To install on localhost (will override your files, no backup!):
 
-    make provision
+```shell
+make provision
+```
 
 ## Some tasks it does
 
