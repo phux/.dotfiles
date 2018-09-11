@@ -23,7 +23,8 @@
         "symplify/coding-standard": "^4.0@dev",
         "symplify/easy-coding-standard": "^4.0@dev",
         "phpstan/phpstan": "^0.10.0@dev",
-        "bmitch/churn-php": "dev-master"
+        "bmitch/churn-php": "dev-master",
+        "phan/phan": "dev-master"
     },
     "require-dev": {}
 }

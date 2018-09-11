@@ -37,6 +37,7 @@
     - php-redis
     - php-xdebug
     - php-zip
+    - php-ast
 
 - stat: path=/usr/local/bin/composer
   register: composer_check
