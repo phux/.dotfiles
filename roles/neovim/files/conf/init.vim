@@ -1,3 +1,4 @@
+
 set encoding=utf-8
 scriptencoding utf-8
 
@@ -30,11 +31,8 @@ Plug 'andymass/vim-matchup'
 Plug 'amiorin/vim-project'
 
 Plug 'tpope/vim-fugitive'
-" Plug 'int3/vim-extradite'
 Plug 'gregsexton/gitv', {'on': 'Gitv'}
-" Plug 'junegunn/gv.vim'
 
-" Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'scrooloose/nerdtree', {'on': ['NERDTreeToggle', 'NERDTreeFind']}
 let g:NERDTreeUpdateOnCursorHold = 0
 let g:NERDTreeQuitOnOpen = 1
@@ -120,7 +118,7 @@ Plug 'AndrewRadev/splitjoin.vim', {'on': ['SplitjoinSplit', 'SplitjoinJoin']}
 Plug 'suan/vim-instant-markdown', {'for': 'markdown'}
 Plug 'gabrielelana/vim-markdown', {'for': 'markdown'}
 Plug 'junegunn/goyo.vim', {'for': 'markdown'}
-
+Plug 'plasticboy/vim-markdown', {'for': 'markdown', 'as': 'vim-markdown-plasticboy'}
 " Plug 'autozimu/LanguageClient-neovim', {
 "     \ 'do': 'bash install.sh',
 "     \ }
@@ -657,3 +655,7 @@ let g:ruby_fold = 1
 set foldmethod=syntax
 set foldlevel=1
 set foldnestmax=1
+nnoremap ,, za
+" "Refocus" folds
+nnoremap ,z zMzvzz
+nnoremap zO zCzO
