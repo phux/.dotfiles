@@ -2,9 +2,11 @@ set encoding=utf-8
 scriptencoding utf-8
 
 if !filereadable(expand('~/.config/nvim/autoload/plug.vim'))
-    echo "Installing vim-plug and plugins. Restart vim after finishing the process."
-    silent call mkdir(expand("~/.config/nvim/autoload", 1), 'p')
-    execute "!curl -fLo ".expand("~/.config/nvim/autoload/plug.vim", 1)." https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim"
+    echo 'Installing vim-plug and plugins. Restart vim after finishing the process.'
+    silent call mkdir(expand('~/.config/nvim/autoload', 1), 'p')
+    execute '!curl -fLo '.expand('~/.config/nvim/autoload/plug.vim', 1).' https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+
+    " vint: -ProhibitAutocmdWithNoGroup
     autocmd VimEnter * PlugInstall
 endif
 
@@ -607,7 +609,7 @@ highlight nonText ctermbg=NONE
 set nocursorline
 
 function! EditFtPluginFile()
-  exec ':e ~/.config/nvim/ftplugin/'.expand('%:e').'.vim'
+  exec ':e ~/.config/nvim/ftplugin/'.&filetype.'.vim'
 endfunction
 nnoremap <F12> :call EditFtPluginFile()<cr>
 nnoremap <leader><F12> :e ~/.config/nvim/ftplugin/.vim<left><left><left><left>
