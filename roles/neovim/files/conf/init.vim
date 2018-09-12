@@ -1,6 +1,9 @@
-
 set encoding=utf-8
 scriptencoding utf-8
+
+if has('vim_starting')
+  let g:qf_loc_toggle_binds = 0
+endif
 
 if !filereadable(expand('~/.config/nvim/autoload/plug.vim'))
     echo 'Installing vim-plug and plugins. Restart vim after finishing the process.'
@@ -26,6 +29,7 @@ Plug 'jiangmiao/auto-pairs'
 let g:AutoPairsShortcutJump = ''
 let g:AutoPairsShortcutToggle = ''
 Plug 'andymass/vim-matchup'
+let g:matchup_matchparen_status_offscreen=0
  let g:matchup_transmute_enabled = 1
 
 Plug 'amiorin/vim-project'
@@ -42,7 +46,6 @@ let g:NERDTreeCascadeSingleChildDir=0
 let g:NERDTreeAutoDeleteBuffer=1
 
 Plug 'Lokaltog/vim-easymotion'
-" Plug 'matze/vim-move'
 Plug 'majutsushi/tagbar', {'on': 'TagbarToggle'}
 
 Plug 'ncm2/ncm2'
@@ -71,14 +74,11 @@ let g:pymode_lint = 0
 Plug 'xolox/vim-misc'
 
 Plug 'w0rp/ale'
+nnoremap <silent> <F8> :ALEDisableBuffer<cr>
+nnoremap <silent> <leader><F8> :ALEEnableBuffer<cr>
 let g:ale_lint_on_text_changed = 'never'
 let g:ale_lint_on_enter = 0
 let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
-" linters are by default disabled for text
-if !exists('g:ale_linters')
-  let g:ale_linters = {}
-endif
-let g:ale_linters['text'] = ['proselint', 'textlint', 'writegood']
 let g:ale_open_list = 1
 let g:ale_list_window_size = 5
 let g:ale_fixers = {
@@ -110,7 +110,7 @@ Plug 'junegunn/fzf.vim'
 let g:fzf_mru_relative = 1
 Plug 'pbogut/fzf-mru.vim', {'on': 'FZFMru'}
 
-Plug 'Shougo/echodoc.vim'
+Plug 'Shougo/echodoc.vim', {'for': ['php', 'javascript', 'ruby', 'python', 'golang']}
 
 Plug 'janko-m/vim-test'
 Plug 'AndrewRadev/splitjoin.vim', {'on': ['SplitjoinSplit', 'SplitjoinJoin']}
@@ -144,18 +144,12 @@ Plug 'godlygeek/tabular'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-abolish'
-" Plug 'vim-scripts/YankRing.vim'
 
 Plug 'simeji/winresizer', {'on': 'WinResizerStartResize'}
 Plug 'wellle/targets.vim'
 
-" Plug 'mtth/scratch.vim'
-
-" Plug 'junegunn/vim-peekaboo'
-
 Plug 'sjl/gundo.vim', {'on': 'GundoToggle'}
 
-" Plug 'aserebryakov/vim-todo-lists'
 Plug 'pearofducks/ansible-vim', { 'do': 'cd ./UltiSnips; python2 generate.py' }
 
 Plug 'm-kat/aws-vim'
@@ -250,15 +244,9 @@ augroup everything
 
   au FileType css,less,scss let b:ale_fixers = ['prettier']
 
-  au FileType text setlocal dictionary+=/usr/share/dict/cracklib-small
-  autocmd FileType text call lexical#init({ 'spell': 0 })
-
   au FileType html,xml inoremap <buffer> <m-;> </<c-x><c-o>
   au FileType xml   setlocal makeprg=xmllint\ -
 
-  " au FileType json  setlocal equalprg=python\ -mjson.tool
-
-  " autocmd FileType gitcommit nnoremap <buffer> <leader>w :call PrependTicketNumber()<cr>
   autocmd FileType gitv nmap <buffer> <silent> <C-n> <Plug>(gitv-previous-commit)
   autocmd FileType gitv nmap <buffer> <silent> <C-p> <Plug>(gitv-next-commit)
 
@@ -460,6 +448,7 @@ nnoremap <leader>ga :Tabularize /\|<cr>
 vnoremap <leader>ga :Tabularize /\|<cr>
 inoremap <silent> <Bar>   <Bar><Esc>:call <SID>align()<CR>a
 
+" format html (each tag on it's own line)
 nnoremap <leader><F3> :%s/<[^>]*>/\r&\r/g<cr>gg=G:g/^$/d<cr><leader>
 
 cnoremap <C-a> <Home>
@@ -606,11 +595,12 @@ highlight nonText ctermbg=NONE
 
 set nocursorline
 
-function! EditFtPluginFile()
-  exec ':e ~/.config/nvim/ftplugin/'.&filetype.'.vim'
+function! EditFtPluginFile(ft)
+  exec ':e ~/.dotfiles/roles/neovim/files/ftplugin/'.a:ft.'.vim'
 endfunction
-nnoremap <F12> :call EditFtPluginFile()<cr>
-nnoremap <leader><F12> :e ~/.config/nvim/ftplugin/.vim<left><left><left><left>
+nnoremap <F12> :call EditFtPluginFile(&filetype)<cr>
+
+nnoremap <leader><F12> :call EditFtPluginFile('')<left><left>
 
 nnoremap <m-u> :GundoToggle<CR>
 let g:gundo_width = 60
@@ -625,10 +615,10 @@ endfunction
 
 set inccommand=nosplit
 
-function! IsOnBattery()
-  " might be AC instead of ACAD on your machine
-  return readfile('/sys/class/power_supply/ACAD/online') == ['0']
-endfunction
+" function! IsOnBattery()
+"   " might be AC instead of ACAD on your machine
+"   return readfile('/sys/class/power_supply/ACAD/online') == ['0']
+" endfunction
 
 nnoremap <leader>gp :!git push<cr>
 
@@ -658,4 +648,15 @@ set foldnestmax=1
 nnoremap ,, za
 " "Refocus" folds
 nnoremap ,z zMzvzz
-nnoremap zO zCzO
+
+function! NeatFoldText()
+  let line = ' ' . substitute(getline(v:foldstart), '^\s*"\?\s*\|\s*"\?\s*{{' . '{\d*\s*', '', 'g') . ' '
+  let lines_count = v:foldend - v:foldstart + 1
+  let lines_count_text = '| ' . printf('%10s', lines_count . ' lines') . ' |'
+  let foldchar = matchstr(&fillchars, 'fold:\zs.')
+  let foldtextstart = strpart('+' . repeat(foldchar, v:foldlevel*2) . line, 0, (winwidth(0)*2)/3)
+  let foldtextend = lines_count_text . repeat(foldchar, 8)
+  let foldtextlength = strlen(substitute(foldtextstart . foldtextend, '.', 'x', 'g')) + &foldcolumn
+  return foldtextstart . repeat(foldchar, winwidth(0)-foldtextlength) . foldtextend
+endfunction
+set foldtext=NeatFoldText()
