@@ -150,7 +150,9 @@
     npm install -g
     jsonlint fixjson markdownlint-cli instant-markdown-d serverless neovim
     stylelint write-good remark-lint tern eslint tern-lint typescript
-    javascript-typescript-langserver tslint htmllint csslint prettier
+    eslint-config-standard eslint-plugin-node eslint-plugin-promise
+    eslint-plugin-standard javascript-typescript-langserver tslint htmllint
+    csslint prettier
     executable=/bin/zsh
 
 - name: installing linters via gem
@@ -195,10 +197,11 @@
 
   when: ctags_check.stdout.find('not found') == -1
 
-- name: Link global .tern-config
+- name: Link global js configs
   file: >
     src={{item}}
     dest={{ ansible_env.HOME }}/{{ item | basename }}
     state=link
   with_fileglob:
     - .tern-config
+    - .eslintrc.json

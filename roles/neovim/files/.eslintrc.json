@@ -1,0 +1,14 @@
+{
+  "extends": "standard",
+  "rules": {
+    "indent": [2, 4],
+    "comma-dangle": [2, "always-multiline"],
+    "semi": ["error", "always"],
+    "prefer-const": 2,
+    "prefer-template": 1
+  },
+  "globals": {
+    "test": true,
+    "expect": true
+  }
+}
