@@ -68,17 +68,14 @@
     dest: "{{ ansible_env.HOME }}/.projects.private.vim"
     force: no
 
-- name: install | plugins
-  # opening file to load vim-go
+- name: install | go plugins
   command: >
-    nvim +silent!
-    +PlugInstall!
-    +UpdateRemotePlugins!
+    nvim
     +GoInstallBinaries!
     +GoDoctorInstall!
     +qall!
     /tmp/needed_file.go
-  ignore_errors: true
+    ignore_errors: true
 
 - name: installing metalinter
   shell: >
