@@ -85,8 +85,9 @@
   with_fileglob:
     - composer.*
 
+
 - name: require prestissimo to speedup global update
   command: composer global require hirak/prestissimo
 
 - name: Install global composer packages
-  command: composer global update
+  command: composer global install

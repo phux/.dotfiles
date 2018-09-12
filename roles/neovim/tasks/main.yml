@@ -3,7 +3,7 @@
 
 - name: pip3 | neovim
   shell: >
-    "{{ ansible_env.HOME }}/.local/bin/pip3 install --user --upgrade neovim"
+    {{ ansible_env.HOME }}/.local/bin/pip3 install --user --upgrade neovim
 
 - name: neovim ppa
   become: yes
