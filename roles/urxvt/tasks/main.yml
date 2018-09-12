@@ -4,6 +4,9 @@
   package: name=rxvt-unicode-256color state=present
 
 - name: Link urxvt files
-  file: src={{item}} dest={{ ansible_env.HOME }}/{{ item | basename }} state=link
+  file: >
+    src={{item}}
+    dest={{ ansible_env.HOME }}/{{ item | basename }}
+    state=link
   with_fileglob:
    - .*

@@ -44,33 +44,33 @@
 
 - block:
 
-  - name: download composer
-    get_url:
-      url: https://getcomposer.org/installer
-      dest: /tmp/installer
-    tags: composer
+    - name: download composer
+      get_url:
+        url: https://getcomposer.org/installer
+        dest: /tmp/installer
+      tags: composer
 
-  - name: install composer
-    become: yes
-    shell: cat /tmp/installer | php -- --install-dir=/usr/local/bin
-    args:
-      creates: /usr/local/bin/composer
-    tags: composer
+    - name: install composer
+      become: yes
+      shell: cat /tmp/installer | php -- --install-dir=/usr/local/bin
+      args:
+        creates: /usr/local/bin/composer
+      tags: composer
 
-  - name: rename composer.phar to composer
-    become: yes
-    shell: mv /usr/local/bin/composer.phar /usr/local/bin/composer
-    args:
-      creates: /usr/local/bin/composer
-    tags: composer
+    - name: rename composer.phar to composer
+      become: yes
+      shell: mv /usr/local/bin/composer.phar /usr/local/bin/composer
+      args:
+        creates: /usr/local/bin/composer
+      tags: composer
 
-  - name: make composer executable
-    become: yes
-    file:
-      path: /usr/local/bin/composer
-      mode: a+x
-      state: file
-    tags: composer
+    - name: make composer executable
+      become: yes
+      file:
+        path: /usr/local/bin/composer
+        mode: a+x
+        state: file
+      tags: composer
 
   when: composer_check.stat.exists == False
 
@@ -78,9 +78,12 @@
   file: path={{ ansible_env.HOME }}/.composer state=directory
 
 - name: Link composer files
-  file: src={{item}} dest={{ ansible_env.HOME }}/.composer/{{ item | basename }} state=link
+  file: >
+    src={{item}}
+    dest={{ ansible_env.HOME }}/.composer/{{ item | basename }}
+    state=link
   with_fileglob:
-    - composer.* 
+    - composer.*
 
 - name: require prestissimo to speedup global update
   command: composer global require hirak/prestissimo

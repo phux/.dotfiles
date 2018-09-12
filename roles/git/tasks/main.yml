@@ -40,11 +40,10 @@
 - git_config:
     name: alias.cleanup
     scope: global
-    value: "!git branch --merged | grep  -v '\\*\\|master\\|develop' | xargs -n 1 git branch -d"
-# - git_config:
-#     name: alias.fixup
-#     scope: global
-#     value: "!sh -c 'git commit -m \"fixup! $(git log -1 --format='\\''%s'\\'' $@ | sed \"s/fixup\\! //\")\"' -"
+    value: >
+      "!git branch --merged |
+      grep  -v '\\*\\|master\\|develop' |
+      xargs -n 1 git branch -d"
 - git_config:
     name: alias.ri
     scope: global

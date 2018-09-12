@@ -6,9 +6,12 @@
     - tmux
 
 - name: Link .tmux.conf
-  file: src={{item}} dest={{ ansible_env.HOME }}/.{{ item | basename }} state=link
+  file: >
+    src={{item}}
+    dest={{ ansible_env.HOME }}/.{{ item | basename }}
+    state=link
   with_fileglob:
-    - tmux.* 
+    - tmux.*
 
 - name: check to see if tpm is already installed
   command: "ls {{ ansible_env.HOME }}/.tmux/plugins/tpm"
@@ -18,10 +21,12 @@
 
 - block:
 
-  - name: ensure tpm dir
-    file: path={{ ansible_env.HOME }}/.tmux/plugins/tpm state=directory
+    - name: ensure tpm dir
+      file: path={{ ansible_env.HOME }}/.tmux/plugins/tpm state=directory
 
-  - name: clone tpm
-    shell: git clone https://github.com/tmux-plugins/tpm {{ ansible_env.HOME }}/.tmux/plugins/tpm
+    - name: clone tpm
+      shell: >
+        git clone https://github.com/tmux-plugins/tpm
+        {{ ansible_env.HOME }}/.tmux/plugins/tpm
 
   when: tpm_is_installed.rc != 0

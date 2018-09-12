@@ -10,19 +10,22 @@
   become: yes
 
 - name: Link .zsh files
-  file: src={{item}} dest={{ ansible_env.HOME }}/{{ item | basename }} state=link
+  file: >
+    src={{item}}
+    dest={{ ansible_env.HOME }}/{{ item | basename }}
+    state=link
   with_fileglob:
-   - .zsh*
+    - .zsh*
 
 - stat: path={{ ansible_env.HOME }}/.cache/antibody
   register: antibody_check
 
 - block:
-  - name: install antibody
-    shell: curl -sL git.io/antibody | bash -s
-    ignore_errors: true
+    - name: install antibody
+      shell: curl -sL git.io/antibody | bash -s
+      ignore_errors: true
 
-  - name: create zsh plugins file
-    shell: /bin/zsh antibody bundle < ~/.zsh_plugins.txt  > ~/.zsh_plugins.sh
-    ignore_errors: true
+    - name: create zsh plugins file
+      shell: /bin/zsh antibody bundle < ~/.zsh_plugins.txt  > ~/.zsh_plugins.sh
+      ignore_errors: true
   when: antibody_check.stat.exists == False
