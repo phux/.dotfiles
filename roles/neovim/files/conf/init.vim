@@ -145,7 +145,7 @@ Plug 'tpope/vim-surround'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-abolish'
 
-Plug 'simeji/winresizer', {'on': 'WinResizerStartResize'}
+Plug 'simeji/winresizer'
 Plug 'wellle/targets.vim'
 
 Plug 'sjl/gundo.vim', {'on': 'GundoToggle'}
