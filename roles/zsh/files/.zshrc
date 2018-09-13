@@ -75,8 +75,6 @@ alias ob='observr autotest.rb'
 alias ls="ls --color=auto"
 alias l='ls -lFh'     #size,show type,human readable
 alias la='ls -lAFh'   #long list,show almost all,show type,human readable
-alias lr='ls -tRFh'   #sorted by date,recursive,show type,human readable
-alias lt='ls -ltFh'   #long list,sorted by date,show type,human readable
 alias ll='ls -l'      #long list
 alias grep='grep --color'
 
@@ -130,9 +128,6 @@ function git_current_branch() {
 }
 
 alias canihazinterwebz='sudo dhclient -r;sudo dhclient &'
-alias tw='mux shell'
-
-# alias d='dirs -v'
 
 my-backward-delete-word() {
     local WORDCHARS=${WORDCHARS/\//}
@@ -178,21 +173,13 @@ FZF-EOF"
 
 bindkey -e
 
-alias behat='dce php vendor/bin/behat'
-alias "vendor/bin/behat"="dce php vendor/bin/behat"
-
 # http://www.drbunsen.org/vim-croquet/ analysing
 # alias nvim='nvim -w ~/.nvim_keylog "$@"'
 
 alias n='nvim'
-# alias s='sudo'
 alias c='composer'
 alias ci='composer install --no-progress --prefer-dist --profile'
 alias cu='composer update --no-progress --prefer-dist --profile'
-
-alias upn='cd ~/compiles/neovim; git pull; make clean; make CMAKE_BUILD_TYPE=Release;sudo make install'
-
-alias airtame='/opt/airtame-application/launch-airtame.sh'
 
 alias efg='exercism download --track=go'
 alias es='exercism submit'
@@ -244,24 +231,13 @@ _tmuxinator() {
 }
 
 compdef _tmuxinator tmuxinator mux
-alias mux="tmuxinator"
-
-# Local Variables:
-# mode: Shell-Script
-# sh-indentation: 2
-# indent-tabs-mode: nil
-# sh-basic-offset: 2
-# End:
-# vim: ft=zsh sw=2 ts=2 et
 
 command -v vg >/dev/null 2>&1 && eval "$(vg eval --shell zsh)"
 
-# if [ "$TMUX" = "" ]; then tmux attach-session -t local || tmux new-session -s local; fi
 alias m='tmux attach-session -t local || tmux new-session -s local'
 
 alias gw="JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64 ./gradlew"
 
 function zdecode() {
   cat /tmp/base | sed -r 's/\\\\r\\\\n//g' | base64 -d | zlib -d > /tmp/base.json | n /tmp/base.json
-  # echo -n "$1" | base64 -d | zlib -d
 }
