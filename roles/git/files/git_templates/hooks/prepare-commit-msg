@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 # Add git branch if relevant
 parse_git_branch() {
@@ -11,9 +11,11 @@ parse_git_tracker_and_ticket() {
 }
 
 MESSAGE="$(cat $1)"
-TICKET=`parse_git_tracker_and_ticket`
+TICKET=$(parse_git_tracker_and_ticket)
 
 if [ -n "$TICKET" ]
 then
-   echo "$TICKET $MESSAGE" > $1
+  if [[ $MESSAGE != "$TICKET "* ]]; then
+    echo "$TICKET $MESSAGE" > $1
+  fi
 fi
