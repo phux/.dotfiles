@@ -110,7 +110,7 @@ Plug 'junegunn/fzf.vim'
 let g:fzf_mru_relative = 1
 Plug 'pbogut/fzf-mru.vim', {'on': 'FZFMru'}
 
-Plug 'Shougo/echodoc.vim', {'for': ['php', 'javascript', 'ruby', 'python', 'golang']}
+Plug 'Shougo/echodoc.vim'
 
 Plug 'janko-m/vim-test'
 Plug 'AndrewRadev/splitjoin.vim', {'on': ['SplitjoinSplit', 'SplitjoinJoin']}
@@ -163,10 +163,12 @@ Plug 'tpope/vim-rhubarb'
 Plug 'timeyyy/orchestra.nvim'
 Plug 'timeyyy/clackclack.symphony'
 Plug 'timeyyy/bubbletrouble.symphony'
+Plug 'arcticicestudio/nord-vim'
+
 call plug#end()
 " call orchestra#prelude()
 " call orchestra#set_tune('bubbletrouble')
-"call orchestra#set_tune('clackclack')
+" call orchestra#set_tune('clackclack')
 
 let mapleader = "\<Space>"
 nnoremap <silent> <leader><f5> :e $MYVIMRC<CR>
@@ -174,9 +176,10 @@ imap jk <esc>
 
 set t_Co=256
 color deus
+" color nord
 
+" \ 'colorscheme': 'nord',
 let g:lightline = {
-      \ 'colorscheme': 'wombat',
       \ 'active': {
       \   'left': [ [ 'mode', 'paste' ],
       \             [ 'gitbranch', 'readonly', 'filename', 'modified' ] ]
@@ -615,10 +618,10 @@ endfunction
 
 set inccommand=nosplit
 
-" function! IsOnBattery()
-"   " might be AC instead of ACAD on your machine
-"   return readfile('/sys/class/power_supply/ACAD/online') == ['0']
-" endfunction
+function! IsOnBattery()
+  " might be AC instead of ACAD on your machine
+  return readfile('/sys/class/power_supply/ACAD/online') == ['0']
+endfunction
 
 nnoremap <leader>gp :!git push<cr>
 

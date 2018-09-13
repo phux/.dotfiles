@@ -1,11 +1,15 @@
 setlocal noexpandtab tabstop=4 shiftwidth=4
+set foldenable
+set foldmethod=syntax
+set foldlevel=1
+set foldnestmax=1
 
 nnoremap <silent><buffer> <leader>w :lclose<cr>:w<cr>
 
 nnoremap <buffer> <leader>gr :GoRename <c-r><c-w>
-vnoremap <buffer> <leader>em :Refactor extract 
-vnoremap <buffer> <leader>ev :Refactor var 
-noremap <buffer> <leader>: :Refactor toggle<cr> 
+vnoremap <buffer> <leader>em :Refactor extract
+vnoremap <buffer> <leader>ev :Refactor var
+noremap <buffer> <leader>: :Refactor toggle<cr>
 noremap <buffer> <leader>h :Refactor godoc<cr>
 noremap <buffer> <leader>m :GoDoc<cr>
 noremap <buffer> <leader>u :exec "GoImport ".expand("<cword>")<cr>
@@ -18,7 +22,7 @@ nnoremap <buffer> <leader>d :GoDeclsDir<cr>
 nnoremap <buffer> <silent> <m-a> :GoAlternate!<cr>
 nnoremap <buffer> <m-c> :GoCoverageToggle<cr>
 
-" disable vet as before testing 
+" disable vet as before testing
 nnoremap <buffer> <m-f> :GoTest!<cr>
 nnoremap <buffer> <m-m> :GoMetaLinter<cr>
 nnoremap <buffer> <c-s> :GoFmt<cr>
@@ -91,7 +95,7 @@ let g:go_metalinter_enabled = [ "goconst", "gocyclo", "golint", "ineffassign", "
 let g:go_term_enabled=0
 let g:go_disable_autoinstall = 0
 
-let g:tagbar_type_go = {  
+let g:tagbar_type_go = {
     \ 'ctagstype' : 'go',
     \ 'kinds'     : [
         \ 'p:package',
@@ -186,7 +190,7 @@ let g:neomake_go_gometalinter_maker = {
           " \ '--enable=unconvert',
           " \ '--enable=varcheck',
           " \ '--enable=vet',
-    
+
       " \ 'args': ['--disable-all', '--enable=errcheck', '--enable=megacheck', '--vendor'],
 let g:neomake_go_enabled_makers = [ 'go', 'gometalinter' ]
 " let g:neomake_go_gometalinter_maker = {
