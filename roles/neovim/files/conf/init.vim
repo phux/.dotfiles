@@ -609,7 +609,7 @@ let g:gundo_right = 1
 
 function! LightScheme()
   set background=light
-  color one
+  color github
   set cursorline
 endfunction
 

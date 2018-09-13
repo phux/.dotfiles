@@ -3,7 +3,7 @@
 
 - name: pip3 | neovim
   shell: >
-    "{{ ansible_env.HOME }}/.local/bin/pip3 install --user --upgrade neovim"
+    {{ ansible_env.HOME }}/.local/bin/pip3 install --user --upgrade neovim
 
 - name: neovim ppa
   become: yes
@@ -68,17 +68,14 @@
     dest: "{{ ansible_env.HOME }}/.projects.private.vim"
     force: no
 
-- name: install | plugins
-  # opening file to load vim-go
+- name: install | go plugins
   command: >
-    nvim +silent!
-    +PlugInstall!
-    +UpdateRemotePlugins!
+    nvim
     +GoInstallBinaries!
     +GoDoctorInstall!
     +qall!
     /tmp/needed_file.go
-  ignore_errors: true
+    ignore_errors: true
 
 - name: installing metalinter
   shell: >
@@ -157,7 +154,7 @@
 
 - name: installing linters via gem
   shell: >
-    "{{  ansible_env.HOME }}/.rbenv/versions/2.5.1/bin/gem install {{ item }}"
+    {{  ansible_env.HOME }}/.rbenv/versions/2.5.1/bin/gem install {{ item }}
   with_items:
     - scss_lint
     - sqlint
