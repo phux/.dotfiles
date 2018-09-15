@@ -58,8 +58,8 @@ export LESS_TERMCAP_md="${yellow}";
 export MANPAGER='less -X';
 
 alias sdn='sudo shutdown now -h'
-alias update='sudo apt update && sudo apt upgrade'
-alias agi='sudo apt install'
+alias update='sudo apt-fast update && sudo apt-fast upgrade'
+alias agi='sudo apt-fast install'
 alias vu='vagrant up'
 alias vs='vagrant ssh'
 alias vh='vagrant halt'
