@@ -52,8 +52,8 @@ bindsym Mod1+Tab focus right
 bindsym $mod+Tab workspace back_and_forth
 
 # Start common apps
-bindsym $mod+Shift+Return exec firefox
-#bindsym $mod+Shift+Return exec chromium-browser
+bindsym $mod+Shift+Return exec chromium-browser
+#bindsym $mod+Shift+Return exec firefox
 
 # Change focused window
 bindsym $mod+j focus down
@@ -194,15 +194,15 @@ bar {
     font pango:DejaVu Sans Mono 10
     colors {
         # Whole color settings
-        background #000000
-        statusline #ffffff
-        separator  #666666
+        background #3b4252
+        statusline #d8dee9
+        separator  #4c566a
 
         # Type             border  background font
-        focused_workspace  #7bf473 #61af5b #ffffff
-        active_workspace   #333333 #3d703a #ffffff
-        inactive_workspace #333333 #222222 #888888
-        urgent_workspace   #aa0000 #990000 #ffffff
+        focused_workspace  #7bf473 #5e81ac #d8dee9
+        active_workspace   #333333 #434c5e #d8dee9
+        inactive_workspace #333333 #2e3440 #888888
+        urgent_workspace   #aa0000 #990000 #d8dee9
     }
 
     position top

@@ -175,11 +175,12 @@ nnoremap <silent> <leader><f5> :e $MYVIMRC<CR>
 imap jk <esc>
 
 set t_Co=256
-color deus
-" color nord
+" color deus
+color nord
 
 " \ 'colorscheme': 'nord',
 let g:lightline = {
+  \ 'colorscheme': 'nord',
       \ 'active': {
       \   'left': [ [ 'mode', 'paste' ],
       \             [ 'gitbranch', 'readonly', 'filename', 'modified' ] ]
@@ -593,8 +594,8 @@ let g:netrw_browse_split = 4
 let g:netrw_altv = 1
 let g:netrw_winsize = 25
 
-highlight Normal ctermbg=NONE
-highlight nonText ctermbg=NONE
+" highlight Normal ctermbg=NONE
+" highlight nonText ctermbg=NONE
 
 set nocursorline
 
@@ -663,3 +664,7 @@ function! NeatFoldText()
   return foldtextstart . repeat(foldchar, winwidth(0)-foldtextlength) . foldtextend
 endfunction
 set foldtext=NeatFoldText()
+" nord
+hi Visual term=reverse cterm=reverse guibg=Grey
+hi Folded ctermfg=242
+hi Comment ctermfg=242
