@@ -4,6 +4,10 @@ imports:
   - {resource: '.composer/vendor/symplify/easy-coding-standard/config/symplify.yml'}
   - {resource: '.composer/vendor/symplify/easy-coding-standard/config/common.yml'}
 
+parameters:
+  exclude_checkers:
+    - 'PhpCsFixer\Fixer\Operator\NotOperatorWithSuccessorSpaceFixer'
+
 services:
   # code complexity
   PHP_CodeSniffer\Standards\Generic\Sniffs\Metrics\CyclomaticComplexitySniff:

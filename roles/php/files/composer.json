@@ -20,8 +20,8 @@
         "escapestudios/symfony2-coding-standard": "^3.0@dev",
         "nette/utils": "^2.4",
         "object-calisthenics/phpcs-calisthenics-rules": "dev-master",
-        "symplify/coding-standard": "^4.0@dev",
-        "symplify/easy-coding-standard": "^4.0@dev",
+        "symplify/coding-standard": "^5.0",
+        "symplify/easy-coding-standard": "^5.0",
         "phpstan/phpstan": "^0.10.0@dev",
         "bmitch/churn-php": "dev-master",
         "phan/phan": "dev-master"

@@ -652,6 +652,7 @@ set foldnestmax=1
 nnoremap ,, za
 " "Refocus" folds
 nnoremap ,z zMzvzz
+nnoremap <F9> zi
 
 function! NeatFoldText()
   let line = ' ' . substitute(getline(v:foldstart), '^\s*"\?\s*\|\s*"\?\s*{{' . '{\d*\s*', '', 'g') . ' '

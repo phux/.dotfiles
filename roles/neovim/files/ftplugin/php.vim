@@ -9,6 +9,7 @@ let g:php_folding = 1
 set foldmethod=syntax
 set foldlevel=0
 set foldnestmax=1
+set nofoldenable
 
 setlocal tabstop=4 shiftwidth=4
 
