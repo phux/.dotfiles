@@ -19,8 +19,10 @@
     - mousepad
     - aria2
 
-- apt_repository:
-  repo: ppa:apt-fast/stable
+- name: add apt-fast/stable repository
+  apt_repository: repo="ppa:apt-fast/stable" state=present
+  become: yes
+
 - name: install apt-fast
   become: yes
   package: name=apt-fast state=latest
