@@ -84,7 +84,8 @@ let g:ale_list_window_size = 5
 let g:ale_fixers = {
   \ '*': ['remove_trailing_lines', 'trim_whitespace'],
   \ 'php': ['phpcbf', 'php_cs_fixer'],
-  \ 'json': ['fixjson', 'prettier']
+  \ 'json': ['fixjson', 'prettier'],
+  \ 'go': ['gofmt', 'goimports']
   \}
 let g:ale_fix_on_save=1
 

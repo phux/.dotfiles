@@ -3,13 +3,16 @@ set foldenable
 set foldmethod=syntax
 set foldlevel=1
 set foldnestmax=1
+let g:ale_linters['go'] = ['gofmt', 'golangci-lint']
+" let g:ale_linters['go'] = ['gofmt', 'gometalinter']
+" let g:ale_go_gometalinter_options='--disable-all --enable goconst --enable gocyclo --enable golint --enable ineffassign --enable interfacer --enable maligned --enable megacheck --enable misspell --enable structcheck --enable unconvert --enable varcheck --enable vet '
+" let g:ale_linters['go'] = ['golint']
 
 nnoremap <silent><buffer> <leader>w :lclose<cr>:w<cr>
 
 nnoremap <buffer> <leader>gr :GoRename <c-r><c-w>
 vnoremap <buffer> <leader>em :Refactor extract
 vnoremap <buffer> <leader>ev :Refactor var
-noremap <buffer> <leader>: :Refactor toggle<cr>
 noremap <buffer> <leader>h :Refactor godoc<cr>
 noremap <buffer> <leader>m :GoDoc<cr>
 noremap <buffer> <leader>u :exec "GoImport ".expand("<cword>")<cr>
@@ -17,6 +20,7 @@ noremap <buffer> <leader>u :exec "GoImport ".expand("<cword>")<cr>
 
 nnoremap <buffer> gr :GoReferrers<cr>
 nnoremap <buffer> gi :GoImplements<cr>
+nnoremap <buffer> <leader>gi :GoImpl<cr>
 
 nnoremap <buffer> <leader>d :GoDeclsDir<cr>
 nnoremap <buffer> <silent> <m-a> :GoAlternate!<cr>
@@ -61,16 +65,16 @@ endfunction
 " visually mark the code you want to extract into variable
 " (for now only works with single line selection)
 function! GoExtractVariable()
-  let l:name = input("Name of new variable: ")
+  let l:name = input('Name of new variable: ')
   normal! gvx
-  execute "normal! i ".l:name
-  execute "normal! O".l:name." := "
+  execute 'normal! i '.l:name
+  execute 'normal! O'.l:name.' := '
   normal! p
   normal! bgr
 endfunction
 
-let g:go_list_type = "locationlist"
-let g:go_bin_path = expand("~/code/go/bin")
+let g:go_list_type = 'locationlist'
+let g:go_bin_path = expand('~/code/go/bin')
 " Enable syntax highlighting per default
 let g:go_highlight_types = 1
 let g:go_highlight_fields = 1
@@ -84,9 +88,9 @@ let g:go_fmt_command = "goimports"
 let g:go_fmt_autosave = 1
 let g:go_metalinter_autosave = 0
 let g:go_metalinter_deadline = '20s'
-let g:go_metalinter_enabled = [ "gas", "goconst", "gocyclo", "golint", "ineffassign", "interfacer", "maligned", "megacheck", "misspell", "structcheck", "unconvert", "varcheck", "vet"]
-let g:go_metalinter_enabled = [ "goconst", "gocyclo", "golint", "ineffassign", "interfacer", "maligned", "megacheck", "misspell", "structcheck", "unconvert", "varcheck", "vet"]
-" let g:go_metalinter_enabled = ["unconvert", "gocyclo", "maligned", "ineffassign", "goconst"]
+let g:go_metalinter_enabled = [ 'gas', 'goconst', 'gocyclo', 'golint', 'ineffassign', 'interfacer', 'maligned', 'megacheck', 'misspell', 'structcheck', 'unconvert', 'varcheck', 'vet']
+let g:go_metalinter_enabled = [ 'goconst', 'gocyclo', 'golint', 'ineffassign', 'interfacer', 'maligned', 'megacheck', 'misspell', 'structcheck', 'unconvert', 'varcheck', 'vet']
+" let g:go_metalinter_enabled = ["unconvert", 'gocyclo', 'maligned', 'ineffassign', 'goconst']
 
 " let g:go_auto_sameids = 1
 " let g:go_auto_type_info = 1
@@ -123,104 +127,12 @@ let g:tagbar_type_go = {
     \ 'ctagsargs' : '-sort -silent'
 \ }
 
-
-  " \ '--enable=gocyclo',
-
-  " \ '--enable=gas',
-  " \ '--enable=goconst',
-  " \ '--enable=golint',
-  " \ '--enable=ineffassign',
-  " \ '--enable=interfacer',
-  " \ '--enable=maligned',
-  " \ '--enable=megacheck',
-  " \ '--enable=misspell',
-  " \ '--enable=structcheck',
-  " \ '--enable=unconvert',
-  " \ '--enable=varcheck',
-  " \ '--enable=vet',
-        " \ '--fast',
-        " \ '--enable=megacheck',
-  " \ '--disable=deadcode',
-  " \ '--disable=dupl',
-  " \ '--disable=errcheck',
-  " \ '--disable=gocyclo',
-  " \ '--disable=goimports',
-  " \ '--disable=gotype',
-  " \ '--disable=unused',
-
-
-
-  " \ '--enable=gas',
-  " \ '--enable=goconst',
-  " \ '--enable=golint',
-  " \ '--enable=ineffassign',
-  " \ '--enable=interfacer',
-  " \ '--enable=maligned',
-  " \ '--enable=megacheck',
-  " \ '--enable=misspell',
-  " \ '--enable=structcheck',
-  " \ '--enable=unconvert',
-  " \ '--enable=varcheck',
-  " \ '--enable=vet',
-  " \ '--exclude=unexported',
-let g:neomake_go_gometalinter_maker = {
-  \ 'exe': 'zb',
-  \ 'args': [
-  \   'lint',
-  \   '--fast',
-  \ ],
-  \ 'cwd': '%:h',
-  \ 'append_file': 0,
-  \ 'errorformat':
-  \   '%E%f:%l:%c:%trror: %m,' .
-  \   '%W%f:%l:%c:%tarning: %m,' .
-  \   '%E%f:%l::%trror: %m,' .
-  \   '%W%f:%l::%tarning: %m'
-\ }
-
-          " \ '--enable=gas',
-          " \ '--enable=goconst',
-          " \ '--enable=golint',
-          " \ '--enable=ineffassign',
-          " \ '--enable=interfacer',
-          " \ '--enable=maligned',
-          " \ '--enable=megacheck',
-          " \ '--enable=misspell',
-          " \ '--enable=structcheck',
-          " \ '--enable=unconvert',
-          " \ '--enable=varcheck',
-          " \ '--enable=vet',
-
-      " \ 'args': ['--disable-all', '--enable=errcheck', '--enable=megacheck', '--vendor'],
-let g:neomake_go_enabled_makers = [ 'go', 'gometalinter' ]
-" let g:neomake_go_gometalinter_maker = {
-"         \ 'args': [
-"           \ '--disable-all',
-"           \ '--enable=goconst',
-"           \ '--enable=golint',
-"           \ '--enable=ineffassign',
-"           \ '--enable=interfacer',
-"           \ '--enable=maligned',
-"           \ '--enable=megacheck',
-"           \ '--enable=misspell',
-"           \ '--enable=structcheck',
-"           \ '--enable=unconvert',
-"           \ '--enable=varcheck',
-"           \ '--enable=vet',
-"           \ '--exclude=unexported',
-"         \ ],
-"         \ 'append_file': 0,
-"         \ 'cwd': '%:h',
-"         \ 'errorformat':
-"             \ '%f:%l:%c:%t%*[^:]: %m,' .
-"             \ '%f:%l::%t%*[^:]: %m'
-"         \ }
 let g:go_fmt_options = {
   \ 'gofmt': '-s',
   \ }
 
 if IsOnBattery()
-  call add(g:neomake_go_gometalinter_maker['args'], '--fast')
+  let g:ale_go_gometalinter_options='--disable-all --enable goconst --enable gocyclo --enable golint --enable ineffassign --enable interfacer --enable maligned --enable megacheck --enable misspell --enable structcheck --enable unconvert --enable varcheck --enable vet --fast'
 endif
 
 let g:go_def_mode = 'godef'
