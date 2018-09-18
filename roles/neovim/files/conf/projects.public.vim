@@ -23,7 +23,8 @@ endfunction
 function! Symfony(...) abort
     let g:ultisnips_php_scalar_types = 1
 
-    nnoremap <silent> <c-s> :update<cr>:Silent php-cs-fixer fix %:p --rules=@Symfony<cr>:Silent phpcbf --standard=Symfony %:p > /dev/null<cr>:e<cr>
+    " nnoremap <silent> <c-s> :update<cr>:Silent php-cs-fixer fix %:p --rules=@Symfony<cr>:Silent phpcbf --standard=Symfony %:p > /dev/null<cr>:e<cr>
+    nnoremap <silent> <c-s> :update<cr>:Silent ecs check --config ~/.easy-coding-standard7.yml --fix %:p <cr>
 
     nnoremap <m-a> :call SymfonySwitchToAlternateFile()<cr>
     nnoremap <silent> gd :call phpactor#GotoDefinition()<CR>
@@ -34,10 +35,10 @@ function! Symfony(...) abort
       au filetype php set omnifunc=phpactor#Complete
     augroup end
 
-    let g:ale_fixers['php'] = ['phpcbf', 'php_cs_fixer']
-    let g:ale_php_phpcbf_standard='Symfony'
-    let g:ale_php_phpcs_standard='phpcs.xml.dist'
-    let g:ale_php_phpmd_ruleset='phpmd.xml'
+    " let g:ale_fixers['php'] = ['phpcbf', 'php_cs_fixer']
+    " let g:ale_php_phpcbf_standard='Symfony'
+    " let g:ale_php_phpcs_standard='phpcs.xml.dist'
+    " let g:ale_php_phpmd_ruleset='phpmd.xml'
 endfunction
 
 function! PhpAllDisabled(...) abort
