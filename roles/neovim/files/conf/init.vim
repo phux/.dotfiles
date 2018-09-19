@@ -670,3 +670,5 @@ set foldtext=NeatFoldText()
 hi Visual term=reverse cterm=reverse guibg=Grey
 hi Folded ctermfg=242
 hi Comment ctermfg=242
+
+let spellfile='~/.vim.spell'
