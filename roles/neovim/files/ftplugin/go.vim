@@ -13,9 +13,11 @@ nnoremap <silent><buffer> <leader>w :lclose<cr>:w<cr>
 nnoremap <buffer> <leader>gr :GoRename <c-r><c-w>
 vnoremap <buffer> <leader>em :Refactor extract
 vnoremap <buffer> <leader>ev :Refactor var
+nnoremap <buffer> <leader>gm :call GoMoveDir()<cr>
 noremap <buffer> <leader>h :Refactor godoc<cr>
 noremap <buffer> <leader>m :GoDoc<cr>
 noremap <buffer> <leader>u :exec "GoImport ".expand("<cword>")<cr>
+
 " nnoremap <buffer> <leader>h :call GoComment()<cr>
 
 nnoremap <buffer> gr :GoReferrers<cr>
@@ -84,7 +86,7 @@ let g:go_highlight_structs = 1
 let g:go_highlight_operators = 1
 let g:go_highlight_build_constraints = 1
 let g:go_highlight_extra_types = 1
-let g:go_fmt_command = "goimports"
+let g:go_fmt_command = 'goimports'
 let g:go_fmt_autosave = 1
 let g:go_metalinter_autosave = 0
 let g:go_metalinter_deadline = '20s'
@@ -137,3 +139,33 @@ endif
 
 let g:go_def_mode = 'godef'
 " let g:go_auto_sameids = 1 " too confusing
+
+
+
+" dependency: go get golang.org/x/tools/cmd/gomvpkg
+function! GoMoveDir()
+  :update
+
+  " find current gopath
+  let l:gopath = ''
+  for gopath in split($GOPATH, ':')
+    if expand('%:p:h') =~ '^'.gopath
+      let l:gopath = gopath
+    endif
+  endfor
+
+  if len(l:gopath) == 0
+    echo 'Cannot move pkg - not in configured gopath?!'
+    return
+  endif
+
+  let l:currentFile = expand('%:p')
+  let l:oldPath = input('Old path: ', substitute(expand('%:p:h'), gopath.'/src/', '', ''))
+  let l:newPath = input('New path ==> ', l:oldPath)
+
+  execute '!gomvpkg -from '.l:oldPath.' -to '.l:newPath
+
+  if !filereadable(l:currentFile)
+    :bd
+  endif
+endfunction
