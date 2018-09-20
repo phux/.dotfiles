@@ -4,8 +4,11 @@ set foldmethod=syntax
 set foldlevel=1
 set foldnestmax=1
 let g:ale_linters['go'] = ['gofmt', 'golangci-lint']
+let g:ale_go_gofmt_options='-s'
 " let g:ale_linters['go'] = ['gofmt', 'gometalinter']
+" let g:ale_go_gometalinter_options='lint'
 " let g:ale_go_gometalinter_options='--disable-all --enable goconst --enable gocyclo --enable golint --enable ineffassign --enable interfacer --enable maligned --enable megacheck --enable misspell --enable structcheck --enable unconvert --enable varcheck --enable vet '
+" let g:ale_go_gometalinter_executable='zb'
 " let g:ale_linters['go'] = ['golint']
 
 nnoremap <silent><buffer> <leader>w :lclose<cr>:w<cr>
@@ -14,6 +17,7 @@ nnoremap <buffer> <leader>gr :GoRename <c-r><c-w>
 vnoremap <buffer> <leader>em :Refactor extract
 vnoremap <buffer> <leader>ev :Refactor var
 nnoremap <buffer> <leader>gm :call GoMoveDir()<cr>
+nnoremap <buffer> <leader>ga :GoAddTags<cr>
 noremap <buffer> <leader>h :Refactor godoc<cr>
 noremap <buffer> <leader>m :GoDoc<cr>
 noremap <buffer> <leader>u :exec "GoImport ".expand("<cword>")<cr>
