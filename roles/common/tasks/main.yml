@@ -18,6 +18,7 @@
     - chromium-browser
     - mousepad
     - aria2
+    - feh
 
 - name: add apt-fast/stable repository
   apt_repository: repo="ppa:apt-fast/stable" state=present
