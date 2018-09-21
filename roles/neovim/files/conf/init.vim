@@ -3,10 +3,11 @@ scriptencoding utf-8
 
 if has('vim_starting')
   let g:qf_loc_toggle_binds = 0
+  set nofoldenable
 endif
 
 if !filereadable(expand('~/.config/nvim/autoload/plug.vim'))
-    echo 'Installing vim-plug and plugins. Restart vim after finishing the process.'
+    echo 'Installing vim-plug and plugins. Restart nvim after finishing the process.'
     silent call mkdir(expand('~/.config/nvim/autoload', 1), 'p')
     execute '!curl -fLo '.expand('~/.config/nvim/autoload/plug.vim', 1).' https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
 
@@ -30,7 +31,7 @@ let g:AutoPairsShortcutJump = ''
 let g:AutoPairsShortcutToggle = ''
 Plug 'andymass/vim-matchup'
 let g:matchup_matchparen_status_offscreen=0
- let g:matchup_transmute_enabled = 1
+let g:matchup_transmute_enabled = 1
 
 Plug 'amiorin/vim-project'
 
@@ -57,7 +58,7 @@ Plug 'ncm2/ncm2-cssomni', {'for': 'css'}
 Plug 'ncm2/ncm2-go', {'for': 'go'}
 Plug 'ncm2/ncm2-ultisnips'
 Plug 'phpactor/ncm2-phpactor', {'for': 'php'}
-Plug 'yuki-ycino/ncm2-dictionary'
+" Plug 'yuki-ycino/ncm2-dictionary'
 Plug 'ncm2/ncm2-tern',  {'do': 'npm install', 'for': 'javascript'}
 Plug 'ncm2/nvim-typescript', {'do': './install.sh', 'for': 'typescript'}
 Plug 'ncm2/ncm2-jedi', {'for': 'python'}
@@ -108,8 +109,13 @@ Plug 'tmux-plugins/vim-tmux'
 
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
-let g:fzf_mru_relative = 1
-Plug 'pbogut/fzf-mru.vim', {'on': 'FZFMru'}
+" let g:fzf_mru_relative = 1
+" Plug 'pbogut/fzf-mru.vim', {'on': 'FZFMru'}
+Plug 'lvht/fzf-mru.vim'
+" set max lenght for the mru file list
+let g:fzf_mru_file_list_size = 10 " default value
+" set path pattens that should be ignored
+let g:fzf_mru_ignore_patterns = 'fugitive\|\.git/\|\_^/tmp/' " default value
 
 Plug 'Shougo/echodoc.vim'
 
@@ -165,6 +171,11 @@ Plug 'timeyyy/orchestra.nvim'
 Plug 'timeyyy/clackclack.symphony'
 Plug 'timeyyy/bubbletrouble.symphony'
 Plug 'arcticicestudio/nord-vim'
+
+Plug 'xolox/vim-notes'
+let g:notes_directories = ['~/Dropbox/notes']
+let g:notes_suffix = '.md'
+let g:notes_smart_quotes = 0
 
 call plug#end()
 " call orchestra#prelude()
@@ -644,12 +655,14 @@ command! -bang -nargs=* Find call fzf#vim#grep('rg --column --line-number --no-h
 set grepprg=rg\ --vimgrep
 
 so ~/.config/nvim/projects.public.vim
+
 let g:xml_syntax_folding = 1
 let g:sh_fold_enabled= 7
 let g:ruby_fold = 1
-set foldmethod=syntax
+set foldmethod=indent
 set foldlevel=1
 set foldnestmax=1
+
 nnoremap ,, za
 " "Refocus" folds
 nnoremap ,z zMzvzz
@@ -666,9 +679,12 @@ function! NeatFoldText()
   return foldtextstart . repeat(foldchar, winwidth(0)-foldtextlength) . foldtextend
 endfunction
 set foldtext=NeatFoldText()
-" nord
+
+" nord scheme adjustments
 hi Visual term=reverse cterm=reverse guibg=Grey
 hi Folded ctermfg=242
 hi Comment ctermfg=242
 
 let spellfile='~/.vim.spell'
+
+inoremap <expr> <c-y> matchstr(getline(line('.')-1), '\%' . virtcol('.') . 'v\%(\k\+\\|.\)')
