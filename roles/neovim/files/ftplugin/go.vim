@@ -3,13 +3,15 @@ set foldenable
 set foldmethod=syntax
 set foldlevel=1
 set foldnestmax=1
-let g:ale_linters['go'] = ['gofmt', 'golangci-lint']
+" let g:ale_linters['go'] = ['gofmt', 'golangci-lint']
+let g:ale_linters['go'] = ['gofmt', 'gometalinter']
 let g:ale_go_gofmt_options='-s'
-" let g:ale_linters['go'] = ['gofmt', 'gometalinter']
 " let g:ale_go_gometalinter_options='lint'
-" let g:ale_go_gometalinter_options='--disable-all --enable goconst --enable gocyclo --enable golint --enable ineffassign --enable interfacer --enable maligned --enable megacheck --enable misspell --enable structcheck --enable unconvert --enable varcheck --enable vet '
+let g:ale_go_gometalinter_options='--disable-all --enable goconst --enable gocyclo --enable golint --enable ineffassign --enable interfacer --enable maligned --enable megacheck --enable misspell --enable structcheck --enable unconvert --enable varcheck --enable vet --fast'
 " let g:ale_go_gometalinter_executable='zb'
 " let g:ale_linters['go'] = ['golint']
+
+let g:cm_auto_popup=1
 
 nnoremap <silent><buffer> <leader>w :lclose<cr>:w<cr>
 
@@ -34,6 +36,7 @@ nnoremap <buffer> <m-c> :GoCoverageToggle<cr>
 
 " disable vet as before testing
 nnoremap <buffer> <m-f> :GoTest!<cr>
+
 nnoremap <buffer> <m-m> :GoMetaLinter<cr>
 nnoremap <buffer> <c-s> :GoFmt<cr>
 
@@ -47,7 +50,6 @@ nnoremap <buffer> <f6> :DlvTest<cr>
 nnoremap <buffer> <f7> :DlvToggleBreakpoint<cr>
 nnoremap <buffer> <f8> :DlvToggleTracepoint<cr>
 
-
 " command! -nargs=* -bang GoDebug call godebug#debug(<bang>0, 0, <f-args>)
 " nnoremap <f5> :GoDebug<cr>
 " command! -nargs=* -bang GoDebugTestNvim call godebug#debugtest(<bang>0, 0, <f-args>)
@@ -55,8 +57,6 @@ nnoremap <buffer> <f8> :DlvToggleTracepoint<cr>
 " command! -nargs=* -bang GoToggleBreakpointNvim call godebug#toggleBreakpoint(expand('%:p'), line('.'), <f-args>)
 " nnoremap <f7> :GoToggleBreakpointNvim<cr>
 
-
-let g:cm_auto_popup=1
 
 function! s:build_go_files()
   let l:file = expand('%')

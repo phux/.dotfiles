@@ -29,6 +29,7 @@ Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
 Plug 'jiangmiao/auto-pairs'
 let g:AutoPairsShortcutJump = ''
 let g:AutoPairsShortcutToggle = ''
+let g:AutoPairsMapCR=0
 Plug 'andymass/vim-matchup'
 let g:matchup_matchparen_status_offscreen=0
 let g:matchup_transmute_enabled = 1
@@ -65,14 +66,13 @@ Plug 'ncm2/ncm2-jedi', {'for': 'python'}
 
 Plug 'ternjs/tern_for_vim', {'do': 'npm install', 'for': ['typescript','javascript']}
 
-Plug 'reedes/vim-lexical', {'for': ['text', 'markdown', 'gitcommit']}
+Plug 'reedes/vim-lexical', {'for': ['text', 'markdown', 'gitcommit', 'notes']}
 
 Plug 'python-mode/python-mode', {'for': 'python'}
 let g:pymode_folding = 0
 let g:pymode_python = 'python3'
 let g:pymode_lint = 0
 
-Plug 'xolox/vim-misc'
 
 Plug 'w0rp/ale'
 nnoremap <silent> <F8> :ALEDisableBuffer<cr>
@@ -110,22 +110,23 @@ Plug 'tmux-plugins/vim-tmux'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 " let g:fzf_mru_relative = 1
-" Plug 'pbogut/fzf-mru.vim', {'on': 'FZFMru'}
-Plug 'lvht/fzf-mru.vim'
+" Plug 'pbogut/fzf-mru.vim'
+Plug 'tweekmonster/fzf-filemru'
+
 " set max lenght for the mru file list
-let g:fzf_mru_file_list_size = 10 " default value
+" let g:fzf_mru_file_list_size = 10 " default value
 " set path pattens that should be ignored
-let g:fzf_mru_ignore_patterns = 'fugitive\|\.git/\|\_^/tmp/' " default value
+" let g:fzf_mru_ignore_patterns = 'fugitive\|\.git/\|\_^/tmp/' " default value
 
 Plug 'Shougo/echodoc.vim'
 
 Plug 'janko-m/vim-test'
 Plug 'AndrewRadev/splitjoin.vim', {'on': ['SplitjoinSplit', 'SplitjoinJoin']}
 
-Plug 'suan/vim-instant-markdown', {'for': 'markdown'}
-Plug 'gabrielelana/vim-markdown', {'for': 'markdown'}
-Plug 'junegunn/goyo.vim', {'for': 'markdown'}
-Plug 'plasticboy/vim-markdown', {'for': 'markdown', 'as': 'vim-markdown-plasticboy'}
+Plug 'suan/vim-instant-markdown', {'for': ['markdown', 'notes']}
+Plug 'gabrielelana/vim-markdown', {'for': ['markdown', 'notes']}
+Plug 'junegunn/goyo.vim', {'for': ['markdown', 'notes']}
+Plug 'plasticboy/vim-markdown', {'for': ['markdown', 'notes'], 'as': 'vim-markdown-plasticboy'}
 " Plug 'autozimu/LanguageClient-neovim', {
 "     \ 'do': 'bash install.sh',
 "     \ }
@@ -172,11 +173,19 @@ Plug 'timeyyy/clackclack.symphony'
 Plug 'timeyyy/bubbletrouble.symphony'
 Plug 'arcticicestudio/nord-vim'
 
-Plug 'xolox/vim-notes'
+Plug 'xolox/vim-notes', {'on': ['SearchNotes', 'Note', 'RecentNotes']} | Plug 'xolox/vim-misc'
 let g:notes_directories = ['~/Dropbox/notes']
 let g:notes_suffix = '.md'
 let g:notes_smart_quotes = 0
 
+let g:simple_todo_map_keys = 0
+Plug 'vitalk/vim-simple-todo'
+nmap <m-i> <Plug>(simple-todo-new-start-of-line)
+imap <m-i> <Plug>(simple-todo-new-start-of-line)
+nmap <m-o> <Plug>(simple-todo-below)
+imap <m-o> <Plug>(simple-todo-below)
+imap <m-space> <Plug>(simple-todo-mark-switch)
+nmap <m-space> <Plug>(simple-todo-mark-switch)
 call plug#end()
 " call orchestra#prelude()
 " call orchestra#set_tune('bubbletrouble')
@@ -267,6 +276,7 @@ augroup everything
   autocmd FileType gitv nmap <buffer> <silent> <C-p> <Plug>(gitv-next-commit)
 
   au BufWritePost * silent! !eval '[ -f ".git/hooks/ctags" ] && .git/hooks/ctags' &
+
 augroup END
 
 set fileformats=unix,dos,mac    " Prefer Unix over Windows over OS 9 formats
@@ -292,15 +302,18 @@ vnoremap <silent> y y`]
 vnoremap <silent> p p=`]
 nnoremap <silent> p p=`]
 
-nnoremap <leader>n :NERDTreeToggle<cr>
-nnoremap <leader>N :NERDTreeFind<cr>
+nnoremap <m-n> :NERDTreeToggle<cr>
+nnoremap <m-s-n> :NERDTreeFind<cr>
+
+nnoremap <leader>nn :Note<space>
+nnoremap <leader>nr :RecentNotes<cr>
+nnoremap <leader>ns :SearchNotes<space>
 
 nnoremap <silent> <leader>w :lclose<cr>:w<cr>
 
 let g:UltiSnipsSnippetsDir = ['~/.config/nvim/UltiSnips/', './plugged/aws-vim/snips']
 let g:UltiSnipsExpandTrigger='<c-j>'
 
-let g:AutoPairsMapCR=0
 inoremap <expr> <CR> (pumvisible() ? ncm2_ultisnips#expand_or("\<CR>", 'n') : "\<CR>")
 
 let g:UltiSnipsJumpForwardTrigger='<c-j>'
@@ -316,18 +329,15 @@ endif
 let g:echodoc_enable_at_startup=1
 set noshowmode
 
-let g:fzf_layout = { 'down': '~40%' }
-
 " [Buffers] Jump to the existing window if possible
 let g:fzf_buffers_jump = 1
 
 " [[B]Commits] Customize the options used by 'git log':
 let g:fzf_commits_log_options = '--graph --color=always --format="%C(auto)%h%d %s %C(black)%C(bold)%cr"'
 
-nnoremap <leader><Enter> :FZFMru<cr>
-
 nnoremap <leader><tab> :Buffers<cr>
-nnoremap <leader>, :Files<cr>
+nnoremap <leader><Enter> :Buffers<cr>
+nnoremap <leader>, :FilesMru --tiebreak=end<cr>
 nnoremap <leader>. :FZFAllFiles<cr>
 nnoremap <leader>d :BTags<cr>
 nnoremap <leader>D :BTags <C-R><C-W><cr>
@@ -393,8 +403,8 @@ vnoremap < <gv
 vnoremap > >gv
 
 " Map tab to indent in visual mode
-vmap <Tab> >gv
-vmap <S-Tab> <gv
+  vmap <Tab> >gv
+  vmap <S-Tab> <gv
 
 nnoremap <tab> :bn<cr>
 nnoremap <s-tab> :bp<cr>
@@ -688,3 +698,4 @@ hi Comment ctermfg=242
 let spellfile='~/.vim.spell'
 
 inoremap <expr> <c-y> matchstr(getline(line('.')-1), '\%' . virtcol('.') . 'v\%(\k\+\\|.\)')
+let g:fzf_filemru_bufwrite=1
