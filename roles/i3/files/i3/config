@@ -52,8 +52,8 @@ bindsym Mod1+Tab focus right
 bindsym $mod+Tab workspace back_and_forth
 
 # Start common apps
-bindsym $mod+Shift+Return exec chromium-browser
-#bindsym $mod+Shift+Return exec firefox
+# bindsym $mod+Shift+Return exec chromium-browser
+bindsym $mod+Shift+Return exec firefox
 
 # Change focused window
 bindsym $mod+j focus down
