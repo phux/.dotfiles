@@ -402,12 +402,8 @@ inoremap <c-l> <del>
 vnoremap < <gv
 vnoremap > >gv
 
-" Map tab to indent in visual mode
-  vmap <Tab> >gv
-  vmap <S-Tab> <gv
-
-nnoremap <tab> :bn<cr>
-nnoremap <s-tab> :bp<cr>
+nnoremap <m-l> :bn<cr>
+nnoremap <m-h> :bp<cr>
 
 nnoremap <leader>tn :TestNearest<cr>
 nnoremap <leader>tf :TestFile<cr>
