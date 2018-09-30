@@ -109,6 +109,7 @@
   with_items:
     - shellcheck
     - libxml2-utils
+    - tidy
 
 - name: install ffi as ansible-lint dependency
   become: yes
