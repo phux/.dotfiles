@@ -15,6 +15,8 @@ if !filereadable(expand('~/.config/nvim/autoload/plug.vim'))
     autocmd VimEnter * PlugInstall
 endif
 
+let mapleader = "\<Space>"
+
 command! PU PlugUpdate | PlugUpgrade
 call plug#begin('~/.config/nvim/plugged')
 
@@ -25,11 +27,16 @@ Plug 'ap/vim-buftabline'
 let g:buftabline_show = 1 " display only if more than 1 buffer open
 
 Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
+let g:UltiSnipsJumpForwardTrigger='<c-j>'
+let g:UltiSnipsJumpBackwardTrigger='<c-k>'
+let g:UltiSnipsSnippetsDir = ['~/.config/nvim/UltiSnips/', './plugged/aws-vim/snips']
+let g:UltiSnipsExpandTrigger='<c-j>'
 
 Plug 'jiangmiao/auto-pairs'
 let g:AutoPairsShortcutJump = ''
 let g:AutoPairsShortcutToggle = ''
 let g:AutoPairsMapCR=0
+
 Plug 'andymass/vim-matchup'
 let g:matchup_matchparen_status_offscreen=0
 let g:matchup_transmute_enabled = 1
@@ -46,6 +53,8 @@ let g:NERDTreeWinSize = 40
 let g:NERDTreeMinimalUI=1
 let g:NERDTreeCascadeSingleChildDir=0
 let g:NERDTreeAutoDeleteBuffer=1
+nnoremap <m-n> :NERDTreeToggle<cr>
+nnoremap <m-s-n> :NERDTreeFind<cr>
 
 Plug 'Lokaltog/vim-easymotion'
 Plug 'majutsushi/tagbar', {'on': 'TagbarToggle'}
@@ -55,9 +64,9 @@ Plug 'roxma/nvim-yarp'
 Plug 'ncm2/ncm2-bufword'
 Plug 'ncm2/ncm2-tmux'
 Plug 'ncm2/ncm2-path'
-Plug 'ncm2/ncm2-cssomni', {'for': 'css'}
-Plug 'ncm2/ncm2-go', {'for': 'go'}
 Plug 'ncm2/ncm2-ultisnips'
+Plug 'ncm2/ncm2-go', {'for': 'go'}
+Plug 'ncm2/ncm2-cssomni', {'for': 'css'}
 Plug 'phpactor/ncm2-phpactor', {'for': 'php'}
 " Plug 'yuki-ycino/ncm2-dictionary'
 Plug 'ncm2/ncm2-tern',  {'do': 'npm install', 'for': 'javascript'}
@@ -88,7 +97,8 @@ let g:ale_fixers = {
   \ 'json': ['fixjson', 'prettier'],
   \ 'go': ['gofmt', 'goimports']
   \}
-let g:ale_fix_on_save=1
+let g:ale_fix_on_save = 1
+" tidy\ -indent\ -quiet\ --show-errors\ 0\ --tidy-mark\ no\ --show-body-only\ auto
 
 Plug 'phux/php-doc-modded', {'for': 'php'}
 Plug 'sahibalejandro/vim-php', {'for': ['php', 'yaml']}
@@ -109,14 +119,7 @@ Plug 'tmux-plugins/vim-tmux'
 
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
-" let g:fzf_mru_relative = 1
-" Plug 'pbogut/fzf-mru.vim'
 Plug 'tweekmonster/fzf-filemru'
-
-" set max lenght for the mru file list
-" let g:fzf_mru_file_list_size = 10 " default value
-" set path pattens that should be ignored
-" let g:fzf_mru_ignore_patterns = 'fugitive\|\.git/\|\_^/tmp/' " default value
 
 Plug 'Shougo/echodoc.vim'
 
@@ -171,12 +174,19 @@ Plug 'tpope/vim-rhubarb'
 Plug 'timeyyy/orchestra.nvim'
 Plug 'timeyyy/clackclack.symphony'
 Plug 'timeyyy/bubbletrouble.symphony'
+
 Plug 'arcticicestudio/nord-vim'
+hi Visual term=reverse cterm=reverse guibg=Grey
+hi Folded ctermfg=242
+hi Comment ctermfg=242
 
 Plug 'xolox/vim-notes', {'on': ['SearchNotes', 'Note', 'RecentNotes']} | Plug 'xolox/vim-misc'
 let g:notes_directories = ['~/Dropbox/notes']
 let g:notes_suffix = '.md'
 let g:notes_smart_quotes = 0
+nnoremap <leader>nn :Note<space>
+nnoremap <leader>nr :RecentNotes<cr>
+nnoremap <leader>ns :SearchNotes<space>
 
 let g:simple_todo_map_keys = 0
 Plug 'vitalk/vim-simple-todo'
@@ -186,12 +196,15 @@ nmap <m-o> <Plug>(simple-todo-below)
 imap <m-o> <Plug>(simple-todo-below)
 imap <m-space> <Plug>(simple-todo-mark-switch)
 nmap <m-space> <Plug>(simple-todo-mark-switch)
+
+Plug 'sickill/vim-pasta'
+
+Plug 'freitass/todo.txt-vim'
 call plug#end()
 " call orchestra#prelude()
 " call orchestra#set_tune('bubbletrouble')
 " call orchestra#set_tune('clackclack')
 
-let mapleader = "\<Space>"
 nnoremap <silent> <leader><f5> :e $MYVIMRC<CR>
 imap jk <esc>
 
@@ -270,7 +283,8 @@ augroup everything
   au FileType css,less,scss let b:ale_fixers = ['prettier']
 
   au FileType html,xml inoremap <buffer> <m-;> </<c-x><c-o>
-  au FileType xml   setlocal makeprg=xmllint\ -
+  au FileType html setlocal equalprg=tidy\ -indent\ -quiet\ --show-errors\ 0\ --tidy-mark\ no\ --show-body-only\ auto
+  au FileType xml setlocal makeprg=xmllint\ -
 
   autocmd FileType gitv nmap <buffer> <silent> <C-n> <Plug>(gitv-previous-commit)
   autocmd FileType gitv nmap <buffer> <silent> <C-p> <Plug>(gitv-next-commit)
@@ -299,25 +313,12 @@ nnoremap <leader>p "+p
 vnoremap <leader>p "+p
 vnoremap <leader>d "+d
 vnoremap <silent> y y`]
-vnoremap <silent> p p=`]
-nnoremap <silent> p p=`]
-
-nnoremap <m-n> :NERDTreeToggle<cr>
-nnoremap <m-s-n> :NERDTreeFind<cr>
-
-nnoremap <leader>nn :Note<space>
-nnoremap <leader>nr :RecentNotes<cr>
-nnoremap <leader>ns :SearchNotes<space>
+" vnoremap <silent> p p=`]
+" nnoremap <silent> p p=`]
 
 nnoremap <silent> <leader>w :lclose<cr>:w<cr>
 
-let g:UltiSnipsSnippetsDir = ['~/.config/nvim/UltiSnips/', './plugged/aws-vim/snips']
-let g:UltiSnipsExpandTrigger='<c-j>'
-
 inoremap <expr> <CR> (pumvisible() ? ncm2_ultisnips#expand_or("\<CR>", 'n') : "\<CR>")
-
-let g:UltiSnipsJumpForwardTrigger='<c-j>'
-let g:UltiSnipsJumpBackwardTrigger='<c-k>'
 
 if !exists('$TMUX')
   nnoremap <c-j> <c-w>j
@@ -352,6 +353,9 @@ nnoremap <leader><F2> :e ~/.projects.private.vim<cr>
 set runtimepath+=~/.config/nvim/plugged/vim-project/
 call project#rc('~/code')
 
+
+nnoremap dg3 :diffget //3<cr>
+nnoremap dg2 :diffget //2<cr>
 nnoremap <leader>gw :Gwrite<cr>
 nnoremap <leader>gs :Gstatus<cr>
 nnoremap <leader>gc :Gcommit<cr>
@@ -377,14 +381,13 @@ vnoremap <leader>] :%Subvert//g<left><left>
 filetype plugin indent on
 syntax on
 
-set tabstop=2
-set shiftwidth=2
 set scrolloff=5
 set shiftround
+set tabstop=4
+set shiftwidth=4
 set expandtab smarttab
-set cindent
+" set cindent
 set lazyredraw
-set modelines=2
 set synmaxcol=1000
 
 set ignorecase smartcase
@@ -481,9 +484,6 @@ cnoremap <C-b> <Left>
 cnoremap <C-f> <Right>
 cnoremap <M-b> <S-Left>
 cnoremap <M-f> <S-Right>
-
-nnoremap dg3 :diffget //3<cr>
-nnoremap dg2 :diffget //2<cr>
 
 " switch between files {{{
 " Parameters:
@@ -606,17 +606,6 @@ nnoremap <m-z> :ScratchPreview<cr>
 " '-- XXX completion (YYY)', 'match 1 of 2', 'The only match',
 set shortmess+=c
 
-let g:netrw_banner = 0
-let g:netrw_liststyle = 3
-let g:netrw_browse_split = 4
-let g:netrw_altv = 1
-let g:netrw_winsize = 25
-
-" highlight Normal ctermbg=NONE
-" highlight nonText ctermbg=NONE
-
-set nocursorline
-
 function! EditFtPluginFile(ft)
   exec ':e ~/.dotfiles/roles/neovim/files/ftplugin/'.a:ft.'.vim'
 endfunction
@@ -656,7 +645,7 @@ command! -bang -nargs=* Rg
       \           : fzf#vim#with_preview('right:50%:hidden', '?'),
       \   <bang>0)
 
-command! -bang -nargs=* Find call fzf#vim#grep('rg --column --line-number --no-heading --fixed-strings --colors "match:bg:yellow" --colors "match:fg:black" --colors "match:style:nobold" --colors "path:fg:green" --colors "path:style:bold" --colors "line:fg:yellow" --colors "line:style:bold" --smart-case  --no-ignore --hidden --follow --glob "!.git/*" --color "always" '.shellescape(<q-args>), 1, <bang>0)
+command! -bang -nargs=* Find call fzf#vim#grep('rg --column --line-number --no-heading --fixed-strings --no-ignore --hidden --smart-case  --colors "match:bg:yellow" --colors "match:fg:black" --colors "match:style:nobold" --colors "path:fg:green" --colors "path:style:bold" --colors "line:fg:yellow" --colors "line:style:bold" --glob "!.git/*" '.shellescape(<q-args>), 1, <bang>0)
 
 set grepprg=rg\ --vimgrep
 
@@ -686,12 +675,10 @@ function! NeatFoldText()
 endfunction
 set foldtext=NeatFoldText()
 
-" nord scheme adjustments
-hi Visual term=reverse cterm=reverse guibg=Grey
-hi Folded ctermfg=242
-hi Comment ctermfg=242
-
 let spellfile='~/.vim.spell'
 
+" wordwise upper line completion in insert mode
 inoremap <expr> <c-y> matchstr(getline(line('.')-1), '\%' . virtcol('.') . 'v\%(\k\+\\|.\)')
-let g:fzf_filemru_bufwrite=1
+
+nnoremap <leader>" ysiw"
+nnoremap <leader>' ysiw'
