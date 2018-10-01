@@ -19,6 +19,8 @@
     - mousepad
     - aria2
     - feh
+    - tidy
+    - dropbox
 
 - name: add apt-fast/stable repository
   apt_repository: repo="ppa:apt-fast/stable" state=present
@@ -27,3 +29,6 @@
 - name: install apt-fast
   become: yes
   package: name=apt-fast state=latest
+
+- name: install todotxt-machine
+  shell: "{{ ansible_env.HOME }}/.local/bin/pip install --user --upgrade todotxt-machine"
