@@ -97,6 +97,7 @@ alias gstash='git stash --include-untracked'
 alias gst='git status'
 alias ga='git add'
 alias gc='git commit -v'
+alias grp='git reset HEAD~'
 alias gca='git commit -v --amend'
 alias gb='git branch'
 alias gcb='git checkout -b'
@@ -116,6 +117,8 @@ alias gstaa='git stash apply'
 alias gfi='git fixup HEAD^'
 
 
+alias gbi='git branch -D $(git_current_branch)-integration;git branch $(git_current_branch)-integration $(git_current_branch)'
+alias gpi='git push $(git_current_branch)-integration'
 function git_current_branch() {
   local ref
   ref=$(command git symbolic-ref --quiet HEAD 2> /dev/null)
@@ -234,6 +237,11 @@ alias m='tmux attach-session -t local || tmux new-session -s local'
 
 alias gw="JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64 ./gradlew"
 
+alias t='todotxt-machine'
+
 function zdecode() {
   cat /tmp/base | sed -r 's/\\\\r\\\\n//g' | base64 -d | zlib -d > /tmp/base.json | n /tmp/base.json
 }
+source ~/.zsh_notifyosd.zsh
+
+# docker run -ti --rm mpepping/ponysay "Hello master!"
