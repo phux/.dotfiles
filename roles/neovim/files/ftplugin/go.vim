@@ -6,10 +6,11 @@ set foldnestmax=1
 " let g:ale_linters['go'] = ['gofmt', 'golangci-lint']
 let g:ale_linters['go'] = ['gofmt', 'gometalinter']
 let g:ale_go_gofmt_options='-s'
-" let g:ale_go_gometalinter_options='lint'
-let g:ale_go_gometalinter_options='--disable-all --enable goconst --enable gocyclo --enable golint --enable ineffassign --enable interfacer --enable maligned --enable megacheck --enable misspell --enable structcheck --enable unconvert --enable varcheck --enable vet --fast'
-" let g:ale_go_gometalinter_executable='zb'
-" let g:ale_linters['go'] = ['golint']
+let g:ale_go_gometalinter_options='--disable-all --enable goconst --enable gocyclo --enable golint --enable ineffassign --enable interfacer --enable maligned --enable megacheck --enable misspell --enable structcheck --enable unconvert --enable varcheck --enable vet'
+if IsOnBattery()
+  let g:ale_go_gometalinter_options='--disable-all --enable goconst --enable gocyclo --enable golint --enable ineffassign --enable interfacer --enable maligned --enable megacheck --enable misspell --enable structcheck --enable unconvert --enable varcheck --enable vet --fast'
+endif
+
 
 let g:cm_auto_popup=1
 
@@ -136,10 +137,6 @@ let g:tagbar_type_go = {
 let g:go_fmt_options = {
   \ 'gofmt': '-s',
   \ }
-
-if IsOnBattery()
-  let g:ale_go_gometalinter_options='--disable-all --enable goconst --enable gocyclo --enable golint --enable ineffassign --enable interfacer --enable maligned --enable megacheck --enable misspell --enable structcheck --enable unconvert --enable varcheck --enable vet --fast'
-endif
 
 let g:go_def_mode = 'godef'
 " let g:go_auto_sameids = 1 " too confusing
