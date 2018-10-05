@@ -3,12 +3,16 @@ set foldenable
 set foldmethod=syntax
 set foldlevel=1
 set foldnestmax=1
-" let g:ale_linters['go'] = ['gofmt', 'golangci-lint']
-let g:ale_linters['go'] = ['gofmt', 'gometalinter']
+let g:ale_linters['go'] = ['gofmt', 'golangci-lint']
+" use ~/.golangci.yml
+let g:ale_go_golangci_lint_options= '-D typecheck'
+" let g:ale_linters['go'] = ['gofmt', 'gometalinter']
 let g:ale_go_gofmt_options='-s'
-let g:ale_go_gometalinter_options='--disable-all --enable goconst --enable gocyclo --enable golint --enable ineffassign --enable interfacer --enable maligned --enable megacheck --enable misspell --enable structcheck --enable unconvert --enable varcheck --enable vet'
+let g:ale_go_gometalinter_options='--fast'
+" let g:ale_go_gometalinter_options='--disable-all --enable goconst --enable gocyclo --enable golint --enable ineffassign --enable interfacer --enable maligned --enable megacheck --enable misspell --enable structcheck --enable unconvert --enable varcheck --enable vet'
 if IsOnBattery()
-  let g:ale_go_gometalinter_options='--disable-all --enable goconst --enable gocyclo --enable golint --enable ineffassign --enable interfacer --enable maligned --enable megacheck --enable misspell --enable structcheck --enable unconvert --enable varcheck --enable vet --fast'
+    let g:ale_go_golangci_lint_options='--fast'
+    let g:ale_go_gometalinter_options='--disable-all --enable goconst --enable gocyclo --enable golint --enable ineffassign --enable interfacer --enable maligned --enable megacheck --enable misspell --enable structcheck --enable unconvert --enable varcheck --enable vet --fast'
 endif
 
 
@@ -81,6 +85,7 @@ function! GoExtractVariable()
 endfunction
 
 let g:go_list_type = 'locationlist'
+let g:go_list_type = ''
 let g:go_bin_path = expand('~/code/go/bin')
 " Enable syntax highlighting per default
 let g:go_highlight_types = 1

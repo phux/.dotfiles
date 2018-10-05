@@ -21,6 +21,7 @@ command! PU PlugUpdate | PlugUpgrade
 call plug#begin('~/.config/nvim/plugged')
 
 Plug 'sheerun/vim-polyglot', {'do': './build'}
+let g:polyglot_disabled = ['php']
 Plug 'tpope/vim-commentary', {'on': 'Commentary'}
 
 Plug 'ap/vim-buftabline'
@@ -37,9 +38,9 @@ let g:AutoPairsShortcutJump = ''
 let g:AutoPairsShortcutToggle = ''
 let g:AutoPairsMapCR=0
 
-Plug 'andymass/vim-matchup'
-let g:matchup_matchparen_status_offscreen=0
-let g:matchup_transmute_enabled = 1
+" Plug 'andymass/vim-matchup'
+" let g:matchup_matchparen_status_offscreen=0
+" let g:matchup_transmute_enabled = 1
 
 Plug 'amiorin/vim-project'
 
@@ -53,8 +54,8 @@ let g:NERDTreeWinSize = 40
 let g:NERDTreeMinimalUI=1
 let g:NERDTreeCascadeSingleChildDir=0
 let g:NERDTreeAutoDeleteBuffer=1
-nnoremap <m-n> :NERDTreeToggle<cr>
-nnoremap <m-s-n> :NERDTreeFind<cr>
+nnoremap <leader>n :NERDTreeToggle<cr>
+nnoremap <leader>N :NERDTreeFind<cr>
 
 Plug 'Lokaltog/vim-easymotion'
 Plug 'majutsushi/tagbar', {'on': 'TagbarToggle'}
@@ -68,6 +69,7 @@ Plug 'ncm2/ncm2-ultisnips'
 Plug 'ncm2/ncm2-go', {'for': 'go'}
 Plug 'ncm2/ncm2-cssomni', {'for': 'css'}
 Plug 'phpactor/ncm2-phpactor', {'for': 'php'}
+
 " Plug 'yuki-ycino/ncm2-dictionary'
 Plug 'ncm2/ncm2-tern',  {'do': 'npm install', 'for': 'javascript'}
 Plug 'ncm2/nvim-typescript', {'do': './install.sh', 'for': 'typescript'}
@@ -119,7 +121,7 @@ Plug 'tmux-plugins/vim-tmux'
 
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
-Plug 'tweekmonster/fzf-filemru'
+Plug 'tweekmonster/fzf-filemru', {'on': ['FilesMru', 'ProjectMru']}
 
 Plug 'Shougo/echodoc.vim'
 
@@ -142,8 +144,8 @@ Plug 'plasticboy/vim-markdown', {'for': ['markdown', 'notes'], 'as': 'vim-markdo
 " let g:LanguageClient_signColumnAlwaysOn = 0
 " let g:LanguageClient_selectionUI = 'fzf'
 
-Plug 'maksimr/vim-jsbeautify'
-map <c-f> :call JsBeautify()<cr>
+Plug 'maksimr/vim-jsbeautify', {'for': ['json']}
+nnoremap <c-f> :call JsBeautify()<cr>
 
 Plug 'henrik/vim-indexed-search'
 Plug 'romainl/vim-cool'
@@ -151,7 +153,7 @@ Plug 'wincent/ferret', {'on': 'Ack'}
 let g:FerretHlsearch=1
 
 Plug 'romainl/vim-qf'
-Plug 'godlygeek/tabular'
+Plug 'godlygeek/tabular', {'for': 'cucumber'}
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-abolish'
@@ -171,22 +173,22 @@ Plug 'tpope/vim-apathy'
 
 Plug 'tpope/vim-rhubarb'
 
-Plug 'timeyyy/orchestra.nvim'
-Plug 'timeyyy/clackclack.symphony'
-Plug 'timeyyy/bubbletrouble.symphony'
+" Plug 'timeyyy/orchestra.nvim'
+" Plug 'timeyyy/clackclack.symphony'
+" Plug 'timeyyy/bubbletrouble.symphony'
 
-Plug 'arcticicestudio/nord-vim'
-hi Visual term=reverse cterm=reverse guibg=Grey
-hi Folded ctermfg=242
-hi Comment ctermfg=242
+" Plug 'arcticicestudio/nord-vim'
+" hi Visual term=reverse cterm=reverse guibg=Grey
+" hi Folded ctermfg=242
+" hi Comment ctermfg=242
 
 Plug 'xolox/vim-notes', {'on': ['SearchNotes', 'Note', 'RecentNotes']} | Plug 'xolox/vim-misc'
 let g:notes_directories = ['~/Dropbox/notes']
 let g:notes_suffix = '.md'
 let g:notes_smart_quotes = 0
-nnoremap <leader>nn :Note<space>
-nnoremap <leader>nr :RecentNotes<cr>
-nnoremap <leader>ns :SearchNotes<space>
+" nnoremap <leader>nn :Note<space>
+" nnoremap <leader>nr :RecentNotes<cr>
+" nnoremap <leader>ns :SearchNotes<space>
 
 let g:simple_todo_map_keys = 0
 Plug 'vitalk/vim-simple-todo'
@@ -199,7 +201,19 @@ nmap <m-space> <Plug>(simple-todo-mark-switch)
 
 Plug 'sickill/vim-pasta'
 
-Plug 'freitass/todo.txt-vim'
+" Plug 'freitass/todo.txt-vim'
+Plug 'dbeniamine/todo.txt-vim', {'for': 'txt'}
+let g:Todo_txt_prefix_creation_date=1
+
+Plug 'morhetz/gruvbox'
+
+" enable it occasionally to get rid of bad habits
+" Plug 'phux/vim-hardtime'
+" let g:hardtime_default_on = 1
+"  let g:hardtime_motion_with_count_resets = 1
+" let g:hardtime_ignore_quickfix = 1
+" let g:hardtime_allow_different_key = 1
+
 call plug#end()
 " call orchestra#prelude()
 " call orchestra#set_tune('bubbletrouble')
@@ -209,12 +223,14 @@ nnoremap <silent> <leader><f5> :e $MYVIMRC<CR>
 imap jk <esc>
 
 set t_Co=256
-" color deus
-color nord
+set background=dark
+
+" color gruvbox
+color deus
+" color nord
 
 " \ 'colorscheme': 'nord',
 let g:lightline = {
-  \ 'colorscheme': 'nord',
       \ 'active': {
       \   'left': [ [ 'mode', 'paste' ],
       \             [ 'gitbranch', 'readonly', 'filename', 'modified' ] ]
@@ -281,6 +297,12 @@ augroup everything
   au BufNewFile,BufRead composer.lock set ft=json
 
   au FileType css,less,scss let b:ale_fixers = ['prettier']
+
+  au filetype todo setlocal omnifunc=todo#Complete
+  " Auto complete projects
+  au filetype todo imap <buffer> + +<C-X><C-O>
+  " Auto complete contexts
+  "au filetype todo imap <buffer> @ @<C-X><C-O>
 
   au FileType html,xml inoremap <buffer> <m-;> </<c-x><c-o>
   au FileType html setlocal equalprg=tidy\ -indent\ -quiet\ --show-errors\ 0\ --tidy-mark\ no\ --show-body-only\ auto
@@ -388,7 +410,12 @@ set shiftwidth=4
 set expandtab smarttab
 " set cindent
 set lazyredraw
-set synmaxcol=1000
+" set nocursorcolumn
+" set nocursorline
+" set norelativenumber
+" set synmaxcol=200
+" syntax sync minlines=100
+" syntax sync maxlines=200
 
 set ignorecase smartcase
 set hlsearch
@@ -645,7 +672,7 @@ command! -bang -nargs=* Rg
       \           : fzf#vim#with_preview('right:50%:hidden', '?'),
       \   <bang>0)
 
-command! -bang -nargs=* Find call fzf#vim#grep('rg --column --line-number --no-heading --fixed-strings --no-ignore --hidden --smart-case  --colors "match:bg:yellow" --colors "match:fg:black" --colors "match:style:nobold" --colors "path:fg:green" --colors "path:style:bold" --colors "line:fg:yellow" --colors "line:style:bold" --glob "!.git/*" '.shellescape(<q-args>), 1, <bang>0)
+command! -bang -nargs=* Find call fzf#vim#grep('rg --column --line-number --no-heading --fixed-strings --no-ignore --hidden --smart-case  --color=always --colors "match:bg:yellow" --colors "match:fg:black" --colors "match:style:nobold" --colors "path:fg:green" --colors "path:style:bold" --colors "line:fg:yellow" --colors "line:style:bold" --glob "!.git/*" '.shellescape(<q-args>), 1, <bang>0)
 
 set grepprg=rg\ --vimgrep
 
@@ -680,5 +707,6 @@ let spellfile='~/.vim.spell'
 " wordwise upper line completion in insert mode
 inoremap <expr> <c-y> matchstr(getline(line('.')-1), '\%' . virtcol('.') . 'v\%(\k\+\\|.\)')
 
+set viminfo='100,f1
 nnoremap <leader>" ysiw"
 nnoremap <leader>' ysiw'

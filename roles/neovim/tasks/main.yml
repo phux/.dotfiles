@@ -7,7 +7,7 @@
 
 - name: neovim ppa
   become: yes
-  apt_repository: repo='ppa:neovim-ppa/unstable' state=present
+  apt_repository: repo='ppa:neovim-ppa/stable' state=present
 
 - name: install neovim
   become: yes

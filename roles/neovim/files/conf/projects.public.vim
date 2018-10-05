@@ -10,9 +10,6 @@ function! Zf1(...) abort
     nnoremap <silent> <m-a> :call SwitchBetweenFiles('php', 'tests/', 'library/', 'Test')<cr>
     nnoremap <silent> <leader>tsa <c-w>v:call SwitchBetweenFiles('php', 'tests/', 'library/', 'Test')<cr>
 
-    " let g:cm_auto_popup=0 " disable nvim-completion-manager
-    " call deoplete#enable()
-
     let g:ale_fixers['php'] = []
     let g:ale_linters['php'] = ['php', 'phpmd', 'phpcs']
     let g:ale_php_phpcbf_standard='Symfony'
