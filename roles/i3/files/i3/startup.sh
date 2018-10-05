@@ -1,6 +1,6 @@
 #!/bin/sh
 
-feh --bg-max /home/jm/Pictures/success.jpg
+feh --bg-max /home/janmolowitz/Pictures/nevergood.jpg
 
 xrdb ~/.Xresources
 

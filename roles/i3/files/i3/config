@@ -190,28 +190,27 @@ bindsym Print exec scrot '%Y-%m-%d-%T_$wx$h_scrot.png' -e 'mv $f ~/Pictures/scre
 
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
-bar {
-    font pango:DejaVu Sans Mono 10
-    colors {
-        # Whole color settings
-        background #3b4252
-        statusline #d8dee9
-        separator  #4c566a
+# bar {
+#     font pango:DejaVu Sans Mono 10
+#     colors {
+#         # Whole color settings
+#         background #3b4252
+#         statusline #d8dee9
+#         separator  #4c566a
 
-        # Type             border  background font
-        focused_workspace  #7bf473 #5e81ac #d8dee9
-        active_workspace   #333333 #434c5e #d8dee9
-        inactive_workspace #333333 #2e3440 #888888
-        urgent_workspace   #aa0000 #990000 #d8dee9
-    }
+#         # Type             border  background font
+#         focused_workspace  #7bf473 #5e81ac #d8dee9
+#         active_workspace   #333333 #434c5e #d8dee9
+#         inactive_workspace #333333 #2e3440 #888888
+#         urgent_workspace   #aa0000 #990000 #d8dee9
+#     }
 
-    position top
-    status_command i3status -c ~/.i3/i3status.conf
-}
+#     position top
+#     status_command i3status -c ~/.i3/i3status.conf
+# }
 
 # changed these colours for readability
 # class border backgr. text
-# client.focused #61af5b #61af5b #ffffff
 client.focused #a84a28 #ce7e61 #ffffff
 client.unfocused #333333 #333333 #ffffff
 
@@ -239,3 +238,59 @@ exec --no-startup-id nm-applet
 exec --no-startup-id pasystray
 
 exec --no-startup-id sh ~/.i3/startup.sh
+
+#######
+#THEME#
+#######
+
+# set primary gruvbox colorscheme colors
+set $bg #282828
+set $red #cc241d
+set $green #98971a
+set $yellow #d79921
+set $blue #458588
+set $purple #b16286
+set $aqua #689d68
+set $gray #a89984
+set $darkgray #1d2021
+
+# font used by i3 for titles and bars
+font pango:Hack 9
+
+#start of bar section
+bar {
+    position top
+    colors {
+        # bar background color
+        background $bg
+        # text color used for blocks that do not have a color specified.
+        statusline $gray
+        # workspaces section
+        #                    border  backgr. text
+        focused_workspace    $aqua $aqua $darkgray
+        inactive_workspace   $darkgray $darkgray $yellow
+        active_workspace     $darkgray $darkgray $yellow
+        urgent_workspace     $red $red $bg
+    }
+    status_command i3status -c ~/.i3/i3status.conf
+}
+#end of bar section
+
+#start of window title bars & borders section
+
+# green gruvbox
+# class                 border|backgr|text|indicator|child_border
+#client.focused          $green $green $darkgray $purple $darkgray
+#client.focused_inactive $darkgray $darkgray $yellow $purple $darkgray
+#client.unfocused        $darkgray $darkgray $yellow $purple $darkgray
+#client.urgent           $red $red $white $red $red
+
+# blue gruvbox
+# class                 border|backgr|text|indicator|child_border
+client.focused          $blue $blue $darkgray $purple $darkgray
+client.focused #a84a28 #ce7e61 #ffffff
+client.focused_inactive $darkgray $darkgray $yellow $purple $darkgray
+client.unfocused        $darkgray $darkgray $yellow $purple $darkgray
+client.urgent           $red $red $white $red $red
+
+#end of window title bars & borders section
