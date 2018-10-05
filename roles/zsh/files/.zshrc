@@ -237,7 +237,9 @@ alias m='tmux attach-session -t local || tmux new-session -s local'
 
 alias gw="JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64 ./gradlew"
 
-alias t='todotxt-machine'
+alias tm='todotxt-machine'
+alias tn='n ~/Dropbox/todo/todo.txt'
+alias tnw='n ~/Dropbox/todo/work/todo.txt'
 
 function zdecode() {
   cat /tmp/base | sed -r 's/\\\\r\\\\n//g' | base64 -d | zlib -d > /tmp/base.json | n /tmp/base.json
@@ -245,3 +247,6 @@ function zdecode() {
 source ~/.zsh_notifyosd.zsh
 
 # docker run -ti --rm mpepping/ponysay "Hello master!"
+export TODOTXT_DEFAULT_ACTION=ls
+alias t='todo.sh -d /home/janmolowitz/todo.cfg'
+alias tw='todo.sh -d /home/janmolowitz/todo.work.cfg'
