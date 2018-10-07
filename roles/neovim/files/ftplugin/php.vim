@@ -7,8 +7,8 @@ augroup END
 
 let g:php_folding = 1
 set foldmethod=syntax
-set foldlevel=0
-set foldnestmax=1
+set foldlevel=1
+set foldnestmax=2
 set nofoldenable
 
 setlocal tabstop=4 shiftwidth=4
@@ -199,7 +199,9 @@ if !exists("*PHPModify")
   function! PHPModify(transformer)
       :w
       normal! ggdG
-      execute "read !".g:phpactor_executable." class:transform ".expand('%').' --transform='.a:transformer
+      let l:cmd = "read !".g:phpactor_executable." class:transform ".expand('%').' --transform='.a:transformer
+      execute l:cmd
+      execute "! '".l:cmd."' > /tmp/log"
       normal! ggdd
       :w
   endfunction

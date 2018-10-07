@@ -3,13 +3,17 @@ set foldenable
 set foldmethod=syntax
 set foldlevel=1
 set foldnestmax=1
+let g:ale_linters['go'] = ['gofmt', 'zb']
 let g:ale_linters['go'] = ['gofmt', 'golangci-lint']
+" let g:ale_linters['go'] = ['gofmt', 'gometalinter']
+let g:go_gometalinter_lint_package=1
 " use ~/.golangci.yml
-let g:ale_go_golangci_lint_options= '-D typecheck'
+" let g:ale_go_golangci_lint_options= '-D typecheck'
+let g:ale_go_golangci_lint_options= ''
 " let g:ale_linters['go'] = ['gofmt', 'gometalinter']
 let g:ale_go_gofmt_options='-s'
 let g:ale_go_gometalinter_options='--fast'
-" let g:ale_go_gometalinter_options='--disable-all --enable goconst --enable gocyclo --enable golint --enable ineffassign --enable interfacer --enable maligned --enable megacheck --enable misspell --enable structcheck --enable unconvert --enable varcheck --enable vet'
+let g:ale_go_gometalinter_options='--disable-all --enable goconst --enable gocyclo --enable golint --enable ineffassign --enable interfacer --enable maligned --enable megacheck --enable misspell --enable structcheck --enable unconvert --enable varcheck --enable vet'
 if IsOnBattery()
     let g:ale_go_golangci_lint_options='--fast'
     let g:ale_go_gometalinter_options='--disable-all --enable goconst --enable gocyclo --enable golint --enable ineffassign --enable interfacer --enable maligned --enable megacheck --enable misspell --enable structcheck --enable unconvert --enable varcheck --enable vet --fast'

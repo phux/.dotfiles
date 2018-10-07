@@ -1,4 +1,4 @@
-set encoding=utf-8
+set encoding=UTF-8
 scriptencoding utf-8
 
 if has('vim_starting')
@@ -84,7 +84,6 @@ let g:pymode_folding = 0
 let g:pymode_python = 'python3'
 let g:pymode_lint = 0
 
-
 Plug 'w0rp/ale'
 nnoremap <silent> <F8> :ALEDisableBuffer<cr>
 nnoremap <silent> <leader><F8> :ALEEnableBuffer<cr>
@@ -100,7 +99,6 @@ let g:ale_fixers = {
   \ 'go': ['gofmt', 'goimports']
   \}
 let g:ale_fix_on_save = 1
-" tidy\ -indent\ -quiet\ --show-errors\ 0\ --tidy-mark\ no\ --show-body-only\ auto
 
 Plug 'phux/php-doc-modded', {'for': 'php'}
 Plug 'sahibalejandro/vim-php', {'for': ['php', 'yaml']}
@@ -110,6 +108,7 @@ Plug 'adoy/vim-php-refactoring-toolbox', {'for': 'php'}
 Plug 'phpactor/phpactor', {'for': 'php', 'do': ':call phpactor#Update()'}
 Plug 'lvht/phpcd.vim', { 'for': 'php', 'do': 'composer install' }
 
+let g:go_version_warning=0
 Plug 'fatih/vim-go', {'for': 'go', 'do': ':GoInstallBinaries'}
 Plug 'sebdah/vim-delve', {'for': 'go'}
 Plug 'godoctor/godoctor.vim', {'for': 'go'}
@@ -132,23 +131,21 @@ Plug 'suan/vim-instant-markdown', {'for': ['markdown', 'notes']}
 Plug 'gabrielelana/vim-markdown', {'for': ['markdown', 'notes']}
 Plug 'junegunn/goyo.vim', {'for': ['markdown', 'notes']}
 Plug 'plasticboy/vim-markdown', {'for': ['markdown', 'notes'], 'as': 'vim-markdown-plasticboy'}
-" Plug 'autozimu/LanguageClient-neovim', {
-"     \ 'do': 'bash install.sh',
-"     \ }
-" let g:LanguageClient_serverCommands = {
-"   \ 'typescript': ['javascript-typescript-stdio'],
-"   \ 'javascript': ['javascript-typescript-stdio']
-"   \ }
-" let g:LanguageClient_diagnosticsEnable  = 0
-" let g:LanguageClient_diagnosticsList = ''
-" let g:LanguageClient_signColumnAlwaysOn = 0
-" let g:LanguageClient_selectionUI = 'fzf'
 
 Plug 'maksimr/vim-jsbeautify', {'for': ['json']}
 nnoremap <c-f> :call JsBeautify()<cr>
 
-Plug 'henrik/vim-indexed-search'
+" Plug 'henrik/vim-indexed-search'
 Plug 'romainl/vim-cool'
+let g:CoolTotalMatches = 1
+Plug 'haya14busa/vim-asterisk'
+Plug 'rhysd/clever-f.vim'
+let g:clever_f_smart_case=1
+let g:clever_f_across_no_line=0
+map ; <Plug>(clever-f-repeat-forward)
+map , <Plug>(clever-f-repeat-back)
+let g:clever_f_timeout_ms=1000
+
 Plug 'wincent/ferret', {'on': 'Ack'}
 let g:FerretHlsearch=1
 
@@ -172,10 +169,6 @@ Plug 'itchyny/lightline.vim'
 Plug 'tpope/vim-apathy'
 
 Plug 'tpope/vim-rhubarb'
-
-" Plug 'timeyyy/orchestra.nvim'
-" Plug 'timeyyy/clackclack.symphony'
-" Plug 'timeyyy/bubbletrouble.symphony'
 
 " Plug 'arcticicestudio/nord-vim'
 " hi Visual term=reverse cterm=reverse guibg=Grey
@@ -214,6 +207,11 @@ Plug 'morhetz/gruvbox'
 " let g:hardtime_ignore_quickfix = 1
 " let g:hardtime_allow_different_key = 1
 
+Plug 'mhinz/vim-startify'
+" Plug 'timeyyy/orchestra.nvim'
+" Plug 'timeyyy/clackclack.symphony'
+" Plug 'timeyyy/bubbletrouble.symphony'
+
 call plug#end()
 " call orchestra#prelude()
 " call orchestra#set_tune('bubbletrouble')
@@ -221,6 +219,10 @@ call plug#end()
 
 nnoremap <silent> <leader><f5> :e $MYVIMRC<CR>
 imap jk <esc>
+
+
+
+
 
 set t_Co=256
 set background=dark
@@ -231,14 +233,15 @@ color deus
 
 " \ 'colorscheme': 'nord',
 let g:lightline = {
-      \ 'active': {
-      \   'left': [ [ 'mode', 'paste' ],
-      \             [ 'gitbranch', 'readonly', 'filename', 'modified' ] ]
-      \ },
-      \ 'component_function': {
-      \   'gitbranch': 'fugitive#head'
-      \ },
-      \ }
+            \ 'colorscheme': 'deus',
+            \ 'active': {
+            \   'left': [ [ 'mode', 'paste' ],
+            \             [ 'gitbranch', 'readonly', 'filename', 'modified' ] ]
+            \ },
+            \ 'component_function': {
+            \   'gitbranch': 'fugitive#head'
+            \ },
+            \ }
 
 set number
 set relativenumber
@@ -392,7 +395,10 @@ nmap <Leader>L <Plug>(easymotion-bd-jk)
 nmap <Leader>F <Plug>(easymotion-bd-w)
 nmap <Leader>f <Plug>(easymotion-overwin-w)
 nmap  <Leader>b <Plug>(easymotion-b)
+" nmap s <Plug>(easymotion-s2)
 let g:EasyMotion_smartcase = 1
+let g:EasyMotion_use_smartsign_us = 1 " US layout
+nmap s <Plug>(easymotion-overwin-f)
 
 nnoremap <leader>c :Commentary<cr>
 vnoremap <leader>c :Commentary<cr>
@@ -683,11 +689,11 @@ let g:sh_fold_enabled= 7
 let g:ruby_fold = 1
 set foldmethod=indent
 set foldlevel=1
-set foldnestmax=1
+set foldnestmax=2
+set foldlevelstart=99
 
-nnoremap ,, za
 " "Refocus" folds
-nnoremap ,z zMzvzz
+nnoremap <leader>z zMzvzz
 nnoremap <F9> zi
 
 function! NeatFoldText()
@@ -700,13 +706,12 @@ function! NeatFoldText()
   let foldtextlength = strlen(substitute(foldtextstart . foldtextend, '.', 'x', 'g')) + &foldcolumn
   return foldtextstart . repeat(foldchar, winwidth(0)-foldtextlength) . foldtextend
 endfunction
-set foldtext=NeatFoldText()
+" set foldtext=NeatFoldText()
 
 let spellfile='~/.vim.spell'
 
 " wordwise upper line completion in insert mode
 inoremap <expr> <c-y> matchstr(getline(line('.')-1), '\%' . virtcol('.') . 'v\%(\k\+\\|.\)')
 
+" keep marks
 set viminfo='100,f1
-nnoremap <leader>" ysiw"
-nnoremap <leader>' ysiw'

@@ -1,2 +1,2 @@
 set foldnestmax=20
-set foldlevel=2
+set foldlevel=1
