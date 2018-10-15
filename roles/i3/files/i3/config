@@ -62,10 +62,10 @@ bindsym $mod+l focus right
 bindsym $mod+h focus left
 
 # Move focused window
-bindsym $mod+Shift+J move down
-bindsym $mod+Shift+K move up
-bindsym $mod+Shift+L move right
-bindsym $mod+Shift+H move left
+bindsym $mod+Shift+J move down 50px
+bindsym $mod+Shift+K move up 50px
+bindsym $mod+Shift+L move right 50px
+bindsym $mod+Shift+H move left 50px
 
 # Resize Containers, Vim-style
 bindsym $mod+Control+j resize grow height 15 px or 15 ppt
