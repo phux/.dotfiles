@@ -2,7 +2,7 @@ set encoding=UTF-8
 scriptencoding utf-8
 
 if has('vim_starting')
-  let g:qf_loc_toggle_binds = 0
+  " let g:qf_loc_toggle_binds = 0
   set nofoldenable
 endif
 
@@ -61,8 +61,7 @@ let g:pymode_lint = 0
 
 "" w0rp/ale
 Plug 'w0rp/ale'
-nnoremap <silent> <F8> :ALEDisableBuffer<cr>
-nnoremap <silent> <leader><F8> :ALEEnableBuffer<cr>
+nnoremap <silent> <leader><F8> :ALEToggleBuffer<cr>
 let g:ale_lint_on_text_changed = 'never'
 let g:ale_lint_on_enter = 0
 let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
@@ -71,8 +70,11 @@ let g:ale_list_window_size = 5
 let g:ale_fixers = {
   \ '*': ['remove_trailing_lines', 'trim_whitespace'],
   \ 'vim': ['remove_trailing_lines', 'trim_whitespace'],
-  \ 'php': ['phpcbf', 'php_cs_fixer'],
-  \ 'go': ['gofmt', 'goimports']
+  \ 'php': ['phpcbf', 'php_cs_fixer', 'remove_trailing_lines', 'trim_whitespace'],
+  \ 'go': ['gofmt', 'goimports'],
+  \ 'notes': ['remove_trailing_lines', 'trim_whitespace'],
+  \ 'markdown': ['remove_trailing_lines', 'trim_whitespace'],
+  \ 'notes.markdown': ['remove_trailing_lines', 'trim_whitespace']
   \}
 " \ 'json': ['fixjson', 'prettier'],
 let g:ale_fix_on_save = 1
@@ -114,7 +116,7 @@ Plug 'ap/vim-buftabline'
 Plug 'reedes/vim-lexical', {'for': ['text', 'markdown', 'gitcommit', 'notes']}
 let g:mkdp_path_to_chrome = 'firefox'
 Plug 'iamcco/markdown-preview.vim', {'for': ['markdown', 'notes']}
-Plug 'gabrielelana/vim-markdown', {'for': ['markdown', 'notes']}
+" Plug 'gabrielelana/vim-markdown', {'for': ['markdown', 'notes']}
 " Plug 'junegunn/goyo.vim', {'for': ['markdown', 'notes']}
 Plug 'plasticboy/vim-markdown', {'for': ['markdown', 'notes'], 'as': 'vim-markdown-plasticboy'}
 
@@ -142,6 +144,7 @@ let g:NERDTreeCascadeSingleChildDir=0
 let g:NERDTreeAutoDeleteBuffer=1
 nnoremap <leader>n :NERDTreeToggle<cr>
 nnoremap <leader>N :NERDTreeFind<cr>
+Plug 'justinmk/vim-dirvish'
 
 Plug 'wellle/targets.vim'
 
@@ -181,6 +184,10 @@ let g:notes_smart_quotes = 0
 let g:pad#dir = '~/Dropbox/notes/'
 let g:pad#set_mappings=0
 Plug 'fmoralesc/vim-pad', {'branch': 'devel'}
+Plug 'mtth/scratch.vim', {'on' : 'ScratchPreview'}
+let g:scratch_persistence_file = '.scratch.vim'
+nnoremap <m-z> :Scratch<cr>
+
 
 "" todo
 """ vim-simple-todo
@@ -274,8 +281,8 @@ augroup everything
 
   " au BufWritePost * silent! !eval '[ -f ".git/hooks/ctags" ] && .git/hooks/ctags' &
 
-  au BufWritePost *.go silent! GoBuild -i
-augroup END
+  au BufWritePost *.go silent! GoBuild! -i
+
 
 "" Nvim
 augroup nvim
@@ -390,7 +397,8 @@ let g:fzf_commits_log_options = '--graph --color=always --format="%C(auto)%h%d %
 
 nnoremap <leader><tab> :Buffers<cr>
 nnoremap <leader><Enter> :Buffers<cr>
-nnoremap <leader>, :FilesMru --tiebreak=end<cr>
+" nnoremap <leader>, :FilesMru --tiebreak=end<cr>
+nnoremap <leader>, :FilesMru --tiebreak=index<cr>
 nnoremap <leader>. :FZFAllFiles<cr>
 nnoremap <leader>d :BTags<cr>
 nnoremap <leader>D :BTags <C-R><C-W><cr>
@@ -473,11 +481,11 @@ nnoremap <leader>tn :TestNearest<cr>
 nnoremap <leader>tf :TestFile<cr>
 nnoremap <silent> <leader>tl :TestLast<CR>
 nnoremap <silent> <leader>tv :TestVisit<CR>
-" let test#strategy='neovim'
+let test#strategy='neovim'
 
 "" qf/loc list toggle
-nmap <c-p> <Plug>(qf_loc_previous)
-nmap <c-n> <Plug>(qf_loc_next)
+nmap <silent> <c-p> :cp<cr>
+nmap <silent> <c-n> :cn<cr>
 let g:qf_loc_toggle_binds = 0
 function! ToggleQfLocListBinds()
   if g:qf_loc_toggle_binds == 1
@@ -520,7 +528,7 @@ function! s:align()
 endfunction
 
 "" format html (each tag on it's own line)
-nnoremap <leader><F3> :%s/<[^>]*>/\r&\r/g<cr>gg=G:g/^$/d<cr><leader>
+" nnoremap <leader><F3> :%s/<[^>]*>/\r&\r/g<cr>gg=G:g/^$/d<cr><leader>
 
 "" cmode terminal like mappings
 cnoremap <C-a> <Home>
@@ -575,8 +583,8 @@ endfunction
 function! EditFtPluginFile(ft)
   exec ':e ~/.dotfiles/roles/neovim/files/ftplugin/'.a:ft.'.vim'
 endfunction
-nnoremap <F12> :call EditFtPluginFile(&filetype)<cr>
-nnoremap <leader><F12> :call EditFtPluginFile('')<left><left>
+nnoremap <F4> :call EditFtPluginFile(&filetype)<cr>
+nnoremap <F3> :call EditFtPluginFile('')<left><left>
 
 "" gundo
 nnoremap <m-u> :GundoToggle<CR>
@@ -594,8 +602,8 @@ endfunction
 nnoremap <silent> <leader><f5> :e $MYVIMRC<CR>
 imap jk <esc>
 
-nnoremap <silent> <f9> :MarkdownPreview<cr>
-nnoremap <silent> <s-f9> :MarkdownStop<cr>
+" nnoremap <silent> <f9> :MarkdownPreview<cr>
+" nnoremap <silent> <s-f9> :MarkdownStop<cr>
 
 """""""""""""
 "  Folding  "
@@ -708,9 +716,6 @@ set diffopt=vertical,filler
 
 set confirm
 
-let g:scratch_persistence_file = '.scratch.vim'
-nnoremap <m-z> :ScratchPreview<cr>
-
 " don't give |ins-completion-menu| messages.  For example,
 " '-- XXX completion (YYY)', 'match 1 of 2', 'The only match',
 set shortmess+=c
@@ -778,3 +783,8 @@ function! IsOnBattery()
   " might be AC instead of ACAD on your machine
   return readfile('/sys/class/power_supply/ACAD/online') == ['0']
 endfunction
+
+hi GoDebugBreakpoint term=standout ctermbg=117 ctermfg=0 guibg=#BAD4F5  guifg=Black
+hi GoDebugCurrent term=reverse
+  \ ctermbg=7 ctermfg=0
+  \ guibg=DarkBlue guifg=White

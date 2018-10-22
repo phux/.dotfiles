@@ -5,20 +5,13 @@ set foldlevel=1
 set foldnestmax=1
 let g:ale_linters['go'] = ['gofmt', 'zb']
 let g:ale_linters['go'] = ['gofmt', 'golangci-lint']
-" let g:ale_linters['go'] = ['gofmt', 'gometalinter']
-let g:go_gometalinter_lint_package=1
-" use ~/.golangci.yml
-" let g:ale_go_golangci_lint_options= '-D typecheck'
 let g:ale_go_golangci_lint_options= ''
-" let g:ale_linters['go'] = ['gofmt', 'gometalinter']
+let g:go_golangci_lint_package=1
 let g:ale_go_gofmt_options='-s'
-let g:ale_go_gometalinter_options='--fast'
-let g:ale_go_gometalinter_options='--disable-all --enable goconst --enable gocyclo --enable golint --enable ineffassign --enable interfacer --enable maligned --enable megacheck --enable misspell --enable structcheck --enable unconvert --enable varcheck --enable vet'
+" let g:ale_go_gometalinter_options='--disable-all --enable goconst --enable gocyclo --enable golint --enable ineffassign --enable interfacer --enable maligned --enable megacheck --enable misspell --enable structcheck --enable unconvert --enable varcheck --enable vet'
 if IsOnBattery()
-    let g:ale_go_golangci_lint_options='--fast'
-    let g:ale_go_gometalinter_options='--disable-all --enable goconst --enable gocyclo --enable golint --enable ineffassign --enable interfacer --enable maligned --enable megacheck --enable misspell --enable structcheck --enable unconvert --enable varcheck --enable vet --fast'
+    " let g:ale_go_golangci_lint_options='--fast'
 endif
-
 
 let g:cm_auto_popup=1
 
@@ -44,7 +37,7 @@ nnoremap <buffer> <silent> <m-a> :GoAlternate!<cr>
 nnoremap <buffer> <m-c> :GoCoverageToggle<cr>
 
 " disable vet as before testing
-nnoremap <buffer> <m-f> :GoTest!<cr>
+nnoremap <buffer> <leader>tt :GoTest!<cr>
 
 nnoremap <buffer> <m-m> :GoMetaLinter<cr>
 nnoremap <buffer> <c-s> :GoFmt<cr>
@@ -54,18 +47,18 @@ nnoremap <buffer> <m-b> :<C-u>call <SID>build_go_files()<CR>
 
 " let g:delve_new_command = 'new'
 " let g:delve_backend = "native"
-nnoremap <buffer> <f5> :DlvDebug<cr>
-nnoremap <buffer> <f6> :DlvTest<cr>
-nnoremap <buffer> <f7> :DlvToggleBreakpoint<cr>
-nnoremap <buffer> <f8> :DlvToggleTracepoint<cr>
+" nnoremap <buffer> <f5> :DlvDebug<cr>
+" nnoremap <buffer> <f6> :DlvTest<cr>
+" nnoremap <buffer> <f7> :DlvToggleBreakpoint<cr>
 
-" command! -nargs=* -bang GoDebug call godebug#debug(<bang>0, 0, <f-args>)
-" nnoremap <f5> :GoDebug<cr>
-" command! -nargs=* -bang GoDebugTestNvim call godebug#debugtest(<bang>0, 0, <f-args>)
-" nnoremap <f6> :GoDebugTestNvim<cr>
-" command! -nargs=* -bang GoToggleBreakpointNvim call godebug#toggleBreakpoint(expand('%:p'), line('.'), <f-args>)
-" nnoremap <f7> :GoToggleBreakpointNvim<cr>
+nnoremap <buffer> <f5> :GoDebugStart<cr>
+nnoremap <buffer> <f6> :GoDebugTest<cr>
+nnoremap <buffer> <f7> :GoDebugStop<cr>
 
+nnoremap <buffer> <f9> :GoDebugBreakpoint<cr>
+nnoremap <buffer> <f10> :GoDebugNext<cr>
+nnoremap <buffer> <f11> :GoDebugStep<cr>
+nnoremap <buffer> <f12> :GoDebugStepOut<cr>
 
 function! s:build_go_files()
   let l:file = expand('%')
@@ -106,11 +99,17 @@ let g:go_metalinter_autosave = 0
 let g:go_metalinter_deadline = '20s'
 let g:go_metalinter_enabled = [ 'gas', 'goconst', 'gocyclo', 'golint', 'ineffassign', 'interfacer', 'maligned', 'megacheck', 'misspell', 'structcheck', 'unconvert', 'varcheck', 'vet']
 let g:go_metalinter_enabled = [ 'goconst', 'gocyclo', 'golint', 'ineffassign', 'interfacer', 'maligned', 'megacheck', 'misspell', 'structcheck', 'unconvert', 'varcheck', 'vet']
-" let g:go_metalinter_enabled = ["unconvert", 'gocyclo', 'maligned', 'ineffassign', 'goconst']
 
-" let g:go_auto_sameids = 1
-" let g:go_auto_type_info = 1
-" let g:go_info_mode = 'gocode'
+let g:go_highlight_debug = 0
+hi GoDebugBreakpoint term=standout ctermbg=117 ctermfg=0 guibg=#BAD4F5  guifg=Black
+hi GoDebugCurrent term=reverse ctermbg=7 ctermfg=0 guibg=DarkBlue guifg=White
+
+let g:go_debug_windows = {
+      \ 'stack':   'botright 10new',
+      \ 'vars':  'leftabove 50vnew',
+\ }
+
+ g:go_auto_type_info = 1
 
 let g:go_term_enabled=0
 let g:go_disable_autoinstall = 0
@@ -148,9 +147,6 @@ let g:go_fmt_options = {
   \ }
 
 let g:go_def_mode = 'godef'
-" let g:go_auto_sameids = 1 " too confusing
-
-
 
 " dependency: go get golang.org/x/tools/cmd/gomvpkg
 function! GoMoveDir()
