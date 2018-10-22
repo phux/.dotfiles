@@ -2,6 +2,7 @@
 
 robbyrussell/oh-my-zsh folder:plugins/tmuxinator
 robbyrussell/oh-my-zsh folder:plugins/tmux
+robbyrussell/oh-my-zsh folder:plugins/docker
 
 robbyrussell/oh-my-zsh folder:plugins/rbenv
 lukechilds/zsh-nvm
