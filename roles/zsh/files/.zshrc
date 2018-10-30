@@ -1,4 +1,5 @@
-WORDCHARS="${WORDCHARS//\/}"
+# WORDCHARS="${WORDCHARS//\/}"
+WORDCHARS='*?_-[]~=&;!#$%^(){}<>'
 
 PROMPT_LEAN_COLOR2=120
 
@@ -252,18 +253,24 @@ alias m='tmux attach-session -t local || tmux new-session -s local'
 alias gw="JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64 ./gradlew"
 
 alias tm='todotxt-machine'
-alias tn='n ~/Dropbox/todo/todo.txt'
-alias tnw='n ~/Dropbox/todo/work/todo.txt'
+alias tn='n ~/Dropbox/todo/work/todo.txt'
+alias tnn='n ~/Dropbox/todo/todo.txt'
 alias nn='n +RecentNotes'
 
+function zd() {
+    file="/tmp/base_$(date '+%H%M%S').json"
+  echo $1 | sed -r 's/\\\\r\\\\n//g' | base64 -d | zlib -d > $file;n $file +Js
+  echo "n $file"
+}
+
 function zdecode() {
-  cat /tmp/base | sed -r 's/\\\\r\\\\n//g' | base64 -d | zlib -d > /tmp/base.json | n /tmp/base.json
+    file="/tmp/base_$(date '+%H%M%S').json"
+  echo $1 | sed -r 's/\\\\r\\\\n//g' | base64 -d | zlib -d > $file; n $file
+  echo "n $file"
 }
 source ~/.zsh_notifyosd.zsh
 
 # docker run -ti --rm mpepping/ponysay "Hello master!"
 export TODOTXT_DEFAULT_ACTION=ls
-alias t='todo.sh -d /home/janmolowitz/todo.cfg'
-alias tw='todo.sh -d /home/janmolowitz/todo.work.cfg'
 # alias vim='nvim'
 . ~/.secret_aliases
