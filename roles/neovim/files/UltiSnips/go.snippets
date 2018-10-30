@@ -1,0 +1,27 @@
+snippet desc "Describe Gomega/Ginkgo"
+Describe("$1", func() {
+$0
+})
+endsnippet
+
+snippet cont "Context Gomega/Ginkgo"
+Context("$1", func() {
+$0
+})
+endsnippet
+
+snippet it "It Gomega/Ginkgo"
+It("$1", func() {
+$0
+})
+endsnippet
+
+snippet be "BeforeEach Gomega/Ginkgo"
+BeforeEach(func() {
+$0
+})
+endsnippet
+
+snippet ex "Expect().To(Equal()) Gomega/Ginkgo"
+Expect($1).To(Equal($2))
+endsnippet
