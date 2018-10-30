@@ -1,6 +1,10 @@
 #!/bin/sh
 
-feh --bg-max /home/janmolowitz/Pictures/nevergood.jpg
+xset r rate 300 35
+
+setxkbmap -option ctrl:nocaps
+
+feh --bg-max /home/janmolowitz/Pictures/gesundheit.jpg
 
 xrdb ~/.Xresources
 
@@ -9,8 +13,5 @@ if ! urxvtc "$@"; then
 fi
 
 tmux new-session -d -s local
-xset r rate 300 35
-
-setxkbmap -option ctrl:nocaps
 
 dropbox start
