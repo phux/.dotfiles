@@ -4,4 +4,6 @@ let g:markdown_folding = 1
 set textwidth=80
 set colorcolumn=80
 
-let g:instant_markdown_slow = 1
+let g:instant_markdown_slow = 0
+
+set conceallevel=2

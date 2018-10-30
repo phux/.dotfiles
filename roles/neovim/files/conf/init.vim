@@ -29,8 +29,9 @@ call plug#begin('~/.config/nvim/plugged')
 Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
 let g:UltiSnipsJumpForwardTrigger='<c-j>'
 let g:UltiSnipsJumpBackwardTrigger='<c-k>'
-let g:UltiSnipsSnippetsDir = ['~/.config/nvim/UltiSnips/', './plugged/aws-vim/snips']
+let g:UltiSnipsSnippetsDir = '~/.config/nvim/UltiSnips/'
 let g:UltiSnipsExpandTrigger='<c-j>'
+let g:UltiSnipsEditSplit='vertical'
 
 "" auto-pairs
 Plug 'jiangmiao/auto-pairs'
@@ -66,6 +67,8 @@ let g:ale_lint_on_text_changed = 'never'
 let g:ale_lint_on_enter = 0
 let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
 let g:ale_open_list = 1
+let g:ale_keep_list_window_open=0
+let g:ale_set_quickfix=0
 let g:ale_list_window_size = 5
 let g:ale_fixers = {
   \ '*': ['remove_trailing_lines', 'trim_whitespace'],
@@ -114,11 +117,12 @@ Plug 'ap/vim-buftabline'
 
 "" markdown
 Plug 'reedes/vim-lexical', {'for': ['text', 'markdown', 'gitcommit', 'notes']}
-let g:mkdp_path_to_chrome = 'firefox'
+let g:mkdp_path_to_chrome = 'chromium-browser'
 Plug 'iamcco/markdown-preview.vim', {'for': ['markdown', 'notes']}
-" Plug 'gabrielelana/vim-markdown', {'for': ['markdown', 'notes']}
+let g:mkdp_auto_close = 0
+Plug 'gabrielelana/vim-markdown', {'for': ['markdown', 'notes']}
 " Plug 'junegunn/goyo.vim', {'for': ['markdown', 'notes']}
-Plug 'plasticboy/vim-markdown', {'for': ['markdown', 'notes'], 'as': 'vim-markdown-plasticboy'}
+" Plug 'plasticboy/vim-markdown', {'for': ['markdown', 'notes'], 'as': 'vim-markdown-plasticboy'}
 
 "" search/navigate
 let g:CoolTotalMatches = 1
@@ -201,8 +205,8 @@ imap <m-space> <Plug>(simple-todo-mark-switch)
 nmap <m-space> <Plug>(simple-todo-mark-switch)
 
 """ todo.txt
-Plug 'dbeniamine/todo.txt-vim', {'for': 'txt'}
-let g:Todo_txt_prefix_creation_date=1
+Plug 'dbeniamine/todo.txt-vim', {'for': 'text'}
+let g:Todo_txt_prefix_creation_date=0
 
 "" filetype
 " Set the 'path' option for miscellaneous file types
@@ -216,7 +220,7 @@ Plug 'amiorin/vim-project'
 
 Plug 'sickill/vim-pasta'
 
-Plug 'godlygeek/tabular', {'for': 'cucumber'}
+Plug 'godlygeek/tabular', {'for': ['cucumber', 'markdown']}
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-abolish'
@@ -238,6 +242,7 @@ Plug 'tpope/vim-commentary', {'on': 'Commentary'}
 " Plug 'timeyyy/clackclack.symphony'
 " Plug 'timeyyy/bubbletrouble.symphony'
 
+Plug 'triglav/vim-visual-increment'
 call plug#end()
 " call orchestra#prelude()
 " call orchestra#set_tune('bubbletrouble')
@@ -281,7 +286,8 @@ augroup everything
 
   " au BufWritePost * silent! !eval '[ -f ".git/hooks/ctags" ] && .git/hooks/ctags' &
 
-  au BufWritePost *.go silent! GoBuild! -i
+  " au BufWritePost *.go silent! GoBuild! -i
+augroup end
 
 
 "" Nvim
@@ -296,10 +302,13 @@ augroup nvim
   autocmd BufEnter * call ncm2#enable_for_buffer()
   au User Ncm2PopupOpen set completeopt=noinsert,menuone,noselect
   au User Ncm2PopupClose set completeopt=menuone
-    autocmd FocusGained,BufEnter,CursorHold,CursorHoldI * if mode() != 'c' | checktime | endif
-autocmd FileChangedShellPost *
-  \ echohl WarningMsg | echo "File changed on disk. Buffer reloaded." | echohl None
+  au CursorHold * checktime
+
+  au FocusLost,WinLeave * :silent! update
+
+  autocmd VimResized * wincmd =
 augroup END
+
 inoremap <expr> <CR> (pumvisible() ? ncm2_ultisnips#expand_or("\<CR>", 'n') : "\<CR>")
 
 """"""""""""""
@@ -721,6 +730,7 @@ set confirm
 set shortmess+=c
 
 nnoremap <silent> <leader>w :lclose<cr>:w<cr>
+nnoremap <silent> <leader>w :update<cr>
 
 let g:echodoc_enable_at_startup=1
 set noshowmode
@@ -788,3 +798,5 @@ hi GoDebugBreakpoint term=standout ctermbg=117 ctermfg=0 guibg=#BAD4F5  guifg=Bl
 hi GoDebugCurrent term=reverse
   \ ctermbg=7 ctermfg=0
   \ guibg=DarkBlue guifg=White
+
+set clipboard+=unnamedplus

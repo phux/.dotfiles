@@ -3,14 +3,18 @@ set foldenable
 set foldmethod=syntax
 set foldlevel=1
 set foldnestmax=1
-let g:ale_linters['go'] = ['gofmt', 'zb']
-let g:ale_linters['go'] = ['gofmt', 'golangci-lint']
+" let g:ale_linters['go'] = ['gofmt', 'zb']
+let g:ale_linters['go'] = ['gobuild', 'gofmt', 'golangci-lint']
+" let g:ale_linters['go'] = ['gofmt', 'golangci-lint']
 let g:ale_go_golangci_lint_options= ''
-let g:go_golangci_lint_package=1
+let g:go_golangci_lint_package=0
 let g:ale_go_gofmt_options='-s'
-" let g:ale_go_gometalinter_options='--disable-all --enable goconst --enable gocyclo --enable golint --enable ineffassign --enable interfacer --enable maligned --enable megacheck --enable misspell --enable structcheck --enable unconvert --enable varcheck --enable vet'
+l
+let g:ale_keep_list_window_open=0
+let g:ale_set_quickfix=1
+
 if IsOnBattery()
-    " let g:ale_go_golangci_lint_options='--fast'
+    let g:ale_go_golangci_lint_options='--fast'
 endif
 
 let g:cm_auto_popup=1
@@ -25,8 +29,8 @@ nnoremap <buffer> <leader>ga :GoAddTags<cr>
 noremap <buffer> <leader>h :Refactor godoc<cr>
 noremap <buffer> <leader>m :GoDoc<cr>
 noremap <buffer> <leader>u :exec "GoImport ".expand("<cword>")<cr>
-
-" nnoremap <buffer> <leader>h :call GoComment()<cr>
+inoremap <buffer> <m-i> <esc>h:exec "GoImport ".expand("<cword>")<cr>la
+inoremap <buffer> . .<esc>h:exec "GoImport ".expand("<cword>")<cr>la
 
 nnoremap <buffer> gr :GoReferrers<cr>
 nnoremap <buffer> gi :GoImplements<cr>
@@ -38,18 +42,14 @@ nnoremap <buffer> <m-c> :GoCoverageToggle<cr>
 
 " disable vet as before testing
 nnoremap <buffer> <leader>tt :GoTest!<cr>
+nnoremap <buffer> gt :GoTests<cr>
+nnoremap <buffer> gs :GoFillStruct<cr>
 
 nnoremap <buffer> <m-m> :GoMetaLinter<cr>
 nnoremap <buffer> <c-s> :GoFmt<cr>
 
 " run :GoBuild or :GoTestCompile based on the go file
 nnoremap <buffer> <m-b> :<C-u>call <SID>build_go_files()<CR>
-
-" let g:delve_new_command = 'new'
-" let g:delve_backend = "native"
-" nnoremap <buffer> <f5> :DlvDebug<cr>
-" nnoremap <buffer> <f6> :DlvTest<cr>
-" nnoremap <buffer> <f7> :DlvToggleBreakpoint<cr>
 
 nnoremap <buffer> <f5> :GoDebugStart<cr>
 nnoremap <buffer> <f6> :GoDebugTest<cr>
@@ -82,7 +82,7 @@ function! GoExtractVariable()
 endfunction
 
 let g:go_list_type = 'locationlist'
-let g:go_list_type = ''
+" let g:go_list_type = ''
 let g:go_bin_path = expand('~/code/go/bin')
 " Enable syntax highlighting per default
 let g:go_highlight_types = 1
@@ -97,8 +97,8 @@ let g:go_fmt_command = 'goimports'
 let g:go_fmt_autosave = 1
 let g:go_metalinter_autosave = 0
 let g:go_metalinter_deadline = '20s'
-let g:go_metalinter_enabled = [ 'gas', 'goconst', 'gocyclo', 'golint', 'ineffassign', 'interfacer', 'maligned', 'megacheck', 'misspell', 'structcheck', 'unconvert', 'varcheck', 'vet']
 let g:go_metalinter_enabled = [ 'goconst', 'gocyclo', 'golint', 'ineffassign', 'interfacer', 'maligned', 'megacheck', 'misspell', 'structcheck', 'unconvert', 'varcheck', 'vet']
+let g:go_gocode_unimported_packages=1
 
 let g:go_highlight_debug = 0
 hi GoDebugBreakpoint term=standout ctermbg=117 ctermfg=0 guibg=#BAD4F5  guifg=Black
@@ -109,7 +109,7 @@ let g:go_debug_windows = {
       \ 'vars':  'leftabove 50vnew',
 \ }
 
- g:go_auto_type_info = 1
+ g:go_auto_type_info = 0
 
 let g:go_term_enabled=0
 let g:go_disable_autoinstall = 0
@@ -150,6 +150,33 @@ let g:go_def_mode = 'godef'
 
 " dependency: go get golang.org/x/tools/cmd/gomvpkg
 function! GoMoveDir()
+  :update
+
+  " find current gopath
+  let l:gopath = ''
+  for gopath in split($GOPATH, ':')
+    if expand('%:p:h') =~ '^'.gopath
+      let l:gopath = gopath
+    endif
+  endfor
+
+  if len(l:gopath) == 0
+    echo 'Cannot move pkg - not in configured gopath?!'
+    return
+  endif
+
+  let l:currentFile = expand('%:p')
+  let l:oldPath = input('Old path: ', substitute(expand('%:p:h'), gopath.'/src/', '', ''))
+  let l:newPath = input('New path ==> ', l:oldPath)
+
+  execute '!gomvpkg -from '.l:oldPath.' -to '.l:newPath
+
+  if !filereadable(l:currentFile)
+    :bd
+  endif
+endfunction
+
+function! GoMoveFile()
   :update
 
   " find current gopath
