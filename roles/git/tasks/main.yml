@@ -49,6 +49,11 @@
     scope: global
     value: "rebase --interactive --autosquash"
 
+- git_config:
+    name: url.diff.whitespace
+    scope: global
+    value: "red reverse"
+
 - name: create .local/bin dir
   file: path={{ ansible_env.HOME }}/.local/bin/ state=directory
 
