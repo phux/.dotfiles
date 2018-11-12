@@ -14,9 +14,10 @@ export VISUAL=$EDITOR
 
 export TERM=xterm-256color
 
+export TODOTXT_DEFAULT_ACTION=ls
+
 # same colors as ag
 export FZF_DEFAULT_COMMAND='rg --colors 'match:bg:yellow' --colors 'match:fg:black' --colors 'match:style:nobold' --colors 'path:fg:green' --colors 'path:style:bold' --colors 'line:fg:yellow' --colors 'line:style:bold'  --files --smart-case --hidden --follow --sort-files --glob "!.git/*"'
-
 
 
 [[ -s "$HOME/.gvm/scripts/gvm" ]] && source "$HOME/.gvm/scripts/gvm"
@@ -172,7 +173,7 @@ fco() {
     sed "s/.* //"    | sed "s#remotes/[^/]*/##" |
     sort -u          | awk '{print "\x1b[34;1mbranch\x1b[m\t" $1}') || return
   target=$(
-    (echo "$tags"; echo "$branches") |
+    (echo "$branches") |
     fzf-tmux -- --no-hscroll --ansi +m -d "\t" -n 2) || return
   git checkout $(echo "$target" | awk '{print $2}')
 }
@@ -268,9 +269,15 @@ function zdecode() {
   echo $1 | sed -r 's/\\\\r\\\\n//g' | base64 -d | zlib -d > $file; n $file
   echo "n $file"
 }
+
+fasd_cache="$HOME/.fasd-init-zsh"
+if [ "$(command -v fasd)" -nt "$fasd_cache" -o ! -s "$fasd_cache" ]; then
+  fasd --init posix-alias zsh-hook zsh-ccomp zsh-ccomp-install >| "$fasd_cache"
+fi
+source "$fasd_cache"
+unset fasd_cache
+
 source ~/.zsh_notifyosd.zsh
 
-# docker run -ti --rm mpepping/ponysay "Hello master!"
-export TODOTXT_DEFAULT_ACTION=ls
-# alias vim='nvim'
+
 . ~/.secret_aliases
