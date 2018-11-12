@@ -50,7 +50,7 @@ function! PhpAllDisabled(...) abort
     nnoremap <silent> gr :call phpactor#FindReferences()<CR>
     nnoremap <leader>tt :call phpactor#Transform()<cr>
 
-    let g:neomake_php_enabled_makers = ['php', 'phpmd', 'phpcs', 'phpstan']
+    let g:neomake_php_enabled_makers = ['php', 'phpmd', 'phpcs']
     let g:neomake_php_enabled_makers = ['php']
     let g:neomake_open_list = 2
 endfunction

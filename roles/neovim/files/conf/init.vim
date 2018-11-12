@@ -114,6 +114,8 @@ Plug 'simeji/winresizer'
 Plug 'Shougo/echodoc.vim'
 let g:buftabline_show = 1 " display only if more than 1 buffer open
 Plug 'ap/vim-buftabline'
+Plug 'NLKNguyen/papercolor-theme'
+
 
 "" markdown
 Plug 'reedes/vim-lexical', {'for': ['text', 'markdown', 'gitcommit', 'notes']}
@@ -121,8 +123,9 @@ let g:mkdp_path_to_chrome = 'chromium-browser'
 Plug 'iamcco/markdown-preview.vim', {'for': ['markdown', 'notes']}
 let g:mkdp_auto_close = 0
 Plug 'gabrielelana/vim-markdown', {'for': ['markdown', 'notes']}
-" Plug 'junegunn/goyo.vim', {'for': ['markdown', 'notes']}
-" Plug 'plasticboy/vim-markdown', {'for': ['markdown', 'notes'], 'as': 'vim-markdown-plasticboy'}
+Plug 'junegunn/goyo.vim', {'for': 'markdown'}
+
+Plug 'plasticboy/vim-markdown', {'for': ['markdown', 'notes'], 'as': 'vim-markdown-plasticboy'}
 
 "" search/navigate
 let g:CoolTotalMatches = 1
@@ -362,6 +365,13 @@ let g:lexical#thesaurus = ['~/.config/nvim/thesaurus.txt',]
 set t_Co=256
 set background=dark
 color deus
+
+function! Bright()
+    set background=light
+    color PaperColor
+    let g:lightline['colorscheme'] = 'default'
+endfunction
+
 let g:lightline = {
             \ 'colorscheme': 'deus',
             \ 'active': {
@@ -799,4 +809,4 @@ hi GoDebugCurrent term=reverse
   \ ctermbg=7 ctermfg=0
   \ guibg=DarkBlue guifg=White
 
-set clipboard+=unnamedplus
+" set clipboard+=unnamedplus

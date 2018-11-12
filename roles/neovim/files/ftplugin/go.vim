@@ -4,12 +4,12 @@ set foldmethod=syntax
 set foldlevel=1
 set foldnestmax=1
 " let g:ale_linters['go'] = ['gofmt', 'zb']
-let g:ale_linters['go'] = ['gobuild', 'gofmt', 'golangci-lint']
+let g:ale_linters['go'] = ['gofmt', 'golangci-lint']
 " let g:ale_linters['go'] = ['gofmt', 'golangci-lint']
 let g:ale_go_golangci_lint_options= ''
 let g:go_golangci_lint_package=0
 let g:ale_go_gofmt_options='-s'
-l
+let g:go_gocode_propose_source=1
 let g:ale_keep_list_window_open=0
 let g:ale_set_quickfix=1
 
@@ -147,6 +147,7 @@ let g:go_fmt_options = {
   \ }
 
 let g:go_def_mode = 'godef'
+let g:go_def_mode = 'guru'
 
 " dependency: go get golang.org/x/tools/cmd/gomvpkg
 function! GoMoveDir()

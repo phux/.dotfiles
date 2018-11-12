@@ -277,8 +277,6 @@ function! UpdatePhpDocIfExists()
         exe "normal! $svoid"
     endif
 endfunction
-let g:neomake_phpstan_level=7
-
 
 
 " SymfonySwitchToAlternateFile {{{
