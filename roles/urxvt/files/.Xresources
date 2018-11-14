@@ -11,7 +11,8 @@ URxvt.iso14755: False
 URxvt.iso14755_32: False
 ! perl extensions
 URxvt.perl-ext: default
-URxvt.perl-ext-common: default,clipboard
+URxvt.perl-ext-common: default,clipboard,font-size
+URxvt.font-size.step: 4
 
 ! secondary clipboard
 URxvt.keysym.Shift-Control-C: perl:clipboard:copy
