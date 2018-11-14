@@ -53,6 +53,7 @@ Plug 'phpactor/ncm2-phpactor', {'for': 'php'}
 Plug 'ncm2/ncm2-jedi', {'for': 'python'}
 Plug 'ncm2/ncm2-tern',  {'do': 'npm install', 'for': 'javascript'}
 Plug 'ncm2/nvim-typescript', {'do': './install.sh', 'for': 'typescript'}
+Plug 'ncm2/ncm2-vim' | Plug 'Shougo/neco-vim', {'for': 'vim'}
 
 "" pymode
 Plug 'python-mode/python-mode', {'for': 'python'}
@@ -312,7 +313,7 @@ augroup nvim
   autocmd VimResized * wincmd =
 augroup END
 
-inoremap <expr> <CR> (pumvisible() ? ncm2_ultisnips#expand_or("\<CR>", 'n') : "\<CR>")
+inoremap <silent> <expr> <CR> (pumvisible() ? ncm2_ultisnips#expand_or("\<CR>", 'n') : "\<CR>")
 
 """"""""""""""
 "  Settings  "
