@@ -30,5 +30,20 @@
   become: yes
   package: name=apt-fast state=latest
 
+- name: install rofi
+  become: yes
+  package: name=rofi state=latest
+- name: create rofi dir
+  file: path="{{ ansible_env.HOME }}/.config/rofi/" state=directory
+- name: link rofi config
+  file: >
+    src="{{ role_path }}/files/rofi.config"
+    dest={{ ansible_env.HOME }}/.config/rofi/config
+    state=link
+
+- name: install autorandr
+  become: yes
+  package: name=autorandr state=latest
+
 - name: install todotxt-machine
   shell: "{{ ansible_env.HOME }}/.local/bin/pip install --user --upgrade todotxt-machine"

@@ -44,8 +44,9 @@ bindsym $mod+Return exec urxvtc
 bindsym $mod+Shift+Q kill
 
 # start dmenu (a program launcher)
-bindsym $mod+i exec dmenu_extended_run
+# bindsym $mod+i exec dmenu_extended_run
 # bindsym $mod+i exec dmenu_run
+bindsym $mod+i exec "rofi -combi-modi window,drun -show combi -modi combi"
 
 # next/previous workspace
 bindsym Mod1+Tab focus right
@@ -217,6 +218,10 @@ client.unfocused #333333 #333333 #ffffff
 # workspace targeting
 assign [class="Chromium"] 10
 assign [class="Firefox"] 10
+assign [class="Slack"] 9
+assign [class="Spotify"] 8
+assign [class="Mysql-workbench-bin"] 3
+assign [class="jetbrains-idea-ce"] 2
 
 # workspace 1 output DP-1
 # workspace 9 output DP-1
