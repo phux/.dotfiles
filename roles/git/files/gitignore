@@ -11,3 +11,4 @@ playbook.retry
 .scratch.vim
 .virtualgo
 .ropeproject/
+.textlintrc
