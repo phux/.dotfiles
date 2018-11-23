@@ -47,3 +47,7 @@
 
 - name: install todotxt-machine
   shell: "{{ ansible_env.HOME }}/.local/bin/pip install --user --upgrade todotxt-machine"
+
+- name: install parcellite
+  become: yes
+  package: name=parcellite state=latest
