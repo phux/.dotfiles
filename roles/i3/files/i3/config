@@ -12,8 +12,8 @@
 set $mod Mod4
 
 # new window default border
-new_window pixel 1
-new_float pixel 1
+new_window pixel 2
+new_float pixel 2
 
 focus_follows_mouse no
 
@@ -26,26 +26,23 @@ force_focus_wrapping no
 # set $tag9 "9: im"
 # set $tag10 "10: www"
 
-#Back and Forth
+# Back and Forth
 workspace_auto_back_and_forth no
-bindsym $mod+z move container to workspace back_and_forth; workspace back_and_forth
 
-bindsym $mod+p workspace prev
+# bindsym $mod+p workspace prev
+bindsym $mod+Shift+G mark "pomo", move scratchpad
+bindsym $mod+g [con_mark="pomo"] scratchpad show
 
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier Mod1
 
 # start a terminal
-#bindsym $mod+Return exec i3-sensible-terminal
 bindsym $mod+Return exec urxvtc
-#bindsym Mod1+Return exec urxvtc -e zsh -c "tmux -q has-session -t local && tmux attach-session -d -t local || tmux new-session -slocal"
 
 # kill focused window
 bindsym $mod+Shift+Q kill
 
 # start dmenu (a program launcher)
-# bindsym $mod+i exec dmenu_extended_run
-# bindsym $mod+i exec dmenu_run
 bindsym $mod+i exec "rofi -combi-modi window,drun -show combi -modi combi"
 
 # next/previous workspace
@@ -53,7 +50,6 @@ bindsym Mod1+Tab focus right
 bindsym $mod+Tab workspace back_and_forth
 
 # Start common apps
-# bindsym $mod+Shift+Return exec chromium-browser
 bindsym $mod+Shift+Return exec firefox
 
 # Change focused window
@@ -152,15 +148,21 @@ bindsym $mod+semicolon workspace next
 
 # switch to workspace
 bindsym $mod+1 workspace number 1
-bindsym $mod+2 workspace number 2
+bindsym $mod+2 workspace number 2; exec idea
 bindsym $mod+3 workspace number 3
 bindsym $mod+4 workspace number 4
 bindsym $mod+5 workspace number 5
 bindsym $mod+6 workspace number 6
 bindsym $mod+7 workspace number 7
 bindsym $mod+8 workspace number 8
-bindsym $mod+9 workspace number 9
-bindsym $mod+0 workspace number 10
+bindsym $mod+9 workspace number 9; exec [ $(ps h -C spotify | wc -l) = 0 ] && spotify; exec [ $(ps h -C slack | wc -l) = 0 ] && slack
+bindsym $mod+0 workspace number 10; exec [ $(ps h -C firefox | wc -l) = 0 ] && firefox
+
+# bind workspace to display
+workspace 1 output HDMI1
+workspace 2 output DP1
+workspace 9 output DP1
+workspace 10 output DP1
 
 # move focused container to workspace
 bindsym $mod+Shift+exclam move container to workspace 1; workspace 1
@@ -181,11 +183,9 @@ bindsym $mod+Shift+E exit
 
 ###  ADDED KEY BINDINGS  ###
 bindsym $MOD+SHIFT+f exec thunar
-bindsym $MOD+g exec pomodoneapp
+# bindsym $MOD+g exec pomodoneapp
 bindsym $MOD+SHIFT+o exec urxvt -e 'ranger'
 bindsym $MOD+SHIFT+m exec mysql-workbench
-# bindsym $MOD+SHIFT+g exec gvim
-bindsym $MOD+a exec gnome-do
 bindsym $mod+Shift+p exec sh ~/.i3/i3lock.sh
 bindsym Print exec scrot '%Y-%m-%d-%T_$wx$h_scrot.png' -e 'mv $f ~/Pictures/screenshots/'
 
@@ -212,8 +212,8 @@ bindsym Print exec scrot '%Y-%m-%d-%T_$wx$h_scrot.png' -e 'mv $f ~/Pictures/scre
 
 # changed these colours for readability
 # class border backgr. text
-client.focused #a84a28 #ce7e61 #ffffff
-client.unfocused #333333 #333333 #ffffff
+# client.focused #a84a28 #ce7e61 #ffffff
+# client.unfocused #333333 #333333 #ffffff
 
 # workspace targeting
 assign [class="Chromium"] 10
@@ -243,6 +243,8 @@ exec --no-startup-id nm-applet
 exec --no-startup-id pasystray
 
 exec --no-startup-id sh ~/.i3/startup.sh
+exec --no-startup-id parcellite
+exec --no-startup-id i3-msg 'workspace 1; exec urxvtc'
 
 #######
 #THEME#
@@ -293,7 +295,7 @@ bar {
 # blue gruvbox
 # class                 border|backgr|text|indicator|child_border
 client.focused          $blue $blue $darkgray $purple $darkgray
-client.focused #a84a28 #ce7e61 #ffffff
+client.focused $aqua $aqua #ffffff
 client.focused_inactive $darkgray $darkgray $yellow $purple $darkgray
 client.unfocused        $darkgray $darkgray $yellow $purple $darkgray
 client.urgent           $red $red $white $red $red
