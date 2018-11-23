@@ -2,18 +2,18 @@ set encoding=UTF-8
 scriptencoding utf-8
 
 if has('vim_starting')
-  " let g:qf_loc_toggle_binds = 0
   set nofoldenable
 endif
 
 let mapleader = "\<Space>"
 
+" i am too stoopid to learn this
 nnoremap Q <nop>
 
 """"""""""""""
 "  vim-plug  "
 """"""""""""""
-"" install vim-plug
+"" install vim-plug if not exists
 if !filereadable(expand('~/.config/nvim/autoload/plug.vim'))
     echo 'Installing vim-plug and plugins. Restart nvim after finishing the process.'
     silent call mkdir(expand('~/.config/nvim/autoload', 1), 'p')
@@ -41,8 +41,8 @@ let g:AutoPairsMapCR=0
 
 "" ncm2
 Plug 'ncm2/ncm2'
-Plug 'roxma/vim-hug-neovim-rpc'
 Plug 'roxma/nvim-yarp'
+Plug 'roxma/vim-hug-neovim-rpc'
 Plug 'ncm2/ncm2-bufword'
 Plug 'ncm2/ncm2-tmux'
 Plug 'ncm2/ncm2-path'
@@ -54,6 +54,7 @@ Plug 'ncm2/ncm2-jedi', {'for': 'python'}
 Plug 'ncm2/ncm2-tern',  {'do': 'npm install', 'for': 'javascript'}
 Plug 'ncm2/nvim-typescript', {'do': './install.sh', 'for': 'typescript'}
 Plug 'ncm2/ncm2-vim' | Plug 'Shougo/neco-vim', {'for': 'vim'}
+Plug 'fgrsnau/ncm2-otherbuf', { 'branch': 'ncm2' }
 
 "" pymode
 Plug 'python-mode/python-mode', {'for': 'python'}
@@ -112,6 +113,7 @@ Plug 'tweekmonster/fzf-filemru', {'on': ['FilesMru', 'ProjectMru']}
 Plug 'morhetz/gruvbox'
 Plug 'itchyny/lightline.vim'
 Plug 'simeji/winresizer'
+let g:echodoc_enable_at_startup=1
 Plug 'Shougo/echodoc.vim'
 let g:buftabline_show = 1 " display only if more than 1 buffer open
 Plug 'ap/vim-buftabline'
@@ -119,20 +121,30 @@ Plug 'NLKNguyen/papercolor-theme'
 
 
 "" markdown
-Plug 'reedes/vim-lexical', {'for': ['text', 'markdown', 'gitcommit', 'notes']}
+Plug 'reedes/vim-lexical', {'for': ['text', 'markdown', 'gitcommit']}
 let g:mkdp_path_to_chrome = 'chromium-browser'
-Plug 'iamcco/markdown-preview.vim', {'for': ['markdown', 'notes']}
+Plug 'iamcco/markdown-preview.vim', {'for': ['markdown']}
 let g:mkdp_auto_close = 0
-Plug 'gabrielelana/vim-markdown', {'for': ['markdown', 'notes']}
+Plug 'gabrielelana/vim-markdown', {'for': ['markdown']}
 Plug 'junegunn/goyo.vim', {'for': 'markdown'}
-
-Plug 'plasticboy/vim-markdown', {'for': ['markdown', 'notes'], 'as': 'vim-markdown-plasticboy'}
+Plug 'plasticboy/vim-markdown', {'for': ['markdown'], 'as': 'vim-markdown-plasticboy'}
 
 "" search/navigate
+
+" smart search highligting
 let g:CoolTotalMatches = 1
 Plug 'romainl/vim-cool'
 
+" improving * behavior
+let g:asterisk#keeppos = 1
 Plug 'haya14busa/vim-asterisk'
+
+Plug 'wellle/targets.vim'
+
+" quickfix improvements
+Plug 'romainl/vim-qf'
+
+Plug 'majutsushi/tagbar', {'on': 'TagbarToggle'}
 
 """ clever-f
 Plug 'rhysd/clever-f.vim'
@@ -141,6 +153,17 @@ let g:clever_f_across_no_line=0
 map ; <Plug>(clever-f-repeat-forward)
 map , <Plug>(clever-f-repeat-back)
 let g:clever_f_timeout_ms=1000
+
+
+""" easymotion
+Plug 'Lokaltog/vim-easymotion'
+nmap <Leader>L <Plug>(easymotion-bd-jk)
+nmap <Leader>F <Plug>(easymotion-bd-w)
+nmap <Leader>f <Plug>(easymotion-overwin-w)
+nmap  <Leader>b <Plug>(easymotion-b)
+let g:EasyMotion_smartcase = 1
+let g:EasyMotion_use_smartsign_us = 1 " US layout
+
 
 """ nerdtree
 Plug 'scrooloose/nerdtree', {'on': ['NERDTreeToggle', 'NERDTreeFind']}
@@ -152,18 +175,11 @@ let g:NERDTreeCascadeSingleChildDir=0
 let g:NERDTreeAutoDeleteBuffer=1
 nnoremap <leader>n :NERDTreeToggle<cr>
 nnoremap <leader>N :NERDTreeFind<cr>
-Plug 'justinmk/vim-dirvish'
 
-Plug 'wellle/targets.vim'
-
+""" tmux
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'tmux-plugins/vim-tmux-focus-events'
 Plug 'tmux-plugins/vim-tmux'
-
-Plug 'romainl/vim-qf'
-
-Plug 'Lokaltog/vim-easymotion'
-Plug 'majutsushi/tagbar', {'on': 'TagbarToggle'}
 
 """ ferret
 let g:FerretHlsearch=1
@@ -189,9 +205,9 @@ Plug 'xolox/vim-notes', {'on': ['SearchNotes', 'Note', 'RecentNotes']} | Plug 'x
 let g:notes_directories = ['~/Dropbox/notes']
 let g:notes_suffix = '.md'
 let g:notes_smart_quotes = 0
-let g:pad#dir = '~/Dropbox/notes/'
-let g:pad#set_mappings=0
-Plug 'fmoralesc/vim-pad', {'branch': 'devel'}
+" let g:pad#dir = '~/Dropbox/notes/'
+" let g:pad#set_mappings=0
+" Plug 'fmoralesc/vim-pad', {'branch': 'devel'}
 Plug 'mtth/scratch.vim', {'on' : 'ScratchPreview'}
 let g:scratch_persistence_file = '.scratch.vim'
 nnoremap <m-z> :Scratch<cr>
@@ -218,6 +234,8 @@ Plug 'tpope/vim-apathy'
 Plug 'sheerun/vim-polyglot', {'do': './build'}
 let g:polyglot_disabled = ['php', 'go']
 Plug 'pearofducks/ansible-vim', { 'do': 'cd ./UltiSnips; python2 generate.py' }
+" reloading vim files
+Plug 'xolox/vim-reload'
 
 "" misc
 Plug 'amiorin/vim-project'
@@ -229,11 +247,34 @@ Plug 'tpope/vim-surround'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-abolish'
 
+Plug 'triglav/vim-visual-increment'
+
+""" gundo
+nnoremap <m-u> :GundoToggle<CR>
+let g:gundo_width = 60
+let g:gundo_preview_height = 40
+let g:gundo_right = 1
 Plug 'sjl/gundo.vim', {'on': 'GundoToggle'}
 
+""" vim-test
 Plug 'janko-m/vim-test'
+nnoremap <leader>tn :TestNearest<cr>
+nnoremap <leader>tf :TestFile<cr>
+nnoremap <silent> <leader>tl :TestLast<CR>
+nnoremap <silent> <leader>tv :TestVisit<CR>
+let test#strategy='neovim'
+
+
+""" SplitJoin
 Plug 'AndrewRadev/splitjoin.vim', {'on': ['SplitjoinSplit', 'SplitjoinJoin']}
+nnoremap <leader>j :SplitjoinSplit<cr>
+nnoremap <leader>k :SplitjoinJoin<cr>
+
+""" commentary
 Plug 'tpope/vim-commentary', {'on': 'Commentary'}
+nnoremap <leader>c :Commentary<cr>
+vnoremap <leader>c :Commentary<cr>
+
 
 "" disabled plugins
 " enable it occasionally to get rid of bad habits
@@ -245,8 +286,6 @@ Plug 'tpope/vim-commentary', {'on': 'Commentary'}
 " Plug 'timeyyy/orchestra.nvim'
 " Plug 'timeyyy/clackclack.symphony'
 " Plug 'timeyyy/bubbletrouble.symphony'
-
-Plug 'triglav/vim-visual-increment'
 call plug#end()
 " call orchestra#prelude()
 " call orchestra#set_tune('bubbletrouble')
@@ -313,17 +352,24 @@ augroup nvim
   autocmd VimResized * wincmd =
 augroup END
 
-inoremap <silent> <expr> <CR> (pumvisible() ? ncm2_ultisnips#expand_or("\<CR>", 'n') : "\<CR>")
-
 """"""""""""""
 "  Settings  "
 """"""""""""""
 
-set fileformats=unix,dos,mac    " Prefer Unix over Windows over OS 9 formats
+set fileformats=unix,dos,mac
 set autowrite                   " Automatically save before :next, :make etc.
 set autoread                    " Automatically reread changed files without asking me anything
 set hidden
 set nojoinspaces
+
+"" insert mode completion
+set complete-=i
+set complete+=w
+
+"" better command mode completion
+set wildmenu
+set wildmode=list:longest,full
+" set wildmode=longest,list,full
 
 "" no backups
 set nobackup
@@ -360,7 +406,13 @@ set linebreak
 " move over lines with following keys
 set whichwrap+=<,>,[,],h,l
 
+" don't give |ins-completion-menu| messages.  For example,
+" '-- XXX completion (YYY)', 'match 1 of 2', 'The only match',
+set shortmess+=c
+set diffopt=vertical,filler
+
 let g:lexical#thesaurus = ['~/.config/nvim/thesaurus.txt',]
+let spellfile='~/.vim.spell'
 
 """ colors
 set t_Co=256
@@ -417,7 +469,6 @@ let g:fzf_commits_log_options = '--graph --color=always --format="%C(auto)%h%d %
 
 nnoremap <leader><tab> :Buffers<cr>
 nnoremap <leader><Enter> :Buffers<cr>
-" nnoremap <leader>, :FilesMru --tiebreak=end<cr>
 nnoremap <leader>, :FilesMru --tiebreak=index<cr>
 nnoremap <leader>. :FZFAllFiles<cr>
 nnoremap <leader>d :BTags<cr>
@@ -444,32 +495,6 @@ set grepprg=rg\ --vimgrep
 
 command! -bang -nargs=* FZFAllFiles call fzf#run({'source': 'find * -type f', 'sink': 'e'})
 
-function! s:ag_to_qf(line)
-  let parts = split(a:line, ':')
-  return {'filename': parts[0], 'lnum': parts[1], 'col': parts[2],
-        \ 'text': join(parts[3:], ':')}
-endfunction
-
-function! s:ag_handler(lines)
-  if len(a:lines) < 2 | return | endif
-
-  let cmd = get({'ctrl-x': 'split',
-        \ 'ctrl-v': 'vertical split',
-        \ 'ctrl-t': 'tabe'}, a:lines[0], 'e')
-  let list = map(a:lines[1:], 's:ag_to_qf(v:val)')
-
-  let first = list[0]
-  execute cmd escape(first.filename, ' %#\')
-  execute first.lnum
-  execute 'normal!' first.col.'|zz'
-
-  if len(list) > 1
-    call setqflist(list)
-    copen
-    wincmd p
-  endif
-endfunction
-
 "" vim-project
 let g:project_use_nerdtree = 0
 let g:project_enable_welcome = 0
@@ -478,30 +503,10 @@ nnoremap <leader><F2> :e ~/.projects.private.vim<cr>
 set runtimepath+=~/.config/nvim/plugged/vim-project/
 call project#rc('~/code')
 
-"" easymotion
-nmap <Leader>L <Plug>(easymotion-bd-jk)
-nmap <Leader>F <Plug>(easymotion-bd-w)
-nmap <Leader>f <Plug>(easymotion-overwin-w)
-nmap  <Leader>b <Plug>(easymotion-b)
-" nmap s <Plug>(easymotion-s2)
-let g:EasyMotion_smartcase = 1
-let g:EasyMotion_use_smartsign_us = 1 " US layout
-" nmap s <Plug>(easymotion-overwin-f)
-
-"" commentary
-nnoremap <leader>c :Commentary<cr>
-vnoremap <leader>c :Commentary<cr>
 
 "" vim-abolish
 nnoremap <leader>] :%Subvert/<c-R><c-w>/<c-r><c-w>/g<left><left>
 vnoremap <leader>] :%Subvert//g<left><left>
-
-"" vim-test
-nnoremap <leader>tn :TestNearest<cr>
-nnoremap <leader>tf :TestFile<cr>
-nnoremap <silent> <leader>tl :TestLast<CR>
-nnoremap <silent> <leader>tv :TestVisit<CR>
-let test#strategy='neovim'
 
 "" qf/loc list toggle
 nmap <silent> <c-p> :cp<cr>
@@ -528,9 +533,6 @@ vnoremap <leader>gv :Gitv!<cr>
 nnoremap <leader>gV :Gitv<cr>
 let g:Gitv_DoNotMapCtrlKey = 1
 
-"" SplitJoin
-nnoremap <leader>j :SplitjoinSplit<cr>
-nnoremap <leader>k :SplitjoinJoin<cr>
 
 "" tabular
 nnoremap <leader>ga :Tabularize /\|<cr>
@@ -606,11 +608,6 @@ endfunction
 nnoremap <F4> :call EditFtPluginFile(&filetype)<cr>
 nnoremap <F3> :call EditFtPluginFile('')<left><left>
 
-"" gundo
-nnoremap <m-u> :GundoToggle<CR>
-let g:gundo_width = 60
-let g:gundo_preview_height = 40
-let g:gundo_right = 1
 
 "" Light color scheme
 function! LightScheme()
@@ -619,11 +616,13 @@ function! LightScheme()
   set cursorline
 endfunction
 
-nnoremap <silent> <leader><f5> :e $MYVIMRC<CR>
-imap jk <esc>
-
 " nnoremap <silent> <f9> :MarkdownPreview<cr>
 " nnoremap <silent> <s-f9> :MarkdownStop<cr>
+
+"" completion
+inoremap <silent> <expr> <CR> (pumvisible() ? ncm2_ultisnips#expand_or("\<CR>", 'n') : "\<CR>")
+inoremap <expr> <TAB> pumvisible() ? "\<c-n>" : "\<TAB>"
+inoremap <expr> <s-tab> pumvisible() ? "\<c-p>" : "\<TAB>"
 
 """""""""""""
 "  Folding  "
@@ -728,22 +727,12 @@ augroup END
 """"""""""""""""""
 command! -nargs=1 Silent execute ':silent !'.<q-args> | execute ':redraw!'
 
-set wildmenu
-set wildmode=list:longest,full
-" set wildmode=longest,list,full
-
-set diffopt=vertical,filler
-
 set confirm
 
-" don't give |ins-completion-menu| messages.  For example,
-" '-- XXX completion (YYY)', 'match 1 of 2', 'The only match',
-set shortmess+=c
 
 nnoremap <silent> <leader>w :lclose<cr>:w<cr>
 nnoremap <silent> <leader>w :update<cr>
 
-let g:echodoc_enable_at_startup=1
 set noshowmode
 set noruler
 
@@ -757,14 +746,17 @@ set shiftwidth=4
 set expandtab smarttab
 set lazyredraw
 
+
+set textwidth=0
+" keep marks
+set viminfo='100,f1
+set nostartofline
+
 set ignorecase smartcase
 set hlsearch
 set incsearch
 
 set timeout ttimeoutlen=0
-
-inoremap <expr> <TAB> pumvisible() ? "\<c-n>" : "\<TAB>"
-inoremap <expr> <s-tab> pumvisible() ? "\<c-p>" : "\<TAB>"
 
 inoremap <c-l> <del>
 
@@ -777,25 +769,15 @@ nnoremap <m-h> :bp<cr>
 
 nnoremap <leader>x <c-w>c
 nnoremap <leader>s <c-w>v
-set complete-=i
-set complete+=w
 
-set textwidth=0
-
-set nostartofline
 nnoremap <silent> <m-,> :lclose<cr>:cclose<cr>
 " remove buffer without deleting window
 nnoremap <silent> <m-d> :bp<bar>sp<bar>bn<bar>bd<CR>
 
 nnoremap <leader>gp :!git push<cr>
 
-let spellfile='~/.vim.spell'
-
 " wordwise upper line completion in insert mode
 inoremap <expr> <c-y> matchstr(getline(line('.')-1), '\%' . virtcol('.') . 'v\%(\k\+\\|.\)')
-
-" keep marks
-set viminfo='100,f1
 
 so ~/.config/nvim/projects.public.vim
 
@@ -805,9 +787,7 @@ function! IsOnBattery()
   return readfile('/sys/class/power_supply/ACAD/online') == ['0']
 endfunction
 
-hi GoDebugBreakpoint term=standout ctermbg=117 ctermfg=0 guibg=#BAD4F5  guifg=Black
-hi GoDebugCurrent term=reverse
-  \ ctermbg=7 ctermfg=0
-  \ guibg=DarkBlue guifg=White
-
 " set clipboard+=unnamedplus
+
+nnoremap <silent> <leader><f5> :e $MYVIMRC<CR>
+imap jk <esc>

@@ -9,7 +9,7 @@ let g:ale_linters['go'] = ['gofmt', 'golangci-lint']
 let g:ale_go_golangci_lint_options= ''
 let g:go_golangci_lint_package=0
 let g:ale_go_gofmt_options='-s'
-let g:go_gocode_propose_source=1
+let g:go_gocode_propose_source=0
 let g:ale_keep_list_window_open=0
 let g:ale_set_quickfix=1
 
@@ -30,7 +30,7 @@ noremap <buffer> <leader>h :Refactor godoc<cr>
 noremap <buffer> <leader>m :GoDoc<cr>
 noremap <buffer> <leader>u :exec "GoImport ".expand("<cword>")<cr>
 inoremap <buffer> <m-i> <esc>h:exec "GoImport ".expand("<cword>")<cr>la
-inoremap <buffer> . .<esc>h:exec "GoImport ".expand("<cword>")<cr>la
+" inoremap <silent><buffer> . .<esc>h:exec "silent GoImport ".expand("<cword>")<cr>la
 
 nnoremap <buffer> gr :GoReferrers<cr>
 nnoremap <buffer> gi :GoImplements<cr>
