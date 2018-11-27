@@ -27,7 +27,7 @@ export LGOBIN="$HOME/code/go/bin"
 export FZF_BIN_PATH="$HOME/.fzf/bin"
 export PATH=$PATH:$HOME/bin:$HOME/.local/bin:$HOME/.composer/vendor/bin:$FZF_BIN_PATH:$LGOBIN:$HOME/.config/composer/vendor/bin
 
-HISTSIZE='32768';
+HISTSIZE='100000';
 HISTFILESIZE="${HISTSIZE}";
 HISTFILE="$HOME/.zsh_history"
 SAVEHIST=32768
