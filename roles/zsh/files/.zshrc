@@ -280,5 +280,10 @@ unset fasd_cache
 
 source ~/.zsh_notifyosd.zsh
 
+# Automate ssh-agent startup
+if [ -z "$SSH_AUTH_SOCK" ] ; then
+ eval `ssh-agent -s`
+ ssh-add
+fi
 
 . ~/.secret_aliases
