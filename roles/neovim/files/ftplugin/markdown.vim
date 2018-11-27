@@ -1,7 +1,7 @@
 " call lexical#init()
 let g:markdown_folding = 1
 let g:markdown_enable_input_abbreviations = 0
-let g:ale_linters['markdown'] = ['proselint', 'writegood', 'textlint']
+let g:ale_linters['markdown'] = ['proselint', 'writegood', 'textlint', 'mdl']
 
 set textwidth=80
 set colorcolumn=80

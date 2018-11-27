@@ -19,18 +19,17 @@ nnoremap <buffer> <silent> <leader>W :w<cr>
 nnoremap <buffer> <m-f> :call PHPUnitSetupMethod()<cr>
 nnoremap <buffer> <leader>rrp :call PhpRenameClassVariable()<CR>
 nnoremap <buffer> <leader>rrm :call PhpRenameMethod()<CR>
+nnoremap <buffer> <leader>rlv :call PhpRenameLocalVariable()<CR>
 nnoremap <buffer> <leader>reu :call PhpExtractUse()<CR>
 vnoremap <buffer> <leader>rec :call PhpExtractConst()<CR>
-nnoremap <buffer> <leader>rep :call PhpRefactorLocalVariableToInstanceVariable()<cr>
 nnoremap <buffer> <leader>rep :call PhpExtractClassProperty()<cr>
-nnoremap <buffer> <leader>rrv :call PhpRefactorRenameLocalVariable()<cr>
-nnoremap <buffer> <leader>rdo :call PhpDocOneliner()<cr>
+vnoremap <silent><Leader>em :<C-U>call phpactor#ExtractMethod()<CR>
 vnoremap <buffer> <silent><Leader>ee :<C-U>call phpactor#ExtractExpression(v:true)<CR>
 nnoremap <buffer> <silent><Leader>ee :call phpactor#ExtractExpression(v:false)<CR>
 nnoremap <buffer> <leader>H :call PhpConstructorArgumentMagic2()<cr>
+nnoremap <buffer> <leader>rcc :call PhpConstructorArgumentMagic()<cr>:sleep 300m<cr>:e<cr>
 nnoremap <buffer> <leader>rmc :call PHPMoveClass()<cr>
 nnoremap <buffer> <leader>rmd :call PHPMoveDir()<cr>
-nnoremap <buffer> <leader>rcc :call PhpConstructorArgumentMagic()<cr>:sleep 300m<cr>:e<cr>
 nnoremap <buffer> <m-m> :call phpactor#ContextMenu()<cr>
 nnoremap <buffer> <leader>ric :call PHPModify("implement_contracts")<cr>
 nnoremap <buffer> <leader>rap :call PHPModify("add_missing_properties")<cr>
@@ -39,7 +38,7 @@ nnoremap <buffer> <Leader>u :PHPImportClass<cr>
 nnoremap <buffer> <Leader>e :PHPExpandFQCNAbsolute<cr>
 nnoremap <buffer> <Leader>E :PHPExpandFQCN<cr>
 nnoremap <buffer> <leader>h :call UpdatePhpDocIfExists()<CR>
-vnoremap <silent><Leader>em :<C-U>call phpactor#ExtractMethod()<CR>
+nnoremap <buffer> <leader>rdo :call PhpDocOneliner()<cr>
 
 nnoremap <silent> gd :call phpactor#GotoDefinition()<CR>
 
