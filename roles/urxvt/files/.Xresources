@@ -5,7 +5,6 @@ URxvt*termName: rxvt
 URxvt.intensityStyles: false
 URxvt*.termName: rxvt-unicode-256color
 
-
 ! disable default Ctrl+Shift-Binding
 URxvt.iso14755: False
 URxvt.iso14755_32: False
