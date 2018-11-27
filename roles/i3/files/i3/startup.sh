@@ -15,3 +15,5 @@ fi
 tmux new-session -d -s local
 
 dropbox start
+
+sleep 1; autorandr --change

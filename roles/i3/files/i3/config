@@ -235,16 +235,8 @@ for_window [class="Xfce4-notifyd"] floating enable
 for_window [class="PomoDoneApp"] floating enable
 for_window [class="Gnome-calculator"] floating enable
 
-exec --no-startup-id xsetroot -solid "#333333"
-# disable screensaver
+# disable screensaver; needed for autorandr, otherwise I get logged out in certain cable plugin scenarios :D
 exec xset -dpms; xset s off
-
-exec --no-startup-id nm-applet
-exec --no-startup-id pasystray
-
-exec --no-startup-id sh ~/.i3/startup.sh
-exec --no-startup-id parcellite
-exec --no-startup-id i3-msg 'workspace 1; exec urxvtc'
 
 #######
 #THEME#
@@ -301,3 +293,9 @@ client.unfocused        $darkgray $darkgray $yellow $purple $darkgray
 client.urgent           $red $red $white $red $red
 
 #end of window title bars & borders section
+
+exec --no-startup-id nm-applet
+exec --no-startup-id pasystray
+
+exec --no-startup-id parcellite
+exec --no-startup-id sh ~/.i3/startup.sh
