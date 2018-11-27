@@ -11,10 +11,9 @@
   with_fileglob:
    - .*
 
-- name: create urxvt plugin dir
-  file: path="{{ ansible_env.HOME }}/.urxvt/ext/" state=directory
-- name: link font-size script
+- name: link urxvt plugins
   file: >
-    src="{{ role_path }}/files/font-size"
-    dest={{ ansible_env.HOME }}/.urxvt/ext/
+    src="{{ role_path }}/files/ext/"
+    dest="{{ ansible_env.HOME }}/.urxvt/ext"
     state=link
+    force=yes
