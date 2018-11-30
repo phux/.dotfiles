@@ -4,7 +4,10 @@ WORDCHARS='*?_-[]~=&;!#$%^(){}<>'
 PROMPT_LEAN_COLOR2=120
 
 export NVM_LAZY_LOAD=true
-source $HOME/.zsh_plugins.sh
+
+if [ -f $HOME/.zsh_plugins.sh ]; then
+    source $HOME/.zsh_plugins.sh
+fi
 
 alias update_antibody='antibody update; antibody bundle < ~/.zsh_plugins.txt  > ~/.zsh_plugins.sh'
 
@@ -133,8 +136,6 @@ function git_current_branch() {
   echo ${ref#refs/heads/}
 }
 
-alias canihazinterwebz='sudo dhclient -r;sudo dhclient &'
-
 my-backward-delete-word() {
     local WORDCHARS=${WORDCHARS/\//}
     zle backward-delete-word
@@ -261,13 +262,7 @@ alias nn='n +RecentNotes'
 
 function zd() {
     file="/tmp/base_$(date '+%H%M%S').json"
-  echo $1 | sed -r 's/\\\\r\\\\n//g' | base64 -d | zlib -d > $file;n $file +Js
-  echo "n $file"
-}
-
-function zdecode() {
-    file="/tmp/base_$(date '+%H%M%S').json"
-  echo $1 | sed -r 's/\\\\r\\\\n//g' | base64 -d | zlib -d > $file; n $file
+  echo $1 | sed -r 's/\\\\r\\\\n//g' | base64 -d | zlib -d > $file;n $file
   echo "n $file"
 }
 
@@ -278,7 +273,9 @@ fi
 source "$fasd_cache"
 unset fasd_cache
 
-source ~/.zsh_notifyosd.zsh
+if [ -f ~/.zsh_notifyosd.zsh ]; then
+    source ~/.zsh_notifyosd.zsh
+fi
 
 # Automate ssh-agent startup
 if [ -z "$SSH_AUTH_SOCK" ] ; then
@@ -286,4 +283,6 @@ if [ -z "$SSH_AUTH_SOCK" ] ; then
  ssh-add
 fi
 
-. ~/.secret_aliases
+if [ -f ~/.secret_aliases ]; then
+    source ~/.secret_aliases
+fi
