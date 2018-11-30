@@ -42,19 +42,22 @@ let g:AutoPairsMapCR=0
 "" ncm2
 Plug 'ncm2/ncm2'
 Plug 'roxma/nvim-yarp'
-Plug 'roxma/vim-hug-neovim-rpc'
 Plug 'ncm2/ncm2-bufword'
 Plug 'ncm2/ncm2-tmux'
 Plug 'ncm2/ncm2-path'
 Plug 'ncm2/ncm2-ultisnips'
 Plug 'ncm2/ncm2-go', {'for': 'go'}
 Plug 'ncm2/ncm2-cssomni', {'for': 'css'}
-Plug 'phpactor/ncm2-phpactor', {'for': 'php'}
+Plug 'phpactor/ncm2-phpactor', {'for': ['php', 'markdown']}
 Plug 'ncm2/ncm2-jedi', {'for': 'python'}
 Plug 'ncm2/ncm2-tern',  {'do': 'npm install', 'for': 'javascript'}
 Plug 'ncm2/nvim-typescript', {'do': './install.sh', 'for': 'typescript'}
 Plug 'ncm2/ncm2-vim' | Plug 'Shougo/neco-vim', {'for': 'vim'}
 Plug 'fgrsnau/ncm2-otherbuf', { 'branch': 'ncm2' }
+" Plug 'ncm2/ncm2-highprio-pop'
+" Plug 'ncm2/ncm2-match-highlight'
+" let g:ncm2#match_highlight = 'mono-space'
+" Plug 'ncm2/ncm2-markdown-subscope', {'for': 'markdown'}
 
 "" pymode
 Plug 'python-mode/python-mode', {'for': 'python'}
@@ -96,7 +99,7 @@ Plug 'alvan/vim-php-manual', {'for': 'php'}
 let g:vim_php_refactoring_use_default_mapping = 0
 Plug 'adoy/vim-php-refactoring-toolbox', {'for': 'php'}
 Plug 'phpactor/phpactor', {'for': 'php', 'do': ':call phpactor#Update()'}
-Plug 'lvht/phpcd.vim', { 'for': 'php', 'do': 'composer install' }
+" Plug 'lvht/phpcd.vim', { 'for': 'php', 'do': 'composer install' }
 
 "" go
 Plug 'fatih/vim-go', {'for': 'go', 'do': ':GoInstallBinaries'}
@@ -125,7 +128,7 @@ Plug 'reedes/vim-lexical', {'for': ['text', 'markdown', 'gitcommit']}
 let g:mkdp_path_to_chrome = 'chromium-browser'
 Plug 'iamcco/markdown-preview.vim', {'for': ['markdown']}
 let g:mkdp_auto_close = 0
-Plug 'gabrielelana/vim-markdown', {'for': ['markdown']}
+" Plug 'gabrielelana/vim-markdown', {'for': ['markdown']}
 Plug 'junegunn/goyo.vim', {'for': 'markdown'}
 Plug 'plasticboy/vim-markdown', {'for': ['markdown'], 'as': 'vim-markdown-plasticboy'}
 
@@ -232,10 +235,10 @@ let g:Todo_txt_prefix_creation_date=0
 " Set the 'path' option for miscellaneous file types
 Plug 'tpope/vim-apathy'
 Plug 'sheerun/vim-polyglot', {'do': './build'}
-let g:polyglot_disabled = ['php', 'go']
+let g:polyglot_disabled = ['php', 'go', 'markdown', 'liquid']
 Plug 'pearofducks/ansible-vim', { 'do': 'cd ./UltiSnips; python2 generate.py' }
 " reloading vim files
-Plug 'xolox/vim-reload'
+" Plug 'xolox/vim-reload'
 
 "" misc
 Plug 'amiorin/vim-project'
@@ -274,7 +277,6 @@ nnoremap <leader>k :SplitjoinJoin<cr>
 Plug 'tpope/vim-commentary', {'on': 'Commentary'}
 nnoremap <leader>c :Commentary<cr>
 vnoremap <leader>c :Commentary<cr>
-
 
 "" disabled plugins
 " enable it occasionally to get rid of bad habits
@@ -327,7 +329,7 @@ augroup everything
   au FileType gitv nmap <buffer> <silent> <C-n> <Plug>(gitv-previous-commit)
   au FileType gitv nmap <buffer> <silent> <C-p> <Plug>(gitv-next-commit)
 
-  " au BufWritePost * silent! !eval '[ -f ".git/hooks/ctags" ] && .git/hooks/ctags' &
+  au BufWritePost * silent! !eval '[ -f ".git/hooks/ctags" ] && .git/hooks/ctags' &
 
   " au BufWritePost *.go silent! GoBuild! -i
 augroup end
@@ -343,6 +345,10 @@ augroup nvim
   au InsertLeave * set timeoutlen=500
 
   autocmd BufEnter * call ncm2#enable_for_buffer()
+  " enable auto complete for `<backspace>`, `<c-w>` keys.
+  " known issue https://github.com/ncm2/ncm2/issues/7
+  au TextChangedI * call ncm2#auto_trigger()
+
   au User Ncm2PopupOpen set completeopt=noinsert,menuone,noselect
   au User Ncm2PopupClose set completeopt=menuone
   au CursorHold * checktime
@@ -479,7 +485,7 @@ nnoremap <leader>; :TagbarToggle<cr>
 nnoremap <leader>a :Rg<space>
 nnoremap <leader>A :exec "Rg ".expand("<cword>")<cr>
 nnoremap <m-r> :exec "Rg ".expand("<cword>")<cr>
-vnoremap <m-r>  "hy:exec "Find ".escape('<C-R>h', "/\.*$^~[()")<cr>
+vnoremap // "hy:exec "Find ".escape('<C-R>h', "/\.*$^~[()")<cr>
 nnoremap <m-s-r> :exec "Find ".expand("<cword>")<cr>
 
 command! -bang -nargs=* Rg
@@ -779,7 +785,9 @@ nnoremap <leader>gp :!git push<cr>
 " wordwise upper line completion in insert mode
 inoremap <expr> <c-y> matchstr(getline(line('.')-1), '\%' . virtcol('.') . 'v\%(\k\+\\|.\)')
 
-so ~/.config/nvim/projects.public.vim
+if filereadable(expand('~/.config/nvim/projects.public.vim'))
+    so ~/.config/nvim/projects.public.vim
+endif
 
 "" IsOnBattery
 function! IsOnBattery()
