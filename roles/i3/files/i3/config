@@ -149,7 +149,7 @@ bindsym $mod+semicolon workspace next
 # switch to workspace
 bindsym $mod+1 workspace number 1
 bindsym $mod+2 workspace number 2; exec idea
-bindsym $mod+3 workspace number 3
+bindsym $mod+3 workspace number 3; exec [ $(ps h -C mysql-workbench | wc -l) = 0 ] && mysql-workbench
 bindsym $mod+4 workspace number 4
 bindsym $mod+5 workspace number 5
 bindsym $mod+6 workspace number 6
