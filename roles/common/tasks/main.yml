@@ -1,4 +1,21 @@
 ---
+
+- name: add dropbox source
+  shell: >
+    sudo apt-key adv --keyserver pgp.mit.edu --recv-keys 5044912E
+    sudo sh -c 'echo "deb http://linux.dropbox.com/ubuntu/ xenial main" > /etc/apt/sources.list.d/dropbox.list'
+    sudo apt update
+
+- name: add apt-fast/stable repository
+  apt_repository: repo="ppa:apt-fast/stable" state=present
+  become: yes
+- name: install apt-fast
+  become: yes
+  package: name={{ item }} state=latest
+  with_items:
+    - aria2
+    - apt-fast
+
 - name: install various tools
   become: yes
   package: name={{ item }} state=latest
@@ -17,18 +34,12 @@
     - thunar
     - chromium-browser
     - mousepad
-    - aria2
     - feh
     - tidy
     - dropbox
-
-- name: add apt-fast/stable repository
-  apt_repository: repo="ppa:apt-fast/stable" state=present
-  become: yes
-
-- name: install apt-fast
-  become: yes
-  package: name=apt-fast state=latest
+    - fasd
+    - autorandr
+    - parcellite
 
 - name: install rofi
   become: yes
@@ -41,13 +52,5 @@
     dest={{ ansible_env.HOME }}/.config/rofi/config
     state=link
 
-- name: install autorandr
-  become: yes
-  package: name=autorandr state=latest
-
 - name: install todotxt-machine
   shell: "{{ ansible_env.HOME }}/.local/bin/pip install --user --upgrade todotxt-machine"
-
-- name: install parcellite
-  become: yes
-  package: name=parcellite state=latest
