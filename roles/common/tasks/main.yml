@@ -40,6 +40,7 @@
     - fasd
     - autorandr
     - parcellite
+    - openvpn
 
 - name: install rofi
   become: yes
@@ -54,3 +55,7 @@
 
 - name: install todotxt-machine
   shell: "{{ ansible_env.HOME }}/.local/bin/pip install --user --upgrade todotxt-machine"
+
+- name: disable openvpn at boot
+  become: yes
+  shell: "update-rc.d openvpn disable"
