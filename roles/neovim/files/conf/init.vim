@@ -126,7 +126,7 @@ Plug 'NLKNguyen/papercolor-theme'
 "" markdown
 Plug 'reedes/vim-lexical', {'for': ['text', 'markdown', 'gitcommit']}
 let g:mkdp_path_to_chrome = 'chromium-browser'
-Plug 'iamcco/markdown-preview.vim', {'for': ['markdown']}
+Plug 'iamcco/markdown-preview.nvim', { 'for': ['markdown'] }
 let g:mkdp_auto_close = 0
 " Plug 'gabrielelana/vim-markdown', {'for': ['markdown']}
 Plug 'junegunn/goyo.vim', {'for': 'markdown'}
@@ -621,9 +621,6 @@ function! LightScheme()
   color github
   set cursorline
 endfunction
-
-" nnoremap <silent> <f9> :MarkdownPreview<cr>
-" nnoremap <silent> <s-f9> :MarkdownStop<cr>
 
 "" completion
 inoremap <silent> <expr> <CR> (pumvisible() ? ncm2_ultisnips#expand_or("\<CR>", 'n') : "\<CR>")
