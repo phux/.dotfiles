@@ -113,14 +113,15 @@ Plug 'junegunn/fzf.vim'
 Plug 'tweekmonster/fzf-filemru', {'on': ['FilesMru', 'ProjectMru']}
 
 "" UI
-Plug 'morhetz/gruvbox'
 Plug 'itchyny/lightline.vim'
 Plug 'simeji/winresizer'
 let g:echodoc_enable_at_startup=1
 Plug 'Shougo/echodoc.vim'
 let g:buftabline_show = 1 " display only if more than 1 buffer open
 Plug 'ap/vim-buftabline'
+Plug 'morhetz/gruvbox'
 Plug 'NLKNguyen/papercolor-theme'
+Plug 'arcticicestudio/nord-vim'
 
 
 "" markdown
@@ -320,7 +321,7 @@ augroup everything
   au filetype todo imap <buffer> + +<C-X><C-O>
   " Auto complete contexts
   "au filetype todo imap <buffer> @ @<C-X><C-O>
-  au BufNewFile,BufRead,BufEnter ~/Dropbox/notes/*.md set ft=notes.markdown
+  au BufNewFile,BufRead,BufEnter ~/Dropbox/notes/*.md set ft=markdown.notes
 
   au FileType html,xml inoremap <buffer> <m-;> </<c-x><c-o>
   au FileType html setlocal equalprg=tidy\ -indent\ -quiet\ --show-errors\ 0\ --tidy-mark\ no\ --show-body-only\ auto
@@ -339,7 +340,7 @@ augroup end
 augroup nvim
   au!
   au BufWritePost *.vim nested source $MYVIMRC
-  au CursorHold * normal! m'
+  " au CursorHold * normal! m'
   " no delay when ESC/jk
   au InsertEnter * set timeoutlen=100
   au InsertLeave * set timeoutlen=500
@@ -423,7 +424,7 @@ let spellfile='~/.vim.spell'
 """ colors
 set t_Co=256
 set background=dark
-color deus
+color nord
 
 function! Bright()
     set background=light
@@ -432,7 +433,7 @@ function! Bright()
 endfunction
 
 let g:lightline = {
-            \ 'colorscheme': 'deus',
+            \ 'colorscheme': 'nord',
             \ 'active': {
             \   'left': [ [ 'mode', 'paste' ],
             \             [ 'gitbranch', 'readonly', 'filename', 'modified' ] ]

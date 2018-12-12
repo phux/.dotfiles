@@ -4,7 +4,7 @@ xset r rate 300 35
 
 setxkbmap -option ctrl:nocaps
 
-feh --bg-max /home/janmolowitz/Pictures/gesundheit.jpg
+feh --bg-center ~/Pictures/happy_face.jpg --image-bg #383f4e
 
 xrdb ~/.Xresources
 
