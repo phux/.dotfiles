@@ -73,6 +73,7 @@
     nvim
     +GoInstallBinaries!
     +GoDoctorInstall!
+    +UpdateRemotePlugins
     +qall!
     /tmp/needed_file.go
     ignore_errors: true
@@ -203,3 +204,14 @@
   with_fileglob:
     - .tern-config
     - .eslintrc.json
+
+- name: Creates tools directory
+  file:
+    path: "{{ansible_env.HOME}}/tools"
+    state: directory
+- git:
+    repo: 'git@github.com:saibing/bingo.git'
+    dest: "{{ ansible_env.HOME }}/tools/bingo"
+    version: release-0.22
+- name: install bingo
+  shell: cd ~/tools/bingo && go install

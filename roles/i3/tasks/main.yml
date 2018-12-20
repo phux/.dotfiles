@@ -21,3 +21,14 @@
     groups: audio
     user: "{{ lookup('env','USER')}}"
   become: yes
+
+- name: create dunst config dir
+  file: path="{{ ansible_env.HOME }}/.config/dunst" state=directory
+
+- name: Link dunstc
+  file: >
+    src={{item}}
+    dest="{{ ansible_env.HOME }}/.config/dunst/{{ item | basename }}"
+    state=link
+  with_fileglob:
+    - dunstrc

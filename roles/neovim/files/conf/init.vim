@@ -79,10 +79,10 @@ let g:ale_fixers = {
   \ '*': ['remove_trailing_lines', 'trim_whitespace'],
   \ 'vim': ['remove_trailing_lines', 'trim_whitespace'],
   \ 'php': ['phpcbf', 'php_cs_fixer', 'remove_trailing_lines', 'trim_whitespace'],
-  \ 'go': ['gofmt', 'goimports'],
   \ 'notes': ['remove_trailing_lines', 'trim_whitespace'],
   \ 'markdown': ['remove_trailing_lines', 'trim_whitespace'],
-  \ 'notes.markdown': ['remove_trailing_lines', 'trim_whitespace']
+  \ 'notes.markdown': ['remove_trailing_lines', 'trim_whitespace'],
+  \ 'go': ['gofmt', 'goimports']
   \}
 " \ 'json': ['fixjson', 'prettier'],
 let g:ale_fix_on_save = 1
@@ -102,10 +102,15 @@ Plug 'phpactor/phpactor', {'for': 'php', 'do': ':call phpactor#Update()'}
 " Plug 'lvht/phpcd.vim', { 'for': 'php', 'do': 'composer install' }
 
 "" go
+
 Plug 'fatih/vim-go', {'for': 'go', 'do': ':GoInstallBinaries'}
 Plug 'sebdah/vim-delve', {'for': 'go'}
 Plug 'godoctor/godoctor.vim', {'for': 'go'}
 Plug 'buoto/gotests-vim', {'for': 'go'}
+Plug 'autozimu/LanguageClient-neovim', {
+    \ 'branch': 'next',
+    \ 'do': 'bash install.sh',
+    \ }
 
 "" fzf
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
@@ -116,12 +121,15 @@ Plug 'tweekmonster/fzf-filemru', {'on': ['FilesMru', 'ProjectMru']}
 Plug 'itchyny/lightline.vim'
 Plug 'simeji/winresizer'
 let g:echodoc_enable_at_startup=1
+" default nord color lets not identify current argument
+let g:echodoc#highlight_arguments = 'SpellCap'
 Plug 'Shougo/echodoc.vim'
 let g:buftabline_show = 1 " display only if more than 1 buffer open
 Plug 'ap/vim-buftabline'
 Plug 'morhetz/gruvbox'
 Plug 'NLKNguyen/papercolor-theme'
 Plug 'arcticicestudio/nord-vim'
+Plug 'etdev/vim-hexcolor', {'for': ['css', 'vim']}
 
 
 "" markdown
@@ -203,6 +211,10 @@ nnoremap <leader>gw :Gwrite<cr>
 nnoremap <leader>gs :Gstatus<cr>
 nnoremap <leader>gc :Gcommit<cr>
 nnoremap <leader>gl :Gitv<cr>
+Plug 'christoomey/vim-conflicted'
+" Use `gl` and `gu` rather than the default conflicted diffget mappings
+let g:diffget_local_map = 'gl'
+let g:diffget_upstream_map = 'gu'
 
 "" notes
 Plug 'xolox/vim-notes', {'on': ['SearchNotes', 'Note', 'RecentNotes']} | Plug 'xolox/vim-misc'
@@ -293,6 +305,15 @@ call plug#end()
 " call orchestra#prelude()
 " call orchestra#set_tune('bubbletrouble')
 " call orchestra#set_tune('clackclack')
+let g:LanguageClient_diagnosticsEnable=0
+let g:LanguageClient_rootMarkers = {
+        \ 'go': ['.git', 'go.mod'],
+        \ }
+
+let g:LanguageClient_serverCommands = {
+    \ 'go': ['bingo', '--mode', 'stdio', '--logfile', '/tmp/lspserver.log','--trace', '--pprof', ':6060', '-use-global-cache'],
+    \ }
+
 
 """"""""""""""""""""""""
 "  Autogroups  "
@@ -331,9 +352,23 @@ augroup everything
   au FileType gitv nmap <buffer> <silent> <C-p> <Plug>(gitv-next-commit)
 
   au BufWritePost * silent! !eval '[ -f ".git/hooks/ctags" ] && .git/hooks/ctags' &
+augroup END
 
-  " au BufWritePost *.go silent! GoBuild! -i
+augroup golang
+    au!
+    " au BufWritePost *.go match(expand('%:t'),'\_test.go') == -1 ? ':silent! GoBuild! -i' : ''
+    au BufEnter *.go silent! call SetGoBuildTags()
 augroup end
+
+function! SetGoBuildTags()
+    let l:line = getline(1)
+    if l:line =~# '// +build'
+        let l:tags = substitute(l:line, '// +build', '', "g")
+        exe ":GoBuildTags ".l:tags
+    else
+        let g:go_build_tags=""
+    endif
+endfunction
 
 
 "" Nvim
@@ -358,6 +393,7 @@ augroup nvim
 
   autocmd VimResized * wincmd =
 augroup END
+" call ncm2#override_source('LanguageClient_go', {'enable': 0})
 
 """"""""""""""
 "  Settings  "
@@ -438,9 +474,14 @@ let g:lightline = {
             \   'left': [ [ 'mode', 'paste' ],
             \             [ 'gitbranch', 'readonly', 'filename', 'modified' ] ]
             \ },
+            \ 'inactive': {
+            \   'left': [ [ 'conflicted_name' ] ],
+            \   'right': [ [ 'lineinfo' ], [ 'percent' ] ]
+            \ },
             \ 'component_function': {
             \   'filename': 'LightlineFilename',
-\   'gitbranch': 'fugitive#head'
+            \   'gitbranch': 'fugitive#head',
+            \   'conflicted_name': 'ConflictedVersion'
             \ },
             \ }
 
@@ -513,7 +554,7 @@ call project#rc('~/code')
 
 "" vim-abolish
 nnoremap <leader>] :%Subvert/<c-R><c-w>/<c-r><c-w>/g<left><left>
-vnoremap <leader>] :%Subvert//g<left><left>
+vnoremap <leader>] :Subvert//g<left><left>
 
 "" qf/loc list toggle
 nmap <silent> <c-p> :cp<cr>
@@ -797,3 +838,6 @@ endfunction
 
 nnoremap <silent> <leader><f5> :e $MYVIMRC<CR>
 imap jk <esc>
+
+" override nord visual highlighting
+hi Visual ctermfg=7 ctermbg=4
