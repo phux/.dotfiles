@@ -46,7 +46,10 @@ Plug 'ncm2/ncm2-bufword'
 Plug 'ncm2/ncm2-tmux'
 Plug 'ncm2/ncm2-path'
 Plug 'ncm2/ncm2-ultisnips'
-Plug 'ncm2/ncm2-go', {'for': 'go'}
+" Plug 'ncm2/ncm2-go', {'for': 'go'}
+Plug 'prabirshrestha/async.vim'
+Plug 'prabirshrestha/vim-lsp'
+Plug 'ncm2/ncm2-vim-lsp'
 Plug 'ncm2/ncm2-cssomni', {'for': 'css'}
 Plug 'phpactor/ncm2-phpactor', {'for': ['php', 'markdown']}
 Plug 'ncm2/ncm2-jedi', {'for': 'python'}
@@ -107,15 +110,15 @@ Plug 'fatih/vim-go', {'for': 'go', 'do': ':GoInstallBinaries'}
 Plug 'sebdah/vim-delve', {'for': 'go'}
 Plug 'godoctor/godoctor.vim', {'for': 'go'}
 Plug 'buoto/gotests-vim', {'for': 'go'}
-Plug 'autozimu/LanguageClient-neovim', {
-    \ 'branch': 'next',
-    \ 'do': 'bash install.sh',
-    \ }
+" Plug 'autozimu/LanguageClient-neovim', {
+"     \ 'branch': 'next',
+"     \ 'do': 'bash install.sh',
+"     \ }
 
 "" fzf
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
-Plug 'tweekmonster/fzf-filemru', {'on': ['FilesMru', 'ProjectMru']}
+Plug 'tweekmonster/fzf-filemru'
 
 "" UI
 Plug 'itchyny/lightline.vim'
@@ -280,7 +283,7 @@ nnoremap <silent> <leader>tl :TestLast<CR>
 nnoremap <silent> <leader>tv :TestVisit<CR>
 let test#strategy='neovim'
 
-
+Plug 'svermeulen/vim-subversive'
 """ SplitJoin
 Plug 'AndrewRadev/splitjoin.vim', {'on': ['SplitjoinSplit', 'SplitjoinJoin']}
 nnoremap <leader>j :SplitjoinSplit<cr>
@@ -301,6 +304,7 @@ vnoremap <leader>c :Commentary<cr>
 " Plug 'timeyyy/orchestra.nvim'
 " Plug 'timeyyy/clackclack.symphony'
 " Plug 'timeyyy/bubbletrouble.symphony'
+Plug 'maxbrunsfeld/vim-yankstack'
 call plug#end()
 " call orchestra#prelude()
 " call orchestra#set_tune('bubbletrouble')
@@ -311,8 +315,12 @@ let g:LanguageClient_rootMarkers = {
         \ }
 
 let g:LanguageClient_serverCommands = {
-    \ 'go': ['bingo', '--mode', 'stdio', '--logfile', '/tmp/lspserver.log','--trace', '--pprof', ':6060', '-use-global-cache'],
+    \ 'go': ['bingo', '--mode', 'stdio', '--logfile', '/tmp/lspserver.log','--trace', '--pprof', ':6060'],
     \ }
+" s for substitute
+nmap s <plug>(SubversiveSubstitute)
+nmap ss <plug>(SubversiveSubstituteLine)
+nmap S <plug>(SubversiveSubstituteToEndOfLine)
 
 
 """"""""""""""""""""""""
@@ -514,9 +522,30 @@ let g:fzf_buffers_jump = 1
 
 " [[B]Commits] Customize the options used by 'git log':
 let g:fzf_commits_log_options = '--graph --color=always --format="%C(auto)%h%d %s %C(black)%C(bold)%cr"'
+function! s:buflist()
+  redir => ls
+  silent ls
+  redir END
+  return split(ls, '\n')
+endfunction
+
+function! s:bufopen(e)
+  execute 'buffer' matchstr(a:e, '^[ 0-9]*')
+endfunction
+
+nnoremap <silent> <Leader><Enter> :call fzf#run({
+\   'source':  reverse(<sid>buflist()),
+\   'sink':    function('<sid>bufopen'),
+\   'options': '+m',
+\   'down':    len(<sid>buflist()) + 2
+\ })<CR>
 
 nnoremap <leader><tab> :Buffers<cr>
-nnoremap <leader><Enter> :Buffers<cr>
+" nnoremap <leader><Enter> :Buffers<cr>
+augroup custom_filemru
+  autocmd!
+  autocmd BufWinEnter * UpdateMru
+augroup END
 nnoremap <leader>, :FilesMru --tiebreak=index<cr>
 nnoremap <leader>. :FZFAllFiles<cr>
 nnoremap <leader>d :BTags<cr>
@@ -841,3 +870,12 @@ imap jk <esc>
 
 " override nord visual highlighting
 hi Visual ctermfg=7 ctermbg=4
+
+if executable('bingo')
+    au User lsp_setup call lsp#register_server({
+        \ 'name': 'bingo',
+        \ 'cmd': {server_info->['bingo', '-mode', 'stdio']},
+        \ 'whitelist': ['go'],
+        \ })
+endif
+let g:lsp_diagnostics_enabled = 0
