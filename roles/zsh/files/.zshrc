@@ -15,8 +15,8 @@ export EDITOR="nvim"
 export USE_EDITOR=$EDITOR
 export VISUAL=$EDITOR
 
-# export TERM=xterm-256color
-export TERM=rxvt-256color
+export TERM=xterm-256color
+#export TERM=rxvt-256color
 
 export TODOTXT_DEFAULT_ACTION=ls
 

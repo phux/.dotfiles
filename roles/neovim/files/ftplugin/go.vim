@@ -3,16 +3,17 @@ set foldenable
 set foldmethod=syntax
 set foldlevel=1
 set foldnestmax=1
-" let g:ale_linters['go'] = ['gofmt', 'zb']
 let g:ale_linters['go'] = ['gofmt', 'golangci-lint']
-" let g:ale_linters['go'] = ['gofmt', 'golangci-lint']
 let g:ale_go_golangci_lint_options= ''
-let g:go_golangci_lint_package=0
+let g:ale_go_golangci_lint_package = 1
 let g:ale_go_gofmt_options='-s'
 let g:go_gocode_propose_source=0
 let g:ale_keep_list_window_open=0
 let g:ale_set_quickfix=1
 
+
+let g:go_addtags_transform='camelcase'
+" let g:ale_go_golangci_lint_options='--fast'
 if IsOnBattery()
     let g:ale_go_golangci_lint_options='--fast'
 endif
@@ -21,21 +22,27 @@ let g:cm_auto_popup=1
 
 nnoremap <silent><buffer> <leader>w :lclose<cr>:w<cr>
 
-nnoremap <buffer> <leader>gr :GoRename <c-r><c-w>
+" nnoremap <buffer> <leader>gr :GoRename <c-r><c-w>
+" nnoremap <silent> <leader>gr :call LanguageClient#textDocument_rename()<CR>
+nnoremap <silent> <leader>gr :LspRename<CR>
+" nnoremap <silent> gd :call LanguageClient#textDocument_definition()<CR>
+nnoremap <silent> gd :LspDefinition<cr>
+nnoremap <silent> gD :LspTypeDefinition<cr>
 vnoremap <buffer> <leader>em :Refactor extract
 vnoremap <buffer> <leader>ev :Refactor var
-nnoremap <buffer> <leader>gm :call GoMoveDir()<cr>
+nnoremap <buffer> <leader>gm :call GoMoveDirV2()<cr>
 nnoremap <buffer> <leader>ga :GoAddTags<cr>
 noremap <buffer> <leader>h :Refactor godoc<cr>
 noremap <buffer> <leader>m :GoDoc<cr>
 noremap <buffer> <leader>u :exec "GoImport ".expand("<cword>")<cr>
 inoremap <buffer> <m-i> <esc>h:exec "GoImport ".expand("<cword>")<cr>la
-" inoremap <silent><buffer> . .<esc>h:exec "silent GoImport ".expand("<cword>")<cr>la
+inoremap <silent><buffer> . .<esc>h:exec "silent GoImport ".expand("<cword>")<cr>la
 
-nnoremap <buffer> gr :GoReferrers<cr>
-nnoremap <buffer> gi :GoImplements<cr>
-nnoremap <buffer> <leader>gi :GoImpl<cr>
+nnoremap <buffer> gr :LspReferences<cr>
+" nnoremap <buffer> gR :GoReferrers<cr>
+nnoremap <buffer> gi :LspImplementation<cr>
 
+nnoremap <silent> K :call LanguageClient#textDocument_hover()<CR>
 nnoremap <buffer> <leader>d :GoDeclsDir<cr>
 nnoremap <buffer> <silent> <m-a> :GoAlternate!<cr>
 nnoremap <buffer> <m-c> :GoCoverageToggle<cr>
@@ -51,9 +58,9 @@ nnoremap <buffer> <c-s> :GoFmt<cr>
 " run :GoBuild or :GoTestCompile based on the go file
 nnoremap <buffer> <m-b> :<C-u>call <SID>build_go_files()<CR>
 
-nnoremap <buffer> <f5> :GoDebugStart<cr>
-nnoremap <buffer> <f6> :GoDebugTest<cr>
-nnoremap <buffer> <f7> :GoDebugStop<cr>
+nnoremap <buffer> <f5> :let g:previous_pwd=getcwd()<cr>:GoDebugStart<cr>
+nnoremap <buffer> <f6> :let g:previous_pwd=getcwd()<cr>:lcd %:p:h<cr>:GoDebugTest<cr>
+nnoremap <buffer> <f7> :GoDebugStop<cr>:exe "lcd ".g:previous_pwd<cr>
 
 nnoremap <buffer> <f9> :GoDebugBreakpoint<cr>
 nnoremap <buffer> <f10> :GoDebugNext<cr>
@@ -94,7 +101,7 @@ let g:go_highlight_operators = 1
 let g:go_highlight_build_constraints = 1
 let g:go_highlight_extra_types = 1
 let g:go_fmt_command = 'goimports'
-let g:go_fmt_autosave = 1
+let g:go_fmt_autosave = 0
 let g:go_metalinter_autosave = 0
 let g:go_metalinter_deadline = '20s'
 let g:go_metalinter_enabled = [ 'goconst', 'gocyclo', 'golint', 'ineffassign', 'interfacer', 'maligned', 'megacheck', 'misspell', 'structcheck', 'unconvert', 'varcheck', 'vet']
@@ -108,8 +115,6 @@ let g:go_debug_windows = {
       \ 'stack':   'botright 10new',
       \ 'vars':  'leftabove 50vnew',
 \ }
-
- g:go_auto_type_info = 0
 
 let g:go_term_enabled=0
 let g:go_disable_autoinstall = 0
@@ -147,7 +152,23 @@ let g:go_fmt_options = {
   \ }
 
 let g:go_def_mode = 'godef'
-let g:go_def_mode = 'guru'
+" let g:go_def_mode = 'guru'
+
+function! ImplementInterface()
+    if !filereadable('go.mod')
+        echo 'no go.mod found in cwd'
+        return
+    endif
+
+    let l:currentBasePackage = substitute(substitute(system('head -n 1 go.mod'), 'module ', '', ''), '\n\+$', '', '')
+    let l:interface = input('interface: ', l:currentBasePackage.''.substitute(expand('%:p:h'), getcwd(), '', '').'.')
+    let l:receiver = expand('<cword>')
+    let l:firstLetter = tolower(strpart(l:receiver, 0, 1))
+
+    exe ':GoImpl '.l:firstLetter.' *'.l:receiver.' '.l:interface
+endfunction
+nnoremap <buffer> <leader>il :call ImplementInterface()<cr>
+nnoremap <buffer> <leader>is :GoImpl<cr>
 
 " dependency: go get golang.org/x/tools/cmd/gomvpkg
 function! GoMoveDir()
@@ -161,14 +182,15 @@ function! GoMoveDir()
     endif
   endfor
 
+    let l:currentFile = expand('%:p')
+    let l:oldPath = input('Old path: ', substitute(expand('%:p:h'), gopath.'/src/', '', ''))
+    let l:newPath = input('New path ==> ', l:oldPath)
+
   if len(l:gopath) == 0
-    echo 'Cannot move pkg - not in configured gopath?!'
-    return
+    " echo 'Cannot move pkg - not in configured gopath?!'
+    " return
   endif
 
-  let l:currentFile = expand('%:p')
-  let l:oldPath = input('Old path: ', substitute(expand('%:p:h'), gopath.'/src/', '', ''))
-  let l:newPath = input('New path ==> ', l:oldPath)
 
   execute '!gomvpkg -from '.l:oldPath.' -to '.l:newPath
 
@@ -198,6 +220,41 @@ function! GoMoveFile()
   let l:newPath = input('New path ==> ', l:oldPath)
 
   execute '!gomvpkg -from '.l:oldPath.' -to '.l:newPath
+
+  if !filereadable(l:currentFile)
+    :bd
+  endif
+endfunction
+
+" dependency: go get -u github.com/ksubedi/gomove
+function! GoMoveDirV2()
+  :update
+
+  if !filereadable('go.mod')
+      echo 'no go.mod found in cwd - not moving anything'
+      return
+  endif
+
+  let l:currentBasePackage = substitute(substitute(system('head -n 1 go.mod'), 'module ', '', ''), '\n\+$', '', '')
+  let l:currentFile = expand('%:p')
+  let l:oldPath = substitute(expand('%:p:h'), getcwd(), '', '')
+  let l:oldPackage = input('Old package: ', l:currentBasePackage.''.l:oldPath)
+  let l:newPackage = input('New package ==> ', l:oldPackage)
+  let l:oldPath = getcwd().'/'.substitute(l:oldPackage, l:currentBasePackage, '', '')
+  let l:newPath = getcwd().'/'.substitute(l:newPackage, l:currentBasePackage, '', '')
+  if l:oldPackage =~# '/$'
+      let l:oldPackage = strpart(l:oldPackage, 0, len(l:oldPackage) -1)
+  endif
+  if l:newPackage =~# '/$'
+      let l:newPackage = strpart(l:newPackage, 0, len(l:newPackage) -1)
+  endif
+
+  if empty(glob(l:newPath))
+      exe '!mkdir -p '.l:newPath
+  endif
+
+  exe '!mv '.l:oldPath.'/* '.l:newPath
+  exe '!gomove '.l:oldPackage.' '.l:newPackage
 
   if !filereadable(l:currentFile)
     :bd
