@@ -13,7 +13,7 @@ let g:ale_set_quickfix=1
 
 
 let g:go_addtags_transform='camelcase'
-" let g:ale_go_golangci_lint_options='--fast'
+let g:ale_go_golangci_lint_options='--fast'
 if IsOnBattery()
     let g:ale_go_golangci_lint_options='--fast'
 endif
@@ -26,6 +26,8 @@ nnoremap <silent><buffer> <leader>w :lclose<cr>:w<cr>
 " nnoremap <silent> <leader>gr :call LanguageClient#textDocument_rename()<CR>
 nnoremap <silent> <leader>gr :LspRename<CR>
 " nnoremap <silent> gd :call LanguageClient#textDocument_definition()<CR>
+
+let g:go_def_mapping_enabled = 0
 nnoremap <silent> gd :LspDefinition<cr>
 nnoremap <silent> gD :LspTypeDefinition<cr>
 vnoremap <buffer> <leader>em :Refactor extract
@@ -42,7 +44,7 @@ nnoremap <buffer> gr :LspReferences<cr>
 " nnoremap <buffer> gR :GoReferrers<cr>
 nnoremap <buffer> gi :LspImplementation<cr>
 
-nnoremap <silent> K :call LanguageClient#textDocument_hover()<CR>
+nnoremap <silent> K :LspHover<CR>
 nnoremap <buffer> <leader>d :GoDeclsDir<cr>
 nnoremap <buffer> <silent> <m-a> :GoAlternate!<cr>
 nnoremap <buffer> <m-c> :GoCoverageToggle<cr>
@@ -62,6 +64,7 @@ nnoremap <buffer> <f5> :let g:previous_pwd=getcwd()<cr>:GoDebugStart<cr>
 nnoremap <buffer> <f6> :let g:previous_pwd=getcwd()<cr>:lcd %:p:h<cr>:GoDebugTest<cr>
 nnoremap <buffer> <f7> :GoDebugStop<cr>:exe "lcd ".g:previous_pwd<cr>
 
+nnoremap <buffer> <leader>e :exe "GoDebugPrint ".expand('<cword>')<cr>
 nnoremap <buffer> <f9> :GoDebugBreakpoint<cr>
 nnoremap <buffer> <f10> :GoDebugNext<cr>
 nnoremap <buffer> <f11> :GoDebugStep<cr>
@@ -88,7 +91,8 @@ function! GoExtractVariable()
   normal! bgr
 endfunction
 
-let g:go_list_type = 'locationlist'
+let g:go_list_type = 'quickfix'
+" let g:go_list_type = 'locationlist'
 " let g:go_list_type = ''
 let g:go_bin_path = expand('~/code/go/bin')
 " Enable syntax highlighting per default
@@ -113,7 +117,7 @@ hi GoDebugCurrent term=reverse ctermbg=7 ctermfg=0 guibg=DarkBlue guifg=White
 
 let g:go_debug_windows = {
       \ 'stack':   'botright 10new',
-      \ 'vars':  'leftabove 50vnew',
+      \ 'vars':  'leftabove 90vnew',
 \ }
 
 let g:go_term_enabled=0
