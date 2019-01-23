@@ -43,7 +43,7 @@ bindsym Mod1+Tab focus right
 bindsym $mod+Tab workspace back_and_forth
 
 # Start common apps
-bindsym $mod+Shift+Return exec firefox
+bindsym $mod+Shift+Return exec chromium-browser
 
 # Change focused window
 bindsym $mod+j focus down
@@ -141,7 +141,8 @@ bindsym $mod+semicolon workspace next
 
 # switch to workspace
 bindsym $mod+1 workspace number 1
-bindsym $mod+2 workspace number 2; exec idea
+# bindsym $mod+2 workspace number 2; exec idea
+bindsym $mod+2 workspace number 2
 bindsym $mod+3 workspace number 3; exec [ $(ps h -C mysql-workbench | wc -l) = 0 ] && mysql-workbench
 bindsym $mod+4 workspace number 4
 bindsym $mod+5 workspace number 5
@@ -149,7 +150,7 @@ bindsym $mod+6 workspace number 6
 bindsym $mod+7 workspace number 7
 bindsym $mod+8 workspace number 8
 bindsym $mod+9 workspace number 9; exec [ $(ps h -C spotify | wc -l) = 0 ] && spotify; exec [ $(ps h -C slack | wc -l) = 0 ] && slack
-bindsym $mod+0 workspace number 10; exec [ $(ps h -C firefox | wc -l) = 0 ] && firefox
+bindsym $mod+0 workspace number 10; exec [ $(ps h -C chromium-browser | wc -l) = 0 ] && chromium-browser
 
 # bind workspace to display
 workspace 1 output HDMI1
