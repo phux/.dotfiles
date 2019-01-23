@@ -1,6 +1,7 @@
 set encoding=UTF-8
 scriptencoding utf-8
 
+
 if has('vim_starting')
   set nofoldenable
 endif
@@ -46,10 +47,10 @@ Plug 'ncm2/ncm2-bufword'
 Plug 'ncm2/ncm2-tmux'
 Plug 'ncm2/ncm2-path'
 Plug 'ncm2/ncm2-ultisnips'
-" Plug 'ncm2/ncm2-go', {'for': 'go'}
 Plug 'prabirshrestha/async.vim'
 Plug 'prabirshrestha/vim-lsp'
 Plug 'ncm2/ncm2-vim-lsp'
+" Plug 'ncm2/ncm2-go', {'for': 'go'}
 Plug 'ncm2/ncm2-cssomni', {'for': 'css'}
 Plug 'phpactor/ncm2-phpactor', {'for': ['php', 'markdown']}
 Plug 'ncm2/ncm2-jedi', {'for': 'python'}
@@ -162,12 +163,12 @@ Plug 'romainl/vim-qf'
 Plug 'majutsushi/tagbar', {'on': 'TagbarToggle'}
 
 """ clever-f
-Plug 'rhysd/clever-f.vim'
-let g:clever_f_smart_case=1
-let g:clever_f_across_no_line=0
-map ; <Plug>(clever-f-repeat-forward)
-map , <Plug>(clever-f-repeat-back)
-let g:clever_f_timeout_ms=1000
+" Plug 'rhysd/clever-f.vim'
+" let g:clever_f_smart_case=1
+" let g:clever_f_across_no_line=0
+" map ; <Plug>(clever-f-repeat-forward)
+" map , <Plug>(clever-f-repeat-back)
+" let g:clever_f_timeout_ms=1000
 
 
 """ easymotion
@@ -317,10 +318,6 @@ let g:LanguageClient_rootMarkers = {
 let g:LanguageClient_serverCommands = {
     \ 'go': ['bingo', '--mode', 'stdio', '--logfile', '/tmp/lspserver.log','--trace', '--pprof', ':6060'],
     \ }
-" s for substitute
-nmap s <plug>(SubversiveSubstitute)
-nmap ss <plug>(SubversiveSubstituteLine)
-nmap S <plug>(SubversiveSubstituteToEndOfLine)
 
 
 """"""""""""""""""""""""
@@ -829,6 +826,7 @@ set nostartofline
 set ignorecase smartcase
 set hlsearch
 set incsearch
+set inccommand=split
 
 set timeout ttimeoutlen=0
 
@@ -851,7 +849,7 @@ nnoremap <silent> <m-d> :bp<bar>sp<bar>bn<bar>bd<CR>
 nnoremap <leader>gp :!git push<cr>
 
 " wordwise upper line completion in insert mode
-inoremap <expr> <c-y> matchstr(getline(line('.')-1), '\%' . virtcol('.') . 'v\%(\k\+\\|.\)')
+" inoremap <expr> <c-y> matchstr(getline(line('.')-1), '\%' . virtcol('.') . 'v\%(\k\+\\|.\)')
 
 if filereadable(expand('~/.config/nvim/projects.public.vim'))
     so ~/.config/nvim/projects.public.vim
@@ -870,12 +868,33 @@ imap jk <esc>
 
 " override nord visual highlighting
 hi Visual ctermfg=7 ctermbg=4
+hi BufTabLineCurrent ctermfg=2 ctermbg=8
 
 if executable('bingo')
     au User lsp_setup call lsp#register_server({
         \ 'name': 'bingo',
-        \ 'cmd': {server_info->['bingo', '-mode', 'stdio']},
+        \ 'cmd': {server_info->['bingo', '-mode', 'stdio', '--logfile', '/tmp/lspserver.log', '--trace']},
         \ 'whitelist': ['go'],
         \ })
 endif
 let g:lsp_diagnostics_enabled = 0
+
+command! -nargs=* Only call CloseHiddenBuffers()
+function! CloseHiddenBuffers()
+  " figure out which buffers are visible in any tab
+  let visible = {}
+  for t in range(1, tabpagenr('$'))
+    for b in tabpagebuflist(t)
+      let visible[b] = 1
+    endfor
+  endfor
+  " close any buffer that are loaded and not visible
+  let l:tally = 0
+  for b in range(1, bufnr('$'))
+    if bufloaded(b) && !has_key(visible, b)
+      let l:tally += 1
+      exe 'bw ' . b
+    endif
+  endfor
+  echon "Deleted " . l:tally . " buffers"
+endfun

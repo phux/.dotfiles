@@ -21,10 +21,10 @@ nnoremap <silent><buffer> <f11> :MarkdownStop<cr>
 " usage: just paste the raw url, :call UrlToMarkdownLink()<cr>
 function! UrlToMarkdownLink()
     normal! diW
-    normal! i[]()
+    normal! a[]()
     " paste url twice
     normal! PBpT/
-    " keep last part of url
+    keep last part of url
     normal! dT[
     " titelize last part of url if abolish installed
     if exists('g:loaded_abolish')
