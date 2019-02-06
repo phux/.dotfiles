@@ -3,33 +3,57 @@ set foldenable
 set foldmethod=syntax
 set foldlevel=1
 set foldnestmax=1
+
+let g:cm_auto_popup=1
+
 let g:ale_linters['go'] = ['gofmt', 'golangci-lint']
 let g:ale_go_golangci_lint_options= ''
 let g:ale_go_golangci_lint_package = 1
 let g:ale_go_gofmt_options='-s'
-let g:go_gocode_propose_source=0
 let g:ale_keep_list_window_open=0
 let g:ale_set_quickfix=1
-
-
-let g:go_addtags_transform='camelcase'
 let g:ale_go_golangci_lint_options='--fast'
 if IsOnBattery()
     let g:ale_go_golangci_lint_options='--fast'
 endif
 
-let g:cm_auto_popup=1
 
-nnoremap <silent><buffer> <leader>w :lclose<cr>:w<cr>
+let g:go_list_type = 'quickfix'
+let g:go_bin_path = expand('~/code/go/bin')
+let g:go_highlight_types = 1
+let g:go_highlight_fields = 1
+let g:go_highlight_functions = 1
+let g:go_highlight_methods = 1
+let g:go_highlight_structs = 1
+let g:go_highlight_operators = 1
+let g:go_highlight_build_constraints = 1
+let g:go_highlight_extra_types = 1
+let g:go_term_enabled=0
+let g:go_disable_autoinstall = 0
+let g:go_fmt_command = 'goimports'
+let g:go_fmt_autosave = 0
+let g:go_addtags_transform='camelcase'
+let g:go_metalinter_autosave = 0
+let g:go_metalinter_deadline = '20s'
+let g:go_metalinter_enabled = [ 'goconst', 'gocyclo', 'golint', 'ineffassign', 'interfacer', 'maligned', 'megacheck', 'misspell', 'structcheck', 'unconvert', 'varcheck', 'vet']
+let g:go_gocode_unimported_packages=1
 
-" nnoremap <buffer> <leader>gr :GoRename <c-r><c-w>
-" nnoremap <silent> <leader>gr :call LanguageClient#textDocument_rename()<CR>
-nnoremap <silent> <leader>gr :LspRename<CR>
-" nnoremap <silent> gd :call LanguageClient#textDocument_definition()<CR>
+let g:go_highlight_debug = 0
+hi GoDebugBreakpoint term=standout ctermbg=117 ctermfg=0 guibg=#BAD4F5  guifg=Black
+hi GoDebugCurrent term=reverse ctermbg=7 ctermfg=0 guibg=DarkBlue guifg=White
+
 
 let g:go_def_mapping_enabled = 0
 nnoremap <silent> gd :LspDefinition<cr>
+
 nnoremap <silent> gD :LspTypeDefinition<cr>
+nnoremap <buffer> gr :LspReferences<cr>
+nnoremap <buffer> gi :LspImplementation<cr>
+nnoremap <silent> K :LspHover<CR>
+nnoremap <silent> <leader>gr :LspRename<CR>
+
+nnoremap <buffer> <leader>d :GoDeclsDir<cr>
+nnoremap <silent><buffer> <leader>w :lclose<cr>:w<cr>
 vnoremap <buffer> <leader>em :Refactor extract
 vnoremap <buffer> <leader>ev :Refactor var
 nnoremap <buffer> <leader>gm :call GoMoveDirV2()<cr>
@@ -37,15 +61,9 @@ nnoremap <buffer> <leader>ga :GoAddTags<cr>
 noremap <buffer> <leader>h :Refactor godoc<cr>
 noremap <buffer> <leader>m :GoDoc<cr>
 noremap <buffer> <leader>u :exec "GoImport ".expand("<cword>")<cr>
-inoremap <buffer> <m-i> <esc>h:exec "GoImport ".expand("<cword>")<cr>la
-inoremap <silent><buffer> . .<esc>h:exec "silent GoImport ".expand("<cword>")<cr>la
+" inoremap <buffer> <m-i> <esc>h:exec "GoImport ".expand("<cword>")<cr>la
+" inoremap <silent><buffer> . .<esc>h:exec "silent GoImport ".expand("<cword>")<cr>la
 
-nnoremap <buffer> gr :LspReferences<cr>
-" nnoremap <buffer> gR :GoReferrers<cr>
-nnoremap <buffer> gi :LspImplementation<cr>
-
-nnoremap <silent> K :LspHover<CR>
-nnoremap <buffer> <leader>d :GoDeclsDir<cr>
 nnoremap <buffer> <silent> <m-a> :GoAlternate!<cr>
 nnoremap <buffer> <m-c> :GoCoverageToggle<cr>
 
@@ -91,37 +109,10 @@ function! GoExtractVariable()
   normal! bgr
 endfunction
 
-let g:go_list_type = 'quickfix'
-" let g:go_list_type = 'locationlist'
-" let g:go_list_type = ''
-let g:go_bin_path = expand('~/code/go/bin')
-" Enable syntax highlighting per default
-let g:go_highlight_types = 1
-let g:go_highlight_fields = 1
-let g:go_highlight_functions = 1
-let g:go_highlight_methods = 1
-let g:go_highlight_structs = 1
-let g:go_highlight_operators = 1
-let g:go_highlight_build_constraints = 1
-let g:go_highlight_extra_types = 1
-let g:go_fmt_command = 'goimports'
-let g:go_fmt_autosave = 0
-let g:go_metalinter_autosave = 0
-let g:go_metalinter_deadline = '20s'
-let g:go_metalinter_enabled = [ 'goconst', 'gocyclo', 'golint', 'ineffassign', 'interfacer', 'maligned', 'megacheck', 'misspell', 'structcheck', 'unconvert', 'varcheck', 'vet']
-let g:go_gocode_unimported_packages=1
-
-let g:go_highlight_debug = 0
-hi GoDebugBreakpoint term=standout ctermbg=117 ctermfg=0 guibg=#BAD4F5  guifg=Black
-hi GoDebugCurrent term=reverse ctermbg=7 ctermfg=0 guibg=DarkBlue guifg=White
-
 let g:go_debug_windows = {
       \ 'stack':   'botright 10new',
       \ 'vars':  'leftabove 90vnew',
 \ }
-
-let g:go_term_enabled=0
-let g:go_disable_autoinstall = 0
 
 let g:tagbar_type_go = {
     \ 'ctagstype' : 'go',

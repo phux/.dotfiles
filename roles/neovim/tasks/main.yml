@@ -78,25 +78,19 @@
     /tmp/needed_file.go
     ignore_errors: true
 
-- name: installing metalinter
+- name: installing golangci-lint
   shell: >
     source ~/.zshrc &&
-    go get -u github.com/alecthomas/gometalinter
+    go get -u github.com/golangci/golangci-lint/cmd/golangci-lint
     executable=/bin/zsh
 
-- name: installing metalinter deps
-  shell: source ~/.zshrc && gometalinter --install executable=/bin/zsh
-
-- name: Link .gometalinter config
+- name: Link .golangci-lint config
   file: >
     src={{item}}
     dest={{ ansible_env.HOME }}/{{ item | basename }}
     state=link
   with_fileglob:
-    - .gometalinter.json
-
-- name: installing zb
-  shell: source ~/.zshrc && go get jrubin.io/zb executable=/bin/zsh
+    - .golangci-lint.json
 
 - name: installing sqlfmt
   shell: >
@@ -209,9 +203,10 @@
   file:
     path: "{{ansible_env.HOME}}/tools"
     state: directory
-- git:
+
+- name: clone bingo
+  git:
     repo: 'git@github.com:saibing/bingo.git'
     dest: "{{ ansible_env.HOME }}/tools/bingo"
-    version: release-0.22
 - name: install bingo
   shell: cd ~/tools/bingo && go install

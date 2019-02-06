@@ -25,7 +25,7 @@
 - name: create dunst config dir
   file: path="{{ ansible_env.HOME }}/.config/dunst" state=directory
 
-- name: Link dunstc
+- name: Link dunstrc file
   file: >
     src={{item}}
     dest="{{ ansible_env.HOME }}/.config/dunst/{{ item | basename }}"
