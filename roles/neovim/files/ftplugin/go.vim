@@ -12,11 +12,12 @@ let g:ale_go_golangci_lint_package = 1
 let g:ale_go_gofmt_options='-s'
 let g:ale_keep_list_window_open=0
 let g:ale_set_quickfix=1
-let g:ale_go_golangci_lint_options='--fast'
+
+let g:go_addtags_transform='camelcase'
+" let g:ale_go_golangci_lint_options='--fast'
 if IsOnBattery()
     let g:ale_go_golangci_lint_options='--fast'
 endif
-
 
 let g:go_list_type = 'quickfix'
 let g:go_bin_path = expand('~/code/go/bin')
@@ -42,18 +43,14 @@ let g:go_highlight_debug = 0
 hi GoDebugBreakpoint term=standout ctermbg=117 ctermfg=0 guibg=#BAD4F5  guifg=Black
 hi GoDebugCurrent term=reverse ctermbg=7 ctermfg=0 guibg=DarkBlue guifg=White
 
-
 let g:go_def_mapping_enabled = 0
+nnoremap <silent> <leader>gr :LspRename<CR>
 nnoremap <silent> gd :LspDefinition<cr>
-
 nnoremap <silent> gD :LspTypeDefinition<cr>
 nnoremap <buffer> gr :LspReferences<cr>
 nnoremap <buffer> gi :LspImplementation<cr>
 nnoremap <silent> K :LspHover<CR>
-nnoremap <silent> <leader>gr :LspRename<CR>
 
-nnoremap <buffer> <leader>d :GoDeclsDir<cr>
-nnoremap <silent><buffer> <leader>w :lclose<cr>:w<cr>
 vnoremap <buffer> <leader>em :Refactor extract
 vnoremap <buffer> <leader>ev :Refactor var
 nnoremap <buffer> <leader>gm :call GoMoveDirV2()<cr>
@@ -64,6 +61,7 @@ noremap <buffer> <leader>u :exec "GoImport ".expand("<cword>")<cr>
 " inoremap <buffer> <m-i> <esc>h:exec "GoImport ".expand("<cword>")<cr>la
 " inoremap <silent><buffer> . .<esc>h:exec "silent GoImport ".expand("<cword>")<cr>la
 
+nnoremap <buffer> <leader>d :GoDeclsDir<cr>
 nnoremap <buffer> <silent> <m-a> :GoAlternate!<cr>
 nnoremap <buffer> <m-c> :GoCoverageToggle<cr>
 
