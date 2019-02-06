@@ -17,7 +17,7 @@
   - name: delete get-docker.sh
     file: state=absent path=/tmp/get-docker.sh
 
-  when: docker_is_installed.rc != 0
+  - name: install docker-compose
+    shell: "{{ ansible_env.HOME }}/.local/bin/pip install --user --upgrade docker-compose"
 
-- name: install docker-compose
-  shell: "{{ ansible_env.HOME }}/.local/bin/pip install --user --upgrade docker-compose"
+  when: docker_is_installed.rc != 0

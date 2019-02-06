@@ -2,15 +2,15 @@
 - stat: path={{ ansible_env.HOME }}/.rbenv
   register: rbenv_check
 
-- name: ruby deps
-  become: yes
-  package: name={{ item }} state=present
-  with_items:
-    - libssl-dev
-    - libreadline-dev
-    - zlib1g-dev
-
 - block:
+  - name: ruby deps
+    become: yes
+    package: name={{ item }} state=present
+    with_items:
+      - libssl-dev
+      - libreadline-dev
+      - zlib1g-dev
+
   - name: checkout rbenv repo
     git: >
       repo=https://github.com/rbenv/rbenv.git

@@ -1,34 +1,45 @@
 ---
-- name: Create i3 config directory
-  file: path={{ i3_config_dir }} state=directory
 
-- name: Install i3 and deps
-  become: yes
-  package: name={{ item }} state=latest
-  with_items:
-   - i3
-   - i3lock
-   - i3status
+- name: check to see if i3 is already installed
+  command: "i3 --version"
+  ignore_errors: true
+  register: i3_is_installed
+  changed_when: false
 
-- name: Link i3 files
-  file: src={{item}} dest={{ i3_config_dir }}/{{ item | basename }} state=link
-  with_fileglob:
-   - i3/*
+- block:
 
-- name: set up pulseaudio group memberships
-  user:
-    append: yes
-    groups: audio
-    user: "{{ lookup('env','USER')}}"
-  become: yes
+  - name: Create i3 config directory
+    file: path={{ i3_config_dir }} state=directory
 
-- name: create dunst config dir
-  file: path="{{ ansible_env.HOME }}/.config/dunst" state=directory
+  - name: Install i3 and deps
+    become: yes
+    package: name={{ item }} state=latest
+    with_items:
+    - i3
+    - i3lock
+    - i3status
 
-- name: Link dunstrc file
-  file: >
-    src={{item}}
-    dest="{{ ansible_env.HOME }}/.config/dunst/{{ item | basename }}"
-    state=link
-  with_fileglob:
-    - dunstrc
+  - name: Link i3 files
+    file: src={{item}} dest={{ i3_config_dir }}/{{ item | basename }} state=link
+    with_fileglob:
+    - i3/*
+
+  - name: set up pulseaudio group memberships
+    user:
+      append: yes
+      groups: audio
+      user: "{{ lookup('env','USER')}}"
+    become: yes
+
+  - name: create dunst config dir
+    file: path="{{ ansible_env.HOME }}/.config/dunst" state=directory
+
+  - name: Link dunstrc file
+    file: >
+      src={{item}}
+      dest="{{ ansible_env.HOME }}/.config/dunst/{{ item | basename }}"
+      state=link
+    with_fileglob:
+      - dunstrc
+
+  when: i3_is_installed.rc != 0
