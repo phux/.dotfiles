@@ -41,9 +41,7 @@
     name: alias.cleanup
     scope: global
     value: >
-      "!git branch --merged |
-      grep  -v '\\*\\|master\\|develop' |
-      xargs -n 1 git branch -d"
+      branch --merged | egrep -v "(^\*|master|dev)" | xargs git branch -d
 - git_config:
     name: alias.ri
     scope: global
