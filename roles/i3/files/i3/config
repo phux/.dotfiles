@@ -104,7 +104,7 @@ bindsym $mod+n split h
 bindsym $mod+Shift+n split v
 
 # toggle splitting mode
-bindsym $mod+b layout toggle split
+# bindsym $mod+b layout toggle split
 
 # go fullscreen
 bindsym $mod+f fullscreen
@@ -232,6 +232,7 @@ client.focused $nord14 $nord14 #ffffff
 bar {
     status_command i3status -c ~/.i3/i3status.conf
     position top
+    mode hide
 
     colors {
         background $nord0
@@ -249,3 +250,5 @@ exec --no-startup-id pasystray
 
 exec --no-startup-id parcellite
 exec --no-startup-id sh ~/.i3/startup.sh
+
+bindsym $mod+b bar mode toggle
