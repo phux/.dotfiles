@@ -9,8 +9,17 @@ let g:markdown_enable_conceal = 1
 
 let g:ale_linters['markdown'] = ['writegood', 'textlint', 'mdl']
 
+let g:vim_markdown_frontmatter=1
+
 set textwidth=80
-set colorcolumn=80
+setlocal autoindent
+setlocal colorcolumn=0
+setlocal linebreak
+setlocal nonumber norelativenumber
+setlocal shiftwidth=4
+setlocal spell
+setlocal tabstop=4
+setlocal wrap
 
 set conceallevel=2
 
