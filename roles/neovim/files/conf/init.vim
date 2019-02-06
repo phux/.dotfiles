@@ -50,6 +50,7 @@ Plug 'ncm2/ncm2-ultisnips'
 Plug 'prabirshrestha/async.vim'
 Plug 'prabirshrestha/vim-lsp'
 Plug 'ncm2/ncm2-vim-lsp'
+" Plug '~/code/ncm2-vim-lsp'
 " Plug 'ncm2/ncm2-go', {'for': 'go'}
 Plug 'ncm2/ncm2-cssomni', {'for': 'css'}
 Plug 'phpactor/ncm2-phpactor', {'for': ['php', 'markdown']}
@@ -77,7 +78,7 @@ let g:ale_lint_on_enter = 0
 let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
 let g:ale_open_list = 1
 let g:ale_keep_list_window_open=0
-let g:ale_set_quickfix=0
+let g:ale_set_quickfix=1
 let g:ale_list_window_size = 5
 let g:ale_fixers = {
   \ '*': ['remove_trailing_lines', 'trim_whitespace'],
@@ -144,6 +145,7 @@ let g:mkdp_auto_close = 0
 " Plug 'gabrielelana/vim-markdown', {'for': ['markdown']}
 Plug 'junegunn/goyo.vim', {'for': 'markdown'}
 Plug 'plasticboy/vim-markdown', {'for': ['markdown'], 'as': 'vim-markdown-plasticboy'}
+Plug 'tenfyzhong/tagbar-markdown.vim', {'for': 'markdown'}
 
 "" search/navigate
 
@@ -898,3 +900,11 @@ function! CloseHiddenBuffers()
   endfor
   echon "Deleted " . l:tally . " buffers"
 endfun
+
+" Intelligently navigate tmux panes and Vim splits using the same keys.
+" See https://sunaku.github.io/tmux-select-pane.html for documentation.
+let progname = substitute($VIM, '.*[/\\]', '', '')
+set title titlestring=%{progname}\ %f\ +%l\ #%{tabpagenr()}.%{winnr()}
+if &term =~ '^screen' && !has('nvim') | exe "set t_ts=\e]2; t_fs=\7" | endif
+
+let g:tmux_navigator_disable_when_zoomed=1
