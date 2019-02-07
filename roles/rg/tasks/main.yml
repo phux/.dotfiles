@@ -1,4 +1,5 @@
 ---
+
 - name: Install ripgrep
   package: name=ripgrep state=latest
   become: yes

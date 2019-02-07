@@ -19,7 +19,7 @@
     become: yes
   - name: install apt-fast
     become: yes
-    package: name={{ item }} state=present update_cache=yes
+    package: name={{ item }} state=present
     with_items:
     - aria2
     - apt-fast

@@ -7,9 +7,9 @@
 #     sh -c 'echo "deb http://linux.dropbox.com/ubuntu/ xenial main" > /etc/apt/sources.list.d/dropbox.list'
 #     apt update
 
-- name: install various tools
+- name: install common tools
   become: yes
-  package: name={{ item }} state=present update_cache=yes
+  package: name={{ item }} state=present
   with_items:
     - wget
     - build-essential
@@ -33,16 +33,7 @@
     - parcellite
     - openvpn
 
-- name: install rofi
-  become: yes
-  package: name=rofi state=present
-- name: create rofi dir
-  file: path="{{ ansible_env.HOME }}/.config/rofi/" state=directory
-- name: link rofi config
-  file: >
-    src="{{ role_path }}/files/rofi.config"
-    dest={{ ansible_env.HOME }}/.config/rofi/config
-    state=link
+- include: rofi.yml
 
 - name: install todotxt-machine
   shell: "{{ ansible_env.HOME }}/.local/bin/pip install --user --upgrade todotxt-machine"

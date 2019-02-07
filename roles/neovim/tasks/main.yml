@@ -1,3 +1,5 @@
+---
+
 - name: check to see if neovim is already installed
   command: "nvim --version"
   ignore_errors: true
@@ -6,29 +8,13 @@
 
 - block:
 
-  - include: pip.yml
   - include: install_nvim.yml
+  - include: pip.yml
   - include: colors.yml
   - include: ftplugin.yml
-  - include: npm.yml
   - include: ctags.yml
-
-  - name: setup | vim-plug directory
-    file: path="{{ neovim_config_dir }}/autoload" state=directory
-
-  - name: install | vim-plug
-    get_url:
-      url: https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-      dest: "{{ neovim_config_dir }}/autoload/plug.vim"
-      force: yes
-
-  - name: Link neovim dotfiles
-    file:
-      src: "{{ item }}"
-      dest: "{{ neovim_config_dir }}/{{ item | basename }}"
-      state: link
-    with_fileglob:
-      - conf/*
+  - include: plug.yml
+  - include: linters.yml
 
   - name: Create UltiSnips dir
     file: path={{ neovim_config_dir }}/UltiSnips state=directory
@@ -67,46 +53,6 @@
     source ~/.zshrc &&
     go get -u github.com/jackc/sqlfmt/...
     executable=/bin/zsh
-
-- name: installing linters via package manager
-  become: yes
-  package: name={{ item }} state=present
-  with_items:
-    - shellcheck
-    - libxml2-utils
-    - tidy
-
-- name: install ffi as ansible-lint dependency
-  become: yes
-  package: package=libffi-dev state=present
-
-
-
-- name: Check if last gem linter is installed
-  command: "rubocop --version"
-  ignore_errors: true
-  register: last_gem_linter_check
-  changed_when: false
-
-- block:
-  - name: installing linters via gem
-    shell: >
-      {{  ansible_env.HOME }}/.rbenv/versions/2.5.1/bin/gem install {{ item }}
-    with_items:
-      - scss_lint
-      - sqlint
-      - observr #autotest
-      - rubocop
-  when: last_gem_linter_check.rc != 0
-
-- name: link easy-coding-standard configs
-  file:
-    src: "{{ item }}"
-    dest: "{{ ansible_env.HOME }}/{{ item | basename }}"
-    state: link
-  with_fileglob:
-    - linters/.easy-coding-standard*
-
 
 - name: Link global js configs
   file: >
