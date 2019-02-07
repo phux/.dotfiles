@@ -1,0 +1,14 @@
+---
+
+- name: neovim ppa
+  become: yes
+  apt_repository:
+    repo: 'ppa:neovim-ppa/stable'
+    state: present
+  when: ansible_service_mgr == 'apt'
+
+- name: install neovim
+  become: yes
+  package:
+    name: neovim
+    state: "{{ neovim_install_state }}"

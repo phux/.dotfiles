@@ -1,0 +1,24 @@
+---
+- name: Check if ctags is installed
+  command: "ctags --version"
+  ignore_errors: true
+  register: ctags_check
+  changed_when: false
+
+- block:
+    - name: clone ctags
+      git: >
+        repo=https://github.com/universal-ctags/ctags.git
+        dest=/tmp/ctags
+        accept_hostkey=yes
+        force=yes
+      ignore_errors: yes
+
+    - name: prepare ctags
+      shell: cd /tmp/ctags/ && ./autogen.sh && ./configure && make
+
+    - name: install ctags
+      become: yes
+      shell: cd /tmp/ctags/ && make install
+
+  when: ctags_check.rc != 0

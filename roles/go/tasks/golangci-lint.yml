@@ -1,0 +1,24 @@
+---
+
+- name: check to see if golangci-lint is already installed
+  command: "golangci-lint --help"
+  ignore_errors: true
+  register: golangci_lint_installed
+  changed_when: false
+
+- block:
+  - name: installing golangci-lint
+    shell: >
+      source ~/.zshrc &&
+      go get -u github.com/golangci/golangci-lint/cmd/golangci-lint
+      executable=/bin/zsh
+
+  - name: Link .golangci-lint config
+    file:
+      src: "{{item}}"
+      dest: "{{ ansible_env.HOME }}/{{ item | basename }}"
+      state: link
+    with_fileglob:
+      - .golangci-lint.json
+
+  when: golangci_lint_installed.rc != 0

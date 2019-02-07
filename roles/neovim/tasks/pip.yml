@@ -1,0 +1,41 @@
+---
+
+- name: pip2 | neovim
+  shell: "{{ ansible_env.HOME }}/.local/bin/pip install --user --upgrade neovim"
+
+- name: pip3 | neovim
+  shell: >
+    {{ ansible_env.HOME }}/.local/bin/pip3 install --user --upgrade neovim
+
+- name: Check if last pip linter is installed
+  command: "gitlint --version"
+  ignore_errors: true
+  register: last_pip_linter_check
+  changed_when: false
+
+- block:
+  - name: installing linters via pip
+    shell: "{{ ansible_env.HOME }}/.local/bin/pip install --user {{ item }}"
+    with_items:
+      - pyflakes
+      - flake8
+      - proselint
+      - yamllint
+      - ansible-lint
+      - vim-vint
+      - autopep8
+      - cfn-lint
+      - gitlint
+
+  - name: create yamllint dir
+    file: path={{ config_dir }}/yamllint state=directory
+
+  - name: link yamllint cfg
+    file:
+      src: "{{ item }}"
+      dest: "{{ config_dir }}/yamllint/config"
+      state: link
+    with_fileglob:
+      - linters/yamllint
+
+  when: last_pip_linter_check.rc != 0

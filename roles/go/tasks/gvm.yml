@@ -1,0 +1,17 @@
+---
+- stat: path={{ ansible_env.HOME }}/.gvm
+  register: gvm_check
+
+- block:
+
+  - name: install gvm dependencies
+    become: yes
+    package: name=bison state=present
+
+  - name: Install Golang gvm
+    shell: >
+      bash < <(curl -s -S -L https://raw.githubusercontent.com/moovweb/gvm/master/binscripts/gvm-installer)
+      executable="/bin/bash"
+    ignore_errors: yes
+
+  when: gvm_check.stat.exists == False

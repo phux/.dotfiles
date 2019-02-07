@@ -1,0 +1,17 @@
+---
+
+- name: Check if gotests is installed
+  command: which gotests
+  register: gotests_check
+  ignore_errors: yes
+
+- name: install gotests
+  shell: >
+    source ~/.zshrc &&
+    go get -u github.com/cweill/gotests/... executable=/bin/zsh
+  when: gotests_check.stdout.find('gotests not found') != -1
+
+- name: install richgo
+  shell: >
+    source ~/.zshrc &&
+    go get -u github.com/kyoh86/richgo executable=/bin/zsh

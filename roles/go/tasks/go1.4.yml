@@ -1,0 +1,16 @@
+---
+- name: Check if go is installed
+  command: which go
+  register: go_binary_installed
+  ignore_errors: yes
+
+- block:
+
+  - name: install golang1.4
+    shell: source ~/.zshrc && gvm install go1.4 -B executable=/bin/zsh
+
+  - name: use golang1.4
+    shell: source ~/.zshrc && gvm use go1.4 --default executable=/bin/zsh
+
+    when: go_binary_installed.stdout.find('not found') == -1
+

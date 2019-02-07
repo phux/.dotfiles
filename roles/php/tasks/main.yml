@@ -9,6 +9,7 @@
   - name: Add co-installable PHP 5.6 and PHP 7.2 to source list
     apt_repository: repo="ppa:ondrej/php" state=present
     become: yes
+    when: ansible_service_mgr == 'apt'
 
   - name: Install PHP 5.6 and PHP 7.2
     package: name={{item}} state=latest

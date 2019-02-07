@@ -1,4 +1,8 @@
 ---
+
 - name: Install silversearcher (ag)
-  package: name=silversearcher-ag state=latest
+  package:
+    name: silversearcher-ag
+    state: latest
+    update_cache: yes
   become: yes

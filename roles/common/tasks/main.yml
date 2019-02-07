@@ -7,27 +7,9 @@
 #     sh -c 'echo "deb http://linux.dropbox.com/ubuntu/ xenial main" > /etc/apt/sources.list.d/dropbox.list'
 #     apt update
 
-- name: check to see if apt-fast is already installed
-  command: "apt-fast --version"
-  ignore_errors: true
-  register: aptfast_is_installed
-  changed_when: false
-
-- block:
-  - name: add apt-fast/stable repository
-    apt_repository: repo="ppa:apt-fast/stable" state=present
-    become: yes
-  - name: install apt-fast
-    become: yes
-    package: name={{ item }} state=present
-    with_items:
-      - aria2
-      - apt-fast
-  when: aptfast_is_installed.rc != 0
-
 - name: install various tools
   become: yes
-  package: name={{ item }} state=present
+  package: name={{ item }} state=present update_cache=yes
   with_items:
     - wget
     - build-essential

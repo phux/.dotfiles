@@ -1,0 +1,8 @@
+---
+- name: install latest golang
+  shell: source ~/.zshrc && gvm install {{ go_version }} executable=/bin/zsh
+
+- name: use latest golang
+  shell: >
+    source ~/.zshrc &&
+    gvm use {{ go_version }} --default executable=/bin/zsh

@@ -2,12 +2,14 @@
 - name: use git-core ppa for latest git
   apt_repository: repo="ppa:git-core/ppa" state=present
   become: yes
+  when: ansible_service_mgr == 'apt'
 
 - name: git
   become: yes
   package:
     name: git
     state: latest
+    update_cache: yes
 
 - name: Create git_templates/hooks dir
   file: path={{ ansible_env.HOME }}/.git_templates/hooks state=directory

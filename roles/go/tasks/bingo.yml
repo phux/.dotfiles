@@ -1,0 +1,21 @@
+---
+- name: Check if bingo is installed
+  command: "bingo --version"
+  ignore_errors: true
+  register: bingo_installed
+  changed_when: false
+
+- block:
+  - name: Creates tools directory
+    file:
+      path: "{{ansible_env.HOME}}/tools"
+      state: directory
+
+  - name: clone bingo
+    git:
+      repo: 'git@github.com:saibing/bingo.git'
+      dest: "{{ ansible_env.HOME }}/tools/bingo"
+  - name: install bingo
+    shell: cd ~/tools/bingo && go install
+
+  when: bingo_installed.rc != 0

@@ -6,20 +6,12 @@
 
 - block:
 
-  - name: pip2 | neovim
-    shell: "{{ ansible_env.HOME }}/.local/bin/pip install --user --upgrade neovim"
-
-  - name: pip3 | neovim
-    shell: >
-      {{ ansible_env.HOME }}/.local/bin/pip3 install --user --upgrade neovim
-
-  - name: neovim ppa
-    become: yes
-    apt_repository: repo='ppa:neovim-ppa/stable' state=present
-
-  - name: install neovim
-    become: yes
-    package: name=neovim state={{ neovim_install_state }}
+  - include: pip.yml
+  - include: install_nvim.yml
+  - include: colors.yml
+  - include: ftplugin.yml
+  - include: npm.yml
+  - include: ctags.yml
 
   - name: setup | vim-plug directory
     file: path="{{ neovim_config_dir }}/autoload" state=directory
@@ -38,14 +30,8 @@
     with_fileglob:
       - conf/*
 
-  - name: Create ftplugin dir
-    file: path={{ neovim_config_dir }}/ftplugin state=directory
-
   - name: Create UltiSnips dir
     file: path={{ neovim_config_dir }}/UltiSnips state=directory
-
-  - name: Create colors dir
-    file: path={{ neovim_config_dir }}/colors state=directory
 
   - name: creating project file
     copy:
@@ -54,22 +40,6 @@
       force: no
 
   when: neovim_is_installed.rc != 0
-
-- name: Link ftplugin files
-  file:
-    src: "{{ item }}"
-    dest: "{{ neovim_config_dir }}/ftplugin/{{ item | basename }}"
-    state: link
-  with_fileglob:
-    - ftplugin/*
-
-- name: Link colorschemes
-  file:
-    src: "{{ item }}"
-    dest: "{{ neovim_config_dir }}/colors/{{ item | basename }}"
-    state: link
-  with_fileglob:
-    - colors/*
 
 
 - name: Link UltiSnips snippets
@@ -91,28 +61,6 @@
     /tmp/needed_file.go
     ignore_errors: true
 
-- name: check to see if golangci-lint is already installed
-  command: "golangci-lint --help"
-  ignore_errors: true
-  register: golangci_lint_installed
-  changed_when: false
-
-- block:
-  - name: installing golangci-lint
-    shell: >
-      source ~/.zshrc &&
-      go get -u github.com/golangci/golangci-lint/cmd/golangci-lint
-      executable=/bin/zsh
-
-  - name: Link .golangci-lint config
-    file: >
-      src={{item}}
-      dest={{ ansible_env.HOME }}/{{ item | basename }}
-      state=link
-    with_fileglob:
-      - .golangci-lint.json
-
-  when: golangci_lint_installed.rc != 0
 
 - name: installing sqlfmt
   shell: >
@@ -120,7 +68,7 @@
     go get -u github.com/jackc/sqlfmt/...
     executable=/bin/zsh
 
-- name: installing linters via apt
+- name: installing linters via package manager
   become: yes
   package: name={{ item }} state=present
   with_items:
@@ -132,60 +80,7 @@
   become: yes
   package: package=libffi-dev state=present
 
-- name: Check if last pip linter is installed
-  command: "gitlint --version"
-  ignore_errors: true
-  register: last_pip_linter_check
-  changed_when: false
 
-- block:
-  - name: installing linters via pip
-    shell: "{{ ansible_env.HOME }}/.local/bin/pip install --user {{ item }}"
-    with_items:
-      - pyflakes
-      - flake8
-      - proselint
-      - yamllint
-      - ansible-lint
-      - vim-vint
-      - autopep8
-      - cfn-lint
-      - gitlint
-
-  - name: create yamllint dir
-    file: path={{ config_dir }}/yamllint state=directory
-
-  - name: link yamllint cfg
-    file:
-      src: "{{ item }}"
-      dest: "{{ config_dir }}/yamllint/config"
-      state: link
-    with_fileglob:
-      - linters/yamllint
-
-  when: last_pip_linter_check.rc != 0
-
-- name: Check if last npm linter is installed
-  shell: source ~/.zshrc && prettier --version executable=/bin/zsh
-  ignore_errors: true
-  register: last_npm_linter_check
-  changed_when: false
-
-- block:
-  - name: installing node & npm
-    shell: source ~/.zshrc && nvm install --lts executable=/bin/zsh
-
-  - name: installing linters/tools via npm
-    shell: >
-      source ~/.zshrc &&
-      npm install -g
-      jsonlint fixjson markdownlint-cli instant-markdown-d serverless neovim
-      stylelint write-good remark-lint tern eslint tern-lint typescript
-      eslint-config-standard eslint-plugin-node eslint-plugin-promise
-      eslint-plugin-standard javascript-typescript-langserver tslint htmllint
-      csslint prettier
-      executable=/bin/zsh
-  when: last_npm_linter_check.rc != 0
 
 - name: Check if last gem linter is installed
   command: "rubocop --version"
@@ -212,29 +107,6 @@
   with_fileglob:
     - linters/.easy-coding-standard*
 
-- name: Check if ctags is installed
-  command: "ctags --version"
-  ignore_errors: true
-  register: ctags_check
-  changed_when: false
-
-- block:
-    - name: clone ctags
-      git: >
-        repo=https://github.com/universal-ctags/ctags.git
-        dest=/tmp/ctags
-        accept_hostkey=yes
-        force=yes
-      ignore_errors: yes
-
-    - name: prepare ctags
-      shell: cd /tmp/ctags/ && ./autogen.sh && ./configure && make
-
-    - name: install ctags
-      become: yes
-      shell: cd /tmp/ctags/ && make install
-
-  when: ctags_check.rc != 0
 
 - name: Link global js configs
   file: >
@@ -246,23 +118,3 @@
     - .eslintrc.json
 
 
-- name: Check if bingo is installed
-  command: "bingo --version"
-  ignore_errors: true
-  register: bingo_installed
-  changed_when: false
-
-- block:
-  - name: Creates tools directory
-    file:
-      path: "{{ansible_env.HOME}}/tools"
-      state: directory
-
-  - name: clone bingo
-    git:
-      repo: 'git@github.com:saibing/bingo.git'
-      dest: "{{ ansible_env.HOME }}/tools/bingo"
-  - name: install bingo
-    shell: cd ~/tools/bingo && go install
-
-  when: bingo_installed.rc != 0

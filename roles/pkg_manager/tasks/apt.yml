@@ -1,0 +1,26 @@
+---
+
+- name: update
+  become: yes
+  apt:
+    upgrade: yes
+    update_cache: yes
+    cache_valid_time: 86400
+
+- name: check to see if apt-fast is already installed
+  command: "apt-fast --version"
+  ignore_errors: true
+  register: aptfast_is_installed
+  changed_when: false
+
+- block:
+  - name: add apt-fast/stable repository
+    apt_repository: repo="ppa:apt-fast/stable" state=present
+    become: yes
+  - name: install apt-fast
+    become: yes
+    package: name={{ item }} state=present update_cache=yes
+    with_items:
+    - aria2
+    - apt-fast
+  when: aptfast_is_installed.rc != 0

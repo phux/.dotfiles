@@ -1,7 +1,7 @@
 ---
 - hosts: localhost
   roles:
-    - apt
+    - pkg_manager
     - terminal
     - urxvt
     - tmux
