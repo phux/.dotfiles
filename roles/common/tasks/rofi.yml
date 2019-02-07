@@ -1,0 +1,12 @@
+---
+
+- name: install rofi
+  become: yes
+  package: name=rofi state=present
+- name: create rofi dir
+  file: path="{{ ansible_env.HOME }}/.config/rofi/" state=directory
+- name: link rofi config
+  file: >
+    src="{{ role_path }}/files/rofi.config"
+    dest={{ ansible_env.HOME }}/.config/rofi/config
+    state=link

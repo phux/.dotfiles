@@ -1,0 +1,73 @@
+---
+- git_config:
+    name: init.templatedir
+    scope: global
+    value: ~/.git_templates
+- git_config:
+    name: core.excludesfile
+    scope: global
+    value: ~/.gitignore
+
+- git_config:
+    name: alias.cleanup
+    scope: global
+    value: >
+      branch --merged | egrep -v "(^\*|master|dev)" | xargs git branch -d
+- git_config:
+    name: alias.ri
+    scope: global
+    value: "rebase --interactive --autosquash"
+
+- git_config:
+    name: url.diff.whitespace
+    scope: global
+    value: "red reverse"
+
+- git_config:
+    name: color.ui
+    scope: global
+    value: true
+
+- git_config:
+    name: color.diff-highlight.oldNormal
+    scope: global
+    value: "red bold"
+- git_config:
+    name: color.diff-highlight.oldHighlight
+    scope: global
+    value: "red bold 52"
+
+- git_config:
+    name: color.diff-highlight.newNormal
+    scope: global
+    value: "green bold"
+
+- git_config:
+    name: color.diff-highlight.newHighlight
+    scope: global
+    value: "green bold 22"
+
+- git_config:
+    name: color.diff.meta
+    scope: global
+    value: "yellow"
+- git_config:
+    name: color.diff.frag
+    scope: global
+    value: "magenta bold"
+- git_config:
+    name: color.diff.commit
+    scope: global
+    value: "yellow bold"
+- git_config:
+    name: color.diff.old
+    scope: global
+    value: "red bold"
+- git_config:
+    name: color.diff.new
+    scope: global
+    value: "green bold"
+- git_config:
+    name: color.diff.whitespace
+    scope: global
+    value: "red reverse"

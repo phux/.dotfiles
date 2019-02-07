@@ -1,0 +1,9 @@
+---
+
+- name: Link neovim dotfiles
+  file:
+    src: "{{ item }}"
+    dest: "{{ neovim_config_dir }}/{{ item | basename }}"
+    state: link
+  with_fileglob:
+    - conf/*
