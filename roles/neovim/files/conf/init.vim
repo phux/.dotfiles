@@ -256,6 +256,8 @@ Plug 'tpope/vim-apathy'
 Plug 'sheerun/vim-polyglot', {'do': './build'}
 let g:polyglot_disabled = ['php', 'go', 'markdown', 'liquid']
 Plug 'pearofducks/ansible-vim', { 'do': 'cd ./UltiSnips; python2 generate.py' }
+let g:ansible_unindent_after_newline = 1
+
 " reloading vim files
 " Plug 'xolox/vim-reload'
 
