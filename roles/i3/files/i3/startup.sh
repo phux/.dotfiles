@@ -12,7 +12,8 @@ if ! urxvtc "$@"; then
   urxvtd -q -o -f
 fi
 
-tmux new-session -d -s local
+tmux new-session -d -s def
+tmuxinator start dotfiles --no-attach
 
 sleep 1; autorandr --change
 

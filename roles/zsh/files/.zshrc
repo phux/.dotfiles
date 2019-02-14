@@ -287,5 +287,5 @@ if [ -f ~/.secret_aliases ]; then
 fi
 if which tmux >/dev/null 2>&1; then
     #if not inside a tmux session, and if no session is started, start a new session
-        test -z "$TMUX" && (tmux attach-session -t local || tmux new-session -s local)
+    test -z "$TMUX" && (tmux attach-session -t def || tmux new-session -s def)
 fi
