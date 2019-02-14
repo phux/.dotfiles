@@ -84,8 +84,6 @@ alias la='ls -lAFh'   #long list,show almost all,show type,human readable
 alias ll='ls -l'      #long list
 alias grep='grep --color'
 
-alias mux='tmuxinator'
-
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 # disable c-s and c-q freeze
@@ -251,7 +249,8 @@ compdef _tmuxinator tmuxinator mux
 
 command -v vg >/dev/null 2>&1 && eval "$(vg eval --shell zsh)"
 
-alias m='tmux attach-session -t local || tmux new-session -s local'
+# alias m='tmux attach-session -t local || tmux new-session -s local'
+alias m='tmuxinator'
 
 alias gw="JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64 ./gradlew"
 
@@ -288,5 +287,5 @@ if [ -f ~/.secret_aliases ]; then
 fi
 if which tmux >/dev/null 2>&1; then
     #if not inside a tmux session, and if no session is started, start a new session
-    test -z "$TMUX" && tmux new-session -t local
+        test -z "$TMUX" && (tmux attach-session -t local || tmux new-session -s local)
 fi
