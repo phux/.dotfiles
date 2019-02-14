@@ -28,14 +28,16 @@
 
   when: last_gem_linter_check.rc != 0
 
-- name: link easy-coding-standard configs
-  file:
-    src: "{{ item }}"
-    dest: "{{ ansible_env.HOME }}/{{ item | basename }}"
-    state: link
-  with_fileglob:
-    - linters/.easy-coding-standard*
-
+- block:
+  - name: link easy-coding-standard configs
+    file:
+      src: "{{ item }}"
+      dest: "{{ ansible_env.HOME }}/{{ item | basename }}"
+      state: link
+    with_fileglob:
+      - linters/.easy-coding-standard*
+  # only @ work
+  when: ansible_hostname != "phux"
 
 - name: Check if last npm linter is installed
   shell: source ~/.zshrc && prettier --version executable=/bin/zsh

@@ -80,16 +80,15 @@ let g:ale_open_list = 1
 let g:ale_keep_list_window_open=0
 let g:ale_set_quickfix=1
 let g:ale_list_window_size = 5
-let g:ale_fixers = {
-  \ '*': ['remove_trailing_lines', 'trim_whitespace'],
-  \ 'vim': ['remove_trailing_lines', 'trim_whitespace'],
-  \ 'php': ['phpcbf', 'php_cs_fixer', 'remove_trailing_lines', 'trim_whitespace'],
-  \ 'notes': ['remove_trailing_lines', 'trim_whitespace'],
-  \ 'markdown': ['remove_trailing_lines', 'trim_whitespace'],
-  \ 'notes.markdown': ['remove_trailing_lines', 'trim_whitespace'],
-  \ 'go': ['gofmt', 'goimports']
-  \}
-" \ 'json': ['fixjson', 'prettier'],
+let g:ale_fixers = {}
+let g:ale_fixers['*'] = ['remove_trailing_lines', 'trim_whitespace']
+let g:ale_fixers['php'] = ['phpcbf', 'php_cs_fixer', 'remove_trailing_lines', 'trim_whitespace']
+let g:ale_fixers['vim'] = ['remove_trailing_lines', 'trim_whitespace']
+let g:ale_fixers['notes'] = ['remove_trailing_lines', 'trim_whitespace']
+let g:ale_fixers['markdown'] = ['remove_trailing_lines', 'trim_whitespace']
+let g:ale_fixers['notes.markdown'] = ['remove_trailing_lines', 'trim_whitespace']
+let g:ale_fixers['go'] = ['gofmt', 'goimports']
+let g:ale_fixers['json'] = ['fixjson', 'prettier']
 let g:ale_fix_on_save = 1
 
 "" js
@@ -104,7 +103,14 @@ Plug 'alvan/vim-php-manual', {'for': 'php'}
 let g:vim_php_refactoring_use_default_mapping = 0
 Plug 'adoy/vim-php-refactoring-toolbox', {'for': 'php'}
 Plug 'phpactor/phpactor', {'for': 'php', 'do': ':call phpactor#Update()'}
-" Plug 'lvht/phpcd.vim', { 'for': 'php', 'do': 'composer install' }
+
+" Plug 'autozimu/LanguageClient-neovim', {
+"     \ 'branch': 'next',
+"     \ 'do': 'bash install.sh',
+"     \ 'for': 'php'
+"     \ }
+" Plug 'roxma/LanguageServer-php-neovim', {'for': 'php'}
+Plug 'lvht/phpcd.vim', { 'for': 'php', 'do': 'composer install' }
 
 "" go
 
@@ -112,10 +118,6 @@ Plug 'fatih/vim-go', {'for': 'go', 'do': ':GoInstallBinaries'}
 Plug 'sebdah/vim-delve', {'for': 'go'}
 Plug 'godoctor/godoctor.vim', {'for': 'go'}
 Plug 'buoto/gotests-vim', {'for': 'go'}
-" Plug 'autozimu/LanguageClient-neovim', {
-"     \ 'branch': 'next',
-"     \ 'do': 'bash install.sh',
-"     \ }
 
 "" fzf
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
