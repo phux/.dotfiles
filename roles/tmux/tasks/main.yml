@@ -30,3 +30,11 @@
         {{ ansible_env.HOME }}/.tmux/plugins/tpm
 
   when: tpm_is_installed.rc != 0
+
+- name: Link tmux files
+  file: >
+    src={{item}}
+    dest={{ ansible_env.HOME }}/.tmux/{{ item | basename }}
+    state=link
+  with_fileglob:
+    - mux.sh

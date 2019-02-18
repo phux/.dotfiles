@@ -15,8 +15,8 @@ export EDITOR="nvim"
 export USE_EDITOR=$EDITOR
 export VISUAL=$EDITOR
 
-export TERM=xterm-256color
-#export TERM=rxvt-256color
+# export TERM=xterm-256color
+export TERM=rxvt-unicode-256color
 
 export TODOTXT_DEFAULT_ACTION=ls
 
@@ -250,7 +250,8 @@ compdef _tmuxinator tmuxinator mux
 command -v vg >/dev/null 2>&1 && eval "$(vg eval --shell zsh)"
 
 # alias m='tmux attach-session -t local || tmux new-session -s local'
-alias m='tmuxinator'
+alias m='~/.tmux/mux.sh'
+alias mux='tmuxinator'
 
 alias gw="JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64 ./gradlew"
 
@@ -285,7 +286,8 @@ fi
 if [ -f ~/.secret_aliases ]; then
     source ~/.secret_aliases
 fi
+# TODO: screws up ansible
 if which tmux >/dev/null 2>&1; then
     #if not inside a tmux session, and if no session is started, start a new session
-    test -z "$TMUX" && (tmux attach-session -t def || tmux new-session -s def)
+    test -z "$IS_ANSIBLE" && test -z "$TMUX" && (tmux attach-session -t def || tmux new-session -s def)
 fi
