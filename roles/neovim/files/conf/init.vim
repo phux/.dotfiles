@@ -312,6 +312,7 @@ vnoremap <leader>c :Commentary<cr>
 " Plug 'timeyyy/clackclack.symphony'
 " Plug 'timeyyy/bubbletrouble.symphony'
 Plug 'maxbrunsfeld/vim-yankstack'
+" Plug 'TaDaa/vimade'
 call plug#end()
 " call orchestra#prelude()
 " call orchestra#set_tune('bubbletrouble')
@@ -471,6 +472,7 @@ let spellfile='~/.vim.spell'
 """ colors
 set t_Co=256
 set background=dark
+
 color nord
 
 function! Bright()
