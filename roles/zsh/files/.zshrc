@@ -1,8 +1,6 @@
-# WORDCHARS="${WORDCHARS//\/}"
 WORDCHARS='*?_-[]~=&;!#$%^(){}<>'
 
-PROMPT_LEAN_COLOR2=120
-
+export PURE_PROMPT_PATH_FORMATTING="%~"
 export NVM_LAZY_LOAD=true
 
 if [ -f $HOME/.zsh_plugins.sh ]; then
@@ -15,8 +13,7 @@ export EDITOR="nvim"
 export USE_EDITOR=$EDITOR
 export VISUAL=$EDITOR
 
-# export TERM=xterm-256color
-export TERM=rxvt-unicode-256color
+export TERM=xterm-256color
 
 export TODOTXT_DEFAULT_ACTION=ls
 
@@ -195,6 +192,7 @@ bindkey -e
 # http://www.drbunsen.org/vim-croquet/ analysing
 # alias nvim='nvim -w ~/.nvim_keylog "$@"'
 
+
 alias n='nvim'
 alias c='composer'
 alias ci='composer install --no-progress --prefer-dist --profile'
@@ -249,7 +247,6 @@ compdef _tmuxinator tmuxinator mux
 
 command -v vg >/dev/null 2>&1 && eval "$(vg eval --shell zsh)"
 
-# alias m='tmux attach-session -t local || tmux new-session -s local'
 alias m='~/.tmux/mux.sh'
 alias mux='tmuxinator'
 
@@ -291,3 +288,25 @@ if which tmux >/dev/null 2>&1; then
     #if not inside a tmux session, and if no session is started, start a new session
     test -z "$IS_ANSIBLE" && test -z "$TMUX" && (tmux attach-session -t def || tmux new-session -s def)
 fi
+
+# Vi mode
+# bindkey -v
+#
+# http://stratus3d.com/blog/2017/10/26/better-vi-mode-in-zshell/
+# Make Vi mode transitions faster (KEYTIMEOUT is in hundredths of a second)
+export KEYTIMEOUT=1
+
+# autoload -Uz vcs_info
+# zstyle ':vcs_info:*' enable git
+# precmd() {
+#     vcs_info
+# }
+
+# setopt prompt_subst
+# zstyle ':vcs_info:git:*' check-for-changes true
+# zstyle ':vcs_info:*'    formats "%f%F{150}%~ %{$reset_color%}% " "%f%a %F{3}%m%u%c %f%b"
+# zstyle ':vcs_info:*'    nvcsformats   "%f%F{150}%~ %{$reset_color%}% " ""
+# zstyle ':vcs_info:*'    actionformats '%F{5}(%f%s%F{5})%F{3}-%F{5}[%F{2}%b%F{3}|%F{1}%a%F{5}]%f '
+# export ZSH_THEME_GIT_PROMPT_CACHE=true
+# PROMPT='${vcs_info_msg_0_}'
+# RPROMPT='$(git_super_status)'
