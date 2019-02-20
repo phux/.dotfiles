@@ -6,6 +6,8 @@
   register: neovim_is_installed
   changed_when: false
 
+- include: coc-nvim.yml
+
 - block:
 
   - include: install_nvim.yml
