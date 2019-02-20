@@ -290,23 +290,36 @@ if which tmux >/dev/null 2>&1; then
 fi
 
 # Vi mode
-# bindkey -v
-#
+ bindkey -v
+
 # http://stratus3d.com/blog/2017/10/26/better-vi-mode-in-zshell/
 # Make Vi mode transitions faster (KEYTIMEOUT is in hundredths of a second)
 export KEYTIMEOUT=1
+# Use vim cli mode
+bindkey '^P' up-history
+bindkey '^N' down-history
 
-# autoload -Uz vcs_info
-# zstyle ':vcs_info:*' enable git
-# precmd() {
-#     vcs_info
-# }
+# backspace and ^h working even after
+# returning from command mode
+bindkey '^?' backward-delete-char
+bindkey '^h' backward-delete-char
 
-# setopt prompt_subst
-# zstyle ':vcs_info:git:*' check-for-changes true
-# zstyle ':vcs_info:*'    formats "%f%F{150}%~ %{$reset_color%}% " "%f%a %F{3}%m%u%c %f%b"
-# zstyle ':vcs_info:*'    nvcsformats   "%f%F{150}%~ %{$reset_color%}% " ""
-# zstyle ':vcs_info:*'    actionformats '%F{5}(%f%s%F{5})%F{3}-%F{5}[%F{2}%b%F{3}|%F{1}%a%F{5}]%f '
-# export ZSH_THEME_GIT_PROMPT_CACHE=true
-# PROMPT='${vcs_info_msg_0_}'
-# RPROMPT='$(git_super_status)'
+# ctrl-w removed word backwards
+bindkey '^w' backward-kill-word
+
+bindkey '^a' beginning-of-line
+bindkey '^b' backward-char
+bindkey '^e' end-of-line
+bindkey '^f' forward-char
+bindkey '\e.' insert-last-word
+
+bindkey '^R' fzf-history-widget
+
+zle -N edit-command-line
+# allow v to edit the command line (standard behaviour)
+autoload -Uz edit-command-line
+bindkey -M vicmd 'v' edit-command-line
+
+# maps jk to escape, same as in my init.vim
+# bindkey -m viins 'jk' vi-cmd-mode
+bindkey 'jk' vi-cmd-mode
