@@ -7,7 +7,7 @@ if [ -f $HOME/.zsh_plugins.sh ]; then
     source $HOME/.zsh_plugins.sh
 fi
 
-alias update_antibody='antibody update; antibody bundle < ~/.zsh_plugins.txt  > ~/.zsh_plugins.sh'
+alias update_antibody='antibody bundle < ~/.zsh_plugins.txt  > ~/.zsh_plugins.sh; antibody update'
 
 export EDITOR="nvim"
 export USE_EDITOR=$EDITOR
@@ -323,3 +323,5 @@ bindkey -M vicmd 'v' edit-command-line
 # maps jk to escape, same as in my init.vim
 # bindkey -m viins 'jk' vi-cmd-mode
 bindkey 'jk' vi-cmd-mode
+
+export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
