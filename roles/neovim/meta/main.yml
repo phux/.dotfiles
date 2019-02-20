@@ -10,3 +10,4 @@ dependencies:
   - {role: font}
   - {role: common}
   - {role: rg}
+  - {role: node}

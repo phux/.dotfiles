@@ -6,3 +6,6 @@
     - ncdu
     - htop
     - ranger
+
+- name: installing purer-prompt
+  shell: source ~/.zshrc && npm install -g purer-prompt executable=zsh

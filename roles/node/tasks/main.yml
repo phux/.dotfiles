@@ -1,0 +1,4 @@
+---
+
+- name: installing node & npm
+  shell: . ~/.zshrc && nvm install --lts executable=/bin/zsh
