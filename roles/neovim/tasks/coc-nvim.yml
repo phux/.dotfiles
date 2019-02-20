@@ -1,0 +1,7 @@
+---
+- name: install coc.nvim extensions
+  command: >
+    nvim
+    +CocInstall coc-pairs coc-css coc-html coc-lists coc-ultisnips coc-json coc-tsserver coc-jedi coc-tslint coc-yaml coc-phpls
+    +qall!
+    ignore_errors: true
