@@ -44,12 +44,12 @@ hi GoDebugBreakpoint term=standout ctermbg=117 ctermfg=0 guibg=#BAD4F5  guifg=Bl
 hi GoDebugCurrent term=reverse ctermbg=7 ctermfg=0 guibg=DarkBlue guifg=White
 
 let g:go_def_mapping_enabled = 0
-nnoremap <silent> <leader>gr :LspRename<CR>
-nnoremap <silent> gd :LspDefinition<cr>
-nnoremap <silent> gD :LspTypeDefinition<cr>
-nnoremap <buffer> gr :LspReferences<cr>
-nnoremap <buffer> gi :LspImplementation<cr>
-nnoremap <silent> K :LspHover<CR>
+" nnoremap <silent> <leader>gr :LspRename<CR>
+" nnoremap <silent> gd :LspDefinition<cr>
+" nnoremap <silent> gD :LspTypeDefinition<cr>
+" nnoremap <buffer> gr :LspReferences<cr>
+" nnoremap <buffer> gi :LspImplementation<cr>
+" nnoremap <silent> K :LspHover<CR>
 
 vnoremap <buffer> <leader>em :Refactor extract
 vnoremap <buffer> <leader>ev :Refactor var

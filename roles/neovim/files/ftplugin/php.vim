@@ -40,8 +40,8 @@ nnoremap <buffer> <Leader>E :PHPExpandFQCN<cr>
 nnoremap <buffer> <leader>h :call UpdatePhpDocIfExists()<CR>
 nnoremap <buffer> <leader>rdo :call PhpDocOneliner()<cr>
 
-nnoremap <silent> gd :call phpactor#GotoDefinition()<CR>
-nnoremap <silent> gr :call phpactor#FindReferences()<CR>
+" nnoremap <silent> gd :call phpactor#GotoDefinition()<CR>
+" nnoremap <silent> gr :call phpactor#FindReferences()<CR>
 
 let g:ale_php_phpcbf_standard='PSR2'
 " let g:ale_php_phpcbf_standard='Symfony'

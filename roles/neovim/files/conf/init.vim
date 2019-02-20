@@ -35,30 +35,31 @@ let g:UltiSnipsExpandTrigger='<c-j>'
 let g:UltiSnipsEditSplit='vertical'
 
 "" auto-pairs
-Plug 'jiangmiao/auto-pairs'
-let g:AutoPairsShortcutJump = ''
-let g:AutoPairsShortcutToggle = ''
-let g:AutoPairsMapCR=0
+" Plug 'jiangmiao/auto-pairs'
+" let g:AutoPairsShortcutJump = ''
+" let g:AutoPairsShortcutToggle = ''
+" let g:AutoPairsMapCR=0
 
 "" ncm2
-Plug 'ncm2/ncm2'
-Plug 'roxma/nvim-yarp'
-Plug 'ncm2/ncm2-bufword'
-Plug 'ncm2/ncm2-tmux'
-Plug 'ncm2/ncm2-path'
-Plug 'ncm2/ncm2-ultisnips'
-Plug 'prabirshrestha/async.vim'
-Plug 'prabirshrestha/vim-lsp'
-Plug 'ncm2/ncm2-vim-lsp'
+" Plug 'ncm2/ncm2'
+" Plug 'roxma/nvim-yarp'
+" Plug 'ncm2/ncm2-bufword'
+" Plug 'ncm2/ncm2-tmux'
+" Plug 'ncm2/ncm2-path'
+" Plug 'ncm2/ncm2-ultisnips'
+" Plug 'prabirshrestha/async.vim'
+" Plug 'prabirshrestha/vim-lsp'
+" Plug 'ncm2/ncm2-vim-lsp'
+" Plug 'ncm2/ncm2-cssomni', {'for': 'css'}
+" Plug 'phpactor/ncm2-phpactor', {'for': ['php', 'markdown']}
+" Plug 'ncm2/ncm2-jedi', {'for': 'python'}
+" Plug 'ncm2/ncm2-tern',  {'do': 'npm install', 'for': 'javascript'}
+" Plug 'ncm2/nvim-typescript', {'do': './install.sh', 'for': 'typescript'}
+" Plug 'ncm2/ncm2-vim' | Plug 'Shougo/neco-vim', {'for': 'vim'}
+" Plug 'fgrsnau/ncm2-otherbuf', { 'branch': 'ncm2' }
+Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install()}}
 " Plug '~/code/ncm2-vim-lsp'
 " Plug 'ncm2/ncm2-go', {'for': 'go'}
-Plug 'ncm2/ncm2-cssomni', {'for': 'css'}
-Plug 'phpactor/ncm2-phpactor', {'for': ['php', 'markdown']}
-Plug 'ncm2/ncm2-jedi', {'for': 'python'}
-Plug 'ncm2/ncm2-tern',  {'do': 'npm install', 'for': 'javascript'}
-Plug 'ncm2/nvim-typescript', {'do': './install.sh', 'for': 'typescript'}
-Plug 'ncm2/ncm2-vim' | Plug 'Shougo/neco-vim', {'for': 'vim'}
-Plug 'fgrsnau/ncm2-otherbuf', { 'branch': 'ncm2' }
 " Plug 'ncm2/ncm2-highprio-pop'
 " Plug 'ncm2/ncm2-match-highlight'
 " let g:ncm2#match_highlight = 'mono-space'
@@ -392,13 +393,13 @@ augroup nvim
   au InsertEnter * set timeoutlen=100
   au InsertLeave * set timeoutlen=500
 
-  autocmd BufEnter * call ncm2#enable_for_buffer()
+  " autocmd BufEnter * call ncm2#enable_for_buffer()
   " enable auto complete for `<backspace>`, `<c-w>` keys.
   " known issue https://github.com/ncm2/ncm2/issues/7
-  au TextChangedI * call ncm2#auto_trigger()
+  " au TextChangedI * call ncm2#auto_trigger()
 
-  au User Ncm2PopupOpen set completeopt=noinsert,menuone,noselect
-  au User Ncm2PopupClose set completeopt=menuone
+  " au User Ncm2PopupOpen set completeopt=noinsert,menuone,noselect
+  " au User Ncm2PopupClose set completeopt=menuone
   au CursorHold * checktime
 
   au FocusLost,WinLeave * :silent! update
@@ -494,7 +495,8 @@ let g:lightline = {
             \ 'component_function': {
             \   'filename': 'LightlineFilename',
             \   'gitbranch': 'fugitive#head',
-            \   'conflicted_name': 'ConflictedVersion'
+            \   'conflicted_name': 'ConflictedVersion',
+            \   'cocstatus': 'coc#status',
             \ },
             \ }
 
@@ -699,9 +701,9 @@ function! LightScheme()
 endfunction
 
 "" completion
-inoremap <silent> <expr> <CR> (pumvisible() ? ncm2_ultisnips#expand_or("\<CR>", 'n') : "\<CR>")
-inoremap <expr> <TAB> pumvisible() ? "\<c-n>" : "\<TAB>"
-inoremap <expr> <s-tab> pumvisible() ? "\<c-p>" : "\<TAB>"
+" inoremap <silent> <expr> <CR> (pumvisible() ? ncm2_ultisnips#expand_or("\<CR>", 'n') : "\<CR>")
+" inoremap <expr> <TAB> pumvisible() ? "\<c-n>" : "\<TAB>"
+" inoremap <expr> <s-tab> pumvisible() ? "\<c-p>" : "\<TAB>"
 
 """""""""""""
 "  Folding  "
@@ -914,3 +916,42 @@ set title titlestring=%{progname}\ %f\ +%l\ #%{tabpagenr()}.%{winnr()}
 if &term =~ '^screen' && !has('nvim') | exe "set t_ts=\e]2; t_fs=\7" | endif
 
 let g:tmux_navigator_disable_when_zoomed=1
+
+inoremap <silent><expr> <TAB>
+      \ pumvisible() ? "\<C-n>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#refresh()
+inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+
+inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+
+" Remap keys for gotos
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
+nmap <silent> <leader>gr <Plug>(coc-rename)
+
+" Use K for show documentation in preview window
+nnoremap <silent> K :call <SID>show_documentation()<CR>
+
+function! s:show_documentation()
+  if &filetype == 'vim'
+    execute 'h '.expand('<cword>')
+  else
+    call CocAction('doHover')
+  endif
+endfunction
+
+" Highlight symbol under cursor on CursorHold
+autocmd CursorHold * silent call CocActionAsync('highlight')
+
+nnoremap <silent> <space>o  :<C-u>CocList outline<cr>
+" nmap <leader>ac  <Plug>(coc-codeaction)
+" vmap <leader>a  <Plug>(coc-codeaction-selected)
+" nmap ga  <Plug>(coc-codeaction-selected)
