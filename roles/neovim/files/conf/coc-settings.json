@@ -1,0 +1,53 @@
+{
+    "languageserver": {
+        "golang": {
+            "command": "bingo",
+            "args": [
+                "--diagnostics-style=instant"
+            ],
+            "rootPatterns": [
+                "go.mod",
+                ".vim/",
+                ".git/",
+                ".hg/"
+            ],
+            "filetypes": [
+                "go"
+            ]
+        },
+        "phplang": {
+            "command": "php",
+            "args": [
+                "~/.composer/vendor/felixfbecker/language-server/bin/php-language-server.php"
+            ],
+            "filetypes": [
+                "php"
+            ]
+        },
+        "bash": {
+            "command": "bash-language-server",
+            "args": [
+                "start"
+            ],
+            "filetypes": [
+                "sh"
+            ],
+            "ignoredRootPaths": [
+                "~"
+            ]
+        },
+        "dockerfile": {
+            "command": "docker-langserver",
+            "filetypes": [
+                "dockerfile"
+            ],
+            "args": [
+                "--stdio"
+            ]
+        }
+    },
+    "coc.preferences.snippetIndicator": " ►",
+    "coc.preferences.echodocSupport": true,
+    "coc.preferences.diagnostic.enable": false,
+    "coc.preferences.hoverTarget": "echo"
+}

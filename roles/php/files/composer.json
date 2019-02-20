@@ -1,29 +1,22 @@
 {
-    "config": {
-        "prestissimo": {
-            "maxConnections": 8,
-            "minConnections": 3
-        }
-    },
-    "minimum-stability": "dev",
-    "require": {
-        "hirak/prestissimo": "dev-master",
-        "phpmd/phpmd": "^2.6",
-        "friendsofphp/php-cs-fixer": "^2.2",
-        "phploc/phploc": "^4.0",
-        "jakub-onderka/php-parallel-lint": "dev-master",
-        "sensiolabs/security-checker": "^4.0@dev",
-        "spatie/phpunit-watcher": "dev-master",
-        "squizlabs/php_codesniffer": "*",
-        "symfony/console": "^4.0",
-        "phpmetrics/phpmetrics": "dev-master",
-        "escapestudios/symfony2-coding-standard": "^3.0@dev",
-        "nette/utils": "^2.4",
-        "object-calisthenics/phpcs-calisthenics-rules": "dev-master",
-        "symplify/coding-standard": "^5.0",
-        "symplify/easy-coding-standard": "^5.0",
-        "phpstan/phpstan": "^0.10.0@dev",
-        "bmitch/churn-php": "dev-master"
-    },
-    "require-dev": {}
+  "config": {
+    "prestissimo": {
+      "maxConnections": 8,
+      "minConnections": 3
+    }
+  },
+  "minimum-stability": "dev",
+  "require": {
+    "hirak/prestissimo": "dev-master",
+    "phpmd/phpmd": "^2.6",
+    "friendsofphp/php-cs-fixer": "^2.2",
+    "jakub-onderka/php-parallel-lint": "dev-master",
+    "squizlabs/php_codesniffer": "*",
+    "phpmetrics/phpmetrics": "dev-master",
+    "object-calisthenics/phpcs-calisthenics-rules": "dev-master",
+    "symplify/coding-standard": "^5.0",
+    "symplify/easy-coding-standard": "^5.0",
+    "felixfbecker/language-server": "dev-master"
+  },
+  "require-dev": {}
 }

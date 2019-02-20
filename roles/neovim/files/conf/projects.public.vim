@@ -10,12 +10,12 @@ function! Zf1(...) abort
     nnoremap <silent> <m-a> :call SwitchBetweenFiles('php', 'tests/', 'library/', 'Test')<cr>
     nnoremap <silent> <leader>tsa <c-w>v:call SwitchBetweenFiles('php', 'tests/', 'library/', 'Test')<cr>
 
-    let g:ale_fixers['php'] = []
-    let g:ale_linters['php'] = ['php', 'phpmd', 'phpcs']
-    let g:ale_php_phpcbf_standard='Symfony'
-    let g:ale_php_phpcs_standard='phpcs.xml.dist'
-    let g:ale_php_phpmd_ruleset='phpmd.xml'
-    au filetype php set omnifunc=phpactor#Complete
+    " let g:ale_fixers['php'] = []
+    " let g:ale_linters['php'] = ['php', 'phpmd', 'phpcs']
+    " let g:ale_php_phpcbf_standard='Symfony'
+    " let g:ale_php_phpcs_standard='phpcs.xml.dist'
+    " let g:ale_php_phpmd_ruleset='phpmd.xml'
+    " au filetype php set omnifunc=phpactor#Complete
 endfunction
 
 function! Symfony(...) abort
@@ -25,13 +25,13 @@ function! Symfony(...) abort
     nnoremap <silent> <c-s> :update<cr>:Silent ecs check --config ~/.easy-coding-standard7.yml --fix %:p <cr>
 
     nnoremap <m-a> :call SymfonySwitchToAlternateFile()<cr>
-    nnoremap <silent> gd :call phpactor#GotoDefinition()<CR>
-    nnoremap <silent> gr :call phpactor#FindReferences()<CR>
-    nnoremap <leader>tt :call phpactor#Transform()<cr>
+    " nnoremap <silent> gd :call phpactor#GotoDefinition()<CR>
+    " nnoremap <silent> gr :call phpactor#FindReferences()<CR>
+    " nnoremap <leader>tt :call phpactor#Transform()<cr>
 
-    augroup completion_php
-      au filetype php set omnifunc=phpactor#Complete
-    augroup end
+    " augroup completion_php
+    "   au filetype php set omnifunc=phpactor#Complete
+    " augroup end
 
     " let g:ale_fixers['php'] = ['phpcbf', 'php_cs_fixer']
     " let g:ale_php_phpcbf_standard='Symfony'
