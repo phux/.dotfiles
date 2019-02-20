@@ -58,6 +58,7 @@ let g:UltiSnipsEditSplit='vertical'
 " Plug 'ncm2/ncm2-vim' | Plug 'Shougo/neco-vim', {'for': 'vim'}
 " Plug 'fgrsnau/ncm2-otherbuf', { 'branch': 'ncm2' }
 Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install()}}
+Plug 'neoclide/coc-jedi', {'do': 'yarn install'}
 " Plug '~/code/ncm2-vim-lsp'
 " Plug 'ncm2/ncm2-go', {'for': 'go'}
 " Plug 'ncm2/ncm2-highprio-pop'
@@ -89,11 +90,11 @@ let g:ale_fixers['notes'] = ['remove_trailing_lines', 'trim_whitespace']
 let g:ale_fixers['markdown'] = ['remove_trailing_lines', 'trim_whitespace']
 let g:ale_fixers['notes.markdown'] = ['remove_trailing_lines', 'trim_whitespace']
 let g:ale_fixers['go'] = ['gofmt', 'goimports']
-let g:ale_fixers['json'] = ['fixjson', 'prettier']
+" let g:ale_fixers['json'] = ['fixjson', 'prettier']
 let g:ale_fix_on_save = 1
 
 "" js
-Plug 'maksimr/vim-jsbeautify', {'for': ['json']}
+" Plug 'maksimr/vim-jsbeautify', {'for': ['json']}
 nnoremap <c-f> :call JsBeautify()<cr>
 Plug 'ternjs/tern_for_vim', {'do': 'npm install', 'for': ['typescript','javascript']}
 
@@ -948,10 +949,8 @@ function! s:show_documentation()
   endif
 endfunction
 
-" Highlight symbol under cursor on CursorHold
-autocmd CursorHold * silent call CocActionAsync('highlight')
-
 nnoremap <silent> <space>o  :<C-u>CocList outline<cr>
 " nmap <leader>ac  <Plug>(coc-codeaction)
 " vmap <leader>a  <Plug>(coc-codeaction-selected)
 " nmap ga  <Plug>(coc-codeaction-selected)
+command! -nargs=0 Format :call CocAction('format')

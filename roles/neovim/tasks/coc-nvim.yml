@@ -1,7 +1,16 @@
 ---
-- name: install coc.nvim extensions
-  command: >
-    nvim
-    +CocInstall coc-pairs coc-css coc-html coc-lists coc-ultisnips coc-json coc-tsserver coc-jedi coc-tslint coc-yaml coc-phpls
-    +qall!
-    ignore_errors: true
+# TODO: fix ^^
+# - name: install coc.nvim extensions
+#   command: >
+#     nvim
+#     +CocInstall coc-pairs coc-css coc-html coc-lists coc-ultisnips coc-json coc-tsserver coc-tslint coc-yaml coc-phpls
+#     +qall!
+#     ignore_errors: true
+- name: install coc.nvim language servers
+  shell: >
+    source ~/.zshrc &&
+    npm install -g {{ item }}
+    executable=/bin/zsh
+  with_items:
+    - dockerfile-language-server-nodejs
+    - bash-language-server
