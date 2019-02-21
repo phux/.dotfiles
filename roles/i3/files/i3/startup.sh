@@ -2,7 +2,7 @@
 
 xset r rate 300 35
 
-setxkbmap -option ctrl:nocaps
+setxkbmap -option caps:escape
 
 feh --bg-center ~/Pictures/happy_face.jpg --image-bg #383f4e
 
