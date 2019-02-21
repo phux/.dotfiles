@@ -6,8 +6,4 @@
     - name: install antibody
       shell: curl -sL git.io/antibody | bash -s
       ignore_errors: true
-
-    - name: create zsh plugins file
-      shell: /bin/zsh antibody bundle < ~/.config/zsh/plugins.txt  > ~/.config/zsh/cached_plugins.sh
-      ignore_errors: true
   when: antibody_check.stat.exists == False
