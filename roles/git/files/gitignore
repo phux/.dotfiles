@@ -12,3 +12,6 @@ playbook.retry
 .virtualgo
 .ropeproject/
 .textlintrc
+bin/
+.classpath
+.settings/

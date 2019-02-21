@@ -951,7 +951,7 @@ function! s:show_documentation()
 endfunction
 
 nnoremap <silent> <space>o  :<C-u>CocList outline<cr>
+command! -nargs=0 Format :call CocAction('format')
 " nmap <leader>ac  <Plug>(coc-codeaction)
 " vmap <leader>a  <Plug>(coc-codeaction-selected)
 " nmap ga  <Plug>(coc-codeaction-selected)
-command! -nargs=0 Format :call CocAction('format')
