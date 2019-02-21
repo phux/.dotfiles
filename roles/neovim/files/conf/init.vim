@@ -258,7 +258,7 @@ let g:Todo_txt_prefix_creation_date=0
 " Set the 'path' option for miscellaneous file types
 Plug 'tpope/vim-apathy'
 Plug 'sheerun/vim-polyglot', {'do': './build'}
-let g:polyglot_disabled = ['php', 'go', 'markdown', 'liquid']
+let g:polyglot_disabled = ['php', 'go', 'markdown', 'liquid', 'javascript']
 Plug 'pearofducks/ansible-vim', { 'do': 'cd ./UltiSnips; python2 generate.py' }
 let g:ansible_unindent_after_newline = 1
 
@@ -407,6 +407,7 @@ augroup nvim
 
   autocmd VimResized * wincmd =
 augroup END
+set completeopt=menuone
 " call ncm2#override_source('LanguageClient_go', {'enable': 0})
 
 """"""""""""""

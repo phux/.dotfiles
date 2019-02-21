@@ -1,4 +1,6 @@
 nnoremap <buffer> gd :TernDef<cr>
+nnoremap <buffer> gr :TernRefs<cr>
+nnoremap <buffer> <leader>gr :TernRename<cr>
 nnoremap <buffer> <leader>m :TernDocBrowse<cr>
 
 setlocal tabstop=4 shiftwidth=4
