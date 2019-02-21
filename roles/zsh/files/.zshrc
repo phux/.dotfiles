@@ -1,21 +1,18 @@
 WORDCHARS='*?_-[]~=&;!#$%^(){}<>'
 
+source ~/.profile
 export PURE_PROMPT_PATH_FORMATTING="%~"
 export NVM_LAZY_LOAD=true
 
-if [ -f $HOME/.zsh_plugins.sh ]; then
-    source $HOME/.zsh_plugins.sh
+if [ -f $XDG_CONFIG_HOME/zsh/cached_plugins.sh ]; then
+    source $XDG_CONFIG_HOME/zsh/cached_plugins.sh
 fi
 
-alias update_antibody='antibody bundle < ~/.zsh_plugins.txt  > ~/.zsh_plugins.sh; antibody update'
-
 export EDITOR="nvim"
+export TERM=xterm-256color
+export TODOTXT_DEFAULT_ACTION=ls
 export USE_EDITOR=$EDITOR
 export VISUAL=$EDITOR
-
-export TERM=xterm-256color
-
-export TODOTXT_DEFAULT_ACTION=ls
 
 # same colors as ag
 export FZF_DEFAULT_COMMAND='rg --colors 'match:bg:yellow' --colors 'match:fg:black' --colors 'match:style:nobold' --colors 'path:fg:green' --colors 'path:style:bold' --colors 'line:fg:yellow' --colors 'line:style:bold'  --files --smart-case --hidden --follow --sort-files --glob "!.git/*"'
@@ -25,7 +22,6 @@ export FZF_DEFAULT_COMMAND='rg --colors 'match:bg:yellow' --colors 'match:fg:bla
 export GOPATH="$HOME/code/go"
 export LGOBIN="$HOME/code/go/bin"
 export FZF_BIN_PATH="$HOME/.fzf/bin"
-export PATH=$PATH:$HOME/bin:$HOME/.local/bin:$HOME/.composer/vendor/bin:$FZF_BIN_PATH:$LGOBIN:$HOME/.config/composer/vendor/bin
 
 HISTSIZE='100000';
 HISTFILESIZE="${HISTSIZE}";
@@ -60,13 +56,17 @@ export LESS_TERMCAP_md="${yellow}";
 # Don’t clear the screen after quitting a manual page.
 export MANPAGER='less -X';
 
+alias update_antibody="antibody bundle < $XDG_CONFIG_HOME/zsh/antibody_plugins.txt  > $XDG_CONFIG_HOME/zsh/cached_plugins.sh; antibody update"
+
 alias sdn='sudo shutdown now -h'
 alias update='sudo apt-fast update && sudo apt-fast upgrade; update_antibody; n +PU'
 alias agi='sudo apt-fast install'
+
 alias vu='vagrant up'
 alias vs='vagrant ssh'
 alias vh='vagrant halt'
 alias vp='vagrant provision'
+
 alias dcup='docker-compose up'
 alias dcstop='docker-compose stop'
 alias dcdn='docker-compose down'
@@ -75,13 +75,14 @@ alias dcl='docker-compose logs'
 alias dclf='docker-compose logs -f'
 
 alias ob='observr autotest.rb'
+
 alias ls="ls --color=auto"
 alias l='ls -lFh'     #size,show type,human readable
 alias la='ls -lAFh'   #long list,show almost all,show type,human readable
 alias ll='ls -l'      #long list
+
 alias grep='grep --color'
 
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 # disable c-s and c-q freeze
 stty stop ''
@@ -245,8 +246,6 @@ _tmuxinator() {
 
 compdef _tmuxinator tmuxinator mux
 
-command -v vg >/dev/null 2>&1 && eval "$(vg eval --shell zsh)"
-
 alias m='~/.tmux/mux.sh'
 alias mux='tmuxinator'
 
@@ -270,8 +269,8 @@ fi
 source "$fasd_cache"
 unset fasd_cache
 
-if [ -f ~/.zsh_notifyosd.zsh ]; then
-    source ~/.zsh_notifyosd.zsh
+if [ -f $XDG_CONFIG_HOME/zsh/notifyosd.zsh ]; then
+    source $XDG_CONFIG_HOME/zsh/notifyosd.zsh
 fi
 
 # Automate ssh-agent startup
@@ -325,3 +324,8 @@ bindkey -M vicmd 'v' edit-command-line
 bindkey 'jk' vi-cmd-mode
 
 export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
+
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+export PATH=$PATH:$HOME/bin:$HOME/.local/bin:$HOME/.composer/vendor/bin:$FZF_BIN_PATH:$LGOBIN:$HOME/.config/composer/vendor/bin

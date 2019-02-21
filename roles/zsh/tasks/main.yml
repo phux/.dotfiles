@@ -17,4 +17,12 @@
   with_fileglob:
     - .zsh*
 
+- name: Link zsh conf dir
+  file: >
+    src={{item}}
+    dest={{ ansible_env.HOME }}/.config/{{ item | basename }}
+    state=link
+  with_items:
+    - zsh
+
 - include: antibody.yml
