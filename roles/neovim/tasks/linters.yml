@@ -40,7 +40,7 @@
   when: ansible_hostname != "phux"
 
 - name: Check if last npm linter is installed
-  shell: source ~/.zshrc && prettier --version executable=/bin/zsh
+  shell: source ~/.config/zsh/.zshrc && prettier --version executable=/bin/zsh
   ignore_errors: true
   register: last_npm_linter_check
   changed_when: false
@@ -48,7 +48,7 @@
 - block:
   - name: installing linters/tools via npm
     shell: >
-      source ~/.zshrc &&
+      source ~/.config/zsh/.zshrc &&
       npm install -g
       jsonlint fixjson markdownlint-cli instant-markdown-d serverless neovim
       stylelint write-good remark-lint tern eslint tern-lint typescript
