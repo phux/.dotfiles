@@ -14,7 +14,7 @@
   file: >
     src=zshenv
     dest=/etc/zsh/zshenv
-    state=present
+    state=file
 
 - name: create zsh dir
   file: path="{{ ansible_env.HOME }}/.config/zsh/" state=directory
