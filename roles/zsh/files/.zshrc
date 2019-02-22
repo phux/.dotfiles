@@ -32,7 +32,7 @@ setopt appendhistory             #Append history to the history file (no overwri
 setopt BANG_HIST                 # Treat the '!' character specially during expansion.
 setopt EXTENDED_HISTORY          # Write the history file in the ":start:elapsed;command" format.
 setopt INC_APPEND_HISTORY        # Write to the history file immediately, not when the shell exits.
-# setopt SHARE_HISTORY             # Share history between all sessions.
+setopt SHARE_HISTORY             # Share history between all sessions.
 setopt HIST_EXPIRE_DUPS_FIRST    # Expire duplicate entries first when trimming history.
 setopt HIST_IGNORE_DUPS          # Don't record an entry that was just recorded again.
 setopt HIST_IGNORE_ALL_DUPS      # Delete old recorded entry if new entry is a duplicate.
@@ -205,7 +205,7 @@ alias eg='cd $HOME/code/exercism/go/$(ls -t $HOME/code/exercism/go/ | head -1)'
 alias gtb='go test -bench .'
 alias gt='richgo test ./...'
 
-alias ez='n ~/.zshrc;source ~/.zshrc'
+alias ez='n ~/.config/zsh/zshrc;source ~/.config/zsh/.zshrc'
 alias .d='cd ~/.dotfiles'
 alias ma='make'
 alias mt='make test'
@@ -323,9 +323,9 @@ bindkey -M vicmd 'v' edit-command-line
 # bindkey -m viins 'jk' vi-cmd-mode
 bindkey 'jk' vi-cmd-mode
 
-export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
 
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 export PATH=$PATH:$HOME/bin:$HOME/.local/bin:$HOME/.composer/vendor/bin:$FZF_BIN_PATH:$LGOBIN:$HOME/.config/composer/vendor/bin
+export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
