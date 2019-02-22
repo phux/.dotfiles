@@ -9,20 +9,22 @@
   user: name={{ ansible_env.USER }} shell=/bin/zsh
   become: yes
 
-- name: Link .zsh files
+- name: copy global zshenv file
+  become: yes
+  file: >
+    src=zshenv
+    dest=/etc/zsh/zshenv
+    state=present
+
+- name: create zsh dir
+  file: path="{{ ansible_env.HOME }}/.config/zsh/" state=directory
+
+- name: Link zsh files
   file: >
     src={{item}}
-    dest={{ ansible_env.HOME }}/{{ item | basename }}
+    dest={{ ansible_env.HOME }}/.config/zsh/{{ item | basename }}
     state=link
   with_fileglob:
-    - .zsh*
-
-- name: Link zsh conf dir
-  file: >
-    src={{item}}
-    dest={{ ansible_env.HOME }}/.config/{{ item | basename }}
-    state=link
-  with_items:
-    - zsh
+    - zsh/*
 
 - include: antibody.yml
