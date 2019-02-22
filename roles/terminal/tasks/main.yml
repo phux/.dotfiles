@@ -8,4 +8,4 @@
     - ranger
 
 - name: installing purer-prompt
-  shell: source ~/.zshrc && npm install -g purer-prompt executable=zsh
+  shell: source ~/.config/zsh/.zshrc && npm install -g purer-prompt executable=zsh
