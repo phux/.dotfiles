@@ -6,7 +6,8 @@ set foldnestmax=1
 
 let g:cm_auto_popup=1
 
-let g:ale_linters['go'] = ['gofmt', 'golangci-lint']
+" let g:ale_linters['go'] = ['gofmt', 'golangci-lint']
+let g:ale_linters['go'] = []
 let g:ale_go_golangci_lint_options= ''
 let g:ale_go_golangci_lint_package = 1
 let g:ale_go_gofmt_options='-s'
