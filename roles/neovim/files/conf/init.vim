@@ -319,14 +319,6 @@ call plug#end()
 " call orchestra#prelude()
 " call orchestra#set_tune('bubbletrouble')
 " call orchestra#set_tune('clackclack')
-let g:LanguageClient_diagnosticsEnable=0
-let g:LanguageClient_rootMarkers = {
-        \ 'go': ['.git', 'go.mod'],
-        \ }
-
-let g:LanguageClient_serverCommands = {
-    \ 'go': ['bingo', '--mode', 'stdio', '--logfile', '/tmp/lspserver.log','--trace', '--pprof', ':6060'],
-    \ }
 
 
 """"""""""""""""""""""""
@@ -876,20 +868,12 @@ endfunction
 " set clipboard+=unnamedplus
 
 nnoremap <silent> <leader><f5> :e $MYVIMRC<CR>
-imap jk <esc>
+" trying to get used to capslock escape
+" imap jk <esc>
 
 " override nord visual highlighting
 hi Visual ctermfg=7 ctermbg=4
 hi BufTabLineCurrent ctermfg=2 ctermbg=8
-
-if executable('bingo')
-    au User lsp_setup call lsp#register_server({
-        \ 'name': 'bingo',
-        \ 'cmd': {server_info->['bingo', '-mode', 'stdio', '--logfile', '/tmp/lspserver.log', '--trace']},
-        \ 'whitelist': ['go'],
-        \ })
-endif
-let g:lsp_diagnostics_enabled = 0
 
 command! -nargs=* Only call CloseHiddenBuffers()
 function! CloseHiddenBuffers()

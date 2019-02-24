@@ -3,7 +3,8 @@
         "golang": {
             "command": "bingo",
             "args": [
-                "--diagnostics-style=onsave"
+                "--diagnostics-style=instant",
+                "--format-style=goimports"
             ],
             "rootPatterns": [
                 "go.mod",
@@ -49,5 +50,7 @@
     "suggest.snippetIndicator": " ►",
     "suggest.echodocSupport": true,
     "coc.preferences.hoverTarget": "echo",
-    "diagnostic.enable": false
+    "diagnostic.enable": true,
+    "diagnostic.displayByAle": true,
+    "coc.preferences.formatOnSaveFiletypes": ["go", "json"]
 }
