@@ -3,7 +3,7 @@
         "golang": {
             "command": "bingo",
             "args": [
-                "--diagnostics-style=instant",
+                "--diagnostics-style=none",
                 "--format-style=goimports"
             ],
             "rootPatterns": [
