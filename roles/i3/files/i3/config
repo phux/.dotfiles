@@ -64,15 +64,15 @@ bindsym $mod+Control+l resize grow width 15 px or 15 ppt
 bindsym $mod+Control+h resize shrink width 15 px or 15 ppt
 
 # pulse audio volume control
-bindsym $mod+Up exec --no-startup-id ~/.i3/audio2.sh raise
-bindsym XF86AudioRaiseVolume exec ~/.i3/audio2.sh raise
-bindsym $mod+Down exec --no-startup-id ~/.i3/audio2.sh lower
-bindsym XF86AudioLowerVolume exec ~/.i3/audio2.sh lower
-bindsym $mod+Shift+s exec --no-startup-id ~/.i3/audio2.sh mute
-bindsym XF86AudioMute exec ~/.i3/audio2.sh mute
+bindsym $mod+Up exec --no-startup-id ~/.i3/audio.sh inc
+bindsym XF86AudioRaiseVolume exec ~/.i3/audio.sh inc
+bindsym $mod+Down exec --no-startup-id ~/.i3/audio.sh dec
+bindsym XF86AudioLowerVolume exec ~/.i3/audio.sh dec
+bindsym $mod+Shift+s exec --no-startup-id ~/.i3/audio.sh mute
+bindsym XF86AudioMute exec ~/.i3/audio.sh mute
 
-bindsym $mod+Right exec /usr/bin/xbacklight -inc 10
-bindsym $mod+Left exec /usr/bin/xbacklight -dec 10
+bindsym $mod+Right exec light -A 10 # increase screen brightness
+bindsym $mod+Left exec light -U 10 # decrease screen brightness
 bindsym XF86MonBrightnessUp exec light -A 10 # increase screen brightness
 bindsym XF86MonBrightnessDown exec light -U 10 # decrease screen brightness
 

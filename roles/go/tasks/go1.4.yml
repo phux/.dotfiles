@@ -7,9 +7,9 @@
 - block:
 
   - name: install golang1.4
-    shell: source ~/.zshrc && gvm install go1.4 -B executable=/bin/zsh
+    shell: source ~/.config/zsh/.zshrc && gvm install go1.4 -B executable=/bin/zsh
 
   - name: use golang1.4
-    shell: source ~/.zshrc && gvm use go1.4 --default executable=/bin/zsh
+    shell: source ~/.config/zsh/.zshrc && gvm use go1.4 --default executable=/bin/zsh
 
   when: go_binary_installed.stdout.find('not found') != -1
