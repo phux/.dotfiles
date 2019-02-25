@@ -34,37 +34,8 @@ let g:UltiSnipsSnippetsDir = '~/.config/nvim/UltiSnips/'
 let g:UltiSnipsExpandTrigger='<c-j>'
 let g:UltiSnipsEditSplit='vertical'
 
-"" auto-pairs
-" Plug 'jiangmiao/auto-pairs'
-" let g:AutoPairsShortcutJump = ''
-" let g:AutoPairsShortcutToggle = ''
-" let g:AutoPairsMapCR=0
-
-"" ncm2
-" Plug 'ncm2/ncm2'
-" Plug 'roxma/nvim-yarp'
-" Plug 'ncm2/ncm2-bufword'
-" Plug 'ncm2/ncm2-tmux'
-" Plug 'ncm2/ncm2-path'
-" Plug 'ncm2/ncm2-ultisnips'
-" Plug 'prabirshrestha/async.vim'
-" Plug 'prabirshrestha/vim-lsp'
-" Plug 'ncm2/ncm2-vim-lsp'
-" Plug 'ncm2/ncm2-cssomni', {'for': 'css'}
-" Plug 'phpactor/ncm2-phpactor', {'for': ['php', 'markdown']}
-" Plug 'ncm2/ncm2-jedi', {'for': 'python'}
-" Plug 'ncm2/ncm2-tern',  {'do': 'npm install', 'for': 'javascript'}
-" Plug 'ncm2/nvim-typescript', {'do': './install.sh', 'for': 'typescript'}
-" Plug 'ncm2/ncm2-vim' | Plug 'Shougo/neco-vim', {'for': 'vim'}
-" Plug 'fgrsnau/ncm2-otherbuf', { 'branch': 'ncm2' }
 Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install()}}
 Plug 'neoclide/coc-jedi', {'do': 'yarn install'}
-" Plug '~/code/ncm2-vim-lsp'
-" Plug 'ncm2/ncm2-go', {'for': 'go'}
-" Plug 'ncm2/ncm2-highprio-pop'
-" Plug 'ncm2/ncm2-match-highlight'
-" let g:ncm2#match_highlight = 'mono-space'
-" Plug 'ncm2/ncm2-markdown-subscope', {'for': 'markdown'}
 
 "" pymode
 Plug 'python-mode/python-mode', {'for': 'python'}
@@ -94,8 +65,6 @@ let g:ale_fixers['go'] = ['gofmt', 'goimports']
 let g:ale_fix_on_save = 1
 
 "" js
-" Plug 'maksimr/vim-jsbeautify', {'for': ['json']}
-nnoremap <c-f> :call JsBeautify()<cr>
 Plug 'ternjs/tern_for_vim', {'do': 'npm install', 'for': ['typescript','javascript']}
 
 "" php
@@ -106,12 +75,6 @@ let g:vim_php_refactoring_use_default_mapping = 0
 Plug 'adoy/vim-php-refactoring-toolbox', {'for': 'php'}
 Plug 'phpactor/phpactor', {'for': 'php', 'do': ':call phpactor#Update()'}
 
-" Plug 'autozimu/LanguageClient-neovim', {
-"     \ 'branch': 'next',
-"     \ 'do': 'bash install.sh',
-"     \ 'for': 'php'
-"     \ }
-" Plug 'roxma/LanguageServer-php-neovim', {'for': 'php'}
 Plug 'lvht/phpcd.vim', { 'for': 'php', 'do': 'composer install' }
 
 "" go
@@ -139,7 +102,6 @@ Plug 'morhetz/gruvbox'
 Plug 'NLKNguyen/papercolor-theme'
 Plug 'arcticicestudio/nord-vim'
 Plug 'etdev/vim-hexcolor', {'for': ['css', 'vim']}
-
 
 "" markdown
 Plug 'reedes/vim-lexical', {'for': ['text', 'markdown', 'gitcommit']}
