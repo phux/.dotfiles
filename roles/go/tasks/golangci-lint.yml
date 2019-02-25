@@ -9,7 +9,7 @@
 - block:
   - name: installing golangci-lint
     shell: >
-      source ~/.zshrc &&
+      source ~/.config/zsh/.zshrc &&
       go get -u github.com/golangci/golangci-lint/cmd/golangci-lint
       executable=/bin/zsh
 

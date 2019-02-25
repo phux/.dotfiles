@@ -1,19 +1,17 @@
-snippet desc "Describe Gomega/Ginkgo"
-Describe("$1", func() {
-$0
-})
+snippet dt
+"2006-01-02T15:04:05.000Z"
 endsnippet
 
-snippet cont "Context Gomega/Ginkgo"
-Context("$1", func() {
-$0
-})
+snippet desc "Describe Ginkgo"
+Describe("$1", func() {$0})
 endsnippet
 
-snippet it "It Gomega/Ginkgo"
-It("$1", func() {
-$0
-})
+snippet ct "Context Ginkgo"
+Context("$1", func() {$0})
+endsnippet
+
+snippet it "It Ginkgo"
+It("$1", func() {$0})
 endsnippet
 
 snippet be "BeforeEach Gomega/Ginkgo"
@@ -22,6 +20,22 @@ $0
 })
 endsnippet
 
-snippet ex "Expect().To(Equal()) Gomega/Ginkgo"
+snippet ex "Expect().To(Equal()) Gomega"
 Expect($1).To(Equal($2))
+endsnippet
+
+snippet ginkgo "ginkgo skeleton"
+import (
+	"testing"
+
+	. "github.com/onsi/ginkgo"
+	. "github.com/onsi/gomega"
+)
+
+func Test$1(t *testing.T) {
+	RegisterFailHandler(Fail)
+	RunSpecs(t, "$1 Suite")
+}
+
+var _ = Describe("$1", func() {})
 endsnippet

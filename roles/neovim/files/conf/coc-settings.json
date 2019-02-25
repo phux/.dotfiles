@@ -3,7 +3,8 @@
         "golang": {
             "command": "bingo",
             "args": [
-                "--diagnostics-style=none"
+                "--diagnostics-style=instant",
+                "--format-style=goimports"
             ],
             "rootPatterns": [
                 "go.mod",
@@ -44,20 +45,12 @@
             "args": [
                 "--stdio"
             ]
-        },
-        "typescript": {
-            "command": "typescript-language-server",
-            "args": [
-                "--stdio"
-            ],
-            "filetypes": [
-                "typescript",
-                "javascriptreact"
-            ]
         }
     },
-    "coc.preferences.snippetIndicator": " ►",
-    "coc.preferences.echodocSupport": true,
-    "coc.preferences.diagnostic.enable": false,
-    "coc.preferences.hoverTarget": "echo"
+    "suggest.snippetIndicator": " ►",
+    "suggest.echodocSupport": true,
+    "coc.preferences.hoverTarget": "echo",
+    "diagnostic.enable": true,
+    "diagnostic.displayByAle": true,
+    "coc.preferences.formatOnSaveFiletypes": ["go", "json"]
 }

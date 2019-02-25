@@ -7,6 +7,7 @@ set foldnestmax=1
 let g:cm_auto_popup=1
 
 let g:ale_linters['go'] = ['gofmt', 'golangci-lint']
+let g:ale_linters['go'] = []
 let g:ale_go_golangci_lint_options= ''
 let g:ale_go_golangci_lint_package = 1
 let g:ale_go_gofmt_options='-s'
@@ -14,10 +15,10 @@ let g:ale_keep_list_window_open=0
 let g:ale_set_quickfix=1
 
 let g:go_addtags_transform='camelcase'
-" let g:ale_go_golangci_lint_options='--fast'
-if IsOnBattery()
-    let g:ale_go_golangci_lint_options='--fast'
-endif
+let g:ale_go_golangci_lint_options='--fast'
+" if IsOnBattery()
+"     let g:ale_go_golangci_lint_options='--fast'
+" endif
 
 let g:go_list_type = 'quickfix'
 let g:go_bin_path = expand('~/code/go/bin')
@@ -32,7 +33,7 @@ let g:go_highlight_extra_types = 1
 let g:go_term_enabled=0
 let g:go_disable_autoinstall = 0
 let g:go_fmt_command = 'goimports'
-let g:go_fmt_autosave = 0
+let g:go_fmt_autosave = 1
 let g:go_addtags_transform='camelcase'
 let g:go_metalinter_autosave = 0
 let g:go_metalinter_deadline = '20s'

@@ -1,6 +1,6 @@
 WORDCHARS='*?_-[]~=&;!#$%^(){}<>'
 
-source ~/.profile
+
 export PURE_PROMPT_PATH_FORMATTING="%~"
 export NVM_LAZY_LOAD=true
 
@@ -25,10 +25,15 @@ export FZF_BIN_PATH="$HOME/.fzf/bin"
 
 HISTSIZE='100000';
 HISTFILESIZE="${HISTSIZE}";
-HISTFILE="$HOME/.zsh_history"
+HISTFILE="$XDG_CONFIG_HOME/zsh/.zsh_history"
 SAVEHIST=32768
 HISTDUP=erase
-setopt appendhistory             #Append history to the history file (no overwriting)
+# Report command running time if it is more than 3 seconds
+REPORTTIME=3
+setopt appendhistory             # Append history to the history file (no overwriting)
+setopt always_to_end             # when completing from the middle of a word, move the cursor to the end of the word
+setopt chase_links               # resolve symlinks
+setopt complete_in_word          # allow completion from within a word/phrase
 setopt BANG_HIST                 # Treat the '!' character specially during expansion.
 setopt EXTENDED_HISTORY          # Write the history file in the ":start:elapsed;command" format.
 setopt INC_APPEND_HISTORY        # Write to the history file immediately, not when the shell exits.
@@ -205,7 +210,7 @@ alias eg='cd $HOME/code/exercism/go/$(ls -t $HOME/code/exercism/go/ | head -1)'
 alias gtb='go test -bench .'
 alias gt='richgo test ./...'
 
-alias ez='n ~/.config/zsh/zshrc;source ~/.config/zsh/.zshrc'
+alias ez='n $ZDOTDIR/.zshrc;source $ZDOTDIR/.zshrc'
 alias .d='cd ~/.dotfiles'
 alias ma='make'
 alias mt='make test'
@@ -215,7 +220,21 @@ alias idea='~/tools/idea-IC-182.3684.101/bin/idea.sh'
 
 export ANSIBLE_NOCOWS=1
 
-zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
+# zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
+
+zstyle ':completion::complete:*' use-cache on               # completion caching, use rehash to clear
+zstyle ':completion:*' cache-path ~/.zsh/cache              # cache path
+zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'   # ignore case
+zstyle ':completion:*' menu select=2                        # menu if nb items > 2
+zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}       # colorz !
+zstyle ':completion:*::::' completer _expand _complete _ignored _approximate # list of completers to use
+
+# sections completion !
+zstyle ':completion:*' verbose yes
+zstyle ':completion:*:descriptions' format $'\e[00;34m%d'
+zstyle ':completion:*:messages' format $'\e[00;31m%d'
+zstyle ':completion:*' group-name ''
+zstyle ':completion:*:manuals' separate-sections true
 
 # tabtab source for serverless package
 # uninstall by removing these lines or running `tabtab uninstall serverless`
@@ -323,9 +342,9 @@ bindkey -M vicmd 'v' edit-command-line
 # bindkey -m viins 'jk' vi-cmd-mode
 bindkey 'jk' vi-cmd-mode
 
+export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
 
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 export PATH=$PATH:$HOME/bin:$HOME/.local/bin:$HOME/.composer/vendor/bin:$FZF_BIN_PATH:$LGOBIN:$HOME/.config/composer/vendor/bin
-export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"

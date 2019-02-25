@@ -52,7 +52,7 @@
 
 - name: installing sqlfmt
   shell: >
-    source ~/.zshrc &&
+    source ~/.config/zsh/.zshrc &&
     go get -u github.com/jackc/sqlfmt/...
     executable=/bin/zsh
 
