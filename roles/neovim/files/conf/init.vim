@@ -34,6 +34,29 @@ let g:UltiSnipsSnippetsDir = '~/.config/nvim/UltiSnips/'
 let g:UltiSnipsExpandTrigger='<c-j>'
 let g:UltiSnipsEditSplit='vertical'
 
+"" auto-pairs
+" Plug 'jiangmiao/auto-pairs'
+" let g:AutoPairsShortcutJump = ''
+" let g:AutoPairsShortcutToggle = ''
+" let g:AutoPairsMapCR=0
+
+"" ncm2
+" Plug 'ncm2/ncm2'
+" Plug 'roxma/nvim-yarp'
+" Plug 'ncm2/ncm2-bufword'
+" Plug 'ncm2/ncm2-tmux'
+" Plug 'ncm2/ncm2-path'
+" Plug 'ncm2/ncm2-ultisnips'
+" Plug 'prabirshrestha/async.vim'
+" Plug 'prabirshrestha/vim-lsp'
+" Plug 'ncm2/ncm2-vim-lsp'
+" Plug 'ncm2/ncm2-cssomni', {'for': 'css'}
+" Plug 'phpactor/ncm2-phpactor', {'for': ['php', 'markdown']}
+" Plug 'ncm2/ncm2-jedi', {'for': 'python'}
+" Plug 'ncm2/ncm2-tern',  {'do': 'npm install', 'for': 'javascript'}
+" Plug 'ncm2/nvim-typescript', {'do': './install.sh', 'for': 'typescript'}
+" Plug 'ncm2/ncm2-vim' | Plug 'Shougo/neco-vim', {'for': 'vim'}
+" Plug 'fgrsnau/ncm2-otherbuf', { 'branch': 'ncm2' }
 Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install()}}
 Plug 'neoclide/coc-jedi', {'do': 'yarn install'}
 
@@ -44,27 +67,29 @@ let g:pymode_python = 'python3'
 let g:pymode_lint = 0
 
 "" w0rp/ale
-Plug 'w0rp/ale'
-nnoremap <silent> <leader><F8> :ALEToggleBuffer<cr>
-let g:ale_lint_on_text_changed = 'never'
-let g:ale_lint_on_enter = 0
-let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
-let g:ale_open_list = 1
-let g:ale_keep_list_window_open=0
-let g:ale_set_quickfix=1
-let g:ale_list_window_size = 5
-let g:ale_fixers = {}
-let g:ale_fixers['*'] = ['remove_trailing_lines', 'trim_whitespace']
-let g:ale_fixers['php'] = ['phpcbf', 'php_cs_fixer', 'remove_trailing_lines', 'trim_whitespace']
-let g:ale_fixers['vim'] = ['remove_trailing_lines', 'trim_whitespace']
-let g:ale_fixers['notes'] = ['remove_trailing_lines', 'trim_whitespace']
-let g:ale_fixers['markdown'] = ['remove_trailing_lines', 'trim_whitespace']
-let g:ale_fixers['notes.markdown'] = ['remove_trailing_lines', 'trim_whitespace']
-let g:ale_fixers['go'] = ['gofmt', 'goimports']
-" let g:ale_fixers['json'] = ['fixjson', 'prettier']
-let g:ale_fix_on_save = 1
+" Plug 'w0rp/ale'
+" nnoremap <silent> <leader><F8> :ALEToggleBuffer<cr>
+" let g:ale_lint_on_text_changed = 'never'
+" let g:ale_lint_on_enter = 0
+" let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
+" let g:ale_open_list = 1
+" let g:ale_keep_list_window_open=0
+" let g:ale_set_quickfix=1
+" let g:ale_list_window_size = 5
+" let g:ale_fixers = {}
+" let g:ale_fixers['*'] = ['remove_trailing_lines', 'trim_whitespace']
+" let g:ale_fixers['php'] = ['phpcbf', 'php_cs_fixer', 'remove_trailing_lines', 'trim_whitespace']
+" let g:ale_fixers['vim'] = ['remove_trailing_lines', 'trim_whitespace']
+" let g:ale_fixers['notes'] = ['remove_trailing_lines', 'trim_whitespace']
+" let g:ale_fixers['markdown'] = ['remove_trailing_lines', 'trim_whitespace']
+" let g:ale_fixers['notes.markdown'] = ['remove_trailing_lines', 'trim_whitespace']
+" let g:ale_fixers['go'] = ['gofmt', 'goimports']
+" " let g:ale_fixers['json'] = ['fixjson', 'prettier']
+" let g:ale_fix_on_save = 1
 
 "" js
+Plug 'maksimr/vim-jsbeautify', {'for': ['json']}
+nnoremap <c-f> :call JsBeautify()<cr>
 Plug 'ternjs/tern_for_vim', {'do': 'npm install', 'for': ['typescript','javascript']}
 
 "" php
@@ -75,6 +100,12 @@ let g:vim_php_refactoring_use_default_mapping = 0
 Plug 'adoy/vim-php-refactoring-toolbox', {'for': 'php'}
 Plug 'phpactor/phpactor', {'for': 'php', 'do': ':call phpactor#Update()'}
 
+" Plug 'autozimu/LanguageClient-neovim', {
+"     \ 'branch': 'next',
+"     \ 'do': 'bash install.sh',
+"     \ 'for': 'php'
+"     \ }
+" Plug 'roxma/LanguageServer-php-neovim', {'for': 'php'}
 Plug 'lvht/phpcd.vim', { 'for': 'php', 'do': 'composer install' }
 
 "" go
@@ -102,6 +133,7 @@ Plug 'morhetz/gruvbox'
 Plug 'NLKNguyen/papercolor-theme'
 Plug 'arcticicestudio/nord-vim'
 Plug 'etdev/vim-hexcolor', {'for': ['css', 'vim']}
+
 
 "" markdown
 Plug 'reedes/vim-lexical', {'for': ['text', 'markdown', 'gitcommit']}
@@ -276,8 +308,12 @@ vnoremap <leader>c :Commentary<cr>
 " Plug 'timeyyy/clackclack.symphony'
 " Plug 'timeyyy/bubbletrouble.symphony'
 Plug 'maxbrunsfeld/vim-yankstack'
+Plug 'neomake/neomake'
 " Plug 'TaDaa/vimade'
 call plug#end()
+call neomake#configure#automake('w')
+let g:neomake_echo_current_error=0
+let g:neomake_open_list = 2
 " call orchestra#prelude()
 " call orchestra#set_tune('bubbletrouble')
 " call orchestra#set_tune('clackclack')
@@ -331,10 +367,10 @@ augroup end
 function! SetGoBuildTags()
     let l:line = getline(1)
     if l:line =~# '// +build'
-        let l:tags = substitute(l:line, '// +build', '', "g")
-        exe ":GoBuildTags ".l:tags
+        let l:tags = substitute(l:line, '// +build', '', 'g')
+        exe ':GoBuildTags '.l:tags
     else
-        let g:go_build_tags=""
+        let g:go_build_tags=''
     endif
 endfunction
 
@@ -549,8 +585,8 @@ nnoremap <leader>] :%Subvert/<c-R><c-w>/<c-r><c-w>/g<left><left>
 vnoremap <leader>] :Subvert//g<left><left>
 
 "" qf/loc list toggle
-nmap <silent> <c-p> :cp<cr>
-nmap <silent> <c-n> :cn<cr>
+nmap <c-p> <Plug>(qf_loc_previous)
+nmap <c-n> <Plug>(qf_loc_next)
 let g:qf_loc_toggle_binds = 0
 function! ToggleQfLocListBinds()
   if g:qf_loc_toggle_binds == 1
@@ -565,7 +601,7 @@ function! ToggleQfLocListBinds()
     echo 'qf binds loaded'
   endif
 endfunction
-nmap <Down> :call ToggleQfLocListBinds()<cr>
+nmap <m-n> :call ToggleQfLocListBinds()<cr>
 
 "" gitv
 nnoremap <leader>gv :Gitv!<cr>
@@ -673,6 +709,7 @@ let g:ruby_fold = 1
 " set foldlevel=1
 set foldnestmax=4
 set foldlevelstart=99
+hi Folded ctermfg=4
 
 "" Mappings
 " "Refocus" folds
@@ -767,8 +804,7 @@ command! -nargs=1 Silent execute ':silent !'.<q-args> | execute ':redraw!'
 set confirm
 
 
-nnoremap <silent> <leader>w :lclose<cr>:w<cr>
-nnoremap <silent> <leader>w :update<cr>
+nnoremap <silent> <leader>w :w<cr>
 
 set noshowmode
 set noruler
@@ -854,14 +890,14 @@ function! CloseHiddenBuffers()
       exe 'bw ' . b
     endif
   endfor
-  echon "Deleted " . l:tally . " buffers"
+  echon 'Deleted ' . l:tally . ' buffers'
 endfun
 
 " Intelligently navigate tmux panes and Vim splits using the same keys.
 " See https://sunaku.github.io/tmux-select-pane.html for documentation.
 let progname = substitute($VIM, '.*[/\\]', '', '')
 set title titlestring=%{progname}\ %f\ +%l\ #%{tabpagenr()}.%{winnr()}
-if &term =~ '^screen' && !has('nvim') | exe "set t_ts=\e]2; t_fs=\7" | endif
+if &term =~# '^screen' && !has('nvim') | exe "set t_ts=\e]2; t_fs=\7" | endif
 
 let g:tmux_navigator_disable_when_zoomed=1
 
@@ -889,7 +925,7 @@ nmap <silent> <leader>gr <Plug>(coc-rename)
 nnoremap <silent> K :call <SID>show_documentation()<CR>
 
 function! s:show_documentation()
-  if &filetype == 'vim'
+  if &filetype ==# 'vim'
     execute 'h '.expand('<cword>')
   else
     call CocAction('doHover')
@@ -901,3 +937,26 @@ command! -nargs=0 Format :call CocAction('format')
 " nmap <leader>ac  <Plug>(coc-codeaction)
 " vmap <leader>a  <Plug>(coc-codeaction-selected)
 " nmap ga  <Plug>(coc-codeaction-selected)
+
+
+
+let g:neomake_error_sign = {'text': ':O', 'texthl': 'NeomakeErrorSign'}
+let g:neomake_warning_sign = {'text': ':(','texthl': 'NeomakeWarningSign'}
+let g:neomake_message_sign = {
+            \   'text': ':/',
+            \   'texthl': 'NeomakeWarningSign',
+            \ }
+" let g:neomake_info_sign = {'text': 'ℹ', 'texthl': 'NeomakeInfoSign'}
+let g:neomake_info_sign = {'text': 'ℹ', 'texthl': 'NeomakeInfoSign'}
+" display warning for phpcs error
+function! SetWarningType(entry)
+    let a:entry.type = 'W'
+endfunction
+
+function! SetErrorType(entry)
+    let a:entry.type = 'E'
+endfunction
+
+function! SetMessageType(entry)
+    let a:entry.type = 'M'
+endfunction

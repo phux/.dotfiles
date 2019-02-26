@@ -16,7 +16,8 @@
     "object-calisthenics/phpcs-calisthenics-rules": "dev-master",
     "symplify/coding-standard": "^5.0",
     "symplify/easy-coding-standard": "^5.0",
-    "felixfbecker/language-server": "dev-master"
+    "felixfbecker/language-server": "dev-master",
+    "phpstan/phpstan": "^0.11.0@dev"
   },
   "require-dev": {}
 }
