@@ -4,21 +4,37 @@ set foldmethod=syntax
 set foldlevel=1
 set foldnestmax=1
 
-let g:cm_auto_popup=1
+" let g:ale_linters['go'] = ['gofmt', 'golangci-lint']
+" let g:ale_linters['go'] = []
+" let g:ale_go_golangci_lint_options= ''
+" let g:ale_go_golangci_lint_package = 1
+" let g:ale_go_gofmt_options='-s'
+" let g:ale_keep_list_window_open=0
+" let g:ale_set_quickfix=1
 
-let g:ale_linters['go'] = ['gofmt', 'golangci-lint']
-let g:ale_go_golangci_lint_options= ''
-let g:ale_go_golangci_lint_package = 1
-let g:ale_go_gofmt_options='-s'
-let g:ale_keep_list_window_open=0
-let g:ale_set_quickfix=1
-
-let g:go_addtags_transform='camelcase'
-let g:ale_go_golangci_lint_options='--fast'
+" let g:ale_go_golangci_lint_options='--fast'
 " if IsOnBattery()
 "     let g:ale_go_golangci_lint_options='--fast'
 " endif
+let g:neomake_go_enabled_makers = [ 'go', 'golangcifast' ]
+let g:neomake_go_golangci_maker = {
+        \ 'exe': 'golangci-lint',
+        \ 'args': [ 'run', '--enable=unparam' ],
+        \ 'append_file': 0,
+        \ 'cwd': '%:h',
+        \ 'postprocess': function('SetWarningType')
+\ }
 
+let g:neomake_go_golangcifast_maker = {
+        \ 'exe': 'golangci-lint',
+        \ 'args': [ 'run', '--fast', ],
+        \ 'append_file': 0,
+        \ 'cwd': '%:h',
+        \ 'postprocess': function('SetWarningType')
+\ }
+
+
+let g:go_addtags_transform='camelcase'
 let g:go_list_type = 'quickfix'
 let g:go_bin_path = expand('~/code/go/bin')
 let g:go_highlight_types = 1

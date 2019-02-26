@@ -48,7 +48,7 @@
         }
     },
     "suggest.snippetIndicator": " ►",
-    "suggest.echodocSupport": true,
+    "suggest.echodocSupport": false,
     "coc.preferences.hoverTarget": "echo",
     "diagnostic.enable": false,
     "diagnostic.displayByAle": true,
