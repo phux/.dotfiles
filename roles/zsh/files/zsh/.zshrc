@@ -25,7 +25,7 @@ export FZF_BIN_PATH="$HOME/.fzf/bin"
 
 HISTSIZE='100000';
 HISTFILESIZE="${HISTSIZE}";
-HISTFILE="$XDG_CONFIG_HOME/zsh/.zsh_history"
+HISTFILE="$ZDOTDIR/.zsh_history"
 SAVEHIST=32768
 HISTDUP=erase
 # Report command running time if it is more than 3 seconds
