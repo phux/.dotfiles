@@ -961,7 +961,6 @@ function! LoadCocNvim()
         return !col || getline('.')[col - 1]  =~# '\s'
     endfunction
     nnoremap <silent> K :call <SID>show_documentation()<CR>
-    echo 'loaded coc.nvim settings'
 endfunction
 
 function! LoadNcm2()
@@ -976,3 +975,4 @@ augroup ncm2_triggers
     au BufEnter,BufRead * if index(g:ncm_enabled_filetypes, &filetype) != -1 | call ncm2#enable_for_buffer() | else | call ncm2#disable_for_buffer() | endif
 augroup end
 
+command! -nargs=0 Prettier :CocCommand prettier.formatFile
