@@ -199,7 +199,8 @@ bindkey -e
 # alias nvim='nvim -w ~/.nvim_keylog "$@"'
 
 
-alias n='nvim'
+# load npm before nvim
+alias n='npm 2>&1 > /dev/null; nvim'
 alias c='composer'
 alias ci='composer install --no-progress --prefer-dist --profile'
 alias cu='composer update --no-progress --prefer-dist --profile'

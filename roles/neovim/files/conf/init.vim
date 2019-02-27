@@ -365,7 +365,7 @@ augroup nvim
 
   autocmd VimResized * wincmd =
 augroup END
-set completeopt=menuone,noinsert
+set completeopt=menuone,noinsert,noselect
 " call ncm2#override_source('LanguageClient_go', {'enable': 0})
 
 """"""""""""""

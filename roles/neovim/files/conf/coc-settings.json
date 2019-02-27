@@ -1,14 +1,5 @@
 {
     "languageserver": {
-        "phplang": {
-            "command": "php",
-            "args": [
-                "~/.composer/vendor/felixfbecker/language-server/bin/php-language-server.php"
-            ],
-            "filetypes": [
-                "php"
-            ]
-        },
         "golang": {
             "command": "bingo",
             "args": [
@@ -51,6 +42,5 @@
     "suggest.echodocSupport": false,
     "coc.preferences.hoverTarget": "echo",
     "diagnostic.enable": false,
-    "diagnostic.displayByAle": true,
     "coc.preferences.formatOnSaveFiletypes": ["go", "json"]
 }
