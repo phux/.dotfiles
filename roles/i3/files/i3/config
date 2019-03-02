@@ -251,4 +251,6 @@ exec --no-startup-id pasystray
 exec --no-startup-id parcellite
 exec --no-startup-id sh ~/.i3/startup.sh
 
+exec --no-startup-id /usr/bin/gnome-keyring-daemon --start --components=secrets
+
 bindsym $mod+b bar mode toggle
