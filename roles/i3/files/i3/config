@@ -64,10 +64,10 @@ bindsym $mod+Control+l resize grow width 15 px or 15 ppt
 bindsym $mod+Control+h resize shrink width 15 px or 15 ppt
 
 # pulse audio volume control
-bindsym $mod+Up exec --no-startup-id ~/.i3/audio.sh inc
-bindsym XF86AudioRaiseVolume exec ~/.i3/audio.sh inc
-bindsym $mod+Down exec --no-startup-id ~/.i3/audio.sh dec
-bindsym XF86AudioLowerVolume exec ~/.i3/audio.sh dec
+bindsym $mod+Up exec --no-startup-id ~/.i3/audio.sh raise
+bindsym XF86AudioRaiseVolume exec ~/.i3/audio.sh raise
+bindsym $mod+Down exec --no-startup-id ~/.i3/audio.sh lower
+bindsym XF86AudioLowerVolume exec ~/.i3/audio.sh lower
 bindsym $mod+Shift+s exec --no-startup-id ~/.i3/audio.sh mute
 bindsym XF86AudioMute exec ~/.i3/audio.sh mute
 
