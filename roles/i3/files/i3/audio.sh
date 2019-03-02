@@ -1,4 +1,22 @@
 #!/bin/bash
+
+
+
+ACTIVESYNC=$(pacmd list-sinks | grep \* | awk '{print $3}')
+
+case "$1" in
+    raise)
+         pactl set-sink-volume "$ACTIVESYNC" +5%
+         ;;
+    lower)
+         pactl set-sink-volume "$ACTIVESYNC" -5%
+         ;;
+    mute)
+         pactl set-sink-mute "$ACTIVESYNC" toggle
+         ;;
+esac
+
+
 #
 # Manages audio keys on keyboard in i3 wm and launches volnoti window
 
@@ -13,43 +31,43 @@
 
 #### Set variables
 
-AMIXER_CARD="0"
-VOL_INCREMENT="3%"
+#AMIXER_CARD="0"
+#VOL_INCREMENT="10%"
 
-################
+#################
 
-function unmute {
-    # Unmute all pulseaudio sinks
-    for sink in $(pacmd list-sinks | grep -oE 'index: [0-9]+' | awk '{ print $2 }'); do
-        pacmd set-sink-mute $sink 0
-    done
-}
+#function unmute {
+#    # Unmute all pulseaudio sinks
+#    for sink in $(pacmd list-sinks | grep -oE 'index: [0-9]+' | awk '{ print $2 }'); do
+#        pacmd set-sink-mute $sink 0
+#    done
+#}
 
-AMIXER="amixer --card $AMIXER_CARD -q set Master"
-case "$1" in
-    inc)
-        $AMIXER ${VOL_INCREMENT}+
-        unmute
-        ;;
-    dec)
-        $AMIXER ${VOL_INCREMENT}-
-        unmute
-        ;;
-    mute) 
-       pactl set-sink-mute $AMIXER_CARD toggle 
-       ;;
-    *)
-        echo "Usage: $0 {inc|dec|mute}"
-        exit 1
-esac
+#AMIXER="amixer --card 0 -q set Master"
+#case "$1" in
+#    inc)
+#        $AMIXER ${VOL_INCREMENT}+
+#        unmute
+#        ;;
+#    dec)
+#        $AMIXER ${VOL_INCREMENT}-
+#        unmute
+#        ;;
+#    mute) 
+#       pactl set-sink-mute $AMIXER_CARD toggle 
+#       ;;
+#    *)
+#        echo "Usage: $0 {inc|dec|mute}"
+#        exit 1
+#esac
 
-# Get current volume
-CURR_VOL=$(amixer -c1 get Master | grep -oE '([[:digit:]]+)%' | cut -d'%' -f1)
+## Get current volume
+#CURR_VOL=$(amixer -c1 get Master | grep -oE '([[:digit:]]+)%' | cut -d'%' -f1)
 
-# Get mute status
-amixer --card $AMIXER_CARD get Master | grep '\[off\]'
-if [[ $? -eq 0 ]]; then
-    MUTE_OPT="-m"
-else
-    MUTE_OPT=""
-fi
+## Get mute status
+#amixer --card $AMIXER_CARD get Master | grep '\[off\]'
+#if [[ $? -eq 0 ]]; then
+#    MUTE_OPT="-m"
+#else
+#    MUTE_OPT=""
+#fi
