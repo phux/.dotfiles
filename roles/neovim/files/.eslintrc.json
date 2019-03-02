@@ -7,8 +7,5 @@
     "prefer-const": 2,
     "prefer-template": 1
   },
-  "globals": {
-    "test": true,
-    "expect": true
-  }
+  "globals": { "test": true, "expect": true }
 }

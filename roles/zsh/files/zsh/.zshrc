@@ -25,7 +25,7 @@ export FZF_BIN_PATH="$HOME/.fzf/bin"
 
 HISTSIZE='100000';
 HISTFILESIZE="${HISTSIZE}";
-HISTFILE="$XDG_CONFIG_HOME/zsh/.zsh_history"
+HISTFILE="$ZDOTDIR/.zsh_history"
 SAVEHIST=32768
 HISTDUP=erase
 # Report command running time if it is more than 3 seconds
@@ -199,7 +199,8 @@ bindkey -e
 # alias nvim='nvim -w ~/.nvim_keylog "$@"'
 
 
-alias n='nvim'
+# load npm before nvim
+alias n='npm 2>&1 > /dev/null; nvim'
 alias c='composer'
 alias ci='composer install --no-progress --prefer-dist --profile'
 alias cu='composer update --no-progress --prefer-dist --profile'
