@@ -65,8 +65,6 @@ let g:pymode_lint = 0
 
 
 "" js
-Plug 'maksimr/vim-jsbeautify', {'for': ['json']}
-nnoremap <c-f> :call JsBeautify()<cr>
 " Plug 'ncm2/ncm2-tern',  {'do': 'npm install', 'for': 'javascript'}
 " Plug 'ternjs/tern_for_vim', {'do': 'npm install', 'for': ['typescript','javascript']}
 
@@ -224,7 +222,8 @@ let g:Todo_txt_prefix_creation_date=0
 " Set the 'path' option for miscellaneous file types
 Plug 'tpope/vim-apathy'
 Plug 'sheerun/vim-polyglot', {'do': './build'}
-let g:polyglot_disabled = ['php', 'go', 'markdown', 'liquid', 'javascript']
+let g:polyglot_disabled = ['php', 'go', 'markdown', 'liquid', 'jsx']
+let g:polyglot_disabled = ['php', 'liquid', 'jsx']
 Plug 'pearofducks/ansible-vim', { 'do': 'cd ./UltiSnips; python2 generate.py' }
 let g:ansible_unindent_after_newline = 1
 
@@ -956,7 +955,14 @@ function! LoadCocNvim()
     nmap <silent> gi <Plug>(coc-implementation)
     nmap <silent> gr <Plug>(coc-references)
     nmap <leader>gr <Plug>(coc-rename)
-    nmap ga  <Plug>(coc-codeaction)
+    " Remap for do codeAction of current line
+    " nmap <leader>Q  <Plug>(coc-codeaction)
+    " Fix autofix problem of current line
+    " nmap <leader>q  <Plug>(coc-fix-current)
+
+    vmap <leader>gf  <Plug>(coc-format-selected)
+    nmap <leader>gf  <Plug>(coc-format-selected)
+
     function! s:check_back_space() abort
         let col = col('.') - 1
         return !col || getline('.')[col - 1]  =~# '\s'
@@ -978,3 +984,5 @@ augroup ncm2_triggers
 augroup end
 
 command! -nargs=0 Prettier :CocCommand prettier.formatFile
+
+hi Comment ctermfg=darkgray
