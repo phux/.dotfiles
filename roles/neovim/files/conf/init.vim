@@ -25,6 +25,11 @@ if !filereadable(expand('~/.config/nvim/autoload/plug.vim'))
 endif
 command! PU PlugUpdate | PlugUpgrade
 call plug#begin('~/.config/nvim/plugged')
+"" auto-pairs
+Plug 'jiangmiao/auto-pairs', {'for': ['php', 'vim']}
+let g:AutoPairsShortcutJump = ''
+let g:AutoPairsShortcutToggle = ''
+let g:AutoPairsMapCR=0
 
 "" snippets
 Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
@@ -34,8 +39,23 @@ let g:UltiSnipsSnippetsDir = '~/.config/nvim/UltiSnips/'
 let g:UltiSnipsExpandTrigger='<c-j>'
 let g:UltiSnipsEditSplit='vertical'
 
+"" ncm2
+Plug 'ncm2/ncm2', {'for':['php', 'vim']}
+let g:ncm_enabled_filetypes = ['php', 'vim']
+Plug 'roxma/nvim-yarp', {'for':['php', 'vim']}
+Plug 'ncm2/ncm2-vim' | Plug 'Shougo/neco-vim', {'for': 'vim'}
+Plug 'phpactor/ncm2-phpactor', {'for': ['php']}
+Plug 'ncm2/ncm2-ultisnips', {'for': ['php']}
+Plug 'ncm2/ncm2-bufword', {'for': ['php', 'vim']}
+Plug 'ncm2/ncm2-tmux', {'for': ['php']}
+Plug 'ncm2/ncm2-path', {'for': ['php']}
+Plug 'fgrsnau/ncm2-otherbuf', { 'branch': 'ncm2', 'for': 'php'}
+" Plug 'ncm2/ncm2-jedi', {'for': 'python'}
+
+
 Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install()}}
-Plug 'neoclide/coc-jedi', {'do': 'yarn install'}
+Plug 'neoclide/coc-jedi', {'do': 'yarn install', 'for': 'python'}
+
 
 "" pymode
 Plug 'python-mode/python-mode', {'for': 'python'}
@@ -43,29 +63,12 @@ let g:pymode_folding = 0
 let g:pymode_python = 'python3'
 let g:pymode_lint = 0
 
-"" w0rp/ale
-Plug 'w0rp/ale'
-nnoremap <silent> <leader><F8> :ALEToggleBuffer<cr>
-let g:ale_lint_on_text_changed = 'never'
-let g:ale_lint_on_enter = 0
-let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
-let g:ale_open_list = 1
-let g:ale_keep_list_window_open=0
-let g:ale_set_quickfix=1
-let g:ale_list_window_size = 5
-let g:ale_fixers = {}
-let g:ale_fixers['*'] = ['remove_trailing_lines', 'trim_whitespace']
-let g:ale_fixers['php'] = ['phpcbf', 'php_cs_fixer', 'remove_trailing_lines', 'trim_whitespace']
-let g:ale_fixers['vim'] = ['remove_trailing_lines', 'trim_whitespace']
-let g:ale_fixers['notes'] = ['remove_trailing_lines', 'trim_whitespace']
-let g:ale_fixers['markdown'] = ['remove_trailing_lines', 'trim_whitespace']
-let g:ale_fixers['notes.markdown'] = ['remove_trailing_lines', 'trim_whitespace']
-let g:ale_fixers['go'] = ['gofmt', 'goimports']
-" let g:ale_fixers['json'] = ['fixjson', 'prettier']
-let g:ale_fix_on_save = 1
 
 "" js
-Plug 'ternjs/tern_for_vim', {'do': 'npm install', 'for': ['typescript','javascript']}
+Plug 'maksimr/vim-jsbeautify', {'for': ['json']}
+nnoremap <c-f> :call JsBeautify()<cr>
+" Plug 'ncm2/ncm2-tern',  {'do': 'npm install', 'for': 'javascript'}
+" Plug 'ternjs/tern_for_vim', {'do': 'npm install', 'for': ['typescript','javascript']}
 
 "" php
 Plug 'phux/php-doc-modded', {'for': 'php'}
@@ -102,6 +105,7 @@ Plug 'morhetz/gruvbox'
 Plug 'NLKNguyen/papercolor-theme'
 Plug 'arcticicestudio/nord-vim'
 Plug 'etdev/vim-hexcolor', {'for': ['css', 'vim']}
+
 
 "" markdown
 Plug 'reedes/vim-lexical', {'for': ['text', 'markdown', 'gitcommit']}
@@ -276,8 +280,12 @@ vnoremap <leader>c :Commentary<cr>
 " Plug 'timeyyy/clackclack.symphony'
 " Plug 'timeyyy/bubbletrouble.symphony'
 Plug 'maxbrunsfeld/vim-yankstack'
+Plug 'neomake/neomake'
 " Plug 'TaDaa/vimade'
 call plug#end()
+call neomake#configure#automake('w')
+let g:neomake_echo_current_error=0
+let g:neomake_open_list = 2
 " call orchestra#prelude()
 " call orchestra#set_tune('bubbletrouble')
 " call orchestra#set_tune('clackclack')
@@ -302,8 +310,6 @@ augroup everything
   au BufNewFile,BufRead *.yml.dist set ft=yaml
   au BufRead,BufNewFile *.conf setf config
   au BufNewFile,BufRead composer.lock set ft=json
-
-  au FileType css,less,scss let b:ale_fixers = ['prettier']
 
   au filetype todo setlocal omnifunc=todo#Complete
   " Auto complete projects
@@ -331,10 +337,10 @@ augroup end
 function! SetGoBuildTags()
     let l:line = getline(1)
     if l:line =~# '// +build'
-        let l:tags = substitute(l:line, '// +build', '', "g")
-        exe ":GoBuildTags ".l:tags
+        let l:tags = substitute(l:line, '// +build', '', 'g')
+        exe ':GoBuildTags '.l:tags
     else
-        let g:go_build_tags=""
+        let g:go_build_tags=''
     endif
 endfunction
 
@@ -345,13 +351,11 @@ augroup nvim
   au BufWritePost *.vim nested source $MYVIMRC
   " au CursorHold * normal! m'
   " no delay when ESC/jk
-  au InsertEnter * set timeoutlen=100
-  au InsertLeave * set timeoutlen=500
+  " au InsertEnter * set timeoutlen=100
+  " au BufNewFile,BufRead,BufEnter * call LoadFiletypeDependendCompletion()
 
-  " autocmd BufEnter * call ncm2#enable_for_buffer()
   " enable auto complete for `<backspace>`, `<c-w>` keys.
   " known issue https://github.com/ncm2/ncm2/issues/7
-  " au TextChangedI * call ncm2#auto_trigger()
 
   " au User Ncm2PopupOpen set completeopt=noinsert,menuone,noselect
   " au User Ncm2PopupClose set completeopt=menuone
@@ -361,7 +365,7 @@ augroup nvim
 
   autocmd VimResized * wincmd =
 augroup END
-set completeopt=menuone
+set completeopt=menuone,noinsert,noselect
 " call ncm2#override_source('LanguageClient_go', {'enable': 0})
 
 """"""""""""""
@@ -442,7 +446,7 @@ let g:lightline = {
             \ 'colorscheme': 'nord',
             \ 'active': {
             \   'left': [ [ 'mode', 'paste' ],
-            \             [ 'gitbranch', 'readonly', 'filename', 'modified' ] ]
+            \             [ 'gitbranch', 'readonly', 'filename', 'modified', 'neomake_state' ] ]
             \ },
             \ 'inactive': {
             \   'left': [ [ 'conflicted_name' ] ],
@@ -452,7 +456,7 @@ let g:lightline = {
             \   'filename': 'LightlineFilename',
             \   'gitbranch': 'fugitive#head',
             \   'conflicted_name': 'ConflictedVersion',
-            \   'cocstatus': 'coc#status',
+            \   'neomake_state': 'SpinnerText',
             \ },
             \ }
 
@@ -549,8 +553,8 @@ nnoremap <leader>] :%Subvert/<c-R><c-w>/<c-r><c-w>/g<left><left>
 vnoremap <leader>] :Subvert//g<left><left>
 
 "" qf/loc list toggle
-nmap <silent> <c-p> :cp<cr>
-nmap <silent> <c-n> :cn<cr>
+nmap <c-p> <Plug>(qf_loc_previous)
+nmap <c-n> <Plug>(qf_loc_next)
 let g:qf_loc_toggle_binds = 0
 function! ToggleQfLocListBinds()
   if g:qf_loc_toggle_binds == 1
@@ -565,7 +569,7 @@ function! ToggleQfLocListBinds()
     echo 'qf binds loaded'
   endif
 endfunction
-nmap <Down> :call ToggleQfLocListBinds()<cr>
+nmap <m-n> :call ToggleQfLocListBinds()<cr>
 
 "" gitv
 nnoremap <leader>gv :Gitv!<cr>
@@ -656,10 +660,6 @@ function! LightScheme()
   set cursorline
 endfunction
 
-"" completion
-" inoremap <silent> <expr> <CR> (pumvisible() ? ncm2_ultisnips#expand_or("\<CR>", 'n') : "\<CR>")
-" inoremap <expr> <TAB> pumvisible() ? "\<c-n>" : "\<TAB>"
-" inoremap <expr> <s-tab> pumvisible() ? "\<c-p>" : "\<TAB>"
 
 """""""""""""
 "  Folding  "
@@ -673,6 +673,7 @@ let g:ruby_fold = 1
 " set foldlevel=1
 set foldnestmax=4
 set foldlevelstart=99
+hi Folded ctermfg=4
 
 "" Mappings
 " "Refocus" folds
@@ -767,8 +768,7 @@ command! -nargs=1 Silent execute ':silent !'.<q-args> | execute ':redraw!'
 set confirm
 
 
-nnoremap <silent> <leader>w :lclose<cr>:w<cr>
-nnoremap <silent> <leader>w :update<cr>
+nnoremap <silent> <leader>w :w<cr>
 
 set noshowmode
 set noruler
@@ -854,50 +854,125 @@ function! CloseHiddenBuffers()
       exe 'bw ' . b
     endif
   endfor
-  echon "Deleted " . l:tally . " buffers"
+  echon 'Deleted ' . l:tally . ' buffers'
 endfun
 
 " Intelligently navigate tmux panes and Vim splits using the same keys.
 " See https://sunaku.github.io/tmux-select-pane.html for documentation.
 let progname = substitute($VIM, '.*[/\\]', '', '')
 set title titlestring=%{progname}\ %f\ +%l\ #%{tabpagenr()}.%{winnr()}
-if &term =~ '^screen' && !has('nvim') | exe "set t_ts=\e]2; t_fs=\7" | endif
+if &term =~# '^screen' && !has('nvim') | exe "set t_ts=\e]2; t_fs=\7" | endif
 
 let g:tmux_navigator_disable_when_zoomed=1
 
-inoremap <silent><expr> <TAB>
-      \ pumvisible() ? "\<C-n>" :
-      \ <SID>check_back_space() ? "\<TAB>" :
-      \ coc#refresh()
-inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
-
-function! s:check_back_space() abort
-  let col = col('.') - 1
-  return !col || getline('.')[col - 1]  =~# '\s'
+let g:neomake_error_sign = {'text': ':(', 'texthl': 'NeomakeErrorSign'}
+let g:neomake_warning_sign = {'text': ':/','texthl': 'NeomakeWarningSign'}
+let g:neomake_message_sign = {
+            \   'text': ':>',
+            \   'texthl': 'NeomakeWarningSign',
+            \ }
+let g:neomake_info_sign = {'text': 'ℹ', 'texthl': 'NeomakeInfoSign'}
+" display warning for phpcs error
+function! SetWarningType(entry)
+    let a:entry.type = 'W'
 endfunction
 
-inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+function! SetErrorType(entry)
+    let a:entry.type = 'E'
+endfunction
 
-" Remap keys for gotos
-nmap <silent> gd <Plug>(coc-definition)
-nmap <silent> gy <Plug>(coc-type-definition)
-nmap <silent> gi <Plug>(coc-implementation)
-nmap <silent> gr <Plug>(coc-references)
-nmap <silent> <leader>gr <Plug>(coc-rename)
+function! SetMessageType(entry)
+    let a:entry.type = 'M'
+endfunction
 
-" Use K for show documentation in preview window
-nnoremap <silent> K :call <SID>show_documentation()<CR>
+let s:spinner_index = 0
+let s:active_spinners = 0
+let s:spinner_states = ['┤', '┘', '┴', '└', '├', '┌', '┬', '┐']
+let s:spinner_states = ['←', '↑', '→', '↓']
+let s:spinner_states = ['■', '□', '▪', '▫', '▪', '□', '■']
+let s:spinner_states = ['←', '↖', '↑', '↗', '→', '↘', '↓', '↙']
+let s:spinner_states = ['d', 'q', 'p', 'b']
+let s:spinner_states = ['|', '/', '--', '\', '|', '/', '--', '\']
+let s:spinner_states = ['.', 'o', 'O', '°', 'O', 'o', '.']
+function! StartSpinner()
+    let b:show_spinner = 1
+    let s:active_spinners += 1
+    if s:active_spinners == 1
+        let s:spinner_timer = timer_start(1000 / len(s:spinner_states), 'SpinSpinner', {'repeat': -1})
+    endif
+endfunction
+
+function! StopSpinner()
+    let b:show_spinner = 0
+    let s:active_spinners -= 1
+    if s:active_spinners == 0
+        :call timer_stop(s:spinner_timer)
+    endif
+endfunction
+
+function! SpinSpinner(timer)
+    let s:spinner_index = float2nr(fmod(s:spinner_index + 1, len(s:spinner_states)))
+    redraw
+endfunction
+
+function! SpinnerText()
+    if get(b:, 'show_spinner', 0) == 0
+        return ' '
+    endif
+
+    return s:spinner_states[s:spinner_index]
+endfunction
+
+augroup neomake_hooks
+    au!
+    autocmd User NeomakeJobInit :call StartSpinner()
+    " autocmd User NeomakeJobInit :echom "Build started"
+    autocmd User NeomakeFinished :call StopSpinner()
+    " autocmd User NeomakeFinished :echom "Build complete"
+augroup END
+
 
 function! s:show_documentation()
-  if &filetype == 'vim'
+  if &filetype ==# 'vim'
     execute 'h '.expand('<cword>')
   else
     call CocAction('doHover')
   endif
 endfunction
 
-nnoremap <silent> <space>o  :<C-u>CocList outline<cr>
-command! -nargs=0 Format :call CocAction('format')
-" nmap <leader>ac  <Plug>(coc-codeaction)
-" vmap <leader>a  <Plug>(coc-codeaction-selected)
-" nmap ga  <Plug>(coc-codeaction-selected)
+function! LoadCocNvim()
+    " Use tab for trigger completion with characters ahead and navigate.
+    " Use command ':verbose imap <tab>' to make sure tab is not mapped by other plugin.
+    inoremap <silent><expr> <TAB>
+                \ pumvisible() ? "\<C-n>" :
+                \ <SID>check_back_space() ? "\<TAB>" :
+                \ coc#refresh()
+    inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+    inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+
+    nmap <silent> gd <Plug>(coc-definition)
+    nmap <silent> gD <Plug>(coc-type-definition)
+    nmap <silent> gi <Plug>(coc-implementation)
+    nmap <silent> gr <Plug>(coc-references)
+    nmap <leader>gr <Plug>(coc-rename)
+    nmap ga  <Plug>(coc-codeaction)
+    function! s:check_back_space() abort
+        let col = col('.') - 1
+        return !col || getline('.')[col - 1]  =~# '\s'
+    endfunction
+    nnoremap <silent> K :call <SID>show_documentation()<CR>
+endfunction
+
+function! LoadNcm2()
+    inoremap <silent> <expr> <CR> (pumvisible() ? ncm2_ultisnips#expand_or("\<CR>", 'n') : "\<CR>")
+    inoremap <expr> <TAB> pumvisible() ? "\<c-n>" : "\<TAB>"
+    inoremap <expr> <s-tab> pumvisible() ? "\<c-p>" : "\<TAB>"
+endfunction
+
+augroup ncm2_triggers
+    au!
+    au BufEnter * if index(g:ncm_enabled_filetypes, &filetype) != -1 | call LoadNcm2() | else | call LoadCocNvim() | endif
+    au BufEnter,BufRead * if index(g:ncm_enabled_filetypes, &filetype) != -1 | call ncm2#enable_for_buffer() | else | call ncm2#disable_for_buffer() | endif
+augroup end
+
+command! -nargs=0 Prettier :CocCommand prettier.formatFile
