@@ -941,6 +941,7 @@ function! s:show_documentation()
 endfunction
 
 function! LoadCocNvim()
+    CocEnable
     " Use tab for trigger completion with characters ahead and navigate.
     " Use command ':verbose imap <tab>' to make sure tab is not mapped by other plugin.
     inoremap <silent><expr> <TAB>
@@ -964,6 +965,7 @@ function! LoadCocNvim()
 endfunction
 
 function! LoadNcm2()
+    CocDisable
     inoremap <silent> <expr> <CR> (pumvisible() ? ncm2_ultisnips#expand_or("\<CR>", 'n') : "\<CR>")
     inoremap <expr> <TAB> pumvisible() ? "\<c-n>" : "\<TAB>"
     inoremap <expr> <s-tab> pumvisible() ? "\<c-p>" : "\<TAB>"
