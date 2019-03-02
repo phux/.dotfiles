@@ -17,6 +17,14 @@
     name: alias.ri
     scope: global
     value: "rebase --interactive --autosquash"
+- git_config:
+    name: rerere.enabled
+    scope: global
+    value: true
+- git_config:
+    name: pull.rebase
+    scope: global
+    value: true
 
 - git_config:
     name: url.diff.whitespace
