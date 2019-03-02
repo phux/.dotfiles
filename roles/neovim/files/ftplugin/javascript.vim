@@ -1,13 +1,9 @@
-setlocal tabstop=4 shiftwidth=4
+" setlocal tabstop=4 shiftwidth=4
 let g:javaScript_fold = 1
 setlocal foldmethod=syntax
 setlocal foldlevel=0
 setlocal foldnestmax=1
 
-" Remap for do codeAction of current line
-nmap <leader>ac  <Plug>(coc-codeaction)
-" Fix autofix problem of current line
-nmap <leader>qf  <Plug>(coc-fix-current)
 call LoadCocNvim()
 
 
