@@ -17,12 +17,46 @@
     name: alias.ri
     scope: global
     value: "rebase --interactive --autosquash"
+
+- git_config:
+    name: pull.rebase
+    scope: global
+    value: true
+- git_config:
+    name: fetch.prune
+    scope: global
+    value: true
+- git_config:
+    name: rebase.autoStash
+    scope: global
+    value: true
+
 - git_config:
     name: rerere.enabled
     scope: global
     value: true
 - git_config:
-    name: pull.rebase
+    name: rerere.autoupdate
+    scope: global
+    value: true
+
+- git_config:
+    name: advice.statusHints
+    scope: global
+    value: false
+
+- git_config:
+    name: diff.renames
+    scope: global
+    value: "copies"
+
+- git_config:
+    name: diff.mnemonicprefix
+    scope: global
+    value: true
+
+- git_config:
+    name: merge.stat
     scope: global
     value: true
 
