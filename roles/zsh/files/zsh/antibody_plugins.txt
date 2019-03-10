@@ -11,5 +11,4 @@ zsh-users/zsh-syntax-highlighting
 
 # prompt
 mafredri/zsh-async #dep for pure&purer
-phux/purer branch:background_tasks
-# phux/lean branch:pwd_position
+dfurnes/purer
