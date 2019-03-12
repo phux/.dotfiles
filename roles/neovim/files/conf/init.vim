@@ -24,9 +24,11 @@ if !filereadable(expand('~/.config/nvim/autoload/plug.vim'))
     autocmd VimEnter * PlugInstall
 endif
 command! PU PlugUpdate | PlugUpgrade
+
+let g:ncm_enabled_filetypes = ['php', 'vim']
 call plug#begin('~/.config/nvim/plugged')
 "" auto-pairs
-Plug 'jiangmiao/auto-pairs', {'for': ['php', 'vim']}
+Plug 'jiangmiao/auto-pairs', {'for': g:ncm_enabled_filetypes}
 let g:AutoPairsShortcutJump = ''
 let g:AutoPairsShortcutToggle = ''
 let g:AutoPairsMapCR=0
@@ -40,29 +42,31 @@ let g:UltiSnipsExpandTrigger='<c-j>'
 let g:UltiSnipsEditSplit='vertical'
 
 "" ncm2
-Plug 'ncm2/ncm2', {'for':['php', 'vim']}
-let g:ncm_enabled_filetypes = ['php', 'vim']
-Plug 'roxma/nvim-yarp', {'for':['php', 'vim']}
+Plug 'ncm2/ncm2', {'for': g:ncm_enabled_filetypes}
+" let g:ncm_enabled_filetypes = ['php', 'vim', 'python']
+Plug 'roxma/nvim-yarp', {'for': g:ncm_enabled_filetypes}
 Plug 'ncm2/ncm2-vim' | Plug 'Shougo/neco-vim', {'for': 'vim'}
 Plug 'phpactor/ncm2-phpactor', {'for': ['php']}
-Plug 'ncm2/ncm2-ultisnips', {'for': ['php']}
-Plug 'ncm2/ncm2-bufword', {'for': ['php', 'vim']}
-Plug 'ncm2/ncm2-tmux', {'for': ['php']}
-Plug 'ncm2/ncm2-path', {'for': ['php']}
-Plug 'fgrsnau/ncm2-otherbuf', { 'branch': 'ncm2', 'for': 'php'}
+Plug 'ncm2/ncm2-ultisnips', {'for': g:ncm_enabled_filetypes}
+Plug 'ncm2/ncm2-bufword', {'for': g:ncm_enabled_filetypes}
+Plug 'ncm2/ncm2-tmux', {'for': g:ncm_enabled_filetypes}
+Plug 'ncm2/ncm2-path', {'for': g:ncm_enabled_filetypes}
+Plug 'fgrsnau/ncm2-otherbuf', { 'branch': 'ncm2', 'for': g:ncm_enabled_filetypes}
 " Plug 'ncm2/ncm2-jedi', {'for': 'python'}
 
 
 Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install()}}
-Plug 'neoclide/coc-jedi', {'do': 'yarn install', 'for': 'python'}
+" Plug 'neoclide/coc-jedi', {'do': 'yarn install', 'for': 'python'}
 
 
 "" pymode
-Plug 'python-mode/python-mode', {'for': 'python'}
-let g:pymode_folding = 0
-let g:pymode_python = 'python3'
-let g:pymode_lint = 0
-
+" Plug 'python-mode/python-mode', {'for': 'python'}
+" let g:pymode_folding = 0
+" let g:pymode_python = 'python3'
+" let g:pymode_lint = 0
+" let g:pymode_rope_goto_definition_bind = 'gd'
+" let g:pymode_rope_goto_definition_cmd = 'e'
+" let g:pymode_rope_rename_bind = '<leader>gr'
 
 "" js
 " Plug 'ncm2/ncm2-tern',  {'do': 'npm install', 'for': 'javascript'}
@@ -74,7 +78,7 @@ Plug 'sahibalejandro/vim-php', {'for': ['php', 'yaml']}
 Plug 'alvan/vim-php-manual', {'for': 'php'}
 let g:vim_php_refactoring_use_default_mapping = 0
 Plug 'adoy/vim-php-refactoring-toolbox', {'for': 'php'}
-Plug 'phpactor/phpactor', {'for': 'php', 'do': ':call phpactor#Update()'}
+Plug 'phpactor/phpactor', {'for': 'php', 'do': ':call phpactor#Update()', 'branch': 'develop'}
 
 Plug 'lvht/phpcd.vim', { 'for': 'php', 'do': 'composer install' }
 
@@ -221,7 +225,7 @@ let g:Todo_txt_prefix_creation_date=0
 "" filetype
 " Set the 'path' option for miscellaneous file types
 Plug 'tpope/vim-apathy'
-Plug 'sheerun/vim-polyglot', {'do': './build'}
+Plug 'sheerun/vim-polyglot'
 let g:polyglot_disabled = ['php', 'go', 'markdown', 'liquid', 'jsx']
 let g:polyglot_disabled = ['php', 'liquid', 'jsx']
 Plug 'pearofducks/ansible-vim', { 'do': 'cd ./UltiSnips; python2 generate.py' }
@@ -297,9 +301,9 @@ let g:neomake_open_list = 2
 augroup js
   au!
 
-  au FileType typescript nnoremap <buffer> gd :TSDef<CR>
-  au FileType typescript nnoremap <buffer> gr :TSRefs<CR>
-  au FileType typescript nnoremap <buffer> K :TSDefPreview<cr>
+  " au FileType typescript nnoremap <buffer> gd :TSDef<CR>
+  " au FileType typescript nnoremap <buffer> gr :TSRefs<CR>
+  " au FileType typescript nnoremap <buffer> K :TSDefPreview<cr>
 augroup END
 
 "" Misc
@@ -935,7 +939,7 @@ function! s:show_documentation()
   if &filetype ==# 'vim'
     execute 'h '.expand('<cword>')
   else
-    call CocAction('doHover')
+    call CocActionAsync('doHover')
   endif
 endfunction
 
@@ -960,8 +964,8 @@ function! LoadCocNvim()
     " Fix autofix problem of current line
     " nmap <leader>q  <Plug>(coc-fix-current)
 
-    vmap <leader>gf  <Plug>(coc-format-selected)
-    nmap <leader>gf  <Plug>(coc-format-selected)
+    vmap <leader>gf <Plug>(coc-format-selected)
+    nmap <leader>gf <Plug>(coc-format)
 
     function! s:check_back_space() abort
         let col = col('.') - 1
@@ -981,6 +985,7 @@ augroup ncm2_triggers
     au!
     au BufEnter * if index(g:ncm_enabled_filetypes, &filetype) != -1 | call LoadNcm2() | else | call LoadCocNvim() | endif
     au BufEnter,BufRead * if index(g:ncm_enabled_filetypes, &filetype) != -1 | call ncm2#enable_for_buffer() | else | call ncm2#disable_for_buffer() | endif
+
 augroup end
 
 command! -nargs=0 Prettier :CocCommand prettier.formatFile
