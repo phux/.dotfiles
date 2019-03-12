@@ -70,12 +70,10 @@
     shell: "{{ ansible_env.HOME }}/.local/bin/pip install --user {{ item }}"
     with_items:
       - pyflakes
-      - flake8
       - proselint
       - yamllint
       - ansible-lint
       - vim-vint
-      - autopep8
       - cfn-lint
       - gitlint
 

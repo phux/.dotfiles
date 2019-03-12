@@ -3,7 +3,7 @@
 # - name: install coc.nvim extensions
 #   command: >
 #     nvim
-#     +CocInstall coc-pairs coc-css coc-html coc-lists coc-ultisnips coc-json coc-tsserver coc-tslint coc-yaml coc-prettier
+#     +CocInstall coc-pairs coc-css coc-html coc-lists coc-ultisnips coc-json coc-tsserver coc-tslint coc-yaml coc-prettier coc-pyls
 #     +qall!
 #     ignore_errors: true
 - name: install coc.nvim language servers
@@ -16,3 +16,6 @@
     - bash-language-server
     - yaml-language-server
     - typescript-language-server
+
+- name: install pyls
+  shell: "{{ ansible_env.HOME }}/.local/bin/pip install --user 'python-language-server[all]'"
