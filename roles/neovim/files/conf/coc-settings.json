@@ -36,11 +36,20 @@
             "args": [
                 "--stdio"
             ]
+        },
+        "phpactor": {
+            "command": "phpactor",
+            "args": ["language-server"],
+            "filetypes": ["php"],
+            "initializationOptions": {
+            },
+            "settings": {
+            }
         }
     },
     "suggest.snippetIndicator": " ►",
     "suggest.echodocSupport": false,
-    "coc.preferences.hoverTarget": "echo",
+    "coc.preferences.hoverTarget": "float",
     "diagnostic.enable": false,
     "coc.preferences.formatOnSaveFiletypes": ["go", "json"]
 }

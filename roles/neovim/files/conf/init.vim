@@ -25,7 +25,7 @@ if !filereadable(expand('~/.config/nvim/autoload/plug.vim'))
 endif
 command! PU PlugUpdate | PlugUpgrade
 
-let g:ncm_enabled_filetypes = ['php', 'vim']
+let g:ncm_enabled_filetypes = ['vim']
 call plug#begin('~/.config/nvim/plugged')
 "" auto-pairs
 Plug 'jiangmiao/auto-pairs', {'for': g:ncm_enabled_filetypes}
@@ -46,7 +46,7 @@ Plug 'ncm2/ncm2', {'for': g:ncm_enabled_filetypes}
 " let g:ncm_enabled_filetypes = ['php', 'vim', 'python']
 Plug 'roxma/nvim-yarp', {'for': g:ncm_enabled_filetypes}
 Plug 'ncm2/ncm2-vim' | Plug 'Shougo/neco-vim', {'for': 'vim'}
-Plug 'phpactor/ncm2-phpactor', {'for': ['php']}
+" Plug 'phpactor/ncm2-phpactor', {'for': ['php']}
 Plug 'ncm2/ncm2-ultisnips', {'for': g:ncm_enabled_filetypes}
 Plug 'ncm2/ncm2-bufword', {'for': g:ncm_enabled_filetypes}
 Plug 'ncm2/ncm2-tmux', {'for': g:ncm_enabled_filetypes}
@@ -939,7 +939,7 @@ function! s:show_documentation()
   if &filetype ==# 'vim'
     execute 'h '.expand('<cword>')
   else
-    call CocActionAsync('doHover')
+    call CocAction('doHover')
   endif
 endfunction
 

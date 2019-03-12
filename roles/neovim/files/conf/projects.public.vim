@@ -25,8 +25,8 @@ function! Symfony(...) abort
     " nnoremap <silent> <c-s> :update<cr>:Silent ecs check --config ~/.easy-coding-standard7.yml --fix %:p <cr>
 
     nnoremap <m-a> :call SymfonySwitchToAlternateFile()<cr>
-    nnoremap <silent> gd :call phpactor#GotoDefinition()<CR>
-    nnoremap <silent> gr :call phpactor#FindReferences()<CR>
+    " nnoremap <silent> gd :call phpactor#GotoDefinition()<CR>
+    " nnoremap <silent> gr :call phpactor#FindReferences()<CR>
     nnoremap <leader>tt :call phpactor#Transform()<cr>
 
     augroup completion_php
@@ -46,7 +46,7 @@ function! PhpAllDisabled(...) abort
 
     nnoremap <m-a> :call SymfonySwitchToAlternateFile()<cr>
     nnoremap <leader>tsa <c-w>v:call SymfonySwitchToAlternateFile()<cr>
-    nnoremap <silent> gd :call phpactor#GotoDefinition()<CR>
-    nnoremap <silent> gr :call phpactor#FindReferences()<CR>
+    " nnoremap <silent> gd :call phpactor#GotoDefinition()<CR>
+    " nnoremap <silent> gr :call phpactor#FindReferences()<CR>
     nnoremap <leader>tt :call phpactor#Transform()<cr>
 endfunction

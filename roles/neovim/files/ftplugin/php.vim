@@ -40,8 +40,7 @@ nnoremap <buffer> <Leader>E :PHPExpandFQCN<cr>
 nnoremap <buffer> <leader>h :call UpdatePhpDocIfExists()<CR>
 nnoremap <buffer> <leader>rdo :call PhpDocOneliner()<cr>
 
-" nnoremap <silent> gd :call phpactor#GotoDefinition()<CR>
-nnoremap <silent> gr :call phpactor#FindReferences()<CR>
+" nnoremap <silent> gr :call phpactor#FindReferences()<CR>
 let g:neomake_php_enabled_makers = ['phpmd', 'phpcs', 'phpstan', 'php']
 let g:neomake_php_phpcs_args_standard = 'PSR2'
 let g:neomake_php_phpcs_maker = {
@@ -359,4 +358,3 @@ if !exists("*SymfonySwitchToAlternateFile")
 endif
 " }}}
 
-let g:php_manual_online_search_shortcut = '<leader>m'
