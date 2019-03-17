@@ -3,7 +3,7 @@
 # - name: install coc.nvim extensions
 #   command: >
 #     nvim
-#     +CocInstall coc-pairs coc-css coc-html coc-lists coc-ultisnips coc-json coc-tsserver coc-tslint coc-yaml coc-prettier coc-pyls
+#     +CocInstall coc-pairs coc-css coc-html coc-lists coc-ultisnips coc-json coc-tsserver coc-tslint coc-yaml coc-prettier coc-pyls coc-eslint
 #     +qall!
 #     ignore_errors: true
 - name: install coc.nvim language servers

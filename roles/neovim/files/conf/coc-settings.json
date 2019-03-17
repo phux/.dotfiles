@@ -51,5 +51,6 @@
     "suggest.echodocSupport": false,
     "coc.preferences.hoverTarget": "float",
     "diagnostic.enable": false,
-    "coc.preferences.formatOnSaveFiletypes": ["go", "json"]
+    "coc.preferences.formatOnSaveFiletypes": ["go", "json"],
+    "html.format.enable": true
 }
