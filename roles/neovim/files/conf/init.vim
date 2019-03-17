@@ -25,14 +25,7 @@ if !filereadable(expand('~/.config/nvim/autoload/plug.vim'))
 endif
 command! PU PlugUpdate | PlugUpgrade
 
-let g:ncm_enabled_filetypes = ['vim']
 call plug#begin('~/.config/nvim/plugged')
-"" auto-pairs
-Plug 'jiangmiao/auto-pairs', {'for': g:ncm_enabled_filetypes}
-let g:AutoPairsShortcutJump = ''
-let g:AutoPairsShortcutToggle = ''
-let g:AutoPairsMapCR=0
-
 "" snippets
 Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
 let g:UltiSnipsJumpForwardTrigger='<c-j>'
@@ -41,22 +34,13 @@ let g:UltiSnipsSnippetsDir = '~/.config/nvim/UltiSnips/'
 let g:UltiSnipsExpandTrigger='<c-j>'
 let g:UltiSnipsEditSplit='vertical'
 
-"" ncm2
-Plug 'ncm2/ncm2', {'for': g:ncm_enabled_filetypes}
-" let g:ncm_enabled_filetypes = ['php', 'vim', 'python']
-Plug 'roxma/nvim-yarp', {'for': g:ncm_enabled_filetypes}
-Plug 'ncm2/ncm2-vim' | Plug 'Shougo/neco-vim', {'for': 'vim'}
-" Plug 'phpactor/ncm2-phpactor', {'for': ['php']}
-Plug 'ncm2/ncm2-ultisnips', {'for': g:ncm_enabled_filetypes}
-Plug 'ncm2/ncm2-bufword', {'for': g:ncm_enabled_filetypes}
-Plug 'ncm2/ncm2-tmux', {'for': g:ncm_enabled_filetypes}
-Plug 'ncm2/ncm2-path', {'for': g:ncm_enabled_filetypes}
-Plug 'fgrsnau/ncm2-otherbuf', { 'branch': 'ncm2', 'for': g:ncm_enabled_filetypes}
-" Plug 'ncm2/ncm2-jedi', {'for': 'python'}
+
+"" plantuml
+Plug 'scrooloose/vim-slumlord'
+Plug 'aklt/plantuml-syntax'
 
 
 Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install()}}
-" Plug 'neoclide/coc-jedi', {'do': 'yarn install', 'for': 'python'}
 
 
 "" pymode
@@ -69,7 +53,6 @@ Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install()}}
 " let g:pymode_rope_rename_bind = '<leader>gr'
 
 "" js
-" Plug 'ncm2/ncm2-tern',  {'do': 'npm install', 'for': 'javascript'}
 " Plug 'ternjs/tern_for_vim', {'do': 'npm install', 'for': ['typescript','javascript']}
 
 "" php
@@ -118,6 +101,8 @@ let g:mkdp_auto_close = 0
 Plug 'junegunn/goyo.vim', {'for': 'markdown'}
 Plug 'plasticboy/vim-markdown', {'for': ['markdown'], 'as': 'vim-markdown-plasticboy'}
 Plug 'tenfyzhong/tagbar-markdown.vim', {'for': 'markdown'}
+Plug 'Rykka/InstantRst', {'for': 'rst'}
+let g:instant_rst_browser='chromium-browser'
 
 "" search/navigate
 
@@ -300,10 +285,16 @@ let g:neomake_open_list = 2
 "" Javascript
 augroup js
   au!
+  au BufNewFile,BufRead,BufEnter *.java,*.js :NeomakeDisableBuffer
 
   " au FileType typescript nnoremap <buffer> gd :TSDef<CR>
   " au FileType typescript nnoremap <buffer> gr :TSRefs<CR>
   " au FileType typescript nnoremap <buffer> K :TSDefPreview<cr>
+augroup END
+
+augroup java
+  au!
+
 augroup END
 
 "" Misc
@@ -355,21 +346,15 @@ augroup nvim
   " au CursorHold * normal! m'
   " no delay when ESC/jk
   " au InsertEnter * set timeoutlen=100
-  " au BufNewFile,BufRead,BufEnter * call LoadFiletypeDependendCompletion()
 
   " enable auto complete for `<backspace>`, `<c-w>` keys.
-  " known issue https://github.com/ncm2/ncm2/issues/7
-
-  " au User Ncm2PopupOpen set completeopt=noinsert,menuone,noselect
-  " au User Ncm2PopupClose set completeopt=menuone
   au CursorHold * checktime
 
   au FocusLost,WinLeave * :silent! update
 
   autocmd VimResized * wincmd =
 augroup END
-set completeopt=menuone,noinsert,noselect
-" call ncm2#override_source('LanguageClient_go', {'enable': 0})
+set completeopt=menuone
 
 """"""""""""""
 "  Settings  "
@@ -473,6 +458,7 @@ endfunction
 "" pasting
 " Copy to Clipboard (on Unix)
 vnoremap <leader>y "+y
+vnoremap <enter> "+y
 nnoremap <leader>p "+p
 vnoremap <leader>p "+p
 vnoremap <leader>d "+d
@@ -943,6 +929,26 @@ function! s:show_documentation()
   endif
 endfunction
 
+inoremap <silent><expr> <TAB>
+            \ pumvisible() ? "\<C-n>" :
+            \ <SID>check_back_space() ? "\<TAB>" :
+            \ coc#refresh()
+inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gD <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
+nmap <leader>gr <Plug>(coc-rename)
+vmap <leader>gf <Plug>(coc-format-selected)
+nmap <leader>gf <Plug>(coc-format)
+
+function! s:check_back_space() abort
+    let col = col('.') - 1
+    return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+nnoremap <silent> K :call <SID>show_documentation()<CR>
 function! LoadCocNvim()
     CocEnable
     " Use tab for trigger completion with characters ahead and navigate.
@@ -974,20 +980,20 @@ function! LoadCocNvim()
     nnoremap <silent> K :call <SID>show_documentation()<CR>
 endfunction
 
-function! LoadNcm2()
-    CocDisable
-    inoremap <silent> <expr> <CR> (pumvisible() ? ncm2_ultisnips#expand_or("\<CR>", 'n') : "\<CR>")
-    inoremap <expr> <TAB> pumvisible() ? "\<c-n>" : "\<TAB>"
-    inoremap <expr> <s-tab> pumvisible() ? "\<c-p>" : "\<TAB>"
-endfunction
-
-augroup ncm2_triggers
-    au!
-    au BufEnter * if index(g:ncm_enabled_filetypes, &filetype) != -1 | call LoadNcm2() | else | call LoadCocNvim() | endif
-    au BufEnter,BufRead * if index(g:ncm_enabled_filetypes, &filetype) != -1 | call ncm2#enable_for_buffer() | else | call ncm2#disable_for_buffer() | endif
-
-augroup end
+" call LoadCocNvim()
 
 command! -nargs=0 Prettier :CocCommand prettier.formatFile
 
 hi Comment ctermfg=darkgray
+
+function! Zd()
+    normal! "+p
+    g!/Message\\"/d
+    s/.\+\\"Message\\" : \\"//
+    s/\\".\+//
+    " replace zd<space> with <your_zlib_decode_function/alias>
+    normal! Izd 
+    " copies everything into system's clipboard
+    normal! 0"+y$
+    q!
+endfunction

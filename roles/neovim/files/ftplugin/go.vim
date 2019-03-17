@@ -1,5 +1,3 @@
-call LoadCocNvim()
-
 setlocal noexpandtab tabstop=4 shiftwidth=4
 set foldenable
 set foldmethod=syntax
@@ -60,8 +58,8 @@ let g:go_def_mapping_enabled = 0
 vnoremap <buffer> <leader>em :Refactor extract
 vnoremap <buffer> <leader>ev :Refactor var
 nnoremap <buffer> <leader>gm :call GoMoveDirV2()<cr>
-nnoremap <buffer> <leader>ga :GoAddTags<cr>
 noremap <buffer> <leader>h :Refactor godoc<cr>
+nnoremap <buffer> <leader>ga :GoAddTags<cr>
 noremap <buffer> <leader>m :GoDoc<cr>
 noremap <buffer> <leader>u :exec "GoImport ".expand("<cword>")<cr>
 " inoremap <buffer> <m-i> <esc>h:exec "GoImport ".expand("<cword>")<cr>la
@@ -71,7 +69,6 @@ nnoremap <buffer> <leader>d :GoDeclsDir<cr>
 nnoremap <buffer> <silent> <m-a> :GoAlternate!<cr>
 nnoremap <buffer> <m-c> :GoCoverageToggle<cr>
 
-" disable vet as before testing
 nnoremap <buffer> <leader>tt :GoTest!<cr>
 nnoremap <buffer> gt :GoTests<cr>
 nnoremap <buffer> gs :GoFillStruct<cr>

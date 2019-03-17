@@ -1,8 +1,7 @@
 {
-  "extends": "standard",
+  "extends": "eslint:recommended",
   "rules": {
-    "indent": [2, 4],
-    "comma-dangle": [2, "always-multiline"],
+    "indent": ["error", 4],
     "semi": ["error", "always"],
     "prefer-const": 2,
     "prefer-template": 1
