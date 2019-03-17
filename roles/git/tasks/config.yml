@@ -9,11 +9,6 @@
     value: ~/.gitignore
 
 - git_config:
-    name: alias.cleanup
-    scope: global
-    value: >
-      branch --merged | egrep -v "(^\*|master|dev)" | xargs git branch -d
-- git_config:
     name: alias.ri
     scope: global
     value: "rebase --interactive --autosquash"
@@ -52,11 +47,6 @@
 
 - git_config:
     name: diff.mnemonicprefix
-    scope: global
-    value: true
-
-- git_config:
-    name: merge.stat
     scope: global
     value: true
 
