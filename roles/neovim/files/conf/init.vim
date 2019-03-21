@@ -1,7 +1,6 @@
 set encoding=UTF-8
 scriptencoding utf-8
 
-
 if has('vim_starting')
   set nofoldenable
 endif
@@ -34,14 +33,11 @@ let g:UltiSnipsSnippetsDir = '~/.config/nvim/UltiSnips/'
 let g:UltiSnipsExpandTrigger='<c-j>'
 let g:UltiSnipsEditSplit='vertical'
 
-
 "" plantuml
 Plug 'scrooloose/vim-slumlord'
 Plug 'aklt/plantuml-syntax'
 
-
 Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install()}}
-
 
 "" pymode
 " Plug 'python-mode/python-mode', {'for': 'python'}
@@ -91,7 +87,6 @@ Plug 'NLKNguyen/papercolor-theme'
 Plug 'arcticicestudio/nord-vim'
 Plug 'etdev/vim-hexcolor', {'for': ['css', 'vim']}
 
-
 "" markdown
 Plug 'reedes/vim-lexical', {'for': ['text', 'markdown', 'gitcommit']}
 let g:mkdp_path_to_chrome = 'chromium-browser'
@@ -129,7 +124,6 @@ Plug 'majutsushi/tagbar', {'on': 'TagbarToggle'}
 " map , <Plug>(clever-f-repeat-back)
 " let g:clever_f_timeout_ms=1000
 
-
 """ easymotion
 Plug 'Lokaltog/vim-easymotion'
 nmap <Leader>L <Plug>(easymotion-bd-jk)
@@ -139,11 +133,10 @@ nmap  <Leader>b <Plug>(easymotion-b)
 let g:EasyMotion_smartcase = 1
 let g:EasyMotion_use_smartsign_us = 1 " US layout
 
-
 """ nerdtree
 Plug 'scrooloose/nerdtree', {'on': ['NERDTreeToggle', 'NERDTreeFind']}
 let g:NERDTreeUpdateOnCursorHold = 0
-let g:NERDTreeQuitOnOpen = 1
+let g:NERDTreeQuitOnOpen = 0
 let g:NERDTreeWinSize = 40
 let g:NERDTreeMinimalUI=1
 let g:NERDTreeCascadeSingleChildDir=0
@@ -191,7 +184,6 @@ Plug 'mtth/scratch.vim', {'on' : 'ScratchPreview'}
 let g:scratch_persistence_file = '.scratch.vim'
 nnoremap <m-z> :Scratch<cr>
 
-
 "" todo
 """ vim-simple-todo
 let g:simple_todo_map_keys = 0
@@ -210,9 +202,9 @@ let g:Todo_txt_prefix_creation_date=0
 "" filetype
 " Set the 'path' option for miscellaneous file types
 Plug 'tpope/vim-apathy'
-Plug 'sheerun/vim-polyglot'
-let g:polyglot_disabled = ['php', 'go', 'markdown', 'liquid', 'jsx']
-let g:polyglot_disabled = ['php', 'liquid', 'jsx']
+" let g:polyglot_disabled = ['php', 'go', 'markdown', 'liquid', 'jsx']
+" let g:polyglot_disabled = ['php', 'liquid', 'jsx', 'yaml']
+" Plug 'sheerun/vim-polyglot'
 Plug 'pearofducks/ansible-vim', { 'do': 'cd ./UltiSnips; python2 generate.py' }
 let g:ansible_unindent_after_newline = 1
 
@@ -278,7 +270,6 @@ let g:neomake_open_list = 2
 " call orchestra#set_tune('bubbletrouble')
 " call orchestra#set_tune('clackclack')
 
-
 """"""""""""""""""""""""
 "  Autogroups  "
 """"""""""""""""""""""""
@@ -319,7 +310,8 @@ augroup everything
   au FileType gitv nmap <buffer> <silent> <C-n> <Plug>(gitv-previous-commit)
   au FileType gitv nmap <buffer> <silent> <C-p> <Plug>(gitv-next-commit)
 
-  au BufWritePost * silent! !eval '[ -f ".git/hooks/ctags" ] && .git/hooks/ctags' &
+  au BufWritePost * if &filetype != 'java' | silent! !eval '[ -f ".git/hooks/ctags" ] && .git/hooks/ctags' & | endif
+  " au BufWritePre * silent! %!cat -s
 augroup END
 
 augroup golang
@@ -337,7 +329,6 @@ function! SetGoBuildTags()
         let g:go_build_tags=''
     endif
 endfunction
-
 
 "" Nvim
 augroup nvim
@@ -434,7 +425,7 @@ let g:lightline = {
             \ 'colorscheme': 'nord',
             \ 'active': {
             \   'left': [ [ 'mode', 'paste' ],
-            \             [ 'gitbranch', 'readonly', 'filename', 'modified', 'neomake_state' ] ]
+            \             [ 'gitbranch', 'readonly', 'filename', 'modified', 'neomake_state', 'coc_state' ] ]
             \ },
             \ 'inactive': {
             \   'left': [ [ 'conflicted_name' ] ],
@@ -445,6 +436,7 @@ let g:lightline = {
             \   'gitbranch': 'fugitive#head',
             \   'conflicted_name': 'ConflictedVersion',
             \   'neomake_state': 'SpinnerText',
+            \   'coc_state': 'coc#status'
             \ },
             \ }
 
@@ -536,7 +528,6 @@ nnoremap <leader><F2> :e ~/.projects.private.vim<cr>
 set runtimepath+=~/.config/nvim/plugged/vim-project/
 call project#rc('~/code')
 
-
 "" vim-abolish
 nnoremap <leader>] :%Subvert/<c-R><c-w>/<c-r><c-w>/g<left><left>
 vnoremap <leader>] :Subvert//g<left><left>
@@ -565,7 +556,6 @@ nnoremap <leader>gv :Gitv!<cr>
 vnoremap <leader>gv :Gitv!<cr>
 nnoremap <leader>gV :Gitv<cr>
 let g:Gitv_DoNotMapCtrlKey = 1
-
 
 "" tabular
 nnoremap <leader>ga :Tabularize /\|<cr>
@@ -641,14 +631,12 @@ endfunction
 nnoremap <F4> :call EditFtPluginFile(&filetype)<cr>
 nnoremap <F3> :call EditFtPluginFile('')<left><left>
 
-
 "" Light color scheme
 function! LightScheme()
   set background=light
   color github
   set cursorline
 endfunction
-
 
 """""""""""""
 "  Folding  "
@@ -756,7 +744,6 @@ command! -nargs=1 Silent execute ':silent !'.<q-args> | execute ':redraw!'
 
 set confirm
 
-
 nnoremap <silent> <leader>w :w<cr>
 
 set noshowmode
@@ -771,7 +758,6 @@ set tabstop=4
 set shiftwidth=4
 set expandtab smarttab
 set lazyredraw
-
 
 set textwidth=0
 " keep marks
@@ -920,7 +906,6 @@ augroup neomake_hooks
     " autocmd User NeomakeFinished :echom "Build complete"
 augroup END
 
-
 function! s:show_documentation()
   if &filetype ==# 'vim'
     execute 'h '.expand('<cword>')
@@ -997,3 +982,5 @@ function! Zd()
     normal! 0"+y$
     q!
 endfunction
+
+call coc#add_extension('coc-pairs', 'coc-css', 'coc-html', 'coc-lists', 'coc-ultisnips', 'coc-json', 'coc-tsserver', 'coc-tslint', 'coc-yaml', 'coc-prettier', 'coc-pyls', 'coc-eslint')

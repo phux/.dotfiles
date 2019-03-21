@@ -15,7 +15,7 @@ function! Zf1(...) abort
     " let g:ale_php_phpcbf_standard='Symfony'
     " let g:ale_php_phpcs_standard='phpcs.xml.dist'
     " let g:ale_php_phpmd_ruleset='phpmd.xml'
-    au filetype php set omnifunc=phpactor#Complete
+    au filetype php set omnifunc=phpcd#Complete
 endfunction
 
 function! Symfony(...) abort
