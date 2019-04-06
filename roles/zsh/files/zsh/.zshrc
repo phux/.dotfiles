@@ -120,6 +120,7 @@ alias gl='git pull'
 alias glog='git log --oneline --decorate --color --graph'
 alias glog='git log --graph --pretty=format:"%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset" --abbrev-commit'
 alias gm='git merge'
+alias gmp='git merge -X patience'
 alias gp='git push'
 alias grp='git rebase -i @{u}'
 alias gr='git rebase'
@@ -131,9 +132,6 @@ alias gsa='git stash apply'
 alias gfi='git fixup HEAD^'
 alias grc='git diff --name-only | uniq | xargs $EDITOR'
 
-
-alias gbi='git branch -D $(git_current_branch)-integration;git branch $(git_current_branch)-integration $(git_current_branch)'
-alias gpi='git push $(git_current_branch)-integration'
 function git_current_branch() {
   local ref
   ref=$(command git symbolic-ref --quiet HEAD 2> /dev/null)
@@ -229,21 +227,19 @@ alias idea='~/tools/idea-IC-182.3684.101/bin/idea.sh'
 
 export ANSIBLE_NOCOWS=1
 
-# zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
-
 zstyle ':completion::complete:*' use-cache on               # completion caching, use rehash to clear
-zstyle ':completion:*' cache-path ~/.zsh/cache              # cache path
+zstyle ':completion:*' cache-path $ZDOTDIR/cache              # cache path
 zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'   # ignore case
-zstyle ':completion:*' menu select=2                        # menu if nb items > 2
+# zstyle ':completion:*' menu select=2                        # menu if nb items > 2
 zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}       # colorz !
 zstyle ':completion:*::::' completer _expand _complete _ignored _approximate # list of completers to use
 
 # sections completion !
-zstyle ':completion:*' verbose yes
-zstyle ':completion:*:descriptions' format $'\e[00;34m%d'
-zstyle ':completion:*:messages' format $'\e[00;31m%d'
-zstyle ':completion:*' group-name ''
-zstyle ':completion:*:manuals' separate-sections true
+# zstyle ':completion:*' verbose yes
+# zstyle ':completion:*:descriptions' format $'\e[00;34m%d'
+# zstyle ':completion:*:messages' format $'\e[00;31m%d'
+# zstyle ':completion:*' group-name ''
+# zstyle ':completion:*:manuals' separate-sections true
 
 # tabtab source for serverless package
 # uninstall by removing these lines or running `tabtab uninstall serverless`
@@ -280,14 +276,19 @@ alias mux='tmuxinator'
 alias gw="JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64 ./gradlew"
 
 alias tm='todotxt-machine'
-alias tn='n ~/Dropbox/todo/work/todo.txt'
-alias tnn='n ~/Dropbox/todo/todo.txt'
+alias tnn='n ~/Dropbox/todo/work/todo.txt'
+alias tn='n ~/Dropbox/todo/todo.txt'
 alias nn='n +RecentNotes'
 
 function zd() {
     file="/tmp/base_$(date '+%H%M%S').json"
   echo $1 | sed -r 's/\\\\r\\\\n//g' | base64 -d | zlib -d > $file;n $file
   echo "n $file"
+}
+
+# latest payload
+function payload() {
+    nvim $(find /tmp/payload* -printf '%p\n' | sort -r | head -1)
 }
 
 fasd_cache="$HOME/.fasd-init-zsh"
