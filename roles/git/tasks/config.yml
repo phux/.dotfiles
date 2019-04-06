@@ -41,6 +41,11 @@
     value: false
 
 - git_config:
+    name: diff.algorithm
+    scope: global
+    value: "histogram"
+
+- git_config:
     name: diff.renames
     scope: global
     value: "copies"
