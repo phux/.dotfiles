@@ -13,7 +13,8 @@ set nofoldenable
 
 setlocal tabstop=4 shiftwidth=4
 
-let g:cm_auto_popup=1
+
+nnoremap <buffer> gn :call phpactor#Navigate()<CR>
 
 nnoremap <buffer> <silent> <leader>W :w<cr>
 nnoremap <buffer> <m-f> :call PHPUnitSetupMethod()<cr>

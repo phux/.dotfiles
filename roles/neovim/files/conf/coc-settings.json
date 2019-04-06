@@ -37,14 +37,10 @@
                 "--stdio"
             ]
         },
-        "phpactor": {
-            "command": "phpactor",
-            "args": ["language-server"],
-            "filetypes": ["php"],
-            "initializationOptions": {
-            },
-            "settings": {
-            }
+        "intelephense": {
+            "command": "intelephense",
+            "args": ["--stdio"],
+            "filetypes": ["php"]
         }
     },
     "suggest.snippetIndicator": " ►",
@@ -58,6 +54,7 @@
     "yaml.schemas": {
       "http://json.schemastore.org/ansible-stable-2.5": "/*.yml",
       "https://raw.githubusercontent.com/awslabs/goformation/master/schema/cloudformation.schema.json": "/*.yml",
+      "https://raw.githubusercontent.com/awslabs/goformation/master/schema/cloudformation.schema.json": "/template.yaml",
       "http://json.schemastore.org/circleciconfig": "/.circleci/config.yml",
       "https://raw.githubusercontent.com/docker/compose/master/compose/config/config_schema_v3.0.json": "/*.yml"
     },

@@ -33,11 +33,17 @@ let g:UltiSnipsSnippetsDir = '~/.config/nvim/UltiSnips/'
 let g:UltiSnipsExpandTrigger='<c-j>'
 let g:UltiSnipsEditSplit='vertical'
 
-"" plantuml
-Plug 'scrooloose/vim-slumlord'
-Plug 'aklt/plantuml-syntax'
+let g:AutoPairsMapSpace = 0
+let g:AutoPairsShortcutToggle = '<s-f12>'
+Plug 'jiangmiao/auto-pairs'
 
-Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install()}}
+"" plantuml
+Plug 'scrooloose/vim-slumlord', {'for': ['uml', 'markdown']}
+Plug 'aklt/plantuml-syntax', {'for': 'uml'}
+
+Plug 'neoclide/coc.nvim', {'tag': '*', 'do': 'yarn install --frozen-lockfile'}
+Plug 'Shougo/neco-vim', {'for': 'vim'}
+Plug 'neoclide/coc-neco', {'for': 'vim'}
 
 "" pymode
 " Plug 'python-mode/python-mode', {'for': 'python'}
@@ -75,15 +81,16 @@ Plug 'tweekmonster/fzf-filemru'
 
 "" UI
 Plug 'itchyny/lightline.vim'
-Plug 'simeji/winresizer'
+Plug 'simeji/winresizer', {'on': 'WinResizerStartResize'}
 let g:echodoc_enable_at_startup=1
 " default nord color lets not identify current argument
 let g:echodoc#highlight_arguments = 'SpellCap'
 Plug 'Shougo/echodoc.vim'
 let g:buftabline_show = 1 " display only if more than 1 buffer open
 Plug 'ap/vim-buftabline'
-Plug 'morhetz/gruvbox'
+" Plug 'morhetz/gruvbox'
 Plug 'NLKNguyen/papercolor-theme'
+Plug 'cormacrelf/vim-colors-github'
 Plug 'arcticicestudio/nord-vim'
 Plug 'etdev/vim-hexcolor', {'for': ['css', 'vim']}
 
@@ -171,7 +178,8 @@ Plug 'christoomey/vim-conflicted'
 " Use `gl` and `gu` rather than the default conflicted diffget mappings
 let g:diffget_local_map = 'gl'
 let g:diffget_upstream_map = 'gu'
-
+Plug 'lambdalisue/vim-improve-diff'
+Plug 'chrisbra/vim-diff-enhanced'
 "" notes
 Plug 'xolox/vim-notes', {'on': ['SearchNotes', 'Note', 'RecentNotes']} | Plug 'xolox/vim-misc'
 let g:notes_directories = ['~/Dropbox/notes']
@@ -184,20 +192,25 @@ Plug 'mtth/scratch.vim', {'on' : 'ScratchPreview'}
 let g:scratch_persistence_file = '.scratch.vim'
 nnoremap <m-z> :Scratch<cr>
 
+let g:scratchpad_ftype = 'txt'
+Plug 'Konfekt/vim-scratchpad'
+
 "" todo
 """ vim-simple-todo
 let g:simple_todo_map_keys = 0
 Plug 'vitalk/vim-simple-todo'
-nmap <m-i> <Plug>(simple-todo-new-start-of-line)
-imap <m-i> <Plug>(simple-todo-new-start-of-line)
+nmap <m-i> <Plug>(simple-todo-new-list-item-start-of-line)
+imap <m-i> <Plug>(simple-todo-new-list-item-start-of-line)
+nmap <m-s> <Plug>(simple-todo-new-start-of-line)
+imap <m-s> <Plug>(simple-todo-new-start-of-line)
 nmap <m-o> <Plug>(simple-todo-below)
 imap <m-o> <Plug>(simple-todo-below)
 imap <m-space> <Plug>(simple-todo-mark-switch)
 nmap <m-space> <Plug>(simple-todo-mark-switch)
 
 """ todo.txt
+" let g:Todo_txt_prefix_creation_date=0
 Plug 'dbeniamine/todo.txt-vim', {'for': 'text'}
-let g:Todo_txt_prefix_creation_date=0
 
 "" filetype
 " Set the 'path' option for miscellaneous file types
@@ -231,14 +244,13 @@ let g:gundo_right = 1
 Plug 'sjl/gundo.vim', {'on': 'GundoToggle'}
 
 """ vim-test
-Plug 'janko-m/vim-test'
+Plug 'janko-m/vim-test', {'on': ['TestNearest', 'TestFile', 'TestLast', 'TestVisit']}
 nnoremap <leader>tn :TestNearest<cr>
 nnoremap <leader>tf :TestFile<cr>
 nnoremap <silent> <leader>tl :TestLast<CR>
 nnoremap <silent> <leader>tv :TestVisit<CR>
 let test#strategy='neovim'
 
-Plug 'svermeulen/vim-subversive'
 """ SplitJoin
 Plug 'AndrewRadev/splitjoin.vim', {'on': ['SplitjoinSplit', 'SplitjoinJoin']}
 nnoremap <leader>j :SplitjoinSplit<cr>
@@ -283,13 +295,8 @@ augroup js
   " au FileType typescript nnoremap <buffer> K :TSDefPreview<cr>
 augroup END
 
-augroup java
-  au!
-
-augroup END
-
 "" Misc
-augroup everything
+augroup misc
   au!
 
   au BufNewFile,BufRead *.yml.dist set ft=yaml
@@ -298,7 +305,7 @@ augroup everything
 
   au filetype todo setlocal omnifunc=todo#Complete
   " Auto complete projects
-  au filetype todo imap <buffer> + +<C-X><C-O>
+  " au filetype todo imap <buffer> + +<C-X><C-O>
   " Auto complete contexts
   "au filetype todo imap <buffer> @ @<C-X><C-O>
   au BufNewFile,BufRead,BufEnter ~/Dropbox/notes/*.md set ft=markdown.notes
@@ -345,6 +352,8 @@ augroup nvim
 
   autocmd VimResized * wincmd =
 augroup END
+
+nnoremap <c-e> :WinResizerStartResize<cr>
 set completeopt=menuone
 
 """"""""""""""
@@ -421,6 +430,12 @@ function! Bright()
     let g:lightline['colorscheme'] = 'default'
 endfunction
 
+function! Bright2()
+    set background=light
+    color github
+    let g:lightline['colorscheme'] = 'github'
+endfunction
+
 let g:lightline = {
             \ 'colorscheme': 'nord',
             \ 'active': {
@@ -449,8 +464,9 @@ endfunction
 
 "" pasting
 " Copy to Clipboard (on Unix)
+vnoremap y "+y
 vnoremap <leader>y "+y
-vnoremap <enter> "+y
+" vnoremap <enter> "+y
 nnoremap <leader>p "+p
 vnoremap <leader>p "+p
 vnoremap <leader>d "+d
@@ -494,7 +510,7 @@ augroup custom_filemru
   autocmd!
   autocmd BufWinEnter * UpdateMru
 augroup END
-nnoremap <leader>, :FilesMru --tiebreak=index<cr>
+nnoremap <leader>, :FilesMru --tiebreak=end<cr>
 nnoremap <leader>. :FZFAllFiles<cr>
 nnoremap <leader>d :BTags<cr>
 nnoremap <leader>D :BTags <C-R><C-W><cr>
@@ -549,7 +565,7 @@ function! ToggleQfLocListBinds()
     echo 'qf binds loaded'
   endif
 endfunction
-nmap <m-n> :call ToggleQfLocListBinds()<cr>
+nmap <m-t> :call ToggleQfLocListBinds()<cr>
 
 "" gitv
 nnoremap <leader>gv :Gitv!<cr>
@@ -650,7 +666,6 @@ let g:ruby_fold = 1
 " set foldlevel=1
 set foldnestmax=4
 set foldlevelstart=99
-hi Folded ctermfg=4
 
 "" Mappings
 " "Refocus" folds
@@ -809,8 +824,6 @@ nnoremap <silent> <leader><f5> :e $MYVIMRC<CR>
 " imap jk <esc>
 
 " override nord visual highlighting
-hi Visual ctermfg=7 ctermbg=4
-hi BufTabLineCurrent ctermfg=2 ctermbg=8
 
 command! -nargs=* Only call CloseHiddenBuffers()
 function! CloseHiddenBuffers()
@@ -969,7 +982,18 @@ endfunction
 
 command! -nargs=0 Prettier :CocCommand prettier.formatFile
 
-hi Comment ctermfg=darkgray
+function! CustomHighlighting() abort
+    hi Comment ctermfg=darkgray
+    hi Visual ctermfg=7 ctermbg=4
+    hi BufTabLineCurrent ctermfg=2 ctermbg=8
+    hi Folded ctermfg=4
+endfunction
+call CustomHighlighting()
+
+augroup NordColors
+    autocmd!
+    autocmd ColorScheme nord call CustomHighlighting()
+augroup END
 
 function! Zd()
     normal! "+p
@@ -983,4 +1007,54 @@ function! Zd()
     q!
 endfunction
 
-call coc#add_extension('coc-pairs', 'coc-css', 'coc-html', 'coc-lists', 'coc-ultisnips', 'coc-json', 'coc-tsserver', 'coc-tslint', 'coc-yaml', 'coc-prettier', 'coc-pyls', 'coc-eslint')
+call coc#add_extension('coc-css', 'coc-html', 'coc-lists', 'coc-ultisnips', 'coc-json', 'coc-tsserver', 'coc-tslint', 'coc-yaml', 'coc-prettier', 'coc-pyls', 'coc-eslint', 'coc-yank')
+
+" gherkin: check step usages
+" let @s='?/\^?s+2y/\("\|\$\):lvimgrep /<C-R>"/j tests/features/*.feature<CR>:lopen<CR>'
+
+nnoremap <silent> <space>y  :<C-u>CocList -A --normal yank<cr>
+
+nnoremap <c-f> :%!python -m json.tool<cr>
+
+command! -nargs=0 DT :windo diffthis
+set diffopt+=internal,algorithm:histogram
+if &diff
+    let &diffexpr='EnhancedDiff#Diff("git diff", "--diff-algorithm=histogram")'
+endif
+
+command! -nargs=0 Compare :silent! call Compare()
+function! Compare() abort
+    normal! "+p
+    g/^$/d
+    normal! ggdd
+    :%s/&/\r/g
+    :w! /tmp/actual
+    :vsplit /tmp/expected
+    normal! gg"_dG
+    normal! p
+    :%s/&/\r/g
+    g/^$/d
+    DT
+endfunction
+
+command! -nargs=0 CompareJsonExp :silent! call CompareJsonExp()
+function! CompareJsonExp() abort
+    normal! "+p
+    g/^$/d
+    g/\\ No newline at end of file/d
+    " delete expected
+    normal! ggda{
+    g/^$/d
+    %!python -m json.tool
+    :%s/&/\r/g
+    :w! /tmp/actual
+    :vsplit /tmp/expected
+    normal! gg"_dG
+    normal! p
+    g/^$/d
+    %!python -m json.tool
+    :%s/&/\r/g
+    DT
+endfunction
+
+nnoremap <m-p> <Plug>yankstack_substitute_older_paste
