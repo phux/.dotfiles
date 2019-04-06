@@ -30,11 +30,12 @@ function! UrlToMarkdownLink()
     normal! a[]()
     " paste url twice
     normal! PBpT/
-    keep last part of url
+    " keep last part of url
     normal! dT[
+    s/\.html//
     " titelize last part of url if abolish installed
     if exists('g:loaded_abolish')
-        normal! crt
+        normal crt
     endif
     " check for trailing slashes
     normal! f]h
