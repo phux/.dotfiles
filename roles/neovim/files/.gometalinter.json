@@ -3,17 +3,16 @@
   "Test": true,
   "Concurrency": 7,
   "Enable": [
-      "goconst",
-      "gocyclo",
-      "golint",
-      "ineffassign",
-      "interfacer",
-      "maligned",
-      "megacheck",
-      "misspell",
-      "structcheck",
-      "unconvert",
-      "varcheck",
-      "vet"
+    "goconst",
+    "gocyclo",
+    "golint",
+    "ineffassign",
+    "interfacer",
+    "maligned",
+    "misspell",
+    "structcheck",
+    "unconvert",
+    "varcheck",
+    "vet"
   ]
 }
