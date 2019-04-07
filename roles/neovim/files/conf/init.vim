@@ -97,7 +97,7 @@ Plug 'etdev/vim-hexcolor', {'for': ['css', 'vim']}
 "" markdown
 Plug 'reedes/vim-lexical', {'for': ['text', 'markdown', 'gitcommit']}
 let g:mkdp_path_to_chrome = 'chromium-browser'
-Plug 'iamcco/markdown-preview.nvim', { 'for': ['markdown'] }
+Plug 'iamcco/markdown-preview.nvim', { 'for': ['markdown'],  'do': 'cd app & yarn install'  }
 let g:mkdp_auto_close = 0
 " Plug 'gabrielelana/vim-markdown', {'for': ['markdown']}
 Plug 'junegunn/goyo.vim', {'for': 'markdown'}
@@ -215,6 +215,7 @@ Plug 'dbeniamine/todo.txt-vim', {'for': 'text'}
 "" filetype
 " Set the 'path' option for miscellaneous file types
 Plug 'tpope/vim-apathy'
+Plug 'stephpy/vim-yaml', {'for': 'yaml'}
 " let g:polyglot_disabled = ['php', 'go', 'markdown', 'liquid', 'jsx']
 " let g:polyglot_disabled = ['php', 'liquid', 'jsx', 'yaml']
 " Plug 'sheerun/vim-polyglot'
