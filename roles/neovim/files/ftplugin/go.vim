@@ -49,7 +49,7 @@ hi GoDebugCurrent term=reverse ctermbg=7 ctermfg=0 guibg=DarkBlue guifg=White
 
 let g:go_def_mapping_enabled = 0
 " nnoremap <silent> <leader>gr :LspRename<CR>
-" nnoremap <silent> gd :LspDefinition<cr>
+nnoremap <silent> gd :GoDef<cr>
 " nnoremap <silent> gD :LspTypeDefinition<cr>
 " nnoremap <buffer> gr :LspReferences<cr>
 " nnoremap <buffer> gi :LspImplementation<cr>
@@ -62,8 +62,8 @@ noremap <buffer> <leader>h :Refactor godoc<cr>
 nnoremap <buffer> <leader>ga :GoAddTags<cr>
 noremap <buffer> <leader>m :GoDoc<cr>
 noremap <buffer> <leader>u :exec "GoImport ".expand("<cword>")<cr>
-inoremap <buffer> <m-i> <esc>h:exec "GoImport ".expand("<cword>")<cr>la
-inoremap <silent><buffer> . .<esc>h:exec "silent GoImport ".expand("<cword>")<cr>la
+" inoremap <buffer> <m-i> <esc>h:exec "GoImport ".expand("<cword>")<cr>la
+" inoremap <silent><buffer> . .<esc>h:exec "silent GoImport ".expand("<cword>")<cr>la
 
 nnoremap <buffer> <leader>d :GoDeclsDir<cr>
 nnoremap <buffer> <silent> <m-a> :GoAlternate!<cr>

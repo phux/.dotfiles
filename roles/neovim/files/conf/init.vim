@@ -45,18 +45,6 @@ Plug 'neoclide/coc.nvim', {'tag': '*', 'do': 'yarn install --frozen-lockfile'}
 Plug 'Shougo/neco-vim', {'for': 'vim'}
 Plug 'neoclide/coc-neco', {'for': 'vim'}
 
-"" pymode
-" Plug 'python-mode/python-mode', {'for': 'python'}
-" let g:pymode_folding = 0
-" let g:pymode_python = 'python3'
-" let g:pymode_lint = 0
-" let g:pymode_rope_goto_definition_bind = 'gd'
-" let g:pymode_rope_goto_definition_cmd = 'e'
-" let g:pymode_rope_rename_bind = '<leader>gr'
-
-"" js
-" Plug 'ternjs/tern_for_vim', {'do': 'npm install', 'for': ['typescript','javascript']}
-
 "" php
 Plug 'phux/php-doc-modded', {'for': 'php'}
 Plug 'sahibalejandro/vim-php', {'for': ['php', 'yaml']}
@@ -88,7 +76,6 @@ let g:echodoc#highlight_arguments = 'SpellCap'
 Plug 'Shougo/echodoc.vim'
 let g:buftabline_show = 1 " display only if more than 1 buffer open
 Plug 'ap/vim-buftabline'
-" Plug 'morhetz/gruvbox'
 Plug 'NLKNguyen/papercolor-theme'
 Plug 'cormacrelf/vim-colors-github'
 Plug 'arcticicestudio/nord-vim'
@@ -99,7 +86,6 @@ Plug 'reedes/vim-lexical', {'for': ['text', 'markdown', 'gitcommit']}
 let g:mkdp_path_to_chrome = 'chromium-browser'
 Plug 'iamcco/markdown-preview.nvim', { 'for': ['markdown'],  'do': 'cd app & yarn install'  }
 let g:mkdp_auto_close = 0
-" Plug 'gabrielelana/vim-markdown', {'for': ['markdown']}
 Plug 'junegunn/goyo.vim', {'for': 'markdown'}
 Plug 'plasticboy/vim-markdown', {'for': ['markdown'], 'as': 'vim-markdown-plasticboy'}
 Plug 'tenfyzhong/tagbar-markdown.vim', {'for': 'markdown'}
@@ -111,24 +97,12 @@ let g:instant_rst_browser='chromium-browser'
 " smart search highligting
 Plug 'pgdouyon/vim-evanesco'
 
-" " improving * behavior
-" let g:asterisk#keeppos = 1
-" Plug 'haya14busa/vim-asterisk'
-
 Plug 'wellle/targets.vim'
 
 " quickfix improvements
 Plug 'romainl/vim-qf'
 
 Plug 'majutsushi/tagbar', {'on': 'TagbarToggle'}
-
-""" clever-f
-" Plug 'rhysd/clever-f.vim'
-" let g:clever_f_smart_case=1
-" let g:clever_f_across_no_line=0
-" map ; <Plug>(clever-f-repeat-forward)
-" map , <Plug>(clever-f-repeat-back)
-" let g:clever_f_timeout_ms=1000
 
 """ easymotion
 Plug 'Lokaltog/vim-easymotion'
@@ -173,60 +147,33 @@ nnoremap <leader>gw :Gwrite<cr>
 nnoremap <leader>gs :Gstatus<cr>
 nnoremap <leader>gc :Gcommit<cr>
 nnoremap <leader>gl :Gitv<cr>
-" Plug 'christoomey/vim-conflicted'
-" " Use `gl` and `gu` rather than the default conflicted diffget mappings
-" let g:diffget_local_map = '<'
-" let g:diffget_upstream_map = '>'
 Plug 'lambdalisue/vim-improve-diff'
 Plug 'chrisbra/vim-diff-enhanced'
 Plug 'whiteinge/diffconflicts'
+
 "" notes
 Plug 'xolox/vim-notes', {'on': ['SearchNotes', 'Note', 'RecentNotes']} | Plug 'xolox/vim-misc'
 let g:notes_directories = ['~/Dropbox/notes']
 let g:notes_suffix = '.md'
 let g:notes_smart_quotes = 0
-" let g:pad#dir = '~/Dropbox/notes/'
-" let g:pad#set_mappings=0
-" Plug 'fmoralesc/vim-pad', {'branch': 'devel'}
 Plug 'mtth/scratch.vim', {'on' : 'ScratchPreview'}
 let g:scratch_persistence_file = '.scratch.vim'
 nnoremap <m-z> :Scratch<cr>
 
 "" todo
-""" vim-simple-todo
-" let g:simple_todo_map_keys = 0
-" Plug 'vitalk/vim-simple-todo'
-" nmap <m-i> <Plug>(simple-todo-new-list-item-start-of-line)
-" imap <m-i> <Plug>(simple-todo-new-list-item-start-of-line)
-" nmap <m-s> <Plug>(simple-todo-new-start-of-line)
-" imap <m-s> <Plug>(simple-todo-new-start-of-line)
-" nmap <m-o> <Plug>(simple-todo-below)
-" imap <m-o> <Plug>(simple-todo-below)
-" imap <m-space> <Plug>(simple-todo-mark-switch)
-" nmap <m-space> <Plug>(simple-todo-mark-switch)
-
 """ todo.txt
-" let g:Todo_txt_prefix_creation_date=0
 Plug 'dbeniamine/todo.txt-vim', {'for': 'text'}
 
 "" filetype
 " Set the 'path' option for miscellaneous file types
 Plug 'tpope/vim-apathy'
 Plug 'stephpy/vim-yaml', {'for': 'yaml'}
-Plug 'elzr/vim-json', {'for': 'json'}
-" let g:polyglot_disabled = ['php', 'go', 'markdown', 'liquid', 'jsx']
-" let g:polyglot_disabled = ['php', 'liquid', 'jsx', 'yaml']
-" Plug 'sheerun/vim-polyglot'
+" Plug 'elzr/vim-json', {'for': 'json'}
 Plug 'pearofducks/ansible-vim', { 'do': 'cd ./UltiSnips; python2 generate.py' }
 let g:ansible_unindent_after_newline = 1
 
-" reloading vim files
-" Plug 'xolox/vim-reload'
-
 "" misc
 Plug 'amiorin/vim-project'
-
-" Plug 'sickill/vim-pasta'
 
 Plug 'godlygeek/tabular', {'for': ['cucumber', 'markdown']}
 Plug 'tpope/vim-surround'
@@ -237,10 +184,6 @@ Plug 'triglav/vim-visual-increment'
 
 """ gundo
 nnoremap <m-u> :MundoToggle<CR>
-let g:gundo_width = 60
-let g:gundo_preview_height = 40
-let g:gundo_right = 1
-" Plug 'sjl/gundo.vim', {'on': 'GundoToggle'}
 Plug 'simnalamburt/vim-mundo', {'on': 'MundoToggle'}
 
 """ vim-test
@@ -261,26 +204,13 @@ Plug 'tpope/vim-commentary', {'on': 'Commentary'}
 nnoremap <leader>c :Commentary<cr>
 vnoremap <leader>c :Commentary<cr>
 
-"" disabled plugins
-" enable it occasionally to get rid of bad habits
-" Plug 'phux/vim-hardtime'
-" let g:hardtime_default_on = 1
-"  let g:hardtime_motion_with_count_resets = 1
-" let g:hardtime_ignore_quickfix = 1
-" let g:hardtime_allow_different_key = 1
-" Plug 'timeyyy/orchestra.nvim'
-" Plug 'timeyyy/clackclack.symphony'
-" Plug 'timeyyy/bubbletrouble.symphony'
 Plug 'maxbrunsfeld/vim-yankstack'
 Plug 'neomake/neomake'
-" Plug 'TaDaa/vimade'
 call plug#end()
+
 call neomake#configure#automake('w')
 let g:neomake_echo_current_error=0
 let g:neomake_open_list = 2
-" call orchestra#prelude()
-" call orchestra#set_tune('bubbletrouble')
-" call orchestra#set_tune('clackclack')
 
 """"""""""""""""""""""""
 "  Autogroups  "
@@ -289,10 +219,6 @@ let g:neomake_open_list = 2
 augroup js
   au!
   au BufNewFile,BufRead,BufEnter *.java,*.js :NeomakeDisableBuffer
-
-  " au FileType typescript nnoremap <buffer> gd :TSDef<CR>
-  " au FileType typescript nnoremap <buffer> gr :TSRefs<CR>
-  " au FileType typescript nnoremap <buffer> K :TSDefPreview<cr>
 augroup END
 
 "" Misc
@@ -303,11 +229,6 @@ augroup misc
   au BufRead,BufNewFile *.conf setf config
   au BufNewFile,BufRead composer.lock set ft=json
 
-  au filetype todo setlocal omnifunc=todo#Complete
-  " Auto complete projects
-  " au filetype todo imap <buffer> + +<C-X><C-O>
-  " Auto complete contexts
-  "au filetype todo imap <buffer> @ @<C-X><C-O>
   au BufNewFile,BufRead,BufEnter ~/Dropbox/notes/*.md set ft=markdown.notes
 
   au FileType html,xml inoremap <buffer> <m-;> </<c-x><c-o>
@@ -322,7 +243,6 @@ augroup END
 
 augroup golang
     au!
-    " au BufWritePost *.go match(expand('%:t'),'\_test.go') == -1 ? ':silent! GoBuild! -i' : ''
     au BufEnter *.go silent! call SetGoBuildTags()
 augroup end
 
@@ -340,20 +260,12 @@ endfunction
 augroup nvim
   au!
   au BufWritePost *.vim nested source $MYVIMRC
-  " au CursorHold * normal! m'
-  " no delay when ESC/jk
-  " au InsertEnter * set timeoutlen=100
-
-  " enable auto complete for `<backspace>`, `<c-w>` keys.
   au CursorHold * checktime
-
   au FocusLost,WinLeave * :silent! update
-
   autocmd VimResized * wincmd =
 augroup END
 
 nnoremap <c-e> :WinResizerStartResize<cr>
-" set completeopt=menuone
 
 """"""""""""""
 "  Settings  "
@@ -368,11 +280,11 @@ set nojoinspaces
 "" insert mode completion
 set complete-=i
 set complete+=w
+set completeopt=menuone
 
 "" better command mode completion
 set wildmenu
 set wildmode=list:longest,full
-" set wildmode=longest,list,full
 
 "" no backups
 set nobackup
@@ -465,7 +377,6 @@ endfunction
 " Copy to Clipboard (on Unix)
 vnoremap y "+y
 vnoremap <leader>y "+y
-" vnoremap <enter> "+y
 nnoremap <leader>p "+p
 vnoremap <leader>p "+p
 vnoremap <leader>d "+d
@@ -504,8 +415,8 @@ nnoremap <silent> <Leader><Enter> :call fzf#run({
 \ })<CR>
 
 nnoremap <leader><tab> :Buffers<cr>
-" nnoremap <leader>, :FilesMru --tiebreak=end<cr>
 nnoremap <leader>, :FZF<cr>
+nnoremap <leader>, :FilesMru<cr>
 nnoremap <leader>. :FZFAllFiles<cr>
 nnoremap <leader>d :BTags<cr>
 nnoremap <leader>D :BTags <C-R><C-W><cr>
@@ -582,9 +493,6 @@ function! s:align()
     call search(repeat('[^|]*|',column).'\s\{-\}'.repeat('.',position),'ce',line('.'))
   endif
 endfunction
-
-"" format html (each tag on it's own line)
-" nnoremap <leader><F3> :%s/<[^>]*>/\r&\r/g<cr>gg=G:g/^$/d<cr><leader>
 
 "" cmode terminal like mappings
 cnoremap <C-a> <Home>
