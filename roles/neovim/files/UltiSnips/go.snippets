@@ -57,10 +57,3 @@ func (${1:receiver} ${2:type}) ${3:name}(${4:params})${5/(.+)/ /}${5:type} {
 	${0:${VISUAL}}
 }
 endsnippet
-
-# for range loop
-snippet forr "for k, v := range items { ... }"
-for ${2:k}, ${1/s$//} := range ${1} {
-	${0:${VISUAL}}
-}
-endsnippet

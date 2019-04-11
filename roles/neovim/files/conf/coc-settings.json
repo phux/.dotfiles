@@ -1,65 +1,45 @@
 {
-    "languageserver": {
-        "golang": {
-            "command": "bingo",
-            "args": [
-                "--diagnostics-style=none",
-                "--format-style=goimports"
-            ],
-            "rootPatterns": [
-                "go.mod",
-                ".vim/",
-                ".git/",
-                ".hg/"
-            ],
-            "filetypes": [
-                "go"
-            ]
-        },
-        "bash": {
-            "command": "bash-language-server",
-            "args": [
-                "start"
-            ],
-            "filetypes": [
-                "sh"
-            ],
-            "ignoredRootPaths": [
-                "~"
-            ]
-        },
-        "dockerfile": {
-            "command": "docker-langserver",
-            "filetypes": [
-                "dockerfile"
-            ],
-            "args": [
-                "--stdio"
-            ]
-        },
-        "intelephense": {
-            "command": "intelephense",
-            "args": ["--stdio"],
-            "filetypes": ["php"]
-        }
+  "languageserver": {
+    "golang": {
+      "command": "gopls",
+      "args": [],
+      "rootPatterns": ["go.mod", ".vim/", ".git/", ".hg/"],
+      "filetypes": ["go"]
     },
-    "suggest.snippetIndicator": " ►",
-    "suggest.echodocSupport": false,
-    "coc.preferences.hoverTarget": "float",
-    "diagnostic.enable": false,
-    "coc.preferences.formatOnSaveFiletypes": ["go", "json"],
-    "html.format.enable": true,
-    "yaml.format.enable": true,
-    "yaml.hover": true,
-    "yaml.schemas": {
-      "http://json.schemastore.org/ansible-stable-2.5": "/*.yml",
-      "https://raw.githubusercontent.com/awslabs/goformation/master/schema/cloudformation.schema.json": "/*.yml",
-      "http://json.schemastore.org/circleciconfig": "/.circleci/config.yml",
-      "https://raw.githubusercontent.com/docker/compose/master/compose/config/config_schema_v3.0.json": "/*.yml"
+    "bash": {
+      "command": "bash-language-server",
+      "args": ["start"],
+      "filetypes": ["sh"],
+      "ignoredRootPaths": ["~"]
     },
-    "json.schemas": {
-      "http://json.schemastore.org/composer": "/composer.json",
-      "http://json.schemastore.org/package": "/package.json"
+    "dockerfile": {
+      "command": "docker-langserver",
+      "filetypes": ["dockerfile"],
+      "args": ["--stdio"]
     },
-    "java.errors.incompleteClasspath.severity": "ignore"
+    "intelephense": {
+      "command": "intelephense",
+      "args": ["--stdio"],
+      "filetypes": ["php"]
+    }
+  },
+  "suggest.snippetIndicator": " ►",
+  "suggest.echodocSupport": true,
+  "coc.preferences.hoverTarget": "float",
+  "diagnostic.enable": false,
+  "coc.preferences.formatOnSaveFiletypes": ["go", "json"],
+  "html.format.enable": true,
+  "yaml.format.enable": true,
+  "yaml.hover": true,
+  "yaml.schemas": {
+    "http://json.schemastore.org/ansible-stable-2.5": "/*.yml",
+    "https://raw.githubusercontent.com/awslabs/goformation/master/schema/cloudformation.schema.json": "/*.yml",
+    "http://json.schemastore.org/circleciconfig": "/.circleci/config.yml",
+    "https://raw.githubusercontent.com/docker/compose/master/compose/config/config_schema_v3.0.json": "/*.yml"
+  },
+  "json.schemas": {
+    "http://json.schemastore.org/composer": "/composer.json",
+    "http://json.schemastore.org/package": "/package.json"
+  },
+  "java.errors.incompleteClasspath.severity": "ignore"
 }
