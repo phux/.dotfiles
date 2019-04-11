@@ -92,7 +92,7 @@ Plug 'ap/vim-buftabline'
 Plug 'NLKNguyen/papercolor-theme'
 Plug 'cormacrelf/vim-colors-github'
 Plug 'arcticicestudio/nord-vim'
-Plug 'etdev/vim-hexcolor', {'for': ['css', 'vim']}
+Plug 'etdev/vim-hexcolor', {'for': ['css']}
 
 "" markdown
 Plug 'reedes/vim-lexical', {'for': ['text', 'markdown', 'gitcommit']}
@@ -109,12 +109,11 @@ let g:instant_rst_browser='chromium-browser'
 "" search/navigate
 
 " smart search highligting
-let g:CoolTotalMatches = 1
-Plug 'romainl/vim-cool'
+Plug 'pgdouyon/vim-evanesco'
 
-" improving * behavior
-let g:asterisk#keeppos = 1
-Plug 'haya14busa/vim-asterisk'
+" " improving * behavior
+" let g:asterisk#keeppos = 1
+" Plug 'haya14busa/vim-asterisk'
 
 Plug 'wellle/targets.vim'
 
@@ -165,21 +164,22 @@ nnoremap <leader>rip :Acks /<c-r><c-w>/<c-r><c-w>/gc<left><left><left>
 "" git
 Plug 'gregsexton/gitv', {'on': 'Gitv'}
 
+Plug 'airblade/vim-gitgutter'
+
 """ fugitive
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-rhubarb'
-nnoremap dg3 :diffget //3<cr>
-nnoremap dg2 :diffget //2<cr>
 nnoremap <leader>gw :Gwrite<cr>
 nnoremap <leader>gs :Gstatus<cr>
 nnoremap <leader>gc :Gcommit<cr>
 nnoremap <leader>gl :Gitv<cr>
-Plug 'christoomey/vim-conflicted'
-" Use `gl` and `gu` rather than the default conflicted diffget mappings
-let g:diffget_local_map = 'gl'
-let g:diffget_upstream_map = 'gu'
+" Plug 'christoomey/vim-conflicted'
+" " Use `gl` and `gu` rather than the default conflicted diffget mappings
+" let g:diffget_local_map = '<'
+" let g:diffget_upstream_map = '>'
 Plug 'lambdalisue/vim-improve-diff'
 Plug 'chrisbra/vim-diff-enhanced'
+Plug 'whiteinge/diffconflicts'
 "" notes
 Plug 'xolox/vim-notes', {'on': ['SearchNotes', 'Note', 'RecentNotes']} | Plug 'xolox/vim-misc'
 let g:notes_directories = ['~/Dropbox/notes']
@@ -192,21 +192,18 @@ Plug 'mtth/scratch.vim', {'on' : 'ScratchPreview'}
 let g:scratch_persistence_file = '.scratch.vim'
 nnoremap <m-z> :Scratch<cr>
 
-let g:scratchpad_ftype = 'txt'
-Plug 'Konfekt/vim-scratchpad'
-
 "" todo
 """ vim-simple-todo
-let g:simple_todo_map_keys = 0
-Plug 'vitalk/vim-simple-todo'
-nmap <m-i> <Plug>(simple-todo-new-list-item-start-of-line)
-imap <m-i> <Plug>(simple-todo-new-list-item-start-of-line)
-nmap <m-s> <Plug>(simple-todo-new-start-of-line)
-imap <m-s> <Plug>(simple-todo-new-start-of-line)
-nmap <m-o> <Plug>(simple-todo-below)
-imap <m-o> <Plug>(simple-todo-below)
-imap <m-space> <Plug>(simple-todo-mark-switch)
-nmap <m-space> <Plug>(simple-todo-mark-switch)
+" let g:simple_todo_map_keys = 0
+" Plug 'vitalk/vim-simple-todo'
+" nmap <m-i> <Plug>(simple-todo-new-list-item-start-of-line)
+" imap <m-i> <Plug>(simple-todo-new-list-item-start-of-line)
+" nmap <m-s> <Plug>(simple-todo-new-start-of-line)
+" imap <m-s> <Plug>(simple-todo-new-start-of-line)
+" nmap <m-o> <Plug>(simple-todo-below)
+" imap <m-o> <Plug>(simple-todo-below)
+" imap <m-space> <Plug>(simple-todo-mark-switch)
+" nmap <m-space> <Plug>(simple-todo-mark-switch)
 
 """ todo.txt
 " let g:Todo_txt_prefix_creation_date=0
@@ -216,6 +213,7 @@ Plug 'dbeniamine/todo.txt-vim', {'for': 'text'}
 " Set the 'path' option for miscellaneous file types
 Plug 'tpope/vim-apathy'
 Plug 'stephpy/vim-yaml', {'for': 'yaml'}
+Plug 'elzr/vim-json', {'for': 'json'}
 " let g:polyglot_disabled = ['php', 'go', 'markdown', 'liquid', 'jsx']
 " let g:polyglot_disabled = ['php', 'liquid', 'jsx', 'yaml']
 " Plug 'sheerun/vim-polyglot'
@@ -228,7 +226,7 @@ let g:ansible_unindent_after_newline = 1
 "" misc
 Plug 'amiorin/vim-project'
 
-Plug 'sickill/vim-pasta'
+" Plug 'sickill/vim-pasta'
 
 Plug 'godlygeek/tabular', {'for': ['cucumber', 'markdown']}
 Plug 'tpope/vim-surround'
@@ -238,11 +236,12 @@ Plug 'tpope/vim-abolish'
 Plug 'triglav/vim-visual-increment'
 
 """ gundo
-nnoremap <m-u> :GundoToggle<CR>
+nnoremap <m-u> :MundoToggle<CR>
 let g:gundo_width = 60
 let g:gundo_preview_height = 40
 let g:gundo_right = 1
-Plug 'sjl/gundo.vim', {'on': 'GundoToggle'}
+" Plug 'sjl/gundo.vim', {'on': 'GundoToggle'}
+Plug 'simnalamburt/vim-mundo', {'on': 'MundoToggle'}
 
 """ vim-test
 Plug 'janko-m/vim-test', {'on': ['TestNearest', 'TestFile', 'TestLast', 'TestVisit']}
@@ -319,7 +318,6 @@ augroup misc
   au FileType gitv nmap <buffer> <silent> <C-p> <Plug>(gitv-next-commit)
 
   au BufWritePost * if &filetype != 'java' | silent! !eval '[ -f ".git/hooks/ctags" ] && .git/hooks/ctags' & | endif
-  " au BufWritePre * silent! %!cat -s
 augroup END
 
 augroup golang
@@ -355,7 +353,7 @@ augroup nvim
 augroup END
 
 nnoremap <c-e> :WinResizerStartResize<cr>
-set completeopt=menuone
+" set completeopt=menuone
 
 """"""""""""""
 "  Settings  "
@@ -506,12 +504,8 @@ nnoremap <silent> <Leader><Enter> :call fzf#run({
 \ })<CR>
 
 nnoremap <leader><tab> :Buffers<cr>
-" nnoremap <leader><Enter> :Buffers<cr>
-augroup custom_filemru
-  autocmd!
-  autocmd BufWinEnter * UpdateMru
-augroup END
-nnoremap <leader>, :FilesMru --tiebreak=end<cr>
+" nnoremap <leader>, :FilesMru --tiebreak=end<cr>
+nnoremap <leader>, :FZF<cr>
 nnoremap <leader>. :FZFAllFiles<cr>
 nnoremap <leader>d :BTags<cr>
 nnoremap <leader>D :BTags <C-R><C-W><cr>
@@ -774,6 +768,8 @@ set tabstop=4
 set shiftwidth=4
 set expandtab smarttab
 set lazyredraw
+" set max syntax highlighting column to sane level
+set synmaxcol=250
 
 set textwidth=0
 " keep marks
@@ -792,7 +788,6 @@ inoremap <c-l> <del>
 " keep selection after indent
 vnoremap < <gv
 vnoremap > >gv
-
 nnoremap <m-l> :bn<cr>
 nnoremap <m-h> :bp<cr>
 
@@ -948,38 +943,6 @@ function! s:check_back_space() abort
     return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
 nnoremap <silent> K :call <SID>show_documentation()<CR>
-function! LoadCocNvim()
-    CocEnable
-    " Use tab for trigger completion with characters ahead and navigate.
-    " Use command ':verbose imap <tab>' to make sure tab is not mapped by other plugin.
-    inoremap <silent><expr> <TAB>
-                \ pumvisible() ? "\<C-n>" :
-                \ <SID>check_back_space() ? "\<TAB>" :
-                \ coc#refresh()
-    inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
-    inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
-
-    nmap <silent> gd <Plug>(coc-definition)
-    nmap <silent> gD <Plug>(coc-type-definition)
-    nmap <silent> gi <Plug>(coc-implementation)
-    nmap <silent> gr <Plug>(coc-references)
-    nmap <leader>gr <Plug>(coc-rename)
-    " Remap for do codeAction of current line
-    " nmap <leader>Q  <Plug>(coc-codeaction)
-    " Fix autofix problem of current line
-    " nmap <leader>q  <Plug>(coc-fix-current)
-
-    vmap <leader>gf <Plug>(coc-format-selected)
-    nmap <leader>gf <Plug>(coc-format)
-
-    function! s:check_back_space() abort
-        let col = col('.') - 1
-        return !col || getline('.')[col - 1]  =~# '\s'
-    endfunction
-    nnoremap <silent> K :call <SID>show_documentation()<CR>
-endfunction
-
-" call LoadCocNvim()
 
 command! -nargs=0 Prettier :CocCommand prettier.formatFile
 
@@ -1058,4 +1021,13 @@ function! CompareJsonExp() abort
     DT
 endfunction
 
+" resize windows to text length/height
+nnoremap <expr><silent> <c-w>_ (v:count ? v:count : float2nr(ceil(eval(join(map(getline(1,'$'),'max([winwidth(0),virtcol([v:key+1,"$"])])'),'+'))/str2float(winwidth(0).'.0'))))."\<c-w>_"
+nnoremap <expr><silent> <c-w><bar> (v:count ? v:count : max(map(getline(1,'$'),'virtcol([v:key+1,"$"])'))-1)."\<c-w>\<bar>"
+
 nnoremap <m-p> <Plug>yankstack_substitute_older_paste
+
+command! Messages :redir => bufout | silent :messages | redir end | new | call append(0, split(bufout, '\n'))
+
+
+nnoremap <silent> <leader>D  :exe 'CocList -I --normal --input='.expand('<cword>').' symbols'<CR>
