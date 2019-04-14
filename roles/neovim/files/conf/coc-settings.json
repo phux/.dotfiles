@@ -24,10 +24,12 @@
     }
   },
   "suggest.snippetIndicator": " ►",
-  "suggest.echodocSupport": true,
+  "suggest.echodocSupport": false,
   "coc.preferences.hoverTarget": "float",
   "diagnostic.enable": false,
   "coc.preferences.formatOnSaveFiletypes": ["go", "json"],
+
+  "suggest.enablePreview": true,
   "html.format.enable": true,
   "yaml.format.enable": true,
   "yaml.hover": true,

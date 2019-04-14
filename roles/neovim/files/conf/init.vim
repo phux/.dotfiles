@@ -280,7 +280,7 @@ set nojoinspaces
 "" insert mode completion
 set complete-=i
 set complete+=w
-set completeopt=menuone
+set completeopt=preview
 
 "" better command mode completion
 set wildmenu
