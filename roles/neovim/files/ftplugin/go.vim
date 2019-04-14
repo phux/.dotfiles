@@ -49,7 +49,7 @@ hi GoDebugCurrent term=reverse ctermbg=7 ctermfg=0 guibg=DarkBlue guifg=White
 
 let g:go_def_mapping_enabled = 0
 " nnoremap <silent> <leader>gr :LspRename<CR>
-nnoremap <silent> gd :GoDef<cr>
+" nnoremap <silent> gd :GoDef<cr>
 " nnoremap <silent> gD :LspTypeDefinition<cr>
 " nnoremap <buffer> gr :LspReferences<cr>
 " nnoremap <buffer> gi :LspImplementation<cr>

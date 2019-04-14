@@ -95,7 +95,8 @@ let g:instant_rst_browser='chromium-browser'
 "" search/navigate
 
 " smart search highligting
-Plug 'pgdouyon/vim-evanesco'
+  let g:CoolTotalMatches = 1
+Plug 'romainl/vim-cool'
 
 Plug 'wellle/targets.vim'
 
@@ -838,19 +839,12 @@ inoremap <silent><expr> <TAB>
 inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 
-nmap <silent> gd <Plug>(coc-definition)
-nmap <silent> gD <Plug>(coc-type-definition)
-nmap <silent> gi <Plug>(coc-implementation)
-nmap <silent> gr <Plug>(coc-references)
-nmap <leader>gr <Plug>(coc-rename)
-vmap <leader>gf <Plug>(coc-format-selected)
-nmap <leader>gf <Plug>(coc-format)
-
 function! s:check_back_space() abort
     let col = col('.') - 1
     return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
 nnoremap <silent> K :call <SID>show_documentation()<CR>
+
 
 command! -nargs=0 Prettier :CocCommand prettier.formatFile
 
@@ -939,3 +933,12 @@ command! Messages :redir => bufout | silent :messages | redir end | new | call a
 
 
 nnoremap <silent> <leader>D  :exe 'CocList -I --normal --input='.expand('<cword>').' symbols'<CR>
+
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gD <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
+nmap <leader>gr <Plug>(coc-rename)
+vmap <leader>gf <Plug>(coc-format-selected)
+nmap <leader>gf <Plug>(coc-format)
+
