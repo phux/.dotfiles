@@ -15,3 +15,4 @@ playbook.retry
 bin/
 .classpath
 .settings/
+.vim/coc-settings.json
