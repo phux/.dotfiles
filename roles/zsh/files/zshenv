@@ -26,3 +26,5 @@ if [[ -d "$XDG_CONFIG_HOME/zsh" ]]
 then
         export ZDOTDIR="$XDG_CONFIG_HOME/zsh"
 fi
+
+export XDG_DATA_HOME=${XDG_DATA_HOME:="$HOME/.local/share"}
