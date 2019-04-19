@@ -344,9 +344,8 @@ let spellfile='~/.vim.spell'
 set t_Co=256
 set background=dark
 
-let g:gruvbox_contrast_dark='medium'
-" color nord
-color gruvbox
+color nord
+" color gruvbox
 
 function! Bright()
     set background=light
@@ -361,7 +360,7 @@ function! Bright2()
 endfunction
 
 let g:lightline = {
-            \ 'colorscheme': 'gruvbox',
+            \ 'colorscheme': 'nord',
             \ 'active': {
             \   'left': [ [ 'mode', 'paste' ],
             \             [ 'gitbranch', 'readonly', 'filename', 'modified', 'neomake_state', 'coc_state' ] ]

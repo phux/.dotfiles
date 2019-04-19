@@ -208,100 +208,100 @@ font pango:Hack 9
 # Nord theme colors
 
 
-# set $nord0   #2E3440
-# set $nord1   #3B4252
-# set $nord2   #434C5E
-# set $nord3   #4C566A
-# set $nord4   #D8DEE9
-# set $nord5   #E5E9F0
-# set $nord6   #ECEFF4
-# set $nord7   #8FBCBB
-# set $nord8   #88C0D0
-# set $nord9   #81A1C1
-# set $nord10  #5E81AC
-# set $nord11  #BF616A
-# set $nord12  #D08770
-# set $nord13  #EBCB8B
-# set $nord14  #A3BE8C
-# set $nord15  #B48EAD
+ set $nord0   #2E3440
+ set $nord1   #3B4252
+ set $nord2   #434C5E
+ set $nord3   #4C566A
+ set $nord4   #D8DEE9
+ set $nord5   #E5E9F0
+ set $nord6   #ECEFF4
+ set $nord7   #8FBCBB
+ set $nord8   #88C0D0
+ set $nord9   #81A1C1
+ set $nord10  #5E81AC
+ set $nord11  #BF616A
+ set $nord12  #D08770
+ set $nord13  #EBCB8B
+ set $nord14  #A3BE8C
+ set $nord15  #B48EAD
 
-# client.focused $nord14 $nord14 #ffffff
+ client.focused $nord14 $nord14 #ffffff
 
-# # Start i3bar to display a workspace bar (plus the system information i3status
-# # finds out, if available)
-# bar {
-#     status_command i3status -c ~/.i3/i3status.conf
-#     position top
-#     mode hide
+ # Start i3bar to display a workspace bar (plus the system information i3status
+ # finds out, if available)
+ bar {
+     status_command i3status -c ~/.i3/i3status.conf
+     position top
+     mode hide
 
-#     colors {
-#         background $nord0
-#         statusline $nord8
+     colors {
+         background $nord0
+         statusline $nord8
 
-#         focused_workspace  $nord3  $nord8
-#         active_workspace   $nord3  $nord9
-#         inactive_workspace $nord8  $nord0
-#         urgent_workspace   $nord3 $nord15
-#     }
-# }
-#
-#
-#######
-#THEME#
-# https://github.com/a-schaefers/i3-wm-gruvbox-theme/blob/master/i3/config
-#######
+         focused_workspace  $nord3  $nord8
+         active_workspace   $nord3  $nord9
+         inactive_workspace $nord8  $nord0
+         urgent_workspace   $nord3 $nord15
+     }
+ }
 
-# set primary gruvbox colorscheme colors
-set $bg #282828
-set $red #cc241d
-set $green #98971a
-set $yellow #d79921
-set $blue #458588
-set $purple #b16286
-set $aqua #689d68
-set $gray #a89984
-set $darkgray #1d2021
 
-# font used by i3 for titles and bars
-font pango:Hack 9
+########
+##THEME#
+## https://github.com/a-schaefers/i3-wm-gruvbox-theme/blob/master/i3/config
+########
 
-#start of bar section
-bar {
-    status_command i3status -c ~/.i3/i3status.conf
-    position top
-    mode hide
-    colors {
-        # bar background color
-        background $bg
-        # text color used for blocks that do not have a color specified.
-        statusline $yellow
-        # workspaces section            
-        #                    border  backgr. text
-        focused_workspace    $aqua $aqua $darkgray
-        inactive_workspace   $darkgray $darkgray $yellow
-        active_workspace     $darkgray $darkgray $yellow
-        urgent_workspace     $red $red $bg
-    }
-}
-#end of bar section
+## set primary gruvbox colorscheme colors
+#set $bg #282828
+#set $red #cc241d
+#set $green #98971a
+#set $yellow #d79921
+#set $blue #458588
+#set $purple #b16286
+#set $aqua #689d68
+#set $gray #a89984
+#set $darkgray #1d2021
 
-#start of window title bars & borders section
+## font used by i3 for titles and bars
+#font pango:Hack 9
 
-# green gruvbox
-# class                 border|backgr|text|indicator|child_border
-#client.focused          $green $green $darkgray $purple $darkgray
+##start of bar section
+#bar {
+#    status_command i3status -c ~/.i3/i3status.conf
+#    position top
+#    mode hide
+#    colors {
+#        # bar background color
+#        background $bg
+#        # text color used for blocks that do not have a color specified.
+#        statusline $yellow
+#        # workspaces section            
+#        #                    border  backgr. text
+#        focused_workspace    $aqua $aqua $darkgray
+#        inactive_workspace   $darkgray $darkgray $yellow
+#        active_workspace     $darkgray $darkgray $yellow
+#        urgent_workspace     $red $red $bg
+#    }
+#}
+##end of bar section
+
+##start of window title bars & borders section
+
+## green gruvbox
+## class                 border|backgr|text|indicator|child_border
+##client.focused          $green $green $darkgray $purple $darkgray
+##client.focused_inactive $darkgray $darkgray $yellow $purple $darkgray
+##client.unfocused        $darkgray $darkgray $yellow $purple $darkgray
+##client.urgent           $red $red $white $red $red
+
+## blue gruvbox
+## class                 border|backgr|text|indicator|child_border
+#client.focused          $blue $blue $darkgray $purple $darkgray
 #client.focused_inactive $darkgray $darkgray $yellow $purple $darkgray
 #client.unfocused        $darkgray $darkgray $yellow $purple $darkgray
 #client.urgent           $red $red $white $red $red
 
-# blue gruvbox
-# class                 border|backgr|text|indicator|child_border
-client.focused          $blue $blue $darkgray $purple $darkgray
-client.focused_inactive $darkgray $darkgray $yellow $purple $darkgray
-client.unfocused        $darkgray $darkgray $yellow $purple $darkgray
-client.urgent           $red $red $white $red $red
-
-#end of window title bars & borders section
+##end of window title bars & borders section
 
 exec --no-startup-id nm-applet
 exec --no-startup-id pasystray
