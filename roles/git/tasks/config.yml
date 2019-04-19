@@ -66,11 +66,6 @@
     value: nvimdiff
 
 - git_config:
-    name: difftool "nvimdiff"
-    scope: global
-    value: nvim -d "$LOCAL" "$REMOTE"
-
-- git_config:
     name: difftool.prompt
     scope: global
     value: false
