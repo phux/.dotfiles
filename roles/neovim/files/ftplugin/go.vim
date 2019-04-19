@@ -35,12 +35,12 @@ let g:go_highlight_build_constraints = 1
 let g:go_highlight_extra_types = 1
 let g:go_term_enabled=0
 let g:go_disable_autoinstall = 0
-let g:go_fmt_command = 'goimports'
+" let g:go_fmt_command = 'goimports'
 let g:go_fmt_autosave = 1
 let g:go_addtags_transform='camelcase'
 let g:go_metalinter_autosave = 0
 let g:go_metalinter_deadline = '20s'
-let g:go_metalinter_enabled = [ 'goconst', 'gocyclo', 'golint', 'ineffassign', 'interfacer', 'maligned', 'megacheck', 'misspell', 'structcheck', 'unconvert', 'varcheck', 'vet']
+let g:go_metalinter_enabled = [ 'goconst', 'gocyclo', 'golint', 'ineffassign', 'interfacer', 'maligned', 'misspell', 'structcheck', 'unconvert', 'varcheck', 'vet']
 let g:go_gocode_unimported_packages=1
 
 let g:go_highlight_debug = 0
@@ -48,12 +48,25 @@ hi GoDebugBreakpoint term=standout ctermbg=117 ctermfg=0 guibg=#BAD4F5  guifg=Bl
 hi GoDebugCurrent term=reverse ctermbg=7 ctermfg=0 guibg=DarkBlue guifg=White
 
 let g:go_def_mapping_enabled = 0
+let g:go_doc_keywordprg_enabled=0
 " nnoremap <silent> <leader>gr :LspRename<CR>
 " nnoremap <silent> gd :GoDef<cr>
 " nnoremap <silent> gD :LspTypeDefinition<cr>
 " nnoremap <buffer> gr :LspReferences<cr>
 " nnoremap <buffer> gi :LspImplementation<cr>
 " nnoremap <silent> K :LspHover<CR>
+
+" load oldsql bindings
+if isdirectory(getcwd()."/vendor")
+    nmap <buffer> <silent> gd :GoDef<cr>
+    nmap <buffer> <silent> gD :GoDefType<cr>
+    nmap <buffer> <silent> gi :GoImplements<cr>
+    nmap <buffer> <silent> gr :GoReferrers<cr>
+    nmap <buffer> <leader>gr :GoRename
+    nmap <buffer> K :GoInfo<cr>
+noremap <buffer> <leader>u :exec "GoImport ".expand("<cword>")<cr>
+endif
+
 
 vnoremap <buffer> <leader>em :Refactor extract
 vnoremap <buffer> <leader>ev :Refactor var
@@ -155,9 +168,10 @@ function! ImplementInterface()
         echo 'no go.mod found in cwd'
         return
     endif
+    let l:cword = substitute(substitute(expand('<cword>'), 'Stub', '', ''), 'Mock', '', '')
 
     let l:currentBasePackage = substitute(substitute(system('head -n 1 go.mod'), 'module ', '', ''), '\n\+$', '', '')
-    let l:interface = input('interface: ', l:currentBasePackage.''.substitute(expand('%:p:h'), getcwd(), '', '').'.')
+    let l:interface = input('interface: ', l:currentBasePackage.''.substitute(expand('%:p:h'), getcwd(), '', '').'.'.l:cword)
     let l:receiver = expand('<cword>')
     let l:firstLetter = tolower(strpart(l:receiver, 0, 1))
 

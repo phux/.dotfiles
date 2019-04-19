@@ -1,7 +1,7 @@
 {
   "languageserver": {
     "golang": {
-      "command": "gopls",
+      "command": "bingo",
       "args": [],
       "rootPatterns": ["go.mod", ".vim/", ".git/", ".hg/"],
       "filetypes": ["go"]
@@ -25,13 +25,12 @@
   },
   "suggest.snippetIndicator": " ►",
   "suggest.echodocSupport": false,
-  "coc.preferences.hoverTarget": "float",
   "diagnostic.enable": false,
   "coc.preferences.formatOnSaveFiletypes": ["go", "json"],
 
-  "suggest.enablePreview": true,
   "html.format.enable": true,
   "yaml.format.enable": true,
+  "coc.preferences.hoverTarget": "float",
   "yaml.hover": true,
   "yaml.schemas": {
     "http://json.schemastore.org/ansible-stable-2.5": "/*.yml",

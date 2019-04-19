@@ -1,3 +1,6 @@
+" vint: -ProhibitCommandRelyOnUser
+" vint: -ProhibitCommandWithUnintendedSideEffect
+
 set encoding=UTF-8
 scriptencoding utf-8
 
@@ -19,8 +22,7 @@ if !filereadable(expand('~/.config/nvim/autoload/plug.vim'))
     silent call mkdir(expand('~/.config/nvim/autoload', 1), 'p')
     execute '!curl -fLo '.expand('~/.config/nvim/autoload/plug.vim', 1).' https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
 
-    " vint: -ProhibitAutocmdWithNoGroup
-    autocmd VimEnter * PlugInstall
+    autocmd FirstStartup VimEnter * PlugInstall
 endif
 command! PU PlugUpdate | PlugUpgrade
 
@@ -41,7 +43,7 @@ Plug 'jiangmiao/auto-pairs'
 Plug 'scrooloose/vim-slumlord', {'for': ['uml', 'markdown']}
 Plug 'aklt/plantuml-syntax', {'for': 'uml'}
 
-Plug 'neoclide/coc.nvim', {'tag': '*', 'do': 'yarn install --frozen-lockfile'}
+Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
 Plug 'Shougo/neco-vim', {'for': 'vim'}
 Plug 'neoclide/coc-neco', {'for': 'vim'}
 
@@ -70,6 +72,7 @@ Plug 'tweekmonster/fzf-filemru'
 "" UI
 Plug 'itchyny/lightline.vim'
 Plug 'simeji/winresizer', {'on': 'WinResizerStartResize'}
+Plug 'dhruvasagar/vim-zoom'
 let g:echodoc_enable_at_startup=1
 " default nord color lets not identify current argument
 let g:echodoc#highlight_arguments = 'SpellCap'
@@ -80,6 +83,7 @@ Plug 'NLKNguyen/papercolor-theme'
 Plug 'cormacrelf/vim-colors-github'
 Plug 'arcticicestudio/nord-vim'
 Plug 'etdev/vim-hexcolor', {'for': ['css']}
+Plug 'morhetz/gruvbox'
 
 "" markdown
 Plug 'reedes/vim-lexical', {'for': ['text', 'markdown', 'gitcommit']}
@@ -95,7 +99,7 @@ let g:instant_rst_browser='chromium-browser'
 "" search/navigate
 
 " smart search highligting
-  let g:CoolTotalMatches = 1
+let g:CoolTotalMatches = 1
 Plug 'romainl/vim-cool'
 
 Plug 'wellle/targets.vim'
@@ -129,6 +133,9 @@ nnoremap <leader>N :NERDTreeFind<cr>
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'tmux-plugins/vim-tmux-focus-events'
 Plug 'tmux-plugins/vim-tmux'
+
+Plug 'wellle/tmux-complete.vim'
+
 
 """ ferret
 let g:FerretHlsearch=1
@@ -281,7 +288,7 @@ set nojoinspaces
 "" insert mode completion
 set complete-=i
 set complete+=w
-set completeopt=preview
+set completeopt-=preview
 
 "" better command mode completion
 set wildmenu
@@ -295,6 +302,9 @@ set noswapfile
 "" undo
 set undofile " Maintain undo history between vim sessions
 set undodir=~/.vim_undodir
+
+"" history
+" set history=10000
 
 "" UI settings
 set number
@@ -334,7 +344,9 @@ let spellfile='~/.vim.spell'
 set t_Co=256
 set background=dark
 
-color nord
+let g:gruvbox_contrast_dark='medium'
+" color nord
+color gruvbox
 
 function! Bright()
     set background=light
@@ -349,7 +361,7 @@ function! Bright2()
 endfunction
 
 let g:lightline = {
-            \ 'colorscheme': 'nord',
+            \ 'colorscheme': 'gruvbox',
             \ 'active': {
             \   'left': [ [ 'mode', 'paste' ],
             \             [ 'gitbranch', 'readonly', 'filename', 'modified', 'neomake_state', 'coc_state' ] ]
@@ -416,7 +428,7 @@ nnoremap <silent> <Leader><Enter> :call fzf#run({
 \ })<CR>
 
 nnoremap <leader><tab> :Buffers<cr>
-nnoremap <leader>, :FZF<cr>
+" nnoremap <leader>, :FZF<cr>
 nnoremap <leader>, :FilesMru<cr>
 nnoremap <leader>. :FZFAllFiles<cr>
 nnoremap <leader>d :BTags<cr>
@@ -682,7 +694,7 @@ set synmaxcol=250
 
 set textwidth=0
 " keep marks
-set viminfo='100,f1
+" set viminfo='100,\"90,h,% 
 set nostartofline
 
 set ignorecase smartcase
@@ -854,7 +866,7 @@ function! CustomHighlighting() abort
     hi BufTabLineCurrent ctermfg=2 ctermbg=8
     hi Folded ctermfg=4
 endfunction
-call CustomHighlighting()
+" call CustomHighlighting()
 
 augroup NordColors
     autocmd!
@@ -919,7 +931,7 @@ function! CompareJsonExp() abort
     normal! p
     g/^$/d
     %!python -m json.tool
-    :%s/&/\r/g
+    %s/&/\r/g
     DT
 endfunction
 
@@ -931,7 +943,6 @@ nnoremap <m-p> <Plug>yankstack_substitute_older_paste
 
 command! Messages :redir => bufout | silent :messages | redir end | new | call append(0, split(bufout, '\n'))
 
-
 nnoremap <silent> <leader>D  :exe 'CocList -I --normal --input='.expand('<cword>').' symbols'<CR>
 
 nmap <silent> gd <Plug>(coc-definition)
@@ -942,3 +953,62 @@ nmap <leader>gr <Plug>(coc-rename)
 vmap <leader>gf <Plug>(coc-format-selected)
 nmap <leader>gf <Plug>(coc-format)
 
+function! FormatDate() abort
+    let l:line = getline('.')
+    let l:pattern = ''
+
+    " 12/12/12
+    let l:mm_dd_yy_pattern = '\(\d\d\)\/\(\d\d\)\/\(\d\+\)'
+    if l:line =~# l:mm_dd_yy_pattern
+        let l:pattern = l:mm_dd_yy_pattern
+        let l:day = '\2'
+        let l:month = '\1'
+        let l:year = '\3'
+    endif
+
+    " 2012-12-20
+    let l:yyyy_mm_dd_pattern = '\(\d\+\)-\(\d\d\)-\(\d\d\)'
+    if l:line =~# l:yyyy_mm_dd_pattern
+        let l:pattern = l:yyyy_mm_dd_pattern
+        let l:day = '\3'
+        let l:month = '\2'
+        let l:year = '\1'
+    endif
+
+    " 13.12.19
+    let l:dd_mm_yyyy_pattern = '\(\d\d\)\.\(\d\d\)\.\(\d\+\)'
+    if l:line =~# l:dd_mm_yyyy_pattern
+        let l:pattern = l:dd_mm_yyyy_pattern
+        let l:day = '\1'
+        let l:month = '\2'
+        let l:year = '\3'
+    endif
+
+    if empty(l:pattern)
+        echom 'No pattern found. Aborting.'
+    endif
+
+    let l:choices = "&1: YY-MM-DD\n&2: DD.MM.YY"
+    let l:choice = confirm('Select output format:', l:choices, '')
+    let l:output_patterns = {
+                \ '1': l:year.'-'.l:month.'-'.l:day,
+                \ '2': l:day.'.'.l:month.'.'.l:year,
+                \}
+    if !has_key(l:output_patterns, l:choice)
+        echom 'Invalid choice, doing nothing'
+        return
+    endif
+
+    if l:choice ==# '2'
+        let l:am_pattern = '\(\d\d\):\(\d\d.*\) AM'
+        let l:pm_pattern = '\(\d\d\):\(\d\d.*\) PM'
+        if l:line =~# l:am_pattern || l:line =~# l:pm_pattern
+            execute ':%substitute/' . l:am_pattern . '/\1:\2/g'
+            execute ':%substitute/' . l:pm_pattern . '/\="".submatch(1) == "12" ? "00:".submatch(2): submatch(1)+12.":".submatch(2)/g'
+        endif
+    endif
+
+    execute ':%substitute/' . l:pattern . '/'. l:output_patterns[l:choice] . '/g'
+endfunction
+
+so ~/.local.init.vim
