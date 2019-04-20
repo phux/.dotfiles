@@ -344,20 +344,6 @@ let spellfile='~/.vim.spell'
 set t_Co=256
 set background=dark
 
-color nord
-" color gruvbox
-
-function! Bright()
-    set background=light
-    color PaperColor
-    let g:lightline['colorscheme'] = 'default'
-endfunction
-
-function! Bright2()
-    set background=light
-    color github
-    let g:lightline['colorscheme'] = 'github'
-endfunction
 
 let g:lightline = {
             \ 'colorscheme': 'nord',
@@ -377,6 +363,24 @@ let g:lightline = {
             \   'coc_state': 'coc#status'
             \ },
             \ }
+
+function! Bright()
+    set background=light
+    color PaperColor
+    let g:lightline['colorscheme'] = 'default'
+endfunction
+
+function! Bright2()
+    set background=light
+    color github
+    let g:lightline['colorscheme'] = 'github'
+endfunction
+"
+if $TERM_COLOR ==# 'papercolor'
+    call Bright()
+else 
+    color nord
+endif
 
 function! LightlineFilename()
   return @% !=# '' ? @% : '[No Name]'
@@ -739,7 +743,6 @@ nnoremap <silent> <leader><f5> :e $MYVIMRC<CR>
 " trying to get used to capslock escape
 " imap jk <esc>
 
-" override nord visual highlighting
 
 command! -nargs=* Only call CloseHiddenBuffers()
 function! CloseHiddenBuffers()
@@ -859,17 +862,20 @@ nnoremap <silent> K :call <SID>show_documentation()<CR>
 
 command! -nargs=0 Prettier :CocCommand prettier.formatFile
 
+" override nord visual highlighting
+" hi Visual ctermfg=7 ctermbg=4
 function! CustomHighlighting() abort
     hi Comment ctermfg=darkgray
-    hi Visual ctermfg=7 ctermbg=4
     hi BufTabLineCurrent ctermfg=2 ctermbg=8
+    hi Visual ctermfg=7 ctermbg=4
     hi Folded ctermfg=4
 endfunction
 " call CustomHighlighting()
 
-augroup NordColors
+augroup ColorSchemes
     autocmd!
     autocmd ColorScheme nord call CustomHighlighting()
+    autocmd ColorScheme PaperColor hi Visual ctermfg=15 ctermbg=4
 augroup END
 
 function! Zd()

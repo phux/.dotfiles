@@ -55,6 +55,17 @@ setopt AUTO_PUSHD PUSHD_TO_HOME
 export LANG='en_US.UTF-8';
 export LC_ALL='en_US.UTF-8';
 
+function toggle_colors() {
+    if [ -z $TERM_COLOR ]
+    then
+        xrdb -merge ~/.Xresources.papercolor
+        export TERM_COLOR="papercolor"
+    else
+        xrdb ~/.Xresources
+        export TERM_COLOR=''
+    fi
+}
+
 # Highlight section titles in manual pages.
 export LESS_TERMCAP_md="${yellow}";
 
