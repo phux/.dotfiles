@@ -76,7 +76,7 @@ nnoremap <buffer> <leader>ga :GoAddTags<cr>
 noremap <buffer> <leader>m :GoDoc<cr>
 noremap <buffer> <leader>u :exec "GoImport ".expand("<cword>")<cr>
 " inoremap <buffer> <m-i> <esc>h:exec "GoImport ".expand("<cword>")<cr>la
-" inoremap <silent><buffer> . .<esc>h:exec "silent GoImport ".expand("<cword>")<cr>la
+inoremap <silent><buffer> . <esc>:call AliasGoImport()<cr>
 
 nnoremap <buffer> <leader>d :GoDeclsDir<cr>
 nnoremap <buffer> <silent> <m-a> :GoAlternate!<cr>
