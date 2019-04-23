@@ -21,7 +21,7 @@ setlocal wrap
 set conceallevel=2
 
 nnoremap <silent><buffer> <f12> :MarkdownPreview<cr>
-nnoremap <silent><buffer> <f11> :MarkdownStop<cr>
+nnoremap <silent><buffer> <f11> :MarkdownPreviewStop<cr>
 
 " convert url to markdown link
 " usage: just paste the raw url, :call UrlToMarkdownLink()<cr>
