@@ -375,7 +375,7 @@ function! Bright2()
     color github
     let g:lightline['colorscheme'] = 'github'
 endfunction
-"
+
 if $TERM_COLOR ==# 'papercolor'
     call Bright()
 else 
@@ -1054,6 +1054,7 @@ function! AliasGoImport()
         execute l:cmd
     endif
 
-    normal! A.
-    startinsert!
+    normal! a.
+    normal! l
+    startinsert
 endfunction
