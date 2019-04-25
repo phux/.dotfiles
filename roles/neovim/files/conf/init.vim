@@ -1066,8 +1066,12 @@ function! AliasGoImport()
     endif
 
     normal! a.
-    normal! l
-    startinsert
+    if col('.') == col('$') - 1
+        startinsert!
+    else
+        normal! l
+        startinsert
+    end
 endfunction
 
 let g:indent_guides_auto_colors = 0
