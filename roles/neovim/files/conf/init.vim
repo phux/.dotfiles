@@ -85,6 +85,12 @@ Plug 'arcticicestudio/nord-vim'
 Plug 'etdev/vim-hexcolor', {'for': ['css']}
 Plug 'morhetz/gruvbox'
 
+Plug 'liuchengxu/vista.vim'
+let g:vista_cursor_delay=0
+let g:vista_echo_cursor_strategy='floating_win'
+" let g:vista_blink=[]
+
+
 "" markdown
 Plug 'reedes/vim-lexical', {'for': ['text', 'markdown', 'gitcommit']}
 let g:mkdp_path_to_chrome = 'chromium-browser'
@@ -176,6 +182,10 @@ Plug 'dbeniamine/todo.txt-vim', {'for': 'text'}
 " Set the 'path' option for miscellaneous file types
 Plug 'tpope/vim-apathy'
 Plug 'stephpy/vim-yaml', {'for': 'yaml'}
+
+let g:indent_guides_enable_on_vim_startup = 1
+let g:indent_guides_color_change_percent=2
+Plug 'nathanaelkane/vim-indent-guides', {'for': 'yaml'}
 " Plug 'elzr/vim-json', {'for': 'json'}
 Plug 'pearofducks/ansible-vim', { 'do': 'cd ./UltiSnips; python2 generate.py' }
 let g:ansible_unindent_after_newline = 1
@@ -865,7 +875,7 @@ command! -nargs=0 Prettier :CocCommand prettier.formatFile
 " override nord visual highlighting
 " hi Visual ctermfg=7 ctermbg=4
 function! CustomHighlighting() abort
-    hi Comment ctermfg=darkgray
+    hi Comment ctermfg=gray
     hi BufTabLineCurrent ctermfg=2 ctermbg=8
     hi Visual ctermfg=7 ctermbg=4
     hi Folded ctermfg=4
@@ -890,7 +900,8 @@ function! Zd()
     q!
 endfunction
 
-call coc#add_extension('coc-css', 'coc-html', 'coc-lists', 'coc-ultisnips', 'coc-json', 'coc-tsserver', 'coc-tslint', 'coc-yaml', 'coc-prettier', 'coc-pyls', 'coc-eslint', 'coc-yank')
+" call coc#add_extension('coc-css', 'coc-html', 'coc-lists', 'coc-ultisnips', 'coc-json', 'coc-tsserver', 'coc-tslint', 'coc-yaml', 'coc-prettier', 'coc-pyls', 'coc-eslint', 'coc-yank')
+call coc#add_extension('coc-css', 'coc-html', 'coc-ultisnips', 'coc-json', 'coc-tsserver', 'coc-tslint', 'coc-yaml', 'coc-prettier', 'coc-pyls', 'coc-eslint', 'coc-yank')
 
 " gherkin: check step usages
 " let @s='?/\^?s+2y/\("\|\$\):lvimgrep /<C-R>"/j tests/features/*.feature<CR>:lopen<CR>'
@@ -1058,3 +1069,7 @@ function! AliasGoImport()
     normal! l
     startinsert
 endfunction
+
+let g:indent_guides_auto_colors = 0
+autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  guibg=none   ctermbg=none
+autocmd VimEnter,Colorscheme * :hi IndentGuidesEven guibg=green ctermbg=0
