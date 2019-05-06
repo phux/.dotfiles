@@ -1,2 +1,1 @@
 set nospell
-silent NeomakeDisableBuffer

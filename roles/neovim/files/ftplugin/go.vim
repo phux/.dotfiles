@@ -4,6 +4,10 @@ set foldmethod=syntax
 set foldlevel=1
 set foldnestmax=1
 
+let b:ale_linters = ['gofmt', 'golangci-lint']
+let g:ale_go_golangci_lint_options = '--fast --disable golint --config ~/.golangci.yml'
+
+let g:neomake_go_enabled_makers = [ 'go', 'golangci' ]
 let g:neomake_go_enabled_makers = [ 'go', 'golangci' ]
 let g:neomake_go_golangci_maker = {
         \ 'exe': 'golangci-lint',
@@ -57,7 +61,7 @@ let g:go_doc_keywordprg_enabled=0
 " nnoremap <silent> K :LspHover<CR>
 
 " load oldsql bindings
-if isdirectory(getcwd()."/vendor")
+if isdirectory(getcwd().'/vendor')
     nmap <buffer> <silent> gd :GoDef<cr>
     nmap <buffer> <silent> gD :GoDefType<cr>
     nmap <buffer> <silent> gi :GoImplements<cr>
