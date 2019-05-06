@@ -26,8 +26,6 @@
   "suggest.snippetIndicator": " ►",
   "suggest.echodocSupport": false,
   "diagnostic.enable": false,
-  "coc.preferences.formatOnSaveFiletypes": ["go", "json"],
-
   "html.format.enable": true,
   "yaml.format.enable": true,
   "coc.preferences.hoverTarget": "float",

@@ -72,7 +72,7 @@ Plug 'tweekmonster/fzf-filemru'
 "" UI
 Plug 'itchyny/lightline.vim'
 Plug 'simeji/winresizer', {'on': 'WinResizerStartResize'}
-Plug 'dhruvasagar/vim-zoom'
+" Plug 'dhruvasagar/vim-zoom'
 let g:echodoc_enable_at_startup=1
 " default nord color lets not identify current argument
 let g:echodoc#highlight_arguments = 'SpellCap'
@@ -83,11 +83,12 @@ Plug 'NLKNguyen/papercolor-theme'
 Plug 'cormacrelf/vim-colors-github'
 Plug 'arcticicestudio/nord-vim'
 Plug 'etdev/vim-hexcolor', {'for': ['css']}
-Plug 'morhetz/gruvbox'
+" Plug 'morhetz/gruvbox'
 
-Plug 'liuchengxu/vista.vim'
-let g:vista_cursor_delay=0
-let g:vista_echo_cursor_strategy='floating_win'
+" Plug 'liuchengxu/vista.vim', {'on': 'Vista'}
+" let g:vista_icon_indent = ["▸ ", ""]
+" let g:vista_cursor_delay=0
+" let g:vista_echo_cursor_strategy='floating_win'
 " let g:vista_blink=[]
 
 
@@ -136,11 +137,12 @@ nnoremap <leader>n :NERDTreeToggle<cr>
 nnoremap <leader>N :NERDTreeFind<cr>
 
 """ tmux
-Plug 'christoomey/vim-tmux-navigator'
-Plug 'tmux-plugins/vim-tmux-focus-events'
-Plug 'tmux-plugins/vim-tmux'
 
-Plug 'wellle/tmux-complete.vim'
+    Plug 'christoomey/vim-tmux-navigator'
+    Plug 'tmux-plugins/vim-tmux-focus-events'
+    Plug 'tmux-plugins/vim-tmux'
+
+    Plug 'wellle/tmux-complete.vim'
 
 
 """ ferret
@@ -152,7 +154,7 @@ nnoremap <leader>rip :Acks /<c-r><c-w>/<c-r><c-w>/gc<left><left><left>
 "" git
 Plug 'gregsexton/gitv', {'on': 'Gitv'}
 
-Plug 'airblade/vim-gitgutter'
+" Plug 'airblade/vim-gitgutter'
 
 """ fugitive
 Plug 'tpope/vim-fugitive'
@@ -183,11 +185,11 @@ Plug 'dbeniamine/todo.txt-vim', {'for': 'text'}
 Plug 'tpope/vim-apathy'
 Plug 'stephpy/vim-yaml', {'for': 'yaml'}
 
-let g:indent_guides_enable_on_vim_startup = 1
-let g:indent_guides_color_change_percent=2
+" let g:indent_guides_enable_on_vim_startup = 1
+let g:indent_guides_auto_colors = 1
 Plug 'nathanaelkane/vim-indent-guides', {'for': 'yaml'}
 " Plug 'elzr/vim-json', {'for': 'json'}
-Plug 'pearofducks/ansible-vim', { 'do': 'cd ./UltiSnips; python2 generate.py' }
+Plug 'pearofducks/ansible-vim', { 'do': 'cd ./UltiSnips; python2 generate.py', 'for': 'yaml'}
 let g:ansible_unindent_after_newline = 1
 
 "" misc
@@ -198,7 +200,7 @@ Plug 'tpope/vim-surround'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-abolish'
 
-Plug 'triglav/vim-visual-increment'
+" Plug 'triglav/vim-visual-increment'
 
 """ gundo
 nnoremap <m-u> :MundoToggle<CR>
@@ -223,12 +225,18 @@ nnoremap <leader>c :Commentary<cr>
 vnoremap <leader>c :Commentary<cr>
 
 Plug 'maxbrunsfeld/vim-yankstack'
-Plug 'neomake/neomake'
+let g:ale_lint_on_enter=0
+let g:ale_lint_on_text_changed='never'
+let g:ale_disable_lsp=1
+let g:ale_open_list = 1
+Plug 'w0rp/ale'
+Plug 'maximbaz/lightline-ale'
+" Plug 'neomake/neomake'
 call plug#end()
 
-call neomake#configure#automake('w')
-let g:neomake_echo_current_error=0
-let g:neomake_open_list = 2
+" call neomake#configure#automake('w')
+" let g:neomake_echo_current_error=0
+" let g:neomake_open_list = 2
 
 """"""""""""""""""""""""
 "  Autogroups  "
@@ -236,12 +244,15 @@ let g:neomake_open_list = 2
 "" Javascript
 augroup js
   au!
-  au BufNewFile,BufRead,BufEnter *.java,*.js :NeomakeDisableBuffer
+  " au BufNewFile,BufRead,BufEnter *.java,*.js :NeomakeDisableBuffer
 augroup END
 
 "" Misc
 augroup misc
   au!
+
+  " autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  guibg=none   ctermbg=none
+  " autocmd VimEnter,Colorscheme * :hi IndentGuidesEven guibg=green ctermbg=0
 
   au BufNewFile,BufRead *.yml.dist set ft=yaml
   au BufRead,BufNewFile *.conf setf config
@@ -256,7 +267,7 @@ augroup misc
   au FileType gitv nmap <buffer> <silent> <C-n> <Plug>(gitv-previous-commit)
   au FileType gitv nmap <buffer> <silent> <C-p> <Plug>(gitv-next-commit)
 
-  au BufWritePost * if &filetype != 'java' | silent! !eval '[ -f ".git/hooks/ctags" ] && .git/hooks/ctags' & | endif
+  " au BufWritePost * if &filetype != 'java' | silent! !eval '[ -f ".git/hooks/ctags" ] && .git/hooks/ctags' & | endif
 augroup END
 
 augroup golang
@@ -278,7 +289,7 @@ endfunction
 augroup nvim
   au!
   au BufWritePost *.vim nested source $MYVIMRC
-  au CursorHold * checktime
+  " au CursorHold * checktime
   au FocusLost,WinLeave * :silent! update
   autocmd VimResized * wincmd =
 augroup END
@@ -302,7 +313,8 @@ set completeopt-=preview
 
 "" better command mode completion
 set wildmenu
-set wildmode=list:longest,full
+" set wildmode=list:longest,full
+" set wildmode=list
 
 "" no backups
 set nobackup
@@ -359,7 +371,7 @@ let g:lightline = {
             \ 'colorscheme': 'nord',
             \ 'active': {
             \   'left': [ [ 'mode', 'paste' ],
-            \             [ 'gitbranch', 'readonly', 'filename', 'modified', 'neomake_state', 'coc_state' ] ]
+            \             [ 'gitbranch', 'readonly', 'filename', 'modified', 'coc_state', 'linter_checking', 'linter_errors', 'linter_warnings' ] ]
             \ },
             \ 'inactive': {
             \   'left': [ [ 'conflicted_name' ] ],
@@ -369,10 +381,23 @@ let g:lightline = {
             \   'filename': 'LightlineFilename',
             \   'gitbranch': 'fugitive#head',
             \   'conflicted_name': 'ConflictedVersion',
-            \   'neomake_state': 'SpinnerText',
             \   'coc_state': 'coc#status'
             \ },
             \ }
+
+
+let g:lightline.component_expand = {
+      \  'linter_checking': 'lightline#ale#checking',
+      \  'linter_warnings': 'lightline#ale#warnings',
+      \  'linter_errors': 'lightline#ale#errors',
+      \  'linter_ok': 'lightline#ale#ok',
+      \ }
+let g:lightline.component_type = {
+      \     'linter_checking': 'left',
+      \     'linter_warnings': 'warning',
+      \     'linter_errors': 'error',
+      \     'linter_ok': 'left',
+      \ }
 
 function! Bright()
     set background=light
@@ -388,7 +413,7 @@ endfunction
 
 if $TERM_COLOR ==# 'papercolor'
     call Bright()
-else 
+else
     color nord
 endif
 
@@ -698,8 +723,8 @@ syntax on
 
 set scrolloff=5
 set shiftround
-set tabstop=4
-set shiftwidth=4
+set tabstop=2
+set shiftwidth=2
 set expandtab smarttab
 set lazyredraw
 " set max syntax highlighting column to sane level
@@ -707,7 +732,7 @@ set synmaxcol=250
 
 set textwidth=0
 " keep marks
-" set viminfo='100,\"90,h,% 
+" set viminfo='100,\"90,h,%
 set nostartofline
 
 set ignorecase smartcase
@@ -782,13 +807,13 @@ if &term =~# '^screen' && !has('nvim') | exe "set t_ts=\e]2; t_fs=\7" | endif
 
 let g:tmux_navigator_disable_when_zoomed=1
 
-let g:neomake_error_sign = {'text': ':(', 'texthl': 'NeomakeErrorSign'}
-let g:neomake_warning_sign = {'text': ':/','texthl': 'NeomakeWarningSign'}
-let g:neomake_message_sign = {
-            \   'text': ':>',
-            \   'texthl': 'NeomakeWarningSign',
-            \ }
-let g:neomake_info_sign = {'text': 'ℹ', 'texthl': 'NeomakeInfoSign'}
+" let g:neomake_error_sign = {'text': ':(', 'texthl': 'NeomakeErrorSign'}
+" let g:neomake_warning_sign = {'text': ':/','texthl': 'NeomakeWarningSign'}
+" let g:neomake_message_sign = {
+"             \   'text': ':>',
+"             \   'texthl': 'NeomakeWarningSign',
+"             \ }
+" let g:neomake_info_sign = {'text': 'ℹ', 'texthl': 'NeomakeInfoSign'}
 " display warning for phpcs error
 function! SetWarningType(entry)
     let a:entry.type = 'W'
@@ -840,13 +865,11 @@ function! SpinnerText()
     return s:spinner_states[s:spinner_index]
 endfunction
 
-augroup neomake_hooks
-    au!
-    autocmd User NeomakeJobInit :call StartSpinner()
-    " autocmd User NeomakeJobInit :echom "Build started"
-    autocmd User NeomakeFinished :call StopSpinner()
-    " autocmd User NeomakeFinished :echom "Build complete"
-augroup END
+" augroup neomake_hooks
+"     au!
+"     autocmd User NeomakeJobInit :call StartSpinner()
+"     autocmd User NeomakeFinished :call StopSpinner()
+" augroup END
 
 function! s:show_documentation()
   if &filetype ==# 'vim'
@@ -880,11 +903,11 @@ function! CustomHighlighting() abort
     hi Visual ctermfg=7 ctermbg=4
     hi Folded ctermfg=4
 endfunction
-" call CustomHighlighting()
+call CustomHighlighting()
 
 augroup ColorSchemes
     autocmd!
-    autocmd ColorScheme nord call CustomHighlighting()
+    " autocmd ColorScheme nord call CustomHighlighting()
     autocmd ColorScheme PaperColor hi Visual ctermfg=15 ctermbg=4
 augroup END
 
@@ -894,19 +917,19 @@ function! Zd()
     s/.\+\\"Message\\" : \\"//
     s/\\".\+//
     " replace zd<space> with <your_zlib_decode_function/alias>
-    normal! Izd 
+    normal! Izd
     " copies everything into system's clipboard
     normal! 0"+y$
     q!
 endfunction
 
-" call coc#add_extension('coc-css', 'coc-html', 'coc-lists', 'coc-ultisnips', 'coc-json', 'coc-tsserver', 'coc-tslint', 'coc-yaml', 'coc-prettier', 'coc-pyls', 'coc-eslint', 'coc-yank')
-call coc#add_extension('coc-css', 'coc-html', 'coc-ultisnips', 'coc-json', 'coc-tsserver', 'coc-tslint', 'coc-yaml', 'coc-prettier', 'coc-pyls', 'coc-eslint', 'coc-yank')
+call coc#add_extension('coc-css', 'coc-html', 'coc-ultisnips', 'coc-json', 'coc-tsserver', 'coc-tslint', 'coc-yaml', 'coc-prettier', 'coc-pyls', 'coc-eslint', 'coc-lists')
+" call coc#add_extension('coc-css', 'coc-html', 'coc-ultisnips', 'coc-json', 'coc-tsserver', 'coc-tslint', 'coc-yaml', 'coc-prettier', 'coc-pyls', 'coc-eslint')
 
 " gherkin: check step usages
 " let @s='?/\^?s+2y/\("\|\$\):lvimgrep /<C-R>"/j tests/features/*.feature<CR>:lopen<CR>'
 
-nnoremap <silent> <space>y  :<C-u>CocList -A --normal yank<cr>
+" nnoremap <silent> <space>y  :<C-u>CocList -A --normal yank<cr>
 
 nnoremap <c-f> :%!python -m json.tool<cr>
 
@@ -1074,6 +1097,13 @@ function! AliasGoImport()
     end
 endfunction
 
-let g:indent_guides_auto_colors = 0
-autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  guibg=none   ctermbg=none
-autocmd VimEnter,Colorscheme * :hi IndentGuidesEven guibg=green ctermbg=0
+let g:ale_fix_on_save = 1
+let g:ale_fixers = {
+\   '*': ['remove_trailing_lines', 'trim_whitespace'],
+\   'javascript': ['eslint', 'remove_trailing_lines', 'trim_whitespace'],
+\   'sh': ['shfmt', 'remove_trailing_lines', 'trim_whitespace'],
+\   'json': ['prettier', 'remove_trailing_lines', 'trim_whitespace'],
+\   'markdown': ['prettier', 'textlint', 'remove_trailing_lines', 'trim_whitespace'],
+\   'text': ['textlint', 'remove_trailing_lines', 'trim_whitespace'],
+\   'go': ['goimports', 'remove_trailing_lines', 'trim_whitespace'],
+\}
