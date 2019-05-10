@@ -4,9 +4,12 @@ set foldmethod=syntax
 set foldlevel=1
 set foldnestmax=1
 
-let b:ale_linters = ['gofmt', 'golangci-lint']
-let g:ale_go_golangci_lint_options = '--fast --disable golint --config ~/.golangci.yml'
-
+let b:ale_linters = ['gofmt', 'govet', 'gobuild', 'gotype']
+let b:ale_linters = ['gofmt', 'gobuild', 'bingo']
+let b:ale_linters = ['bingo']
+" let b:ale_linters = ['gofmt', 'golangci-lint']
+" let g:ale_go_golangci_lint_options = '--fast --disable golint --disable typecheck --config ~/.golangci.yml'
+let g:ale_set_quickfix=0
 let g:neomake_go_enabled_makers = [ 'go', 'golangci' ]
 let g:neomake_go_enabled_makers = [ 'go', 'golangci' ]
 let g:neomake_go_golangci_maker = {
@@ -40,12 +43,13 @@ let g:go_highlight_extra_types = 1
 let g:go_term_enabled=0
 let g:go_disable_autoinstall = 0
 " let g:go_fmt_command = 'goimports'
-let g:go_fmt_autosave = 1
+let g:go_fmt_autosave = 0
 let g:go_addtags_transform='camelcase'
 let g:go_metalinter_autosave = 0
 let g:go_metalinter_deadline = '20s'
 let g:go_metalinter_enabled = [ 'goconst', 'gocyclo', 'golint', 'ineffassign', 'interfacer', 'maligned', 'misspell', 'structcheck', 'unconvert', 'varcheck', 'vet']
 let g:go_gocode_unimported_packages=1
+let g:go_code_completion_enabled = 0
 
 let g:go_highlight_debug = 0
 hi GoDebugBreakpoint term=standout ctermbg=117 ctermfg=0 guibg=#BAD4F5  guifg=Black
@@ -273,4 +277,20 @@ function! GoMoveDirV2()
   if !filereadable(l:currentFile)
     :bd
   endif
+endfunction
+
+function! s:find_git_root()
+  return system('git rev-parse --show-toplevel 2> /dev/null')[:-2]
+endfunction
+
+function! DoctorScopeFunc()
+  let l:currentBasePackage = substitute(substitute(system('head -n 1 go.mod'), 'module ', '', ''), '\n\+$', '', '')
+  return l:currentBasePackage
+  " let l:currentFile = expand('%:p')
+  " let l:oldPath = substitute(expand('%:p:h'), getcwd(), '', '')
+  " let l:oldPackage = input('Old package: ', l:currentBasePackage.''.l:oldPath)
+  " let l:newPackage = input('New package ==> ', l:oldPackage)
+  " let l:oldPath = getcwd().'/'.substitute(l:oldPackage, l:currentBasePackage, '', '')
+
+  return substitute(l:gr, l:gp, "", "")
 endfunction

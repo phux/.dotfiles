@@ -228,10 +228,11 @@ Plug 'maxbrunsfeld/vim-yankstack'
 let g:ale_lint_on_enter=0
 let g:ale_lint_on_text_changed='never'
 let g:ale_disable_lsp=1
-let g:ale_open_list = 1
+let g:ale_open_list = 0
 Plug 'w0rp/ale'
 Plug 'maximbaz/lightline-ale'
 " Plug 'neomake/neomake'
+
 call plug#end()
 
 " call neomake#configure#automake('w')
@@ -900,7 +901,7 @@ command! -nargs=0 Prettier :CocCommand prettier.formatFile
 function! CustomHighlighting() abort
     hi Comment ctermfg=gray
     hi BufTabLineCurrent ctermfg=2 ctermbg=8
-    hi Visual ctermfg=7 ctermbg=4
+    " hi Visual ctermfg=7 ctermbg=4
     hi Folded ctermfg=4
 endfunction
 call CustomHighlighting()
@@ -923,7 +924,7 @@ function! Zd()
     q!
 endfunction
 
-call coc#add_extension('coc-css', 'coc-html', 'coc-ultisnips', 'coc-json', 'coc-tsserver', 'coc-tslint', 'coc-yaml', 'coc-prettier', 'coc-pyls', 'coc-eslint', 'coc-lists')
+call coc#add_extension('coc-css', 'coc-html', 'coc-ultisnips', 'coc-json', 'coc-tsserver', 'coc-tslint', 'coc-yaml', 'coc-prettier', 'coc-python', 'coc-eslint', 'coc-lists')
 " call coc#add_extension('coc-css', 'coc-html', 'coc-ultisnips', 'coc-json', 'coc-tsserver', 'coc-tslint', 'coc-yaml', 'coc-prettier', 'coc-pyls', 'coc-eslint')
 
 " gherkin: check step usages
@@ -1107,3 +1108,32 @@ let g:ale_fixers = {
 \   'text': ['textlint', 'remove_trailing_lines', 'trim_whitespace'],
 \   'go': ['goimports', 'remove_trailing_lines', 'trim_whitespace'],
 \}
+nnoremap <m-o> :call LocListToggle()<cr>
+let g:loclist_open = 0
+function! LocListToggle()
+  if g:loclist_open == 1
+    lclose
+    let g:loclist_open = 0
+  else
+    lopen
+    let g:loclist_open = 1
+  endif
+endfunction
+
+vnoremap <m-e> :call GoExtractFunc()<cr>
+function! GoExtractFunc()
+  d
+
+  let l:newName = input('New function name: ')
+  execute 'normal! i'.l:newName.'()'
+  normal! ml==
+
+  ?func
+  normal! $%o
+  execute 'normal! ofunc '.l:newName.'() {'
+  normal! p
+  normal! o}
+  normal! 'l
+endfunction
+
+nnoremap dg <c-w>wVy<c-w>wP]c
