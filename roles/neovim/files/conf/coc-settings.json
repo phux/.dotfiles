@@ -29,6 +29,7 @@
   "html.format.enable": true,
   "yaml.format.enable": true,
   "coc.preferences.hoverTarget": "float",
+  "python.jediEnabled": false,
   "yaml.hover": true,
   "yaml.schemas": {
     "http://json.schemastore.org/ansible-stable-2.5": "/*.yml",
@@ -40,5 +41,7 @@
     "http://json.schemastore.org/composer": "/composer.json",
     "http://json.schemastore.org/package": "/package.json"
   },
-  "java.errors.incompleteClasspath.severity": "ignore"
+  "java.errors.incompleteClasspath.severity": "ignore",
+  "java.implementationsCodeLens.enabled": true,
+  "java.referencesCodeLens.enabled": true
 }
