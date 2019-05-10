@@ -1,6 +1,10 @@
+ZSH_TMUX_AUTOSTART=true
+ZSH_TMUX_AUTOCONNECT=true
+ZSH_TMUX_AUTOQUIT=false
+
 WORDCHARS='*?_-[]~=&;!#$%^(){}<>'
 
-
+export SHOW_AWS_PROMPT=false
 export PURE_PROMPT_PATH_FORMATTING="%~"
 export NVM_LAZY_LOAD=true
 
@@ -75,7 +79,7 @@ export MANPAGER='less -X';
 alias update_antibody="antibody bundle < $XDG_CONFIG_HOME/zsh/antibody_plugins.txt  > $XDG_CONFIG_HOME/zsh/cached_plugins.sh; antibody update"
 
 alias sdn='sudo shutdown now -h'
-alias update='sudo apt-fast update && sudo apt-fast -y upgrade; update_antibody; n +PU'
+alias update='sudo apt-fast update && sudo apt-fast -y upgrade; update_antibody; cd ~/tools/saibing-gotools/ && gl && cd cmd/gopls/ && go install; n +PU'
 alias agi='sudo apt-fast install'
 
 alias vu='vagrant up'
@@ -254,10 +258,12 @@ zstyle ':completion:*::::' completer _expand _complete _ignored _approximate # l
 
 # tabtab source for serverless package
 # uninstall by removing these lines or running `tabtab uninstall serverless`
-[[ -f ~/.nvm/versions/node/v8.11.3/lib/node_modules/serverless/node_modules/tabtab/.completions/serverless.zsh ]] && . ~/.nvm/versions/node/v8.11.3/lib/node_modules/serverless/node_modules/tabtab/.completions/serverless.zsh
-# tabtab source for sls package
-# uninstall by removing these lines or running `tabtab uninstall sls`
-[[ -f ~/.nvm/versions/node/v8.11.3/lib/node_modules/serverless/node_modules/tabtab/.completions/sls.zsh ]] && . ~/.nvm/versions/node/v8.11.3/lib/node_modules/serverless/node_modules/tabtab/.completions/sls.zsh
+[[ -f ~/.nvm/versions/node/v10.15.3/lib/node_modules/serverless/node_modules/tabtab/.completions/serverless.zsh ]] && . ~/.nvm/versions/node/v10.15.3/lib/node_modules/serverless/node_modules/tabtab/.completions/serverless.zsh
+# # tabtab source for sls package
+# # uninstall by removing these lines or running `tabtab uninstall sls`
+[[ -f ~/.nvm/versions/node/v10.15.3/lib/node_modules/serverless/node_modules/tabtab/.completions/sls.zsh ]] && . ~/.nvm/versions/node/v10.15.3/lib/node_modules/serverless/node_modules/tabtab/.completions/sls.zsh
+
+source ~/.local/bin/aws_zsh_completer.sh
 
 _tmuxinator() {
   local commands projects
@@ -283,6 +289,7 @@ compdef _tmuxinator tmuxinator mux
 
 alias m='~/.tmux/mux.sh'
 alias mux='tmuxinator'
+alias td='(tmux attach-session -t def || tmux new-session -s def)'
 
 alias gw="JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64 ./gradlew"
 
@@ -323,10 +330,10 @@ if [ -f ~/.secret_aliases ]; then
     source ~/.secret_aliases
 fi
 # TODO: screws up ansible
-if which tmux >/dev/null 2>&1; then
+# if which tmux >/dev/null 2>&1; then
     #if not inside a tmux session, and if no session is started, start a new session
-    test -z "$IS_ANSIBLE" && test -z "$TMUX" && (tmux attach-session -t def || tmux new-session -s def)
-fi
+    # test -z "$IS_ANSIBLE" && test -z "$TMUX" && (tmux attach-session -t def || tmux new-session -s def)
+# fi
 
 # Vi mode
  bindkey -v
@@ -369,3 +376,4 @@ export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 export PATH=$PATH:$HOME/bin:$HOME/.local/bin:$HOME/.composer/vendor/bin:$FZF_BIN_PATH:$LGOBIN:$HOME/.config/composer/vendor/bin:$HOME/.config/nvim/plugged/phpactor/bin
+export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64

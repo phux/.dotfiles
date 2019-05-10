@@ -1,10 +1,12 @@
 # djui/alias-tips
 
-robbyrussell/oh-my-zsh folder:plugins/tmuxinator
-robbyrussell/oh-my-zsh folder:plugins/tmux
+robbyrussell/oh-my-zsh folder:plugins/aws
 robbyrussell/oh-my-zsh folder:plugins/docker
 robbyrussell/oh-my-zsh folder:plugins/docker-compose
+robbyrussell/oh-my-zsh folder:plugins/golang
 robbyrussell/oh-my-zsh folder:plugins/rbenv
+robbyrussell/oh-my-zsh folder:plugins/tmux
+robbyrussell/oh-my-zsh folder:plugins/tmuxinator
 
 lukechilds/zsh-nvm
 
