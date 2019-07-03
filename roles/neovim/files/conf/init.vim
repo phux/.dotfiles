@@ -1107,51 +1107,6 @@ endfunction
 
 so ~/.local.init.vim
 
-function! AliasGoImport()
-    let l:skip = !has_key(v:completed_item, 'word') || v:completed_item['kind'] !=# 'M'
-
-    if !l:skip
-        let l:currentPackage = v:completed_item['word']
-        let l:importPath = substitute(substitute(v:completed_item['menu'], ' \[LS\]', '', ''), '"', '', 'g')
-    endif
-
-    if !l:skip
-        " check if selected package is already imported
-        let [s:line, s:col] = searchpos('"'.l:importPath.'"', 'n')
-        let l:skip = s:line
-    endif
-
-    if !l:skip
-        " check if different package with same name is already imported
-        let [s:line, s:col] = searchpos('\s\+".\+/'.l:currentPackage.'"$', 'n')
-        if s:line > 0
-            let l:alias = input('Package already imported. Alias '.l:importPath.' as: ')
-            if l:alias ==# ''
-                echo 'No alias given - not doing anything'
-            else
-                let l:cmd = 'GoImportAs ' . l:alias . ' ' . l:importPath
-                execute l:cmd
-                execute 'normal! ciw'.l:alias
-            endif
-
-            let l:skip = 1
-        endif
-    endif
-
-    if !l:skip
-        let l:cmd = 'GoImport ' . l:importPath
-        execute l:cmd
-    endif
-
-    normal! a.
-    if col('.') == col('$') - 1
-        startinsert!
-    else
-        normal! l
-        startinsert
-    end
-endfunction
-
 let g:ale_fix_on_save = 1
 let g:ale_fixers = {
 \   '*': ['remove_trailing_lines', 'trim_whitespace'],
@@ -1173,22 +1128,6 @@ function! LocListToggle()
     lopen
     let g:loclist_open = 1
   endif
-endfunction
-
-vnoremap <m-e> :call GoExtractFunc()<cr>
-function! GoExtractFunc()
-  d
-
-  let l:newName = input('New function name: ')
-  execute 'normal! i'.l:newName.'()'
-  normal! ml==
-
-  ?func
-  normal! $%o
-  execute 'normal! ofunc '.l:newName.'() {'
-  normal! p
-  normal! o}
-  normal! 'l
 endfunction
 
 nnoremap dg <c-w>wVy<c-w>wP]c
