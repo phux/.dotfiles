@@ -5,11 +5,23 @@ set foldlevel=1
 set foldnestmax=1
 
 let b:ale_linters = ['gofmt', 'govet', 'gobuild', 'gotype']
-let b:ale_linters = ['gofmt', 'gobuild', 'bingo']
-let b:ale_linters = ['bingo']
-" let b:ale_linters = ['gofmt', 'golangci-lint']
-" let g:ale_go_golangci_lint_options = '--fast --disable golint --disable typecheck --config ~/.golangci.yml'
+let b:ale_linters = ['gobuild', 'revive', 'golangci-lint']
+let g:ale_go_golangci_lint_package=0
+" let b:ale_linters = ['bingo']
+" let b:ale_linters = ['gofmt', 'golangci-lint', 'bingo']
+let g:ale_go_golangci_lint_options = '--fast --disable golint --disable typecheck --config ~/.golangci.yml'
+let g:ale_go_golangci_lint_options = '--config ~/.golangci.yml'
 let g:ale_set_quickfix=0
+call ale#linter#Define('go', {
+\   'name': 'revive',
+\   'output_stream': 'both',
+\   'executable': 'revive',
+\   'read_buffer': 0,
+\   'command': 'revive -config ~/.revive.toml %t',
+\   'callback': 'ale#handlers#unix#HandleAsWarning',
+\})
+
+
 let g:neomake_go_enabled_makers = [ 'go', 'golangci' ]
 let g:neomake_go_enabled_makers = [ 'go', 'golangci' ]
 let g:neomake_go_golangci_maker = {
@@ -48,7 +60,7 @@ let g:go_addtags_transform='camelcase'
 let g:go_metalinter_autosave = 0
 let g:go_metalinter_deadline = '20s'
 let g:go_metalinter_enabled = [ 'goconst', 'gocyclo', 'golint', 'ineffassign', 'interfacer', 'maligned', 'misspell', 'structcheck', 'unconvert', 'varcheck', 'vet']
-let g:go_gocode_unimported_packages=1
+let g:go_gocode_unimported_packages=0
 let g:go_code_completion_enabled = 0
 
 let g:go_highlight_debug = 0
@@ -65,14 +77,14 @@ let g:go_doc_keywordprg_enabled=0
 " nnoremap <silent> K :LspHover<CR>
 
 " load oldsql bindings
-if isdirectory(getcwd().'/vendor')
+if !filereadable('go.mod')
     nmap <buffer> <silent> gd :GoDef<cr>
     nmap <buffer> <silent> gD :GoDefType<cr>
     nmap <buffer> <silent> gi :GoImplements<cr>
     nmap <buffer> <silent> gr :GoReferrers<cr>
     nmap <buffer> <leader>gr :GoRename
     nmap <buffer> K :GoInfo<cr>
-noremap <buffer> <leader>u :exec "GoImport ".expand("<cword>")<cr>
+    noremap <buffer> <leader>u :exec "GoImport ".expand("<cword>")<cr>
 endif
 
 
@@ -82,6 +94,7 @@ nnoremap <buffer> <leader>gm :call GoMoveDirV2()<cr>
 noremap <buffer> <leader>h :Refactor godoc<cr>
 nnoremap <buffer> <leader>ga :GoAddTags<cr>
 noremap <buffer> <leader>m :GoDoc<cr>
+nnoremap <buffer> <leader>gd :GoDescribe<cr>
 noremap <buffer> <leader>u :exec "GoImport ".expand("<cword>")<cr>
 " inoremap <buffer> <m-i> <esc>h:exec "GoImport ".expand("<cword>")<cr>la
 inoremap <silent><buffer> . <esc>:call AliasGoImport()<cr>
@@ -100,9 +113,13 @@ nnoremap <buffer> <c-s> :GoFmt<cr>
 " run :GoBuild or :GoTestCompile based on the go file
 nnoremap <buffer> <m-b> :<C-u>call <SID>build_go_files()<CR>
 
-nnoremap <buffer> <f5> :let g:previous_pwd=getcwd()<cr>:GoDebugStart<cr>
-nnoremap <buffer> <f6> :let g:previous_pwd=getcwd()<cr>:lcd %:p:h<cr>:GoDebugTest<cr>
-nnoremap <buffer> <f7> :GoDebugStop<cr>:exe "lcd ".g:previous_pwd<cr>
+" nnoremap <buffer> <f5> :let g:previous_pwd=getcwd()<cr>:GoDebugStart<cr>
+" nnoremap <buffer> <f6> :let g:previous_pwd=getcwd()<cr>:lcd %:p:h<cr>:GoDebugTest<cr>
+" nnoremap <buffer> <f7> :GoDebugStop<cr>:exe "lcd ".g:previous_pwd<cr>
+
+nnoremap <buffer> <f5> :GoDebugStart<cr>
+nnoremap <buffer> <f6> :GoDebugTest<cr>
+nnoremap <buffer> <f7> :GoDebugStop<cr>
 
 nnoremap <buffer> <leader>e :exe "GoDebugPrint ".expand('<cword>')<cr>
 nnoremap <buffer> <f9> :GoDebugBreakpoint<cr>
@@ -277,20 +294,4 @@ function! GoMoveDirV2()
   if !filereadable(l:currentFile)
     :bd
   endif
-endfunction
-
-function! s:find_git_root()
-  return system('git rev-parse --show-toplevel 2> /dev/null')[:-2]
-endfunction
-
-function! DoctorScopeFunc()
-  let l:currentBasePackage = substitute(substitute(system('head -n 1 go.mod'), 'module ', '', ''), '\n\+$', '', '')
-  return l:currentBasePackage
-  " let l:currentFile = expand('%:p')
-  " let l:oldPath = substitute(expand('%:p:h'), getcwd(), '', '')
-  " let l:oldPackage = input('Old package: ', l:currentBasePackage.''.l:oldPath)
-  " let l:newPackage = input('New package ==> ', l:oldPackage)
-  " let l:oldPath = getcwd().'/'.substitute(l:oldPackage, l:currentBasePackage, '', '')
-
-  return substitute(l:gr, l:gp, "", "")
 endfunction
