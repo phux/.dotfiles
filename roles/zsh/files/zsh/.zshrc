@@ -237,6 +237,7 @@ alias .d='cd ~/.dotfiles'
 alias ma='make'
 alias mt='make test'
 alias idea='~/tools/idea-IC-182.3684.101/bin/idea.sh'
+alias tgo='testomatic --config ~/.testomatic.yml'
 
 # source ~/.gruvbox.sh
 
