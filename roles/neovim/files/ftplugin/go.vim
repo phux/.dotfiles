@@ -69,12 +69,6 @@ hi GoDebugCurrent term=reverse ctermbg=7 ctermfg=0 guibg=DarkBlue guifg=White
 
 let g:go_def_mapping_enabled = 0
 let g:go_doc_keywordprg_enabled=0
-" nnoremap <silent> <leader>gr :LspRename<CR>
-" nnoremap <silent> gd :GoDef<cr>
-" nnoremap <silent> gD :LspTypeDefinition<cr>
-" nnoremap <buffer> gr :LspReferences<cr>
-" nnoremap <buffer> gi :LspImplementation<cr>
-" nnoremap <silent> K :LspHover<CR>
 
 " load oldsql bindings
 if !filereadable('go.mod')
@@ -96,7 +90,6 @@ nnoremap <buffer> <leader>ga :GoAddTags<cr>
 noremap <buffer> <leader>m :GoDoc<cr>
 nnoremap <buffer> <leader>gd :GoDescribe<cr>
 noremap <buffer> <leader>u :exec "GoImport ".expand("<cword>")<cr>
-" inoremap <buffer> <m-i> <esc>h:exec "GoImport ".expand("<cword>")<cr>la
 inoremap <silent><buffer> . <esc>:call AliasGoImport()<cr>
 
 nnoremap <buffer> <leader>d :GoDeclsDir<cr>
@@ -109,9 +102,6 @@ nnoremap <buffer> gs :GoFillStruct<cr>
 
 nnoremap <buffer> <m-m> :GoMetaLinter<cr>
 nnoremap <buffer> <c-s> :GoFmt<cr>
-
-" run :GoBuild or :GoTestCompile based on the go file
-nnoremap <buffer> <m-b> :<C-u>call <SID>build_go_files()<CR>
 
 " nnoremap <buffer> <f5> :let g:previous_pwd=getcwd()<cr>:GoDebugStart<cr>
 " nnoremap <buffer> <f6> :let g:previous_pwd=getcwd()<cr>:lcd %:p:h<cr>:GoDebugTest<cr>
@@ -127,6 +117,8 @@ nnoremap <buffer> <f10> :GoDebugNext<cr>
 nnoremap <buffer> <f11> :GoDebugStep<cr>
 nnoremap <buffer> <f12> :GoDebugStepOut<cr>
 
+" run :GoBuild or :GoTestCompile based on the go file
+nnoremap <buffer> <m-b> :<C-u>call <SID>build_go_files()<CR>
 function! s:build_go_files()
   let l:file = expand('%')
   if l:file =~# '^\f\+_test\.go$'
@@ -135,7 +127,6 @@ function! s:build_go_files()
     call go#cmd#Build(0)
   endif
 endfunction
-
 
 " visually mark the code you want to extract into variable
 " (for now only works with single line selection)
@@ -294,4 +285,65 @@ function! GoMoveDirV2()
   if !filereadable(l:currentFile)
     :bd
   endif
+endfunction
+
+function! AliasGoImport()
+    let l:skip = !has_key(v:completed_item, 'word') || v:completed_item['kind'] !=# 'M'
+
+    if !l:skip
+        let l:currentPackage = v:completed_item['word']
+        let l:importPath = substitute(substitute(v:completed_item['menu'], ' \[LS\]', '', ''), '"', '', 'g')
+    endif
+
+    if !l:skip
+        " check if selected package is already imported
+        let [s:line, s:col] = searchpos('"'.l:importPath.'"', 'n')
+        let l:skip = s:line
+    endif
+
+    if !l:skip
+        " check if different package with same name is already imported
+        let [s:line, s:col] = searchpos('\s\+".\+/'.l:currentPackage.'"$', 'n')
+        if s:line > 0
+            let l:alias = input('Package already imported. Alias '.l:importPath.' as: ')
+            if l:alias ==# ''
+                echo 'No alias given - not doing anything'
+            else
+                let l:cmd = 'GoImportAs ' . l:alias . ' ' . l:importPath
+                execute l:cmd
+                execute 'normal! ciw'.l:alias
+            endif
+
+            let l:skip = 1
+        endif
+    endif
+
+    if !l:skip
+        let l:cmd = 'GoImport ' . l:importPath
+        execute l:cmd
+    endif
+
+    normal! a.
+    if col('.') == col('$') - 1
+        startinsert!
+    else
+        normal! l
+        startinsert
+    end
+endfunction
+
+vnoremap <m-e> :call GoExtractFunc()<cr>
+function! GoExtractFunc()
+  d
+
+  let l:newName = input('New function name: ')
+  execute 'normal! i'.l:newName.'()'
+  normal! ml==
+
+  ?func
+  normal! $%o
+  execute 'normal! ofunc '.l:newName.'() {'
+  normal! p
+  normal! o}
+  normal! 'l
 endfunction
