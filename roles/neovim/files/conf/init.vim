@@ -40,7 +40,7 @@ let g:AutoPairsShortcutToggle = '<s-f12>'
 Plug 'jiangmiao/auto-pairs'
 
 "" plantuml
-Plug 'scrooloose/vim-slumlord', {'for': ['uml', 'markdown']}
+" Plug 'scrooloose/vim-slumlord', {'for': ['uml', 'markdown']}
 Plug 'aklt/plantuml-syntax', {'for': 'uml'}
 
 Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
@@ -53,7 +53,7 @@ Plug 'sahibalejandro/vim-php', {'for': ['php', 'yaml']}
 Plug 'alvan/vim-php-manual', {'for': 'php'}
 let g:vim_php_refactoring_use_default_mapping = 0
 Plug 'adoy/vim-php-refactoring-toolbox', {'for': 'php'}
-Plug 'phpactor/phpactor', {'for': 'php', 'do': ':call phpactor#Update()', 'branch': 'develop'}
+Plug 'phpactor/phpactor', {'for': 'php', 'do': ':call phpactor#Update()'}
 
 Plug 'lvht/phpcd.vim', { 'for': 'php', 'do': 'composer install' }
 
@@ -79,6 +79,7 @@ let g:echodoc#highlight_arguments = 'SpellCap'
 Plug 'Shougo/echodoc.vim'
 let g:buftabline_show = 1 " display only if more than 1 buffer open
 Plug 'ap/vim-buftabline'
+
 Plug 'NLKNguyen/papercolor-theme'
 Plug 'cormacrelf/vim-colors-github'
 Plug 'arcticicestudio/nord-vim'
@@ -118,10 +119,12 @@ Plug 'majutsushi/tagbar', {'on': 'TagbarToggle'}
 
 """ easymotion
 Plug 'Lokaltog/vim-easymotion'
-nmap <Leader>L <Plug>(easymotion-bd-jk)
-nmap <Leader>F <Plug>(easymotion-bd-w)
-nmap <Leader>f <Plug>(easymotion-overwin-w)
-nmap  <Leader>b <Plug>(easymotion-b)
+" nmap <Leader>L <Plug>(easymotion-bd-jk)
+nmap <Leader>f <Plug>(easymotion-bd-w)
+nmap <Leader>F <Plug>(easymotion-overwin-w)
+" nmap s <Plug>(easymotion-s)
+" nmap  <Leader>b <Plug>(easymotion-b)
+
 let g:EasyMotion_smartcase = 1
 let g:EasyMotion_use_smartsign_us = 1 " US layout
 
@@ -138,11 +141,11 @@ nnoremap <leader>N :NERDTreeFind<cr>
 
 """ tmux
 
-    Plug 'christoomey/vim-tmux-navigator'
-    Plug 'tmux-plugins/vim-tmux-focus-events'
-    Plug 'tmux-plugins/vim-tmux'
+Plug 'christoomey/vim-tmux-navigator'
+Plug 'tmux-plugins/vim-tmux-focus-events'
+Plug 'tmux-plugins/vim-tmux'
 
-    Plug 'wellle/tmux-complete.vim'
+Plug 'wellle/tmux-complete.vim'
 
 
 """ ferret
@@ -175,8 +178,20 @@ let g:notes_smart_quotes = 0
 Plug 'mtth/scratch.vim', {'on' : 'ScratchPreview'}
 let g:scratch_persistence_file = '.scratch.vim'
 nnoremap <m-z> :Scratch<cr>
+nnoremap <leader>z :ScratchPreview<cr>
 
 "" todo
+
+let g:simple_todo_map_keys = 0
+let g:simple_todo_list_symbol = '*'
+Plug 'vitalk/vim-simple-todo'
+nmap <silent> <m-i> :s/* //<cr><Plug>(simple-todo-new-list-item-start-of-line)
+imap <m-i> <Plug>(simple-todo-new-list-item-start-of-line)
+nmap <m-o> <Plug>(simple-todo-below)
+imap <m-o> <Plug>(simple-todo-below)
+imap <m-space> <Plug>(simple-todo-mark-switch)
+nmap <m-space> <Plug>(simple-todo-mark-switch)
+
 """ todo.txt
 Plug 'dbeniamine/todo.txt-vim', {'for': 'text'}
 
@@ -187,7 +202,7 @@ Plug 'stephpy/vim-yaml', {'for': 'yaml'}
 
 " let g:indent_guides_enable_on_vim_startup = 1
 let g:indent_guides_auto_colors = 1
-Plug 'nathanaelkane/vim-indent-guides', {'for': 'yaml'}
+Plug 'nathanaelkane/vim-indent-guides', {'for': ['yaml', 'markdown']}
 " Plug 'elzr/vim-json', {'for': 'json'}
 Plug 'pearofducks/ansible-vim', { 'do': 'cd ./UltiSnips; python2 generate.py', 'for': 'yaml'}
 let g:ansible_unindent_after_newline = 1
@@ -233,6 +248,10 @@ Plug 'w0rp/ale'
 Plug 'maximbaz/lightline-ale'
 " Plug 'neomake/neomake'
 
+Plug 'ajorgensen/vim-markdown-toc', {'for': 'markdown'}
+Plug 'davidbalbert/vim-io'
+Plug 'adimit/prolog.vim'
+Plug 'derekwyatt/vim-scala'
 call plug#end()
 
 " call neomake#configure#automake('w')
@@ -252,12 +271,14 @@ augroup END
 augroup misc
   au!
 
-  " autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  guibg=none   ctermbg=none
-  " autocmd VimEnter,Colorscheme * :hi IndentGuidesEven guibg=green ctermbg=0
+  autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  guibg=none   ctermbg=none
+  autocmd VimEnter,Colorscheme * :hi IndentGuidesEven guibg=green ctermbg=0
 
   au BufNewFile,BufRead *.yml.dist set ft=yaml
   au BufRead,BufNewFile *.conf setf config
   au BufNewFile,BufRead composer.lock set ft=json
+
+  au BufRead,BufNewFile *.sbt set filetype=scala
 
   au BufNewFile,BufRead,BufEnter ~/Dropbox/notes/*.md set ft=markdown.notes
 
@@ -316,6 +337,9 @@ set completeopt-=preview
 set wildmenu
 " set wildmode=list:longest,full
 " set wildmode=list
+
+" Smaller updatetime for CursorHold & CursorHoldI
+set updatetime=300
 
 "" no backups
 set nobackup
@@ -380,7 +404,7 @@ let g:lightline = {
             \ },
             \ 'component_function': {
             \   'filename': 'LightlineFilename',
-            \   'gitbranch': 'fugitive#head',
+            \   'gitbranch': 'CocGitStatus',
             \   'conflicted_name': 'ConflictedVersion',
             \   'coc_state': 'coc#status'
             \ },
@@ -417,6 +441,10 @@ if $TERM_COLOR ==# 'papercolor'
 else
     color nord
 endif
+
+function! CocGitStatus()
+  return get(g:,'coc_git_status','').get(b:,'coc_git_status','')
+endfunction
 
 function! LightlineFilename()
   return @% !=# '' ? @% : '[No Name]'
@@ -470,7 +498,12 @@ nnoremap <leader><tab> :Buffers<cr>
 " nnoremap <leader>, :FZF<cr>
 nnoremap <leader>, :FilesMru<cr>
 nnoremap <leader>. :FZFAllFiles<cr>
-nnoremap <leader>d :BTags<cr>
+" nnoremap <leader>d :<cr>
+
+nnoremap <silent> <leader>o  :<C-u>CocList -I symbols<cr>
+nnoremap <silent> <leader>d  :<C-u>CocList outline<cr>
+
+" nnoremap <leader>D :BTags<cr>
 nnoremap <leader>D :BTags <C-R><C-W><cr>
 nnoremap <leader>T :Tags<cr>
 nnoremap <leader>; :TagbarToggle<cr>
@@ -624,7 +657,7 @@ set foldlevelstart=99
 
 "" Mappings
 " "Refocus" folds
-nnoremap <leader>z zMzvzz
+" nnoremap <leader>z zMzvzz
 "" Custom folding text
 function! MyFoldText()
     let line = getline(v:foldstart)
@@ -891,6 +924,10 @@ function! s:check_back_space() abort
     let col = col('.') - 1
     return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
+
+" Use <c-space> to trigger completion.
+inoremap <silent><expr> <c-space> coc#refresh()
+
 nnoremap <silent> K :call <SID>show_documentation()<CR>
 
 
@@ -924,7 +961,24 @@ function! Zd()
     q!
 endfunction
 
-call coc#add_extension('coc-css', 'coc-html', 'coc-ultisnips', 'coc-json', 'coc-tsserver', 'coc-tslint', 'coc-yaml', 'coc-prettier', 'coc-python', 'coc-eslint', 'coc-lists')
+call coc#add_extension('coc-css',
+      \ 'coc-html',
+      \ 'coc-ultisnips',
+      \ 'coc-json',
+      \ 'coc-tsserver',
+      \ 'coc-tslint',
+      \ 'coc-yaml',
+      \ 'coc-prettier',
+      \ 'coc-python',
+      \ 'coc-eslint',
+      \ 'coc-phpls',
+      \ 'coc-sh',
+      \ 'coc-docker',
+      \ 'coc-git',
+      \ 'coc-calc',
+      \ 'coc-post'
+      \ )
+      " \ 'coc-lists',
 " call coc#add_extension('coc-css', 'coc-html', 'coc-ultisnips', 'coc-json', 'coc-tsserver', 'coc-tslint', 'coc-yaml', 'coc-prettier', 'coc-pyls', 'coc-eslint')
 
 " gherkin: check step usages
@@ -932,7 +986,7 @@ call coc#add_extension('coc-css', 'coc-html', 'coc-ultisnips', 'coc-json', 'coc-
 
 " nnoremap <silent> <space>y  :<C-u>CocList -A --normal yank<cr>
 
-nnoremap <c-f> :%!python -m json.tool<cr>
+nnoremap <c-f> :set ft=json<cr>:%!python -m json.tool<cr>
 
 command! -nargs=0 DT :windo diffthis
 set diffopt+=internal,algorithm:histogram
@@ -1107,8 +1161,9 @@ let g:ale_fixers = {
 \   'markdown': ['prettier', 'textlint', 'remove_trailing_lines', 'trim_whitespace'],
 \   'text': ['textlint', 'remove_trailing_lines', 'trim_whitespace'],
 \   'go': ['goimports', 'remove_trailing_lines', 'trim_whitespace'],
+\   'sql': ['sqlfmt', 'remove_trailing_lines', 'trim_whitespace'],
 \}
-nnoremap <m-o> :call LocListToggle()<cr>
+nnoremap <m-j> :call LocListToggle()<cr>
 let g:loclist_open = 0
 function! LocListToggle()
   if g:loclist_open == 1
@@ -1137,3 +1192,15 @@ function! GoExtractFunc()
 endfunction
 
 nnoremap dg <c-w>wVy<c-w>wP]c
+
+nnoremap gb :CocCommand git.browserOpen<cr>
+
+" navigate chunks of current buffer
+nmap [g <Plug>(coc-git-prevchunk)
+nmap ]g <Plug>(coc-git-nextchunk)
+" show chunk diff at current position
+nmap gs <Plug>(coc-git-chunkinfo)
+" show commit ad current position
+nmap gc <Plug>(coc-git-commit)
+
+" let g:phpactorInputListStrategy = 'fzf'
