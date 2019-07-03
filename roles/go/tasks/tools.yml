@@ -1,6 +1,21 @@
 ---
 
-- name: install go mod upgrader
+- name: install go tools
   shell: >
     source ~/.config/zsh/.zshrc &&
     go get -u github.com/marwan-at-work/mod/cmd/mod executable=/bin/zsh
+
+- name: install benchstat
+  shell: >
+    source ~/.config/zsh/.zshrc &&
+    go get -u golang.org/x/perf/cmd/benchstat executable=/bin/zsh
+
+- name: install goweight
+  shell: >
+    source ~/.config/zsh/.zshrc &&
+    go get -u github.com/jondot/goweight executable=/bin/zsh
+
+- name: install gocloc
+  shell: >
+    source ~/.config/zsh/.zshrc &&
+    go get -u github.com/hhatto/gocloc/cmd/gocloc executable=/bin/zsh
