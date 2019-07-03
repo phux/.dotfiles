@@ -57,3 +57,11 @@ func (${1:receiver} ${2:type}) ${3:name}(${4:params})${5/(.+)/ /}${5:type} {
 	${0:${VISUAL}}
 }
 endsnippet
+
+snippet ane "assert.NoError"
+assert.NoError(t, ${1:err})$0
+endsnippet
+
+snippet ae "assert.Equal"
+assert.Equal(t, ${1:expected}, ${2:actual})$0
+endsnippet
