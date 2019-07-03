@@ -1,0 +1,6 @@
+---
+
+- name: install go mod upgrader
+  shell: >
+    source ~/.config/zsh/.zshrc &&
+    go get -u github.com/marwan-at-work/mod/cmd/mod executable=/bin/zsh
