@@ -7,68 +7,48 @@ set foldnestmax=1
 let b:ale_linters = ['gofmt', 'govet', 'gobuild', 'gotype']
 let b:ale_linters = ['gobuild', 'revive', 'golangci-lint']
 let g:ale_go_golangci_lint_package=0
-" let b:ale_linters = ['bingo']
-" let b:ale_linters = ['gofmt', 'golangci-lint', 'bingo']
-let g:ale_go_golangci_lint_options = '--fast --disable golint --disable typecheck --config ~/.golangci.yml'
-let g:ale_go_golangci_lint_options = '--config ~/.golangci.yml'
-let g:ale_set_quickfix=0
+let g:ale_go_golangci_lint_options = '--config .golangci.yml'
+if !filereadable('.golangci.yml')
+  let g:ale_go_golangci_lint_options = '--config ~/.golangci.yml'
+endif
+let g:revive_config_file = '.revive.toml'
+if !filereadable('.revive.toml')
+  let g:revive_config_file = '~/.revive.toml'
+endif
 call ale#linter#Define('go', {
 \   'name': 'revive',
 \   'output_stream': 'both',
 \   'executable': 'revive',
 \   'read_buffer': 0,
-\   'command': 'revive -config ~/.revive.toml %t',
+\   'command': 'revive -config '.g:revive_config_file.' %t',
 \   'callback': 'ale#handlers#unix#HandleAsWarning',
 \})
 
-
-let g:neomake_go_enabled_makers = [ 'go', 'golangci' ]
-let g:neomake_go_enabled_makers = [ 'go', 'golangci' ]
-let g:neomake_go_golangci_maker = {
-        \ 'exe': 'golangci-lint',
-        \ 'args': [ 'run', '--enable=unparam' ],
-        \ 'append_file': 0,
-        \ 'cwd': '%:h',
-        \ 'postprocess': function('SetWarningType')
-\ }
-
-let g:neomake_go_golangcifast_maker = {
-        \ 'exe': 'golangci-lint',
-        \ 'args': [ 'run', '--fast', ],
-        \ 'append_file': 0,
-        \ 'cwd': '%:h',
-        \ 'postprocess': function('SetWarningType')
-\ }
-
+let g:ale_set_quickfix=0
 
 let g:go_addtags_transform='camelcase'
-let g:go_list_type = 'quickfix'
 let g:go_bin_path = expand('~/code/go/bin')
-let g:go_highlight_types = 1
+let g:go_code_completion_enabled = 0
+let g:go_disable_autoinstall = 0
+let g:go_fmt_autosave = 0
+let g:go_gocode_unimported_packages=0
+let g:go_highlight_build_constraints = 1
+let g:go_highlight_extra_types = 1
 let g:go_highlight_fields = 1
 let g:go_highlight_functions = 1
 let g:go_highlight_methods = 1
-let g:go_highlight_structs = 1
 let g:go_highlight_operators = 1
-let g:go_highlight_build_constraints = 1
-let g:go_highlight_extra_types = 1
-let g:go_term_enabled=0
-let g:go_disable_autoinstall = 0
-" let g:go_fmt_command = 'goimports'
-let g:go_fmt_autosave = 0
-let g:go_addtags_transform='camelcase'
+let g:go_highlight_structs = 1
+let g:go_highlight_types = 1
+let g:go_list_type = 'quickfix'
 let g:go_metalinter_autosave = 0
-let g:go_metalinter_deadline = '20s'
-let g:go_metalinter_enabled = [ 'goconst', 'gocyclo', 'golint', 'ineffassign', 'interfacer', 'maligned', 'misspell', 'structcheck', 'unconvert', 'varcheck', 'vet']
-let g:go_gocode_unimported_packages=0
-let g:go_code_completion_enabled = 0
+let g:go_term_enabled=0
+let g:go_def_mapping_enabled = 0
+let g:go_doc_keywordprg_enabled=0
 
 let g:go_highlight_debug = 0
 hi GoDebugBreakpoint term=standout ctermbg=117 ctermfg=0 guibg=#BAD4F5  guifg=Black
 hi GoDebugCurrent term=reverse ctermbg=7 ctermfg=0 guibg=DarkBlue guifg=White
-
-let g:go_def_mapping_enabled = 0
-let g:go_doc_keywordprg_enabled=0
 
 " load oldsql bindings
 if !filereadable('go.mod')
@@ -81,7 +61,6 @@ if !filereadable('go.mod')
     noremap <buffer> <leader>u :exec "GoImport ".expand("<cword>")<cr>
 endif
 
-
 vnoremap <buffer> <leader>em :Refactor extract
 vnoremap <buffer> <leader>ev :Refactor var
 nnoremap <buffer> <leader>gm :call GoMoveDirV2()<cr>
@@ -91,21 +70,19 @@ noremap <buffer> <leader>m :GoDoc<cr>
 nnoremap <buffer> <leader>gd :GoDescribe<cr>
 noremap <buffer> <leader>u :exec "GoImport ".expand("<cword>")<cr>
 inoremap <silent><buffer> . <esc>:call AliasGoImport()<cr>
+nnoremap <buffer> <leader>ie :GoIfErr<cr>
+inoremap <buffer> <c-e> <c-o>:GoIfErr<cr>
 
-nnoremap <buffer> <leader>d :GoDeclsDir<cr>
+" nnoremap <buffer> <leader>d :GoDeclsDir<cr>
 nnoremap <buffer> <silent> <m-a> :GoAlternate!<cr>
 nnoremap <buffer> <m-c> :GoCoverageToggle<cr>
 
 nnoremap <buffer> <leader>tt :GoTest!<cr>
-nnoremap <buffer> gt :GoTests<cr>
-nnoremap <buffer> gs :GoFillStruct<cr>
+nnoremap <buffer> <leader>gt :GoTests<cr>
+nnoremap <buffer> <leader>gf :GoFillStruct<cr>
 
 nnoremap <buffer> <m-m> :GoMetaLinter<cr>
 nnoremap <buffer> <c-s> :GoFmt<cr>
-
-" nnoremap <buffer> <f5> :let g:previous_pwd=getcwd()<cr>:GoDebugStart<cr>
-" nnoremap <buffer> <f6> :let g:previous_pwd=getcwd()<cr>:lcd %:p:h<cr>:GoDebugTest<cr>
-" nnoremap <buffer> <f7> :GoDebugStop<cr>:exe "lcd ".g:previous_pwd<cr>
 
 nnoremap <buffer> <f5> :GoDebugStart<cr>
 nnoremap <buffer> <f6> :GoDebugTest<cr>
@@ -196,6 +173,7 @@ endfunction
 nnoremap <buffer> <leader>il :call ImplementInterface()<cr>
 nnoremap <buffer> <leader>is :GoImpl<cr>
 
+" non-gomod projects
 " dependency: go get golang.org/x/tools/cmd/gomvpkg
 function! GoMoveDir()
   :update
@@ -225,6 +203,8 @@ function! GoMoveDir()
   endif
 endfunction
 
+" non-gomod projects
+" dependency: go get golang.org/x/tools/cmd/gomvpkg
 function! GoMoveFile()
   :update
 
@@ -332,18 +312,16 @@ function! AliasGoImport()
     end
 endfunction
 
-vnoremap <m-e> :call GoExtractFunc()<cr>
+vnoremap <m-e> :'<,'>d<cr>:call GoExtractFunc()<cr>
 function! GoExtractFunc()
-  d
-
   let l:newName = input('New function name: ')
-  execute 'normal! i'.l:newName.'()'
+  execute 'normal! i'.l:newName."()\r"
   normal! ml==
 
   ?func
   normal! $%o
   execute 'normal! ofunc '.l:newName.'() {'
   normal! p
-  normal! o}
+  normal! }ko}
   normal! 'l
 endfunction
