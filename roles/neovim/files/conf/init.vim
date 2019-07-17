@@ -44,8 +44,8 @@ Plug 'jiangmiao/auto-pairs'
 Plug 'aklt/plantuml-syntax', {'for': 'uml'}
 
 Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
-Plug 'Shougo/neco-vim', {'for': 'vim'}
-Plug 'neoclide/coc-neco', {'for': 'vim'}
+" Plug 'Shougo/neco-vim', {'for': 'vim'}
+" Plug 'neoclide/coc-neco', {'for': 'vim'}
 
 "" php
 Plug 'phux/php-doc-modded', {'for': 'php'}
@@ -103,6 +103,7 @@ Plug 'plasticboy/vim-markdown', {'for': ['markdown'], 'as': 'vim-markdown-plasti
 Plug 'tenfyzhong/tagbar-markdown.vim', {'for': 'markdown'}
 Plug 'Rykka/InstantRst', {'for': 'rst'}
 let g:instant_rst_browser='chromium-browser'
+Plug 'tpope/vim-markdown'
 
 "" search/navigate
 
@@ -165,7 +166,10 @@ Plug 'tpope/vim-rhubarb'
 nnoremap <leader>gw :Gwrite<cr>
 nnoremap <leader>gs :Gstatus<cr>
 nnoremap <leader>gc :Gcommit<cr>
-nnoremap <leader>gl :Gitv<cr>
+nnoremap <leader>gl :Glog<cr>
+vnoremap <leader>gl :Glog<cr>
+
+
 Plug 'lambdalisue/vim-improve-diff'
 Plug 'chrisbra/vim-diff-enhanced'
 Plug 'whiteinge/diffconflicts'
@@ -289,6 +293,7 @@ augroup misc
   au FileType gitv nmap <buffer> <silent> <C-n> <Plug>(gitv-previous-commit)
   au FileType gitv nmap <buffer> <silent> <C-p> <Plug>(gitv-next-commit)
 
+  " autocmd CursorHold * silent call CocActionAsync('highlight')
   " au BufWritePost * if &filetype != 'java' | silent! !eval '[ -f ".git/hooks/ctags" ] && .git/hooks/ctags' & | endif
 augroup END
 
@@ -495,16 +500,12 @@ nnoremap <silent> <Leader><Enter> :call fzf#run({
 \ })<CR>
 
 nnoremap <leader><tab> :Buffers<cr>
-" nnoremap <leader>, :FZF<cr>
 nnoremap <leader>, :FilesMru<cr>
 nnoremap <leader>. :FZFAllFiles<cr>
-" nnoremap <leader>d :<cr>
 
-nnoremap <silent> <leader>o  :<C-u>CocList -I symbols<cr>
+nnoremap <silent> <leader>D  :<C-u>CocList -I symbols<cr>
 nnoremap <silent> <leader>d  :<C-u>CocList outline<cr>
 
-" nnoremap <leader>D :BTags<cr>
-nnoremap <leader>D :BTags <C-R><C-W><cr>
 nnoremap <leader>T :Tags<cr>
 nnoremap <leader>; :TagbarToggle<cr>
 
@@ -791,8 +792,6 @@ nnoremap <silent> <m-,> :lclose<cr>:cclose<cr>
 " remove buffer without deleting window
 nnoremap <silent> <m-d> :bp<bar>sp<bar>bn<bar>bd<CR>
 
-nnoremap <leader>gp :!git push<cr>
-
 " wordwise upper line completion in insert mode
 " inoremap <expr> <c-y> matchstr(getline(line('.')-1), '\%' . virtcol('.') . 'v\%(\k\+\\|.\)')
 
@@ -906,11 +905,11 @@ endfunction
 " augroup END
 
 function! s:show_documentation()
-  if &filetype ==# 'vim'
-    execute 'h '.expand('<cword>')
-  else
+  " if &filetype ==# 'vim'
+  "   execute 'h '.expand('<cword>')
+  " else
     call CocAction('doHover')
-  endif
+  " endif
 endfunction
 
 inoremap <silent><expr> <TAB>
@@ -934,12 +933,12 @@ nnoremap <silent> K :call <SID>show_documentation()<CR>
 command! -nargs=0 Prettier :CocCommand prettier.formatFile
 
 " override nord visual highlighting
-" hi Visual ctermfg=7 ctermbg=4
 function! CustomHighlighting() abort
     hi Comment ctermfg=gray
     hi BufTabLineCurrent ctermfg=2 ctermbg=8
-    " hi Visual ctermfg=7 ctermbg=4
+    hi Visual ctermfg=7 ctermbg=4
     hi Folded ctermfg=4
+    hi Search ctermfg=0 ctermbg=10
 endfunction
 call CustomHighlighting()
 
@@ -961,7 +960,8 @@ function! Zd()
     q!
 endfunction
 
-call coc#add_extension('coc-css',
+call coc#add_extension(
+      \ 'coc-css',
       \ 'coc-html',
       \ 'coc-ultisnips',
       \ 'coc-json',
@@ -976,15 +976,27 @@ call coc#add_extension('coc-css',
       \ 'coc-docker',
       \ 'coc-git',
       \ 'coc-calc',
-      \ 'coc-post'
+      \ 'coc-post',
+      \ 'coc-vimlsp',
+      \ 'coc-lists',
       \ )
-      " \ 'coc-lists',
-" call coc#add_extension('coc-css', 'coc-html', 'coc-ultisnips', 'coc-json', 'coc-tsserver', 'coc-tslint', 'coc-yaml', 'coc-prettier', 'coc-pyls', 'coc-eslint')
-
+      " \ 'coc-highlight',
+      " \ 'coc-yank'
+let g:markdown_fenced_languages = [
+      \ 'vim',
+      \ 'help',
+      \ 'html',
+      \ 'python',
+      \ 'bash=sh',
+      \ 'css',
+      \'javascript',
+      \ 'js=javascript',
+      \ 'typescript'
+      \]
 " gherkin: check step usages
 " let @s='?/\^?s+2y/\("\|\$\):lvimgrep /<C-R>"/j tests/features/*.feature<CR>:lopen<CR>'
 
-" nnoremap <silent> <space>y  :<C-u>CocList -A --normal yank<cr>
+nnoremap <silent> <space>y  :<C-u>CocList -A --normal yank<cr>
 
 nnoremap <c-f> :set ft=json<cr>:%!python -m json.tool<cr>
 
@@ -1045,7 +1057,8 @@ nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
 nmap <leader>gr <Plug>(coc-rename)
 vmap <leader>gf <Plug>(coc-format-selected)
-nmap <leader>gf <Plug>(coc-format)
+" nmap <leader>gf <Plug>(coc-format)
+nmap <leader>R <Plug>(coc-refactor)
 
 function! FormatDate() abort
     let l:line = getline('.')
@@ -1142,4 +1155,26 @@ nmap gs <Plug>(coc-git-chunkinfo)
 " show commit ad current position
 nmap gc <Plug>(coc-git-commit)
 
-" let g:phpactorInputListStrategy = 'fzf'
+function! s:GrepArgs(...)
+  let list = ['-S', '-smartcase', '-i', '-ignorecase', '-w', '-word',
+        \ '-e', '-regex', '-u', '-skip-vcs-ignores', '-t', '-extension']
+  return join(list, "\n")
+endfunction
+
+vnoremap // :<C-u>call <SID>GrepFromSelected(visualmode())<CR>
+" nnoremap <leader>A :<C-u>set operatorfunc=<SID>GrepFromSelected<CR>g@
+
+function! s:GrepFromSelected(type)
+  let saved_unnamed_register = @@
+  if a:type ==# 'v'
+    normal! `<v`>y
+  elseif a:type ==# 'char'
+    normal! `[v`]y
+  else
+    return
+  endif
+  let word = substitute(@@, '\n$', '', 'g')
+  let word = escape(word, '| ')
+  let @@ = saved_unnamed_register
+  execute 'CocList grep '.word
+endfunction

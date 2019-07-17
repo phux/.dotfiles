@@ -1,3 +1,8 @@
+global !p
+def get_pkg_name():
+	return os.path.basename(os.path.dirname(path))
+endglobal
+
 snippet dt
 "2006-01-02T15:04:05.000Z"
 endsnippet
@@ -64,4 +69,19 @@ endsnippet
 
 snippet ae "assert.Equal"
 assert.Equal(t, ${1:expected}, ${2:actual})$0
+endsnippet
+
+
+snippet ae "assert.Equal"
+assert.Equal(t, ${1:expected}, ${2:actual})$0
+endsnippet
+
+global !p
+def get_pkg_name():
+	return os.path.basename(os.path.dirname(path))
+endglobal
+
+snippet pk "insert pkg name for current dir"
+package `!p snip.rv = get_pkg_name()`
+$0
 endsnippet
