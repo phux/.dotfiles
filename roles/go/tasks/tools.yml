@@ -1,6 +1,6 @@
 ---
 
-- name: install go tools
+- name: install mod
   shell: >
     source ~/.config/zsh/.zshrc &&
     go get -u github.com/marwan-at-work/mod/cmd/mod executable=/bin/zsh
@@ -19,3 +19,13 @@
   shell: >
     source ~/.config/zsh/.zshrc &&
     go get -u github.com/hhatto/gocloc/cmd/gocloc executable=/bin/zsh
+
+- name: install gobin
+  shell: >
+    source ~/.config/zsh/.zshrc &&
+    go get -u github.com/rjeczalik/bin/cmd/gobin executable=/bin/zsh
+
+- name: install gomove
+  shell: >
+    source ~/.config/zsh/.zshrc &&
+    go get -u github.com/ksubedi/gomove executable=/bin/zsh
