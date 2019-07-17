@@ -164,9 +164,9 @@ Plug 'gregsexton/gitv', {'on': 'Gitv'}
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-rhubarb'
 nnoremap <leader>gw :Gwrite<cr>
-nnoremap <leader>gs :Gstatus<cr>
+nnoremap <leader>gS :Gstatus<cr>
 nnoremap <leader>gc :Gcommit<cr>
-nnoremap <leader>gl :Glog<cr>
+nnoremap <leader>gL :Glog<cr>
 vnoremap <leader>gl :Glog<cr>
 
 
@@ -502,9 +502,6 @@ nnoremap <silent> <Leader><Enter> :call fzf#run({
 nnoremap <leader><tab> :Buffers<cr>
 nnoremap <leader>, :FilesMru<cr>
 nnoremap <leader>. :FZFAllFiles<cr>
-
-nnoremap <silent> <leader>D  :<C-u>CocList -I symbols<cr>
-nnoremap <silent> <leader>d  :<C-u>CocList outline<cr>
 
 nnoremap <leader>T :Tags<cr>
 nnoremap <leader>; :TagbarToggle<cr>
@@ -996,8 +993,6 @@ let g:markdown_fenced_languages = [
 " gherkin: check step usages
 " let @s='?/\^?s+2y/\("\|\$\):lvimgrep /<C-R>"/j tests/features/*.feature<CR>:lopen<CR>'
 
-nnoremap <silent> <space>y  :<C-u>CocList -A --normal yank<cr>
-
 nnoremap <c-f> :set ft=json<cr>:%!python -m json.tool<cr>
 
 command! -nargs=0 DT :windo diffthis
@@ -1049,7 +1044,6 @@ nnoremap <m-p> <Plug>yankstack_substitute_older_paste
 
 command! Messages :redir => bufout | silent :messages | redir end | new | call append(0, split(bufout, '\n'))
 
-nnoremap <silent> <leader>D  :exe 'CocList -I --normal --input='.expand('<cword>').' symbols'<CR>
 
 nmap <silent> gd <Plug>(coc-definition)
 nmap <silent> gD <Plug>(coc-type-definition)
@@ -1059,6 +1053,22 @@ nmap <leader>gr <Plug>(coc-rename)
 vmap <leader>gf <Plug>(coc-format-selected)
 " nmap <leader>gf <Plug>(coc-format)
 nmap <leader>R <Plug>(coc-refactor)
+
+" nnoremap <silent> <leader>D  :exe 'CocList -I --normal --input='.expand('<cword>').' symbols'<CR>
+nnoremap <silent> <space>y  :<C-u>CocList -A --normal yank<cr>
+nnoremap <silent> <leader>D  :<C-u>CocList -I symbols<cr>
+nnoremap <silent> <leader>d  :<C-u>CocList outline<cr>
+nnoremap <leader>gg :<C-u>CocCommand git.
+nnoremap <silent> <leader>gs :<C-u>CocList --normal gstatus<cr>
+nnoremap <silent> <leader>gl :<C-u>CocList --normal commits<cr>
+nnoremap <silegb :CocCommand git.browserOpen<cr>
+" navigate chunks of current buffer
+nmap [g <Plug>(coc-git-prevchunk)
+nmap ]g <Plug>(coc-git-nextchunk)
+" show chunk diff at current position
+nmap gs <Plug>(coc-git-chunkinfo)
+" show commit ad current position
+nmap gc <Plug>(coc-git-commit)
 
 function! FormatDate() abort
     let l:line = getline('.')
@@ -1144,16 +1154,6 @@ function! LocListToggle()
 endfunction
 
 nnoremap dg <c-w>wVy<c-w>wP]c
-
-nnoremap gb :CocCommand git.browserOpen<cr>
-
-" navigate chunks of current buffer
-nmap [g <Plug>(coc-git-prevchunk)
-nmap ]g <Plug>(coc-git-nextchunk)
-" show chunk diff at current position
-nmap gs <Plug>(coc-git-chunkinfo)
-" show commit ad current position
-nmap gc <Plug>(coc-git-commit)
 
 function! s:GrepArgs(...)
   let list = ['-S', '-smartcase', '-i', '-ignorecase', '-w', '-word',
