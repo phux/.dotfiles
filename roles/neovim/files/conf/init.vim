@@ -165,6 +165,7 @@ Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-rhubarb'
 nnoremap <leader>gw :Gwrite<cr>
 nnoremap <leader>gS :Gstatus<cr>
+nnoremap <leader>gb :Gblame<cr>
 nnoremap <leader>gc :Gcommit<cr>
 nnoremap <leader>gL :Glog<cr>
 vnoremap <leader>gl :Glog<cr>
@@ -222,8 +223,9 @@ Plug 'tpope/vim-abolish'
 " Plug 'triglav/vim-visual-increment'
 
 """ gundo
-nnoremap <m-u> :MundoToggle<CR>
+" nnoremap <m-u> :MundoToggle<CR>
 Plug 'simnalamburt/vim-mundo', {'on': 'MundoToggle'}
+let g:mundo_width = 100
 
 """ vim-test
 Plug 'janko-m/vim-test', {'on': ['TestNearest', 'TestFile', 'TestLast', 'TestVisit']}
@@ -268,7 +270,6 @@ call plug#end()
 "" Javascript
 augroup js
   au!
-  " au BufNewFile,BufRead,BufEnter *.java,*.js :NeomakeDisableBuffer
 augroup END
 
 "" Misc
@@ -287,14 +288,13 @@ augroup misc
   au BufNewFile,BufRead,BufEnter ~/Dropbox/notes/*.md set ft=markdown.notes
 
   au FileType html,xml inoremap <buffer> <m-;> </<c-x><c-o>
-  au FileType html setlocal equalprg=tidy\ -indent\ -quiet\ --show-errors\ 0\ --tidy-mark\ no\ --show-body-only\ auto
+  " au FileType html setlocal equalprg=tidy\ -indent\ -quiet\ --show-errors\ 0\ --tidy-mark\ no\ --show-body-only\ auto
   au FileType xml setlocal makeprg=xmllint\ -
 
   au FileType gitv nmap <buffer> <silent> <C-n> <Plug>(gitv-previous-commit)
   au FileType gitv nmap <buffer> <silent> <C-p> <Plug>(gitv-next-commit)
 
-  " autocmd CursorHold * silent call CocActionAsync('highlight')
-  " au BufWritePost * if &filetype != 'java' | silent! !eval '[ -f ".git/hooks/ctags" ] && .git/hooks/ctags' & | endif
+  au FocusLost,WinLeave * :silent! update
 augroup END
 
 augroup golang
@@ -317,7 +317,6 @@ augroup nvim
   au!
   au BufWritePost *.vim nested source $MYVIMRC
   " au CursorHold * checktime
-  au FocusLost,WinLeave * :silent! update
   autocmd VimResized * wincmd =
 augroup END
 
@@ -328,7 +327,7 @@ nnoremap <c-e> :WinResizerStartResize<cr>
 """"""""""""""
 
 set fileformats=unix,dos,mac
-set autowrite                   " Automatically save before :next, :make etc.
+set autowriteall                   " Automatically save before :next, :make etc.
 set autoread                    " Automatically reread changed files without asking me anything
 set hidden
 set nojoinspaces
@@ -535,6 +534,7 @@ call project#rc('~/code')
 
 "" vim-abolish
 nnoremap <leader>] :%Subvert/<c-R><c-w>/<c-r><c-w>/g<left><left>
+nnoremap <leader>[ :Subvert/<c-R><c-w>/<c-r><c-w>/g<left><left>
 vnoremap <leader>] :Subvert//g<left><left>
 
 "" qf/loc list toggle
@@ -735,7 +735,6 @@ augroup fold_vimrc
                    \ setlocal foldmethod=expr |
                    \ setlocal foldexpr=VimFolds(v:lnum) |
                    \ setlocal foldtext=VimFoldText() |
-     "              \ set foldcolumn=2 foldminlines=2
 augroup END
 
 """"""""""""""""""
@@ -895,12 +894,6 @@ function! SpinnerText()
     return s:spinner_states[s:spinner_index]
 endfunction
 
-" augroup neomake_hooks
-"     au!
-"     autocmd User NeomakeJobInit :call StartSpinner()
-"     autocmd User NeomakeFinished :call StopSpinner()
-" augroup END
-
 function! s:show_documentation()
   " if &filetype ==# 'vim'
   "   execute 'h '.expand('<cword>')
@@ -941,7 +934,6 @@ call CustomHighlighting()
 
 augroup ColorSchemes
     autocmd!
-    " autocmd ColorScheme nord call CustomHighlighting()
     autocmd ColorScheme PaperColor hi Visual ctermfg=15 ctermbg=4
 augroup END
 
@@ -1061,7 +1053,7 @@ nnoremap <silent> <leader>d  :<C-u>CocList outline<cr>
 nnoremap <leader>gg :<C-u>CocCommand git.
 nnoremap <silent> <leader>gs :<C-u>CocList --normal gstatus<cr>
 nnoremap <silent> <leader>gl :<C-u>CocList --normal commits<cr>
-nnoremap <silegb :CocCommand git.browserOpen<cr>
+nnoremap <silent> gb :CocCommand git.browserOpen<cr>
 " navigate chunks of current buffer
 nmap [g <Plug>(coc-git-prevchunk)
 nmap ]g <Plug>(coc-git-nextchunk)
@@ -1178,3 +1170,28 @@ function! s:GrepFromSelected(type)
   let @@ = saved_unnamed_register
   execute 'CocList grep '.word
 endfunction
+
+" toggle mundo tree
+function! s:mundoToggle()
+	let cwin = -1
+	let syn = ''
+	let synflag = 0
+	if buffer_name('%') !~# '^__Mundo\%(_Preview\)\?__$'
+		let synflag = 1
+		let cwin = win_getid()
+		let syn = &syntax
+		setlocal syntax=
+	endif
+	MundoToggle
+	if synflag
+		let winflag = cwin !=# -1 && buffer_name('%') =~# '^__Mundo\%(_Preview\)\?__$'
+		if winflag
+			call win_gotoid(cwin)
+		endif
+		execute 'setlocal syntax='.syn
+		if winflag
+			wincmd p
+		endif
+	endif
+endfunction
+nnoremap <m-u> :call <sid>mundoToggle()<cr>
