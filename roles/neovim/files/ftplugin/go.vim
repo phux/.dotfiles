@@ -6,7 +6,7 @@ set foldnestmax=1
 
 let b:ale_linters = ['gofmt', 'govet', 'gobuild', 'gotype']
 let b:ale_linters = ['gobuild', 'revive', 'golangci-lint']
-let g:ale_go_golangci_lint_package=0
+let g:ale_go_golangci_lint_package=1
 let g:ale_go_golangci_lint_options = '--config .golangci.yml'
 if !filereadable('.golangci.yml')
   let g:ale_go_golangci_lint_options = '--config ~/.golangci.yml'
