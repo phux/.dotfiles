@@ -1,5 +1,5 @@
 # commands to ignore
-cmdignore=(htop tmux top vim n docker-compose)
+cmdignore=(htop tmux top vim n docker-compose tgo dcup ez)
 
 # set gt 0 to enable GNU units for time results
 gnuunits=0
@@ -32,10 +32,12 @@ function notifyosd-precmd() {
 			fi
             if [ ! -z $SSH_TTY ] ; then
                 notify-send -i utilities-terminal \
-						-u $urgency "$cmd_basename on `hostname` completed $cmdstat" "\"$cmd\" took $cmd_time";
+						-u $urgency "$cmd_basename on `hostname` completed $cmdstat" "\"$cmd\" took $cmd_time" \
+            -t 5000;
             else
                 notify-send -i utilities-terminal \
-						-u $urgency "$cmd_basename completed $cmdstat" "\"$cmd\" took $cmd_time";
+						-u $urgency "$cmd_basename completed $cmdstat" "\"$cmd\" took $cmd_time" \
+            -t 5000;
             fi
         fi
         unset cmd

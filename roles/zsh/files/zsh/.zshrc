@@ -146,6 +146,7 @@ alias gsu='git stash --include-untracked'
 alias gsa='git stash apply'
 alias gfi='git fixup HEAD^'
 alias grc='git diff --name-only | uniq | xargs $EDITOR'
+alias gclean='git branch --merged | egrep -v "(^\*|master|dev)" | xargs git branch -d'
 
 function git_current_branch() {
   local ref
@@ -259,10 +260,10 @@ zstyle ':completion:*::::' completer _expand _complete _ignored _approximate # l
 
 # tabtab source for serverless package
 # uninstall by removing these lines or running `tabtab uninstall serverless`
-[[ -f ~/.nvm/versions/node/v10.15.3/lib/node_modules/serverless/node_modules/tabtab/.completions/serverless.zsh ]] && . ~/.nvm/versions/node/v10.15.3/lib/node_modules/serverless/node_modules/tabtab/.completions/serverless.zsh
+[[ -f ~/.nvm/versions/node/v12.6.0/lib/node_modules/serverless/node_modules/tabtab/.completions/serverless.zsh ]] && . ~/.nvm/versions/node/v12.6.0/lib/node_modules/serverless/node_modules/tabtab/.completions/serverless.zsh
 # # tabtab source for sls package
 # # uninstall by removing these lines or running `tabtab uninstall sls`
-[[ -f ~/.nvm/versions/node/v10.15.3/lib/node_modules/serverless/node_modules/tabtab/.completions/sls.zsh ]] && . ~/.nvm/versions/node/v10.15.3/lib/node_modules/serverless/node_modules/tabtab/.completions/sls.zsh
+[[ -f ~/.nvm/versions/node/v12.6.0/lib/node_modules/serverless/node_modules/tabtab/.completions/sls.zsh ]] && . ~/.nvm/versions/node/v12.6.0/lib/node_modules/serverless/node_modules/tabtab/.completions/sls.zsh
 
 source ~/.local/bin/aws_zsh_completer.sh
 
