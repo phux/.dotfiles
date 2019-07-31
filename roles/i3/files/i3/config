@@ -98,13 +98,13 @@ mode "resize" {
 bindsym $mod+r mode "resize"
 
 # split in horiZontal orientation (Tall)
-# need to change this because "Mod+h" no longer free
-bindsym $mod+n split h
-# split in vertical orientation
-bindsym $mod+Shift+n split v
-
 # toggle splitting mode
-# bindsym $mod+b layout toggle split
+bindsym $mod+Shift+b layout toggle split
+# need to change this because "Mod+h" no longer free
+# bindsym $mod+n split h
+# split in vertical orientation
+# bindsym $mod+Shift+n split v
+
 
 # go fullscreen
 bindsym $mod+f fullscreen
@@ -178,6 +178,7 @@ bindsym $mod+Shift+E exit
 ###  ADDED KEY BINDINGS  ###
 bindsym $MOD+SHIFT+f exec thunar
 bindsym $MOD+SHIFT+o exec urxvt -e 'ranger'
+bindsym $MOD+n exec Joplin-1.0.160-x86_64.AppImage
 bindsym $MOD+SHIFT+m exec mysql-workbench
 bindsym $mod+Shift+p exec sh ~/.i3/i3lock.sh
 bindsym Print exec scrot '%Y-%m-%d-%T_$wx$h_scrot.png' -e 'mv $f ~/Pictures/screenshots/'
@@ -275,7 +276,7 @@ font pango:Hack 9
 #        background $bg
 #        # text color used for blocks that do not have a color specified.
 #        statusline $yellow
-#        # workspaces section            
+#        # workspaces section
 #        #                    border  backgr. text
 #        focused_workspace    $aqua $aqua $darkgray
 #        inactive_workspace   $darkgray $darkgray $yellow
