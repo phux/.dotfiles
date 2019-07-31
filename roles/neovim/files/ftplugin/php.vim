@@ -41,42 +41,6 @@ nnoremap <buffer> <Leader>E :PHPExpandFQCN<cr>
 nnoremap <buffer> <leader>h :call UpdatePhpDocIfExists()<CR>
 nnoremap <buffer> <leader>rdo :call PhpDocOneliner()<cr>
 
-" nnoremap <silent> gr :call phpactor#FindReferences()<CR>
-let g:neomake_php_enabled_makers = ['phpmd', 'phpcs', 'phpstan', 'php']
-let g:neomake_php_phpcs_args_standard = 'PSR2'
-let g:neomake_php_phpcs_maker = {
-            \ 'args': ['--report=csv'],
-            \ 'errorformat':
-            \ '%-GFile\,Line\,Column\,Type\,Message\,Source\,Severity%.%#,'.
-            \ '"%f"\,%l\,%c\,%t%*[a-zA-Z]\,"%m"\,%*[a-zA-Z0-9_.-]\,%*[0-9]%.%#',
-            \ 'postprocess': function('SetWarningType'),
-            \ }
-
-let g:neomake_php_phpstan_maker = {
-            \ 'args': ['analyse', '--error-format', 'raw', '--no-progress', '--level', '7'],
-            \ 'errorformat': '%W%f:%l:%m',
-            \ 'postprocess': function('SetWarningType'),
-            \ }
-
-let g:neomake_php_php_maker = {
-            \ 'args': ['-l', '-d', 'display_errors=1', '-d', 'log_errors=0',
-            \      '-d', 'xdebug.cli_color=0'],
-            \ 'errorformat':
-            \ '%-GNo syntax errors detected in%.%#,'.
-            \ '%EParse error: %#syntax error\, %m in %f on line %l,'.
-            \ '%EParse error: %m in %f on line %l,'.
-            \ '%EFatal error: %m in %f on line %l,'.
-            \ '%-G\s%#,'.
-            \ '%-GErrors parsing %.%#',
-            \ 'output_stream': 'stdout',
-            \ 'postprocess': function('SetErrorType'),
-            \ }
-
-let g:neomake_php_phpmd_maker = {
-            \ 'args': ['%:p', 'text', 'cleancode,codesize,design,unusedcode,naming'],
-            \ 'errorformat': '%W%f:%l%\s%\s%#%m',
-            \ 'postprocess': function('SetMessageType'),
-            \ }
 
 " let g:ale_php_phpcbf_standard='PSR2'
 " let g:ale_php_phpcbf_standard='Symfony'
@@ -358,4 +322,3 @@ if !exists("*SymfonySwitchToAlternateFile")
   endfunction
 endif
 " }}}
-

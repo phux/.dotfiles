@@ -13,8 +13,11 @@
     }
   },
   "suggest.snippetIndicator": " ►",
-  "suggest.echodocSupport": false,
-  "diagnostic.enable": false,
+  "suggest.echodocSupport": true,
+  "suggest.detailField": "abbr",
+  "suggest.enablePreselect": false,
+  "diagnostic.enable": true,
+  "diagnostic.displayByAle": false,
   "html.format.enable": true,
   "yaml.format.enable": true,
   "coc.preferences.hoverTarget": "float",
@@ -23,13 +26,14 @@
   "yaml.schemas": {
     "http://json.schemastore.org/ansible-stable-2.5": "/*.yml",
     "https://raw.githubusercontent.com/awslabs/goformation/master/schema/cloudformation.schema.json": "/*.yml",
+    "https://raw.githubusercontent.com/awslabs/goformation/master/schema/sam.schema.json": "/*.yml",
+    "https://raw.githubusercontent.com/softprops/serverless-yml-schema/master/serverless-schema.json": "/*.yaml",
     "http://json.schemastore.org/circleciconfig": "/.circleci/config.yml",
     "https://raw.githubusercontent.com/docker/compose/master/compose/config/config_schema_v3.0.json": "/*.yml"
   },
-  "json.schemas": {
-    "http://json.schemastore.org/composer": "/composer.json",
-    "http://json.schemastore.org/package": "/package.json"
-  },
+  "json.schemas": [ {"http://json.schemastore.org/composer": "/composer.json"},
+    {"http://json.schemastore.org/package": "/package.json"}
+  ],
   "java.errors.incompleteClasspath.severity": "ignore",
   "java.implementationsCodeLens.enabled": true,
   "java.referencesCodeLens.enabled": true,
@@ -39,5 +43,8 @@
   "git.changedSign.hlGroup": "GitGutterChange",
   "git.removedSign.hlGroup": "GitGutterDelete",
   "git.topRemovedSign.hlGroup": "GitGutterDelete",
-  "git.changeRemovedSign.hlGroup": "GitGutterChangeDelete"
+  "git.changeRemovedSign.hlGroup": "GitGutterChangeDelete",
+  "git.addGlameToBufferVar": true,
+  "yank.enableCompletion": true,
+  "yank.highlight.duration": 100
 }
