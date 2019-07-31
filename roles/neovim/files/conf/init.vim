@@ -1,12 +1,14 @@
 " vint: -ProhibitCommandRelyOnUser
 " vint: -ProhibitCommandWithUnintendedSideEffect
 
+if has('vim_starting')
+  let g:qf_loc_toggle_binds = 0
+  set nofoldenable
+  set foldtext=MyFoldText()
+endif
+
 set encoding=UTF-8
 scriptencoding utf-8
-
-if has('vim_starting')
-  set nofoldenable
-endif
 
 let mapleader = "\<Space>"
 
@@ -245,19 +247,20 @@ Plug 'tpope/vim-commentary', {'on': 'Commentary'}
 nnoremap <leader>c :Commentary<cr>
 vnoremap <leader>c :Commentary<cr>
 
-Plug 'maxbrunsfeld/vim-yankstack'
 let g:ale_lint_on_enter=0
-let g:ale_lint_on_text_changed='never'
+let g:ale_lint_on_text_changed=0
+let g:ale_lint_on_insert_leave=0
 let g:ale_disable_lsp=1
 let g:ale_open_list = 0
+let g:ale_fix_on_save = 1
 Plug 'w0rp/ale'
 Plug 'maximbaz/lightline-ale'
 " Plug 'neomake/neomake'
 
 Plug 'ajorgensen/vim-markdown-toc', {'for': 'markdown'}
-Plug 'davidbalbert/vim-io'
-Plug 'adimit/prolog.vim'
-Plug 'derekwyatt/vim-scala'
+Plug 'davidbalbert/vim-io', {'for': 'io'}
+Plug 'adimit/prolog.vim', {'for': 'prolog'}
+Plug 'derekwyatt/vim-scala', {'for': 'scala'}
 call plug#end()
 
 " call neomake#configure#automake('w')
@@ -267,17 +270,13 @@ call plug#end()
 """"""""""""""""""""""""
 "  Autogroups  "
 """"""""""""""""""""""""
-"" Javascript
-augroup js
-  au!
-augroup END
 
 "" Misc
 augroup misc
   au!
 
-  autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  guibg=none   ctermbg=none
-  autocmd VimEnter,Colorscheme * :hi IndentGuidesEven guibg=green ctermbg=0
+  " autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  guibg=none   ctermbg=none
+  " autocmd VimEnter,Colorscheme * :hi IndentGuidesEven guibg=green ctermbg=0
 
   au BufNewFile,BufRead *.yml.dist set ft=yaml
   au BufRead,BufNewFile *.conf setf config
@@ -294,23 +293,11 @@ augroup misc
   au FileType gitv nmap <buffer> <silent> <C-n> <Plug>(gitv-previous-commit)
   au FileType gitv nmap <buffer> <silent> <C-p> <Plug>(gitv-next-commit)
 
-  au FocusLost,WinLeave * :silent! update
+  " au FocusLost,WinLeave * :silent! update
+  autocmd! FileType fzf
+  autocmd  FileType fzf set laststatus=0
+        \| autocmd BufLeave <buffer> set laststatus=2
 augroup END
-
-augroup golang
-    au!
-    au BufEnter *.go silent! call SetGoBuildTags()
-augroup end
-
-function! SetGoBuildTags()
-    let l:line = getline(1)
-    if l:line =~# '// +build'
-        let l:tags = substitute(l:line, '// +build', '', 'g')
-        exe ':GoBuildTags '.l:tags
-    else
-        let g:go_build_tags=''
-    endif
-endfunction
 
 "" Nvim
 augroup nvim
@@ -403,7 +390,7 @@ let g:lightline = {
             \             [ 'gitbranch', 'readonly', 'filename', 'modified', 'coc_state', 'linter_checking', 'linter_errors', 'linter_warnings' ] ]
             \ },
             \ 'inactive': {
-            \   'left': [ [ 'conflicted_name' ] ],
+            \   'left': [ [ 'conflicted_name'], [ 'filename' ] ],
             \   'right': [ [ 'lineinfo' ], [ 'percent' ] ]
             \ },
             \ 'component_function': {
@@ -447,6 +434,10 @@ else
 endif
 
 function! CocGitStatus()
+  let gstatus = get(g:,'coc_git_status','')
+  if len(gstatus) == 0
+    return ''
+  endif
   return get(g:,'coc_git_status','').get(b:,'coc_git_status','')
 endfunction
 
@@ -644,7 +635,7 @@ endfunction
 "  Folding  "
 """""""""""""
 "" Settings
-set foldenable
+set nofoldenable
 " set foldmethod=marker
 let g:xml_syntax_folding = 1
 let g:sh_fold_enabled= 7
@@ -786,7 +777,7 @@ nnoremap <leader>s <c-w>v
 
 nnoremap <silent> <m-,> :lclose<cr>:cclose<cr>
 " remove buffer without deleting window
-nnoremap <silent> <m-d> :bp<bar>sp<bar>bn<bar>bd<CR>
+nnoremap <silent> <m-d> :bp<bar>bd #<cr>
 
 " wordwise upper line completion in insert mode
 " inoremap <expr> <c-y> matchstr(getline(line('.')-1), '\%' . virtcol('.') . 'v\%(\k\+\\|.\)')
@@ -836,72 +827,6 @@ if &term =~# '^screen' && !has('nvim') | exe "set t_ts=\e]2; t_fs=\7" | endif
 
 let g:tmux_navigator_disable_when_zoomed=1
 
-" let g:neomake_error_sign = {'text': ':(', 'texthl': 'NeomakeErrorSign'}
-" let g:neomake_warning_sign = {'text': ':/','texthl': 'NeomakeWarningSign'}
-" let g:neomake_message_sign = {
-"             \   'text': ':>',
-"             \   'texthl': 'NeomakeWarningSign',
-"             \ }
-" let g:neomake_info_sign = {'text': 'ℹ', 'texthl': 'NeomakeInfoSign'}
-" display warning for phpcs error
-function! SetWarningType(entry)
-    let a:entry.type = 'W'
-endfunction
-
-function! SetErrorType(entry)
-    let a:entry.type = 'E'
-endfunction
-
-function! SetMessageType(entry)
-    let a:entry.type = 'M'
-endfunction
-
-let s:spinner_index = 0
-let s:active_spinners = 0
-let s:spinner_states = ['┤', '┘', '┴', '└', '├', '┌', '┬', '┐']
-let s:spinner_states = ['←', '↑', '→', '↓']
-let s:spinner_states = ['■', '□', '▪', '▫', '▪', '□', '■']
-let s:spinner_states = ['←', '↖', '↑', '↗', '→', '↘', '↓', '↙']
-let s:spinner_states = ['d', 'q', 'p', 'b']
-let s:spinner_states = ['|', '/', '--', '\', '|', '/', '--', '\']
-let s:spinner_states = ['.', 'o', 'O', '°', 'O', 'o', '.']
-function! StartSpinner()
-    let b:show_spinner = 1
-    let s:active_spinners += 1
-    if s:active_spinners == 1
-        let s:spinner_timer = timer_start(1000 / len(s:spinner_states), 'SpinSpinner', {'repeat': -1})
-    endif
-endfunction
-
-function! StopSpinner()
-    let b:show_spinner = 0
-    let s:active_spinners -= 1
-    if s:active_spinners == 0
-        :call timer_stop(s:spinner_timer)
-    endif
-endfunction
-
-function! SpinSpinner(timer)
-    let s:spinner_index = float2nr(fmod(s:spinner_index + 1, len(s:spinner_states)))
-    redraw
-endfunction
-
-function! SpinnerText()
-    if get(b:, 'show_spinner', 0) == 0
-        return ' '
-    endif
-
-    return s:spinner_states[s:spinner_index]
-endfunction
-
-function! s:show_documentation()
-  " if &filetype ==# 'vim'
-  "   execute 'h '.expand('<cword>')
-  " else
-    call CocAction('doHover')
-  " endif
-endfunction
-
 inoremap <silent><expr> <TAB>
             \ pumvisible() ? "\<C-n>" :
             \ <SID>check_back_space() ? "\<TAB>" :
@@ -914,28 +839,39 @@ function! s:check_back_space() abort
     return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
 
+
+nnoremap <silent> K :call <SID>show_documentation()<CR>
+function! s:show_documentation()
+  " if &filetype ==# 'vim'
+  "   execute 'h '.expand('<cword>')
+  " else
+    call CocAction('doHover')
+  " endif
+endfunction
+
 " Use <c-space> to trigger completion.
 inoremap <silent><expr> <c-space> coc#refresh()
 
-nnoremap <silent> K :call <SID>show_documentation()<CR>
+" " override nord visual highlighting
+" function! CustomHighlighting() abort
+"     hi Comment ctermfg=gray
+"     hi BufTabLineCurrent ctermfg=2 ctermbg=8
+"     hi Visual ctermfg=7 ctermbg=4
+"     hi Folded ctermfg=4
+"     hi Search ctermfg=0 ctermbg=10
+" endfunction
+" call CustomHighlighting()
 
+" augroup ColorSchemes
+"     autocmd!
+"     autocmd ColorScheme PaperColor hi Visual ctermfg=15 ctermbg=4
+" augroup END
 
-command! -nargs=0 Prettier :CocCommand prettier.formatFile
-
-" override nord visual highlighting
-function! CustomHighlighting() abort
-    hi Comment ctermfg=gray
-    hi BufTabLineCurrent ctermfg=2 ctermbg=8
-    hi Visual ctermfg=7 ctermbg=4
-    hi Folded ctermfg=4
-    hi Search ctermfg=0 ctermbg=10
-endfunction
-call CustomHighlighting()
-
-augroup ColorSchemes
-    autocmd!
-    autocmd ColorScheme PaperColor hi Visual ctermfg=15 ctermbg=4
-augroup END
+hi Comment ctermfg=gray
+hi BufTabLineCurrent ctermfg=2 ctermbg=8
+hi Visual ctermfg=7 ctermbg=4
+hi Folded ctermfg=4
+hi Search ctermfg=0 ctermbg=10
 
 function! Zd()
     normal! "+p
@@ -968,9 +904,10 @@ call coc#add_extension(
       \ 'coc-post',
       \ 'coc-vimlsp',
       \ 'coc-lists',
+      \ 'coc-yank',
       \ )
+      " \ 'coc-pairs',
       " \ 'coc-highlight',
-      " \ 'coc-yank'
 let g:markdown_fenced_languages = [
       \ 'vim',
       \ 'help',
@@ -1028,14 +965,7 @@ function! CompareJsonExp() abort
     DT
 endfunction
 
-" resize windows to text length/height
-nnoremap <expr><silent> <c-w>_ (v:count ? v:count : float2nr(ceil(eval(join(map(getline(1,'$'),'max([winwidth(0),virtcol([v:key+1,"$"])])'),'+'))/str2float(winwidth(0).'.0'))))."\<c-w>_"
-nnoremap <expr><silent> <c-w><bar> (v:count ? v:count : max(map(getline(1,'$'),'virtcol([v:key+1,"$"])'))-1)."\<c-w>\<bar>"
-
-nnoremap <m-p> <Plug>yankstack_substitute_older_paste
-
-command! Messages :redir => bufout | silent :messages | redir end | new | call append(0, split(bufout, '\n'))
-
+" command! Messages :redir => bufout | silent :messages | redir end | new | call append(0, split(bufout, '\n'))
 
 nmap <silent> gd <Plug>(coc-definition)
 nmap <silent> gD <Plug>(coc-type-definition)
@@ -1047,7 +977,7 @@ vmap <leader>gf <Plug>(coc-format-selected)
 nmap <leader>R <Plug>(coc-refactor)
 
 " nnoremap <silent> <leader>D  :exe 'CocList -I --normal --input='.expand('<cword>').' symbols'<CR>
-nnoremap <silent> <space>y  :<C-u>CocList -A --normal yank<cr>
+" nnoremap <silent> <space>y  :<C-u>CocList -A --normal yank<cr>
 nnoremap <silent> <leader>D  :<C-u>CocList -I symbols<cr>
 nnoremap <silent> <leader>d  :<C-u>CocList outline<cr>
 nnoremap <leader>gg :<C-u>CocCommand git.
@@ -1122,17 +1052,6 @@ endfunction
 
 so ~/.local.init.vim
 
-let g:ale_fix_on_save = 1
-let g:ale_fixers = {
-\   '*': ['remove_trailing_lines', 'trim_whitespace'],
-\   'javascript': ['eslint', 'remove_trailing_lines', 'trim_whitespace'],
-\   'sh': ['shfmt', 'remove_trailing_lines', 'trim_whitespace'],
-\   'json': ['prettier', 'remove_trailing_lines', 'trim_whitespace'],
-\   'markdown': ['prettier', 'textlint', 'remove_trailing_lines', 'trim_whitespace'],
-\   'text': ['textlint', 'remove_trailing_lines', 'trim_whitespace'],
-\   'go': ['goimports', 'remove_trailing_lines', 'trim_whitespace'],
-\   'sql': ['sqlfmt', 'remove_trailing_lines', 'trim_whitespace'],
-\}
 nnoremap <m-j> :call LocListToggle()<cr>
 let g:loclist_open = 0
 function! LocListToggle()
@@ -1195,3 +1114,186 @@ function! s:mundoToggle()
 	endif
 endfunction
 nnoremap <m-u> :call <sid>mundoToggle()<cr>
+
+function! ImplementInterface()
+    if !filereadable('go.mod')
+        echo 'no go.mod found in cwd'
+        return
+    endif
+    let l:cword = substitute(substitute(expand('<cword>'), 'Stub', '', ''), 'Mock', '', '')
+
+    let l:currentBasePackage = substitute(substitute(system('head -n 1 go.mod'), 'module ', '', ''), '\n\+$', '', '')
+    let l:interface = input('interface: ', l:currentBasePackage.''.substitute(expand('%:p:h'), getcwd(), '', '').'.'.l:cword)
+    let l:receiver = expand('<cword>')
+    let l:firstLetter = tolower(strpart(l:receiver, 0, 1))
+
+    exe ':GoImpl '.l:firstLetter.' *'.l:receiver.' '.l:interface
+endfunction
+
+" non-gomod projects
+" dependency: go get golang.org/x/tools/cmd/gomvpkg
+function! GoMoveDir()
+  :update
+
+  " find current gopath
+  let l:gopath = ''
+  for gopath in split($GOPATH, ':')
+    if expand('%:p:h') =~ '^'.gopath
+      let l:gopath = gopath
+    endif
+  endfor
+
+    let l:currentFile = expand('%:p')
+    let l:oldPath = input('Old path: ', substitute(expand('%:p:h'), gopath.'/src/', '', ''))
+    let l:newPath = input('New path ==> ', l:oldPath)
+
+  if len(l:gopath) == 0
+    " echo 'Cannot move pkg - not in configured gopath?!'
+    " return
+  endif
+
+
+  execute '!gomvpkg -from '.l:oldPath.' -to '.l:newPath
+
+  if !filereadable(l:currentFile)
+    :bd
+  endif
+endfunction
+
+" non-gomod projects
+" dependency: go get golang.org/x/tools/cmd/gomvpkg
+function! GoMoveFile()
+  :update
+
+  " find current gopath
+  let l:gopath = ''
+  for gopath in split($GOPATH, ':')
+    if expand('%:p:h') =~ '^'.gopath
+      let l:gopath = gopath
+    endif
+  endfor
+
+  if len(l:gopath) == 0
+    echo 'Cannot move pkg - not in configured gopath?!'
+    return
+  endif
+
+  let l:currentFile = expand('%:p')
+  let l:oldPath = input('Old path: ', substitute(expand('%:p:h'), gopath.'/src/', '', ''))
+  let l:newPath = input('New path ==> ', l:oldPath)
+
+  execute '!gomvpkg -from '.l:oldPath.' -to '.l:newPath
+
+  if !filereadable(l:currentFile)
+    :bd
+  endif
+endfunction
+
+" dependency: go get -u github.com/ksubedi/gomove
+function! GoMoveDirV2()
+  :update
+
+  if !filereadable('go.mod')
+      echo 'no go.mod found in cwd - not moving anything'
+      return
+  endif
+
+  let l:currentBasePackage = substitute(substitute(system('head -n 1 go.mod'), 'module ', '', ''), '\n\+$', '', '')
+  let l:currentFile = expand('%:p')
+  let l:oldPath = substitute(expand('%:p:h'), getcwd(), '', '')
+  let l:oldPackage = input('Old package: ', l:currentBasePackage.''.l:oldPath)
+  let l:newPackage = input('New package ==> ', l:oldPackage)
+  let l:oldPath = getcwd().'/'.substitute(l:oldPackage, l:currentBasePackage, '', '')
+  let l:newPath = getcwd().'/'.substitute(l:newPackage, l:currentBasePackage, '', '')
+  if l:oldPackage =~# '/$'
+      let l:oldPackage = strpart(l:oldPackage, 0, len(l:oldPackage) -1)
+  endif
+  if l:newPackage =~# '/$'
+      let l:newPackage = strpart(l:newPackage, 0, len(l:newPackage) -1)
+  endif
+
+  if empty(glob(l:newPath))
+      exe '!mkdir -p '.l:newPath
+  endif
+
+  exe '!mv '.l:oldPath.'/* '.l:newPath
+  exe '!gomove '.l:oldPackage.' '.l:newPackage
+
+  if !filereadable(l:currentFile)
+    :bd
+  endif
+endfunction
+
+function! AliasGoImport()
+    let l:skip = !has_key(v:completed_item, 'word') || v:completed_item['kind'] !=# 'M'
+
+    if !l:skip
+        let l:currentPackage = v:completed_item['word']
+        let l:importPath = substitute(substitute(v:completed_item['menu'], ' \[LS\]', '', ''), '"', '', 'g')
+    endif
+
+    if !l:skip
+        " check if selected package is already imported
+        let [s:line, s:col] = searchpos('"'.l:importPath.'"', 'n')
+        let l:skip = s:line
+    endif
+
+    if !l:skip
+        " check if different package with same name is already imported
+        let [s:line, s:col] = searchpos('\s\+".\+/'.l:currentPackage.'"$', 'n')
+        if s:line > 0
+            let l:alias = input('Package already imported. Alias '.l:importPath.' as: ')
+            if l:alias ==# ''
+                echo 'No alias given - not doing anything'
+            else
+                let l:cmd = 'GoImportAs ' . l:alias . ' ' . l:importPath
+                execute l:cmd
+                execute 'normal! ciw'.l:alias
+            endif
+
+            let l:skip = 1
+        endif
+    endif
+
+    if !l:skip
+        let l:cmd = 'GoImport ' . l:importPath
+        execute l:cmd
+    endif
+
+    normal! a.
+    if col('.') == col('$') - 1
+        startinsert!
+    else
+        normal! l
+        startinsert
+    end
+endfunction
+
+let g:ale_fixers = {
+\   '*': ['remove_trailing_lines', 'trim_whitespace'],
+\   'javascript': ['eslint', 'remove_trailing_lines', 'trim_whitespace'],
+\   'sh': ['shfmt', 'remove_trailing_lines', 'trim_whitespace'],
+\   'json': ['prettier', 'remove_trailing_lines', 'trim_whitespace'],
+\   'markdown': ['prettier', 'textlint', 'remove_trailing_lines', 'trim_whitespace'],
+\   'text': ['textlint', 'remove_trailing_lines', 'trim_whitespace'],
+\   'go': ['goimports', 'remove_trailing_lines', 'trim_whitespace'],
+\   'sql': ['sqlfmt', 'remove_trailing_lines', 'trim_whitespace'],
+\}
+let g:ale_go_golangci_lint_options = '--fast --config .golangci.yml --skip-dirs node_modules'
+if !filereadable('.golangci.yml')
+  let g:ale_go_golangci_lint_options = '--fast --config ~/.golangci.yml'
+endif
+
+augroup VIMRC
+    autocmd!
+    autocmd BufLeave *.css,*.scss normal! mC
+    autocmd BufLeave *.html normal! mH
+    autocmd BufLeave *.js normal! mJ
+    autocmd BufLeave *.go normal! mG
+    autocmd BufLeave *_test.go normal! mT
+    autocmd BufLeave *.yml,*.yaml normal! mY
+    autocmd BufLeave *.sh normal! mS
+    autocmd BufLeave *.md normal! mM
+augroup END
+nnoremap ' `
+nnoremap <silent> <space>y  :<C-u>CocList --normal yank<cr>
