@@ -5,6 +5,12 @@
     npm install -g joplin
     executable=/bin/zsh
 
+- name: installing joplin GUI
+  shell: >
+    source ~/.config/zsh/.zshrc &&
+    wget https://github.com/laurent22/joplin/releases/download/v1.0.161/Joplin-1.0.161-x86_64.AppImage -O ~/.local/bin/joplin-gui && chmod +x ~/.local/bin/joplin-gui
+    executable=/bin/zsh
+
 - name: create joplin config dir
   file: path="{{ ansible_env.HOME }}/.config/joplin" state=directory
 
