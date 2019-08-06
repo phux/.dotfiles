@@ -6,7 +6,7 @@ set foldnestmax=1
 
 let b:ale_linters = ['gofmt', 'govet', 'gobuild', 'gotype']
 let b:ale_linters = ['gobuild', 'revive']
-let b:ale_linters = ['revive', 'golangci-lint']
+let b:ale_linters = ['gobuild', 'revive', 'golangci-lint']
 let g:ale_go_golangci_lint_package=0
 
 let g:revive_config_file = '.revive.toml'
@@ -79,7 +79,6 @@ nnoremap <buffer> <leader>tt :GoTest!<cr>
 nnoremap <buffer> <leader>gt :GoTests<cr>
 nnoremap <buffer> <leader>gf :GoFillStruct<cr>
 
-nnoremap <buffer> <m-m> :GoMetaLinter<cr>
 nnoremap <buffer> <c-s> :GoFmt<cr>
 
 nnoremap <buffer> <f5> :GoDebugStart<cr>
@@ -157,7 +156,7 @@ let g:go_fmt_options = {
 let g:go_def_mode = 'godef'
 " let g:go_def_mode = 'guru'
 
-nnoremap <buffer> <leader>il :call ImplementInterface()<cr>
+nnoremap <buffer> <leader>il :Iface<cr>
 nnoremap <buffer> <leader>is :GoImpl<cr>
 
 " function! ImplementInterface()
