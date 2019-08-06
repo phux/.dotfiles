@@ -330,6 +330,7 @@ set wildmenu
 " set wildmode=list
 
 " Smaller updatetime for CursorHold & CursorHoldI
+  au BufWritePost *.go silent! !eval '[ -f ".git/hooks/ctags" ] && .git/hooks/ctags' &
 set updatetime=300
 
 "" no backups
