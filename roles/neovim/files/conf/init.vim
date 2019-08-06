@@ -193,11 +193,12 @@ nnoremap <leader>z :ScratchPreview<cr>
 let g:simple_todo_map_keys = 0
 let g:simple_todo_list_symbol = '*'
 Plug 'vitalk/vim-simple-todo'
-nmap <silent> <m-i> :s/* //<cr><Plug>(simple-todo-new-list-item-start-of-line)
-imap <m-i> <Plug>(simple-todo-new-list-item-start-of-line)
+nmap <silent> <m-i> :call SmartInsertTodo()<cr>
+imap <silent> <m-i> <esc>:call SmartInsertTodo()<cr>a
+" imap <m-i> <Plug>(simple-todo-new-list-item-start-of-line)
 nmap <m-o> <Plug>(simple-todo-below)
 imap <m-o> <Plug>(simple-todo-below)
-imap <m-space> <Plug>(simple-todo-mark-switch)
+imap <m-space> <Plug>(simple-todo-mark-switch)a
 nmap <m-space> <Plug>(simple-todo-mark-switch)
 
 """ todo.txt
@@ -263,6 +264,29 @@ Plug 'davidbalbert/vim-io', {'for': 'io'}
 Plug 'adimit/prolog.vim', {'for': 'prolog'}
 Plug 'derekwyatt/vim-scala', {'for': 'scala'}
 call plug#end()
+function! SmartInsertTodo()
+  " already todo in this line?
+  if getline('.') =~# '\[.\]'
+    return
+  endif
+
+  " is list?
+  if getline('.') =~# '^\s*\*'
+    let l:was_at_eol =  col('.') == col('$')-1
+
+    s/*\s*//
+    exec "normal \<Plug>(simple-todo-new-list-item-start-of-line)"
+    if l:was_at_eol
+      normal! $
+    else
+      normal! 4l
+    endif
+  else
+    " must be normal todo
+    exec "normal \<Plug>(simple-todo-new-start-of-line)"
+  endif
+endfunction
+
 
 " call neomake#configure#automake('w')
 " let g:neomake_echo_current_error=0
