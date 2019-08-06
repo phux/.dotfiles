@@ -169,10 +169,10 @@ Plug 'tpope/vim-rhubarb'
 nnoremap <leader>gw :Gwrite<cr>
 nnoremap <leader>gS :Gstatus<cr>
 nnoremap <leader>gb :Gblame<cr>
-nnoremap <leader>gc :Gcommit<cr>
+nnoremap <leader>gc :Gcommit -v<cr>
 nnoremap <leader>gL :Glog<cr>
 vnoremap <leader>gl :Glog<cr>
-
+nnoremap <leader>gd :Gdiff<cr>
 
 Plug 'lambdalisue/vim-improve-diff'
 Plug 'chrisbra/vim-diff-enhanced'
@@ -985,6 +985,7 @@ nnoremap <silent> <leader>d  :<C-u>CocList outline<cr>
 nnoremap <leader>gg :<C-u>CocCommand git.
 nnoremap <silent> <leader>gs :<C-u>CocList --normal gstatus<cr>
 nnoremap <silent> <leader>gl :<C-u>CocList --normal commits<cr>
+nnoremap <leader>gW :<C-u>CocCommand git.chunkStage<cr>
 nnoremap <silent> gb :CocCommand git.browserOpen<cr>
 " navigate chunks of current buffer
 nmap [g <Plug>(coc-git-prevchunk)
