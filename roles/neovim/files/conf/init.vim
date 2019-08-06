@@ -227,7 +227,6 @@ Plug 'tpope/vim-abolish'
 " Plug 'triglav/vim-visual-increment'
 
 """ gundo
-" nnoremap <m-u> :MundoToggle<CR>
 Plug 'simnalamburt/vim-mundo', {'on': 'MundoToggle'}
 let g:mundo_width = 100
 
@@ -255,9 +254,9 @@ let g:ale_lint_on_insert_leave=0
 let g:ale_disable_lsp=1
 let g:ale_open_list = 0
 let g:ale_fix_on_save = 1
+let g:ale_set_quickfix=1
 Plug 'w0rp/ale'
 Plug 'maximbaz/lightline-ale'
-" Plug 'neomake/neomake'
 
 Plug 'ajorgensen/vim-markdown-toc', {'for': 'markdown'}
 Plug 'davidbalbert/vim-io', {'for': 'io'}
@@ -556,18 +555,19 @@ vnoremap <leader>] :Subvert//g<left><left>
 
 "" qf/loc list toggle
 nmap <c-p> <Plug>(qf_loc_previous)
-nmap <c-n> <Plug>(qf_loc_next)
+nmap <silent>  <c-n> <Plug>(qf_loc_next)<bar>:call FixComma()<cr>
+" nmap <c-n> <Plug>(qf_loc_next)
 let g:qf_loc_toggle_binds = 0
 function! ToggleQfLocListBinds()
   if g:qf_loc_toggle_binds == 1
     nmap <c-p> <Plug>(qf_loc_previous)
-    nmap <c-n> <Plug>(qf_loc_next)
+    nmap <silent> <c-n> <Plug>(qf_loc_next)<bar>:call FixComma()<cr>
     let g:qf_loc_toggle_binds = 0
     echo 'loc binds loaded'
   else
     let g:qf_loc_toggle_binds = 1
     nmap <c-p> <Plug>(qf_qf_previous)
-    nmap <c-n> <Plug>(qf_qf_next)
+    nmap <silent> <c-n> <Plug>(qf_qf_next)<bar>:call FixComma()<cr>
     echo 'qf binds loaded'
   endif
 endfunction
@@ -1142,21 +1142,6 @@ function! s:mundoToggle()
 endfunction
 nnoremap <m-u> :call <sid>mundoToggle()<cr>
 
-function! ImplementInterface()
-    if !filereadable('go.mod')
-        echo 'no go.mod found in cwd'
-        return
-    endif
-    let l:cword = substitute(substitute(expand('<cword>'), 'Stub', '', ''), 'Mock', '', '')
-
-    let l:currentBasePackage = substitute(substitute(system('head -n 1 go.mod'), 'module ', '', ''), '\n\+$', '', '')
-    let l:interface = input('interface: ', l:currentBasePackage.''.substitute(expand('%:p:h'), getcwd(), '', '').'.'.l:cword)
-    let l:receiver = expand('<cword>')
-    let l:firstLetter = tolower(strpart(l:receiver, 0, 1))
-
-    exe ':GoImpl '.l:firstLetter.' *'.l:receiver.' '.l:interface
-endfunction
-
 " non-gomod projects
 " dependency: go get golang.org/x/tools/cmd/gomvpkg
 function! GoMoveDir()
@@ -1327,3 +1312,49 @@ nnoremap <silent> <space>y  :<C-u>CocList --normal yank<cr>
 
 nmap <C-]> <Plug>(fzf_tags)
 nmap <C-[> <ESC>:po<CR>
+
+function! s:iface_sink(line)
+    if !filereadable('go.mod')
+        echo 'no go.mod found in cwd'
+        return
+    endif
+  let parts = split(a:line, '\t\zs')
+  let l:path = parts[1][:-2]
+  let l:path = substitute(l:path, '..', '', '')
+  let l:path = substitute(l:path, '/\w\+.go$', '.', '')
+
+  let l:interface = parts[0]
+
+  let l:currentBasePackage = substitute(substitute(system('head -n 1 go.mod'), 'module ', '', ''), '\n\+$', '', '')
+  let l:interface = l:currentBasePackage.l:path.l:interface
+  let l:receiver = expand('<cword>')
+  let l:firstLetter = tolower(strpart(l:receiver, 0, 1))
+
+  exe ':GoImpl '.l:firstLetter.' *'.l:receiver.' '.l:interface
+endfunction
+
+function! s:iface()
+  call fzf#run({
+  \ 'source':  'cat '.join(map(tagfiles(), 'fnamemodify(v:val, ":S")')).
+  \            '| grep -v -a ^!',
+  \ 'options': '+m -d "\t" --with-nth 1,4.. -n 1 --tiebreak=index',
+  \ 'down':    '40%',
+  \ 'sink':    function('s:iface_sink')})
+endfunction
+
+command! Iface call s:iface()
+
+nnoremap <leader>l :CocListResume<cr>
+
+function! FixComma()
+  let l:buffer = bufnr('')
+  let [l:info, l:loc] = ale#util#FindItemAtCursor(l:buffer)
+  if !empty(l:loc)
+    let l:format = ale#Var(l:buffer, 'echo_msg_format')
+    let l:msg = ale#GetLocItemMessage(l:loc, l:format)
+    if l:msg ==# "missing ',' before newline in composite literal" || l:msg ==# 'syntax error: unexpected newline, expecting comma or }'
+      normal! A,
+      :w
+    endif
+  endif
+endfunction
