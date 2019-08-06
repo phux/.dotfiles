@@ -85,3 +85,25 @@ snippet pk "insert pkg name for current dir"
 package `!p snip.rv = get_pkg_name()`
 $0
 endsnippet
+
+snippet construct ""
+func New$1() $1{
+	return $1{
+		$0
+	}
+}
+endsnippet
+
+snippet errorStruct "declare custom error struct"
+type ${1:Name}Error struct {
+	msg string
+}
+
+func (e *$1Error) Error() string {
+	return e.msg
+}$0
+endsnippet
+
+snippet ew "errors.Wrap()"
+errors.Wrap(err, "$1")$0
+endsnippet
