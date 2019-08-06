@@ -6,13 +6,12 @@
   register: golangci_lint_installed
   changed_when: false
 
-- name: installing golangci-lint
-  shell: >
-    source ~/.config/zsh/.zshrc &&
-    go get -u github.com/golangci/golangci-lint/cmd/golangci-lint
-    executable=/bin/zsh
-
 - block:
+  - name: installing golangci-lint
+    shell: >
+      source ~/.config/zsh/.zshrc &&
+      go get -u github.com/golangci/golangci-lint/cmd/golangci-lint
+      executable=/bin/zsh
 
   - name: Link .golangci-lint config
     file:
@@ -20,7 +19,7 @@
       dest: "{{ ansible_env.HOME }}/{{ item | basename }}"
       state: link
     with_fileglob:
-      - .golangci-lint.json
+      - .golangci.yml
 
   when: golangci_lint_installed.rc != 0
 
