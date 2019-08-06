@@ -180,6 +180,7 @@ bindsym $MOD+SHIFT+f exec thunar
 bindsym $MOD+SHIFT+o exec urxvt -e 'ranger'
 bindsym Mod1+Return exec ~/.vim-anywhere/bin/run
 bindsym $MOD+n exec joplin-gui
+bindsym $MOD+p exec keepassxc
 bindsym $MOD+SHIFT+m exec mysql-workbench
 bindsym $mod+Shift+p exec sh ~/.i3/i3lock.sh
 bindsym Print exec scrot '%Y-%m-%d-%T_$wx$h_scrot.png' -e 'mv $f ~/Pictures/screenshots/'
