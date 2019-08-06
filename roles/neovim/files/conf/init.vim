@@ -70,6 +70,7 @@ Plug 'buoto/gotests-vim', {'for': 'go'}
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 Plug 'tweekmonster/fzf-filemru'
+Plug 'zackhsi/fzf-tags'
 
 "" UI
 Plug 'itchyny/lightline.vim'
@@ -297,6 +298,7 @@ augroup misc
   autocmd! FileType fzf
   autocmd  FileType fzf set laststatus=0
         \| autocmd BufLeave <buffer> set laststatus=2
+  au BufWritePost *.go silent! !eval '[ -f ".git/hooks/ctags" ] && .git/hooks/ctags' &
 augroup END
 
 "" Nvim
@@ -330,7 +332,6 @@ set wildmenu
 " set wildmode=list
 
 " Smaller updatetime for CursorHold & CursorHoldI
-  au BufWritePost *.go silent! !eval '[ -f ".git/hooks/ctags" ] && .git/hooks/ctags' &
 set updatetime=300
 
 "" no backups
@@ -1298,3 +1299,6 @@ augroup VIMRC
 augroup END
 nnoremap ' `
 nnoremap <silent> <space>y  :<C-u>CocList --normal yank<cr>
+
+nmap <C-]> <Plug>(fzf_tags)
+nmap <C-[> <ESC>:po<CR>
