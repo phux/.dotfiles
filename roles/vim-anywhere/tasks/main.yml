@@ -1,0 +1,3 @@
+- name: install vim-anywhere
+  shell: curl -fsSL https://raw.github.com/phux/vim-anywhere/master/install | bash
+  ignore_errors: true
