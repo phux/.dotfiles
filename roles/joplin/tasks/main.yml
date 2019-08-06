@@ -1,23 +1,38 @@
 ---
-- name: installing joplin-cli
-  shell: >
-    source ~/.config/zsh/.zshrc &&
-    npm install -g joplin
-    executable=/bin/zsh
+- name: check to see if joplin-cli is already installed
+  command: "joplin version"
+  ignore_errors: true
+  register: joplin_cli_installed
+  changed_when: false
 
-- name: installing joplin GUI
-  shell: >
-    source ~/.config/zsh/.zshrc &&
-    wget https://github.com/laurent22/joplin/releases/download/v1.0.161/Joplin-1.0.161-x86_64.AppImage -O ~/.local/bin/joplin-gui && chmod +x ~/.local/bin/joplin-gui
-    executable=/bin/zsh
+- block:
+  - name: installing joplin-cli
+    shell: >
+      source ~/.config/zsh/.zshrc &&
+      npm install -g joplin
+      executable=/bin/zsh
 
-- name: create joplin config dir
-  file: path="{{ ansible_env.HOME }}/.config/joplin" state=directory
+  - name: create joplin config dir
+    file: path="{{ ansible_env.HOME }}/.config/joplin" state=directory
 
-- name: Link joplin keymap file
-  file: >
-    src={{item}}
-    dest="{{ ansible_env.HOME }}/.config/joplin/{{ item | basename }}"
-    state=link
-  with_fileglob:
-    - keymap.json
+  - name: Link joplin keymap file
+    file: >
+      src={{item}}
+      dest="{{ ansible_env.HOME }}/.config/joplin/{{ item | basename }}"
+      state=link
+    with_fileglob:
+      - keymap.json
+  when: joplin_cli_installed.rc != 0
+
+- name: check to see if joplin GUI is already installed
+  stat:
+    path: ~/.local/bin/joplin-gui
+  register: joplin_gui_installed
+
+- block:
+  - name: installing joplin GUI
+    shell: >
+      source ~/.config/zsh/.zshrc &&
+      wget https://github.com/laurent22/joplin/releases/download/v1.0.161/Joplin-1.0.161-x86_64.AppImage -O ~/.local/bin/joplin-gui && chmod +x ~/.local/bin/joplin-gui
+      executable=/bin/zsh
+  when: joplin_gui_installed.stat.exists == false
