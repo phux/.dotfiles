@@ -107,3 +107,7 @@ endsnippet
 snippet ew "errors.Wrap()"
 errors.Wrap(err, "$1")$0
 endsnippet
+
+snippet ref "return fmt.Errorf"
+return ${1:$2, }fmt.Errorf("$3", $4)
+endsnippet
