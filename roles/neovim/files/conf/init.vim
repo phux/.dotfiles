@@ -100,7 +100,8 @@ Plug 'etdev/vim-hexcolor', {'for': ['css']}
 Plug 'reedes/vim-lexical', {'for': ['text', 'markdown', 'gitcommit']}
 let g:mkdp_path_to_chrome = 'chromium-browser'
 Plug 'iamcco/markdown-preview.nvim', { 'for': ['markdown'],  'do': 'cd app & yarn install'  }
-let g:mkdp_auto_close = 0
+let g:mkdp_auto_close = 1
+let g:mkdp_auto_start = 1
 Plug 'junegunn/goyo.vim', {'for': 'markdown'}
 Plug 'plasticboy/vim-markdown', {'for': ['markdown'], 'as': 'vim-markdown-plasticboy'}
 Plug 'tenfyzhong/tagbar-markdown.vim', {'for': 'markdown'}
@@ -118,6 +119,7 @@ Plug 'wellle/targets.vim'
 
 " quickfix improvements
 Plug 'romainl/vim-qf'
+let g:qf_auto_resize = 1
 
 Plug 'majutsushi/tagbar', {'on': 'TagbarToggle'}
 
@@ -167,7 +169,7 @@ Plug 'gregsexton/gitv', {'on': 'Gitv'}
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-rhubarb'
 nnoremap <leader>gw :Gwrite<cr>
-nnoremap <leader>gS :Gstatus<cr>
+nnoremap <leader>gs :Gstatus<cr>
 nnoremap <leader>gb :Gblame<cr>
 nnoremap <leader>gc :Gcommit -v<cr>
 nnoremap <leader>gL :Glog<cr>
@@ -183,7 +185,7 @@ Plug 'xolox/vim-notes', {'on': ['SearchNotes', 'Note', 'RecentNotes']} | Plug 'x
 let g:notes_directories = ['~/Dropbox/notes']
 let g:notes_suffix = '.md'
 let g:notes_smart_quotes = 0
-Plug 'mtth/scratch.vim', {'on' : 'ScratchPreview'}
+Plug 'mtth/scratch.vim'
 let g:scratch_persistence_file = '.scratch.vim'
 nnoremap <m-z> :Scratch<cr>
 nnoremap <leader>z :ScratchPreview<cr>
@@ -1007,7 +1009,7 @@ nmap <leader>R <Plug>(coc-refactor)
 nnoremap <silent> <leader>D  :<C-u>CocList -I symbols<cr>
 nnoremap <silent> <leader>d  :<C-u>CocList outline<cr>
 nnoremap <leader>gg :<C-u>CocCommand git.
-nnoremap <silent> <leader>gs :<C-u>CocList --normal gstatus<cr>
+" nnoremap <silent> <leader>gs :<C-u>CocList --normal gstatus<cr>
 nnoremap <silent> <leader>gl :<C-u>CocList --normal commits<cr>
 nnoremap <leader>gW :<C-u>CocCommand git.chunkStage<cr>
 nnoremap <silent> gb :CocCommand git.browserOpen<cr>
@@ -1289,7 +1291,6 @@ let g:ale_fixers = {
 \   'markdown': ['prettier', 'textlint', 'remove_trailing_lines', 'trim_whitespace'],
 \   'text': ['textlint', 'remove_trailing_lines', 'trim_whitespace'],
 \   'go': ['goimports', 'remove_trailing_lines', 'trim_whitespace'],
-\   'sql': ['sqlfmt', 'remove_trailing_lines', 'trim_whitespace'],
 \}
 let g:ale_go_golangci_lint_options = '--fast --config .golangci.yml --skip-dirs node_modules'
 if !filereadable('.golangci.yml')
@@ -1352,7 +1353,10 @@ function! FixComma()
   if !empty(l:loc)
     let l:format = ale#Var(l:buffer, 'echo_msg_format')
     let l:msg = ale#GetLocItemMessage(l:loc, l:format)
-    if l:msg ==# "missing ',' before newline in composite literal" || l:msg ==# 'syntax error: unexpected newline, expecting comma or }'
+    if l:msg ==# "missing ',' before newline in composite literal"
+          \ || l:msg ==# "missing ',' before newline in argument list"
+          \ || l:msg ==# 'syntax error: unexpected newline, expecting comma or }'
+          \ || l:msg ==# 'syntax error: unexpected newline, expecting comma or )'
       normal! A,
       :w
     endif
