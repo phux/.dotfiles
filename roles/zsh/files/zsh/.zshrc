@@ -265,7 +265,7 @@ zstyle ':completion:*::::' completer _expand _complete _ignored _approximate # l
 # # uninstall by removing these lines or running `tabtab uninstall sls`
 [[ -f ~/.nvm/versions/node/v12.6.0/lib/node_modules/serverless/node_modules/tabtab/.completions/sls.zsh ]] && . ~/.nvm/versions/node/v12.6.0/lib/node_modules/serverless/node_modules/tabtab/.completions/sls.zsh
 
-source ~/.local/bin/aws_zsh_completer.sh
+source ~/.config/zsh/aws_zsh_completer.sh
 
 _tmuxinator() {
   local commands projects
