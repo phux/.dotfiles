@@ -12,11 +12,13 @@
       "filetypes": ["scala", "sbt"]
     }
   },
+  "list.maxPreviewHeight": 50,
   "suggest.snippetIndicator": " ►",
   "suggest.echodocSupport": true,
   "suggest.detailField": "abbr",
   "suggest.enablePreselect": false,
-  "diagnostic.enable": true,
+  "suggest.maxCompleteItemCount": 200,
+  "diagnostic.enable": false,
   "diagnostic.displayByAle": false,
   "html.format.enable": true,
   "yaml.format.enable": true,
