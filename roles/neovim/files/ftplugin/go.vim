@@ -65,7 +65,7 @@ nnoremap <buffer> <leader>gm :call GoMoveDirV2()<cr>
 noremap <buffer> <leader>h :Refactor godoc<cr>
 nnoremap <buffer> <leader>ga :GoAddTags<cr>
 noremap <buffer> <leader>m :GoDoc<cr>
-nnoremap <buffer> <leader>gd :GoDescribe<cr>
+" nnoremap <buffer> <leader>gd :GoDescribe<cr>
 noremap <buffer> <leader>u :exec "GoImport ".expand("<cword>")<cr>
 inoremap <silent><buffer> . <esc>:call AliasGoImport()<cr>
 nnoremap <buffer> <leader>ie :GoIfErr<cr>
