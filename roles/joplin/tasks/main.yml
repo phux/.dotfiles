@@ -1,6 +1,6 @@
 ---
 - name: check to see if joplin-cli is already installed
-  command: "joplin version"
+  command: "source ~/.config/zsh/.zshrc && joplin version"
   ignore_errors: true
   register: joplin_cli_installed
   changed_when: false
