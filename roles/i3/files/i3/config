@@ -19,6 +19,9 @@ focus_follows_mouse no
 
 force_focus_wrapping no
 
+# set popups during fullscreen mode
+popup_during_fullscreen smart
+
 # Back and Forth
 workspace_auto_back_and_forth no
 
@@ -181,9 +184,10 @@ bindsym $MOD+SHIFT+o exec urxvt -e 'ranger'
 bindsym Mod1+Return exec ~/.vim-anywhere/bin/run
 bindsym $MOD+n exec joplin-gui
 bindsym $MOD+p exec keepassxc
-bindsym $MOD+SHIFT+m exec mysql-workbench
+# bindsym $MOD+SHIFT+m exec mysql-workbench
 bindsym $mod+Shift+p exec sh ~/.i3/i3lock.sh
-bindsym Print exec scrot '%Y-%m-%d-%T_$wx$h_scrot.png' -e 'mv $f ~/Pictures/screenshots/'
+# bindsym Print exec scrot '%Y-%m-%d-%T_$wx$h_scrot.png' -e 'mv $f ~/Pictures/screenshots/'
+bindsym Print exec gnome-screenshot -i
 
 # workspace targeting
 assign [class="Chromium"] 10
