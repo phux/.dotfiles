@@ -1,4 +1,4 @@
-call lexical#init()
+" call lexical#init()
 
 let g:markdown_enable_mappings = 0
 let g:markdown_enable_folding = 0
@@ -23,7 +23,7 @@ setlocal wrap
 
 set conceallevel=2
 
-nnoremap <silent><buffer> <f12> :MarkdownPreview<cr>
+nnoremap <silent><buffer> <enter> :MarkdownPreview<cr>
 nnoremap <silent><buffer> <f11> :MarkdownPreviewStop<cr>
 
 " convert url to markdown link
