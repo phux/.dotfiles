@@ -2,7 +2,7 @@
 " vint: -ProhibitCommandWithUnintendedSideEffect
 
 if has('vim_starting')
-  let g:qf_loc_toggle_binds = 0
+  syntax on
   set nofoldenable
   set foldtext=MyFoldText()
 endif
@@ -75,7 +75,6 @@ Plug 'zackhsi/fzf-tags'
 "" UI
 Plug 'itchyny/lightline.vim'
 Plug 'simeji/winresizer', {'on': 'WinResizerStartResize'}
-" Plug 'dhruvasagar/vim-zoom'
 let g:echodoc_enable_at_startup=1
 " default nord color lets not identify current argument
 let g:echodoc#highlight_arguments = 'SpellCap'
@@ -83,31 +82,21 @@ Plug 'Shougo/echodoc.vim'
 let g:buftabline_show = 1 " display only if more than 1 buffer open
 Plug 'ap/vim-buftabline'
 
-Plug 'NLKNguyen/papercolor-theme'
-Plug 'cormacrelf/vim-colors-github'
 Plug 'arcticicestudio/nord-vim'
 Plug 'etdev/vim-hexcolor', {'for': ['css']}
-" Plug 'morhetz/gruvbox'
-
-" Plug 'liuchengxu/vista.vim', {'on': 'Vista'}
-" let g:vista_icon_indent = ["▸ ", ""]
-" let g:vista_cursor_delay=0
-" let g:vista_echo_cursor_strategy='floating_win'
-" let g:vista_blink=[]
-
 
 "" markdown
 Plug 'reedes/vim-lexical', {'for': ['text', 'markdown', 'gitcommit']}
 let g:mkdp_path_to_chrome = 'chromium-browser'
 Plug 'iamcco/markdown-preview.nvim', { 'for': ['markdown'],  'do': 'cd app & yarn install'  }
 let g:mkdp_auto_close = 1
-let g:mkdp_auto_start = 1
+let g:mkdp_auto_start = 0
 Plug 'junegunn/goyo.vim', {'for': 'markdown'}
 Plug 'plasticboy/vim-markdown', {'for': ['markdown'], 'as': 'vim-markdown-plasticboy'}
 Plug 'tenfyzhong/tagbar-markdown.vim', {'for': 'markdown'}
 Plug 'Rykka/InstantRst', {'for': 'rst'}
 let g:instant_rst_browser='chromium-browser'
-Plug 'tpope/vim-markdown'
+Plug 'tpope/vim-markdown', {'for': 'markdown'}
 
 "" search/navigate
 
@@ -118,10 +107,9 @@ Plug 'romainl/vim-cool'
 Plug 'wellle/targets.vim'
 
 " quickfix improvements
-Plug 'romainl/vim-qf'
 let g:qf_auto_resize = 1
 
-Plug 'majutsushi/tagbar', {'on': 'TagbarToggle'}
+Plug 'majutsushi/tagbar', {'on': 'TagbarOpenAutoClose'}
 
 """ easymotion
 Plug 'Lokaltog/vim-easymotion'
@@ -169,7 +157,7 @@ Plug 'gregsexton/gitv', {'on': 'Gitv'}
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-rhubarb'
 nnoremap <leader>gw :Gwrite<cr>
-nnoremap <leader>gs :Gstatus<cr>
+nnoremap <leader>gs :Ge :<cr>
 nnoremap <leader>gb :Gblame<cr>
 nnoremap <leader>gc :Gcommit -v<cr>
 nnoremap <leader>gL :Glog<cr>
@@ -185,8 +173,9 @@ Plug 'xolox/vim-notes', {'on': ['SearchNotes', 'Note', 'RecentNotes']} | Plug 'x
 let g:notes_directories = ['~/Dropbox/notes']
 let g:notes_suffix = '.md'
 let g:notes_smart_quotes = 0
-Plug 'mtth/scratch.vim'
+let g:scratch_auto_height = 1
 let g:scratch_persistence_file = '.scratch.vim'
+Plug '~/code/scratch.vim'
 nnoremap <m-z> :Scratch<cr>
 nnoremap <leader>z :ScratchPreview<cr>
 
@@ -204,7 +193,7 @@ imap <m-space> <Plug>(simple-todo-mark-switch)a
 nmap <m-space> <Plug>(simple-todo-mark-switch)
 
 """ todo.txt
-Plug 'dbeniamine/todo.txt-vim', {'for': 'text'}
+Plug 'freitass/todo.txt-vim', {'for': 'text'}
 
 "" filetype
 " Set the 'path' option for miscellaneous file types
@@ -213,6 +202,7 @@ Plug 'stephpy/vim-yaml', {'for': 'yaml'}
 
 " let g:indent_guides_enable_on_vim_startup = 1
 let g:indent_guides_auto_colors = 1
+nmap <silent> <Leader>ig <Plug>IndentGuidesToggle
 Plug 'nathanaelkane/vim-indent-guides', {'for': ['yaml', 'markdown']}
 " Plug 'elzr/vim-json', {'for': 'json'}
 Plug 'pearofducks/ansible-vim', { 'do': 'cd ./UltiSnips; python2 generate.py', 'for': 'yaml'}
@@ -250,6 +240,7 @@ Plug 'tpope/vim-commentary', {'on': 'Commentary'}
 nnoremap <leader>c :Commentary<cr>
 vnoremap <leader>c :Commentary<cr>
 
+let g:ale_warn_about_trailing_whitespace=0
 let g:ale_lint_on_enter=0
 let g:ale_lint_on_text_changed=0
 let g:ale_lint_on_insert_leave=0
@@ -264,6 +255,9 @@ Plug 'ajorgensen/vim-markdown-toc', {'for': 'markdown'}
 Plug 'davidbalbert/vim-io', {'for': 'io'}
 Plug 'adimit/prolog.vim', {'for': 'prolog'}
 Plug 'derekwyatt/vim-scala', {'for': 'scala'}
+" Plug 'phux/vim-marker'
+Plug '~/code/vim-marker'
+Plug 'arp242/jumpy.vim'
 call plug#end()
 function! SmartInsertTodo()
   " already todo in this line?
@@ -301,8 +295,8 @@ endfunction
 augroup misc
   au!
 
-  " autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  guibg=none   ctermbg=none
-  " autocmd VimEnter,Colorscheme * :hi IndentGuidesEven guibg=green ctermbg=0
+  autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  guibg=none   ctermbg=none
+  autocmd VimEnter,Colorscheme * :hi IndentGuidesEven guibg=green ctermbg=0
 
   au BufNewFile,BufRead *.yml.dist set ft=yaml
   au BufRead,BufNewFile *.conf setf config
@@ -324,7 +318,13 @@ augroup misc
   autocmd  FileType fzf set laststatus=0
         \| autocmd BufLeave <buffer> set laststatus=2
   au BufWritePost *.go silent! !eval '[ -f ".git/hooks/ctags" ] && .git/hooks/ctags' &
+  au FileType qf call AdjustWindowHeight(3, 10)
 augroup END
+
+" https://vim.fandom.com/wiki/Automatically_fitting_a_quickfix_window_height
+function! AdjustWindowHeight(minheight, maxheight)
+  exe max([min([line('$'), a:maxheight]), a:minheight]) . 'wincmd _'
+endfunction
 
 "" Nvim
 augroup nvim
@@ -521,7 +521,7 @@ nnoremap <leader>, :FilesMru<cr>
 nnoremap <leader>. :FZFAllFiles<cr>
 
 nnoremap <leader>T :Tags<cr>
-nnoremap <leader>; :TagbarToggle<cr>
+nnoremap <leader>; :TagbarOpenAutoClose<cr>
 
 nnoremap <leader>a :Rg<space>
 nnoremap <leader>A :exec "Rg ".expand("<cword>")<cr>
@@ -556,20 +556,24 @@ nnoremap <leader>[ :Subvert/<c-R><c-w>/<c-r><c-w>/g<left><left>
 vnoremap <leader>] :Subvert//g<left><left>
 
 "" qf/loc list toggle
-nmap <c-p> <Plug>(qf_loc_previous)
-nmap <silent>  <c-n> <Plug>(qf_loc_next)<bar>:call FixComma()<cr>
+nmap <c-p> :lp<cr>
+nmap <c-n> :lnext<cr>
 " nmap <c-n> <Plug>(qf_loc_next)
 let g:qf_loc_toggle_binds = 0
 function! ToggleQfLocListBinds()
   if g:qf_loc_toggle_binds == 1
-    nmap <c-p> <Plug>(qf_loc_previous)
-    nmap <silent> <c-n> <Plug>(qf_loc_next)<bar>:call FixComma()<cr>
+    " nmap <c-p> <Plug>(qf_loc_previous)
+    " nmap <silent> <c-n> <Plug>(qf_loc_next)<cr>
+    nmap <c-p> :lp<cr>
+    nmap <c-n> :lnext<cr>
     let g:qf_loc_toggle_binds = 0
     echo 'loc binds loaded'
   else
     let g:qf_loc_toggle_binds = 1
-    nmap <c-p> <Plug>(qf_qf_previous)
-    nmap <silent> <c-n> <Plug>(qf_qf_next)<bar>:call FixComma()<cr>
+    " nmap <c-p> <Plug>(qf_qf_previous)
+    " nmap <silent> <c-n> <Plug>(qf_qf_next)<cr>
+    nmap <c-p> :cp<cr>
+    nmap <c-n> :cn<cr>
     echo 'qf binds loaded'
   endif
 endfunction
@@ -769,7 +773,6 @@ set noshowmode
 set noruler
 
 filetype plugin indent on
-syntax on
 
 set scrolloff=5
 set shiftround
@@ -932,8 +935,9 @@ call coc#add_extension(
       \ 'coc-post',
       \ 'coc-vimlsp',
       \ 'coc-lists',
-      \ 'coc-yank',
+      \ 'coc-yank'
       \ )
+      " \ 'coc-go'
       " \ 'coc-pairs',
       " \ 'coc-highlight',
 let g:markdown_fenced_languages = [
@@ -1080,20 +1084,26 @@ function! FormatDate() abort
 endfunction
 
 so ~/.local.init.vim
-
-nnoremap <m-j> :call LocListToggle()<cr>
-let g:loclist_open = 0
+nnoremap <m-q> :call LocListToggle()<cr>
 function! LocListToggle()
-  if g:loclist_open == 1
-    lclose
-    let g:loclist_open = 0
+  if g:qf_loc_toggle_binds == 0
+    let l:prefix = 'l'
+    let l:is_open = [] != filter(getwininfo(), 'v:val.quickfix && v:val.loclist')
+    echo 'using locationlist'
   else
-    lopen
-    let g:loclist_open = 1
+    let l:prefix = 'c'
+    let l:is_open = [] != filter(getwininfo(), 'v:val.quickfix && !v:val.loclist')
+    echo 'using quickfix'
+  endif
+
+  if l:is_open
+    execute l:prefix.'close'
+  else
+    execute l:prefix.'open'
   endif
 endfunction
 
-nnoremap dg <c-w>wVy<c-w>wP]c
+" nnoremap dg <c-w>wVy<c-w>wP]c
 
 function! s:GrepArgs(...)
   let list = ['-S', '-smartcase', '-i', '-ignorecase', '-w', '-word',
@@ -1144,145 +1154,6 @@ function! s:mundoToggle()
 endfunction
 nnoremap <m-u> :call <sid>mundoToggle()<cr>
 
-" non-gomod projects
-" dependency: go get golang.org/x/tools/cmd/gomvpkg
-function! GoMoveDir()
-  :update
-
-  " find current gopath
-  let l:gopath = ''
-  for gopath in split($GOPATH, ':')
-    if expand('%:p:h') =~ '^'.gopath
-      let l:gopath = gopath
-    endif
-  endfor
-
-    let l:currentFile = expand('%:p')
-    let l:oldPath = input('Old path: ', substitute(expand('%:p:h'), gopath.'/src/', '', ''))
-    let l:newPath = input('New path ==> ', l:oldPath)
-
-  if len(l:gopath) == 0
-    " echo 'Cannot move pkg - not in configured gopath?!'
-    " return
-  endif
-
-
-  execute '!gomvpkg -from '.l:oldPath.' -to '.l:newPath
-
-  if !filereadable(l:currentFile)
-    :bd
-  endif
-endfunction
-
-" non-gomod projects
-" dependency: go get golang.org/x/tools/cmd/gomvpkg
-function! GoMoveFile()
-  :update
-
-  " find current gopath
-  let l:gopath = ''
-  for gopath in split($GOPATH, ':')
-    if expand('%:p:h') =~ '^'.gopath
-      let l:gopath = gopath
-    endif
-  endfor
-
-  if len(l:gopath) == 0
-    echo 'Cannot move pkg - not in configured gopath?!'
-    return
-  endif
-
-  let l:currentFile = expand('%:p')
-  let l:oldPath = input('Old path: ', substitute(expand('%:p:h'), gopath.'/src/', '', ''))
-  let l:newPath = input('New path ==> ', l:oldPath)
-
-  execute '!gomvpkg -from '.l:oldPath.' -to '.l:newPath
-
-  if !filereadable(l:currentFile)
-    :bd
-  endif
-endfunction
-
-" dependency: go get -u github.com/ksubedi/gomove
-function! GoMoveDirV2()
-  :update
-
-  if !filereadable('go.mod')
-      echo 'no go.mod found in cwd - not moving anything'
-      return
-  endif
-
-  let l:currentBasePackage = substitute(substitute(system('head -n 1 go.mod'), 'module ', '', ''), '\n\+$', '', '')
-  let l:currentFile = expand('%:p')
-  let l:oldPath = substitute(expand('%:p:h'), getcwd(), '', '')
-  let l:oldPackage = input('Old package: ', l:currentBasePackage.''.l:oldPath)
-  let l:newPackage = input('New package ==> ', l:oldPackage)
-  let l:oldPath = getcwd().'/'.substitute(l:oldPackage, l:currentBasePackage, '', '')
-  let l:newPath = getcwd().'/'.substitute(l:newPackage, l:currentBasePackage, '', '')
-  if l:oldPackage =~# '/$'
-      let l:oldPackage = strpart(l:oldPackage, 0, len(l:oldPackage) -1)
-  endif
-  if l:newPackage =~# '/$'
-      let l:newPackage = strpart(l:newPackage, 0, len(l:newPackage) -1)
-  endif
-
-  if empty(glob(l:newPath))
-      exe '!mkdir -p '.l:newPath
-  endif
-
-  exe '!mv '.l:oldPath.'/* '.l:newPath
-  exe '!gomove '.l:oldPackage.' '.l:newPackage
-
-  if !filereadable(l:currentFile)
-    :bd
-  endif
-endfunction
-
-function! AliasGoImport()
-    let l:skip = !has_key(v:completed_item, 'word') || v:completed_item['kind'] !=# 'M'
-
-    if !l:skip
-        let l:currentPackage = v:completed_item['word']
-        let l:importPath = substitute(substitute(v:completed_item['menu'], ' \[LS\]', '', ''), '"', '', 'g')
-    endif
-
-    if !l:skip
-        " check if selected package is already imported
-        let [s:line, s:col] = searchpos('"'.l:importPath.'"', 'n')
-        let l:skip = s:line
-    endif
-
-    if !l:skip
-        " check if different package with same name is already imported
-        let [s:line, s:col] = searchpos('\s\+".\+/'.l:currentPackage.'"$', 'n')
-        if s:line > 0
-            let l:alias = input('Package already imported. Alias '.l:importPath.' as: ')
-            if l:alias ==# ''
-                echo 'No alias given - not doing anything'
-            else
-                let l:cmd = 'GoImportAs ' . l:alias . ' ' . l:importPath
-                execute l:cmd
-                execute 'normal! ciw'.l:alias
-            endif
-
-            let l:skip = 1
-        endif
-    endif
-
-    if !l:skip
-        let l:cmd = 'GoImport ' . l:importPath
-        execute l:cmd
-    endif
-
-    normal! a.
-    if col('.') == col('$') - 1
-        startinsert!
-    else
-        normal! l
-        startinsert
-    end
-endfunction
-
 let g:ale_fixers = {
 \   '*': ['remove_trailing_lines', 'trim_whitespace'],
 \   'javascript': ['eslint', 'remove_trailing_lines', 'trim_whitespace'],
@@ -1292,10 +1163,6 @@ let g:ale_fixers = {
 \   'text': ['textlint', 'remove_trailing_lines', 'trim_whitespace'],
 \   'go': ['goimports', 'remove_trailing_lines', 'trim_whitespace'],
 \}
-let g:ale_go_golangci_lint_options = '--fast --config .golangci.yml --skip-dirs node_modules'
-if !filereadable('.golangci.yml')
-  let g:ale_go_golangci_lint_options = '--fast --config ~/.golangci.yml'
-endif
 
 augroup VIMRC
     autocmd!
@@ -1314,51 +1181,6 @@ nnoremap <silent> <space>y  :<C-u>CocList --normal yank<cr>
 nmap <C-]> <Plug>(fzf_tags)
 nmap <C-[> <ESC>:po<CR>
 
-function! s:iface_sink(line)
-    if !filereadable('go.mod')
-        echo 'no go.mod found in cwd'
-        return
-    endif
-  let parts = split(a:line, '\t\zs')
-  let l:path = parts[1][:-2]
-  let l:path = substitute(l:path, '..', '', '')
-  let l:path = substitute(l:path, '/\w\+.go$', '.', '')
-
-  let l:interface = parts[0]
-
-  let l:currentBasePackage = substitute(substitute(system('head -n 1 go.mod'), 'module ', '', ''), '\n\+$', '', '')
-  let l:interface = l:currentBasePackage.l:path.l:interface
-  let l:receiver = expand('<cword>')
-  let l:firstLetter = tolower(strpart(l:receiver, 0, 1))
-
-  exe ':GoImpl '.l:firstLetter.' *'.l:receiver.' '.l:interface
-endfunction
-
-function! s:iface()
-  call fzf#run({
-  \ 'source':  'cat '.join(map(tagfiles(), 'fnamemodify(v:val, ":S")')).
-  \            '| grep -v -a ^!',
-  \ 'options': '+m -d "\t" --with-nth 1,4.. -n 1 --tiebreak=index',
-  \ 'down':    '40%',
-  \ 'sink':    function('s:iface_sink')})
-endfunction
-
-command! Iface call s:iface()
-
 nnoremap <leader>l :CocListResume<cr>
 
-function! FixComma()
-  let l:buffer = bufnr('')
-  let [l:info, l:loc] = ale#util#FindItemAtCursor(l:buffer)
-  if !empty(l:loc)
-    let l:format = ale#Var(l:buffer, 'echo_msg_format')
-    let l:msg = ale#GetLocItemMessage(l:loc, l:format)
-    if l:msg ==# "missing ',' before newline in composite literal"
-          \ || l:msg ==# "missing ',' before newline in argument list"
-          \ || l:msg ==# 'syntax error: unexpected newline, expecting comma or }'
-          \ || l:msg ==# 'syntax error: unexpected newline, expecting comma or )'
-      normal! A,
-      :w
-    endif
-  endif
-endfunction
+set tags^=./.git/tags;
