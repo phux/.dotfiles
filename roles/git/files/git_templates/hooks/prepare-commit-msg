@@ -19,3 +19,4 @@ then
     echo "$TICKET $MESSAGE" > $1
   fi
 fi
+# echo $(curl -s https://whatthecommit.com/ | grep "<p>" | sed "s/<p>//") > $1
