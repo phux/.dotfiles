@@ -76,6 +76,14 @@ snippet ae "assert.Equal"
 assert.Equal(t, ${1:expected}, ${2:actual})$0
 endsnippet
 
+snippet af "assert.False"
+assert.False(t, ${1:actual})$0
+endsnippet
+
+snippet at "assert.True"
+assert.True(t, ${1:actual})$0
+endsnippet
+
 global !p
 def get_pkg_name():
 	return os.path.basename(os.path.dirname(path))
@@ -104,8 +112,12 @@ func (e *$1Error) Error() string {
 }$0
 endsnippet
 
-snippet ew "errors.Wrap()"
-errors.Wrap(err, "$1")$0
+snippet ew "fmt.Errorf(%w)"
+fmt.Errorf("$2: %w", ${1:err})$0
+endsnippet
+
+snippet rew "return fmt.Errorf wrap"
+return fmt.Errorf("$2: %w", ${1:err})$0
 endsnippet
 
 snippet ref "return fmt.Errorf"
