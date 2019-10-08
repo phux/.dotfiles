@@ -1,10 +1,9 @@
-let g:qf_loclist_window_bottom = 0
-let g:qf_nowrap = 0
-let g:qf_mapping_ack_style = 1
+" we don't want quickfix buffers to pop up when doing :bn or :bp
+set nobuflisted
+nnoremap <silent> <buffer> s <C-w><CR>
 
-let g:qf_statusline = {}
-let g:qf_statusline.before = '%<\ '
-let g:qf_statusline.after = '\ %f%=%l\/%-6L\ \ \ \ \ '
+" open entry in a new horizontal window
+nnoremap <silent> <buffer> s <C-w><CR>
 
-nnoremap <buffer> <c-n> <Plug>(qf_loc_next)
-nnoremap <buffer> <c-p> <Plug>(qf_loc_previous)
+" open entry in a new vertical window.
+nnoremap <silent> <expr> <buffer> v &splitright ? "\<C-w>\<CR>\<C-w>L\<C-w>p\<C-w>J\<C-w>p" : "\<C-w>\<CR>\<C-w>H\<C-w>p\<C-w>J\<C-w>p"

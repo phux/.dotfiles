@@ -31,7 +31,7 @@ nnoremap <buffer> <leader>H :call PhpConstructorArgumentMagic2()<cr>
 nnoremap <buffer> <leader>rcc :call PhpConstructorArgumentMagic()<cr>:sleep 300m<cr>:e<cr>
 nnoremap <buffer> <leader>rmc :call PHPMoveClass()<cr>
 nnoremap <buffer> <leader>rmd :call PHPMoveDir()<cr>
-nnoremap <buffer> <m-m> :call phpactor#ContextMenu()<cr>
+nnoremap <buffer> <m-p> :call phpactor#ContextMenu()<cr>
 nnoremap <buffer> <leader>ric :call PHPModify("implement_contracts")<cr>
 nnoremap <buffer> <leader>rap :call PHPModify("add_missing_properties")<cr>
 nnoremap <buffer> <leader>rei :call PHPExtractInterface()<cr>
