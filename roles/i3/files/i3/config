@@ -106,7 +106,7 @@ bindsym $mod+Shift+b layout toggle split
 # need to change this because "Mod+h" no longer free
 # bindsym $mod+n split h
 # split in vertical orientation
-# bindsym $mod+Shift+n split v
+bindsym $mod+Shift+n split v
 
 
 # go fullscreen
