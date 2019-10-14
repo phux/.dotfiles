@@ -20,7 +20,6 @@
       }
     }
   },
-  "list.maxPreviewHeight": 50,
   "suggest.snippetIndicator": " ►",
   "suggest.echodocSupport": true,
   "suggest.detailField": "abbr",
@@ -29,9 +28,9 @@
   "diagnostic.enable": false,
   "diagnostic.displayByAle": false,
   "html.format.enable": true,
-  "yaml.format.enable": true,
   "coc.preferences.hoverTarget": "float",
   "python.jediEnabled": false,
+  "yaml.format.enable": true,
   "yaml.hover": true,
   "yaml.schemas": {
     "http://json.schemastore.org/ansible-stable-2.5": "/*.yml",
