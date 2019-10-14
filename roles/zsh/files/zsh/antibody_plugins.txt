@@ -11,6 +11,7 @@ robbyrussell/oh-my-zsh folder:plugins/tmuxinator
 lukechilds/zsh-nvm
 
 zsh-users/zsh-syntax-highlighting
+zsh-users/zsh-autosuggestions
 
 # prompt
 mafredri/zsh-async #dep for pure&purer
