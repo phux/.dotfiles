@@ -173,6 +173,7 @@ Plug 'xolox/vim-notes', {'on': ['SearchNotes', 'Note', 'RecentNotes']} | Plug 'x
 let g:notes_directories = ['~/Dropbox/notes']
 let g:notes_suffix = '.md'
 let g:notes_smart_quotes = 0
+
 let g:scratch_auto_height = 1
 let g:scratch_persistence_file = '.scratch.vim'
 Plug '~/code/scratch.vim'
@@ -1162,6 +1163,7 @@ let g:ale_fixers = {
 \   'markdown': ['prettier', 'textlint', 'remove_trailing_lines', 'trim_whitespace'],
 \   'text': ['textlint', 'remove_trailing_lines', 'trim_whitespace'],
 \   'go': ['goimports', 'remove_trailing_lines', 'trim_whitespace'],
+\   'sql': ['pgformatter'],
 \}
 
 augroup VIMRC
