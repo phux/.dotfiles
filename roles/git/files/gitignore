@@ -16,3 +16,4 @@ bin/
 .classpath
 .settings/
 .vim/coc-settings.json
+.idea/
