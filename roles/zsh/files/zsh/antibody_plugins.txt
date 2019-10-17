@@ -12,6 +12,8 @@ lukechilds/zsh-nvm
 
 zsh-users/zsh-syntax-highlighting
 zsh-users/zsh-autosuggestions
+djui/alias-tips
+ytakahashi/igit
 
 # prompt
 mafredri/zsh-async #dep for pure&purer
