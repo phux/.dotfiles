@@ -42,12 +42,9 @@ let g:AutoPairsShortcutToggle = '<s-f12>'
 Plug 'jiangmiao/auto-pairs'
 
 "" plantuml
-" Plug 'scrooloose/vim-slumlord', {'for': ['uml', 'markdown']}
 Plug 'aklt/plantuml-syntax', {'for': 'uml'}
 
 Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
-" Plug 'Shougo/neco-vim', {'for': 'vim'}
-" Plug 'neoclide/coc-neco', {'for': 'vim'}
 
 "" php
 Plug 'phux/php-doc-modded', {'for': 'php'}
@@ -60,8 +57,8 @@ Plug 'phpactor/phpactor', {'for': 'php', 'do': ':call phpactor#Update()'}
 Plug 'lvht/phpcd.vim', { 'for': 'php', 'do': 'composer install' }
 
 "" go
-
-Plug 'fatih/vim-go', {'for': 'go', 'do': ':GoInstallBinaries'}
+Plug 'arp242/gopher.vim', {'for': 'go'}
+" Plug 'fatih/vim-go', {'for': 'go', 'do': ':GoInstallBinaries'}
 Plug 'sebdah/vim-delve', {'for': 'go'}
 Plug 'godoctor/godoctor.vim', {'for': 'go'}
 Plug 'buoto/gotests-vim', {'for': 'go'}
@@ -86,14 +83,12 @@ Plug 'arcticicestudio/nord-vim'
 Plug 'etdev/vim-hexcolor', {'for': ['css']}
 
 "" markdown
-Plug 'reedes/vim-lexical', {'for': ['text', 'markdown', 'gitcommit']}
+" Plug 'reedes/vim-lexical', {'for': []}
 let g:mkdp_path_to_chrome = 'chromium-browser'
 Plug 'iamcco/markdown-preview.nvim', { 'for': ['markdown'],  'do': 'cd app & yarn install'  }
 let g:mkdp_auto_close = 1
 let g:mkdp_auto_start = 0
-Plug 'junegunn/goyo.vim', {'for': 'markdown'}
 Plug 'plasticboy/vim-markdown', {'for': ['markdown'], 'as': 'vim-markdown-plasticboy'}
-Plug 'tenfyzhong/tagbar-markdown.vim', {'for': 'markdown'}
 Plug 'Rykka/InstantRst', {'for': 'rst'}
 let g:instant_rst_browser='chromium-browser'
 Plug 'tpope/vim-markdown', {'for': 'markdown'}
@@ -122,16 +117,18 @@ nmap <Leader>F <Plug>(easymotion-overwin-w)
 let g:EasyMotion_smartcase = 1
 let g:EasyMotion_use_smartsign_us = 1 " US layout
 
-""" nerdtree
-Plug 'scrooloose/nerdtree', {'on': ['NERDTreeToggle', 'NERDTreeFind']}
-let g:NERDTreeUpdateOnCursorHold = 0
-let g:NERDTreeQuitOnOpen = 0
-let g:NERDTreeWinSize = 40
-let g:NERDTreeMinimalUI=1
-let g:NERDTreeCascadeSingleChildDir=0
-let g:NERDTreeAutoDeleteBuffer=1
-nnoremap <leader>n :NERDTreeToggle<cr>
-nnoremap <leader>N :NERDTreeFind<cr>
+" """ nerdtree
+" Plug 'scrooloose/nerdtree', {'on': ['NERDTreeToggle', 'NERDTreeFind']}
+" let g:NERDTreeUpdateOnCursorHold = 0
+" let g:NERDTreeQuitOnOpen = 0
+" let g:NERDTreeWinSize = 40
+" let g:NERDTreeMinimalUI=1
+" let g:NERDTreeCascadeSingleChildDir=0
+" let g:NERDTreeAutoDeleteBuffer=1
+" nnoremap <leader>n :NERDTreeToggle<cr>
+" nnoremap <leader>N :NERDTreeFind<cr>
+nnoremap <leader>n :CocCommand explorer<cr>
+nnoremap <leader>N :exe 'CocCommand explorer --reveal '. expand('%:p')<cr>
 
 """ tmux
 
@@ -164,8 +161,10 @@ nnoremap <leader>gL :Glog<cr>
 vnoremap <leader>gl :Glog<cr>
 nnoremap <leader>gd :Gdiff<cr>
 
+Plug 'lambdalisue/gina.vim'
+Plug 'rbong/vim-flog'
+
 Plug 'lambdalisue/vim-improve-diff'
-Plug 'chrisbra/vim-diff-enhanced'
 Plug 'whiteinge/diffconflicts'
 
 "" notes
@@ -173,6 +172,7 @@ Plug 'xolox/vim-notes', {'on': ['SearchNotes', 'Note', 'RecentNotes']} | Plug 'x
 let g:notes_directories = ['~/Dropbox/notes']
 let g:notes_suffix = '.md'
 let g:notes_smart_quotes = 0
+Plug 'rhysd/vim-notes-cli'
 
 let g:scratch_auto_height = 1
 let g:scratch_persistence_file = '.scratch.vim'
@@ -197,22 +197,15 @@ nmap <m-space> <Plug>(simple-todo-mark-switch)
 Plug 'freitass/todo.txt-vim', {'for': 'text'}
 
 "" filetype
-" Set the 'path' option for miscellaneous file types
-Plug 'tpope/vim-apathy'
 Plug 'stephpy/vim-yaml', {'for': 'yaml'}
 
-" let g:indent_guides_enable_on_vim_startup = 1
-let g:indent_guides_auto_colors = 1
-nmap <silent> <Leader>ig <Plug>IndentGuidesToggle
-Plug 'nathanaelkane/vim-indent-guides', {'for': ['yaml', 'markdown']}
-" Plug 'elzr/vim-json', {'for': 'json'}
 Plug 'pearofducks/ansible-vim', { 'do': 'cd ./UltiSnips; python2 generate.py', 'for': 'yaml'}
 let g:ansible_unindent_after_newline = 1
 
 "" misc
-Plug 'amiorin/vim-project'
+" Plug 'amiorin/vim-project'
 
-Plug 'godlygeek/tabular', {'for': ['cucumber', 'markdown']}
+Plug 'godlygeek/tabular', {'for': ['cucumber', 'markdown', 'sql']}
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-abolish'
@@ -224,12 +217,12 @@ Plug 'simnalamburt/vim-mundo', {'on': 'MundoToggle'}
 let g:mundo_width = 100
 
 """ vim-test
-Plug 'janko-m/vim-test', {'on': ['TestNearest', 'TestFile', 'TestLast', 'TestVisit']}
-nnoremap <leader>tn :TestNearest<cr>
-nnoremap <leader>tf :TestFile<cr>
-nnoremap <silent> <leader>tl :TestLast<CR>
-nnoremap <silent> <leader>tv :TestVisit<CR>
-let test#strategy='neovim'
+" Plug 'janko-m/vim-test', {'on': ['TestNearest', 'TestFile', 'TestLast', 'TestVisit']}
+" nnoremap <leader>tn :TestNearest<cr>
+" nnoremap <leader>tf :TestFile<cr>
+" nnoremap <silent> <leader>tl :TestLast<CR>
+" nnoremap <silent> <leader>tv :TestVisit<CR>
+" let test#strategy='neovim'
 
 """ SplitJoin
 Plug 'AndrewRadev/splitjoin.vim', {'on': ['SplitjoinSplit', 'SplitjoinJoin']}
@@ -252,13 +245,20 @@ let g:ale_set_quickfix=1
 Plug 'w0rp/ale'
 Plug 'maximbaz/lightline-ale'
 
-Plug 'ajorgensen/vim-markdown-toc', {'for': 'markdown'}
-Plug 'davidbalbert/vim-io', {'for': 'io'}
-Plug 'adimit/prolog.vim', {'for': 'prolog'}
-Plug 'derekwyatt/vim-scala', {'for': 'scala'}
+" Plug 'ajorgensen/vim-markdown-toc', {'for': 'markdown'}
+" Plug 'davidbalbert/vim-io', {'for': 'io'}
+" Plug 'adimit/prolog.vim', {'for': 'prolog'}
+" Plug 'derekwyatt/vim-scala', {'for': 'scala'}
 " Plug 'phux/vim-marker'
 Plug '~/code/vim-marker'
+" Filetype-specific mappings for [[ and ]]
 Plug 'arp242/jumpy.vim'
+" Plug 'joereynolds/sql-lint.vim', {'do': 'npm install'}
+let g:sql_type_default = 'pgsql'
+Plug 'lifepillar/pgsql.vim', {'for': 'sql'}
+
+Plug 'liuchengxu/vim-clap'
+Plug 'oguzbilgic/vim-gdiff'
 call plug#end()
 function! SmartInsertTodo()
   " already todo in this line?
@@ -284,10 +284,6 @@ function! SmartInsertTodo()
 endfunction
 
 
-" call neomake#configure#automake('w')
-" let g:neomake_echo_current_error=0
-" let g:neomake_open_list = 2
-
 """"""""""""""""""""""""
 "  Autogroups  "
 """"""""""""""""""""""""
@@ -308,6 +304,8 @@ augroup misc
   au BufNewFile,BufRead,BufEnter ~/Dropbox/notes/*.md set ft=markdown.notes
 
   au FileType html,xml inoremap <buffer> <m-;> </<c-x><c-o>
+
+  autocmd FileType typescript,json,html setl formatexpr=CocAction('formatSelected')
   " au FileType html setlocal equalprg=tidy\ -indent\ -quiet\ --show-errors\ 0\ --tidy-mark\ no\ --show-body-only\ auto
   au FileType xml setlocal makeprg=xmllint\ -
 
@@ -318,6 +316,7 @@ augroup misc
   autocmd! FileType fzf
   autocmd  FileType fzf set laststatus=0
         \| autocmd BufLeave <buffer> set laststatus=2
+
   au BufWritePost *.go silent! !eval '[ -f ".git/hooks/ctags" ] && .git/hooks/ctags' &
   au FileType qf call AdjustWindowHeight(3, 10)
 augroup END
@@ -331,7 +330,6 @@ endfunction
 augroup nvim
   au!
   au BufWritePost *.vim nested source $MYVIMRC
-  " au CursorHold * checktime
   autocmd VimResized * wincmd =
 augroup END
 
@@ -354,7 +352,7 @@ set completeopt-=preview
 
 "" better command mode completion
 set wildmenu
-" set wildmode=list:longest,full
+set wildmode=list:longest,full
 " set wildmode=list
 
 " Smaller updatetime for CursorHold & CursorHoldI
@@ -510,25 +508,26 @@ function! s:bufopen(e)
   execute 'buffer' matchstr(a:e, '^[ 0-9]*')
 endfunction
 
-nnoremap <silent> <Leader><Enter> :call fzf#run({
-\   'source':  reverse(<sid>buflist()),
-\   'sink':    function('<sid>bufopen'),
-\   'options': '+m',
-\   'down':    len(<sid>buflist()) + 2
-\ })<CR>
-
 nnoremap <leader><tab> :Buffers<cr>
 nnoremap <leader>, :FilesMru<cr>
 nnoremap <leader>. :FZFAllFiles<cr>
 
-nnoremap <leader>T :Tags<cr>
+nnoremap <leader><enter> :Tags<cr>
 nnoremap <leader>; :TagbarOpenAutoClose<cr>
 
 nnoremap <leader>a :Rg<space>
-nnoremap <leader>A :exec "Rg ".expand("<cword>")<cr>
+nnoremap <leader>A ::let @/=expand('<cword>')<cr> :RgRaw -t
+" nnoremap <leader>A :let @/=expand('<cword>')<cr> :Rg <C-r>/<cr><a-a>
 nnoremap <m-r> :exec "Rg ".expand("<cword>")<cr>
 vnoremap // "hy:exec "Find ".escape('<C-R>h', "/\.*$^~[()")<cr>
 nnoremap <m-s-r> :exec "Find ".expand("<cword>")<cr>
+
+command! -bang -nargs=* RgRaw
+      \ call fzf#vim#grep(
+      \   'rg --column --line-number --no-heading --color=always --smart-case  --colors "match:bg:yellow" --colors "match:fg:black" --colors "match:style:nobold" --colors "path:fg:green" --colors "path:style:bold" --colors "line:fg:yellow" --colors "line:style:bold" '.<q-args>, 1,
+      \   <bang>0 ? fzf#vim#with_preview('up:60%')
+      \           : fzf#vim#with_preview('right:50%:hidden', '?'),
+      \   <bang>0)
 
 command! -bang -nargs=* Rg
       \ call fzf#vim#grep(
@@ -544,12 +543,12 @@ set grepprg=rg\ --vimgrep
 command! -bang -nargs=* FZFAllFiles call fzf#run({'source': 'find * -type f', 'sink': 'e'})
 
 "" vim-project
-let g:project_use_nerdtree = 0
-let g:project_enable_welcome = 0
-nnoremap <F1> :e ~/.config/nvim/projects.public.vim<cr>
-nnoremap <leader><F2> :e ~/.projects.private.vim<cr>
-set runtimepath+=~/.config/nvim/plugged/vim-project/
-call project#rc('~/code')
+" let g:project_use_nerdtree = 0
+" let g:project_enable_welcome = 0
+" nnoremap <F1> :e ~/.config/nvim/projects.public.vim<cr>
+" nnoremap <leader><F2> :e ~/.projects.private.vim<cr>
+" set runtimepath+=~/.config/nvim/plugged/vim-project/
+" call project#rc('~/code')
 
 "" vim-abolish
 nnoremap <leader>] :%Subvert/<c-R><c-w>/<c-r><c-w>/g<left><left>
@@ -557,22 +556,17 @@ nnoremap <leader>[ :Subvert/<c-R><c-w>/<c-r><c-w>/g<left><left>
 vnoremap <leader>] :Subvert//g<left><left>
 
 "" qf/loc list toggle
-nmap <c-p> :lp<cr>
-nmap <c-n> :lnext<cr>
-" nmap <c-n> <Plug>(qf_loc_next)
-let g:qf_loc_toggle_binds = 0
+nmap <c-p> :cp<cr>
+nmap <c-n> :cn<cr>
+let g:qf_loc_toggle_binds = 1
 function! ToggleQfLocListBinds()
   if g:qf_loc_toggle_binds == 1
-    " nmap <c-p> <Plug>(qf_loc_previous)
-    " nmap <silent> <c-n> <Plug>(qf_loc_next)<cr>
     nmap <c-p> :lp<cr>
     nmap <c-n> :lnext<cr>
     let g:qf_loc_toggle_binds = 0
     echo 'loc binds loaded'
   else
     let g:qf_loc_toggle_binds = 1
-    " nmap <c-p> <Plug>(qf_qf_previous)
-    " nmap <silent> <c-n> <Plug>(qf_qf_next)<cr>
     nmap <c-p> :cp<cr>
     nmap <c-n> :cn<cr>
     echo 'qf binds loaded'
@@ -770,6 +764,9 @@ set confirm
 
 nnoremap <silent> <leader>w :w<cr>
 
+" replace ex mode map and use it for repeating 'q' macro
+nnoremap Q @q
+
 set noshowmode
 set noruler
 
@@ -814,9 +811,9 @@ nnoremap <silent> <m-d> :bp<bar>bd #<cr>
 " wordwise upper line completion in insert mode
 " inoremap <expr> <c-y> matchstr(getline(line('.')-1), '\%' . virtcol('.') . 'v\%(\k\+\\|.\)')
 
-if filereadable(expand('~/.config/nvim/projects.public.vim'))
-    so ~/.config/nvim/projects.public.vim
-endif
+" if filereadable(expand('~/.config/nvim/projects.public.vim'))
+"     so ~/.config/nvim/projects.public.vim
+" endif
 
 "" IsOnBattery
 function! IsOnBattery()
@@ -882,7 +879,7 @@ function! s:show_documentation()
 endfunction
 
 " Use <c-space> to trigger completion.
-inoremap <silent><expr> <c-space> coc#refresh()
+" inoremap <silent><expr> <c-space> coc#refresh()
 
 " " override nord visual highlighting
 " function! CustomHighlighting() abort
@@ -928,7 +925,6 @@ call coc#add_extension(
       \ 'coc-prettier',
       \ 'coc-python',
       \ 'coc-eslint',
-      \ 'coc-phpls',
       \ 'coc-sh',
       \ 'coc-docker',
       \ 'coc-git',
@@ -940,6 +936,7 @@ call coc#add_extension(
       \ 'coc-sql',
       \ 'coc-explorer'
       \ )
+      " \ 'coc-phpls',
       " \ 'coc-go'
       " \ 'coc-pairs',
       " \ 'coc-highlight',
@@ -1028,65 +1025,6 @@ nmap gs <Plug>(coc-git-chunkinfo)
 " show commit ad current position
 nmap gc <Plug>(coc-git-commit)
 
-function! FormatDate() abort
-    let l:line = getline('.')
-    let l:pattern = ''
-
-    " 12/12/12
-    let l:mm_dd_yy_pattern = '\(\d\d\)\/\(\d\d\)\/\(\d\+\)'
-    if l:line =~# l:mm_dd_yy_pattern
-        let l:pattern = l:mm_dd_yy_pattern
-        let l:day = '\2'
-        let l:month = '\1'
-        let l:year = '\3'
-    endif
-
-    " 2012-12-20
-    let l:yyyy_mm_dd_pattern = '\(\d\+\)-\(\d\d\)-\(\d\d\)'
-    if l:line =~# l:yyyy_mm_dd_pattern
-        let l:pattern = l:yyyy_mm_dd_pattern
-        let l:day = '\3'
-        let l:month = '\2'
-        let l:year = '\1'
-    endif
-
-    " 13.12.19
-    let l:dd_mm_yyyy_pattern = '\(\d\d\)\.\(\d\d\)\.\(\d\+\)'
-    if l:line =~# l:dd_mm_yyyy_pattern
-        let l:pattern = l:dd_mm_yyyy_pattern
-        let l:day = '\1'
-        let l:month = '\2'
-        let l:year = '\3'
-    endif
-
-    if empty(l:pattern)
-        echom 'No pattern found. Aborting.'
-    endif
-
-    let l:choices = "&1: YY-MM-DD\n&2: DD.MM.YY"
-    let l:choice = confirm('Select output format:', l:choices, '')
-    let l:output_patterns = {
-                \ '1': l:year.'-'.l:month.'-'.l:day,
-                \ '2': l:day.'.'.l:month.'.'.l:year,
-                \}
-    if !has_key(l:output_patterns, l:choice)
-        echom 'Invalid choice, doing nothing'
-        return
-    endif
-
-    if l:choice ==# '2'
-        let l:am_pattern = '\(\d\d\):\(\d\d.*\) AM'
-        let l:pm_pattern = '\(\d\d\):\(\d\d.*\) PM'
-        if l:line =~# l:am_pattern || l:line =~# l:pm_pattern
-            execute ':%substitute/' . l:am_pattern . '/\1:\2/g'
-            execute ':%substitute/' . l:pm_pattern . '/\="".submatch(1) == "12" ? "00:".submatch(2): submatch(1)+12.":".submatch(2)/g'
-        endif
-    endif
-
-    execute ':%substitute/' . l:pattern . '/'. l:output_patterns[l:choice] . '/g'
-endfunction
-
-so ~/.local.init.vim
 nnoremap <m-q> :call LocListToggle()<cr>
 function! LocListToggle()
   if g:qf_loc_toggle_binds == 0
@@ -1106,8 +1044,6 @@ function! LocListToggle()
   endif
 endfunction
 
-" nnoremap dg <c-w>wVy<c-w>wP]c
-
 function! s:GrepArgs(...)
   let list = ['-S', '-smartcase', '-i', '-ignorecase', '-w', '-word',
         \ '-e', '-regex', '-u', '-skip-vcs-ignores', '-t', '-extension']
@@ -1115,7 +1051,6 @@ function! s:GrepArgs(...)
 endfunction
 
 vnoremap // :<C-u>call <SID>GrepFromSelected(visualmode())<CR>
-" nnoremap <leader>A :<C-u>set operatorfunc=<SID>GrepFromSelected<CR>g@
 
 function! s:GrepFromSelected(type)
   let saved_unnamed_register = @@
@@ -1165,20 +1100,9 @@ let g:ale_fixers = {
 \   'markdown': ['prettier', 'textlint', 'remove_trailing_lines', 'trim_whitespace'],
 \   'text': ['textlint', 'remove_trailing_lines', 'trim_whitespace'],
 \   'go': ['goimports', 'remove_trailing_lines', 'trim_whitespace'],
-\   'sql': ['pgformatter'],
 \}
+" \   'sql': ['pgformatter'],
 
-augroup VIMRC
-    autocmd!
-    autocmd BufLeave *.css,*.scss normal! mC
-    autocmd BufLeave *.html normal! mH
-    autocmd BufLeave *.js normal! mJ
-    autocmd BufLeave *.go normal! mG
-    autocmd BufLeave *_test.go normal! mT
-    autocmd BufLeave *.yml,*.yaml normal! mY
-    autocmd BufLeave *.sh normal! mS
-    autocmd BufLeave *.md normal! mM
-augroup END
 nnoremap ' `
 nnoremap <silent> <space>y  :<C-u>CocList --normal yank<cr>
 
@@ -1188,3 +1112,161 @@ nmap <C-[> <ESC>:po<CR>
 nnoremap <leader>l :CocListResume<cr>
 
 set tags^=./.git/tags;
+
+so ~/.local.init.vim
+
+nnoremap <leader><enter> :silent update<Bar>silent !xdg-open %:p &<CR>
+
+function! GoExtractFunc()
+  let l:newName = input('New function name: ')
+  execute 'normal! i'.l:newName."()\r"
+  normal! ml==
+
+  ?func
+  normal! $%o
+  execute 'normal! ofunc '.l:newName.'() {'
+  normal! p
+  normal! }ko}
+  normal! 'l
+endfunction
+
+
+" non-gomod projects
+" dependency: go get golang.org/x/tools/cmd/gomvpkg
+function! GoMoveDir()
+  :update
+
+  " find current gopath
+  let l:gopath = ''
+  for gopath in split($GOPATH, ':')
+    if expand('%:p:h') =~ '^'.gopath
+      let l:gopath = gopath
+    endif
+  endfor
+
+    let l:currentFile = expand('%:p')
+    let l:oldPath = input('Old path: ', substitute(expand('%:p:h'), gopath.'/src/', '', ''))
+    let l:newPath = input('New path ==> ', l:oldPath)
+
+  if len(l:gopath) == 0
+    " echo 'Cannot move pkg - not in configured gopath?!'
+    " return
+  endif
+
+
+  execute '!gomvpkg -from '.l:oldPath.' -to '.l:newPath
+
+  if !filereadable(l:currentFile)
+    :bd
+  endif
+endfunction
+
+" non-gomod projects
+" dependency: go get golang.org/x/tools/cmd/gomvpkg
+function! GoMoveFile()
+  :update
+
+  " find current gopath
+  let l:gopath = ''
+  for gopath in split($GOPATH, ':')
+    if expand('%:p:h') =~ '^'.gopath
+      let l:gopath = gopath
+    endif
+  endfor
+
+  if len(l:gopath) == 0
+    echo 'Cannot move pkg - not in configured gopath?!'
+    return
+  endif
+
+  let l:currentFile = expand('%:p')
+  let l:oldPath = input('Old path: ', substitute(expand('%:p:h'), gopath.'/src/', '', ''))
+  let l:newPath = input('New path ==> ', l:oldPath)
+
+  execute '!gomvpkg -from '.l:oldPath.' -to '.l:newPath
+
+  if !filereadable(l:currentFile)
+    :bd
+  endif
+endfunction
+
+" dependency: go get -u github.com/ksubedi/gomove
+function! GoMoveDirV2()
+  :update
+
+  if !filereadable('go.mod')
+      echo 'no go.mod found in cwd - not moving anything'
+      return
+  endif
+
+
+  let l:currentBasePackage = substitute(substitute(system('head -n 1 go.mod'), 'module ', '', ''), '\n\+$', '', '')
+  let l:currentFile = expand('%:p')
+  let l:oldPath = substitute(expand('%:p:h'), getcwd(), '', '')
+  let l:oldPackage = input('Old package: ', l:currentBasePackage.''.l:oldPath)
+  let l:newPackage = input('New package ==> ', l:oldPackage)
+  let l:oldPath = getcwd().'/'.substitute(l:oldPackage, l:currentBasePackage, '', '')
+  let l:newPath = getcwd().'/'.substitute(l:newPackage, l:currentBasePackage, '', '')
+  if l:oldPackage =~# '/$'
+      let l:oldPackage = strpart(l:oldPackage, 0, len(l:oldPackage) -1)
+  endif
+  if l:newPackage =~# '/$'
+      let l:newPackage = strpart(l:newPackage, 0, len(l:newPackage) -1)
+  endif
+
+  if empty(glob(l:newPath))
+      exe '!mkdir -p '.l:newPath
+  endif
+
+  exe '!mv '.l:oldPath.'/* '.l:newPath
+  exe '!gomove '.l:oldPackage.' '.l:newPackage
+
+  if !filereadable(l:currentFile)
+    :bd
+  endif
+endfunction
+
+function! AliasGoImport()
+    let l:skip = !has_key(v:completed_item, 'word') || v:completed_item['kind'] !=# 'M'
+
+    if !l:skip
+        let l:currentPackage = v:completed_item['word']
+        let l:importPath = substitute(substitute(v:completed_item['menu'], ' \[LS\]', '', ''), '"', '', 'g')
+    endif
+
+    if !l:skip
+        " check if selected package is already imported
+        let [s:line, s:col] = searchpos('"'.l:importPath.'"', 'n')
+        let l:skip = s:line
+    endif
+
+    if !l:skip
+        " check if different package with same name is already imported
+        let [s:line, s:col] = searchpos('\s\+".\+/'.l:currentPackage.'"$', 'n')
+        if s:line > 0
+            let l:alias = input('Package already imported. Alias '.l:importPath.' as: ')
+            if l:alias ==# ''
+                echo 'No alias given - not doing anything'
+            else
+                let l:cmd = 'GoImportAs ' . l:alias . ' ' . l:importPath
+                execute l:cmd
+                execute 'normal! ciw'.l:alias
+            endif
+
+            let l:skip = 1
+        endif
+    endif
+
+    if !l:skip
+        let l:cmd = 'GoImport ' . l:importPath
+        execute l:cmd
+    endif
+
+    normal! a.
+    if col('.') == col('$') - 1
+        startinsert!
+    else
+        normal! l
+        startinsert
+    end
+endfunction
