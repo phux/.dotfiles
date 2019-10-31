@@ -37,7 +37,7 @@ function! UrlToMarkdownLink()
     normal! PBpT/
     " keep last part of url
     normal! dT[
-    s/\.html//
+    s/\.html//e
     " titelize last part of url if abolish installed
     if exists('g:loaded_abolish')
         normal crt
@@ -51,3 +51,5 @@ function! UrlToMarkdownLink()
 endfunction
 
 nnoremap gu :call UrlToMarkdownLink()<cr>
+
+nnoremap <buffer> <leader><enter> :silent update<Bar>silent MarkdownPreview<CR>
