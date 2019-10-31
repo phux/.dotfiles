@@ -936,7 +936,9 @@ call coc#add_extension(
       \ 'coc-post',
       \ 'coc-vimlsp',
       \ 'coc-lists',
-      \ 'coc-yank'
+      \ 'coc-yank',
+      \ 'coc-sql',
+      \ 'coc-explorer'
       \ )
       " \ 'coc-go'
       " \ 'coc-pairs',
