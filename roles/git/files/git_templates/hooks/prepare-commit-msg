@@ -15,7 +15,7 @@ TICKET=$(parse_git_tracker_and_ticket)
 
 if [ -n "$TICKET" ]
 then
-  if [[ $MESSAGE != "$TICKET "* ]]; then
+  if [[ $MESSAGE != "Merge branch "* ]] && [[ $MESSAGE != "$TICKET "* ]]; then
     echo "$TICKET $MESSAGE" > $1
   fi
 fi
