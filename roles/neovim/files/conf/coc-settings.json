@@ -55,5 +55,22 @@
   "git.changeRemovedSign.hlGroup": "GitGutterChangeDelete",
   "git.addGlameToBufferVar": true,
   "yank.enableCompletion": true,
-  "yank.highlight.duration": 100
+  "yank.highlight.duration": 100,
+  "explorer.sources": [
+    {
+      "name": "file",
+      "expand": true
+    }
+  ],
+  "explorer.file.columns": [
+    "selection",
+    "clip",
+    "indent",
+    "icon",
+    "filename"
+  ],
+  "explorer.keyMappings": {
+    "u": "gotoParent"
+
+  }
 }
