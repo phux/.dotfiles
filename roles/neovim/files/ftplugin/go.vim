@@ -309,3 +309,157 @@ function! FixGoAleIssues()
 endfunction
 
 nnoremap <m-f> :call FixGoAleIssues()<cr>
+
+function! GoExtractFunc()
+  let l:newName = input('New function name: ')
+  execute 'normal! i'.l:newName."()\r"
+  normal! ml==
+
+  ?func
+  normal! $%o
+  execute 'normal! ofunc '.l:newName.'() {'
+  normal! p
+  normal! }ko}
+  normal! 'l
+endfunction
+
+
+" non-gomod projects
+" dependency: go get golang.org/x/tools/cmd/gomvpkg
+function! GoMoveDir()
+  :update
+
+  " find current gopath
+  let l:gopath = ''
+  for gopath in split($GOPATH, ':')
+    if expand('%:p:h') =~ '^'.gopath
+      let l:gopath = gopath
+    endif
+  endfor
+
+    let l:currentFile = expand('%:p')
+    let l:oldPath = input('Old path: ', substitute(expand('%:p:h'), gopath.'/src/', '', ''))
+    let l:newPath = input('New path ==> ', l:oldPath)
+
+  if len(l:gopath) == 0
+    " echo 'Cannot move pkg - not in configured gopath?!'
+    " return
+  endif
+
+
+  execute '!gomvpkg -from '.l:oldPath.' -to '.l:newPath
+
+  if !filereadable(l:currentFile)
+    :bd
+  endif
+endfunction
+
+" non-gomod projects
+" dependency: go get golang.org/x/tools/cmd/gomvpkg
+function! GoMoveFile()
+  :update
+
+  " find current gopath
+  let l:gopath = ''
+  for gopath in split($GOPATH, ':')
+    if expand('%:p:h') =~ '^'.gopath
+      let l:gopath = gopath
+    endif
+  endfor
+
+  if len(l:gopath) == 0
+    echo 'Cannot move pkg - not in configured gopath?!'
+    return
+  endif
+
+  let l:currentFile = expand('%:p')
+  let l:oldPath = input('Old path: ', substitute(expand('%:p:h'), gopath.'/src/', '', ''))
+  let l:newPath = input('New path ==> ', l:oldPath)
+
+  execute '!gomvpkg -from '.l:oldPath.' -to '.l:newPath
+
+  if !filereadable(l:currentFile)
+    :bd
+  endif
+endfunction
+
+" dependency: go get -u github.com/ksubedi/gomove
+function! GoMoveDirV2()
+  :update
+
+  if !filereadable('go.mod')
+      echo 'no go.mod found in cwd - not moving anything'
+      return
+  endif
+
+
+  let l:currentBasePackage = substitute(substitute(system('head -n 1 go.mod'), 'module ', '', ''), '\n\+$', '', '')
+  let l:currentFile = expand('%:p')
+  let l:oldPath = substitute(expand('%:p:h'), getcwd(), '', '')
+  let l:oldPackage = input('Old package: ', l:currentBasePackage.''.l:oldPath)
+  let l:newPackage = input('New package ==> ', l:oldPackage)
+  let l:oldPath = getcwd().'/'.substitute(l:oldPackage, l:currentBasePackage, '', '')
+  let l:newPath = getcwd().'/'.substitute(l:newPackage, l:currentBasePackage, '', '')
+  if l:oldPackage =~# '/$'
+      let l:oldPackage = strpart(l:oldPackage, 0, len(l:oldPackage) -1)
+  endif
+  if l:newPackage =~# '/$'
+      let l:newPackage = strpart(l:newPackage, 0, len(l:newPackage) -1)
+  endif
+
+  if empty(glob(l:newPath))
+      exe '!mkdir -p '.l:newPath
+  endif
+
+  exe '!mv '.l:oldPath.'/* '.l:newPath
+  exe '!gomove '.l:oldPackage.' '.l:newPackage
+
+  if !filereadable(l:currentFile)
+    :bd
+  endif
+endfunction
+
+function! AliasGoImport()
+    let l:skip = !has_key(v:completed_item, 'word') || v:completed_item['kind'] !=# 'M'
+
+    if !l:skip
+        let l:currentPackage = v:completed_item['word']
+        let l:importPath = substitute(substitute(v:completed_item['menu'], ' \[LS\]', '', ''), '"', '', 'g')
+    endif
+
+    if !l:skip
+        " check if selected package is already imported
+        let [s:line, s:col] = searchpos('"'.l:importPath.'"', 'n')
+        let l:skip = s:line
+    endif
+
+    if !l:skip
+        " check if different package with same name is already imported
+        let [s:line, s:col] = searchpos('\s\+".\+/'.l:currentPackage.'"$', 'n')
+        if s:line > 0
+            let l:alias = input('Package already imported. Alias '.l:importPath.' as: ')
+            if l:alias ==# ''
+                echo 'No alias given - not doing anything'
+            else
+                let l:cmd = 'GoImportAs ' . l:alias . ' ' . l:importPath
+                execute l:cmd
+                execute 'normal! ciw'.l:alias
+            endif
+
+            let l:skip = 1
+        endif
+    endif
+
+    if !l:skip
+        let l:cmd = 'GoImport ' . l:importPath
+        execute l:cmd
+    endif
+
+    normal! a.
+    if col('.') == col('$') - 1
+        startinsert!
+    else
+        normal! l
+        startinsert
+    end
+endfunction
