@@ -49,9 +49,10 @@ let g:UltiSnipsSnippetsDir = '~/.config/nvim/UltiSnips/'
 let g:UltiSnipsExpandTrigger='<c-j>'
 let g:UltiSnipsEditSplit='vertical'
 
+"" auto-pairs
+Plug 'jiangmiao/auto-pairs'
 let g:AutoPairsMapSpace = 0
 let g:AutoPairsShortcutToggle = '<s-f12>'
-Plug 'jiangmiao/auto-pairs'
 
 "" plantuml
 Plug 'aklt/plantuml-syntax', {'for': 'uml'}
@@ -93,10 +94,6 @@ nmap ]g <Plug>(coc-git-nextchunk)
 nmap gs <Plug>(coc-git-chunkinfo)
 nmap gc <Plug>(coc-git-commit)
 nnoremap <silent> <space>y  :<C-u>CocList --normal yank<cr>
-nnoremap <leader>l :CocListResume<cr>
-
-" Use <c-space> to trigger completion.
-" inoremap <silent><expr> <c-space> coc#refresh()
 
 "" php
 Plug 'phux/php-doc-modded', {'for': 'php'}
@@ -105,34 +102,120 @@ Plug 'alvan/vim-php-manual', {'for': 'php'}
 let g:vim_php_refactoring_use_default_mapping = 0
 Plug 'adoy/vim-php-refactoring-toolbox', {'for': 'php'}
 Plug 'phpactor/phpactor', {'for': 'php', 'do': ':call phpactor#Update()'}
-
 Plug 'lvht/phpcd.vim', { 'for': 'php', 'do': 'composer install' }
 
 "" go
-" Plug 'arp242/gopher.vim', {'for': 'go'}
 Plug 'fatih/vim-go', {'for': 'go', 'do': ':GoInstallBinaries'}
 Plug 'sebdah/vim-delve', {'for': 'go'}
 Plug 'godoctor/godoctor.vim', {'for': 'go'}
 Plug 'buoto/gotests-vim', {'for': 'go'}
 
 "" fzf
-Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
-Plug 'junegunn/fzf.vim'
 Plug 'tweekmonster/fzf-filemru'
 Plug 'zackhsi/fzf-tags'
+nmap <C-]> <Plug>(fzf_tags)
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plug 'junegunn/fzf.vim'
+
+" [Buffers] Jump to the existing window if possible
+let g:fzf_buffers_jump = 1
+
+" [[B]Commits] Customize the options used by 'git log':
+let g:fzf_commits_log_options = '--graph --color=always --format="%C(auto)%h%d %s %C(black)%C(bold)%cr"'
+
+nnoremap <leader><tab> :Buffers<cr>
+nnoremap <leader>, :FilesMru<cr>
+nnoremap <leader>. :FZFAllFiles<cr>
+nnoremap <leader><enter> :Tags<cr>
+nnoremap <leader>a :Rg<space>
+nnoremap <leader>A ::let @/=expand('<cword>')<cr> :RgRaw -t
+nnoremap <m-r> :exec "Rg ".expand("<cword>")<cr>
+vnoremap // "hy:exec "Find ".escape('<C-R>h', "/\.*$^~[()")<cr>
+nnoremap <m-s-r> :exec "Find ".expand("<cword>")<cr>
+
+""" fzf commands
+command! -bang -nargs=* RgRaw
+      \ call fzf#vim#grep(
+      \   'rg --column --line-number --no-heading --color=always --smart-case  --colors "match:bg:yellow" --colors "match:fg:black" --colors "match:style:nobold" --colors "path:fg:green" --colors "path:style:bold" --colors "line:fg:yellow" --colors "line:style:bold" '.<q-args>, 1,
+      \   <bang>0 ? fzf#vim#with_preview('up:60%')
+      \           : fzf#vim#with_preview('right:50%:hidden', '?'),
+      \   <bang>0)
+
+command! -bang -nargs=* Rg
+      \ call fzf#vim#grep(
+      \   'rg --column --line-number --no-heading --color=always --smart-case  --colors "match:bg:yellow" --colors "match:fg:black" --colors "match:style:nobold" --colors "path:fg:green" --colors "path:style:bold" --colors "line:fg:yellow" --colors "line:style:bold" '.shellescape(<q-args>), 1,
+      \   <bang>0 ? fzf#vim#with_preview('up:60%')
+      \           : fzf#vim#with_preview('right:50%:hidden', '?'),
+      \   <bang>0)
+
+command! -bang -nargs=* Find call fzf#vim#grep('rg --column --line-number --no-heading --fixed-strings --no-ignore --hidden --smart-case  --color=always --colors "match:bg:yellow" --colors "match:fg:black" --colors "match:style:nobold" --colors "path:fg:green" --colors "path:style:bold" --colors "line:fg:yellow" --colors "line:style:bold" --glob "!.git/*" '.shellescape(<q-args>), 1, <bang>0)
+
+command! -bang -nargs=* FZFAllFiles call fzf#run({'source': 'find * -type f', 'sink': 'e'})
 
 "" UI
-Plug 'itchyny/lightline.vim'
+
 Plug 'simeji/winresizer', {'on': 'WinResizerStartResize'}
+nnoremap <c-e> :WinResizerStartResize<cr>
+
+Plug 'ap/vim-buftabline'
+let g:buftabline_show = 1 " display only if more than 1 buffer open
+
+""" nord
+Plug 'arcticicestudio/nord-vim'
+
+Plug 'etdev/vim-hexcolor', {'for': ['css']}
+
+""" echodoc
+Plug 'Shougo/echodoc.vim'
 let g:echodoc_enable_at_startup=1
 " default nord color lets not identify current argument
 let g:echodoc#highlight_arguments = 'SpellCap'
-Plug 'Shougo/echodoc.vim'
-let g:buftabline_show = 1 " display only if more than 1 buffer open
-Plug 'ap/vim-buftabline'
 
-Plug 'arcticicestudio/nord-vim'
-Plug 'etdev/vim-hexcolor', {'for': ['css']}
+""" lightline
+Plug 'itchyny/lightline.vim'
+let g:lightline = {
+            \ 'colorscheme': 'nord',
+            \ 'active': {
+            \   'left': [ [ 'mode', 'paste' ],
+            \             [ 'gitbranch', 'readonly', 'filename', 'modified', 'coc_state', 'linter_checking', 'linter_errors', 'linter_warnings' ] ]
+            \ },
+            \ 'inactive': {
+            \   'left': [ [ 'conflicted_name'], [ 'filename' ] ],
+            \   'right': [ [ 'lineinfo' ], [ 'percent' ] ]
+            \ },
+            \ 'component_function': {
+            \   'filename': 'LightlineFilename',
+            \   'gitbranch': 'CocGitStatus',
+            \   'conflicted_name': 'ConflictedVersion',
+            \   'coc_state': 'coc#status'
+            \ },
+            \ }
+
+
+let g:lightline.component_expand = {
+      \  'linter_checking': 'lightline#ale#checking',
+      \  'linter_warnings': 'lightline#ale#warnings',
+      \  'linter_errors': 'lightline#ale#errors',
+      \  'linter_ok': 'lightline#ale#ok',
+      \ }
+let g:lightline.component_type = {
+      \     'linter_checking': 'left',
+      \     'linter_warnings': 'warning',
+      \     'linter_errors': 'error',
+      \     'linter_ok': 'left',
+      \ }
+function! CocGitStatus()
+  let gstatus = get(g:,'coc_git_status','')
+  if len(gstatus) == 0
+    return ''
+  endif
+  return get(g:,'coc_git_status','').get(b:,'coc_git_status','')
+endfunction
+
+function! LightlineFilename()
+  return @% !=# '' ? @% : '[No Name]'
+endfunction
+
 
 "" markdown
 " Plug 'reedes/vim-lexical', {'for': []}
@@ -157,6 +240,12 @@ Plug 'wellle/targets.vim'
 let g:qf_auto_resize = 1
 
 Plug 'majutsushi/tagbar', {'on': 'TagbarOpenAutoClose'}
+nnoremap <leader>; :TagbarOpenAutoClose<cr>
+
+""" sneak
+Plug 'justinmk/vim-sneak'
+let g:sneak#label = 1
+let g:sneak#use_ic_scs = 1
 
 """ easymotion
 Plug 'Lokaltog/vim-easymotion'
@@ -198,10 +287,19 @@ nnoremap <leader>/ :Ack <c-r><c-w><cr>
 nnoremap <leader>rip :Acks /<c-r><c-w>/<c-r><c-w>/gc<left><left><left>
 
 "" git
+
+Plug 'lambdalisue/gina.vim'
+Plug 'rbong/vim-flog'
+
+Plug 'lambdalisue/vim-improve-diff'
+Plug 'whiteinge/diffconflicts'
+
+""" gitv
 Plug 'gregsexton/gitv', {'on': 'Gitv'}
-
-" Plug 'airblade/vim-gitgutter'
-
+nnoremap <leader>gv :Gitv!<cr>
+vnoremap <leader>gv :Gitv!<cr>
+nnoremap <leader>gV :Gitv<cr>
+let g:Gitv_DoNotMapCtrlKey = 1
 """ fugitive
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-rhubarb'
@@ -212,12 +310,6 @@ nnoremap <leader>gc :Gcommit -v<cr>
 nnoremap <leader>gL :Glog<cr>
 vnoremap <leader>gl :Glog<cr>
 nnoremap <leader>gd :Gdiff<cr>
-
-Plug 'lambdalisue/gina.vim'
-Plug 'rbong/vim-flog'
-
-Plug 'lambdalisue/vim-improve-diff'
-Plug 'whiteinge/diffconflicts'
 
 "" notes
 Plug 'xolox/vim-notes', {'on': ['SearchNotes', 'Note', 'RecentNotes']} | Plug 'xolox/vim-misc'
@@ -234,91 +326,16 @@ nnoremap <leader>z :ScratchPreview<cr>
 
 "" todo
 
+""" simple-todo
+Plug 'vitalk/vim-simple-todo'
 let g:simple_todo_map_keys = 0
 let g:simple_todo_list_symbol = '*'
-Plug 'vitalk/vim-simple-todo'
 nmap <silent> <m-i> :call SmartInsertTodo()<cr>
 imap <silent> <m-i> <esc>:call SmartInsertTodo()<cr>a
-" imap <m-i> <Plug>(simple-todo-new-list-item-start-of-line)
 nmap <m-o> <Plug>(simple-todo-below)
 imap <m-o> <Plug>(simple-todo-below)
 imap <m-space> <Plug>(simple-todo-mark-switch)a
 nmap <m-space> <Plug>(simple-todo-mark-switch)
-
-""" todo.txt
-Plug 'freitass/todo.txt-vim', {'for': 'text'}
-
-"" filetype
-Plug 'stephpy/vim-yaml', {'for': 'yaml'}
-
-Plug 'pearofducks/ansible-vim', { 'do': 'cd ./UltiSnips; python2 generate.py', 'for': 'yaml'}
-let g:ansible_unindent_after_newline = 1
-
-"" misc
-" Plug 'amiorin/vim-project'
-
-Plug 'godlygeek/tabular', {'for': ['cucumber', 'markdown', 'sql']}
-Plug 'tpope/vim-surround'
-Plug 'tpope/vim-repeat'
-Plug 'tpope/vim-abolish'
-
-" Plug 'triglav/vim-visual-increment'
-
-""" gundo
-Plug  'mbbill/undotree'
-
-""" vim-test
-" Plug 'janko-m/vim-test', {'on': ['TestNearest', 'TestFile', 'TestLast', 'TestVisit']}
-" nnoremap <leader>tn :TestNearest<cr>
-" nnoremap <leader>tf :TestFile<cr>
-" nnoremap <silent> <leader>tl :TestLast<CR>
-" nnoremap <silent> <leader>tv :TestVisit<CR>
-" let test#strategy='neovim'
-
-""" SplitJoin
-Plug 'AndrewRadev/splitjoin.vim', {'on': ['SplitjoinSplit', 'SplitjoinJoin']}
-nnoremap <leader>j :SplitjoinSplit<cr>
-nnoremap <leader>k :SplitjoinJoin<cr>
-
-""" commentary
-Plug 'tpope/vim-commentary', {'on': 'Commentary'}
-nnoremap <leader>c :Commentary<cr>
-vnoremap <leader>c :Commentary<cr>
-
-let g:ale_warn_about_trailing_whitespace=0
-let g:ale_lint_on_enter=0
-let g:ale_lint_on_text_changed=0
-let g:ale_lint_on_insert_leave=0
-let g:ale_disable_lsp=1
-let g:ale_open_list = 0
-let g:ale_fix_on_save = 1
-let g:ale_set_quickfix=1
-Plug 'w0rp/ale'
-Plug 'maximbaz/lightline-ale'
-
-" Plug 'ajorgensen/vim-markdown-toc', {'for': 'markdown'}
-" Plug 'davidbalbert/vim-io', {'for': 'io'}
-" Plug 'adimit/prolog.vim', {'for': 'prolog'}
-" Plug 'derekwyatt/vim-scala', {'for': 'scala'}
-" Plug 'phux/vim-marker'
-Plug '~/code/vim-marker'
-" Filetype-specific mappings for [[ and ]]
-Plug 'arp242/jumpy.vim'
-" Plug 'joereynolds/sql-lint.vim', {'do': 'npm install'}
-let g:sql_type_default = 'pgsql'
-Plug 'lifepillar/pgsql.vim', {'for': 'sql'}
-
-Plug 'oguzbilgic/vim-gdiff'
-
-Plug 'romainl/vim-devdocs', {'on': 'DD'}
-Plug 'takac/vim-hardtime'
-let g:hardtime_default_on = 1
-let g:hardtime_ignore_quickfix = 1
-let g:hardtime_maxcount = 1
-Plug 'justinmk/vim-sneak'
-let g:sneak#label = 1
-let g:sneak#use_ic_scs = 1
-call plug#end()
 
 function! SmartInsertTodo()
   " already todo in this line?
@@ -344,10 +361,98 @@ function! SmartInsertTodo()
 endfunction
 
 
+""" todo.txt
+Plug 'freitass/todo.txt-vim', {'for': 'text'}
+
+"" filetype
+Plug 'stephpy/vim-yaml', {'for': 'yaml'}
+
+Plug 'pearofducks/ansible-vim', { 'do': 'cd ./UltiSnips; python2 generate.py', 'for': 'yaml'}
+let g:ansible_unindent_after_newline = 1
+
+"" misc
+Plug 'tpope/vim-surround'
+Plug 'tpope/vim-repeat'
+
+""" tabular
+Plug 'godlygeek/tabular', {'for': ['cucumber', 'markdown', 'sql']}
+nnoremap <leader>ga :Tabularize /\|<cr>
+vnoremap <leader>ga :Tabularize /\|<cr>
+inoremap <silent> <Bar>   <Bar><Esc>:call <SID>align()<CR>a
+function! s:align()
+  let p = '^\s*|\s.*\s|\s*$'
+  if exists(':Tabularize') && getline('.') =~# '^\s*|' && (getline(line('.')-1) =~# p || getline(line('.')+1) =~# p)
+    let column = strlen(substitute(getline('.')[0:col('.')],'[^|]','','g'))
+    let position = strlen(matchstr(getline('.')[0:col('.')],'.*|\s*\zs.*'))
+    Tabularize/|/l1
+    normal! 0
+    call search(repeat('[^|]*|',column).'\s\{-\}'.repeat('.',position),'ce',line('.'))
+  endif
+endfunction
+
+
+" Plug 'triglav/vim-visual-increment'
+
+""" gundo
+Plug  'mbbill/undotree'
+
+""" SplitJoin
+Plug 'AndrewRadev/splitjoin.vim', {'on': ['SplitjoinSplit', 'SplitjoinJoin']}
+nnoremap <leader>j :SplitjoinSplit<cr>
+nnoremap <leader>k :SplitjoinJoin<cr>
+
+""" commentary
+Plug 'tpope/vim-commentary', {'on': 'Commentary'}
+nnoremap <leader>c :Commentary<cr>
+vnoremap <leader>c :Commentary<cr>
+
+""" ale
+Plug 'w0rp/ale'
+let g:ale_warn_about_trailing_whitespace=0
+let g:ale_lint_on_enter=0
+let g:ale_lint_on_text_changed=0
+let g:ale_lint_on_insert_leave=0
+let g:ale_disable_lsp=1
+let g:ale_open_list = 0
+let g:ale_fix_on_save = 1
+let g:ale_set_quickfix=1
+Plug 'maximbaz/lightline-ale'
+
+" Plug 'ajorgensen/vim-markdown-toc', {'for': 'markdown'}
+" Plug 'davidbalbert/vim-io', {'for': 'io'}
+" Plug 'adimit/prolog.vim', {'for': 'prolog'}
+" Plug 'derekwyatt/vim-scala', {'for': 'scala'}
+" Plug 'phux/vim-marker'
+Plug '~/code/vim-marker'
+" Filetype-specific mappings for [[ and ]]
+Plug 'arp242/jumpy.vim'
+
+Plug 'lifepillar/pgsql.vim', {'for': 'sql'}
+let g:sql_type_default = 'pgsql'
+
+Plug 'oguzbilgic/vim-gdiff'
+
+Plug 'romainl/vim-devdocs', {'on': 'DD'}
+nmap <leader>K :DD<cr>
+
+
+""" abolish
+Plug 'tpope/vim-abolish'
+nnoremap <leader>] :%Subvert/<c-R><c-w>/<c-r><c-w>/g<left><left>
+nnoremap <leader>[ :Subvert/<c-R><c-w>/<c-r><c-w>/g<left><left>
+vnoremap <leader>] :Subvert//g<left><left>
+""" hardtime
+Plug 'takac/vim-hardtime'
+let g:hardtime_default_on = 1
+let g:hardtime_ignore_quickfix = 1
+let g:hardtime_maxcount = 1
+let g:hardtime_allow_different_key = 1
+call plug#end()
+
+
 """"""""""""""""""""""""
 "  Autogroups  "
 """"""""""""""""""""""""
-
 "" Misc
 augroup misc
   au!
@@ -393,8 +498,6 @@ augroup nvim
   autocmd VimResized * wincmd =
 augroup END
 
-nnoremap <c-e> :WinResizerStartResize<cr>
-
 """"""""""""""
 "  Settings  "
 """"""""""""""
@@ -414,7 +517,6 @@ set tags^=./.git/tags;
 set confirm
 set noshowmode
 set noruler
-
 
 set scrolloff=5
 set tabstop=2
@@ -452,17 +554,13 @@ set nrformats-=octal
 "     joining lines
 set formatoptions&
       \ formatoptions+=r
-      \ formatoptions+=o
+      \ formatoptions-=o
       \ formatoptions+=n
       \ formatoptions+=m
       \ formatoptions+=B
       \ formatoptions+=j
 " set formatoptions=qrn1tclj
 set nojoinspaces
-
-set lazyredraw
-" set max syntax highlighting column to sane level
-set synmaxcol=250
 
 " keep marks
 " set viminfo='100,\"90,h,%
@@ -472,6 +570,7 @@ set ignorecase smartcase
 set hlsearch
 set incsearch
 set inccommand=split
+set grepprg=rg\ --vimgrep
 
 set timeout ttimeoutlen=0
 "" insert mode completion
@@ -500,6 +599,11 @@ set undodir=~/.vim_undodir
 " set history=10000
 
 "" UI settings
+
+set lazyredraw
+" set max syntax highlighting column to sane level
+set synmaxcol=250
+
 set number
 set relativenumber
 
@@ -512,9 +616,6 @@ set winminheight=1
 set showbreak=↪
 " set breakindent
 set breakindentopt=sbr
-
-" do not continue comment using o or O
-set formatoptions-=o
 
 " Line wrapping
 set wrap
@@ -533,71 +634,16 @@ let g:lexical#thesaurus = ['~/.config/nvim/thesaurus.txt',]
 let spellfile='~/.vim.spell'
 
 """ colors
+color nord
 set t_Co=256
 set background=dark
+hi Comment ctermfg=gray
+hi BufTabLineCurrent ctermfg=2 ctermbg=8
+hi Visual ctermfg=7 ctermbg=4
+hi Folded ctermfg=4
+hi Search ctermfg=0 ctermbg=10
 
 
-let g:lightline = {
-            \ 'colorscheme': 'nord',
-            \ 'active': {
-            \   'left': [ [ 'mode', 'paste' ],
-            \             [ 'gitbranch', 'readonly', 'filename', 'modified', 'coc_state', 'linter_checking', 'linter_errors', 'linter_warnings' ] ]
-            \ },
-            \ 'inactive': {
-            \   'left': [ [ 'conflicted_name'], [ 'filename' ] ],
-            \   'right': [ [ 'lineinfo' ], [ 'percent' ] ]
-            \ },
-            \ 'component_function': {
-            \   'filename': 'LightlineFilename',
-            \   'gitbranch': 'CocGitStatus',
-            \   'conflicted_name': 'ConflictedVersion',
-            \   'coc_state': 'coc#status'
-            \ },
-            \ }
-
-
-let g:lightline.component_expand = {
-      \  'linter_checking': 'lightline#ale#checking',
-      \  'linter_warnings': 'lightline#ale#warnings',
-      \  'linter_errors': 'lightline#ale#errors',
-      \  'linter_ok': 'lightline#ale#ok',
-      \ }
-let g:lightline.component_type = {
-      \     'linter_checking': 'left',
-      \     'linter_warnings': 'warning',
-      \     'linter_errors': 'error',
-      \     'linter_ok': 'left',
-      \ }
-
-function! Bright()
-    set background=light
-    color PaperColor
-    let g:lightline['colorscheme'] = 'default'
-endfunction
-
-function! Bright2()
-    set background=light
-    color github
-    let g:lightline['colorscheme'] = 'github'
-endfunction
-
-if $TERM_COLOR ==# 'papercolor'
-    call Bright()
-else
-    color nord
-endif
-
-function! CocGitStatus()
-  let gstatus = get(g:,'coc_git_status','')
-  if len(gstatus) == 0
-    return ''
-  endif
-  return get(g:,'coc_git_status','').get(b:,'coc_git_status','')
-endfunction
-
-function! LightlineFilename()
-  return @% !=# '' ? @% : '[No Name]'
-endfunction
 """"""""""""""
 "  Mappings  "
 """"""""""""""
@@ -619,69 +665,6 @@ if !exists('$TMUX')
   nnoremap <c-l> <c-w>l
 endif
 
-"" FZF
-" [Buffers] Jump to the existing window if possible
-let g:fzf_buffers_jump = 1
-
-" [[B]Commits] Customize the options used by 'git log':
-let g:fzf_commits_log_options = '--graph --color=always --format="%C(auto)%h%d %s %C(black)%C(bold)%cr"'
-function! s:buflist()
-  redir => ls
-  silent ls
-  redir END
-  return split(ls, '\n')
-endfunction
-
-function! s:bufopen(e)
-  execute 'buffer' matchstr(a:e, '^[ 0-9]*')
-endfunction
-
-nnoremap <leader><tab> :Buffers<cr>
-nnoremap <leader>, :FilesMru<cr>
-nnoremap <leader>. :FZFAllFiles<cr>
-
-nnoremap <leader><enter> :Tags<cr>
-nnoremap <leader>; :TagbarOpenAutoClose<cr>
-
-nnoremap <leader>a :Rg<space>
-nnoremap <leader>A ::let @/=expand('<cword>')<cr> :RgRaw -t
-" nnoremap <leader>A :let @/=expand('<cword>')<cr> :Rg <C-r>/<cr><a-a>
-nnoremap <m-r> :exec "Rg ".expand("<cword>")<cr>
-vnoremap // "hy:exec "Find ".escape('<C-R>h', "/\.*$^~[()")<cr>
-nnoremap <m-s-r> :exec "Find ".expand("<cword>")<cr>
-
-command! -bang -nargs=* RgRaw
-      \ call fzf#vim#grep(
-      \   'rg --column --line-number --no-heading --color=always --smart-case  --colors "match:bg:yellow" --colors "match:fg:black" --colors "match:style:nobold" --colors "path:fg:green" --colors "path:style:bold" --colors "line:fg:yellow" --colors "line:style:bold" '.<q-args>, 1,
-      \   <bang>0 ? fzf#vim#with_preview('up:60%')
-      \           : fzf#vim#with_preview('right:50%:hidden', '?'),
-      \   <bang>0)
-
-command! -bang -nargs=* Rg
-      \ call fzf#vim#grep(
-      \   'rg --column --line-number --no-heading --color=always --smart-case  --colors "match:bg:yellow" --colors "match:fg:black" --colors "match:style:nobold" --colors "path:fg:green" --colors "path:style:bold" --colors "line:fg:yellow" --colors "line:style:bold" '.shellescape(<q-args>), 1,
-      \   <bang>0 ? fzf#vim#with_preview('up:60%')
-      \           : fzf#vim#with_preview('right:50%:hidden', '?'),
-      \   <bang>0)
-
-command! -bang -nargs=* Find call fzf#vim#grep('rg --column --line-number --no-heading --fixed-strings --no-ignore --hidden --smart-case  --color=always --colors "match:bg:yellow" --colors "match:fg:black" --colors "match:style:nobold" --colors "path:fg:green" --colors "path:style:bold" --colors "line:fg:yellow" --colors "line:style:bold" --glob "!.git/*" '.shellescape(<q-args>), 1, <bang>0)
-
-set grepprg=rg\ --vimgrep
-
-command! -bang -nargs=* FZFAllFiles call fzf#run({'source': 'find * -type f', 'sink': 'e'})
-
-"" vim-project
-" let g:project_use_nerdtree = 0
-" let g:project_enable_welcome = 0
-" nnoremap <F1> :e ~/.config/nvim/projects.public.vim<cr>
-" nnoremap <leader><F2> :e ~/.projects.private.vim<cr>
-" set runtimepath+=~/.config/nvim/plugged/vim-project/
-" call project#rc('~/code')
-
-"" vim-abolish
-nnoremap <leader>] :%Subvert/<c-R><c-w>/<c-r><c-w>/g<left><left>
-nnoremap <leader>[ :Subvert/<c-R><c-w>/<c-r><c-w>/g<left><left>
-vnoremap <leader>] :Subvert//g<left><left>
 
 "" qf/loc list toggle
 nmap <c-p> :cp<cr>
@@ -702,26 +685,6 @@ function! ToggleQfLocListBinds()
 endfunction
 nmap <m-t> :call ToggleQfLocListBinds()<cr>
 
-"" gitv
-nnoremap <leader>gv :Gitv!<cr>
-vnoremap <leader>gv :Gitv!<cr>
-nnoremap <leader>gV :Gitv<cr>
-let g:Gitv_DoNotMapCtrlKey = 1
-
-"" tabular
-nnoremap <leader>ga :Tabularize /\|<cr>
-vnoremap <leader>ga :Tabularize /\|<cr>
-inoremap <silent> <Bar>   <Bar><Esc>:call <SID>align()<CR>a
-function! s:align()
-  let p = '^\s*|\s.*\s|\s*$'
-  if exists(':Tabularize') && getline('.') =~# '^\s*|' && (getline(line('.')-1) =~# p || getline(line('.')+1) =~# p)
-    let column = strlen(substitute(getline('.')[0:col('.')],'[^|]','','g'))
-    let position = strlen(matchstr(getline('.')[0:col('.')],'.*|\s*\zs.*'))
-    Tabularize/|/l1
-    normal! 0
-    call search(repeat('[^|]*|',column).'\s\{-\}'.repeat('.',position),'ce',line('.'))
-  endif
-endfunction
 
 "" cmode terminal like mappings
 cnoremap <C-a> <Home>
@@ -784,6 +747,7 @@ function! LightScheme()
   set background=light
   color github
   set cursorline
+  let g:lightline['colorscheme'] = 'github'
 endfunction
 
 """""""""""""
@@ -799,7 +763,7 @@ set foldlevelstart=99
 "" Mappings
 " "Refocus" folds
 " nnoremap <leader>z zMzvzz
-"" Custom folding text
+
 "" Autofolding .vimrc
 " see http://vimcasts.org/episodes/writing-a-custom-fold-expression/
 """ defines a foldlevel for each line of code
@@ -820,7 +784,6 @@ function! VimFolds(lnum)
   if !s:two_following_lines
     return '='
   endif
-else
   if (match(s:thisline, '^"""""') >= 0) &&
         \ (match(s:line_1_after, '^"  ') >= 0) &&
         \ (match(s:line_2_after, '^""""') >= 0)
@@ -828,7 +791,6 @@ else
   else
     return '='
   endif
-endif
 endfunction
 
 """ defines a foldtext
@@ -889,6 +851,12 @@ nnoremap <silent> <m-d> :bp<bar>bd #<cr>
 " wordwise upper line completion in insert mode
 " inoremap <expr> <c-y> matchstr(getline(line('.')-1), '\%' . virtcol('.') . 'v\%(\k\+\\|.\)')
 
+" let g:project_use_nerdtree = 0
+" let g:project_enable_welcome = 0
+" nnoremap <F1> :e ~/.config/nvim/projects.public.vim<cr>
+" nnoremap <leader><F2> :e ~/.projects.private.vim<cr>
+" set runtimepath+=~/.config/nvim/plugged/vim-project/
+" call project#rc('~/code')
 " if filereadable(expand('~/.config/nvim/projects.public.vim'))
 "     so ~/.config/nvim/projects.public.vim
 " endif
@@ -933,27 +901,6 @@ set title titlestring=%{progname}\ %f\ +%l\ #%{tabpagenr()}.%{winnr()}
 if &term =~# '^screen' && !has('nvim') | exe "set t_ts=\e]2; t_fs=\7" | endif
 
 let g:tmux_navigator_disable_when_zoomed=1
-
-" " override nord visual highlighting
-" function! CustomHighlighting() abort
-"     hi Comment ctermfg=gray
-"     hi BufTabLineCurrent ctermfg=2 ctermbg=8
-"     hi Visual ctermfg=7 ctermbg=4
-"     hi Folded ctermfg=4
-"     hi Search ctermfg=0 ctermbg=10
-" endfunction
-" call CustomHighlighting()
-
-" augroup ColorSchemes
-"     autocmd!
-"     autocmd ColorScheme PaperColor hi Visual ctermfg=15 ctermbg=4
-" augroup END
-
-hi Comment ctermfg=gray
-hi BufTabLineCurrent ctermfg=2 ctermbg=8
-hi Visual ctermfg=7 ctermbg=4
-hi Folded ctermfg=4
-hi Search ctermfg=0 ctermbg=10
 
 function! Zd()
     normal! "+p
@@ -1110,8 +1057,6 @@ let g:ale_fixers = {
 
 nnoremap ' `
 
-nmap <C-]> <Plug>(fzf_tags)
-" nmap <C-[> <ESC>:po<CR>
 
 
 
@@ -1119,8 +1064,6 @@ nmap <C-]> <Plug>(fzf_tags)
 so ~/.local.init.vim
 
 nnoremap <leader><enter> :silent update<Bar>silent !xdg-open %:p &<CR>
-
-nmap <leader>K :DD<cr>
 
 " Tabs {{{
 nnoremap tl :tabnext<CR>
