@@ -160,7 +160,6 @@ nnoremap <c-e> :WinResizerStartResize<cr>
 Plug 'ap/vim-buftabline'
 let g:buftabline_show = 1 " display only if more than 1 buffer open
 
-""" nord
 Plug 'arcticicestudio/nord-vim'
 
 Plug 'etdev/vim-hexcolor', {'for': ['css']}
@@ -219,14 +218,14 @@ endfunction
 
 "" markdown
 " Plug 'reedes/vim-lexical', {'for': []}
-let g:mkdp_path_to_chrome = 'chromium-browser'
+Plug 'plasticboy/vim-markdown', {'for': ['markdown'], 'as': 'vim-markdown-plasticboy'}
+Plug 'tpope/vim-markdown', {'for': 'markdown'}
+
+""" markdown preview
 Plug 'iamcco/markdown-preview.nvim', { 'for': ['markdown'],  'do': 'cd app & yarn install'  }
+let g:mkdp_path_to_chrome = 'chromium-browser'
 let g:mkdp_auto_close = 1
 let g:mkdp_auto_start = 0
-Plug 'plasticboy/vim-markdown', {'for': ['markdown'], 'as': 'vim-markdown-plasticboy'}
-Plug 'Rykka/InstantRst', {'for': 'rst'}
-let g:instant_rst_browser='chromium-browser'
-Plug 'tpope/vim-markdown', {'for': 'markdown'}
 
 "" search/navigate
 
@@ -325,7 +324,6 @@ nnoremap <m-z> :Scratch<cr>
 nnoremap <leader>z :ScratchPreview<cr>
 
 "" todo
-
 """ simple-todo
 Plug 'vitalk/vim-simple-todo'
 let g:simple_todo_map_keys = 0
@@ -373,6 +371,21 @@ let g:ansible_unindent_after_newline = 1
 "" misc
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-repeat'
+" Plug 'triglav/vim-visual-increment'
+
+" Plug 'phux/vim-marker'
+Plug '~/code/vim-marker'
+
+" Filetype-specific mappings for [[ and ]]
+Plug 'arp242/jumpy.vim'
+
+Plug 'lifepillar/pgsql.vim', {'for': 'sql'}
+let g:sql_type_default = 'pgsql'
+
+Plug 'oguzbilgic/vim-gdiff'
+
+Plug 'romainl/vim-devdocs', {'on': 'DD'}
+nmap <leader>K :DD<cr>
 
 """ tabular
 Plug 'godlygeek/tabular', {'for': ['cucumber', 'markdown', 'sql']}
@@ -390,11 +403,9 @@ function! s:align()
   endif
 endfunction
 
-
-" Plug 'triglav/vim-visual-increment'
-
-""" gundo
+""" untotree
 Plug  'mbbill/undotree'
+nnoremap <m-u> :UndotreeToggle<cr>
 
 """ SplitJoin
 Plug 'AndrewRadev/splitjoin.vim', {'on': ['SplitjoinSplit', 'SplitjoinJoin']}
@@ -418,37 +429,20 @@ let g:ale_fix_on_save = 1
 let g:ale_set_quickfix=1
 Plug 'maximbaz/lightline-ale'
 
-" Plug 'ajorgensen/vim-markdown-toc', {'for': 'markdown'}
-" Plug 'davidbalbert/vim-io', {'for': 'io'}
-" Plug 'adimit/prolog.vim', {'for': 'prolog'}
-" Plug 'derekwyatt/vim-scala', {'for': 'scala'}
-" Plug 'phux/vim-marker'
-Plug '~/code/vim-marker'
-" Filetype-specific mappings for [[ and ]]
-Plug 'arp242/jumpy.vim'
-
-Plug 'lifepillar/pgsql.vim', {'for': 'sql'}
-let g:sql_type_default = 'pgsql'
-
-Plug 'oguzbilgic/vim-gdiff'
-
-Plug 'romainl/vim-devdocs', {'on': 'DD'}
-nmap <leader>K :DD<cr>
-
-
 """ abolish
 Plug 'tpope/vim-abolish'
 nnoremap <leader>] :%Subvert/<c-R><c-w>/<c-r><c-w>/g<left><left>
 nnoremap <leader>[ :Subvert/<c-R><c-w>/<c-r><c-w>/g<left><left>
 vnoremap <leader>] :Subvert//g<left><left>
+
 """ hardtime
 Plug 'takac/vim-hardtime'
 let g:hardtime_default_on = 1
 let g:hardtime_ignore_quickfix = 1
 let g:hardtime_maxcount = 1
 let g:hardtime_allow_different_key = 1
-call plug#end()
 
+call plug#end()
 
 """"""""""""""""""""""""
 "  Autogroups  "
@@ -1019,30 +1013,21 @@ function! LocListToggle()
   endif
 endfunction
 
-function! s:GrepArgs(...)
-  let list = ['-S', '-smartcase', '-i', '-ignorecase', '-w', '-word',
-        \ '-e', '-regex', '-u', '-skip-vcs-ignores', '-t', '-extension']
-  return join(list, "\n")
-endfunction
-
-vnoremap // :<C-u>call <SID>GrepFromSelected(visualmode())<CR>
-
-function! s:GrepFromSelected(type)
-  let saved_unnamed_register = @@
-  if a:type ==# 'v'
-    normal! `<v`>y
-  elseif a:type ==# 'char'
-    normal! `[v`]y
-  else
-    return
-  endif
-  let word = substitute(@@, '\n$', '', 'g')
-  let word = escape(word, '| ')
-  let @@ = saved_unnamed_register
-  execute 'CocList grep '.word
-endfunction
-
-nnoremap <m-u> :UndotreeToggle<cr>
+" vnoremap // :<C-u>call <SID>GrepFromSelected(visualmode())<CR>
+" function! s:GrepFromSelected(type)
+"   let saved_unnamed_register = @@
+"   if a:type ==# 'v'
+"     normal! `<v`>y
+"   elseif a:type ==# 'char'
+"     normal! `[v`]y
+"   else
+"     return
+"   endif
+"   let word = substitute(@@, '\n$', '', 'g')
+"   let word = escape(word, '| ')
+"   let @@ = saved_unnamed_register
+"   execute 'CocList grep '.word
+" endfunction
 
 let g:ale_fixers = {
 \   '*': ['remove_trailing_lines', 'trim_whitespace'],
@@ -1053,13 +1038,8 @@ let g:ale_fixers = {
 \   'text': ['textlint', 'remove_trailing_lines', 'trim_whitespace'],
 \   'go': ['goimports', 'remove_trailing_lines', 'trim_whitespace'],
 \}
-" \   'sql': ['pgformatter'],
 
 nnoremap ' `
-
-
-
-
 
 so ~/.local.init.vim
 
