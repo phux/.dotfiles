@@ -39,13 +39,15 @@
     "http://json.schemastore.org/circleciconfig": "/.circleci/config.yml",
     "https://raw.githubusercontent.com/docker/compose/master/compose/config/config_schema_v3.0.json": "/docker-compose*.yml"
   },
-  "json.schemas": [ {"http://json.schemastore.org/composer": "/composer.json"},
-    {"http://json.schemastore.org/package": "/package.json"}
+  "json.schemas": [
+    { "http://json.schemastore.org/composer": "/composer.json" },
+    { "http://json.schemastore.org/package": "/package.json" }
   ],
   "java.errors.incompleteClasspath.severity": "ignore",
   "java.implementationsCodeLens.enabled": true,
   "java.referencesCodeLens.enabled": true,
   "git.enableGutters": true,
+  "coc.source.issues.enable": false,
   "git.realtimeGutters": false,
   "git.addedSign.hlGroup": "GitGutterAdd",
   "git.changedSign.hlGroup": "GitGutterChange",
@@ -61,15 +63,8 @@
       "expand": true
     }
   ],
-  "explorer.file.columns": [
-    "selection",
-    "clip",
-    "indent",
-    "icon",
-    "filename"
-  ],
+  "explorer.file.columns": ["selection", "clip", "indent", "icon", "filename"],
   "explorer.keyMappings": {
     "u": "gotoParent"
-
   }
 }
