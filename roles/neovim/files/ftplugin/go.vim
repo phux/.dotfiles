@@ -1,8 +1,8 @@
 setlocal noexpandtab tabstop=4 shiftwidth=4
-set nofoldenable
-set foldmethod=syntax
-set foldlevel=1
-set foldnestmax=1
+setlocal nofoldenable
+setlocal foldmethod=syntax
+setlocal foldlevel=1
+setlocal foldnestmax=1
 
 " let b:ale_linters = ['gofmt', 'govet', 'gobuild', 'gotype']
 " let b:ale_linters = ['gobuild', 'revive']

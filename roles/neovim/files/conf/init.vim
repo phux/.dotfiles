@@ -444,28 +444,22 @@ let g:hardtime_allow_different_key = 1
 
 call plug#end()
 
-""""""""""""""""""""""""
+"""""""""""""""""""""""
 "  Autogroups  "
 """"""""""""""""""""""""
 "" Misc
 augroup misc
   au!
 
-  autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  guibg=none   ctermbg=none
-  autocmd VimEnter,Colorscheme * :hi IndentGuidesEven guibg=green ctermbg=0
-
   au BufNewFile,BufRead *.yml.dist set ft=yaml
   au BufRead,BufNewFile *.conf setf config
   au BufNewFile,BufRead composer.lock set ft=json
-
-  au BufRead,BufNewFile *.sbt set filetype=scala
 
   au BufNewFile,BufRead,BufEnter ~/Dropbox/notes/*.md set ft=markdown.notes
 
   au FileType html,xml inoremap <buffer> <m-;> </<c-x><c-o>
 
   autocmd FileType typescript,json,html setl formatexpr=CocAction('formatSelected')
-  " au FileType html setlocal equalprg=tidy\ -indent\ -quiet\ --show-errors\ 0\ --tidy-mark\ no\ --show-body-only\ auto
   au FileType xml setlocal makeprg=xmllint\ -
 
   au FileType gitv nmap <buffer> <silent> <C-n> <Plug>(gitv-previous-commit)
@@ -744,19 +738,47 @@ function! LightScheme()
   let g:lightline['colorscheme'] = 'github'
 endfunction
 
+"" unsorted
+nnoremap <silent> <leader>w :w<cr>
+
+" replace ex mode map and use it for repeating 'q' macro
+nnoremap Q @q
+
+inoremap <c-l> <del>
+
+" keep selection after indent
+vnoremap < <gv
+vnoremap > >gv
+nnoremap <m-l> :bn<cr>
+nnoremap <m-h> :bp<cr>
+
+nnoremap <leader>x <c-w>c
+nnoremap <leader>s <c-w>v
+
+" close quick- & locationlist
+nnoremap <silent> <m-,> :lclose<cr>:cclose<cr>
+" remove buffer without deleting window
+nnoremap <silent> <m-d> :bp<bar>bd #<cr>
+
 """""""""""""
 "  Folding  "
 """""""""""""
+"" only fold init.vim on initial load
+if !exists('g:init_vim_folded')
+    set foldlevel=0
+    let g:init_vim_folded=1
+endif
+
 "" Settings
 let g:xml_syntax_folding = 1
 let g:sh_fold_enabled= 7
 let g:ruby_fold = 1
 set foldnestmax=4
-set foldlevelstart=99
+" set foldlevelstart=99
 
 "" Mappings
 " "Refocus" folds
-" nnoremap <leader>z zMzvzz
+nnoremap <cr> zazz
 
 "" Autofolding .vimrc
 " see http://vimcasts.org/episodes/writing-a-custom-fold-expression/
@@ -805,11 +827,11 @@ function! VimFoldText()
   endif
 endfunction
 
-
 """ set foldsettings automatically for vim files
 augroup fold_vimrc
   autocmd!
   autocmd FileType vim
+        \ setlocal foldenable |
         \ setlocal foldmethod=expr |
         \ setlocal foldexpr=VimFolds(v:lnum) |
         \ setlocal foldtext=VimFoldText() |
@@ -819,31 +841,6 @@ augroup END
 """"""""""""""""""
 "  Unsorted yet  "
 """"""""""""""""""
-command! -nargs=1 Silent execute ':silent !'.<q-args> | execute ':redraw!'
-
-
-nnoremap <silent> <leader>w :w<cr>
-
-" replace ex mode map and use it for repeating 'q' macro
-nnoremap Q @q
-
-inoremap <c-l> <del>
-
-" keep selection after indent
-vnoremap < <gv
-vnoremap > >gv
-nnoremap <m-l> :bn<cr>
-nnoremap <m-h> :bp<cr>
-
-nnoremap <leader>x <c-w>c
-nnoremap <leader>s <c-w>v
-
-nnoremap <silent> <m-,> :lclose<cr>:cclose<cr>
-" remove buffer without deleting window
-nnoremap <silent> <m-d> :bp<bar>bd #<cr>
-
-" wordwise upper line completion in insert mode
-" inoremap <expr> <c-y> matchstr(getline(line('.')-1), '\%' . virtcol('.') . 'v\%(\k\+\\|.\)')
 
 " let g:project_use_nerdtree = 0
 " let g:project_enable_welcome = 0
@@ -861,12 +858,7 @@ function! IsOnBattery()
   return readfile('/sys/class/power_supply/ACAD/online') == ['0']
 endfunction
 
-" set clipboard+=unnamedplus
-
 nnoremap <silent> <leader><f5> :e $MYVIMRC<CR>
-" trying to get used to capslock escape
-" imap jk <esc>
-
 
 command! -nargs=* Only call CloseHiddenBuffers()
 function! CloseHiddenBuffers()
@@ -890,23 +882,11 @@ endfun
 
 " Intelligently navigate tmux panes and Vim splits using the same keys.
 " See https://sunaku.github.io/tmux-select-pane.html for documentation.
-let progname = substitute($VIM, '.*[/\\]', '', '')
-set title titlestring=%{progname}\ %f\ +%l\ #%{tabpagenr()}.%{winnr()}
-if &term =~# '^screen' && !has('nvim') | exe "set t_ts=\e]2; t_fs=\7" | endif
+" let progname = substitute($VIM, '.*[/\\]', '', '')
+" set title titlestring=%{progname}\ %f\ +%l\ #%{tabpagenr()}.%{winnr()}
+" if &term =~# '^screen' && !has('nvim') | exe "set t_ts=\e]2; t_fs=\7" | endif
 
 let g:tmux_navigator_disable_when_zoomed=1
-
-function! Zd()
-    normal! "+p
-    g!/Message\\"/d
-    s/.\+\\"Message\\" : \\"//
-    s/\\".\+//
-    " replace zd<space> with <your_zlib_decode_function/alias>
-    normal! Izd
-    " copies everything into system's clipboard
-    normal! 0"+y$
-    q!
-endfunction
 
 call coc#add_extension(
       \ 'coc-css',

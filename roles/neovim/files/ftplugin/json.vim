@@ -1,4 +1,4 @@
-set shiftwidth=2 tabstop=2
-set foldnestmax=2
-set foldlevel=1
-set foldmethod=indent
+" setlocal shiftwidth=2 tabstop=2
+" setlocal foldnestmax=2
+" setlocal foldlevel=1
+" setlocal foldmethod=indent
