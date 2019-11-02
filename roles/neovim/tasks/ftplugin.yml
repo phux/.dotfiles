@@ -2,13 +2,13 @@
 
 - name: Create ftplugin dir
   file:
-    path: "{{ neovim_config_dir }}/ftplugin"
+    path: "{{ neovim_config_dir }}/after/ftplugin"
     state: directory
 
 - name: Link ftplugin files
   file:
     src: "{{ item }}"
-    dest: "{{ neovim_config_dir }}/ftplugin/{{ item | basename }}"
+    dest: "{{ neovim_config_dir }}/after/ftplugin/{{ item | basename }}"
     state: link
   with_fileglob:
     - ftplugin/*

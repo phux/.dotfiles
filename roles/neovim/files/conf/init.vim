@@ -1,19 +1,31 @@
 " vint: -ProhibitCommandRelyOnUser
 " vint: -ProhibitCommandWithUnintendedSideEffect
 
+""""""""""""""""""
+"  nvim startup  "
+""""""""""""""""""
 if has('vim_starting')
   syntax on
-  set nofoldenable
-  set foldtext=MyFoldText()
+  set foldenable
+
+  " Disable unnecessary default plugins
+  let g:loaded_gzip              = 1
+  let g:loaded_tar               = 1
+  let g:loaded_tarPlugin         = 1
+  let g:loaded_zip               = 1
+  let g:loaded_zipPlugin         = 1
+  let g:loaded_rrhelper          = 1
+  let g:loaded_2html_plugin      = 1
+  let g:loaded_vimball           = 1
+  let g:loaded_vimballPlugin     = 1
+  let g:loaded_getscript         = 1
+  let g:loaded_getscriptPlugin   = 1
+  let g:loaded_logipat           = 1
+  let g:loaded_matchparen        = 1
+  let g:loaded_man               = 1
 endif
 
-set encoding=UTF-8
-scriptencoding utf-8
-
 let mapleader = "\<Space>"
-
-" i am too stoopid to learn this
-nnoremap Q <nop>
 
 """"""""""""""
 "  vim-plug  "
@@ -44,7 +56,47 @@ Plug 'jiangmiao/auto-pairs'
 "" plantuml
 Plug 'aklt/plantuml-syntax', {'for': 'uml'}
 
+"" coc.nvim
 Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
+inoremap <silent><expr> <TAB>
+            \ pumvisible() ? "\<C-n>" :
+            \ <SID>check_back_space() ? "\<TAB>" :
+            \ coc#refresh()
+inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+
+function! s:check_back_space() abort
+    let col = col('.') - 1
+    return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+
+nnoremap <silent> K :call <SID>show_documentation()<CR>
+function! s:show_documentation()
+    call CocAction('doHover')
+endfunction
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gD <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
+nmap <leader>gr <Plug>(coc-rename)
+vmap <leader>gf <Plug>(coc-format-selected)
+nmap <leader>R <Plug>(coc-refactor)
+
+nnoremap <silent> <leader>D  :<C-u>CocList -I symbols<cr>
+nnoremap <silent> <leader>d  :<C-u>CocList outline<cr>
+nnoremap <leader>gg :<C-u>CocCommand git.
+nnoremap <silent> <leader>gl :<C-u>CocList --normal commits<cr>
+nnoremap <leader>gW :<C-u>CocCommand git.chunkStage<cr>
+nnoremap <silent> gb :CocCommand git.browserOpen<cr>
+nmap [g <Plug>(coc-git-prevchunk)
+nmap ]g <Plug>(coc-git-nextchunk)
+nmap gs <Plug>(coc-git-chunkinfo)
+nmap gc <Plug>(coc-git-commit)
+nnoremap <silent> <space>y  :<C-u>CocList --normal yank<cr>
+nnoremap <leader>l :CocListResume<cr>
+
+" Use <c-space> to trigger completion.
+" inoremap <silent><expr> <c-space> coc#refresh()
 
 "" php
 Plug 'phux/php-doc-modded', {'for': 'php'}
@@ -57,8 +109,8 @@ Plug 'phpactor/phpactor', {'for': 'php', 'do': ':call phpactor#Update()'}
 Plug 'lvht/phpcd.vim', { 'for': 'php', 'do': 'composer install' }
 
 "" go
-Plug 'arp242/gopher.vim', {'for': 'go'}
-" Plug 'fatih/vim-go', {'for': 'go', 'do': ':GoInstallBinaries'}
+" Plug 'arp242/gopher.vim', {'for': 'go'}
+Plug 'fatih/vim-go', {'for': 'go', 'do': ':GoInstallBinaries'}
 Plug 'sebdah/vim-delve', {'for': 'go'}
 Plug 'godoctor/godoctor.vim', {'for': 'go'}
 Plug 'buoto/gotests-vim', {'for': 'go'}
@@ -213,8 +265,7 @@ Plug 'tpope/vim-abolish'
 " Plug 'triglav/vim-visual-increment'
 
 """ gundo
-Plug 'simnalamburt/vim-mundo', {'on': 'MundoToggle'}
-let g:mundo_width = 100
+Plug  'mbbill/undotree'
 
 """ vim-test
 " Plug 'janko-m/vim-test', {'on': ['TestNearest', 'TestFile', 'TestLast', 'TestVisit']}
@@ -257,11 +308,18 @@ Plug 'arp242/jumpy.vim'
 let g:sql_type_default = 'pgsql'
 Plug 'lifepillar/pgsql.vim', {'for': 'sql'}
 
-Plug 'liuchengxu/vim-clap'
 Plug 'oguzbilgic/vim-gdiff'
 
-Plug 'rhysd/devdocs.vim'
+Plug 'romainl/vim-devdocs', {'on': 'DD'}
+Plug 'takac/vim-hardtime'
+let g:hardtime_default_on = 1
+let g:hardtime_ignore_quickfix = 1
+let g:hardtime_maxcount = 1
+Plug 'justinmk/vim-sneak'
+let g:sneak#label = 1
+let g:sneak#use_ic_scs = 1
 call plug#end()
+
 function! SmartInsertTodo()
   " already todo in this line?
   if getline('.') =~# '\[.\]'
@@ -314,7 +372,7 @@ augroup misc
   au FileType gitv nmap <buffer> <silent> <C-n> <Plug>(gitv-previous-commit)
   au FileType gitv nmap <buffer> <silent> <C-p> <Plug>(gitv-next-commit)
 
-  " au FocusLost,WinLeave * :silent! update
+  au FocusLost,WinLeave * :silent! update
   autocmd! FileType fzf
   autocmd  FileType fzf set laststatus=0
         \| autocmd BufLeave <buffer> set laststatus=2
@@ -341,12 +399,81 @@ nnoremap <c-e> :WinResizerStartResize<cr>
 "  Settings  "
 """"""""""""""
 
+filetype plugin indent on
+
+set encoding=UTF-8
+scriptencoding utf-8
+
 set fileformats=unix,dos,mac
 set autowriteall                   " Automatically save before :next, :make etc.
 set autoread                    " Automatically reread changed files without asking me anything
 set hidden
+
+set foldcolumn=0        " do not show foldcolumn
+set tags^=./.git/tags;
+set confirm
+set noshowmode
+set noruler
+
+
+set scrolloff=5
+set tabstop=2
+set shiftwidth=2
+set shiftround
+set smarttab        " insert blanks according to shiftwidth
+set expandtab       " use spaces instead of TAB
+set softtabstop=-1  " the number of spaces that a TAB counts for
+set shiftwidth=4    " the number of spaces of an indent
+set shiftround      " round indent to multiple of shiftwidth with > and <
+set textwidth=0     " do not automatically wrap text
+
+set autoindent      " copy indent from current line when starting a new line
+set copyindent      " copy the structure of the existing lines indent when
+                    " autoindenting a new line
+set preserveindent  " Use :retab to clean up whitespace
+
+" Do not recognize octal numbers for Ctrl-A and Ctrl-X, most users find it
+" confusing.
+set nrformats-=octal
+
+" t - auto-wrap text using textwidth
+" c - auto-wrap comments using textwidth, inserting the
+"     current comment leader automatically
+" r - automatically insert the current comment leader after
+"     hitting <Enter> in Insert mode
+" o - automatically insert the current comment leader after
+"     hitting o in Insert mode
+" n - when formatting text, recognize numbered lists
+" l - long lines are not broken in insert mode
+" m - also break at a multi-byte character above 255.
+" B - when joining lines, don't insert a space between two
+"     multi-byte characters
+" j - where it make sense, remove a comment leader when
+"     joining lines
+set formatoptions&
+      \ formatoptions+=r
+      \ formatoptions+=o
+      \ formatoptions+=n
+      \ formatoptions+=m
+      \ formatoptions+=B
+      \ formatoptions+=j
+" set formatoptions=qrn1tclj
 set nojoinspaces
 
+set lazyredraw
+" set max syntax highlighting column to sane level
+set synmaxcol=250
+
+" keep marks
+" set viminfo='100,\"90,h,%
+set nostartofline
+
+set ignorecase smartcase
+set hlsearch
+set incsearch
+set inccommand=split
+
+set timeout ttimeoutlen=0
 "" insert mode completion
 set complete-=i
 set complete+=w
@@ -381,7 +508,6 @@ set cmdheight=1
 " This makes more sense than the default of 1
 set winminheight=1
 
-set formatoptions=qrn1tclj
 
 set showbreak=↪
 " set breakindent
@@ -664,12 +790,9 @@ endfunction
 "  Folding  "
 """""""""""""
 "" Settings
-set nofoldenable
-" set foldmethod=marker
 let g:xml_syntax_folding = 1
 let g:sh_fold_enabled= 7
 let g:ruby_fold = 1
-" set foldlevel=1
 set foldnestmax=4
 set foldlevelstart=99
 
@@ -677,28 +800,6 @@ set foldlevelstart=99
 " "Refocus" folds
 " nnoremap <leader>z zMzvzz
 "" Custom folding text
-function! MyFoldText()
-    let line = getline(v:foldstart)
-
-    let nucolwidth = &foldcolumn + &number * &numberwidth
-    let windowwidth = winwidth(0) - nucolwidth - 3
-    let foldedlinecount = v:foldend - v:foldstart
-
-    " expand tabs into spaces
-    let chunks = split(line, "\t", 1)
-    let line = join(map(chunks[:-2], 'v:val . repeat(" ", &tabstop - strwidth(v:val) % &tabstop)'), '') . chunks[-1]
-
-    let line = strpart(line, 0, windowwidth - 2 - len(foldedlinecount))
-    let fillcharcount = windowwidth - len(line) - len(foldedlinecount) - 1
-    return line . '...' . repeat(' ', fillcharcount) . foldedlinecount . ' '
-endfunction
-
-if has('vim_starting')
-  let g:qf_loc_toggle_binds = 0
-  set nofoldenable
-  set foldtext=MyFoldText()
-endif
-
 "" Autofolding .vimrc
 " see http://vimcasts.org/episodes/writing-a-custom-fold-expression/
 """ defines a foldlevel for each line of code
@@ -717,17 +818,17 @@ function! VimFolds(lnum)
     let s:two_following_lines = 1
   endif
   if !s:two_following_lines
-      return '='
-    " endif
-  else
-    if (match(s:thisline, '^"""""') >= 0) &&
-       \ (match(s:line_1_after, '^"  ') >= 0) &&
-       \ (match(s:line_2_after, '^""""') >= 0)
-      return '>1'
-    else
-      return '='
-    endif
+    return '='
   endif
+else
+  if (match(s:thisline, '^"""""') >= 0) &&
+        \ (match(s:line_1_after, '^"  ') >= 0) &&
+        \ (match(s:line_2_after, '^""""') >= 0)
+    return '>1'
+  else
+    return '='
+  endif
+endif
 endfunction
 
 """ defines a foldtext
@@ -748,13 +849,15 @@ function! VimFoldText()
   endif
 endfunction
 
+
 """ set foldsettings automatically for vim files
 augroup fold_vimrc
   autocmd!
   autocmd FileType vim
-                   \ setlocal foldmethod=expr |
-                   \ setlocal foldexpr=VimFolds(v:lnum) |
-                   \ setlocal foldtext=VimFoldText() |
+        \ setlocal foldmethod=expr |
+        \ setlocal foldexpr=VimFolds(v:lnum) |
+        \ setlocal foldtext=VimFoldText() |
+  "              \ set foldcolumn=2 foldminlines=2
 augroup END
 
 """"""""""""""""""
@@ -762,38 +865,11 @@ augroup END
 """"""""""""""""""
 command! -nargs=1 Silent execute ':silent !'.<q-args> | execute ':redraw!'
 
-set confirm
 
 nnoremap <silent> <leader>w :w<cr>
 
 " replace ex mode map and use it for repeating 'q' macro
 nnoremap Q @q
-
-set noshowmode
-set noruler
-
-filetype plugin indent on
-
-set scrolloff=5
-set shiftround
-set tabstop=2
-set shiftwidth=2
-set expandtab smarttab
-set lazyredraw
-" set max syntax highlighting column to sane level
-set synmaxcol=250
-
-set textwidth=0
-" keep marks
-" set viminfo='100,\"90,h,%
-set nostartofline
-
-set ignorecase smartcase
-set hlsearch
-set incsearch
-set inccommand=split
-
-set timeout ttimeoutlen=0
 
 inoremap <c-l> <del>
 
@@ -857,31 +933,6 @@ set title titlestring=%{progname}\ %f\ +%l\ #%{tabpagenr()}.%{winnr()}
 if &term =~# '^screen' && !has('nvim') | exe "set t_ts=\e]2; t_fs=\7" | endif
 
 let g:tmux_navigator_disable_when_zoomed=1
-
-inoremap <silent><expr> <TAB>
-            \ pumvisible() ? "\<C-n>" :
-            \ <SID>check_back_space() ? "\<TAB>" :
-            \ coc#refresh()
-inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
-inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
-
-function! s:check_back_space() abort
-    let col = col('.') - 1
-    return !col || getline('.')[col - 1]  =~# '\s'
-endfunction
-
-
-nnoremap <silent> K :call <SID>show_documentation()<CR>
-function! s:show_documentation()
-  " if &filetype ==# 'vim'
-  "   execute 'h '.expand('<cword>')
-  " else
-    call CocAction('doHover')
-  " endif
-endfunction
-
-" Use <c-space> to trigger completion.
-" inoremap <silent><expr> <c-space> coc#refresh()
 
 " " override nord visual highlighting
 " function! CustomHighlighting() abort
@@ -1001,31 +1052,6 @@ endfunction
 
 " command! Messages :redir => bufout | silent :messages | redir end | new | call append(0, split(bufout, '\n'))
 
-nmap <silent> gd <Plug>(coc-definition)
-nmap <silent> gD <Plug>(coc-type-definition)
-nmap <silent> gi <Plug>(coc-implementation)
-nmap <silent> gr <Plug>(coc-references)
-nmap <leader>gr <Plug>(coc-rename)
-vmap <leader>gf <Plug>(coc-format-selected)
-" nmap <leader>gf <Plug>(coc-format)
-nmap <leader>R <Plug>(coc-refactor)
-
-" nnoremap <silent> <leader>D  :exe 'CocList -I --normal --input='.expand('<cword>').' symbols'<CR>
-" nnoremap <silent> <space>y  :<C-u>CocList -A --normal yank<cr>
-nnoremap <silent> <leader>D  :<C-u>CocList -I symbols<cr>
-nnoremap <silent> <leader>d  :<C-u>CocList outline<cr>
-nnoremap <leader>gg :<C-u>CocCommand git.
-" nnoremap <silent> <leader>gs :<C-u>CocList --normal gstatus<cr>
-nnoremap <silent> <leader>gl :<C-u>CocList --normal commits<cr>
-nnoremap <leader>gW :<C-u>CocCommand git.chunkStage<cr>
-nnoremap <silent> gb :CocCommand git.browserOpen<cr>
-" navigate chunks of current buffer
-nmap [g <Plug>(coc-git-prevchunk)
-nmap ]g <Plug>(coc-git-nextchunk)
-" show chunk diff at current position
-nmap gs <Plug>(coc-git-chunkinfo)
-" show commit ad current position
-nmap gc <Plug>(coc-git-commit)
 
 nnoremap <m-q> :call LocListToggle()<cr>
 function! LocListToggle()
@@ -1069,30 +1095,7 @@ function! s:GrepFromSelected(type)
   execute 'CocList grep '.word
 endfunction
 
-" toggle mundo tree
-function! s:mundoToggle()
-	let cwin = -1
-	let syn = ''
-	let synflag = 0
-	if buffer_name('%') !~# '^__Mundo\%(_Preview\)\?__$'
-		let synflag = 1
-		let cwin = win_getid()
-		let syn = &syntax
-		setlocal syntax=
-	endif
-	MundoToggle
-	if synflag
-		let winflag = cwin !=# -1 && buffer_name('%') =~# '^__Mundo\%(_Preview\)\?__$'
-		if winflag
-			call win_gotoid(cwin)
-		endif
-		execute 'setlocal syntax='.syn
-		if winflag
-			wincmd p
-		endif
-	endif
-endfunction
-nnoremap <m-u> :call <sid>mundoToggle()<cr>
+nnoremap <m-u> :UndotreeToggle<cr>
 
 let g:ale_fixers = {
 \   '*': ['remove_trailing_lines', 'trim_whitespace'],
@@ -1106,17 +1109,23 @@ let g:ale_fixers = {
 " \   'sql': ['pgformatter'],
 
 nnoremap ' `
-nnoremap <silent> <space>y  :<C-u>CocList --normal yank<cr>
 
 nmap <C-]> <Plug>(fzf_tags)
-nmap <C-[> <ESC>:po<CR>
+" nmap <C-[> <ESC>:po<CR>
 
-nnoremap <leader>l :CocListResume<cr>
 
-set tags^=./.git/tags;
+
 
 so ~/.local.init.vim
 
 nnoremap <leader><enter> :silent update<Bar>silent !xdg-open %:p &<CR>
 
-nmap <leader>K <Plug>(devdocs-under-cursor)
+nmap <leader>K :DD<cr>
+
+" Tabs {{{
+nnoremap tl :tabnext<CR>
+nnoremap th :tabprev<CR>
+nnoremap td :tabclose<CR>
+nnoremap tc :tabclose<CR>
+nnoremap tn :tabnew<CR>
+" }}}
