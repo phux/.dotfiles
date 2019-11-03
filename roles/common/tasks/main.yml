@@ -31,7 +31,7 @@
     - autorandr
     - parcellite
     - openvpn
-    - xbacklight
+    - brightnessctl
 
 - include: rofi.yml
 
