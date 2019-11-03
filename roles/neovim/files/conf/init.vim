@@ -247,11 +247,11 @@ let g:sneak#label = 1
 let g:sneak#use_ic_scs = 1
 
 """ easymotion
-Plug 'Lokaltog/vim-easymotion'
-" nmap <Leader>L <Plug>(easymotion-bd-jk)
+Plug 'easymotion/vim-easymotion'
+let g:EasyMotion_do_mapping = 0
 nmap <Leader>f <Plug>(easymotion-bd-w)
 nmap <Leader>F <Plug>(easymotion-overwin-w)
-" nmap s <Plug>(easymotion-s)
+" nnoremap s <Plug>(easymotion-s)
 " nmap  <Leader>b <Plug>(easymotion-b)
 
 let g:EasyMotion_smartcase = 1
@@ -441,6 +441,13 @@ let g:hardtime_default_on = 1
 let g:hardtime_ignore_quickfix = 1
 let g:hardtime_maxcount = 1
 let g:hardtime_allow_different_key = 1
+let g:hardtime_ignore_buffer_patterns = ["coc-explorer"]
+
+Plug 'tpope/vim-vinegar'
+Plug 'lambdalisue/fila.vim'
+" nnoremap <leader>n :Fila -drawer -toggle -keep -width=30<cr>
+" nnoremap <leader>N :exe 'Fila -drawer -toggle -width=30 -reveal='. expand('%:p')<cr>
+" nnoremap <leader>N :NERDTreeFind<cr>
 
 call plug#end()
 
@@ -522,6 +529,8 @@ set copyindent      " copy the structure of the existing lines indent when
                     " autoindenting a new line
 set preserveindent  " Use :retab to clean up whitespace
 
+set splitright
+
 " Do not recognize octal numbers for Ctrl-A and Ctrl-X, most users find it
 " confusing.
 set nrformats-=octal
@@ -532,7 +541,7 @@ set nrformats-=octal
 " r - automatically insert the current comment leader after
 "     hitting <Enter> in Insert mode
 " o - automatically insert the current comment leader after
-"     hitting o in Insert mode
+"     hitting o in Normal mode
 " n - when formatting text, recognize numbered lists
 " l - long lines are not broken in insert mode
 " m - also break at a multi-byte character above 255.
@@ -777,8 +786,6 @@ set foldnestmax=4
 " set foldlevelstart=99
 
 "" Mappings
-" "Refocus" folds
-nnoremap <cr> zazz
 
 "" Autofolding .vimrc
 " see http://vimcasts.org/episodes/writing-a-custom-fold-expression/
@@ -1025,10 +1032,9 @@ so ~/.local.init.vim
 
 nnoremap <leader><enter> :silent update<Bar>silent !xdg-open %:p &<CR>
 
-" Tabs {{{
+"" tabs
 nnoremap tl :tabnext<CR>
 nnoremap th :tabprev<CR>
 nnoremap td :tabclose<CR>
 nnoremap tc :tabclose<CR>
 nnoremap tn :tabnew<CR>
-" }}}
