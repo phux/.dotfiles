@@ -57,6 +57,7 @@
   "git.addGBlameToBufferVar": true,
   "yank.enableCompletion": true,
   "yank.highlight.duration": 100,
+  "explorer.quitOnOpen": true,
   "explorer.sources": [
     {
       "name": "file",
