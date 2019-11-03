@@ -4,6 +4,11 @@ ZSH_TMUX_AUTOQUIT=false
 
 WORDCHARS='*?_-[]~=&;!#$%^(){}<>'
 
+
+# Prefer US English and use UTF-8.
+export LANG='en_US.UTF-8';
+export LC_ALL='en_US.UTF-8';
+
 export SHOW_AWS_PROMPT=false
 export PURE_PROMPT_PATH_FORMATTING="%~"
 export NVM_LAZY_LOAD=true
@@ -14,7 +19,6 @@ fi
 
 export EDITOR="nvim"
 export TERM=xterm-256color
-export TODOTXT_DEFAULT_ACTION=ls
 export USE_EDITOR=$EDITOR
 export VISUAL=$EDITOR
 
@@ -29,7 +33,7 @@ export FZF_BIN_PATH="$HOME/.fzf/bin"
 
 HISTSIZE='100000';
 HISTFILESIZE="${HISTSIZE}";
-HISTFILE="$ZDOTDIR/.zsh_history"
+HISTFILE=$ZDOTDIR/.zsh_history
 SAVEHIST=32768
 HISTDUP=erase
 # Report command running time if it is more than 3 seconds
@@ -54,10 +58,6 @@ setopt CORRECT
 setopt AUTO_CD
 setopt AUTO_PUSHD PUSHD_TO_HOME
 # setopt interactivecomments
-
-# Prefer US English and use UTF-8.
-export LANG='en_US.UTF-8';
-export LC_ALL='en_US.UTF-8';
 
 function toggle_colors() {
     if [ -z $TERM_COLOR ]
@@ -262,13 +262,6 @@ zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'   # ignore case
 zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}       # colorz !
 zstyle ':completion:*::::' completer _expand _complete _ignored _approximate # list of completers to use
 
-# sections completion !
-# zstyle ':completion:*' verbose yes
-# zstyle ':completion:*:descriptions' format $'\e[00;34m%d'
-# zstyle ':completion:*:messages' format $'\e[00;31m%d'
-# zstyle ':completion:*' group-name ''
-# zstyle ':completion:*:manuals' separate-sections true
-
 # tabtab source for serverless package
 # uninstall by removing these lines or running `tabtab uninstall serverless`
 [[ -f ~/.nvm/versions/node/v12.6.0/lib/node_modules/serverless/node_modules/tabtab/.completions/serverless.zsh ]] && . ~/.nvm/versions/node/v12.6.0/lib/node_modules/serverless/node_modules/tabtab/.completions/serverless.zsh
@@ -302,9 +295,6 @@ compdef _tmuxinator tmuxinator mux
 
 alias m='~/.tmux/mux.sh'
 alias mux='tmuxinator'
-alias td='(tmux attach-session -t def || tmux new-session -s def)'
-
-alias gw="JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64 ./gradlew"
 
 alias tm='todotxt-machine'
 alias tnn='n ~/Dropbox/todo/work/todo.txt'
@@ -335,11 +325,6 @@ fi
 if [ -f ~/.secret_aliases ]; then
     source ~/.secret_aliases
 fi
-# TODO: screws up ansible
-# if which tmux >/dev/null 2>&1; then
-    #if not inside a tmux session, and if no session is started, start a new session
-    # test -z "$IS_ANSIBLE" && test -z "$TMUX" && (tmux attach-session -t def || tmux new-session -s def)
-# fi
 
 # Vi mode
  bindkey -v
@@ -370,14 +355,9 @@ bindkey '^R' fzf-history-widget
 zle -N edit-command-line
 # allow v to edit the command line (standard behaviour)
 autoload -Uz edit-command-line
-bindkey -M vicmd 'v' edit-command-line
-
-# maps jk to escape, same as in my init.vim
-# bindkey -m viins 'jk' vi-cmd-mode
-bindkey 'jk' vi-cmd-mode
+# bindkey -M vicmd 'v' edit-command-line
 
 export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
-
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
