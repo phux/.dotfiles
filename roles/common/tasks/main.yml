@@ -32,6 +32,7 @@
     - parcellite
     - openvpn
     - brightnessctl
+    - xclip
 
 - include: rofi.yml
 
