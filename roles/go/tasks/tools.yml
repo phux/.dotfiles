@@ -1,10 +1,5 @@
 ---
 
-- name: install mod
-  shell: >
-    source ~/.config/zsh/.zshrc &&
-    go get -u github.com/marwan-at-work/mod/cmd/mod executable=/bin/zsh
-
 - name: install benchstat
   shell: >
     source ~/.config/zsh/.zshrc &&
@@ -14,12 +9,6 @@
   shell: >
     source ~/.config/zsh/.zshrc &&
     go get -u github.com/jondot/goweight executable=/bin/zsh
-
-# TODO
-# - name: install gocloc
-#   shell: >
-#     source ~/.config/zsh/.zshrc &&
-#     go get -u github.com/hhatto/gocloc/cmd/gocloc executable=/bin/zsh
 
 - name: install gobin
   shell: >
