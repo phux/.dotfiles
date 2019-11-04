@@ -71,6 +71,11 @@
     value: false
 
 - git_config:
+    name: difftool.trustExitCode
+    scope: global
+    value: true
+
+- git_config:
     name: merge.tool
     scope: global
     value: diffconflicts
@@ -84,6 +89,11 @@
     name: mergetool.keepBackup
     scope: global
     value: false
+
+- git_config:
+    name: commit.verbose
+    scope: global
+    value: true
 
 - git_config:
     name: color.ui
