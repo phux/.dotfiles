@@ -384,10 +384,10 @@ Plug 'lifepillar/pgsql.vim', {'for': 'sql'}
 let g:sql_type_default = 'pgsql'
 
 Plug 'oguzbilgic/vim-gdiff'
-nnoremap ]r :%bd<CR>:cnext<CR>:Gdiffsplit
-nnoremap [r :%bd<CR>:cprevious<CR>:Gdiffsplit
-nnoremap ]R :%bd<CR>:clast<CR>:Gdiffsplit
-nnoremap [R :%bd<CR>:cfirst<CR>:Gdiffsplit
+nnoremap ]r :%bd<CR>:cnext<CR>:Gdiffsplit<CR>
+nnoremap [r :%bd<CR>:cprevious<CR>:Gdiffsplit<CR>
+nnoremap ]R :%bd<CR>:clast<CR>:Gdiffsplit<CR>
+nnoremap [R :%bd<CR>:cfirst<CR>:Gdiffsplit<CR>
 
 Plug 'romainl/vim-devdocs', {'on': 'DD'}
 nmap <leader>K :DD<cr>
