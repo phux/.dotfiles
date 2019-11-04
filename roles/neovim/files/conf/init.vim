@@ -59,6 +59,12 @@ let g:AutoPairsShortcutToggle = '<s-f12>'
 "" plantuml
 Plug 'aklt/plantuml-syntax', {'for': 'uml'}
 
+let g:scratch_auto_height = 1
+let g:scratch_persistence_file = '.scratch.vim'
+Plug '~/code/scratch.vim'
+nnoremap <m-z> :Scratch<cr>
+nnoremap <leader>z :ScratchPreview<cr>
+
 "" coc.nvim
 Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
 inoremap <silent><expr> <TAB>
@@ -90,10 +96,10 @@ nnoremap <silent> <leader>d  :<C-u>CocList outline<cr>
 nnoremap <leader>gg :<C-u>CocCommand git.
 nnoremap <leader>gW :<C-u>CocCommand git.chunkStage<cr>
 nnoremap <silent> gb :CocCommand git.browserOpen<cr>
-nmap [g <Plug>(coc-git-prevchunk)
-nmap ]g <Plug>(coc-git-nextchunk)
-nmap gs <Plug>(coc-git-chunkinfo)
-nmap gc <Plug>(coc-git-commit)
+noremap [g <Plug>(coc-git-prevchunk)
+noremap ]g <Plug>(coc-git-nextchunk)
+noremap gs <Plug>(coc-git-chunkinfo)
+noremap gc <Plug>(coc-git-commit)
 nnoremap <silent> <space>y  :<C-u>CocList --normal yank<cr>
 
 "" php
@@ -295,7 +301,7 @@ nnoremap <leader>rip :Acks /<c-r><c-w>/<c-r><c-w>/gc<left><left><left>
 Plug 'lambdalisue/vim-improve-diff'
 Plug 'whiteinge/diffconflicts'
 
-" """ gv
+""" gv
 Plug 'junegunn/gv.vim'
 nnoremap <silent> <leader>gl :GV<cr>
 nnoremap <silent> <leader>gL :GV!<cr>
@@ -317,12 +323,6 @@ let g:notes_directories = ['~/Dropbox/notes']
 let g:notes_suffix = '.md'
 let g:notes_smart_quotes = 0
 Plug 'rhysd/vim-notes-cli'
-
-let g:scratch_auto_height = 1
-let g:scratch_persistence_file = '.scratch.vim'
-Plug '~/code/scratch.vim'
-nnoremap <m-z> :Scratch<cr>
-nnoremap <leader>z :ScratchPreview<cr>
 
 "" todo
 """ simple-todo
