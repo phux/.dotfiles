@@ -44,12 +44,7 @@ command! PU PlugUpdate | PlugUpgrade
 
 call plug#begin('~/.config/nvim/plugged')
 "" snippets
-Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
-let g:UltiSnipsJumpForwardTrigger='<c-j>'
-let g:UltiSnipsJumpBackwardTrigger='<c-k>'
-let g:UltiSnipsSnippetsDir = '~/.config/nvim/UltiSnips/'
-let g:UltiSnipsExpandTrigger='<c-j>'
-let g:UltiSnipsEditSplit='vertical'
+Plug 'honza/vim-snippets'
 
 "" auto-pairs
 Plug 'jiangmiao/auto-pairs'
@@ -366,7 +361,7 @@ Plug 'freitass/todo.txt-vim', {'for': 'text'}
 "" filetype
 Plug 'stephpy/vim-yaml', {'for': 'yaml'}
 
-Plug 'pearofducks/ansible-vim', { 'do': 'cd ./UltiSnips; python2 generate.py', 'for': 'yaml'}
+Plug 'pearofducks/ansible-vim', { 'for': 'yaml'}
 let g:ansible_unindent_after_newline = 1
 
 "" misc
@@ -905,7 +900,6 @@ let g:tmux_navigator_disable_when_zoomed=1
 call coc#add_extension(
       \ 'coc-css',
       \ 'coc-html',
-      \ 'coc-ultisnips',
       \ 'coc-json',
       \ 'coc-tsserver',
       \ 'coc-tslint',
@@ -922,8 +916,10 @@ call coc#add_extension(
       \ 'coc-lists',
       \ 'coc-yank',
       \ 'coc-sql',
-      \ 'coc-explorer'
+      \ 'coc-explorer',
+      \ 'coc-snippets'
       \ )
+imap <C-j> <Plug>(coc-snippets-expand-jump)
       " \ 'coc-phpls',
       " \ 'coc-go'
       " \ 'coc-pairs',

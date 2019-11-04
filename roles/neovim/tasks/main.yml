@@ -18,9 +18,6 @@
   - include: plug.yml
   - include: linters.yml
 
-  - name: Create UltiSnips dir
-    file: path={{ neovim_config_dir }}/UltiSnips state=directory
-
   - name: creating project file
     copy:
       content: ""
@@ -29,11 +26,14 @@
 
   when: neovim_is_installed.rc != 0
 
+- name: Create coc.nvim UltiSnips dir
+  file: path={{ config_dir }}/coc/ultisnips state=directory
 
-- name: Link UltiSnips snippets
+
+- name: Link custom UltiSnips snippets
   file:
     src: "{{ item }}"
-    dest: "{{ neovim_config_dir }}/UltiSnips/{{ item | basename }}"
+    dest: "{{ config_dir }}/coc/ultisnips/{{ item | basename }}"
     state: link
   with_fileglob:
     - UltiSnips/*
@@ -64,5 +64,3 @@
   with_fileglob:
     - .tern-config
     - .eslintrc.json
-
-
