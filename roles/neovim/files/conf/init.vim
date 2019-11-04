@@ -6,7 +6,7 @@
 """"""""""""""""""
 if has('vim_starting')
   syntax on
-  set foldenable
+  set nofoldenable
 
   " Disable unnecessary default plugins
   let g:loaded_gzip              = 1
@@ -25,6 +25,8 @@ if has('vim_starting')
   let g:loaded_man               = 1
 endif
 
+" undefine the original behavior of that key, so that it does not interfer or trigger inadvertently:
+nnoremap <Space> <Nop>
 let mapleader = "\<Space>"
 
 """"""""""""""
@@ -86,7 +88,6 @@ nmap <leader>R <Plug>(coc-refactor)
 nnoremap <silent> <leader>D  :<C-u>CocList -I symbols<cr>
 nnoremap <silent> <leader>d  :<C-u>CocList outline<cr>
 nnoremap <leader>gg :<C-u>CocCommand git.
-nnoremap <silent> <leader>gl :<C-u>CocList --normal commits<cr>
 nnoremap <leader>gW :<C-u>CocCommand git.chunkStage<cr>
 nnoremap <silent> gb :CocCommand git.browserOpen<cr>
 nmap [g <Plug>(coc-git-prevchunk)
@@ -267,8 +268,12 @@ let g:EasyMotion_use_smartsign_us = 1 " US layout
 " let g:NERDTreeAutoDeleteBuffer=1
 " nnoremap <leader>n :NERDTreeToggle<cr>
 " nnoremap <leader>N :NERDTreeFind<cr>
-nnoremap <leader>n :CocCommand explorer<cr>
-nnoremap <leader>N :exe 'CocCommand explorer --reveal '. expand('%:p')<cr>
+" nnoremap <leader>n :CocCommand explorer<cr>
+
+""" netrw
+Plug 'justinmk/vim-dirvish'
+let g:netrw_banner = 0
+nnoremap - :Expl<cr>
 
 """ tmux
 
@@ -287,18 +292,16 @@ nnoremap <leader>rip :Acks /<c-r><c-w>/<c-r><c-w>/gc<left><left><left>
 
 "" git
 
-Plug 'lambdalisue/gina.vim'
-Plug 'rbong/vim-flog'
-
 Plug 'lambdalisue/vim-improve-diff'
 Plug 'whiteinge/diffconflicts'
 
-""" gitv
-Plug 'gregsexton/gitv', {'on': 'Gitv'}
-nnoremap <leader>gv :Gitv!<cr>
-vnoremap <leader>gv :Gitv!<cr>
-nnoremap <leader>gV :Gitv<cr>
-let g:Gitv_DoNotMapCtrlKey = 1
+" """ gv
+Plug 'junegunn/gv.vim'
+nnoremap <silent> <leader>gl :GV<cr>
+nnoremap <silent> <leader>gL :GV!<cr>
+vnoremap <silent> <leader>gl :GV<cr>
+vnoremap <silent> <leader>gL :GV?<cr>
+
 """ fugitive
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-rhubarb'
@@ -306,9 +309,7 @@ nnoremap <leader>gw :Gwrite<cr>
 nnoremap <leader>gs :Ge :<cr>
 nnoremap <leader>gb :Gblame<cr>
 nnoremap <leader>gc :Gcommit -v<cr>
-nnoremap <leader>gL :Glog<cr>
-vnoremap <leader>gl :Glog<cr>
-nnoremap <leader>gd :Gdiff<cr>
+nnoremap <leader>gd :Gdiffsplit<cr>
 
 "" notes
 Plug 'xolox/vim-notes', {'on': ['SearchNotes', 'Note', 'RecentNotes']} | Plug 'xolox/vim-misc'
@@ -383,6 +384,10 @@ Plug 'lifepillar/pgsql.vim', {'for': 'sql'}
 let g:sql_type_default = 'pgsql'
 
 Plug 'oguzbilgic/vim-gdiff'
+nnoremap ]r :%bd<CR>:cnext<CR>:Gdiffsplit
+nnoremap [r :%bd<CR>:cprevious<CR>:Gdiffsplit
+nnoremap ]R :%bd<CR>:clast<CR>:Gdiffsplit
+nnoremap [R :%bd<CR>:cfirst<CR>:Gdiffsplit
 
 Plug 'romainl/vim-devdocs', {'on': 'DD'}
 nmap <leader>K :DD<cr>
@@ -434,6 +439,7 @@ Plug 'tpope/vim-abolish'
 nnoremap <leader>] :%Subvert/<c-R><c-w>/<c-r><c-w>/g<left><left>
 nnoremap <leader>[ :Subvert/<c-R><c-w>/<c-r><c-w>/g<left><left>
 vnoremap <leader>] :Subvert//g<left><left>
+vnoremap <leader>[ :Subvert/<c-R><c-w>/<c-r><c-w>/g<left><left>
 
 """ hardtime
 Plug 'takac/vim-hardtime'
@@ -469,9 +475,6 @@ augroup misc
   autocmd FileType typescript,json,html setl formatexpr=CocAction('formatSelected')
   au FileType xml setlocal makeprg=xmllint\ -
 
-  au FileType gitv nmap <buffer> <silent> <C-n> <Plug>(gitv-previous-commit)
-  au FileType gitv nmap <buffer> <silent> <C-p> <Plug>(gitv-next-commit)
-
   au FocusLost,WinLeave * :silent! update
   autocmd! FileType fzf
   autocmd  FileType fzf set laststatus=0
@@ -479,6 +482,9 @@ augroup misc
 
   au BufWritePost *.go silent! !eval '[ -f ".git/hooks/ctags" ] && .git/hooks/ctags' &
   au FileType qf call AdjustWindowHeight(3, 10)
+
+  " autocmd FileType netrw,dirvish setl bufhidden=wipe
+  autocmd BufReadPost fugitive://* set bufhidden=delete
 augroup END
 
 " https://vim.fandom.com/wiki/Automatically_fitting_a_quickfix_window_height
@@ -525,6 +531,7 @@ set shiftround      " round indent to multiple of shiftwidth with > and <
 set textwidth=0     " do not automatically wrap text
 
 set autoindent      " copy indent from current line when starting a new line
+set smartindent     " smarter autoindent
 set copyindent      " copy the structure of the existing lines indent when
                     " autoindenting a new line
 set preserveindent  " Use :retab to clean up whitespace
@@ -632,7 +639,6 @@ let spellfile='~/.vim.spell'
 
 """ colors
 color nord
-set t_Co=256
 set background=dark
 hi Comment ctermfg=gray
 hi BufTabLineCurrent ctermfg=2 ctermbg=8
