@@ -133,7 +133,7 @@ alias gb="git for-each-ref --sort=committerdate refs/heads/ --format='%(committe
 alias gbd="git for-each-ref --sort=committerdate refs/heads/ --format='%(HEAD) %(color:yellow)%(refname:short)%(color:reset) - %(color:red)%(objectname:short)%(color:reset) - %(contents:subject) - %(authorname) (%(color:green)%(committerdate:relative)%(color:reset))'"
 
 alias gst='git status'
-alias gs='git status -sb'
+alias gs='n +Gstatus'
 alias ga='git add'
 alias gc='git commit -v'
 alias grh='git reset HEAD'
@@ -149,7 +149,7 @@ alias glum='git pull upstream master'
 alias gpsup='git push --set-upstream origin $(git_current_branch)'
 alias gbb='git branch bkp_$(git_current_branch)_$(date +"%Y-%m-%d_%H-%M-%S") $(git_current_branch)'
 alias gl='git pull'
-alias glog="git log --graph --abbrev-commit --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset'"
+# alias glog="git log --graph --abbrev-commit --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset'"
 alias glogp="git log --first-parent --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset'"
 alias gm='git merge'
 alias gmp='git merge -X patience'
@@ -317,6 +317,7 @@ alias tm='todotxt-machine'
 alias tnn='n ~/Dropbox/todo/work/todo.txt'
 alias tn='n ~/Dropbox/todo/todo.txt'
 alias nn='n +RecentNotes'
+alias glog='n +GV'
 
 function zd() {
     file="/tmp/base_$(date '+%H%M%S').json"
