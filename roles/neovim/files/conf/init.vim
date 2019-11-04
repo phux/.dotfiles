@@ -449,11 +449,12 @@ let g:hardtime_maxcount = 1
 let g:hardtime_allow_different_key = 1
 let g:hardtime_ignore_buffer_patterns = ["coc-explorer"]
 
-Plug 'tpope/vim-vinegar'
-Plug 'lambdalisue/fila.vim'
-" nnoremap <leader>n :Fila -drawer -toggle -keep -width=30<cr>
-" nnoremap <leader>N :exe 'Fila -drawer -toggle -width=30 -reveal='. expand('%:p')<cr>
-" nnoremap <leader>N :NERDTreeFind<cr>
+""" ranger
+Plug 'francoiscabrol/ranger.vim' | Plug 'rbgrouleff/bclose.vim'
+" let g:ranger_replace_netrw = 0
+let g:ranger_map_keys = 0
+nnoremap <leader>n :RangerWorkingDirectory<cr>
+nnoremap <leader>N :RangerCurrentFile<cr>
 
 call plug#end()
 
