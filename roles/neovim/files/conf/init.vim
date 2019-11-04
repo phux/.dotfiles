@@ -47,9 +47,9 @@ call plug#begin('~/.config/nvim/plugged')
 Plug 'honza/vim-snippets'
 
 "" auto-pairs
-Plug 'jiangmiao/auto-pairs'
-let g:AutoPairsMapSpace = 0
-let g:AutoPairsShortcutToggle = '<s-f12>'
+" Plug 'jiangmiao/auto-pairs'
+" let g:AutoPairsMapSpace = 0
+" let g:AutoPairsShortcutToggle = '<s-f12>'
 
 "" plantuml
 Plug 'aklt/plantuml-syntax', {'for': 'uml'}
@@ -294,6 +294,7 @@ nnoremap <leader>rip :Acks /<c-r><c-w>/<c-r><c-w>/gc<left><left><left>
 "" git
 
 Plug 'lambdalisue/vim-improve-diff'
+
 Plug 'whiteinge/diffconflicts', {'on': 'DiffConflicts'}
 
 """ gv
@@ -379,6 +380,7 @@ Plug 'lifepillar/pgsql.vim', {'for': 'sql'}
 let g:sql_type_default = 'pgsql'
 
 Plug 'oguzbilgic/vim-gdiff', {'on': 'Gdiff'}
+nnoremap <leader>ge :Gdiff HEAD<cr>
 nnoremap ]r :%bd<CR>:cnext<CR>:Gdiffsplit<CR>
 nnoremap [r :%bd<CR>:cprevious<CR>:Gdiffsplit<CR>
 nnoremap ]R :%bd<CR>:clast<CR>:Gdiffsplit<CR>
@@ -901,8 +903,6 @@ call coc#add_extension(
       \ 'coc-css',
       \ 'coc-html',
       \ 'coc-json',
-      \ 'coc-tsserver',
-      \ 'coc-tslint',
       \ 'coc-yaml',
       \ 'coc-prettier',
       \ 'coc-python',
@@ -911,14 +911,17 @@ call coc#add_extension(
       \ 'coc-docker',
       \ 'coc-git',
       \ 'coc-calc',
-      \ 'coc-post',
       \ 'coc-vimlsp',
       \ 'coc-lists',
       \ 'coc-yank',
       \ 'coc-sql',
-      \ 'coc-explorer',
-      \ 'coc-snippets'
+      \ 'coc-snippets',
+      \ 'coc-pairs',
+      \ 'coc-explorer'
       \ )
+      " \ 'coc-post',
+      " \ 'coc-tsserver',
+      " \ 'coc-tslint',
 imap <C-j> <Plug>(coc-snippets-expand-jump)
       " \ 'coc-phpls',
       " \ 'coc-go'
@@ -939,12 +942,6 @@ let g:markdown_fenced_languages = [
 " let @s='?/\^?s+2y/\("\|\$\):lvimgrep /<C-R>"/j tests/features/*.feature<CR>:lopen<CR>'
 
 nnoremap <c-f> :set ft=json<cr>:%!python -m json.tool<cr>
-
-command! -nargs=0 DT :windo diffthis
-set diffopt+=internal,algorithm:histogram
-if &diff
-    let &diffexpr='EnhancedDiff#Diff("git diff", "--diff-algorithm=histogram")'
-endif
 
 command! -nargs=0 Compare :silent! call Compare()
 function! Compare() abort
