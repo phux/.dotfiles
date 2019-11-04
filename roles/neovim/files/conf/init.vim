@@ -294,10 +294,10 @@ nnoremap <leader>rip :Acks /<c-r><c-w>/<c-r><c-w>/gc<left><left><left>
 "" git
 
 Plug 'lambdalisue/vim-improve-diff'
-Plug 'whiteinge/diffconflicts'
+Plug 'whiteinge/diffconflicts', {'on': 'DiffConflicts'}
 
 """ gv
-Plug 'junegunn/gv.vim'
+Plug 'junegunn/gv.vim', {'on': 'GV'}
 nnoremap <silent> <leader>gl :GV<cr>
 nnoremap <silent> <leader>gL :GV!<cr>
 vnoremap <silent> <leader>gl :GV<cr>
@@ -317,7 +317,7 @@ Plug 'xolox/vim-notes', {'on': ['SearchNotes', 'Note', 'RecentNotes']} | Plug 'x
 let g:notes_directories = ['~/Dropbox/notes']
 let g:notes_suffix = '.md'
 let g:notes_smart_quotes = 0
-Plug 'rhysd/vim-notes-cli'
+" Plug 'rhysd/vim-notes-cli'
 
 "" todo
 """ simple-todo
@@ -378,7 +378,7 @@ Plug 'arp242/jumpy.vim'
 Plug 'lifepillar/pgsql.vim', {'for': 'sql'}
 let g:sql_type_default = 'pgsql'
 
-Plug 'oguzbilgic/vim-gdiff'
+Plug 'oguzbilgic/vim-gdiff', {'on': 'Gdiff'}
 nnoremap ]r :%bd<CR>:cnext<CR>:Gdiffsplit<CR>
 nnoremap [r :%bd<CR>:cprevious<CR>:Gdiffsplit<CR>
 nnoremap ]R :%bd<CR>:clast<CR>:Gdiffsplit<CR>
@@ -404,7 +404,7 @@ function! s:align()
 endfunction
 
 """ untotree
-Plug  'mbbill/undotree'
+Plug  'mbbill/undotree', {'on': 'UndotreeToggle'}
 nnoremap <m-u> :UndotreeToggle<cr>
 
 """ SplitJoin
