@@ -5,6 +5,7 @@ xset r rate 300 35
 setxkbmap -option caps:escape
 
 ~/.i3/wp-changer.sh &
+~/tools/activitywatch/aw-qt &
 
 xrdb ~/.Xresources
 
