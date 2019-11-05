@@ -56,7 +56,7 @@ Plug 'aklt/plantuml-syntax', {'for': 'uml'}
 
 let g:scratch_auto_height = 1
 let g:scratch_persistence_file = '.scratch.vim'
-Plug '~/code/scratch.vim'
+Plug '~/code/scratch.vim', {'on': ['Scratch', 'ScratchPreview']}
 nnoremap <m-z> :Scratch<cr>
 nnoremap <leader>z :ScratchPreview<cr>
 
@@ -94,7 +94,8 @@ nnoremap <silent> gb :CocCommand git.browserOpen<cr>
 noremap [g <Plug>(coc-git-prevchunk)
 noremap ]g <Plug>(coc-git-nextchunk)
 noremap gs <Plug>(coc-git-chunkinfo)
-noremap gc <Plug>(coc-git-commit)
+" TODO: map to leader gi?
+" noremap gc <Plug>(coc-git-commit)
 nnoremap <silent> <space>y  :<C-u>CocList --normal yank<cr>
 
 "" php
@@ -108,13 +109,13 @@ Plug 'lvht/phpcd.vim', { 'for': 'php', 'do': 'composer install' }
 
 "" go
 Plug 'fatih/vim-go', {'for': 'go', 'do': ':GoInstallBinaries'}
-Plug 'sebdah/vim-delve', {'for': 'go'}
-Plug 'godoctor/godoctor.vim', {'for': 'go'}
-Plug 'buoto/gotests-vim', {'for': 'go'}
+" Plug 'sebdah/vim-delve', {'for': 'go'}
+Plug 'godoctor/godoctor.vim', {'for': 'go', 'on': 'Refactor'}
+Plug 'buoto/gotests-vim', {'for': 'go', 'on': 'GoTests'}
 
 "" fzf
-Plug 'tweekmonster/fzf-filemru'
-Plug 'zackhsi/fzf-tags'
+Plug 'tweekmonster/fzf-filemru', {'on': 'FilesMru'}
+Plug 'zackhsi/fzf-tags', {'on': '<Plug>(fzf_tags)'}
 nmap <C-]> <Plug>(fzf_tags)
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
@@ -244,9 +245,9 @@ Plug 'majutsushi/tagbar', {'on': 'TagbarOpenAutoClose'}
 nnoremap <leader>; :TagbarOpenAutoClose<cr>
 
 """ sneak
-Plug 'justinmk/vim-sneak'
-let g:sneak#label = 1
-let g:sneak#use_ic_scs = 1
+" Plug 'justinmk/vim-sneak'
+" let g:sneak#label = 1
+" let g:sneak#use_ic_scs = 1
 
 """ easymotion
 Plug 'easymotion/vim-easymotion'
@@ -272,7 +273,7 @@ let g:EasyMotion_use_smartsign_us = 1 " US layout
 " nnoremap <leader>n :CocCommand explorer<cr>
 
 """ netrw
-Plug 'justinmk/vim-dirvish'
+Plug 'justinmk/vim-dirvish', {'on': 'Expl'}
 let g:netrw_banner = 0
 nnoremap - :Expl<cr>
 
@@ -415,10 +416,9 @@ nnoremap <leader>j :SplitjoinSplit<cr>
 nnoremap <leader>k :SplitjoinJoin<cr>
 
 """ commentary
-Plug 'tpope/vim-commentary', {'on': 'Commentary'}
+Plug 'tpope/vim-commentary'
 nnoremap <leader>c :Commentary<cr>
 vnoremap <leader>c :Commentary<cr>
-
 """ ale
 Plug 'w0rp/ale'
 let g:ale_warn_about_trailing_whitespace=0
@@ -447,12 +447,13 @@ let g:hardtime_allow_different_key = 1
 let g:hardtime_ignore_buffer_patterns = ["coc-explorer"]
 
 """ ranger
-Plug 'francoiscabrol/ranger.vim' | Plug 'rbgrouleff/bclose.vim'
+Plug 'francoiscabrol/ranger.vim', {'on': ['RangerWorkingDirectory', 'RangerCurrentFile']} | Plug 'rbgrouleff/bclose.vim', {'on': ['RangerWorkingDirectory', 'RangerCurrentFile']}
 " let g:ranger_replace_netrw = 0
 let g:ranger_map_keys = 0
 nnoremap <leader>n :RangerWorkingDirectory<cr>
 nnoremap <leader>N :RangerCurrentFile<cr>
 
+Plug 'ActivityWatch/aw-watcher-vim'
 call plug#end()
 
 """""""""""""""""""""""
