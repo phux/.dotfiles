@@ -1016,7 +1016,7 @@ nnoremap ' `
 so ~/.local.init.vim
 
 nnoremap <leader><enter> :silent update<Bar>silent !xdg-open %:p &<CR>
-
+nnoremap gp `[v`]
 "" tabs
 nnoremap tl :tabnext<CR>
 nnoremap th :tabprev<CR>
