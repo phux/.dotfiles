@@ -669,23 +669,23 @@ endif
 
 
 "" qf/loc list toggle
-nmap <c-p> :cp<cr>
-nmap <c-n> :cn<cr>
+nnoremap <c-p> :ALEPreviousWrap<cr>
+nnoremap <c-n> :ALENextWrap<cr>
 let g:qf_loc_toggle_binds = 1
 function! ToggleQfLocListBinds()
   if g:qf_loc_toggle_binds == 1
-    nmap <c-p> :lp<cr>
-    nmap <c-n> :lnext<cr>
+    nnoremap <c-p> :lp<cr>
+    nnoremap <c-n> :lnext<cr>
     let g:qf_loc_toggle_binds = 0
     echo 'loc binds loaded'
   else
     let g:qf_loc_toggle_binds = 1
-    nmap <c-p> :cp<cr>
-    nmap <c-n> :cn<cr>
+    nnoremap <c-p> :ALEPreviousWrap<cr>
+    nnoremap <c-n> :ALENextWrap<cr>
     echo 'qf binds loaded'
   endif
 endfunction
-nmap <m-t> :call ToggleQfLocListBinds()<cr>
+nnoremap <m-t> :call ToggleQfLocListBinds()<cr>
 
 
 "" cmode terminal like mappings
