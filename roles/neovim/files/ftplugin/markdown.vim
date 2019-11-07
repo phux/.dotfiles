@@ -9,7 +9,7 @@ let g:markdown_enable_spell_checking = 0
 let g:markdown_enable_conceal = 1
 
 let b:ale_linters = ['mdl', 'proselint', 'writegood']
-" let g:ale_markdown_mdl_options = '-c ~/.mdlrc'
+let g:ale_markdown_mdl_options = '-c ~/.mdlrc'
 
 let g:vim_markdown_frontmatter=1
 
@@ -18,9 +18,9 @@ setlocal autoindent
 setlocal colorcolumn=0
 setlocal linebreak
 setlocal nonumber norelativenumber
-setlocal shiftwidth=4
+setlocal shiftwidth=2
 " setlocal spell
-setlocal tabstop=4
+setlocal tabstop=2
 setlocal wrap
 
 set conceallevel=2
