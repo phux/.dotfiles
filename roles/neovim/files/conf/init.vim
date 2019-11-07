@@ -133,25 +133,29 @@ nnoremap <leader><enter> :Tags<cr>
 nnoremap <leader>a :Rg<space>
 nnoremap <leader>A ::let @/=expand('<cword>')<cr> :RgRaw -t
 nnoremap <m-r> :exec "Rg ".expand("<cword>")<cr>
-vnoremap // "hy:exec "Find ".escape('<C-R>h', "/\.*$^~[()")<cr>
+vnoremap // "hy:exec "Find <C-R>h"<cr>
 nnoremap <m-s-r> :exec "Find ".expand("<cword>")<cr>
 
 """ fzf commands
+let g:rg_command = '
+            \ rg --column --line-number --no-heading --fixed-strings --smart-case --hidden --follow --color "always"
+            \ -g "!{.git,node_modules,vendor}/*" '
+
 command! -bang -nargs=* RgRaw
       \ call fzf#vim#grep(
-      \   'rg --column --line-number --no-heading --color=always --smart-case  --colors "match:bg:yellow" --colors "match:fg:black" --colors "match:style:nobold" --colors "path:fg:green" --colors "path:style:bold" --colors "line:fg:yellow" --colors "line:style:bold" '.<q-args>, 1,
+      \   g:rg_command.<q-args>, 1,
       \   <bang>0 ? fzf#vim#with_preview('up:60%')
       \           : fzf#vim#with_preview('right:50%:hidden', '?'),
       \   <bang>0)
 
 command! -bang -nargs=* Rg
       \ call fzf#vim#grep(
-      \   'rg --column --line-number --no-heading --color=always --smart-case  --colors "match:bg:yellow" --colors "match:fg:black" --colors "match:style:nobold" --colors "path:fg:green" --colors "path:style:bold" --colors "line:fg:yellow" --colors "line:style:bold" '.shellescape(<q-args>), 1,
+      \   g:rg_command.shellescape(<q-args>), 1,
       \   <bang>0 ? fzf#vim#with_preview('up:60%')
       \           : fzf#vim#with_preview('right:50%:hidden', '?'),
       \   <bang>0)
 
-command! -bang -nargs=* Find call fzf#vim#grep('rg --column --line-number --no-heading --fixed-strings --no-ignore --hidden --smart-case  --color=always --colors "match:bg:yellow" --colors "match:fg:black" --colors "match:style:nobold" --colors "path:fg:green" --colors "path:style:bold" --colors "line:fg:yellow" --colors "line:style:bold" --glob "!.git/*" '.shellescape(<q-args>), 1, <bang>0)
+command! -bang -nargs=* Find call fzf#vim#grep(g:rg_command.'--no-ignore "'.<q-args>.'"', 1, <bang>0)
 
 command! -bang -nargs=* FZFAllFiles call fzf#run({'source': 'find * -type f', 'sink': 'e'})
 
