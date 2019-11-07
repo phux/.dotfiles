@@ -109,7 +109,7 @@ Plug 'lvht/phpcd.vim', { 'for': 'php', 'do': 'composer install' }
 
 "" go
 Plug 'fatih/vim-go', {'for': 'go', 'do': ':GoInstallBinaries'}
-" Plug 'sebdah/vim-delve', {'for': 'go'}
+Plug 'sebdah/vim-delve', {'for': 'go'}
 Plug 'godoctor/godoctor.vim', {'for': 'go', 'on': 'Refactor'}
 Plug 'buoto/gotests-vim', {'for': 'go', 'on': 'GoTests'}
 
@@ -156,9 +156,6 @@ command! -bang -nargs=* Find call fzf#vim#grep('rg --column --line-number --no-h
 command! -bang -nargs=* FZFAllFiles call fzf#run({'source': 'find * -type f', 'sink': 'e'})
 
 "" UI
-
-Plug 'simeji/winresizer', {'on': 'WinResizerStartResize'}
-nnoremap <c-e> :WinResizerStartResize<cr>
 
 Plug 'ap/vim-buftabline'
 let g:buftabline_show = 1 " display only if more than 1 buffer open
@@ -294,8 +291,6 @@ nnoremap <leader>rip :Acks /<c-r><c-w>/<c-r><c-w>/gc<left><left><left>
 
 "" git
 
-Plug 'lambdalisue/vim-improve-diff'
-
 Plug 'whiteinge/diffconflicts', {'on': 'DiffConflicts'}
 
 """ gv
@@ -313,6 +308,8 @@ nnoremap <leader>gs :Ge :<cr>
 nnoremap <leader>gb :Gblame<cr>
 nnoremap <leader>gc :Gcommit -v<cr>
 nnoremap <leader>gd :Gdiffsplit<cr>
+nnoremap <leader>gp :Gpush<cr>
+nnoremap <leader>gf :Gfetch<cr>
 
 "" notes
 Plug 'xolox/vim-notes', {'on': ['SearchNotes', 'Note', 'RecentNotes']} | Plug 'xolox/vim-misc'
@@ -381,7 +378,10 @@ Plug 'lifepillar/pgsql.vim', {'for': 'sql'}
 let g:sql_type_default = 'pgsql'
 
 Plug 'oguzbilgic/vim-gdiff', {'on': 'Gdiff'}
+" load quickfix with modified files
 nnoremap <leader>ge :Gdiff HEAD<cr>
+" diff against master's state when branched out
+nnoremap <leader>gE :Gdiff $(git merge-base master HEAD)<cr>
 nnoremap ]r :%bd<CR>:cnext<CR>:Gdiffsplit<CR>
 nnoremap [r :%bd<CR>:cprevious<CR>:Gdiffsplit<CR>
 nnoremap ]R :%bd<CR>:clast<CR>:Gdiffsplit<CR>
@@ -406,9 +406,14 @@ function! s:align()
   endif
 endfunction
 
-""" untotree
-Plug  'mbbill/undotree', {'on': 'UndotreeToggle'}
-nnoremap <m-u> :UndotreeToggle<cr>
+""" Mundo
+Plug 'simnalamburt/vim-mundo', {'on': 'MundoToggle'}
+nnoremap <m-u> :MundoToggle<cr>
+let g:mundo_width = 60
+let g:mundo_preview_height = 40
+let g:mundo_verbose_graph = 0
+" let g:mundo_preview_bottom = 1
+" let g:mundo_inline_undo = 1
 
 """ SplitJoin
 Plug 'AndrewRadev/splitjoin.vim', {'on': ['SplitjoinSplit', 'SplitjoinJoin']}
@@ -419,6 +424,7 @@ nnoremap <leader>k :SplitjoinJoin<cr>
 Plug 'tpope/vim-commentary'
 nnoremap <leader>c :Commentary<cr>
 vnoremap <leader>c :Commentary<cr>
+
 """ ale
 Plug 'w0rp/ale'
 let g:ale_warn_about_trailing_whitespace=0
@@ -428,7 +434,7 @@ let g:ale_lint_on_insert_leave=0
 let g:ale_disable_lsp=1
 let g:ale_open_list = 0
 let g:ale_fix_on_save = 1
-let g:ale_set_quickfix=1
+let g:ale_set_quickfix=0
 Plug 'maximbaz/lightline-ale'
 
 """ abolish
@@ -444,7 +450,7 @@ let g:hardtime_default_on = 1
 let g:hardtime_ignore_quickfix = 1
 let g:hardtime_maxcount = 1
 let g:hardtime_allow_different_key = 1
-let g:hardtime_ignore_buffer_patterns = ["coc-explorer"]
+let g:hardtime_ignore_buffer_patterns = ['coc-explorer']
 
 """ ranger
 Plug 'francoiscabrol/ranger.vim', {'on': ['RangerWorkingDirectory', 'RangerCurrentFile']} | Plug 'rbgrouleff/bclose.vim', {'on': ['RangerWorkingDirectory', 'RangerCurrentFile']}
@@ -631,7 +637,9 @@ set whichwrap+=<,>,[,],h,l
 " don't give |ins-completion-menu| messages.  For example,
 " '-- XXX completion (YYY)', 'match 1 of 2', 'The only match',
 set shortmess+=c
-set diffopt=vertical,filler
+" set diffopt=vertical,filler
+set diffopt+=algorithm:patience
+set diffopt+=indent-heuristic
 
 let g:lexical#thesaurus = ['~/.config/nvim/thesaurus.txt',]
 let spellfile='~/.vim.spell'
@@ -1016,6 +1024,7 @@ nnoremap ' `
 so ~/.local.init.vim
 
 nnoremap <leader><enter> :silent update<Bar>silent !xdg-open %:p &<CR>
+" visiually select pasted text
 nnoremap gp `[v`]
 "" tabs
 nnoremap tl :tabnext<CR>
