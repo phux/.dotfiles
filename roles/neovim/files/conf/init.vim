@@ -677,9 +677,9 @@ endif
 
 
 "" qf/loc list toggle
-nnoremap <c-p> :ALEPreviousWrap<cr>
-nnoremap <c-n> :ALENextWrap<cr>
-let g:qf_loc_toggle_binds = 1
+nnoremap <c-p> :lp<cr>
+nnoremap <c-n> :lnext<cr>
+let g:qf_loc_toggle_binds = 0
 function! ToggleQfLocListBinds()
   if g:qf_loc_toggle_binds == 1
     nnoremap <c-p> :lp<cr>
@@ -688,13 +688,12 @@ function! ToggleQfLocListBinds()
     echo 'loc binds loaded'
   else
     let g:qf_loc_toggle_binds = 1
-    nnoremap <c-p> :ALEPreviousWrap<cr>
-    nnoremap <c-n> :ALENextWrap<cr>
+    nnoremap <c-p> :cp<cr>
+    nnoremap <c-n> :cn<cr>
     echo 'qf binds loaded'
   endif
 endfunction
 nnoremap <m-t> :call ToggleQfLocListBinds()<cr>
-
 
 "" cmode terminal like mappings
 cnoremap <C-a> <Home>
