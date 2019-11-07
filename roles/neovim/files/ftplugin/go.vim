@@ -618,7 +618,7 @@ function! FixGoAleIssues()
   endif
 endfunction
 
-nnoremap <m-f> :call FixGoAleIssues()<cr>
+nnoremap <m-e> :call FixGoAleIssues()<cr>
 
 
 " nmap <silent> <c-n> <Plug>(qf_loc_next)<bar>:call FixGoAleIssues()<cr>
