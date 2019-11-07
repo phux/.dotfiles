@@ -381,6 +381,8 @@ Plug 'arp242/jumpy.vim'
 Plug 'lifepillar/pgsql.vim', {'for': 'sql'}
 let g:sql_type_default = 'pgsql'
 
+Plug 'junkblocker/patchreview-vim'
+
 Plug 'oguzbilgic/vim-gdiff', {'on': 'Gdiff'}
 " load quickfix with modified files
 nnoremap <leader>ge :Gdiff HEAD<cr>
