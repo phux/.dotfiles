@@ -131,14 +131,14 @@ nnoremap <leader>, :FilesMru<cr>
 nnoremap <leader>. :FZFAllFiles<cr>
 nnoremap <leader><enter> :Tags<cr>
 nnoremap <leader>a :Rg<space>
-nnoremap <leader>A ::let @/=expand('<cword>')<cr> :RgRaw -t
+nnoremap <leader>A :let @/=expand('<cword>')<cr> :RgRaw --fixed-strings -t
 nnoremap <m-r> :exec "Rg ".expand("<cword>")<cr>
-vnoremap // "hy:exec "Find <C-R>h"<cr>
+vnoremap <m-r> "hy:exec "Find ".escape('<C-R>h', "/\.*$^~[()")<cr>
 nnoremap <m-s-r> :exec "Find ".expand("<cword>")<cr>
 
 """ fzf commands
 let g:rg_command = '
-            \ rg --column --line-number --no-heading --fixed-strings --smart-case --hidden --follow --color "always"
+            \ rg --column --line-number --no-heading --smart-case --hidden --follow --color "always"
             \ -g "!{.git,node_modules,vendor}/*" '
 
 command! -bang -nargs=* RgRaw
@@ -148,6 +148,7 @@ command! -bang -nargs=* RgRaw
       \           : fzf#vim#with_preview('right:50%:hidden', '?'),
       \   <bang>0)
 
+      " \   g:rg_command.shellescape(<q-args>), 1,
 command! -bang -nargs=* Rg
       \ call fzf#vim#grep(
       \   g:rg_command.shellescape(<q-args>), 1,
@@ -155,7 +156,7 @@ command! -bang -nargs=* Rg
       \           : fzf#vim#with_preview('right:50%:hidden', '?'),
       \   <bang>0)
 
-command! -bang -nargs=* Find call fzf#vim#grep(g:rg_command.'--no-ignore "'.<q-args>.'"', 1, <bang>0)
+command! -bang -nargs=* Find call fzf#vim#grep(g:rg_command.'--no-ignore '.shellescape(<q-args>), 1, <bang>0)
 
 command! -bang -nargs=* FZFAllFiles call fzf#run({'source': 'find * -type f', 'sink': 'e'})
 
