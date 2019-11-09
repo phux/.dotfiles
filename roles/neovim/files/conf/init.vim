@@ -225,7 +225,7 @@ endfunction
 
 
 "" markdown
-" Plug 'reedes/vim-lexical', {'for': []}
+Plug 'reedes/vim-lexical'
 Plug 'plasticboy/vim-markdown', {'for': ['markdown'], 'as': 'vim-markdown-plasticboy'}
 Plug 'tpope/vim-markdown', {'for': 'markdown'}
 
@@ -280,7 +280,7 @@ let g:EasyMotion_use_smartsign_us = 1 " US layout
 """ netrw
 Plug 'justinmk/vim-dirvish', {'on': 'Expl'}
 let g:netrw_banner = 0
-nnoremap - :Expl<cr>
+" nnoremap - :Expl<cr>
 
 """ tmux
 
@@ -401,7 +401,7 @@ Plug 'romainl/vim-devdocs', {'on': 'DD'}
 nnoremap <leader>K :DD<cr>
 
 """ tabular
-Plug 'godlygeek/tabular', {'for': ['cucumber', 'markdown', 'sql']}
+Plug 'godlygeek/tabular'
 nnoremap <leader>ga :Tabularize /\|<cr>
 vnoremap <leader>ga :Tabularize /\|<cr>
 inoremap <silent> <Bar>   <Bar><Esc>:call <SID>align()<CR>a
@@ -500,6 +500,9 @@ augroup misc
 
   " autocmd FileType netrw,dirvish setl bufhidden=wipe
   autocmd BufReadPost fugitive://* set bufhidden=delete
+
+  autocmd! BufWritePost tmux.conf     !tmux source-file ~/.tmux.conf
+  autocmd! BufWritePost .tmux.conf    !tmux source-file ~/.tmux.conf
 augroup END
 
 " https://vim.fandom.com/wiki/Automatically_fitting_a_quickfix_window_height
@@ -524,34 +527,33 @@ set encoding=UTF-8
 scriptencoding utf-8
 
 set fileformats=unix,dos,mac
-set autowriteall                   " Automatically save before :next, :make etc.
-set autoread                    " Automatically reread changed files without asking me anything
-set hidden
+set autowriteall             " Automatically save before :next, :make etc.
+set autoread                 " Automatically reread changed files without asking me anything
+set hidden                   " Allow buffers to be backgrounded without being saved
 
-set foldcolumn=0        " do not show foldcolumn
+set foldcolumn=0             " do not show foldcolumn
 set tags^=./.git/tags;
-set confirm
-set noshowmode
-set noruler
+set confirm                  " don't fail, but ask
+set noshowmode               " don't show mode in cmdline
 
-set scrolloff=5
-set tabstop=2
-set shiftwidth=2
-set shiftround
-set smarttab        " insert blanks according to shiftwidth
-set expandtab       " use spaces instead of TAB
-set softtabstop=-1  " the number of spaces that a TAB counts for
-set shiftwidth=4    " the number of spaces of an indent
-set shiftround      " round indent to multiple of shiftwidth with > and <
-set textwidth=0     " do not automatically wrap text
+set scrolloff=5              " scroll if cursor is < 5 lines from bottom/top
+set tabstop=4                " tab width in spaces
+set shiftround               " round indent to multiples of shiftwidth
+set smarttab                 " insert blanks according to shiftwidth
+set expandtab                " use spaces instead of TAB
+set softtabstop=3            " the number of spaces that a TAB counts for
+set shiftwidth=4             " the number of spaces of an indent
+set shiftround               " round indent to multiple of shiftwidth with > and <
+set textwidth=0              " do not automatically wrap text
 
-set autoindent      " copy indent from current line when starting a new line
-set smartindent     " smarter autoindent
-set copyindent      " copy the structure of the existing lines indent when
-                    " autoindenting a new line
-set preserveindent  " Use :retab to clean up whitespace
+set autoindent               " copy indent from current line when starting a new line
+set smartindent              " smarter autoindent
+set copyindent               " copy the structure of the existing lines indent when
+                             " autoindenting a new line
+set preserveindent           " Use :retab to clean up whitespace
 
-set splitright
+set splitbelow               " Splits show up below by default
+set splitright               " Splits go to the right by default
 
 " Do not recognize octal numbers for Ctrl-A and Ctrl-X, most users find it
 " confusing.
@@ -579,28 +581,26 @@ set formatoptions&
       \ formatoptions+=B
       \ formatoptions+=j
 " set formatoptions=qrn1tclj
-set nojoinspaces
 
-" keep marks
-" set viminfo='100,\"90,h,%
-set nostartofline
+set nojoinspaces          " don't insert two spaces after J behind a ./?/!
 
-set ignorecase smartcase
-set hlsearch
-set incsearch
-set inccommand=split
+set nostartofline         " try to stay in same column when navigating
+
+set ignorecase smartcase  " ignore case while searching except if search contains uppercase letter(s)
+set hlsearch              " highlight results
+set incsearch             " show results as you type
+set inccommand=split      " open split with interactive substitutes
 set grepprg=rg\ --vimgrep
 
 set timeout ttimeoutlen=0
 "" insert mode completion
-set complete-=i
-set complete+=w
-set completeopt-=preview
+" set complete-=i
+" set complete+=w
+" set completeopt-=preview
 
 "" better command mode completion
 set wildmenu
 set wildmode=list:longest,full
-" set wildmode=list
 
 " Smaller updatetime for CursorHold & CursorHoldI
 set updatetime=300
@@ -619,7 +619,6 @@ set undodir=~/.vim_undodir
 
 "" UI settings
 
-set lazyredraw
 " set max syntax highlighting column to sane level
 set synmaxcol=250
 
@@ -631,9 +630,8 @@ set cmdheight=1
 " This makes more sense than the default of 1
 set winminheight=1
 
-
 set showbreak=↪
-" set breakindent
+set breakindent
 set breakindentopt=sbr
 
 " Line wrapping
@@ -647,7 +645,8 @@ set whichwrap+=<,>,[,],h,l
 " don't give |ins-completion-menu| messages.  For example,
 " '-- XXX completion (YYY)', 'match 1 of 2', 'The only match',
 set shortmess+=c
-" set diffopt=vertical,filler
+
+" better diffing
 set diffopt+=algorithm:patience
 set diffopt+=indent-heuristic
 
