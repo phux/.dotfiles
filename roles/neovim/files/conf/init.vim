@@ -51,6 +51,9 @@ Plug 'honza/vim-snippets'
 " let g:AutoPairsMapSpace = 0
 " let g:AutoPairsShortcutToggle = '<s-f12>'
 
+"" lexima.vim - autopairs
+Plug 'cohama/lexima.vim'
+
 "" plantuml
 Plug 'aklt/plantuml-syntax', {'for': 'uml'}
 
@@ -931,7 +934,6 @@ call coc#add_extension(
       \ 'coc-yank',
       \ 'coc-sql',
       \ 'coc-snippets',
-      \ 'coc-pairs',
       \ 'coc-explorer'
       \ )
       " \ 'coc-post',
