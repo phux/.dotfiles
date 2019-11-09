@@ -7,8 +7,19 @@ let g:vim_markdown_folding_disabled=1
 let g:markdown_enable_input_abbreviations = 0
 let g:markdown_enable_spell_checking = 0
 let g:markdown_enable_conceal = 1
+let g:markdown_fenced_languages = [
+      \ 'vim',
+      \ 'help',
+      \ 'html',
+      \ 'python',
+      \ 'bash=sh',
+      \ 'css',
+      \'javascript',
+      \ 'js=javascript',
+      \ 'typescript'
+      \]
 
-let b:ale_linters = ['mdl', 'proselint', 'writegood']
+let b:ale_linters = ['mdl', 'writegood', 'proselint']
 let g:ale_markdown_mdl_options = '-c ~/.mdlrc'
 
 let g:vim_markdown_frontmatter=1
@@ -17,9 +28,8 @@ set textwidth=80
 setlocal autoindent
 setlocal colorcolumn=0
 setlocal linebreak
-setlocal nonumber norelativenumber
 setlocal shiftwidth=2
-" setlocal spell
+setlocal spell
 setlocal tabstop=2
 setlocal wrap
 
