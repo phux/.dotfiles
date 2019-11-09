@@ -78,13 +78,13 @@ nnoremap <silent> K :call <SID>show_documentation()<CR>
 function! s:show_documentation()
     call CocAction('doHover')
 endfunction
-nmap <silent> gd <Plug>(coc-definition)
-nmap <silent> gD <Plug>(coc-type-definition)
-nmap <silent> gi <Plug>(coc-implementation)
-nmap <silent> gr <Plug>(coc-references)
-nmap <leader>gr <Plug>(coc-rename)
-vmap <leader>gf <Plug>(coc-format-selected)
-nmap <leader>R <Plug>(coc-refactor)
+nnoremap <silent> gd <Plug>(coc-definition)
+nnoremap <silent> gD <Plug>(coc-type-definition)
+nnoremap <silent> gi <Plug>(coc-implementation)
+nnoremap <silent> gr <Plug>(coc-references)
+nnoremap <leader>gr <Plug>(coc-rename)
+" vmap <leader>gf <Plug>(coc-format-selected)
+nnoremap <leader>R <Plug>(coc-refactor)
 
 nnoremap <silent> <leader>D  :<C-u>CocList -I symbols<cr>
 nnoremap <silent> <leader>d  :<C-u>CocList outline<cr>
@@ -116,7 +116,7 @@ Plug 'buoto/gotests-vim', {'for': 'go', 'on': 'GoTests'}
 "" fzf
 Plug 'tweekmonster/fzf-filemru', {'on': 'FilesMru'}
 Plug 'zackhsi/fzf-tags', {'on': '<Plug>(fzf_tags)'}
-nmap <C-]> <Plug>(fzf_tags)
+nnoremap <C-]> <Plug>(fzf_tags)
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 
@@ -257,7 +257,7 @@ let g:EasyMotion_do_mapping = 0
 nmap <Leader>f <Plug>(easymotion-bd-w)
 nmap <Leader>F <Plug>(easymotion-overwin-w)
 " nnoremap s <Plug>(easymotion-s)
-" nmap  <Leader>b <Plug>(easymotion-b)
+" nnoremap  <Leader>b <Plug>(easymotion-b)
 
 let g:EasyMotion_smartcase = 1
 let g:EasyMotion_use_smartsign_us = 1 " US layout
@@ -328,12 +328,12 @@ let g:notes_smart_quotes = 0
 Plug 'vitalk/vim-simple-todo'
 let g:simple_todo_map_keys = 0
 let g:simple_todo_list_symbol = '*'
-nmap <silent> <m-i> :call SmartInsertTodo()<cr>
-imap <silent> <m-i> <esc>:call SmartInsertTodo()<cr>a
-nmap <m-o> <Plug>(simple-todo-below)
-imap <m-o> <Plug>(simple-todo-below)
-imap <m-space> <Plug>(simple-todo-mark-switch)a
-nmap <m-space> <Plug>(simple-todo-mark-switch)
+nnoremap <silent> <m-i> :call SmartInsertTodo()<cr>
+inoremap <silent> <m-i> <esc>:call SmartInsertTodo()<cr>a
+nnoremap <m-o> <Plug>(simple-todo-below)
+inoremap <m-o> <Plug>(simple-todo-below)
+inoremap <m-space> <Plug>(simple-todo-mark-switch)a
+nnoremap <m-space> <Plug>(simple-todo-mark-switch)
 
 function! SmartInsertTodo()
   " already todo in this line?
@@ -395,7 +395,7 @@ nnoremap ]R :%bd<CR>:clast<CR>:Gdiffsplit<CR>
 nnoremap [R :%bd<CR>:cfirst<CR>:Gdiffsplit<CR>
 
 Plug 'romainl/vim-devdocs', {'on': 'DD'}
-nmap <leader>K :DD<cr>
+nnoremap <leader>K :DD<cr>
 
 """ tabular
 Plug 'godlygeek/tabular', {'for': ['cucumber', 'markdown', 'sql']}
@@ -417,7 +417,7 @@ endfunction
 Plug 'simnalamburt/vim-mundo', {'on': 'MundoToggle'}
 nnoremap <m-u> :MundoToggle<cr>
 let g:mundo_width = 60
-let g:mundo_preview_height = 40
+" let g:mundo_preview_height = 40
 let g:mundo_verbose_graph = 0
 " let g:mundo_preview_bottom = 1
 " let g:mundo_inline_undo = 1
@@ -937,22 +937,12 @@ call coc#add_extension(
       " \ 'coc-post',
       " \ 'coc-tsserver',
       " \ 'coc-tslint',
-imap <C-j> <Plug>(coc-snippets-expand-jump)
       " \ 'coc-phpls',
       " \ 'coc-go'
       " \ 'coc-pairs',
       " \ 'coc-highlight',
-let g:markdown_fenced_languages = [
-      \ 'vim',
-      \ 'help',
-      \ 'html',
-      \ 'python',
-      \ 'bash=sh',
-      \ 'css',
-      \'javascript',
-      \ 'js=javascript',
-      \ 'typescript'
-      \]
+imap <C-j> <Plug>(coc-snippets-expand-jump)
+
 " gherkin: check step usages
 " let @s='?/\^?s+2y/\("\|\$\):lvimgrep /<C-R>"/j tests/features/*.feature<CR>:lopen<CR>'
 
