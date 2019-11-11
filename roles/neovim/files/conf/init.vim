@@ -274,12 +274,12 @@ let g:EasyMotion_use_smartsign_us = 1 " US layout
 " let g:NERDTreeAutoDeleteBuffer=1
 " nnoremap <leader>n :NERDTreeToggle<cr>
 " nnoremap <leader>N :NERDTreeFind<cr>
-" nnoremap <leader>n :CocCommand explorer<cr>
+nnoremap <leader>n :CocCommand explorer<cr>
 
 """ netrw
 Plug 'justinmk/vim-dirvish', {'on': 'Expl'}
 let g:netrw_banner = 0
-" nnoremap - :Expl<cr>
+nnoremap - :Expl<cr>
 
 """ tmux
 
@@ -462,11 +462,11 @@ let g:hardtime_allow_different_key = 1
 let g:hardtime_ignore_buffer_patterns = ['coc-explorer']
 
 """ ranger
-Plug 'francoiscabrol/ranger.vim', {'on': ['RangerWorkingDirectory', 'RangerCurrentFile']} | Plug 'rbgrouleff/bclose.vim', {'on': ['RangerWorkingDirectory', 'RangerCurrentFile']}
+" Plug 'francoiscabrol/ranger.vim', {'on': ['RangerWorkingDirectory', 'RangerCurrentFile']} | Plug 'rbgrouleff/bclose.vim', {'on': ['RangerWorkingDirectory', 'RangerCurrentFile']}
 " let g:ranger_replace_netrw = 0
-let g:ranger_map_keys = 0
-nnoremap <leader>n :RangerWorkingDirectory<cr>
-nnoremap <leader>N :RangerCurrentFile<cr>
+" let g:ranger_map_keys = 0
+" nnoremap <leader>n :RangerWorkingDirectory<cr>
+" nnoremap <leader>N :RangerCurrentFile<cr>
 
 Plug 'ActivityWatch/aw-watcher-vim'
 call plug#end()
