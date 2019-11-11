@@ -535,7 +535,7 @@ set tags^=./.git/tags;
 set confirm                  " don't fail, but ask
 set noshowmode               " don't show mode in cmdline
 
-set scroll=20                " jump 20 lines max with ctrl-u/d
+" set scroll=20                " jump 20 lines max with ctrl-u/d
 set scrolloff=5              " scroll if cursor is < 5 lines from bottom/top
 set tabstop=4                " tab width in spaces
 set shiftround               " round indent to multiples of shiftwidth
