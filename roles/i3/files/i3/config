@@ -33,7 +33,9 @@ bindsym $mod+g [con_mark="pomo"] scratchpad show
 floating_modifier Mod1
 
 # start a terminal
+# bindsym $mod+Return exec urxvtc
 bindsym $mod+Return exec urxvtc
+# bindsym $mod+Return exec alacritty
 
 # kill focused window
 bindsym $mod+Shift+Q kill

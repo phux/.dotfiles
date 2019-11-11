@@ -35,7 +35,7 @@ if [ -f $XDG_CONFIG_HOME/zsh/cached_plugins.sh ]; then
 fi
 
 export EDITOR="nvim"
-export TERM=xterm-256color
+# export TERM=xterm-256color
 export USE_EDITOR=$EDITOR
 export VISUAL=$EDITOR
 
