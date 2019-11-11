@@ -34,8 +34,8 @@ floating_modifier Mod1
 
 # start a terminal
 # bindsym $mod+Return exec urxvtc
-bindsym $mod+Return exec urxvtc
 # bindsym $mod+Return exec alacritty
+bindsym $mod+Return exec uxterm
 
 # kill focused window
 bindsym $mod+Shift+Q kill
