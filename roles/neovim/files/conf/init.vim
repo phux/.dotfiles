@@ -80,22 +80,22 @@ nnoremap <silent> K :call <SID>show_documentation()<CR>
 function! s:show_documentation()
     call CocAction('doHover')
 endfunction
-nnoremap <silent> gd <Plug>(coc-definition)
-nnoremap <silent> gD <Plug>(coc-type-definition)
-nnoremap <silent> gi <Plug>(coc-implementation)
-nnoremap <silent> gr <Plug>(coc-references)
-nnoremap <leader>gr <Plug>(coc-rename)
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gD <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
+nmap <leader>gr <Plug>(coc-rename)
 " vmap <leader>gf <Plug>(coc-format-selected)
-nnoremap <leader>R <Plug>(coc-refactor)
+nmap <leader>R <Plug>(coc-refactor)
 
 nnoremap <silent> <leader>D  :<C-u>CocList -I symbols<cr>
 nnoremap <silent> <leader>d  :<C-u>CocList outline<cr>
 nnoremap <leader>gg :<C-u>CocCommand git.
 nnoremap <leader>gW :<C-u>CocCommand git.chunkStage<cr>
 nnoremap <silent> gb :CocCommand git.browserOpen<cr>
-noremap [g <Plug>(coc-git-prevchunk)
-noremap ]g <Plug>(coc-git-nextchunk)
-noremap gs <Plug>(coc-git-chunkinfo)
+nmap [g <Plug>(coc-git-prevchunk)
+nmap ]g <Plug>(coc-git-nextchunk)
+nmap gs <Plug>(coc-git-chunkinfo)
 " TODO: map to leader gi?
 " noremap gc <Plug>(coc-git-commit)
 nnoremap <silent> <space>y  :<C-u>CocList --normal yank<cr>
