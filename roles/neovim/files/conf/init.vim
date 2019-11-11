@@ -676,6 +676,8 @@ vnoremap <leader>p "+p
 vnoremap <leader>d "+d
 vnoremap <silent> y y`]
 
+set clipboard+=unnamed
+
 "" tmux
 if !exists('$TMUX')
   nnoremap <c-j> <c-w>j
