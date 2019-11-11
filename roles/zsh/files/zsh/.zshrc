@@ -1,6 +1,7 @@
-# ZSH_TMUX_AUTOSTART=true
-# ZSH_TMUX_AUTOCONNECT=true
-# ZSH_TMUX_AUTOQUIT=false
+export FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --follow -g "!{.git,node_modules}/*" 2> /dev/null'
+export FZF_BIN_PATH="$HOME/.fzf/bin"
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
 if [[ ! -n $TMUX ]]; then
   # get the IDs
   ID="`tmux list-sessions`"
@@ -39,15 +40,9 @@ export EDITOR="nvim"
 export USE_EDITOR=$EDITOR
 export VISUAL=$EDITOR
 
-# same colors as ag
-# export FZF_DEFAULT_COMMAND='rg --colors 'match:bg:yellow' --colors 'match:fg:black' --colors 'match:style:nobold' --colors 'path:fg:green' --colors 'path:style:bold' --colors 'line:fg:yellow' --colors 'line:style:bold'  --files --smart-case --hidden --follow --sort-files --glob "!.git/*"'
-export FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --follow -g "!{.git,node_modules}/*" 2> /dev/null'
-
-
 [[ -s "$HOME/.gvm/scripts/gvm" ]] && source "$HOME/.gvm/scripts/gvm"
 export GOPATH="$HOME/code/go"
 export LGOBIN="$HOME/code/go/bin"
-export FZF_BIN_PATH="$HOME/.fzf/bin"
 
 HISTSIZE='100000';
 HISTFILESIZE="${HISTSIZE}";
@@ -420,8 +415,6 @@ bindkey -M vicmd 'v' edit-command-line
 
 export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
 
-
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 export PATH=$PATH:$HOME/bin:$HOME/.local/bin:$HOME/.composer/vendor/bin:$FZF_BIN_PATH:$LGOBIN:$HOME/.config/composer/vendor/bin:$HOME/.config/nvim/plugged/phpactor/bin
 export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
