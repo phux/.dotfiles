@@ -21,7 +21,6 @@ if has('vim_starting')
   let g:loaded_getscript         = 1
   let g:loaded_getscriptPlugin   = 1
   let g:loaded_logipat           = 1
-  let g:loaded_matchparen        = 1
   let g:loaded_man               = 1
 endif
 
@@ -119,7 +118,7 @@ Plug 'buoto/gotests-vim', {'for': 'go', 'on': 'GoTests'}
 "" fzf
 Plug 'tweekmonster/fzf-filemru', {'on': 'FilesMru'}
 Plug 'zackhsi/fzf-tags', {'on': '<Plug>(fzf_tags)'}
-nnoremap <C-]> <Plug>(fzf_tags)
+nnoremap <C-]> mO<Plug>(fzf_tags)
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 
@@ -133,11 +132,11 @@ nnoremap <leader><tab> :Buffers<cr>
 nnoremap <leader>, :FilesMru<cr>
 nnoremap <leader>. :FZFAllFiles<cr>
 nnoremap <leader><enter> :Tags<cr>
-nnoremap <leader>a :Rg<space>
-nnoremap <leader>A :let @/=expand('<cword>')<cr> :RgRaw --fixed-strings -t
-nnoremap <m-r> :exec "Rg ".expand("<cword>")<cr>
-vnoremap <m-r> "hy:exec "Find ".escape('<C-R>h', "/\.*$^~[()")<cr>
-nnoremap <m-s-r> :exec "Find ".expand("<cword>")<cr>
+nnoremap <leader>a mO:Rg<space>
+nnoremap <leader>A mO:let @/=expand('<cword>')<cr> :RgRaw --fixed-strings -t
+nnoremap <m-r> mO:exec "Rg ".expand("<cword>")<cr>
+vnoremap <m-r> mO"hy:exec "Find ".escape('<C-R>h', "/\.*$^~[()")<cr>
+nnoremap <m-s-r> mO:exec "Find ".expand("<cword>")<cr>
 
 """ fzf commands
 let g:rg_command = '
@@ -401,7 +400,7 @@ Plug 'romainl/vim-devdocs', {'on': 'DD'}
 nnoremap <leader>K :DD<cr>
 
 """ tabular
-Plug 'godlygeek/tabular'
+Plug 'godlygeek/tabular', {'on': 'Tabularize'}
 nnoremap <leader>ga :Tabularize /\|<cr>
 vnoremap <leader>ga :Tabularize /\|<cr>
 inoremap <silent> <Bar>   <Bar><Esc>:call <SID>align()<CR>a
@@ -483,7 +482,7 @@ augroup misc
   au BufRead,BufNewFile *.conf setf config
   au BufNewFile,BufRead composer.lock set ft=json
 
-  au BufNewFile,BufRead,BufEnter ~/Dropbox/notes/*.md set ft=markdown.notes
+  au BufNewFile,BufRead ~/Dropbox/notes/*.md set ft=markdown.notes
 
   au FileType html,xml inoremap <buffer> <m-;> </<c-x><c-o>
 
@@ -536,6 +535,7 @@ set tags^=./.git/tags;
 set confirm                  " don't fail, but ask
 set noshowmode               " don't show mode in cmdline
 
+set scroll=20                " jump 20 lines max with ctrl-u/d
 set scrolloff=5              " scroll if cursor is < 5 lines from bottom/top
 set tabstop=4                " tab width in spaces
 set shiftround               " round indent to multiples of shiftwidth
@@ -888,25 +888,27 @@ endfunction
 
 nnoremap <silent> <leader><f5> :e $MYVIMRC<CR>
 
-command! -nargs=* Only call CloseHiddenBuffers()
-function! CloseHiddenBuffers()
-  " figure out which buffers are visible in any tab
-  let visible = {}
-  for t in range(1, tabpagenr('$'))
-    for b in tabpagebuflist(t)
-      let visible[b] = 1
-    endfor
-  endfor
-  " close any buffer that are loaded and not visible
-  let l:tally = 0
-  for b in range(1, bufnr('$'))
-    if bufloaded(b) && !has_key(visible, b)
-      let l:tally += 1
-      exe 'bw ' . b
-    endif
-  endfor
-  echon 'Deleted ' . l:tally . ' buffers'
-endfun
+" Close all buffers except this one
+command! BufCloseOthers %bd|e#
+" command! -nargs=* Only call CloseHiddenBuffers()
+" function! CloseHiddenBuffers()
+"   " figure out which buffers are visible in any tab
+"   let visible = {}
+"   for t in range(1, tabpagenr('$'))
+"     for b in tabpagebuflist(t)
+"       let visible[b] = 1
+"     endfor
+"   endfor
+"   " close any buffer that are loaded and not visible
+"   let l:tally = 0
+"   for b in range(1, bufnr('$'))
+"     if bufloaded(b) && !has_key(visible, b)
+"       let l:tally += 1
+"       exe 'bw ' . b
+"     endif
+"   endfor
+"   echon 'Deleted ' . l:tally . ' buffers'
+" endfun
 
 " Intelligently navigate tmux panes and Vim splits using the same keys.
 " See https://sunaku.github.io/tmux-select-pane.html for documentation.
