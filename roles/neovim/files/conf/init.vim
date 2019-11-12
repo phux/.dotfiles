@@ -96,8 +96,6 @@ nnoremap <silent> gb :CocCommand git.browserOpen<cr>
 nmap [g <Plug>(coc-git-prevchunk)
 nmap ]g <Plug>(coc-git-nextchunk)
 nmap gs <Plug>(coc-git-chunkinfo)
-" TODO: map to leader gi?
-" noremap gc <Plug>(coc-git-commit)
 nnoremap <silent> <space>y  :<C-u>CocList --normal yank<cr>
 
 "" php
@@ -676,7 +674,7 @@ vnoremap <leader>p "+p
 vnoremap <leader>d "+d
 vnoremap <silent> y y`]
 
-set clipboard+=unnamed
+set clipboard+=unnamedplus
 
 "" tmux
 if !exists('$TMUX')
