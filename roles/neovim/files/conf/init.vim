@@ -369,6 +369,7 @@ Plug 'freitass/todo.txt-vim', {'for': 'text'}
 
 "" filetype
 Plug 'stephpy/vim-yaml', {'for': 'yaml'}
+Plug 'sheerun/vim-polyglot'
 
 Plug 'pearofducks/ansible-vim', { 'for': 'yaml'}
 let g:ansible_unindent_after_newline = 1
