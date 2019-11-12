@@ -11,6 +11,8 @@ UXTerm.vt100.renderFont: true
 ! termtype
 UXTerm*termName: xterm-256color
 
+UXTerm*cursorColor: #fb4934
+
 ! font menu (ctl-rightclick)
 UXTerm.fontMenu.fontdefault.Label: Normal
 UXTerm.fontMenu.font1.Label: Illegible
@@ -20,9 +22,11 @@ UXTerm.fontMenu.font4.Label: Large
 UXTerm.fontMenu.font5.Label: Huge
 UXTerm.fontMenu.font6.Label: Bold
 
-uxterm*VT100.Translations: #override \
+UXTerm*VT100.Translations: #override \
                  Ctrl Shift <Key>V:    insert-selection(SELECT) \n\
                  Ctrl Shift <Key>C:    copy-selection(SELECT)
+
+UXTerm*selectToClipboard: true
 
 Xft.antialias: true
 Xft.hinting: true
@@ -46,10 +50,6 @@ URxvt.iso14755_32: False
 URxvt.perl-ext: default
 URxvt.perl-ext-common: default,keyboard-select,font-size
 URxvt.font-size.step: 4
-
-! secondary clipboard
-/* URxvt.keysym.Shift-Control-C: perl:clipboard:copy */
-/* URxvt.keysym.Shift-Control-V: perl:clipboard:paste */
 URxvt.keyboard-select.clipboard: True
 URxvt.keysym.M-s: perl:keyboard-select:search
 
