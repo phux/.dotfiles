@@ -1,6 +1,5 @@
 export FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --follow -g "!{.git,node_modules}/*" 2> /dev/null'
-export FZF_BIN_PATH="$HOME/.fzf/bin"
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
 
 if [[ ! -n $TMUX ]]; then
   # get the IDs
@@ -20,6 +19,8 @@ if [[ ! -n $TMUX ]]; then
   fi
 fi
 
+
+
 WORDCHARS='*?_-[]~=&;!#$%^(){}<>'
 
 
@@ -36,13 +37,13 @@ if [ -f $XDG_CONFIG_HOME/zsh/cached_plugins.sh ]; then
 fi
 
 export EDITOR="nvim"
-# export TERM=xterm-256color
 export USE_EDITOR=$EDITOR
 export VISUAL=$EDITOR
 
 [[ -s "$HOME/.gvm/scripts/gvm" ]] && source "$HOME/.gvm/scripts/gvm"
 export GOPATH="$HOME/code/go"
 export LGOBIN="$HOME/code/go/bin"
+export FZF_BIN_PATH="$HOME/.fzf/bin"
 
 HISTSIZE='100000';
 HISTFILESIZE="${HISTSIZE}";
@@ -288,6 +289,7 @@ bindkey -e
 
 
 # load npm before nvim
+# alias n='nvim'
 alias n='npm 2>&1 > /dev/null; nvim'
 alias c='composer'
 alias ci='composer install --no-progress --prefer-dist --profile'
@@ -415,6 +417,7 @@ bindkey -M vicmd 'v' edit-command-line
 
 export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
 
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 export PATH=$PATH:$HOME/bin:$HOME/.local/bin:$HOME/.composer/vendor/bin:$FZF_BIN_PATH:$LGOBIN:$HOME/.config/composer/vendor/bin:$HOME/.config/nvim/plugged/phpactor/bin
 export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
