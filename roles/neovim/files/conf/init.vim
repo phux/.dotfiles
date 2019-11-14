@@ -504,8 +504,8 @@ augroup misc
   " autocmd FileType netrw,dirvish setl bufhidden=wipe
   autocmd BufReadPost fugitive://* set bufhidden=delete
 
-  autocmd! BufWritePost tmux.conf     !tmux source-file ~/.tmux.conf
-  autocmd! BufWritePost .tmux.conf    !tmux source-file ~/.tmux.conf
+  autocmd! BufWritePost tmux.conf     :silent !tmux source-file ~/.tmux.conf
+  autocmd! BufWritePost .tmux.conf    :silent !tmux source-file ~/.tmux.conf
 augroup END
 
 " https://vim.fandom.com/wiki/Automatically_fitting_a_quickfix_window_height
