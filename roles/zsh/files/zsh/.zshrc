@@ -1,4 +1,4 @@
-zmodload zsh/zprof
+# zmodload zsh/zprof
 
 export FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --follow -g "!{.git,node_modules}/*" 2> /dev/null'
 
@@ -411,4 +411,4 @@ export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
 export PATH=~/.fnm:$PATH
 eval "`fnm env --multi`"
 
-zprof
+# zprof
