@@ -1,5 +1,6 @@
-export FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --follow -g "!{.git,node_modules}/*" 2> /dev/null'
+zmodload zsh/zprof
 
+export FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --follow -g "!{.git,node_modules}/*" 2> /dev/null'
 
 if [[ ! -n $TMUX ]]; then
   # get the IDs
@@ -19,10 +20,7 @@ if [[ ! -n $TMUX ]]; then
   fi
 fi
 
-
-
 WORDCHARS='*?_-[]~=&;!#$%^(){}<>'
-
 
 # Prefer US English and use UTF-8.
 export LANG='en_US.UTF-8';
@@ -30,7 +28,6 @@ export LC_ALL='en_US.UTF-8';
 
 export SHOW_AWS_PROMPT=false
 export PURE_PROMPT_PATH_FORMATTING="%~"
-export NVM_LAZY_LOAD=true
 
 if [ -f $XDG_CONFIG_HOME/zsh/cached_plugins.sh ]; then
     source $XDG_CONFIG_HOME/zsh/cached_plugins.sh
@@ -287,10 +284,7 @@ bindkey -e
 # http://www.drbunsen.org/vim-croquet/ analysing
 # alias nvim='nvim -w ~/.nvim_keylog "$@"'
 
-
-# load npm before nvim
-# alias n='nvim'
-alias n='npm 2>&1 > /dev/null; nvim'
+alias n='nvim'
 alias c='composer'
 alias ci='composer install --no-progress --prefer-dist --profile'
 alias cu='composer update --no-progress --prefer-dist --profile'
@@ -305,10 +299,7 @@ alias ez='n $ZDOTDIR/.zshrc;source $ZDOTDIR/.zshrc'
 alias .d='cd ~/.dotfiles'
 alias ma='make'
 alias mt='make test'
-alias idea='~/tools/idea-IC-182.3684.101/bin/idea.sh'
 alias tgo='testomatic --config ~/.testomatic.yml'
-
-# source ~/.gruvbox.sh
 
 export ANSIBLE_NOCOWS=1
 
@@ -318,13 +309,6 @@ zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'   # ignore case
 # zstyle ':completion:*' menu select=2                        # menu if nb items > 2
 zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}       # colorz !
 zstyle ':completion:*::::' completer _expand _complete _ignored _approximate # list of completers to use
-
-# tabtab source for serverless package
-# uninstall by removing these lines or running `tabtab uninstall serverless`
-[[ -f ~/.nvm/versions/node/v12.6.0/lib/node_modules/serverless/node_modules/tabtab/.completions/serverless.zsh ]] && . ~/.nvm/versions/node/v12.6.0/lib/node_modules/serverless/node_modules/tabtab/.completions/serverless.zsh
-# # tabtab source for sls package
-# # uninstall by removing these lines or running `tabtab uninstall sls`
-[[ -f ~/.nvm/versions/node/v12.6.0/lib/node_modules/serverless/node_modules/tabtab/.completions/sls.zsh ]] && . ~/.nvm/versions/node/v12.6.0/lib/node_modules/serverless/node_modules/tabtab/.completions/sls.zsh
 
 source ~/.config/zsh/aws_zsh_completer.sh
 
@@ -421,3 +405,10 @@ export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
 
 export PATH=$PATH:$HOME/bin:$HOME/.local/bin:$HOME/.composer/vendor/bin:$FZF_BIN_PATH:$LGOBIN:$HOME/.config/composer/vendor/bin:$HOME/.config/nvim/plugged/phpactor/bin
 export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
+
+
+# fnm
+export PATH=~/.fnm:$PATH
+eval "`fnm env --multi`"
+
+zprof
