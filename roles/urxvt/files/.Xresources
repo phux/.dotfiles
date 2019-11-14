@@ -48,10 +48,9 @@ URxvt.iso14755: False
 URxvt.iso14755_32: False
 ! perl extensions
 URxvt.perl-ext: default
-URxvt.perl-ext-common: default,keyboard-select,font-size
-URxvt.font-size.step: 4
+URxvt.perl-ext-common: default,font-size
+URxvt.font-size.step: 2
 URxvt.keyboard-select.clipboard: True
-URxvt.keysym.M-s: perl:keyboard-select:search
 
 URxvt*cursorColor: #fb4934
 
