@@ -486,7 +486,7 @@ augroup misc
   au BufRead,BufNewFile *.conf setf config
   au BufNewFile,BufRead composer.lock set ft=json
 
-  au BufNewFile,BufRead ~/Dropbox/notes/*.md set ft=markdown.notes
+  au BufNewFile,BufRead,BufEnter ~/Dropbox/notes/*.md set ft=markdown.notes
 
   au FileType html,xml inoremap <buffer> <m-;> </<c-x><c-o>
 
