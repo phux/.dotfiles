@@ -550,8 +550,8 @@ set shiftwidth=4             " the number of spaces of an indent
 set shiftround               " round indent to multiple of shiftwidth with > and <
 set textwidth=0              " do not automatically wrap text
 
-set autoindent               " copy indent from current line when starting a new line
-set smartindent              " smarter autoindent
+" set autoindent               " copy indent from current line when starting a new line
+" set smartindent              " smarter autoindent
 set copyindent               " copy the structure of the existing lines indent when
                              " autoindenting a new line
 set preserveindent           " Use :retab to clean up whitespace
