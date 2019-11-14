@@ -17,7 +17,9 @@ tmux new-session -d -s def
 tmuxinator start dotfiles --no-attach
 
 sleep 1; autorandr --change
-sleep 1; Joplin-1.0.160-x86_64.AppImage &
 
+Joplin-1.0.160-x86_64.AppImage &
+
+blueman-applet &
 
 sleep 5; dropbox start -i
