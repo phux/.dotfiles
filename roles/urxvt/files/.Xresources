@@ -1,41 +1,3 @@
-UXTerm*faceName: Hack:size=9:antialias=true
-UXTerm*dynamicColors:      true
-UXTerm*utf8:               2
-UXTerm*eightBitInput:      true
-/* UXTerm*saveLines:          512 */
-UXTerm*metaSendsEscape: true
-
-! truetype plz
-UXTerm.vt100.renderFont: true
-
-! termtype
-UXTerm*termName: xterm-256color
-
-UXTerm*cursorColor: #fb4934
-
-! font menu (ctl-rightclick)
-UXTerm.fontMenu.fontdefault.Label: Normal
-UXTerm.fontMenu.font1.Label: Illegible
-UXTerm.fontMenu.font2.Label: Smallest
-UXTerm.fontMenu.font3.Label: Small
-UXTerm.fontMenu.font4.Label: Large
-UXTerm.fontMenu.font5.Label: Huge
-UXTerm.fontMenu.font6.Label: Bold
-
-UXTerm*VT100.Translations: #override \
-                 Ctrl Shift <Key>V:    insert-selection(SELECT) \n\
-                 Ctrl Shift <Key>C:    copy-selection(SELECT)
-
-UXTerm*selectToClipboard: true
-
-Xft.antialias: true
-Xft.hinting: true
-Xft.rgba: rgb
-Xft.hintstyle: hintfull
-Xft.dpi: 109
-
-
-
 URxvt*font: xft:Hack:pixelsize=14
 URxvt*scrollBar: false
 URxvt.saveLines: 512
@@ -85,7 +47,7 @@ URxvt.letterSpace: -1
 
 *.foreground:   nord4
 *.background:   nord0
-*.cursorColor:  nord4
+/* *.cursorColor:  nord4 */
 *fading: 35
 *fadeColor: nord3
 
