@@ -29,8 +29,6 @@ call ale#linter#Define('go', {
 \   'callback': 'ale#handlers#unix#HandleAsWarning',
 \})
 
-let g:ale_set_quickfix=0
-
 " let g:go_addtags_transform='camelcase'
 let g:go_bin_path = expand('~/code/go/bin')
 let g:go_code_completion_enabled = 0
