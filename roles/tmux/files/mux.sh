@@ -2,6 +2,6 @@
 set -eu
 set -o pipefail
 
-prj=$(find ~/.config/tmuxinator -execdir sh -c 'printf "%s\n" $(basename "${0%.*}")' {} ';' | sort | uniq | nl | fzf | cut -f 2)
+prj=$(find ~/.config/tmuxinator -exec basename {} \; | sort | uniq | fzf | cut -f 1 -d '.')
 
-tmuxinator start "$prj" &>/dev/null disown
+tmuxinator start "$prj" --suppress-tmux-version-warning=SUPPRESS-TMUX-VERSION-WARNING &>/dev/null disown
