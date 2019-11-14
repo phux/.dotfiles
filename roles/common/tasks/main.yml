@@ -33,6 +33,7 @@
     - openvpn
     - brightnessctl
     - xclip
+    - blueman
 
 - include: rofi.yml
 
