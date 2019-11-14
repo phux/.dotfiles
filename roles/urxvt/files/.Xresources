@@ -36,23 +36,25 @@ Xft.dpi: 109
 
 
 
-urxvt*font: xft:Hack:pixelsize=14
+URxvt*font: xft:Hack:pixelsize=14
 URxvt*scrollBar: false
-URxvt.saveLines: 32767
+URxvt.saveLines: 512
+! lag ? URxvt*buffered: true
+URxvt*buffered: true
 URxvt*termName: rxvt
 URxvt.intensityStyles: false
 URxvt*.termName: rxvt-unicode-256color
-
 ! disable default Ctrl+Shift-Binding
-URxvt.iso14755: False
-URxvt.iso14755_32: False
+URxvt.iso14755: false
+URxvt.iso14755_32: false
 ! perl extensions
 URxvt.perl-ext: default
 URxvt.perl-ext-common: default,font-size
 URxvt.font-size.step: 2
 URxvt.keyboard-select.clipboard: True
 
-URxvt*cursorColor: #fb4934
+
+*cursorColor: #fb4934
 
 URxvt.letterSpace: -1
 
