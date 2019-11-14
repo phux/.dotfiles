@@ -8,8 +8,6 @@ robbyrussell/oh-my-zsh folder:plugins/rbenv
 robbyrussell/oh-my-zsh folder:plugins/tmux
 robbyrussell/oh-my-zsh folder:plugins/tmuxinator
 
-lukechilds/zsh-nvm
-
 zsh-users/zsh-syntax-highlighting
 zsh-users/zsh-autosuggestions
 djui/alias-tips
