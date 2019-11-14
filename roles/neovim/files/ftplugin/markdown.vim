@@ -24,13 +24,13 @@ let g:ale_markdown_mdl_options = '-c ~/.mdlrc'
 
 let g:vim_markdown_frontmatter=1
 
-set textwidth=80
-setlocal autoindent
-setlocal colorcolumn=0
-setlocal linebreak
-setlocal shiftwidth=2
+" set textwidth=80
+" setlocal autoindent
+" setlocal colorcolumn=0
+" setlocal linebreak
+" setlocal shiftwidth=2
+" setlocal tabstop=2
 setlocal spell
-setlocal tabstop=2
 setlocal wrap
 
 set conceallevel=2
