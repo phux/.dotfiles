@@ -25,10 +25,6 @@ popup_during_fullscreen smart
 # Back and Forth
 workspace_auto_back_and_forth no
 
-# bindsym $mod+p workspace prev
-bindsym $mod+Shift+G mark "pomo", move scratchpad
-bindsym $mod+g [con_mark="pomo"] scratchpad show
-
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier Mod1
 
