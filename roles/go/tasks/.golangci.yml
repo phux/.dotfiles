@@ -4,7 +4,9 @@ linters:
   disable:
     - typecheck
     - golint
-  # #   - gochecknoglobals
+    - gochecknoglobals
+    - gochecknoinits
+    - wsl
   # #   - lll
   # fast: true
   # enable:
