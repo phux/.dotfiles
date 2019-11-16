@@ -6,7 +6,7 @@ setlocal foldnestmax=1
 
 " let b:ale_linters = ['gofmt', 'govet', 'gobuild', 'gotype']
 " let b:ale_linters = ['gobuild', 'revive']
-let b:ale_linters = ['gobuild', 'revive', 'golangci-lint']
+let b:ale_linters = ['gobuild', 'golangci-lint']
 " let b:ale_linters = []
 " let g:ale_go_golangci_lint_package=1
 let b:local_golangci_file = getcwd().'/.golangci.yml'
