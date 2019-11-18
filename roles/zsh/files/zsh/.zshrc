@@ -114,6 +114,7 @@ alias ll='ls -l'      #long list
 
 alias grep='grep --color'
 
+alias cat='bat --plain'
 
 # disable c-s and c-q freeze
 stty stop ''
