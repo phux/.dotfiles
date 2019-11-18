@@ -4,11 +4,7 @@ setlocal foldmethod=syntax
 setlocal foldlevel=1
 setlocal foldnestmax=1
 
-" let b:ale_linters = ['gofmt', 'govet', 'gobuild', 'gotype']
-" let b:ale_linters = ['gobuild', 'revive']
 let b:ale_linters = ['gobuild', 'golangci-lint']
-" let b:ale_linters = []
-" let g:ale_go_golangci_lint_package=1
 let b:local_golangci_file = getcwd().'/.golangci.yml'
 let g:ale_go_golangci_lint_options = '--fast -D typecheck --config '.b:local_golangci_file
 if !filereadable('.golangci.yml')
@@ -20,38 +16,7 @@ if !filereadable('.revive.toml')
   let g:revive_config_file = '~/.revive.toml'
 endif
 
-call ale#linter#Define('go', {
-\   'name': 'revive',
-\   'output_stream': 'both',
-\   'executable': 'revive',
-\   'read_buffer': 0,
-\   'command': 'revive -config '.g:revive_config_file.' %t',
-\   'callback': 'ale#handlers#unix#HandleAsWarning',
-\})
-
 " let g:go_addtags_transform='camelcase'
-let g:go_bin_path = expand('~/code/go/bin')
-let g:go_code_completion_enabled = 0
-let g:go_disable_autoinstall = 0
-let g:go_fmt_autosave = 0
-let g:go_gocode_unimported_packages=0
-let g:go_highlight_build_constraints = 1
-let g:go_highlight_extra_types = 1
-let g:go_highlight_fields = 1
-let g:go_highlight_functions = 1
-let g:go_highlight_methods = 1
-let g:go_highlight_operators = 1
-let g:go_highlight_structs = 1
-let g:go_highlight_types = 1
-let g:go_list_type = 'quickfix'
-let g:go_metalinter_autosave = 0
-let g:go_term_enabled=0
-let g:go_def_mapping_enabled = 0
-let g:go_doc_keywordprg_enabled=0
-
-let g:go_highlight_debug = 0
-hi GoDebugBreakpoint term=standout ctermbg=117 ctermfg=0 guibg=#BAD4F5  guifg=Black
-hi GoDebugCurrent term=reverse ctermbg=7 ctermfg=0 guibg=DarkBlue guifg=White
 
 " load oldsql bindings
 if !filereadable('go.mod')
@@ -73,7 +38,7 @@ nnoremap <buffer> <leader>ga :GoAddTags<cr>
 noremap <buffer> <leader>m :GoDoc<cr>
 " nnoremap <buffer> <leader>gd :GoDescribe<cr>
 noremap <buffer> <leader>u :exec "GoImport ".expand("<cword>")<cr>
-inoremap <silent><buffer> . <esc>:call AliasGoImport()<cr>
+" inoremap <silent><buffer> . <esc>:call AliasGoImport()<cr>
 nnoremap <buffer> <leader>ie :GoIfErr<cr>
 inoremap <buffer> <c-e> <c-o>:GoIfErr<cr>
 
