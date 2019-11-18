@@ -304,12 +304,19 @@ alias tgo='testomatic --config ~/.testomatic.yml'
 
 export ANSIBLE_NOCOWS=1
 
-zstyle ':completion::complete:*' use-cache on               # completion caching, use rehash to clear
-zstyle ':completion:*' cache-path $ZDOTDIR/cache              # cache path
-zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'   # ignore case
-# zstyle ':completion:*' menu select=2                        # menu if nb items > 2
-zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}       # colorz !
-zstyle ':completion:*::::' completer _expand _complete _ignored _approximate # list of completers to use
+# completion caching, use rehash to clear
+zstyle ':completion::complete:*' use-cache on
+ # Force prefix matching, avoid partial globbing on path
+zstyle ':completion:*' accept-exact '*(N)'
+zstyle ':completion:*' cache-path $ZDOTDIR/cache
+
+# ignore case
+zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
+# menu if nb items > 2
+# zstyle ':completion:*' menu select=2
+zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
+ # list of completers to use
+zstyle ':completion:*::::' completer _expand _complete _ignored _approximate
 
 source ~/.config/zsh/aws_zsh_completer.sh
 
