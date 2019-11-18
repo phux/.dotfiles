@@ -114,6 +114,31 @@ Plug 'lvht/phpcd.vim', { 'for': 'php', 'do': 'composer install' }
 
 "" go
 Plug 'fatih/vim-go', {'for': 'go', 'do': ':GoInstallBinaries'}
+let g:go_bin_path = expand('~/code/go/bin')
+let g:go_code_completion_enabled = 0
+let g:go_disable_autoinstall = 0
+let g:go_fmt_autosave = 0
+let g:go_gocode_unimported_packages=0
+let g:go_highlight_diagnostic_errors = 0
+let g:go_highlight_diagnostic_warnings = 0
+let g:go_highlight_build_constraints = 1
+let g:go_highlight_extra_types = 1
+let g:go_highlight_fields = 1
+let g:go_highlight_functions = 1
+let g:go_highlight_methods = 1
+let g:go_highlight_operators = 1
+let g:go_highlight_structs = 1
+let g:go_highlight_types = 1
+let g:go_list_type = 'quickfix'
+let g:go_metalinter_autosave = 0
+let g:go_term_enabled=0
+let g:go_def_mapping_enabled = 0
+let g:go_doc_keywordprg_enabled=0
+let g:go_highlight_debug = 0
+hi GoDebugBreakpoint term=standout ctermbg=117 ctermfg=0 guibg=#BAD4F5  guifg=Black
+hi GoDebugCurrent term=reverse ctermbg=7 ctermfg=0 guibg=DarkBlue guifg=White
+
+" Plug 'arp242/gopher.vim', {'for': 'go'}
 Plug 'sebdah/vim-delve', {'for': 'go'}
 Plug 'godoctor/godoctor.vim', {'for': 'go', 'on': 'Refactor'}
 Plug 'buoto/gotests-vim', {'for': 'go', 'on': 'GoTests'}
@@ -498,7 +523,7 @@ augroup misc
   autocmd  FileType fzf set laststatus=0
         \| autocmd BufLeave <buffer> set laststatus=2
 
-  au BufWritePost *.go silent! !eval '[ -f ".git/hooks/ctags" ] && .git/hooks/ctags' &
+  " au BufWritePost *.go silent! !eval '[ -f ".git/hooks/ctags" ] && .git/hooks/ctags' &
   au FileType qf call AdjustWindowHeight(3, 10)
 
   " autocmd FileType netrw,dirvish setl bufhidden=wipe
