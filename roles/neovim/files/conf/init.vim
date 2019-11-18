@@ -1047,6 +1047,7 @@ let g:ale_fixers = {
 \   'markdown': ['prettier', 'textlint', 'remove_trailing_lines', 'trim_whitespace'],
 \   'text': ['textlint', 'remove_trailing_lines', 'trim_whitespace'],
 \   'go': ['goimports', 'remove_trailing_lines', 'trim_whitespace'],
+\   'python': ['autopep8']
 \}
 
 nnoremap ' `
