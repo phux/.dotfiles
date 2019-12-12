@@ -1,5 +1,3 @@
-# djui/alias-tips
-
 robbyrussell/oh-my-zsh folder:plugins/aws
 robbyrussell/oh-my-zsh folder:plugins/docker
 robbyrussell/oh-my-zsh folder:plugins/docker-compose
@@ -12,7 +10,9 @@ zsh-users/zsh-syntax-highlighting
 zsh-users/zsh-autosuggestions
 djui/alias-tips
 ytakahashi/igit
+MichaelAquilina/zsh-autoswitch-virtualenv
 
 # prompt
-mafredri/zsh-async #dep for pure&purer
-dfurnes/purer
+#mafredri/zsh-async #dep for pure&purer
+#dfurnes/purer
+romkatv/powerlevel10k
