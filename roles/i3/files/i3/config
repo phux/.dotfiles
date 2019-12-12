@@ -158,7 +158,7 @@ bindsym $mod+0 workspace number 10; exec [ $(ps h -C chromium-browser | wc -l) =
 workspace 1 output HDMI1
 workspace 2 output DP1
 workspace 9 output DP1
-workspace 10 output DP1
+workspace 10 output HDMI1
 
 # move focused container to workspace
 bindsym $mod+Shift+exclam move container to workspace 1; workspace 1
