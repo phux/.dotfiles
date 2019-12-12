@@ -90,7 +90,7 @@ export MANPAGER='less -X';
 alias update_antibody="antibody bundle < $XDG_CONFIG_HOME/zsh/antibody_plugins.txt  > $XDG_CONFIG_HOME/zsh/cached_plugins.sh; antibody update"
 
 alias sdn='sudo shutdown now -h'
-alias update='sudo apt-fast update && sudo apt-fast -y upgrade; update_antibody; cd ~/tools/saibing-gotools/ && gl && cd cmd/gopls/ && go install; n +PU'
+alias update='sudo apt-fast update && sudo apt-fast -y upgrade; update_antibody; cd ~/tools/golang_tools/ && gl && cd cmd/gopls/ && go install; n +PU'
 alias agi='sudo apt-fast install'
 
 alias vu='vagrant up'
