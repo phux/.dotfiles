@@ -7,6 +7,7 @@ linters:
     - gochecknoglobals
     - gochecknoinits
     - wsl
+    - gomnd
   # #   - lll
   # fast: true
   # enable:
@@ -81,20 +82,3 @@ linters-settings:
       - weakCond
       - wrapperFunc
       - yodaStyleExpr
-#   govet:
-#     check-shadowing: true
-#   golint:
-#     min-confidence: 0
-#   gocyclo:
-#     min-complexity: 10
-#   maligned:
-#     suggest-new: true
-#   dupl:
-#     threshold: 100
-#   goconst:
-#     min-len: 2
-#     min-occurrences: 2
-#   misspell:
-#     locale: US
-#   lll:
-#     line-length: 140
