@@ -123,3 +123,12 @@ endsnippet
 snippet ref "return fmt.Errorf"
 return ${1:$2, }fmt.Errorf("$3", $4)
 endsnippet
+
+snippet of "open file" b
+f, err := os.Open($1)
+${2:defer }f.Close()
+endsnippet
+
+snippet ap= "append = "
+$1 = append($1, ${2: val})
+endsnippet
