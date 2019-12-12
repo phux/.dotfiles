@@ -96,6 +96,7 @@ nnoremap <silent> gb :CocCommand git.browserOpen<cr>
 nmap [g <Plug>(coc-git-prevchunk)
 nmap ]g <Plug>(coc-git-nextchunk)
 nmap gs <Plug>(coc-git-chunkinfo)
+nmap <leader>gi <Plug>(coc-git-commit)
 nnoremap <silent> <space>y  :<C-u>CocList --normal yank<cr>
 
 xmap if <Plug>(coc-funcobj-i)
@@ -164,7 +165,6 @@ command! -bang -nargs=* Rg
 command! -bang -nargs=* Find call fzf#vim#grep(g:rg_command.'--no-ignore '.shellescape(<q-args>), 1, <bang>0)
 
 command! -bang -nargs=* FZFAllFiles call fzf#run({'source': 'find * -type f', 'sink': 'e'})
-
 "" UI
 
 Plug 'ap/vim-buftabline'
@@ -198,6 +198,8 @@ let g:lightline = {
             \   'conflicted_name': 'ConflictedVersion',
             \   'coc_state': 'coc#status'
             \ },
+		\ 'separator': { 'left': '', 'right': '' },
+		\ 'subseparator': { 'left': '', 'right': '' }
             \ }
 
 
@@ -222,7 +224,7 @@ function! CocGitStatus()
 endfunction
 
 function! LightlineFilename()
-  return @% !=# '' ? @% : '[No Name]'
+  return @% !=# '' ? expand('%:f') : '[No Name]'
 endfunction
 
 
@@ -326,6 +328,7 @@ Plug 'xolox/vim-notes', {'on': ['SearchNotes', 'Note', 'RecentNotes']} | Plug 'x
 let g:notes_directories = ['~/Dropbox/notes']
 let g:notes_suffix = '.md'
 let g:notes_smart_quotes = 0
+let g:notes_tab_indents=0
 " Plug 'rhysd/vim-notes-cli'
 
 "" todo
@@ -383,7 +386,7 @@ let g:ansible_unindent_after_newline = 1
 "" misc
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-repeat'
-" Plug 'triglav/vim-visual-increment'
+Plug 'triglav/vim-visual-increment'
 
 " Plug 'phux/vim-marker'
 Plug '~/code/vim-marker'
@@ -469,7 +472,7 @@ let g:hardtime_default_on = 1
 let g:hardtime_ignore_quickfix = 1
 let g:hardtime_maxcount = 1
 let g:hardtime_allow_different_key = 1
-let g:hardtime_ignore_buffer_patterns = ['coc-explorer']
+let g:hardtime_ignore_buffer_patterns = ['coc-explorer', 'tagbar']
 
 """ ranger
 " Plug 'francoiscabrol/ranger.vim', {'on': ['RangerWorkingDirectory', 'RangerCurrentFile']} | Plug 'rbgrouleff/bclose.vim', {'on': ['RangerWorkingDirectory', 'RangerCurrentFile']}
@@ -479,6 +482,7 @@ let g:hardtime_ignore_buffer_patterns = ['coc-explorer']
 " nnoremap <leader>N :RangerCurrentFile<cr>
 
 Plug 'ActivityWatch/aw-watcher-vim'
+Plug '~/code/go-analyzer.vim'
 call plug#end()
 
 """""""""""""""""""""""
@@ -671,6 +675,9 @@ hi BufTabLineCurrent ctermfg=2 ctermbg=8
 hi Visual ctermfg=7 ctermbg=4
 hi Folded ctermfg=4
 hi Search ctermfg=0 ctermbg=10
+
+hi CocFloating ctermbg=18
+
 
 
 """"""""""""""
@@ -1036,7 +1043,7 @@ nnoremap ' `
 
 so ~/.local.init.vim
 
-nnoremap <leader><enter> :silent update<Bar>silent !xdg-open %:p &<CR>
+" nnoremap <leader><enter> :silent update<Bar>silent !xdg-open %:p &<CR>
 " visiually select pasted text
 nnoremap gp `[v`]
 "" tabs
@@ -1045,3 +1052,9 @@ nnoremap th :tabprev<CR>
 nnoremap td :tabclose<CR>
 nnoremap tc :tabclose<CR>
 nnoremap tn :tabnew<CR>
+
+nmap <m-w> :call MoveToEnd()<cr>
+imap <m-w> <esc>l:call MoveToEnd()<cr>
+function! MoveToEnd()
+    normal! xep
+endfunction
