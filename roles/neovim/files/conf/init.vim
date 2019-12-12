@@ -698,13 +698,14 @@ endif
 
 
 "" qf/loc list toggle
-nnoremap <c-p> :lp<cr>
-nnoremap <c-n> :lnext<cr>
+nnoremap <silent> <c-p> :ALEPreviousWrap<cr>
+nnoremap <silent> <c-n> :ALENextWrap<cr>
+
 let g:qf_loc_toggle_binds = 0
 function! ToggleQfLocListBinds()
   if g:qf_loc_toggle_binds == 1
-    nnoremap <c-p> :lp<cr>
-    nnoremap <c-n> :lnext<cr>
+    nnoremap <silent> <c-p> :ALEPreviousWrap<cr>
+    nnoremap <silent> <c-n> :ALENextWrap<cr>
     let g:qf_loc_toggle_binds = 0
     echo 'loc binds loaded'
   else
