@@ -5,7 +5,7 @@
 - include: go-latest.yml
 
 - include: linters.yml
-- include: bingo.yml
+- include: gopls.yml
 
 - include: testing.yml
 

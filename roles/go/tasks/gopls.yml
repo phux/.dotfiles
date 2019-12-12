@@ -1,0 +1,21 @@
+---
+- name: Check if gopls is installed
+  command: "gopls version"
+  ignore_errors: true
+  register: gopls_installed
+  changed_when: false
+
+- block:
+  - name: Creates tools directory
+    file:
+      path: "{{ansible_env.HOME}}/tools"
+      state: directory
+
+  - name: clone gopls
+    git:
+      repo: 'https://github.com/golang/tools.git'
+      dest: "{{ ansible_env.HOME }}/tools/golang_tools"
+  - name: install gopls
+    shell: cd ~/tools/golang_tools/cmd/gopls && go install
+
+  when: gopls_installed.rc != 0
