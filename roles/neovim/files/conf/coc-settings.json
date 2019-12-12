@@ -1,27 +1,16 @@
 {
   "languageserver": {
-    "golang": {
-      "command": "bingo",
-      "args": [],
-      "rootPatterns": ["go.mod", ".vim/", ".git/", ".hg/"],
-      "filetypes": ["go"]
-    },
-    "metals": {
-      "command": "metals-vim",
-      "rootPatterns": ["build.sbt"],
-      "filetypes": ["scala", "sbt"]
-    },
     "intelephense": {
-      "command": "intelephense",
-      "args": ["--stdio"],
-      "filetypes": ["php"],
-      "initializationOptions": {
-        "storagePath": "/tmp/intelephense"
-      }
-    }
+            "command": "intelephense",
+            "args": ["--stdio"],
+            "filetypes": ["php"],
+            "initializationOptions": {
+                "storagePath": "/tmp/intelephense"
+            }
+        }
   },
   "suggest.snippetIndicator": " ►",
-  "suggest.echodocSupport": true,
+  "suggest.echodocSupport": false,
   "suggest.detailField": "abbr",
   "suggest.enablePreselect": false,
   "suggest.maxCompleteItemCount": 200,
@@ -29,12 +18,18 @@
   "diagnostic.displayByAle": false,
   "html.format.enable": true,
   "coc.preferences.hoverTarget": "float",
+  "signature.preferShownAbove": false,
+  "signature.hideOnTextChange": true,
   "python.jediEnabled": false,
+  "yaml.trace.server": "verbose",
+  "yaml.format.proseWrap": true,
+  "yaml.completion": true,
   "yaml.format.enable": true,
   "yaml.hover": true,
   "yaml.schemas": {
     "https://raw.githubusercontent.com/awslabs/goformation/master/schema/cloudformation.schema.json": "/cf.yml",
     "https://raw.githubusercontent.com/awslabs/goformation/master/schema/sam.schema.json": "/cf.yml",
+    "https://raw.githubusercontent.com/awslabs/goformation/master/schema/sam.schema.json": "/cf.yaml",
     "https://raw.githubusercontent.com/softprops/serverless-yml-schema/master/serverless-schema.json": "/serverless.yaml",
     "http://json.schemastore.org/circleciconfig": "/.circleci/config.yml",
     "https://raw.githubusercontent.com/docker/compose/master/compose/config/config_schema_v3.0.json": "/docker-compose*.yml"
@@ -67,5 +62,12 @@
   "explorer.file.columns": ["selection", "clip", "indent", "icon", "filename"],
   "explorer.keyMappings": {
     "u": "gotoParent"
-  }
+  },
+  "go.enable":  true,
+  "go.goplsOptions": {
+    "usePlaceholders": true,
+    "completeUnimported": false,
+    "deepCompletion": true
+  },
+  "go.goplsPath": "~/code/go/bin/gopls"
 }

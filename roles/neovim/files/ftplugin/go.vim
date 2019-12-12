@@ -19,59 +19,39 @@ endif
 " let g:go_addtags_transform='camelcase'
 
 " load oldsql bindings
-if !filereadable('go.mod')
-    nmap <buffer> <silent> gd :GoDef<cr>
-    nmap <buffer> <silent> gD :GoDefType<cr>
-    nmap <buffer> <silent> gi :GoImplements<cr>
-    nmap <buffer> <silent> gr :GoReferrers<cr>
-    nmap <buffer> <leader>gr :GoRename
-    nmap <buffer> K :GoInfo<cr>
-    noremap <buffer> <leader>u :exec "GoImport ".expand("<cword>")<cr>
-endif
+" if !filereadable('go.mod')
+"     nmap <buffer> <silent> gd :GoDef<cr>
+"     nmap <buffer> <silent> gD :GoDefType<cr>
+"     nmap <buffer> <silent> gi :GoImplements<cr>
+"     nmap <buffer> <silent> gr :GoReferrers<cr>
+"     nmap <buffer> <leader>gr :GoRename
+"     nmap <buffer> K :GoInfo<cr>
+"     noremap <buffer> <leader>u :exec "GoImport ".expand("<cword>")<cr>
+" endif
 
 vnoremap <buffer> <leader>em :Refactor extract
 vnoremap <buffer> <leader>ev :call GoExtractVariable()<cr>
 nnoremap <buffer> <leader>gm :call GoMoveDirV2()<cr>
 noremap <buffer> <leader>h :Refactor godoc<cr>
-nnoremap <buffer> <leader>ga :GoAddTags<cr>
-" nnoremap <buffer> <leader>gt :CocCommand go.test.generate.
-noremap <buffer> <leader>m :GoDoc<cr>
-" nnoremap <buffer> <leader>gd :GoDescribe<cr>
-noremap <buffer> <leader>u :exec "GoImport ".expand("<cword>")<cr>
+nnoremap <silent> <leader>D  :Tags<cr>
+nnoremap <buffer> <leader>ga :CocCommand go.tags.add json
+nnoremap <buffer> <leader>gA :CocCommand go.tags.remove.prompt<cr>
 " inoremap <silent><buffer> . <esc>:call AliasGoImport()<cr>
-nnoremap <buffer> <leader>ie :GoIfErr<cr>
-inoremap <buffer> <c-e> <c-o>:GoIfErr<cr>
+nnoremap <buffer> <leader>ie :IfErr<cr>
+inoremap <buffer> <c-e> <c-o>:IfErr<cr>
 
 " nnoremap <buffer> <leader>d :GoDeclsDir<cr>
-nnoremap <buffer> <silent> <m-a> :GoAlternate!<cr>
-nnoremap <buffer> <m-c> :GoCoverageToggle<cr>
+" nnoremap <buffer> <silent> <m-a> :GoAlternate!<cr>
+nnoremap <buffer> <silent> <m-a> :CocCommand go.test.toggle<cr>
+nnoremap <buffer> <m-c> :GoCoverage toggle<cr>
 
-nnoremap <buffer> <leader>tt :GoTest!<cr>
-nnoremap <buffer> <leader>gt :GoTests<cr>
-nnoremap <buffer> <leader>gf :GoFillStruct<cr>
+nnoremap <buffer> <leader>gt :CocCommand go.test.generate.exported<cr>
+nnoremap <buffer> <leader>gf :FillStruct<cr>
 
-nnoremap <buffer> <c-s> :GoFmt<cr>
-
-nnoremap <buffer> <f5> :GoDebugStart<cr>
-nnoremap <buffer> <f6> :GoDebugTest<cr>
-nnoremap <buffer> <f7> :GoDebugStop<cr>
-
-nnoremap <buffer> <leader>e :exe "GoDebugPrint ".expand('<cword>')<cr>
-nnoremap <buffer> <f9> :GoDebugBreakpoint<cr>
-nnoremap <buffer> <f10> :GoDebugNext<cr>
-nnoremap <buffer> <f11> :GoDebugStep<cr>
-nnoremap <buffer> <f12> :GoDebugStepOut<cr>
-
-" run :GoBuild or :GoTestCompile based on the go file
-nnoremap <buffer> <m-b> :<C-u>call <SID>build_go_files()<CR>
-function! s:build_go_files()
-  let l:file = expand('%')
-  if l:file =~# '^\f\+_test\.go$'
-    call go#test#Test(0, 1)
-  elseif l:file =~# '^\f\+\.go$'
-    call go#cmd#Build(0)
-  endif
-endfunction
+nnoremap <buffer> <f5> :DlvDebug<cr>
+nnoremap <buffer> <f6> :DlvTest<cr>
+nnoremap <buffer> <f7> :DlvToggleBreakpoint<cr>
+nnoremap <buffer> <f8> :DlvToggleTracepoint<cr>
 
 " visually mark the code you want to extract into variable
 " (for now only works with single line selection)
@@ -126,162 +106,6 @@ let g:go_def_mode = 'godef'
 
 nnoremap <buffer> <leader>il :Iface<cr>
 nnoremap <buffer> <leader>is :GoImpl<cr>
-
-" function! ImplementInterface()
-"     if !filereadable('go.mod')
-"         echo 'no go.mod found in cwd'
-"         return
-"     endif
-"     let l:cword = substitute(substitute(expand('<cword>'), 'Stub', '', ''), 'Mock', '', '')
-
-"     let l:currentBasePackage = substitute(substitute(system('head -n 1 go.mod'), 'module ', '', ''), '\n\+$', '', '')
-"     let l:interface = input('interface: ', l:currentBasePackage.''.substitute(expand('%:p:h'), getcwd(), '', '').'.'.l:cword)
-"     let l:receiver = expand('<cword>')
-"     let l:firstLetter = tolower(strpart(l:receiver, 0, 1))
-
-"     exe ':GoImpl '.l:firstLetter.' *'.l:receiver.' '.l:interface
-" endfunction
-" nnoremap <buffer> <leader>il :call ImplementInterface()<cr>
-" nnoremap <buffer> <leader>is :GoImpl<cr>
-
-" " non-gomod projects
-" " dependency: go get golang.org/x/tools/cmd/gomvpkg
-" function! GoMoveDir()
-"   :update
-
-"   " find current gopath
-"   let l:gopath = ''
-"   for gopath in split($GOPATH, ':')
-"     if expand('%:p:h') =~ '^'.gopath
-"       let l:gopath = gopath
-"     endif
-"   endfor
-
-"     let l:currentFile = expand('%:p')
-"     let l:oldPath = input('Old path: ', substitute(expand('%:p:h'), gopath.'/src/', '', ''))
-"     let l:newPath = input('New path ==> ', l:oldPath)
-
-"   if len(l:gopath) == 0
-"     " echo 'Cannot move pkg - not in configured gopath?!'
-"     " return
-"   endif
-
-
-"   execute '!gomvpkg -from '.l:oldPath.' -to '.l:newPath
-
-"   if !filereadable(l:currentFile)
-"     :bd
-"   endif
-" endfunction
-
-" " non-gomod projects
-" " dependency: go get golang.org/x/tools/cmd/gomvpkg
-" function! GoMoveFile()
-"   :update
-
-"   " find current gopath
-"   let l:gopath = ''
-"   for gopath in split($GOPATH, ':')
-"     if expand('%:p:h') =~ '^'.gopath
-"       let l:gopath = gopath
-"     endif
-"   endfor
-
-"   if len(l:gopath) == 0
-"     echo 'Cannot move pkg - not in configured gopath?!'
-"     return
-"   endif
-
-"   let l:currentFile = expand('%:p')
-"   let l:oldPath = input('Old path: ', substitute(expand('%:p:h'), gopath.'/src/', '', ''))
-"   let l:newPath = input('New path ==> ', l:oldPath)
-
-"   execute '!gomvpkg -from '.l:oldPath.' -to '.l:newPath
-
-"   if !filereadable(l:currentFile)
-"     :bd
-"   endif
-" endfunction
-
-" " dependency: go get -u github.com/ksubedi/gomove
-" function! GoMoveDirV2()
-"   :update
-
-"   if !filereadable('go.mod')
-"       echo 'no go.mod found in cwd - not moving anything'
-"       return
-"   endif
-
-"   let l:currentBasePackage = substitute(substitute(system('head -n 1 go.mod'), 'module ', '', ''), '\n\+$', '', '')
-"   let l:currentFile = expand('%:p')
-"   let l:oldPath = substitute(expand('%:p:h'), getcwd(), '', '')
-"   let l:oldPackage = input('Old package: ', l:currentBasePackage.''.l:oldPath)
-"   let l:newPackage = input('New package ==> ', l:oldPackage)
-"   let l:oldPath = getcwd().'/'.substitute(l:oldPackage, l:currentBasePackage, '', '')
-"   let l:newPath = getcwd().'/'.substitute(l:newPackage, l:currentBasePackage, '', '')
-"   if l:oldPackage =~# '/$'
-"       let l:oldPackage = strpart(l:oldPackage, 0, len(l:oldPackage) -1)
-"   endif
-"   if l:newPackage =~# '/$'
-"       let l:newPackage = strpart(l:newPackage, 0, len(l:newPackage) -1)
-"   endif
-
-"   if empty(glob(l:newPath))
-"       exe '!mkdir -p '.l:newPath
-"   endif
-
-"   exe '!mv '.l:oldPath.'/* '.l:newPath
-"   exe '!gomove '.l:oldPackage.' '.l:newPackage
-
-"   if !filereadable(l:currentFile)
-"     :bd
-"   endif
-" endfunction
-
-" function! AliasGoImport()
-"     let l:skip = !has_key(v:completed_item, 'word') || v:completed_item['kind'] !=# 'M'
-
-"     if !l:skip
-"         let l:currentPackage = v:completed_item['word']
-"         let l:importPath = substitute(substitute(v:completed_item['menu'], ' \[LS\]', '', ''), '"', '', 'g')
-"     endif
-
-"     if !l:skip
-"         " check if selected package is already imported
-"         let [s:line, s:col] = searchpos('"'.l:importPath.'"', 'n')
-"         let l:skip = s:line
-"     endif
-
-"     if !l:skip
-"         " check if different package with same name is already imported
-"         let [s:line, s:col] = searchpos('\s\+".\+/'.l:currentPackage.'"$', 'n')
-"         if s:line > 0
-"             let l:alias = input('Package already imported. Alias '.l:importPath.' as: ')
-"             if l:alias ==# ''
-"                 echo 'No alias given - not doing anything'
-"             else
-"                 let l:cmd = 'GoImportAs ' . l:alias . ' ' . l:importPath
-"                 execute l:cmd
-"                 execute 'normal! ciw'.l:alias
-"             endif
-
-"             let l:skip = 1
-"         endif
-"     endif
-
-"     if !l:skip
-"         let l:cmd = 'GoImport ' . l:importPath
-"         execute l:cmd
-"     endif
-
-"     normal! a.
-"     if col('.') == col('$') - 1
-"         startinsert!
-"     else
-"         normal! l
-"         startinsert
-"     end
-" endfunction
 
 vnoremap <m-e> :'<,'>d<cr>:call GoExtractFunc()<cr>
 function! GoExtractFunc()
@@ -582,21 +406,3 @@ function! FixGoAleIssues()
 endfunction
 
 nnoremap <m-e> :call FixGoAleIssues()<cr>
-
-
-" nmap <silent> <c-n> <Plug>(qf_loc_next)<bar>:call FixGoAleIssues()<cr>
-" " nmap <c-n> <Plug>(qf_loc_next)
-" let g:qf_loc_toggle_binds = 0
-" function! ToggleQfLocListBinds()
-"   if g:qf_loc_toggle_binds == 1
-"     nmap <c-p> <Plug>(qf_loc_previous)
-"     nmap <silent> <c-n> <Plug>(qf_loc_next)<bar>:call FixGoAleIssues()<cr>
-"     let g:qf_loc_toggle_binds = 0
-"     echo 'loc binds loaded'
-"   else
-"     let g:qf_loc_toggle_binds = 1
-"     nmap <c-p> <Plug>(qf_qf_previous)
-"     nmap <silent> <c-n> <Plug>(qf_qf_next)<bar>:call FixGoAleIssues()<cr>
-"     echo 'qf binds loaded'
-"   endif
-" endfunction
