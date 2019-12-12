@@ -335,10 +335,10 @@ let g:simple_todo_map_keys = 0
 let g:simple_todo_list_symbol = '*'
 nnoremap <silent> <m-i> :call SmartInsertTodo()<cr>
 inoremap <silent> <m-i> <esc>:call SmartInsertTodo()<cr>a
-nnoremap <m-o> <Plug>(simple-todo-below)
-inoremap <m-o> <Plug>(simple-todo-below)
-inoremap <m-space> <Plug>(simple-todo-mark-switch)a
-nnoremap <m-space> <Plug>(simple-todo-mark-switch)
+nmap <m-o> <Plug>(simple-todo-below)
+imap <m-o> <Plug>(simple-todo-below)
+imap <m-space> <Plug>(simple-todo-mark-switch)a
+nmap <m-space> <Plug>(simple-todo-mark-switch)
 
 function! SmartInsertTodo()
   " already todo in this line?
@@ -346,20 +346,26 @@ function! SmartInsertTodo()
     return
   endif
 
-  " is list?
-  if getline('.') =~# '^\s*\*'
-    let l:was_at_eol =  col('.') == col('$')-1
+  let l:listPrefix = substitute(getline('.'), '^\s*\(\*\|\-\+\)\s.\+', '\1', '')
+  if l:listPrefix !=# ''
+      echo 'list prefix: '.l:listPrefix
+    " let l:was_at_eol =  col('.') == col('$')-1
 
-    s/*\s*//
-    exec "normal \<Plug>(simple-todo-new-list-item-start-of-line)"
-    if l:was_at_eol
-      normal! $
-    else
-      normal! 4l
-    endif
+    silent exe 's/'.l:listPrefix.'\s*//'
+    " exec "normal \<Plug>(simple-todo-new-list-item-start-of-line)"
+    " if l:was_at_eol
+    "   normal! $
+    " else
+    "   normal! 4l
+    " endif
   else
     " must be normal todo
-    exec "normal \<Plug>(simple-todo-new-start-of-line)"
+    " exec "normal \<Plug>(simple-todo-new-start-of-line)"
+  endif
+  exec "normal \<Plug>(simple-todo-new-start-of-line)"
+
+  if l:listPrefix !=# ''
+      exec 'normal! I'.l:listPrefix.' '
   endif
 endfunction
 
