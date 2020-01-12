@@ -1,12 +1,13 @@
 ---
+- name: Creates tools directory
+  file:
+    path: "{{ansible_env.HOME}}/tools"
+    state: directory
 
+# flex libxkbcommon-dev libxkbcommon-x11-dev
+- name: clone rofi
+  git:
+    repo: 'https://github.com/davatorium/rofi.git'
+    dest: "{{ ansible_env.HOME }}/tools/rofi"
 - name: install rofi
-  become: yes
-  package: name=rofi state=present
-- name: create rofi dir
-  file: path="{{ ansible_env.HOME }}/.config/rofi/" state=directory
-- name: link rofi config
-  file: >
-    src="{{ role_path }}/files/rofi.config"
-    dest={{ ansible_env.HOME }}/.config/rofi/config
-    state=link
+  shell: cd ~/tools/rofi && mkdir build && cd build && ../configure && make && sudo make install
