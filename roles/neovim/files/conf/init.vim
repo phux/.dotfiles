@@ -242,8 +242,10 @@ let g:mkdp_auto_start = 0
 "" search/navigate
 
 " smart search highligting
-let g:CoolTotalMatches = 1
-Plug 'romainl/vim-cool'
+" let g:CoolTotalMatches = 1
+" Plug 'romainl/vim-cool'
+Plug 'pgdouyon/vim-evanesco'
+" Plug 'junegunn/vim-slash'
 
 Plug 'wellle/targets.vim'
 
@@ -473,6 +475,7 @@ let g:hardtime_ignore_quickfix = 1
 let g:hardtime_maxcount = 1
 let g:hardtime_allow_different_key = 1
 let g:hardtime_ignore_buffer_patterns = ['coc-explorer', 'tagbar']
+let g:hardtime_timeout = 500
 
 """ ranger
 " Plug 'francoiscabrol/ranger.vim', {'on': ['RangerWorkingDirectory', 'RangerCurrentFile']} | Plug 'rbgrouleff/bclose.vim', {'on': ['RangerWorkingDirectory', 'RangerCurrentFile']}
@@ -676,7 +679,7 @@ hi Visual ctermfg=7 ctermbg=4
 hi Folded ctermfg=4
 hi Search ctermfg=0 ctermbg=10
 
-hi CocFloating ctermbg=18
+" hi CocFloating ctermbg=18
 
 
 
@@ -939,31 +942,24 @@ command! BufCloseOthers %bd|e#
 let g:tmux_navigator_disable_when_zoomed=1
 
 call coc#add_extension(
-      \ 'coc-css',
-      \ 'coc-html',
-      \ 'coc-json',
-      \ 'coc-yaml',
-      \ 'coc-prettier',
-      \ 'coc-python',
-      \ 'coc-eslint',
-      \ 'coc-sh',
-      \ 'coc-docker',
-      \ 'coc-git',
-      \ 'coc-calc',
-      \ 'coc-vimlsp',
-      \ 'coc-lists',
-      \ 'coc-yank',
-      \ 'coc-sql',
-      \ 'coc-snippets',
-      \ 'coc-explorer',
-      \ 'coc-go'
-      \ )
-      " \ 'coc-post',
-      " \ 'coc-tsserver',
-      " \ 'coc-tslint',
-      " \ 'coc-go'
-      " \ 'coc-pairs',
-      " \ 'coc-highlight',
+            \ 'coc-calc',
+            \ 'coc-css',
+            \ 'coc-docker',
+            \ 'coc-explorer',
+            \ 'coc-git',
+            \ 'coc-go',
+            \ 'coc-html',
+            \ 'coc-json',
+            \ 'coc-lists',
+            \ 'coc-prettier',
+            \ 'coc-pyright',
+            \ 'coc-sh',
+            \ 'coc-snippets',
+            \ 'coc-sql',
+            \ 'coc-vimlsp',
+            \ 'coc-yaml',
+            \ 'coc-yank'
+            \ )
 imap <C-j> <Plug>(coc-snippets-expand-jump)
 
 " gherkin: check step usages
@@ -1058,3 +1054,6 @@ imap <m-w> <esc>l:call MoveToEnd()<cr>
 function! MoveToEnd()
     normal! xep
 endfunction
+
+
+command! MockForInterface execute '!mockery -dir '.expand('%:h').' -name '.expand('<cword>').' -output '.expand('%:h').'/mocks'

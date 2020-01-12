@@ -46,7 +46,7 @@ nnoremap <buffer> <silent> <m-a> :CocCommand go.test.toggle<cr>
 nnoremap <buffer> <m-c> :GoCoverage toggle<cr>
 
 nnoremap <buffer> <leader>gt :CocCommand go.test.generate.exported<cr>
-nnoremap <buffer> <leader>gf :FillStruct<cr>
+" nnoremap <buffer> <leader>gf :FillStruct<cr>
 
 nnoremap <buffer> <f5> :DlvDebug<cr>
 nnoremap <buffer> <f6> :DlvTest<cr>
