@@ -1,4 +1,5 @@
 robbyrussell/oh-my-zsh folder:plugins/aws
+robbyrussell/oh-my-zsh folder:plugins/gcloud
 robbyrussell/oh-my-zsh folder:plugins/docker
 robbyrussell/oh-my-zsh folder:plugins/docker-compose
 robbyrussell/oh-my-zsh folder:plugins/golang
