@@ -1,0 +1,14 @@
+---
+
+- name: Create after/plugin dir
+  file:
+    path: "{{ neovim_config_dir }}/after/plugin"
+    state: directory
+
+- name: Link after/plugin files
+  file:
+    src: "{{ item }}"
+    dest: "{{ neovim_config_dir }}/after/plugin/{{ item | basename }}"
+    state: link
+  with_fileglob:
+    - after/*

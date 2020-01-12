@@ -6,9 +6,6 @@
     npm install -g {{ item }}
     executable=/bin/zsh
   with_items:
-    - dockerfile-language-server-nodejs
-    - bash-language-server
-    - yaml-language-server
     - typescript-language-server
     - intelephense
 
@@ -16,7 +13,7 @@
   shell: "{{ ansible_env.HOME }}/.local/bin/pip install --user 'python-language-server[all]'"
 
 # install phpactor language server:
-# echo "extension_manager.minimum_stability: dev" > ~/.config/phpactor/phpactor.yml 
+# echo "extension_manager.minimum_stability: dev" > ~/.config/phpactor/phpactor.yml
 # ~/.config/nvim/plugged/phpactor/bin/phpactor extension:install phpactor/language-server-extension
 #
 # ~/.config/nvim/plugged/phpactor/bin/phpactor extension:install phpactor/language-server-reference-finder-extension
