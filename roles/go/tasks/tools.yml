@@ -19,3 +19,13 @@
   shell: >
     source ~/.config/zsh/.zshrc &&
     go get -u github.com/ksubedi/gomove executable=/bin/zsh
+
+- name: install iferr
+  shell: >
+    source ~/.config/zsh/.zshrc &&
+    go get -u github.com/koron/iferr executable=/bin/zsh
+
+- name: install impl
+  shell: >
+    source ~/.config/zsh/.zshrc &&
+    go get -u github.com/josharian/impl executable=/bin/zsh
