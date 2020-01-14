@@ -262,17 +262,19 @@ function! AliasGoImport()
     end
 endfunction
 
-
+" dependency: go get -u github.com/josharian/impl
+" dependency: https://github.com/rhysd/vim-go-impl
 function! s:iface_sink(line)
     if !filereadable('go.mod')
-        echo 'no go.mod found in cwd'
+        echom 'no go.mod found in cwd'
         return
     endif
   let parts = split(a:line, '\t\zs')
   let l:path = parts[1][:-2]
-  let l:path = substitute(l:path, '..', '', '')
+  if l:path =~# '^\.\.\/'
+      let l:path = substitute(l:path, '../[^/]\+/', '/', '')
+  endif
   let l:path = substitute(l:path, '/\w\+.go$', '.', '')
-
   let l:interface = parts[0]
 
   let l:currentBasePackage = substitute(substitute(system('head -n 1 go.mod'), 'module ', '', ''), '\n\+$', '', '')
@@ -280,13 +282,13 @@ function! s:iface_sink(line)
   let l:receiver = expand('<cword>')
   let l:firstLetter = tolower(strpart(l:receiver, 0, 1))
 
-  exe ':GoImpl '.l:firstLetter.' *'.l:receiver.' '.l:interface
+  execute ':GoImpl '.l:firstLetter.' *'.l:receiver.' '.l:interface
 endfunction
 
 function! s:iface()
   call fzf#run({
   \ 'source':  'cat '.join(map(tagfiles(), 'fnamemodify(v:val, ":S")')).
-  \            '| grep -v -a ^!',
+  \            '| grep -v -a ^! | grep "interface "',
   \ 'options': '+m -d "\t" --with-nth 1,4.. -n 1 --tiebreak=index',
   \ 'down':    '40%',
   \ 'sink':    function('s:iface_sink')})
