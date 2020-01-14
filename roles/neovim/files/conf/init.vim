@@ -119,6 +119,7 @@ let g:gopher_map = 0
 Plug 'tenfyzhong/reftools.vim', {'for': 'go'}
 Plug 'sebdah/vim-delve', {'for': 'go'}
 Plug 'godoctor/godoctor.vim', {'for': 'go', 'on': 'Refactor'}
+Plug 'rhysd/vim-go-impl', {'for': 'go'}
 "" fzf
 Plug 'tweekmonster/fzf-filemru', {'on': 'FilesMru'}
 Plug 'zackhsi/fzf-tags', {'on': '<Plug>(fzf_tags)'}
