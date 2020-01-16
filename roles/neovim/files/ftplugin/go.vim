@@ -4,7 +4,8 @@ setlocal foldmethod=syntax
 setlocal foldlevel=1
 setlocal foldnestmax=1
 
-let b:ale_linters = ['gobuild', 'golangci-lint']
+let b:ale_linters = ['gobuild', 'golangci-lint', 'revive']
+let g:ale_go_golangci_lint_package=1
 let b:local_golangci_file = getcwd().'/.golangci.yml'
 let g:ale_go_golangci_lint_options = '--fast -D typecheck --config '.b:local_golangci_file
 if !filereadable('.golangci.yml')
@@ -15,7 +16,14 @@ let g:revive_config_file = '.revive.toml'
 if !filereadable('.revive.toml')
   let g:revive_config_file = '~/.revive.toml'
 endif
-
+call ale#linter#Define('go', {
+\   'name': 'revive',
+\   'output_stream': 'both',
+\   'executable': 'revive',
+\   'read_buffer': 0,
+\   'command': 'revive %t',
+\   'callback': 'ale#handlers#unix#HandleAsWarning',
+\})
 " let g:go_addtags_transform='camelcase'
 
 " load oldsql bindings
