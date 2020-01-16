@@ -13,13 +13,14 @@
       go get -u github.com/golangci/golangci-lint/cmd/golangci-lint
       executable=/bin/zsh
 
-  - name: Link .golangci-lint config
+  - name: Link .golangci-lint & config
     file:
-      src: "{{item}}"
+      src: "{{ item }}"
       dest: "{{ ansible_env.HOME }}/{{ item | basename }}"
       state: link
     with_fileglob:
-      - .golangci.yml
+    - .golangci.yml
+    - .revive.toml
 
   when: golangci_lint_installed.rc != 0
 
