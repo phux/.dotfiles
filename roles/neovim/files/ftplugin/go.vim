@@ -16,12 +16,13 @@ let g:revive_config_file = '.revive.toml'
 if !filereadable('.revive.toml')
   let g:revive_config_file = '~/.revive.toml'
 endif
+let g:revive_cmd = 'revive -config '.g:revive_config_file.' %t'
 call ale#linter#Define('go', {
 \   'name': 'revive',
 \   'output_stream': 'both',
 \   'executable': 'revive',
 \   'read_buffer': 0,
-\   'command': 'revive %t',
+\   'command': g:revive_cmd,
 \   'callback': 'ale#handlers#unix#HandleAsWarning',
 \})
 " let g:go_addtags_transform='camelcase'
