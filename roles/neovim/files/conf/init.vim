@@ -120,6 +120,7 @@ Plug 'tenfyzhong/reftools.vim', {'for': 'go'}
 Plug 'sebdah/vim-delve', {'for': 'go'}
 Plug 'godoctor/godoctor.vim', {'for': 'go', 'on': 'Refactor'}
 Plug 'rhysd/vim-go-impl', {'for': 'go'}
+" Plug 'mattn/vim-goimpl', {'for': 'go'}
 "" fzf
 Plug 'tweekmonster/fzf-filemru', {'on': 'FilesMru'}
 Plug 'zackhsi/fzf-tags', {'on': '<Plug>(fzf_tags)'}
@@ -285,9 +286,9 @@ let g:EasyMotion_use_smartsign_us = 1 " US layout
 nnoremap <leader>n :CocCommand explorer<cr>
 
 """ netrw
-Plug 'justinmk/vim-dirvish', {'on': 'Expl'}
-let g:netrw_banner = 0
-nnoremap - :Expl<cr>
+" Plug 'justinmk/vim-dirvish', {'on': 'Expl'}
+" let g:netrw_banner = 0
+" nnoremap - :Expl<cr>
 
 """ tmux
 

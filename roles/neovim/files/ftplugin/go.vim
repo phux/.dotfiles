@@ -105,7 +105,7 @@ let g:go_def_mode = 'godef'
 " let g:go_def_mode = 'guru'
 
 nnoremap <buffer> <leader>il :Iface<cr>
-nnoremap <buffer> <leader>is :GoImpl<cr>
+nnoremap <buffer> <leader>is :GoImpl
 
 vnoremap <m-e> :'<,'>d<cr>:call GoExtractFunc()<cr>
 function! GoExtractFunc()
@@ -282,6 +282,7 @@ function! s:iface_sink(line)
   let l:receiver = expand('<cword>')
   let l:firstLetter = tolower(strpart(l:receiver, 0, 1))
 
+  normal! %j
   execute ':GoImpl '.l:firstLetter.' *'.l:receiver.' '.l:interface
 endfunction
 

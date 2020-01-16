@@ -14,9 +14,10 @@
   "suggest.detailField": "abbr",
   "suggest.enablePreselect": false,
   "suggest.maxCompleteItemCount": 200,
+  "suggest.triggerAfterInsertEnter": true,
   "diagnostic.enable": false,
   "diagnostic.messageTarget": "echo",
-  "diagnostic.displayByAle": true,
+  "diagnostic.displayByAle": false,
   "diagnostic.checkCurrentLine": true,
   "diagnostic.refreshAfterSave": true,
   "diagnostic.refreshOnInsertMode": true,
@@ -71,8 +72,7 @@
   "go.goplsOptions": {
     "usePlaceholders": true,
     "completeUnimported": true,
-    "deepCompletion": true,
-    "staticcheck": true
+    "deepCompletion": true
   },
   "go.goplsPath": "~/code/go/bin/gopls"
 }
