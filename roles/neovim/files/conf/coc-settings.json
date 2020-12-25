@@ -106,7 +106,7 @@
     { "http://json.schemastore.org/composer": "/composer.json" },
     { "http://json.schemastore.org/package": "/package.json" }
   ],
-  "git.enableGutters": true,
+  "git.enableGutters": false,
   "coc.source.issues.enable": false,
   "git.realtimeGutters": false,
   "git.addedSign.hlGroup": "GitGutterAdd",

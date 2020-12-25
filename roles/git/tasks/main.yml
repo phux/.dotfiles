@@ -3,7 +3,8 @@
 - include: install.yml
 - include: templates.yml
 - include: config.yml
-- include: diff-so-fancy.yml
+# replacing with git fuzzy
+# - include: diff-so-fancy.yml
 
 - name: Link global gitignore
   file:

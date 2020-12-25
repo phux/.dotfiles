@@ -29,15 +29,16 @@
 
 # TODO: need to patch alt-l to alt-f (i n config.h)
 
-- name: check bat executable is present
-  shell: "which bat"
-  register: result
+- name: check bat version
+  command: bat -v
+  register: bat_version_check
   ignore_errors: true
 
 - name: download & install bat
+  become: yes
   apt:
-    deb: https://github.com/sharkdp/bat/releases/download/v0.17.1/bat_0.17.1_amd64.deb
-  when: result.rc != 0
+    deb: https://github.com/sharkdp/bat/releases/download/v{{ bat_version }}/bat_{{ bat_version }}_amd64.deb
+  when: bat_version_check.stdout_lines is not defined or bat_version_check.stdout_lines != "bat {{ bat_version }}"
 
 - name: Link helper scripts
   file:
@@ -46,3 +47,11 @@
     state: link
   with_fileglob:
     - scripts/*
+
+- name: Link xresources
+  file: >
+    src={{item}}
+    dest={{ ansible_env.HOME }}/{{ item | basename }}
+    state=link
+  with_fileglob:
+    - .*

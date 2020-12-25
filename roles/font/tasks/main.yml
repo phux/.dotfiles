@@ -33,9 +33,13 @@
   - name: make font dir
     file: path={{ ansible_env.HOME }}/.local/share/fonts/ state=directory
 
+  - name: make tmp dir
+    file: path=/tmp/FiraCode/ state=directory
+
+
   - name: Download and unarchive
     unarchive:
-      src: https://github.com/tonsky/FiraCode/releases/download/5.2/Fira_Code_v5.2.zip
+      src: https://github.com/tonsky/FiraCode/releases/download/{{ firacode_version }}/Fira_Code_v{{ firacode_version }}.zip
       dest: /tmp/FiraCode
       remote_src: yes
 

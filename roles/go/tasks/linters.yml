@@ -15,8 +15,8 @@
   - .golangci.yml
   - .revive.toml
 
-- name: installing revive
-  shell: >
-    source ~/.config/zsh/.zshrc &&
-    go get -u github.com/mgechev/revive
-    executable=/bin/zsh
+# - name: installing revive
+#   shell: >
+#     source ~/.config/zsh/.zshrc &&
+#     go get -u github.com/mgechev/revive
+#     executable=/bin/zsh

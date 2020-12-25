@@ -36,6 +36,6 @@
   - name: installing joplin GUI
     shell: >
       source ~/.config/zsh/.zshrc &&
-      wget https://github.com/laurent22/joplin/releases/download/v1.4.19/Joplin-1.4.19-x86_64.AppImage -O ~/.local/bin/joplin-gui && chmod +x ~/.local/bin/joplin-gui
+      wget https://github.com/laurent22/joplin/releases/download/v{{ joplin_gui_version }}/Joplin-{{ joplin_gui_version }}-x86_64.AppImage -O ~/.local/bin/joplin-gui && chmod +x ~/.local/bin/joplin-gui
       executable=/bin/zsh
   when: joplin_gui_installed.stat.exists == false

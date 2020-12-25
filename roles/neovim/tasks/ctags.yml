@@ -14,5 +14,5 @@
   ignore_errors: yes
   when: ctags_check.rc != 0
 
-# - name: update & install ctags
-#   shell: cd {{ ansible_env.HOME }}/tools/ctags/ && git pull && ./autogen.sh && ./configure && make && sudo make install
+- name: update & install ctags
+  shell: cd {{ ansible_env.HOME }}/tools/ctags/ && git pull && ./autogen.sh && ./configure && make && sudo make install
