@@ -1,8 +1,7 @@
 ---
 - name: check rbenv version
-  command: rbenv -v
+  shell: rbenv -v || /bin/true
   register: rbenv_version_check
-  ignore_errors: true
 
 - block:
   - name: ruby deps
@@ -37,7 +36,7 @@
       force=yes
     ignore_errors: yes
 
-  when: rbenv_version_check.stdout_lines is not defined or rbenv_version_check.stdout_lines != "rbenv {{ rbenv_version }}"
+  when: "rbenv_version_check.stdout.find('rbenv ' ~ rbenv_version) == -1"
 
 - name: install ruby {{ ruby_version }}
   shell: $SHELL -lc "{{ ansible_env.HOME }}/.rbenv/bin/rbenv install --skip-existing {{ ruby_version }} && {{ ansible_env.HOME }}/.rbenv/bin/rbenv global {{ ruby_version }}"

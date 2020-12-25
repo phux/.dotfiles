@@ -31,15 +31,14 @@
 # TODO: need to patch alt-l to alt-f (i n config.h)
 
 - name: check bat version
-  command: bat --version
+  shell: bat --version || /bin/true
   register: bat_version_check
-  ignore_errors: true
 
 - name: download & install bat
   become: yes
   apt:
     deb: https://github.com/sharkdp/bat/releases/download/v{{ bat_version }}/bat_{{ bat_version }}_amd64.deb
-  when: bat_version_check.stdout_lines is not defined or bat_version_check.stdout_lines != "bat {{ bat_version }}"
+  when: "bat_version_check.stdout.find('bat ' ~ bat_version) == -1"
 
 - name: Link helper scripts
   file:

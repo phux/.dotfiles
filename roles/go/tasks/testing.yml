@@ -1,8 +1,7 @@
 ---
 - name: check mockery version
-  command: mockery --version
+  shell: mockery --version || /bin/true
   register: mockery_version_check
-  ignore_errors: true
 
 - block:
   - name: get and extract archive
@@ -16,4 +15,4 @@
       mv /tmp/mockery {{ ansible_env.HOME }}/.local/bin/ &&
       chmod +x {{ ansible_env.HOME }}/.local/bin/mockery
 
-  when: mockery_version_check.stdout_lines is not defined or mockery_version_check.stdout_lines != go_mockery_version
+  when: "mockery_version_check.stdout_lines != go_mockery_version"
