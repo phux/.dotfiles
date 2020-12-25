@@ -82,6 +82,9 @@ vim.o.splitright = true
 vim.g.terraform_align = 1
 vim.g.terraform_fmt_on_save = 1
 
+vim.cmd("set diffopt+=algorithm:histogram")
+vim.cmd("set diffopt+=vertical")
+
 -- vim.api.nvim_set_keymap('n', '<leader>of', ':Telescope find_files<cr>', {noremap = true})
 vim.api.nvim_set_keymap("n", "<leader>of", ":FZF<cr>", {noremap = true})
 
