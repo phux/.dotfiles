@@ -1,10 +1,10 @@
 ---
 - name: install antibody
-  shell: curl -sL git.io/antibody | bash -s
+  shell: curl -sL git.io/antibody | sh -s - -b ~/.local/bin
   ignore_errors: true
 
 - name: update antibody plugins
   shell: >
     source ~/.config/zsh/.zshrc &&
-    antibody update
+    ~/.local/bin/antibody update
     executable=/bin/zsh

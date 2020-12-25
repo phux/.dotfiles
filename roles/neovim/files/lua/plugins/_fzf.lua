@@ -1,4 +1,5 @@
 -- vim.api.nvim_set_keymap("n", "<leader>st", ":Rg ", {noremap = true})
+vim.api.nvim_set_keymap("n", "<leader>ob", ":Buffers<CR>", {noremap = true})
 
 vim.api.nvim_set_keymap("n", "<leader>su", "<cmd>lua RgUnderCursor()<CR>", {noremap = true})
 

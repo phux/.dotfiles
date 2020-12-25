@@ -1,6 +1,8 @@
 ---
-- stat: path={{ ansible_env.HOME }}/.rbenv
-  register: rbenv_check
+- name: check rbenv version
+  command: rbenv -v
+  register: rbenv_version_check
+  ignore_errors: true
 
 - block:
   - name: ruby deps
@@ -15,7 +17,7 @@
     git: >
       repo=https://github.com/rbenv/rbenv.git
       dest={{ ansible_env.HOME }}/.rbenv
-      version=v1.1.2
+      version={{ rbenv_version }}
       accept_hostkey=yes
       force=yes
     ignore_errors: yes
@@ -35,7 +37,7 @@
       force=yes
     ignore_errors: yes
 
-  when: rbenv_check.stat.exists == False
+  when: rbenv_version_check.stdout_lines is not defined or rbenv_version_check.stdout_lines != "rbenv {{ rbenv_version }}"
 
-- name: install ruby 2.7.1
-  shell: $SHELL -lc "{{ ansible_env.HOME }}/.rbenv/bin/rbenv install --skip-existing 2.7.1 && {{ ansible_env.HOME }}/.rbenv/bin/rbenv global 2.7.1"
+- name: install ruby {{ ruby_version }}
+  shell: $SHELL -lc "{{ ansible_env.HOME }}/.rbenv/bin/rbenv install --skip-existing {{ ruby_version }} && {{ ansible_env.HOME }}/.rbenv/bin/rbenv global {{ ruby_version }}"

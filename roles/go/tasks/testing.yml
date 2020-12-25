@@ -1,6 +1,19 @@
 ---
+- name: check mockery version
+  command: mockery --version
+  register: mockery_version_check
+  ignore_errors: true
 
-- name: install mockery
-  shell: >
-    source ~/.config/zsh/.zshrc &&
-    go get -u github.com/vektra/mockery/.../ executable=/bin/zsh
+- block:
+  - name: get and extract archive
+    unarchive:
+      src: "https://github.com/vektra/mockery/releases/download/v{{ go_mockery_version }}/mockery_{{ go_mockery_version }}_Linux_x86_64.tar.gz"
+      dest: /tmp
+      remote_src: yes
+
+  - name: move binary
+    shell: >
+      mv /tmp/mockery {{ ansible_env.HOME }}/.local/bin/ &&
+      chmod +x {{ ansible_env.HOME }}/.local/bin/mockery
+
+  when: mockery_version_check.stdout_lines is not defined or mockery_version_check.stdout_lines != go_mockery_version

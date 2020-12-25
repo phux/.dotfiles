@@ -9,4 +9,5 @@
   shell: curl -fsSL https://github.com/Schniz/fnm/raw/master/.ci/install.sh |  bash -s -- --skip-shell
 
 - name: installing node & npm
-  shell: source ~/.config/zsh/.zshrc && fnm install v14.15.1 && fnm default v14.15.1 executable=/bin/zsh
+  shell: >
+    source ~/.config/zsh/.zshrc && fnm install {{ node_version }} && fnm default {{ node_version }} executable=/bin/zsh
