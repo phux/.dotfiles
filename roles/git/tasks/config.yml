@@ -16,29 +16,29 @@
 - git_config:
     name: pull.rebase
     scope: global
-    value: true
+    value: "true"
 - git_config:
     name: fetch.prune
     scope: global
-    value: true
+    value: "true"
 - git_config:
     name: rebase.autoStash
     scope: global
-    value: true
+    value: "true"
 
 - git_config:
     name: rerere.enabled
     scope: global
-    value: true
+    value: "true"
 - git_config:
     name: rerere.autoupdate
     scope: global
-    value: true
+    value: "true"
 
 - git_config:
     name: advice.statusHints
     scope: global
-    value: false
+    value: "false"
 
 - git_config:
     name: diff.algorithm
@@ -53,7 +53,7 @@
 - git_config:
     name: diff.mnemonicprefix
     scope: global
-    value: true
+    value: "true"
 
 - git_config:
     name: url.diff.whitespace
@@ -68,12 +68,12 @@
 - git_config:
     name: difftool.prompt
     scope: global
-    value: false
+    value: "false"
 
 - git_config:
     name: difftool.trustExitCode
     scope: global
-    value: true
+    value: "true"
 
 - git_config:
     name: merge.tool
@@ -83,22 +83,22 @@
 - git_config:
     name: mergetool.prompt
     scope: global
-    value: false
+    value: "false"
 
 - git_config:
     name: mergetool.keepBackup
     scope: global
-    value: false
+    value: "false"
 
 - git_config:
     name: commit.verbose
     scope: global
-    value: true
+    value: "true"
 
 - git_config:
     name: color.ui
     scope: global
-    value: true
+    value: "true"
 
 - git_config:
     name: color.diff-highlight.oldNormal

@@ -1,7 +1,15 @@
 ---
-- name: install antibody
-  shell: curl -sL git.io/antibody | sh -s - -b ~/.local/bin
-  ignore_errors: true
+# - name: install antibody
+#   shell: curl -sL git.io/antibody | 
+#   ignore_errors: true
+
+- name: Download antibody installer
+  get_url:
+    url: https://git.io/antibody
+    dest: /tmp/antibodyinstaller.sh
+
+- name: Execute the antibody installer
+  shell: sh -s  -b ~/.local/bin /tmp/antibodyinstaller.sh
 
 - name: update antibody plugins
   shell: >
