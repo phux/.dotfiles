@@ -321,7 +321,7 @@ alias cprof='go tool pprof -http=":9001" cprofile.out'
 alias mprof='go tool pprof -http=":9001" mprofile.out'
 alias gt='richgo test ./...'
 
-alias ez='n $ZDOTDIR/.zshrc;source $ZDOTDIR/.zshrc'
+alias ez='n ~/.dotfiles/roles/zsh/files/zsh/.zshrc;source $ZDOTDIR/.zshrc'
 alias .d='cd ~/.dotfiles'
 alias ma='make'
 alias mt='make test'
@@ -454,7 +454,6 @@ if [ -f '$HOME/Downloads/google-cloud-sdk/completion.zsh.inc' ]; then . '$HOME/D
 # To customize prompt, run `p10k configure` or edit ~/.config//zsh//.p10k.zsh.
 [[ ! -f ~/.config//zsh//.p10k.zsh ]] || source ~/.config//zsh//.p10k.zsh
 
-
 if test -f "$TERM_BRIGHT"; then
     export BAT_THEME="gruvbox-light"
     xrdb -merge ~/.gruvbox-light.Xresources
@@ -469,12 +468,4 @@ export PATH="$HOME/.rbenv/versions/2.7.1/bin:$PATH"
 
 # fnm
 export PATH=$HOME/.fnm:$PATH
-eval "`fnm env`"
-
-# fnm
-export PATH=/home/jan/.fnm:$PATH
-eval "`fnm env`"
-
-# fnm
-export PATH=/home/jan/.fnm:$PATH
 eval "`fnm env`"
