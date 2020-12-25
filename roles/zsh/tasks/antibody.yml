@@ -1,7 +1,8 @@
 ---
-# - name: install antibody
-#   shell: curl -sL git.io/antibody | 
-#   ignore_errors: true
+- name: Creates .local/bin directory
+  file:
+    path: "{{ansible_env.HOME}}/.local/bin"
+    state: directory
 
 - name: Download antibody installer
   get_url:
@@ -9,10 +10,9 @@
     dest: /tmp/antibodyinstaller.sh
 
 - name: Execute the antibody installer
-  shell: sh -s  -b ~/.local/bin /tmp/antibodyinstaller.sh
+  shell: sh -s  -b {{ ansible_env.HOME }}/.local/bin /tmp/antibodyinstaller.sh
 
 - name: update antibody plugins
   shell: >
-    source ~/.config/zsh/.zshrc &&
-    ~/.local/bin/antibody update
+    {{ ansible_env.HOME }}/.local/bin/antibody update
     executable=/bin/zsh
