@@ -22,3 +22,23 @@
     file: path=/tmp/hackfont/ state=absent
 
   when: hack_font_check.stat.exists == False
+
+
+
+- stat: path={{ ansible_env.HOME }}/.local/share/fonts/FiraCode-Regular.ttf
+  register: firacode_font_check
+
+- block:
+
+  - name: make font dir
+    file: path={{ ansible_env.HOME }}/.local/share/fonts/ state=directory
+
+  - name: Download and unarchive
+    unarchive:
+      src: https://github.com/tonsky/FiraCode/releases/download/5.2/Fira_Code_v5.2.zip
+      dest: /tmp/FiraCode
+
+  - name: Move directory contents
+    command: cp -r /tmp/FiraCode/ttf/. {{ ansible_env.HOME }}/.local/share/fonts/
+
+  when: firacode_font_check.stat.exists == False

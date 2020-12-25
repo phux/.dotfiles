@@ -151,13 +151,17 @@ $${1:variableName} = new ${2:${1/\w+\s*/\u$0/}}($3);
 $0
 endsnippet
 
-snippet vgs "PHP Class Getter Setter" !b
+snippet vgs "PHP Class Getter Setter"
+/**
+ * @var $2
+ */
 private $${1:var};
+
 
 /**
  * @return $2
  */
-public function get${1/\w+\s*/\u$0/}(): $2
+public function get${1/\w+\s*/$0/}(): $2
 {
     return $this->$1;
 }
@@ -167,7 +171,7 @@ public function get${1/\w+\s*/\u$0/}(): $2
  *
  * @return $this
  */
-public function set${1/\w+\s*/\u$0/}($2 $$1)
+public function set${1/\w+\s*/$0/}($2 $$1): self
 {
     $this->$1 = $$1;
 
@@ -439,17 +443,9 @@ snippet class "Class declaration template" b
 
 declare(strict_types = 1);
 
-namespace `!p
-relpath = os.path.relpath(path)
-m = re.search(r'[A-Z].+(?=/)', relpath)
-if m:
-	snip.rv = m.group().replace('/', '\\')
-`;
+namespace `!p snip.rv = get_namespace()`;
 
-/**
- * Class `!p snip.rv=snip.basename`
- */
-class `!p snip.rv=snip.basename`
+class `!p snip.rv = class_name_from_file()`
 {
 }
 endsnippet
@@ -470,7 +466,7 @@ snippet c "php namespace and class" b
 
 namespace `!p snip.rv = get_namespace()`;
 
-final class `!p snip.rv = class_name_from_file()`
+class `!p snip.rv = class_name_from_file()`
 {
 	$0
 }
@@ -564,59 +560,136 @@ class `!p snip.rv = class_name_from_file()` extends TestCase
 endsnippet
 
 snippet throw "Throw a new exception"
-throw new ${1:\\Exception}(${2:sprintf('$3', )});
+$message = sprintf(
+	'$1',
+	$2,
+);
+throw new \\$3Exception($message);
+endsnippet
+
+snippet sp "sprintf"
+$message = sprintf(
+	'$1',
+	$2,
+);
+endsnippet
+
+snippet tli "this->logger->info()"
+$this->logger->info($1);
+endsnippet
+
+snippet tle "this->logger->error()"
+$this->logger->error($1);
+endsnippet
+
+snippet tl "this->logger->()"
+$this->logger->$1($2);
+endsnippet
+
+snippet throwh "Throw a new http exception"
+$message = ${1:sprintf('$2', )};
+throw new \\HttpException($message);
 endsnippet
 
 snippet throbf "Throw a BadFunctionCallException"
-throw new \\BadFunctionCallException(${1:sprintf('$2', )});
+$message = ${1:sprintf('$2', )};
+throw new \\BadFunctionCallException($message);
 endsnippet
 
 snippet throwbm "Throw a BadMethodCallException"
-throw new \\BadMethodCallException(${1:sprintf('$2', )});
+$message = sprintf(
+	'$1',
+	$2
+);
+throw new \\BadMethodCallException($message);
 endsnippet
 
 snippet throwd "Throw a DomainException"
-throw new \\DomainException(${1:sprintf('$2', )});
+$message = sprintf(
+	'$1',
+	$2
+);
+throw new \\DomainException($message);
 endsnippet
 
 snippet throwi "Throw an InvalidArgumentException"
-throw new \\InvalidArgumentException(${1:sprintf('$2', )});
+$message = sprintf(
+	'$1',
+	$2
+);
+throw new \\InvalidArgumentException($message);
 endsnippet
 
 snippet throwle "Throw a LengthException"
-throw new \\LengthException(${1:sprintf('$2', )});
+$message = sprintf(
+	'$1',
+	$2
+);
+throw new \\LengthException($message);
 endsnippet
 
 snippet throwlo "Throw a LogicException"
-throw new \\LogicException(${1:sprintf('$2', )});
+$message = sprintf(
+	'$1',
+	$2
+);
+throw new \\LogicException($message);
 endsnippet
 
 snippet throwob "Throw an OutOfBoundsException"
-throw new \\OutOfBoundsException(${1:sprintf('$2', )});
+$message = sprintf(
+	'$1',
+	$2
+);
+throw new \\OutOfBoundsException($message);
 endsnippet
 
 snippet throwor "Throw an OutOfRangeException"
-throw new \\OutOfRangeException(${1:sprintf('$2', )});
+$message = sprintf(
+	'$1',
+	$2
+);
+throw new \\OutOfRangeException($message);
 endsnippet
 
 snippet throwo "Throw an OverflowException"
-throw new \\OverflowException(${1:sprintf('$2', )});
+$message = sprintf(
+	'$1',
+	$2
+);
+throw new \\OverflowException($message);
 endsnippet
 
 snippet throwra "Throw a RangeException"
-throw new \\RangeException(${1:sprintf('$2', )});
+$message = sprintf(
+	'$1',
+	$2
+);
+throw new \\RangeException($message);
 endsnippet
 
 snippet throwru "Throw a RuntimeException"
-throw new \\RuntimeException(${1:sprintf('$2', )});
+$message = sprintf(
+	'$1',
+	$2
+);
+throw new \\RuntimeException($message);
 endsnippet
 
 snippet throwu "Throw an UnderflowException"
-throw new \\UnderflowException(${1:sprintf('$2', )});
+$message = sprintf(
+	'$1',
+	$2
+);
+throw new \\UnderflowException($message);
 endsnippet
 
 snippet throwuv "Throw an UnexpectedValueException"
-throw new \\UnexpectedValueException(${1:sprintf('$2', )});
+$message = sprintf(
+	'$1',
+	$2
+);
+throw new \\UnexpectedValueException($message);
 endsnippet
 
 snippet uuid "Uuid wrapper class"
@@ -717,5 +790,50 @@ snippet su "phpunit setup"
 protected function setUp()
 {
     $1
+}
+endsnippet
+
+snippet as "self::assertSame"
+self::assertSame(${1:$expected}, ${2:$actual});
+endsnippet
+
+snippet ae "self::assertEquals"
+self::assertEquals(${1:$expected}, ${2:$actual});
+endsnippet
+
+
+snippet con "php constructor" b
+public function __construct($1)
+{
+	$0
+}
+endsnippet
+
+snippet inn "if is not numeric"
+if (!is_numeric($1)) {
+  throw new \InvalidArgumentException(sprintf('$1 %s is not numeric', $1));
+}
+endsnippet
+
+snippet ie "if empty"
+if ($1empty($2)) {
+  $0
+}
+endsnippet
+
+snippet iet "if empty throw exception"
+if ($1empty($2)) {
+  throw new \RuntimeException(sprintf('$1 %s cannot be empty', $1));
+}
+endsnippet
+
+snippet cm "create mock"
+$$1 = $this->createMock($1::class);
+endsnippet
+
+snippet test "test"
+public function test$1(): void
+{
+  $0
 }
 endsnippet

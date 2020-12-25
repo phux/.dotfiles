@@ -1,24 +1,36 @@
+export TERM=st-256color
+# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.config//zsh//.zshrc.
+# Initialization code that may require console input (password prompts, [y/n]
+# confirmations, etc.) must go above this block, everything else may go below.
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+
 # zmodload zsh/zprof
 
-export FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --follow -g "!{.git,node_modules}/*" 2> /dev/null'
+export FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --follow -g "!.git/" -g "!node_modules" -g "!/*/vendor/*" -g "!vendor/*" -g "!*.neon" -g "!composer.lock" -g "!*/var/*" -g "!var/*" -g "!*/cache/*"  2> /dev/null'
 
-if [[ ! -n $TMUX ]]; then
-  # get the IDs
-  ID="`tmux list-sessions`"
-  if [[ -z "$ID" ]]; then
-    tmux new-session
-  fi
-  create_new_session="Create New Session"
-  ID="$ID\n${create_new_session}:"
-  ID="`echo $ID | fzf | cut -d: -f1`"
-  if [[ "$ID" = "${create_new_session}" ]]; then
-    tmux new-session
-  elif [[ -n "$ID" ]]; then
-    tmux attach-session -t "$ID"
-  else
-    :  # Start terminal normally
-  fi
-fi
+export FZF_BIN_PATH="$HOME/.fzf/bin"
+
+# if [[ ! -n $TMUX ]]; then
+#   # get the IDs
+#   ID="`tmux list-sessions`"
+#   if [[ -z "$ID" ]]; then
+#     tmux new-session
+#   fi
+#   create_new_session="Create New Session"
+#   ID="$ID\n${create_new_session}:"
+#   ID="`echo $ID | fzf | cut -d: -f1`"
+#   if [[ "$ID" = "${create_new_session}" ]]; then
+#     tmux new-session
+#   elif [[ -n "$ID" ]]; then
+#     tmux attach-session -t "$ID"
+#   else
+#     :  # Start terminal normally
+#   fi
+# fi
+
+# todo: why do i need to set this to get proper colors
 
 WORDCHARS='*?_-[]~=&;!#$%^(){}<>'
 
@@ -40,7 +52,7 @@ export VISUAL=$EDITOR
 [[ -s "$HOME/.gvm/scripts/gvm" ]] && source "$HOME/.gvm/scripts/gvm"
 export GOPATH="$HOME/code/go"
 export LGOBIN="$HOME/code/go/bin"
-export FZF_BIN_PATH="$HOME/.fzf/bin"
+export PATH=$PATH:$HOME/bin:$HOME/.local/bin:$HOME/.composer/vendor/bin:$FZF_BIN_PATH:$LGOBIN:$HOME/.config/composer/vendor/bin:$HOME/.config/nvim/plugged/phpactor/bin:$HOME/.gem/ruby/2.7.0/bin:$HOME/.gem/ruby/2.5.0/bin:$HOME/.cargo/bin/
 
 HISTSIZE='100000';
 HISTFILESIZE="${HISTSIZE}";
@@ -67,19 +79,11 @@ setopt HIST_REDUCE_BLANKS        # Remove superfluous blanks before recording en
 setopt HIST_VERIFY               # Don't execute immediately upon history expansion.
 setopt CORRECT
 setopt AUTO_CD
-setopt AUTO_PUSHD PUSHD_TO_HOME
+setopt AUTO_PUSHD
+setopt PUSHD_IGNORE_DUPS
 # setopt interactivecomments
 
-function toggle_colors() {
-    if [ -z $TERM_COLOR ]
-    then
-        xrdb -merge ~/.Xresources.papercolor
-        export TERM_COLOR="papercolor"
-    else
-        xrdb ~/.Xresources
-        export TERM_COLOR=''
-    fi
-}
+export TERM_BRIGHT='/tmp/term.bright'
 
 # Highlight section titles in manual pages.
 export LESS_TERMCAP_md="${yellow}";
@@ -90,7 +94,16 @@ export MANPAGER='less -X';
 alias update_antibody="antibody bundle < $XDG_CONFIG_HOME/zsh/antibody_plugins.txt  > $XDG_CONFIG_HOME/zsh/cached_plugins.sh; antibody update"
 
 alias sdn='sudo shutdown now -h'
-alias update='sudo apt-fast update && sudo apt-fast -y upgrade; update_antibody; cd ~/tools/golang_tools/ && gl && cd cmd/gopls/ && go install; n +PU'
+function update() {
+    sudo apt-fast update && sudo apt-fast -y upgrade;
+    antibody bundle < $XDG_CONFIG_HOME/zsh/antibody_plugins.txt  > $XDG_CONFIG_HOME/zsh/cached_plugins.sh; antibody update
+    ~/.tmux/plugins/tpm/bin/update_plugins all;
+    # npm -g i intelephense joplin typescript-language-server jsonlint fixjson markdownlint-cli instant-markdown-d neovim stylelint write-good remark-lint tern eslint tern-lint typescript eslint-config-standard eslint-plugin-node eslint-plugin-promise eslint-plugin-standard htmllint csslint prettier;
+    npm -g i intelephense joplin typescript-language-server jsonlint fixjson markdownlint-cli instant-markdown-d neovim stylelint write-good remark-lint tern tern-lint typescript htmllint csslint prettier;
+    cd ~/tools/golang_tools/ && git pull && cd gopls/ && go install;
+    nvim -c 'CocUpdate|q';
+    nvim +PackerUpdate;
+}
 alias agi='sudo apt-fast install'
 
 alias vu='vagrant up'
@@ -100,12 +113,15 @@ alias vp='vagrant provision'
 
 alias dcup='docker-compose up'
 alias dcstop='docker-compose stop'
-alias dcdn='docker-compose down'
+alias dcdn='docker-compose down -v --remove-orphans'
 alias dce='docker-compose exec'
 alias dcl='docker-compose logs'
 alias dclf='docker-compose logs -f'
 
-alias ob='observr autotest.rb'
+alias tf='terraform'
+alias tfw='terraform workspace'
+
+alias ob='observr observer.rb'
 
 alias ls="ls --color=auto"
 alias l='ls -lFh'     #size,show type,human readable
@@ -114,13 +130,13 @@ alias ll='ls -l'      #long list
 
 alias grep='grep --color'
 
-alias cat='bat --plain'
+alias cat='bat'
 
 # disable c-s and c-q freeze
-stty stop ''
-stty start ''
-stty -ixon
-stty -ixoff
+# stty stop ''
+# stty start ''
+# stty -ixon
+# stty -ixoff
 
 # show branches ordered by last commit date
 alias gb="git for-each-ref --sort=committerdate refs/heads/ --format='%(committerdate:short) %(refname:short)'"
@@ -139,6 +155,9 @@ alias gcb='git checkout -b'
 alias gco='git checkout'
 alias gd='git diff'
 alias gds='git diff --staged'
+alias gdh='n +"Git! difftool"'
+alias gmt='n +"Git mergetool"'
+alias gdm='n +"Gdiff $(git merge-base master HEAD)"'
 alias gfa='git fetch --all'
 alias glum='git pull upstream master'
 alias gpsup='git push --set-upstream origin $(git_current_branch)'
@@ -147,8 +166,9 @@ alias gl='git pull'
 # alias glog="git log --graph --abbrev-commit --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset'"
 alias glp="git log --first-parent --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset'"
 alias glm="git log --first-parent --merges --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset'"
-alias gm='git merge'
+alias gm='git merge -X histogram'
 alias gmp='git merge -X patience'
+alias gmd='git merge'
 alias gp='git push'
 alias grp='git rebase -i @{u}'
 alias gr='git rebase'
@@ -163,14 +183,16 @@ alias gclean='git branch --merged | egrep -v "(^\*|master|dev)" | xargs git bran
 
 alias d='dirs -v | head -10'
 alias 1='cd -'
-alias 2='cd -2'
-alias 3='cd -3'
-alias 4='cd -4'
-alias 5='cd -5'
-alias 6='cd -6'
-alias 7='cd -7'
-alias 8='cd -8'
-alias 9='cd -9'
+alias 2='cd +2'
+alias 3='cd +3'
+alias 4='cd +4'
+alias 5='cd +5'
+alias 6='cd +6'
+alias 7='cd +7'
+alias 8='cd +8'
+alias 9='cd +9'
+
+alias asciicast2gif='docker run --rm -v $PWD:/data asciinema/asciicast2gif'
 
 function git_current_branch() {
   local ref
@@ -204,7 +226,8 @@ fo() {
 }
 
 
-gbf() {
+# b - checkout git branch/tag (only local)
+b() {
   local branches branch
   branches=$(git for-each-ref --count=90 --sort=-committerdate refs/heads/ --format="%(refname:short)") &&
   branch=$(echo "$branches" |
@@ -212,13 +235,13 @@ gbf() {
   git checkout $(echo "$branch" | sed "s/.* //" | sed "s#remotes/[^/]*/##")
 }
 
-# fco - checkout git branch/tag
+# fco - checkout git branch/tag including remote
 fco() {
   local tags branches target
   tags=$(
     git tag | awk '{print "\x1b[31;1mtag\x1b[m\t" $1}') || return
   branches=$(
-    git branch --all | grep -v HEAD             |
+    git branch --all --sort=-committerdate | grep -v HEAD             |
     sed "s/.* //"    | sed "s#remotes/[^/]*/##" |
     sort -u          | awk '{print "\x1b[34;1mbranch\x1b[m\t" $1}') || return
   target=$(
@@ -285,7 +308,7 @@ bindkey -e
 # http://www.drbunsen.org/vim-croquet/ analysing
 # alias nvim='nvim -w ~/.nvim_keylog "$@"'
 
-alias n='nvim'
+alias n='~/tools/neovim/build/bin/nvim'
 alias c='composer'
 alias ci='composer install --no-progress --prefer-dist --profile'
 alias cu='composer update --no-progress --prefer-dist --profile'
@@ -293,7 +316,9 @@ alias cu='composer update --no-progress --prefer-dist --profile'
 alias efg='exercism download --track=go'
 alias es='exercism submit'
 alias eg='cd $HOME/code/exercism/go/$(ls -t $HOME/code/exercism/go/ | head -1)'
-alias gtb='go test -bench .'
+alias gtb='go test -bench=. -benchmem -cpuprofile cprofile.out -memprofile mprofile.out'
+alias cprof='go tool pprof -http=":9001" cprofile.out'
+alias mprof='go tool pprof -http=":9001" mprofile.out'
 alias gt='richgo test ./...'
 
 alias ez='n $ZDOTDIR/.zshrc;source $ZDOTDIR/.zshrc'
@@ -344,11 +369,14 @@ compdef _tmuxinator tmuxinator mux
 
 alias m='~/.tmux/mux.sh'
 alias mux='tmuxinator'
+alias tmux='tmux -2'
 
+export TMUX_PLUGIN_MANAGER_PATH="$HOME/.tmux/plugins/"
 alias tm='todotxt-machine'
 alias tnn='n ~/Dropbox/todo/work/todo.txt'
 alias tn='n ~/Dropbox/todo/todo.txt'
 alias nn='n +RecentNotes'
+alias gdt='n +"Git difftool -y"'
 alias glog='n +GV'
 
 function zd() {
@@ -411,12 +439,42 @@ export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
-export PATH=$PATH:$HOME/bin:$HOME/.local/bin:$HOME/.composer/vendor/bin:$FZF_BIN_PATH:$LGOBIN:$HOME/.config/composer/vendor/bin:$HOME/.config/nvim/plugged/phpactor/bin
-export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
+export JAVA_HOME="/usr/lib/jvm/java-11-openjdk-amd64"
 
-
-# fnm
-export PATH=~/.fnm:$PATH
-eval "`fnm env --multi`"
 
 # zprof
+source ~/.powerlevel10k/powerlevel10k.zsh-theme
+
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '$HOME/Downloads/google-cloud-sdk/path.zsh.inc' ]; then . '$HOME/Downloads/google-cloud-sdk/path.zsh.inc'; fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f '$HOME/Downloads/google-cloud-sdk/completion.zsh.inc' ]; then . '$HOME/Downloads/google-cloud-sdk/completion.zsh.inc'; fi
+
+# To customize prompt, run `p10k configure` or edit ~/.config//zsh//.p10k.zsh.
+[[ ! -f ~/.config//zsh//.p10k.zsh ]] || source ~/.config//zsh//.p10k.zsh
+
+
+if test -f "$TERM_BRIGHT"; then
+    export BAT_THEME="gruvbox-light"
+    xrdb -merge ~/.gruvbox-light.Xresources
+else
+    export BAT_THEME="gruvbox"
+    xrdb ~/.Xresources
+fi
+
+if [ -f '~/.gtm.sh' ]; then . ~/.gtm.sh ;fi
+
+export PATH="$HOME/.rbenv/versions/2.7.1/bin:$PATH"
+
+# fnm
+export PATH=$HOME/.fnm:$PATH
+eval "`fnm env`"
+
+# fnm
+export PATH=/home/jan/.fnm:$PATH
+eval "`fnm env`"
+
+# fnm
+export PATH=/home/jan/.fnm:$PATH
+eval "`fnm env`"

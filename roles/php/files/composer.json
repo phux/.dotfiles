@@ -1,16 +1,22 @@
 {
-    "config": {
-        "prestissimo": {
-            "maxConnections": 8,
-            "minConnections": 3
-        }
-    },
-    "minimum-stability": "dev",
-    "require": {
-        "hirak/prestissimo": "dev-master",
-        "felixfbecker/language-server": "dev-master",
-        "phpactor/phpactor": "dev-master",
-        "phpactor/language-server": "^0.2.0@dev"
-    },
-    "require-dev": {}
+  "config": {
+    "prestissimo": {
+      "maxConnections": 8,
+      "minConnections": 3
+    }
+  },
+  "minimum-stability": "dev",
+  "require": {
+    "hirak/prestissimo": "dev-master",
+    "phpstan/phpstan": "@stable",
+    "phpmd/phpmd": "@stable",
+    "squizlabs/php_codesniffer": "@stable",
+    "friendsofphp/php-cs-fixer": "^2.17@dev",
+    "brianium/paratest": "dev-master",
+    "spatie/phpunit-watcher": "dev-master",
+    "infection/infection": "dev-master",
+    "phpstan/phpstan-phpunit": "^0.12.0@dev",
+    "escapestudios/symfony2-coding-standard": "3.x-dev"
+  },
+  "require-dev": {}
 }

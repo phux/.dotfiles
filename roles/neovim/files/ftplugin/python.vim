@@ -1,3 +1,3 @@
-setlocal foldenable
-setlocal foldmethod=indent
-setlocal foldnestmax=1
+" setlocal foldenable
+" setlocal foldmethod=indent
+" setlocal foldnestmax=1

@@ -6,7 +6,8 @@
   register: i3_is_installed
   changed_when: false
 
-- block:
+- name: install i3
+  block:
 
   - name: Create i3 config directory
     file: path={{ i3_config_dir }} state=directory

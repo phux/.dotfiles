@@ -1,8 +1,4 @@
 ---
 
-- block:
-  - include: php5.6.yml
-  - include: php7.2.yml
-  - include: composer.yml
-  # only needed @ work
-  when: ansible_hostname != "phux"
+- include: php.yml
+- include: composer.yml

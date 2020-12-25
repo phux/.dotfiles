@@ -1,29 +1,43 @@
 {
   "languageserver": {
-    "intelephense": {
-            "command": "intelephense",
-            "args": ["--stdio"],
-            "filetypes": ["php"],
-            "initializationOptions": {
-                "storagePath": "/tmp/intelephense"
-            }
-        }
+    "terraform": {
+      "command": "terraform-lsp",
+      "filetypes": ["terraform", "tf"],
+      "initializationOptions": {}
+    }
   },
   "suggest.snippetIndicator": " ►",
-  "suggest.echodocSupport": false,
-  "suggest.detailField": "abbr",
+  "suggest.echodocSupport": true,
   "suggest.enablePreselect": false,
   "suggest.maxCompleteItemCount": 200,
   "suggest.triggerAfterInsertEnter": true,
-  "diagnostic.enable": false,
-  "diagnostic.messageTarget": "echo",
-  "diagnostic.displayByAle": false,
-  "diagnostic.checkCurrentLine": true,
-  "diagnostic.refreshAfterSave": true,
-  "diagnostic.refreshOnInsertMode": true,
-  "diagnostic.virtualText": true,
+  "diagnostic.enable": true,
+  "diagnostic.displayByAle": true,
   "html.format.enable": true,
+  "html.validate.html": true,
+  "html.validate.styles": true,
+  "html.validate.scripts": true,
+  "html.filetypes": ["html", "handlebars", "htmldjango", "html.twig"],
   "coc.preferences.hoverTarget": "float",
+  "intelephense.completion.insertUseDeclaration": true,
+  "intelephense.completion.triggerParameterHints": true,
+  "intelephense.files.exclude": [
+    "**/.git/**",
+    "**/.svn/**",
+    "**/.hg/**",
+    "**/CVS/**",
+    "**/.docker/**",
+    "**/.idea/**",
+    "**/assets/**",
+    "**/.DS_Store/**",
+    "**/node_modules/**",
+    "**/bower_components/**",
+    "**/vendor/**/{Test,test,Tests,tests}/**",
+    "**/.history/**",
+    "**/vendor/**/vendor/**",
+    "**/var/**"
+  ],
+  "intelephense.diagnostics.enable": false,
   "signature.preferShownAbove": false,
   "signature.hideOnTextChange": true,
   "yaml.trace.server": "verbose",
@@ -32,20 +46,66 @@
   "yaml.format.enable": true,
   "yaml.hover": true,
   "yaml.schemas": {
-    "https://raw.githubusercontent.com/awslabs/goformation/master/schema/cloudformation.schema.json": "/*",
     "https://raw.githubusercontent.com/softprops/serverless-yml-schema/master/serverless-schema.json": "/serverless.yaml",
     "http://json.schemastore.org/circleciconfig": "/.circleci/config.yml",
-    "https://raw.githubusercontent.com/docker/compose/master/compose/config/config_schema_v3.0.json": "/docker-compose*.yml",
-    "kubernetes": "/*.yaml"
+    "http://json.schemastore.org/github-workflow": "/.github/workflows/*.yml",
+    "https://raw.githubusercontent.com/docker/compose/master/compose/config/config_schema_v3.0.json": "/docker-compose*ml",
+    "https://raw.githubusercontent.com/OAI/OpenAPI-Specification/master/schemas/v2.0/schema.json": "/swagger.yml"
   },
-  "yaml.customTags": ["!And scalar", "!And mapping", "!And sequence", "!If scalar", "!If mapping", "!If sequence", "!Not scalar", "!Not mapping", "!Not sequence", "!Equals scalar", "!Equals mapping", "!Equals sequence", "!Or scalar", "!Or mapping", "!Or sequence", "!FindInMap scalar", "!FindInMap mappping", "!FindInMap sequence", "!Base64 scalar", "!Base64 mapping", "!Base64 sequence", "!Cidr scalar", "!Cidr mapping", "!Cidr sequence", "!Ref scalar", "!Ref mapping", "!Ref sequence", "!Sub scalar", "!Sub mapping", "!Sub sequence", "!GetAtt scalar", "!GetAtt mapping", "!GetAtt sequence", "!GetAZs scalar", "!GetAZs mapping", "!GetAZs sequence", "!ImportValue scalar", "!ImportValue mapping", "!ImportValue sequence", "!Select scalar", "!Select mapping", "!Select sequence", "!Split scalar", "!Split mapping", "!Split sequence", "!Join scalar", "!Join mapping", "!Join sequence"],
+  "yaml.customTags": [
+    "!And scalar",
+    "!And mapping",
+    "!And sequence",
+    "!If scalar",
+    "!If mapping",
+    "!If sequence",
+    "!Not scalar",
+    "!Not mapping",
+    "!Not sequence",
+    "!Equals scalar",
+    "!Equals mapping",
+    "!Equals sequence",
+    "!Or scalar",
+    "!Or mapping",
+    "!Or sequence",
+    "!FindInMap scalar",
+    "!FindInMap mapping",
+    "!FindInMap sequence",
+    "!Base64 scalar",
+    "!Base64 mapping",
+    "!Base64 sequence",
+    "!Cidr scalar",
+    "!Cidr mapping",
+    "!Cidr sequence",
+    "!Ref scalar",
+    "!Ref mapping",
+    "!Ref sequence",
+    "!Sub scalar",
+    "!Sub mapping",
+    "!Sub sequence",
+    "!GetAtt scalar",
+    "!GetAtt mapping",
+    "!GetAtt sequence",
+    "!GetAZs scalar",
+    "!GetAZs mapping",
+    "!GetAZs sequence",
+    "!ImportValue scalar",
+    "!ImportValue mapping",
+    "!ImportValue sequence",
+    "!Select scalar",
+    "!Select mapping",
+    "!Select sequence",
+    "!Split scalar",
+    "!Split mapping",
+    "!Split sequence",
+    "!Join scalar",
+    "!Join mapping",
+    "!Join sequence"
+  ],
   "json.schemas": [
     { "http://json.schemastore.org/composer": "/composer.json" },
     { "http://json.schemastore.org/package": "/package.json" }
   ],
-  "java.errors.incompleteClasspath.severity": "ignore",
-  "java.implementationsCodeLens.enabled": true,
-  "java.referencesCodeLens.enabled": true,
   "git.enableGutters": true,
   "coc.source.issues.enable": false,
   "git.realtimeGutters": false,
@@ -57,6 +117,7 @@
   "git.addGBlameToBufferVar": true,
   "yank.enableCompletion": true,
   "yank.highlight.duration": 100,
+  "explorer.file.showHiddenFiles": true,
   "explorer.quitOnOpen": true,
   "explorer.sources": [
     {
@@ -64,15 +125,74 @@
       "expand": true
     }
   ],
-  "explorer.file.columns": ["selection", "clip", "indent", "icon", "filename"],
-  "explorer.keyMappings": {
+  "explorer.file.child.template": "[selection | clip | 1] [indent][icon | 1] [filename omitCenter 1] [linkIcon & 1][link growRight 1 omitCenter 5]",
+  "explorer.keyMappings.global": {
     "u": "gotoParent"
   },
-  "go.enable":  true,
+  "explorer.previewAction.onHover": false,
+  "codeLens.enable": true,
+  "coc.preferences.extensionUpdateCheck": "daily",
+  "coc.preferences.currentFunctionSymbolAutoUpdate": true,
+  "xml.java.home": "/usr/lib/jvm/java-11-openjdk-amd64",
+  "coc.preferences.formatOnSaveFiletypes": ["go", "json", "typescriptreact"],
+  "go.goplsPath": "/home/jan/code/go/bin/gopls",
+  "go.goplsArgs": ["-logfile", "/tmp/gopls.log", "-rpc.trace", "-v"],
+  "go.goplsUseDaemon": true,
   "go.goplsOptions": {
     "usePlaceholders": true,
-    "completeUnimported": true,
-    "deepCompletion": true
+    "gofumpt": true,
+    "codelenses": {
+      "generate": true
+    },
+    "analyses": {
+      "fillreturns": true,
+      "fieldalignment": true,
+      "undeclaredname": true,
+      "staticcheck": true
+    }
   },
-  "go.goplsPath": "~/code/go/bin/gopls"
+  "solargraph.hover": true,
+  "solargraph.rename": true,
+  "solargraph.definitions": true,
+  "solargraph.checkGemVersion": true,
+  "solargraph.completion": true,
+  "solargraph.formatting": true,
+  "solargraph.autoformat": true,
+  "solargraph.diagnostics": true,
+  "solargraph.useBundler": true,
+  "eslint.filetypes": [
+    "javascript",
+    "javascriptreact",
+    "typescript",
+    "typescriptreact"
+  ],
+  "eslint.autoFixOnSave": false,
+  "prettier.disableSuccessMessage": true,
+  "prettier.trailingComma": "es5",
+  "prettier.eslintIntegration": true,
+  "tsserver.formatOnType": true,
+  "cSpell.userWords": [
+    "GmbH",
+    "Vite",
+    "autoformat",
+    "bson",
+    "circleci",
+    "dupl",
+    "echodoc",
+    "gofumpt",
+    "gopls",
+    "hardcoding",
+    "htmldjango",
+    "intelephense",
+    "logfile",
+    "mrkdwn",
+    "openjdk",
+    "paypal",
+    "plutov",
+    "solargraph",
+    "symfony"
+  ],
+  "cSpellExt.enableDictionaries": ["german"],
+  "cSpell.language": "en,de",
+  "Lua.diagnostics.globals": ["vim"]
 }

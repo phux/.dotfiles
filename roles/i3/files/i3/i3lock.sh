@@ -1,3 +1,3 @@
 #!/bin/bash
 
-i3lock -i ~/Pictures/locked4.png
+i3lock -i ~/Pictures/locked6.png

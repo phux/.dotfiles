@@ -10,10 +10,3 @@
     state=link
   with_fileglob:
    - .*
-
-- name: link urxvt plugins
-  file: >
-    src="{{ role_path }}/files/ext/"
-    dest="{{ ansible_env.HOME }}/.urxvt/ext"
-    state=link
-    force=yes

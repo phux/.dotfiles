@@ -1,21 +1,14 @@
 ---
 
-- name: check to see if neovim is already installed
-  command: "nvim --version"
-  ignore_errors: true
-  register: neovim_is_installed
-  changed_when: false
-
 - include: coc-nvim.yml
 
-- block:
-
+- name: run includes
+  block:
   - include: install_nvim.yml
   - include: pip.yml
   - include: colors.yml
   - include: ftplugin.yml
   - include: ctags.yml
-  - include: plug.yml
   - include: linters.yml
 
   - name: creating project file
@@ -23,8 +16,6 @@
       content: ""
       dest: "{{ ansible_env.HOME }}/.projects.private.vim"
       force: no
-
-  when: neovim_is_installed.rc != 0
 
 - name: Create coc.nvim UltiSnips dir
   file: path={{ config_dir }}/coc/ultisnips state=directory
@@ -64,3 +55,17 @@
   with_fileglob:
     - .tern-config
     - .eslintrc.json
+
+- name: install/update plugins
+  shell: >
+    source ~/.config/zsh/.zshrc &&
+    nvim +PackerUpdate +PackerCompile +CocUpdate +qall!
+    executable=/bin/zsh
+
+- name: link autoload files
+  file: >
+    src={{item}}
+    dest={{ config_dir }}/{{ item }}
+    state=link
+  with_fileglob:
+    - autoload

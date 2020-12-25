@@ -8,6 +8,7 @@ linters:
     - gochecknoinits
     - wsl
     - gomnd
+    - lll
   # #   - lll
   # fast: true
   # enable:

@@ -1,6 +1,8 @@
 ---
 - name: add ppa
-  apt_repository: repo="ppa:phoerious/keepassxc" state=present
+  apt_repository:
+    repo: ppa:phoerious/keepassxc
+    state: present
   become: yes
   when: ansible_service_mgr == 'apt'
 

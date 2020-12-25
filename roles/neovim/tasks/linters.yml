@@ -28,64 +28,35 @@
 
   when: last_gem_linter_check.rc != 0
 
-- block:
-  - name: link easy-coding-standard configs
-    file:
-      src: "{{ item }}"
-      dest: "{{ ansible_env.HOME }}/{{ item | basename }}"
-      state: link
-    with_fileglob:
-      - linters/.easy-coding-standard*
-  # only @ work
-  when: ansible_hostname != "phux"
+- name: installing linters/tools via npm
+  shell: >
+    source ~/.config/zsh/.zshrc &&
+    npm install -g
+    jsonlint fixjson markdownlint-cli instant-markdown-d serverless neovim
+    stylelint write-good remark-lint tern eslint tern-lint typescript
+    eslint-config-standard eslint-plugin-node eslint-plugin-promise
+    eslint-plugin-standard htmllint
+    csslint prettier tree-sitter lua-fmt
+    executable=/bin/zsh
 
-- name: Check if last npm linter is installed
-  shell: source ~/.config/zsh/.zshrc && prettier --version executable=/bin/zsh
-  ignore_errors: true
-  register: last_npm_linter_check
-  changed_when: false
+- name: installing linters via pip
+  shell: "{{ ansible_env.HOME }}/.local/bin/pip install --user {{ item }}"
+  with_items:
+    - pyflakes
+    - proselint
+    - yamllint
+    - ansible-lint
+    - vim-vint
+    - cfn-lint
+    - gitlint
 
-- block:
-  - name: installing linters/tools via npm
-    shell: >
-      source ~/.config/zsh/.zshrc &&
-      npm install -g
-      jsonlint fixjson markdownlint-cli instant-markdown-d serverless neovim
-      stylelint write-good remark-lint tern eslint tern-lint typescript
-      eslint-config-standard eslint-plugin-node eslint-plugin-promise
-      eslint-plugin-standard javascript-typescript-langserver tslint htmllint
-      csslint prettier
-      executable=/bin/zsh
-  when: last_npm_linter_check.rc != 0
+- name: create yamllint dir
+  file: path={{ config_dir }}/yamllint state=directory
 
-
-- name: Check if last pip linter is installed
-  command: "gitlint --version"
-  ignore_errors: true
-  register: last_pip_linter_check
-  changed_when: false
-
-- block:
-  - name: installing linters via pip
-    shell: "{{ ansible_env.HOME }}/.local/bin/pip install --user {{ item }}"
-    with_items:
-      - pyflakes
-      - proselint
-      - yamllint
-      - ansible-lint
-      - vim-vint
-      - cfn-lint
-      - gitlint
-
-  - name: create yamllint dir
-    file: path={{ config_dir }}/yamllint state=directory
-
-  - name: link yamllint cfg
-    file:
-      src: "{{ item }}"
-      dest: "{{ config_dir }}/yamllint/config"
-      state: link
-    with_fileglob:
-      - linters/yamllint
-
-  when: last_pip_linter_check.rc != 0
+- name: link yamllint cfg
+  file:
+    src: "{{ item }}"
+    dest: "{{ config_dir }}/yamllint/config"
+    state: link
+  with_fileglob:
+    - linters/yamllint

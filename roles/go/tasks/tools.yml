@@ -5,21 +5,6 @@
     source ~/.config/zsh/.zshrc &&
     go get -u golang.org/x/perf/cmd/benchstat executable=/bin/zsh
 
-- name: install goweight
-  shell: >
-    source ~/.config/zsh/.zshrc &&
-    go get -u github.com/jondot/goweight executable=/bin/zsh
-
-- name: install gobin
-  shell: >
-    source ~/.config/zsh/.zshrc &&
-    go get -u github.com/rjeczalik/bin/cmd/gobin executable=/bin/zsh
-
-- name: install gomove
-  shell: >
-    source ~/.config/zsh/.zshrc &&
-    go get -u github.com/ksubedi/gomove executable=/bin/zsh
-
 - name: install iferr
   shell: >
     source ~/.config/zsh/.zshrc &&
@@ -29,3 +14,13 @@
   shell: >
     source ~/.config/zsh/.zshrc &&
     go get -u github.com/josharian/impl executable=/bin/zsh
+
+- name: install gofumpt
+  shell: >
+    source ~/.config/zsh/.zshrc &&
+    go get -u mvdan.cc/gofumpt executable=/bin/zsh
+
+- name: install delve
+  shell: >
+    source ~/.config/zsh/.zshrc &&
+    go get -u github.com/go-delve/delve/cmd/dlv executable=/bin/zsh

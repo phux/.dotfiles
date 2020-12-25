@@ -3,7 +3,6 @@ dependencies:
   - {role: pip}
   - {role: zsh}
   - {role: php}
-  - {role: ag}
   - {role: zip}
   - {role: go}
   - {role: ruby}

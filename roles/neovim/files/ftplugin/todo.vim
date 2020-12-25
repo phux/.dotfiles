@@ -1,6 +1,4 @@
-set foldenable
-let g:lexical#spell = 0
-
+" set foldenable
 
 " todo.txt colors
 highlight TodoDone       ctermfg=DarkGray
