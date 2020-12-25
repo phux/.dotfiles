@@ -159,6 +159,8 @@ vim.api.nvim_set_keymap("v", "<leader>p", '"+p', {noremap = true})
 vim.api.nvim_set_keymap("v", "<leader>y", '"+y', {noremap = true})
 -- vnoremap <silent> y y`]
 
+vim.api.nvim_set_keymap("n", "<leader>bt", ":TagbarOpenAutoClose<cr>", {noremap = true})
+
 vim.o.termguicolors = true
 
 require "colorizer".setup()

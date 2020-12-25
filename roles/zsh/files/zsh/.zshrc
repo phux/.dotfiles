@@ -460,3 +460,11 @@ export PATH="$HOME/.rbenv/versions/2.7.1/bin:$PATH"
 # fnm
 export PATH=$HOME/.fnm:$PATH
 eval "`fnm env`"
+
+# fnm
+export PATH=/home/jan/.fnm:$PATH
+eval "`fnm env`"
+
+# fnm
+export PATH=/home/jan/.fnm:$PATH
+eval "`fnm env`"

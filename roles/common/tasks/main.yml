@@ -48,3 +48,9 @@
 
 - name: install autorandr
   shell: "{{ ansible_env.HOME }}/.local/bin/pip install --user --upgrade autorandr"
+
+- name: install activitywatch
+  unarchive:
+    src: "https://github.com/ActivityWatch/activitywatch/releases/download/v0.10.0/activitywatch-v0.10.0-linux-x86_64.zip"
+    dest: "{{ ansible_env.HOME }}/Downloads"
+    remote_src: yes
