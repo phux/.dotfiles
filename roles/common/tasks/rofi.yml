@@ -1,15 +1,20 @@
 ---
 - name: Creates tools directory
   file:
-    path: "{{ ansible_env.HOME }}/tools"
+    path: "{{ config_dir }}/rofi/"
     state: directory
 
-- name: installing rofi deps
+- name: Link rofi config
+  file:
+    src: "{{ item }}"
+    dest: "{{ config_dir }}/rofi/config"
+    state: link
+  with_fileglob:
+  - rofi.config
+
+
+- name: installing rofi
   become: yes
-  package: name={{ item }} state=present
-  with_items:
-    - libgtk-3-dev
-
-# flex libxkbcommon-dev libxkbcommon-x11-dev
-
-# TODO: config
+  package:
+    name: "rofi"
+    state: present
