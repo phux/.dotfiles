@@ -67,10 +67,8 @@ require "plugins/_vimtest"
 if vim.fn.exists("g:colors_name") == 0 then
     if U.load_bright_theme() then
         vim.o.background = "light"
-    else
-        vim.o.background = "dark"
     end
-    vim.cmd("colorscheme gruvbox8")
+    vim.cmd("colorscheme gruvbox-material")
 end
 
 vim.o.hidden = true
@@ -98,8 +96,8 @@ vim.o.showcmd = true
 vim.o.cmdheight = 1 -- Height of the command bar
 vim.o.incsearch = true -- Makes search act like search in modern browsers
 vim.o.showmatch = false -- don't show matching brackets when text indicator is over them
--- vim.o.number = true -- show the actual number for the line we're on
 vim.cmd("set number")
+vim.cmd("set relativenumber")
 vim.o.ignorecase = true -- Ignore case when searching...
 vim.o.smartcase = true -- ... unless there is a capital letter in the query
 -- vim.o.signcolumn = "yes" -- always show the signcolumne to avoid flicker

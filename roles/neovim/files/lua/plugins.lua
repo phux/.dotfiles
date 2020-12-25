@@ -8,6 +8,7 @@ packer.init()
 use {"wbthomason/packer.nvim"}
 
 use {"lifepillar/vim-gruvbox8"}
+use {"sainnhe/gruvbox-material"}
 
 -- " For navigating b/w tmux window, specially for navigating with NERDTree
 use "christoomey/vim-tmux-navigator"
@@ -111,6 +112,8 @@ use {
     -- some optional icons
     requires = {"kyazdani42/nvim-web-devicons", opt = true}
 }
+
+use {"ThePrimeagen/vim-be-good", cmd = "VimBeGood"}
 
 local autocmds = {
     plugins = {
