@@ -31,7 +31,7 @@
 # TODO: need to patch alt-l to alt-f (i n config.h)
 
 - name: check bat version
-  command: bat -v
+  command: bat --version
   register: bat_version_check
   ignore_errors: true
 
