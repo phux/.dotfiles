@@ -56,6 +56,15 @@ use {"rhysd/git-messenger.vim"}
 use "tpope/vim-fugitive"
 use "tpope/vim-rhubarb"
 use {"whiteinge/diffconflicts", cmd = "DiffConflicts"}
+use {
+    "lewis6991/gitsigns.nvim",
+    requires = {
+        "nvim-lua/plenary.nvim"
+    },
+    config = function()
+        require("gitsigns").setup()
+    end
+}
 
 use {"AndrewRadev/splitjoin.vim", cmd = "SplitjoinSplit"}
 

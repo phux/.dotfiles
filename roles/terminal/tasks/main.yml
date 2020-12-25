@@ -19,13 +19,14 @@
   block:
     - name: clone st
       shell: >
-        git clone https://github.com/LukeSmithxyz/st.git
-        {{ ansible_env.HOME }}/tools/st && cd {{ ansible_env.HOME }}/tools/st
+        git clone https://github.com/phux/st.git
+        {{ ansible_env.HOME }}/tools/st && cd {{ ansible_env.HOME }}/tools/st &&
+        git remote add upstream https://github.com/LukeSmithxyz/st.git
   when: st_was_cloned.rc != 0
 
 - name: install/update st
   shell: >
-    cd {{ ansible_env.HOME }}/tools/st && git pull && sudo make install
+    cd {{ ansible_env.HOME }}/tools/st && git pull && git fetch upstream && git merge upstream/master && sudo make install
 
 # TODO: need to patch alt-l to alt-f (i n config.h)
 

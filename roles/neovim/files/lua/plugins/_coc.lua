@@ -13,7 +13,7 @@ vim.g.coc_global_extensions = {
     "coc-css",
     "coc-docker",
     "coc-explorer",
-    "coc-git",
+    -- "coc-git",
     "coc-html",
     "coc-lua",
     "coc-json",
