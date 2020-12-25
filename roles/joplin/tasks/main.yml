@@ -1,6 +1,9 @@
 ---
 - name: check to see if joplin-cli is already installed
-  command: "source ~/.config/zsh/.zshrc && joplin version"
+  shell: >
+    source ~/.config/zsh/.zshrc &&
+    joplin version
+    executable=/bin/zsh
   ignore_errors: true
   register: joplin_cli_installed
   changed_when: false
@@ -33,6 +36,6 @@
   - name: installing joplin GUI
     shell: >
       source ~/.config/zsh/.zshrc &&
-      wget https://github.com/laurent22/joplin/releases/download/v1.0.161/Joplin-1.0.161-x86_64.AppImage -O ~/.local/bin/joplin-gui && chmod +x ~/.local/bin/joplin-gui
+      wget https://github.com/laurent22/joplin/releases/download/v1.4.19/Joplin-1.4.19-x86_64.AppImage -O ~/.local/bin/joplin-gui && chmod +x ~/.local/bin/joplin-gui
       executable=/bin/zsh
   when: joplin_gui_installed.stat.exists == false

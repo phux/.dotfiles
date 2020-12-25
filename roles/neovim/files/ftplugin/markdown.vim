@@ -1,5 +1,11 @@
 " call lexical#init()
 
+augroup markdown
+  au BufWritePost *.md silent! !eval '[ -f ".git/hooks/ctags" ] && .git/hooks/ctags markdown' &
+  au BufNewFile,BufRead,BufEnter *.markdown set tags=.git/tags.markdown
+augroup end
+
+
 set nofoldenable
 let g:markdown_enable_mappings = 0
 let g:markdown_enable_folding = 0
@@ -30,7 +36,8 @@ let g:vim_markdown_frontmatter=1
 " setlocal linebreak
 " setlocal shiftwidth=2
 " setlocal tabstop=2
-setlocal spell
+
+" setlocal spell
 setlocal wrap
 
 set conceallevel=2

@@ -1,11 +1,48 @@
 ---
 - name: terminal
   become: yes
-  package: name={{ item }} state=latest
+  package:
+    name: "{{ item }}"
+    state: latest
   with_items:
     - ncdu
     - htop
     - ranger
 
-- name: installing purer-prompt
-  shell: source ~/.config/zsh/.zshrc && npm install -g purer-prompt executable=zsh
+- name: check to see if st fork is cloned
+  command: "ls {{ ansible_env.HOME }}/tools/st"
+  ignore_errors: true
+  register: st_was_cloned
+  changed_when: false
+
+- name: clone st fork
+  block:
+    - name: clone st
+      shell: >
+        git clone https://github.com/LukeSmithxyz/st.git
+        {{ ansible_env.HOME }}/tools/st && cd {{ ansible_env.HOME }}/tools/st
+  when: st_was_cloned.rc != 0
+
+- name: install/update st
+  shell: >
+    cd {{ ansible_env.HOME }}/tools/st && git pull && sudo make install
+
+# TODO: need to patch alt-l to alt-f (i n config.h)
+
+- name: check bat executable is present
+  shell: "which bat"
+  register: result
+  ignore_errors: true
+
+- name: download & install bat
+  apt:
+    deb: https://github.com/sharkdp/bat/releases/download/v0.17.1/bat_0.17.1_amd64.deb
+  when: result.rc != 0
+
+- name: Link helper scripts
+  file:
+    src: "{{ item }}"
+    dest: "{{ ansible_env.HOME }}/.local/bin/{{ item | basename }}"
+    state: link
+  with_fileglob:
+    - scripts/*

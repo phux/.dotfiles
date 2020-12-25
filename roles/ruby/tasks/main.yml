@@ -15,7 +15,7 @@
     git: >
       repo=https://github.com/rbenv/rbenv.git
       dest={{ ansible_env.HOME }}/.rbenv
-      version=v1.1.1
+      version=v1.1.2
       accept_hostkey=yes
       force=yes
     ignore_errors: yes
@@ -37,5 +37,5 @@
 
   when: rbenv_check.stat.exists == False
 
-- name: install ruby 2.5.1
-  shell: $SHELL -lc "{{ ansible_env.HOME }}/.rbenv/bin/rbenv install --skip-existing 2.5.1 && {{ ansible_env.HOME }}/.rbenv/bin/rbenv global 2.5.1"
+- name: install ruby 2.7.1
+  shell: $SHELL -lc "{{ ansible_env.HOME }}/.rbenv/bin/rbenv install --skip-existing 2.7.1 && {{ ansible_env.HOME }}/.rbenv/bin/rbenv global 2.7.1"

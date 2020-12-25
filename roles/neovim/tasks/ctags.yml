@@ -5,20 +5,14 @@
   register: ctags_check
   changed_when: false
 
-- block:
-    - name: clone ctags
-      git: >
-        repo=https://github.com/universal-ctags/ctags.git
-        dest=/tmp/ctags
-        accept_hostkey=yes
-        force=yes
-      ignore_errors: yes
-
-    - name: prepare ctags
-      shell: cd /tmp/ctags/ && ./autogen.sh && ./configure && make
-
-    - name: install ctags
-      become: yes
-      shell: cd /tmp/ctags/ && make install
-
+- name: clone ctags
+  git:
+    repo: https://github.com/universal-ctags/ctags.git
+    dest: "{{ ansible_env.HOME }}/tools/ctags"
+    accept_hostkey: yes
+    force: yes
+  ignore_errors: yes
   when: ctags_check.rc != 0
+
+# - name: update & install ctags
+#   shell: cd {{ ansible_env.HOME }}/tools/ctags/ && git pull && ./autogen.sh && ./configure && make && sudo make install

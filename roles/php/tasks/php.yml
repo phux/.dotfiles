@@ -1,0 +1,31 @@
+---
+- name: check to see if php is already installed
+  command: dpkg-query -l php
+  register: php_is_installed
+
+- name: install php & packages
+  apt:
+    state: latest
+    pkg:
+      - php
+      - php-common
+      - php-mysql
+      - php-mcrypt
+      - php-mbstring
+      - php-json
+      - php-curl
+      - php-gd
+      - php-intl
+      - php-cli
+      - php-xml
+      - php-bz2
+      - mcrypt
+      - openssl
+      - php-imagick
+      - php-memcached
+      - php-redis
+      - php-xdebug
+      - php-zip
+      - php-ast
+
+  when: php_is_installed.stdout == ""

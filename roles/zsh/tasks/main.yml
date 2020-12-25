@@ -1,20 +1,26 @@
 ---
 - name: zsh
   become: yes
-  package: name={{ item }} state=latest
+  package:
+    name: "{{ item }}"
+    state: latest
   with_items:
     - zsh
 
 - name: "Make ZSH default shell for user {{ ansible_env.USER }}"
-  user: name={{ ansible_env.USER }} shell=/bin/zsh
-  become: yes
+  user:
+    name: "{{ ansible_env.USER }}"
+    shell: /bin/zsh
 
 - name: copy global zshenv file
   become: yes
-  file: >
-    src=zshenv
-    dest=/etc/zsh/zshenv
-    state=file
+  copy:
+    src: zshenv
+    dest: /etc/zsh/zshenv
+    owner: root
+    group: root
+    mode: '0644'
+    backup: yes
 
 - name: create zsh dir
   file: path="{{ ansible_env.HOME }}/.config/zsh/" state=directory
@@ -26,5 +32,6 @@
     state=link
   with_fileglob:
     - zsh/*
+    - zsh/.*
 
 - include: antibody.yml

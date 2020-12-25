@@ -1,10 +1,10 @@
 all: bootstrap
 
 bootstrap:
-	sudo apt install ansible
+	sudo apt -y install ansible
 
 provision:
-	ansible-playbook playbook.yml
+	ansible-playbook -i ./hosts playbook.yml
 
 test:
 	vagrant up --provision

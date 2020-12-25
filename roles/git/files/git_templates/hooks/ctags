@@ -2,12 +2,6 @@
 set -e
 PATH="/usr/local/bin:$PATH"
 dir="`git rev-parse --git-dir`"
-trap 'rm -f "$dir/$$.tags"' EXIT
-if test -f "$dir/../go.mod"; then
-  sleep 1
-  ctags --tag-relative=yes -R -f "$dir/$$.tags" --languages=go
-else
-  ctags --tag-relative=yes -R -f "$dir/$$.tags" --fields=+aimlS  --PHP-kinds=-va
-fi
-# ctags --tag-relative -R -f "$dir/$$.tags" --fields=+aimlS --languages=php --PHP-kinds=+cf-va --exclude=var/cache --exclude=vendor/bin --exclude=composer.phar --exclude=web
-mv "$dir/$$.tags" "$dir/tags"
+trap 'rm -f "$dir/$$.tags.$1"' EXIT
+ctags --tag-relative -R -f "$dir/$$.tags.$1" --fields=+aimlS --languages=$1 --PHP-kinds=+cf-va --exclude=var/cache --exclude=vendor/bin --exclude=*.phar --exclude=web --exclude=assets --exclude=node_modules
+mv "$dir/$$.tags.$1" "$dir/tags.$1"

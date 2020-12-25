@@ -1,7 +1,0 @@
----
-
-- name: Install silversearcher (ag)
-  package:
-    name: silversearcher-ag
-    state: latest
-  become: yes

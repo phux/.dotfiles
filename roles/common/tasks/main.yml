@@ -1,5 +1,6 @@
 ---
 
+# TODO
 # - name: add dropbox source
 #   become: yes
 #   shell: >
@@ -9,37 +10,41 @@
 
 - name: install common tools
   become: yes
-  package: name={{ item }} state=present
-  with_items:
-    - wget
-    - build-essential
-    - automake
-    - autoconf
-    - pkg-config
-    - libssl-dev
-    - curl
-    - gdebi
-    - filezilla
-    - vagrant
-    - virtualbox
-    - thunar
-    - chromium-browser
-    - mousepad
-    - feh
-    - tidy
-    - dropbox
-    - autorandr
-    - parcellite
-    - openvpn
-    - brightnessctl
-    - xclip
-    - blueman
+  package:
+    state: latest
+    name:
+      - wget
+      - build-essential
+      - automake
+      - autoconf
+      - pkg-config
+      - libssl-dev
+      - curl
+      - gdebi
+      - filezilla
+      - vagrant
+      - virtualbox
+      - thunar
+      - chromium-browser
+      - mousepad
+      - feh
+      - tidy
+      - parcellite
+      - openvpn
+      - brightnessctl
+      - xclip
+      - blueman
+      - graphviz
+      - httpie
+
+- name: disable openvpn at boot
+  become: yes
+  shell: "update-rc.d openvpn disable"
 
 - include: rofi.yml
 
 - name: install todotxt-machine
   shell: "{{ ansible_env.HOME }}/.local/bin/pip install --user --upgrade todotxt-machine"
 
-- name: disable openvpn at boot
-  become: yes
-  shell: "update-rc.d openvpn disable"
+- name: install autorandr
+  shell: "{{ ansible_env.HOME }}/.local/bin/pip install --user --upgrade autorandr"

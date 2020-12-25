@@ -1,22 +1,34 @@
-setlocal noexpandtab tabstop=4 shiftwidth=4
-setlocal nofoldenable
-setlocal foldmethod=syntax
-setlocal foldlevel=1
-setlocal foldnestmax=1
+" setlocal noexpandtab tabstop=4 shiftwidth=4
+" setlocal nofoldenable
+" setlocal foldmethod=syntax
+" setlocal foldlevel=1
+" setlocal foldnestmax=1
 
-let b:ale_linters = ['gobuild', 'golangci-lint', 'revive']
+augroup golang
+  au BufWritePost *.go silent! !eval '[ -f ".git/hooks/ctags" ] && .git/hooks/ctags go' &
+  au BufWritePost *.go silent! !eval '[ -f "../.git/hooks/ctags" ] && ../.git/hooks/ctags go' &
+  au BufWritePost *.go silent! !eval '[ -f "../../.git/hooks/ctags" ] && ../../.git/hooks/ctags go' &
+  au BufNewFile,BufRead,BufEnter *.go set tags=.git/tags.go,../.git/tags.go,../../.git/hooks/tags.go
+  " au BufWritePre *.go :silent call CocAction('runCommand', 'editor.action.organizeImport')
+augroup end
+
+" let b:ale_linters = ['gobuild', 'golangci-lint']
+let b:ale_linters = ['golangci-lint']
+" let b:ale_linters = ['gopls']
+" let b:ale_linters = []
 let g:ale_go_golangci_lint_package=1
+let g:ale_go_staticcheck_lint_package=0
 let b:local_golangci_file = getcwd().'/.golangci.yml'
-let g:ale_go_golangci_lint_options = '--fast -D typecheck --config '.b:local_golangci_file
+let g:ale_go_golangci_lint_options = '--fix --fast --config '.b:local_golangci_file
 if !filereadable('.golangci.yml')
-  let g:ale_go_golangci_lint_options = '--fast -D typecheck --config ~/.golangci.yml'
+  let g:ale_go_golangci_lint_options = '--fast --fix --config ~/.golangci.yml'
 endif
 
 let g:revive_config_file = '.revive.toml'
 if !filereadable('.revive.toml')
   let g:revive_config_file = '~/.revive.toml'
 endif
-let g:revive_cmd = 'revive -config '.g:revive_config_file.' %t'
+let g:revive_cmd = 'revive -exclude vendor/... -config '.g:revive_config_file.' %t'
 call ale#linter#Define('go', {
 \   'name': 'revive',
 \   'output_stream': 'both',
@@ -25,7 +37,18 @@ call ale#linter#Define('go', {
 \   'command': g:revive_cmd,
 \   'callback': 'ale#handlers#unix#HandleAsWarning',
 \})
-" let g:go_addtags_transform='camelcase'
+
+call ale#fix#registry#Add('goline', 'RunGolines', ['go'], 'run goline on go files')
+function! RunGolines(buffer) abort
+    return {
+    \   'command': 'golines'
+    \       . ' -w'
+    \       . ' %t'
+    \       . '--base-formatter goimports'
+    \       . '-m 120',
+    \   'read_temporary_file': 1,
+    \}
+endfunction
 
 " load oldsql bindings
 " if !filereadable('go.mod')
@@ -38,29 +61,34 @@ call ale#linter#Define('go', {
 "     noremap <buffer> <leader>u :exec "GoImport ".expand("<cword>")<cr>
 " endif
 
-vnoremap <buffer> <leader>em :Refactor extract
-vnoremap <buffer> <leader>ev :call GoExtractVariable()<cr>
-nnoremap <buffer> <leader>gm :call GoMoveDirV2()<cr>
-noremap <buffer> <leader>h :Refactor godoc<cr>
-nnoremap <silent> <leader>D  :Tags<cr>
-nnoremap <buffer> <leader>ga :CocCommand go.tags.add json
-nnoremap <buffer> <leader>gA :CocCommand go.tags.remove.prompt<cr>
-" inoremap <silent><buffer> . <esc>:call AliasGoImport()<cr>
-nnoremap <buffer> <leader>ie :IfErr<cr>
-inoremap <buffer> <c-e> <c-o>:IfErr<cr>
+" nnoremap <buffer> <m-n> :call LanguageClient_contextMenu()<CR>
+" nnoremap <buffer> <silent> K :call LanguageClient#textDocument_hover()<CR>
+" nnoremap <buffer> <silent> <leader>nd :call LanguageClient#textDocument_definition()<CR>
+" nnoremap <buffer> <silent> <leader>rr :call LanguageClient#textDocument_rename()<CR>
+" nnoremap <buffer> <silent> <leader>nr :call LanguageClient#textDocument_references()<cr>
+" nnoremap <buffer> <silent> <leader>lf :call LanguageClient#textDocument_codeAction()<cr>
+vnoremap <buffer> <leader>rem :Refactor extract
+vnoremap <buffer> <leader>rev :call GoExtractVariable()<cr>
+nnoremap <buffer> <leader>rm :call GoMoveDirV2()<cr>
+noremap <buffer> <leader>rd :Refactor godoc<cr>
+nnoremap <buffer> <leader>oj :CocCommand go.tags.add json
+nnoremap <buffer> <leader>oJ :CocCommand go.tags.remove json
+nnoremap <buffer> <leader>oe :ThxIfErr<cr>
+nnoremap <buffer> <silent> <leader>na :CocCommand go.test.toggle<cr>
+" nnoremap <buffer> <leader>oc :GoCoverageToggle<cr>
+nnoremap <buffer> <leader>oc :GoCoverage toggle<cr>
+" nnoremap <buffer> <leader>os :<C-u>call CocActionAsync('codeLensAction')<CR>
+nnoremap <buffer> <leader>os :ThxFillStruct<cr>
+nnoremap <buffer> <leader>gt :CocCommand go.test.generate.function<cr>
+nnoremap <buffer> <leader>GT :CocCommand go.test.generate.exported<cr>
+nnoremap <buffer> <leader>om :Mockery<cr>
+command! Mockery execute 'normal! O//go:generate mockery --name '.expand('<cword>')
 
-" nnoremap <buffer> <leader>d :GoDeclsDir<cr>
-" nnoremap <buffer> <silent> <m-a> :GoAlternate!<cr>
-nnoremap <buffer> <silent> <m-a> :CocCommand go.test.toggle<cr>
-nnoremap <buffer> <m-c> :GoCoverage toggle<cr>
 
-nnoremap <buffer> <leader>gt :CocCommand go.test.generate.exported<cr>
-" nnoremap <buffer> <leader>gf :FillStruct<cr>
+nnoremap <buffer> <leader>ds :DlvDebug<cr>
+nnoremap <buffer> <leader>dt :DlvTest<cr>
+nnoremap <buffer> <leader>db :DlvToggleBreakpoint<cr>
 
-nnoremap <buffer> <f5> :DlvDebug<cr>
-nnoremap <buffer> <f6> :DlvTest<cr>
-nnoremap <buffer> <f7> :DlvToggleBreakpoint<cr>
-nnoremap <buffer> <f8> :DlvToggleTracepoint<cr>
 
 " visually mark the code you want to extract into variable
 " (for now only works with single line selection)
@@ -72,6 +100,7 @@ function! GoExtractVariable()
   normal! p
   normal! bgr
 endfunction
+
 
 let g:go_debug_windows = {
       \ 'stack':   'botright 10new',
@@ -274,147 +303,168 @@ endfunction
 " dependency: go get -u github.com/josharian/impl
 " dependency: https://github.com/rhysd/vim-go-impl
 function! s:iface_sink(line)
-    if !filereadable('go.mod')
-        echom 'no go.mod found in cwd'
+    let l:go_mod_path = 'go.mod'
+    if !filereadable(l:go_mod_path)
+        echom 'no go.mod found'
         return
     endif
-  let parts = split(a:line, '\t\zs')
-  let l:path = parts[1][:-2]
-  if l:path =~# '^\.\.\/'
-      let l:path = substitute(l:path, '../[^/]\+/', '/', '')
-  endif
-  let l:path = substitute(l:path, '/\w\+.go$', '.', '')
-  let l:interface = parts[0]
+    let parts = split(a:line, '\t\zs')
+    let l:path = parts[1][:-2]
+    if l:path =~# '^\.\.\/'
+        let l:path = substitute(l:path, '../[^/]\+/', '/', '')
+    endif
+    let l:path = substitute(l:path, '/\w\+.go$', '.', '')
+    let l:interface = parts[0]
 
-  let l:currentBasePackage = substitute(substitute(system('head -n 1 go.mod'), 'module ', '', ''), '\n\+$', '', '')
-  let l:interface = l:currentBasePackage.l:path.l:interface
-  let l:receiver = expand('<cword>')
-  let l:firstLetter = tolower(strpart(l:receiver, 0, 1))
+    let l:currentBasePackage = substitute(substitute(system('head -n 1 '.l:go_mod_path), 'module ', '', ''), '\n\+$', '', '')
+    let l:previous_cwd = getcwd()
+    let l:interface = l:currentBasePackage.l:path.l:interface
+    let l:receiver = expand('<cword>')
+    let l:firstLetter = tolower(strpart(l:receiver, 0, 1))
 
-  normal! %j
-  execute ':GoImpl '.l:firstLetter.' *'.l:receiver.' '.l:interface
+    normal! %j
+    let l:cmd = ':GoImpl '.l:firstLetter.' *'.l:receiver.' '.l:interface
+    echom l:cmd
+    execute l:cmd
+    execute ':cd '.l:previous_cwd
 endfunction
 
 function! s:iface()
-  call fzf#run({
-  \ 'source':  'cat '.join(map(tagfiles(), 'fnamemodify(v:val, ":S")')).
-  \            '| grep -v -a ^! | grep "interface "',
-  \ 'options': '+m -d "\t" --with-nth 1,4.. -n 1 --tiebreak=index',
-  \ 'down':    '40%',
-  \ 'sink':    function('s:iface_sink')})
+    call fzf#run({
+                \ 'source':  'cat '.join(map(tagfiles(), 'fnamemodify(v:val, ":S")')).
+                \            '| grep -v -a ^! | grep "interface "',
+                \ 'options': '+m -d "\t" --with-nth 1,4.. -n 1 --tiebreak=index',
+                \ 'down':    '40%',
+                \ 'sink':    function('s:iface_sink')})
 endfunction
 
 command! Iface call s:iface()
 
 
 function! FixGoAleIssues()
-  let l:buffer = bufnr('')
-  let [l:info, l:loc] = ale#util#FindItemAtCursor(l:buffer)
-  if !empty(l:loc)
-    let l:format = ale#Var(l:buffer, 'echo_msg_format')
-    let l:msg = ale#GetLocItemMessage(l:loc, l:format)
+    let l:buffer = bufnr('')
+    let [l:info, l:loc] = ale#util#FindItemAtCursor(l:buffer)
+    if !empty(l:loc)
+        let l:format = ale#Var(l:buffer, 'echo_msg_format')
+        let l:msg = ale#GetLocItemMessage(l:loc, l:format)
 
-    if l:msg ==# "missing ',' before newline in composite literal"
-          \ || l:msg ==# "missing ',' before newline in argument list"
-          \ || l:msg ==# 'syntax error: unexpected newline, expecting comma or }'
-          \ || l:msg ==# 'syntax error: unexpected newline, expecting comma or )'
-      normal! A,
-      :w
-    endif
-
-    let l:matches = matchlist(l:msg, '.\+ \(.\+\) should be \(.\+\)')
-    if len(l:matches) > 0
-      :call CocActionAsync('rename', matches[2])
-      :w
-      return
-    endif
-
-    if l:msg ==# 'no new variables on left side of :='
-      s/:=/=/
-      :w
-      return
-    endif
-
-    if l:msg =~# 'returns 2 values'
-      s/\(.\+\) \(:= .\+\)/\1, err \2/
-      :w
-      normal! ^W
-      return
-    endif
-
-    let l:matches = matchlist(l:msg, '\(.\+\) undefined (type .\+ has no field or method \(.\+\), but does have \(.\+\))')
-    if len(l:matches) > 2
-      let l:parts = split(l:matches[1], '\.')
-      let l:wrong = l:matches[2]
-      let l:correct = l:matches[3]
-      exe 's/'.l:parts[0].'.'.l:wrong.'/'.l:parts[0].'.'.l:correct
-      return
-    endif
-
-    if l:msg =~# 'Error return value of .\+ is not checked' || l:msg =~# 'Unhandled error in call to function '
-      if getline('.') !~# '='
-        exe 'normal! Ierr := '
-        :w
-        return
-      endif
-    endif
-
-    if l:msg ==# 'extra empty line at the .\+ of a block'
-      normal! }dd
-      :w
-      return
-    endif
-
-    if l:msg ==# 'unnecessary leading newline (whitespace)'
-      normal! jdd
-      :w
-      return
-    endif
-
-    if l:msg =~# 'put a space between `//` and comment text'
-      s/\/\//\/\/ /
-      :w
-      return
-    endif
-
-    let l:matches = matchlist(l:msg, 'cannot use \(.\+\) (type \(.\+\)) as type \(.\+\) in argument to')
-    if len(l:matches) > 3
-      let l:prefixGiven = l:matches[2][0:0]
-      let l:prefixWanted = l:matches[3][0:0]
-      let l:replace = ''
-      let l:target = matches[1]
-      if l:prefixGiven ==# '*'
-        let l:givenType = l:matches[2][1:]
-        let l:wantedType = l:matches[3]
-      elseif l:prefixWanted ==# '*'
-        let l:givenType = l:matches[2]
-        let l:wantedType = l:matches[3][1:]
-      else
-        " neither is pointer
-        return
-      endif
-
-      if l:givenType == l:wantedType
-        if l:prefixGiven ==# '*'
-          if l:target[0:0] ==# '&'
-            exe 's/\([( ]\)'.l:target.'\([,)]\)/\1\'.l:target[1:].'\2'
-          else
-            exe 's/\([( ]\)'.l:target.'\([,)]\)/\1\*'.l:target.'\2'
-          endif
-        else
-          exe 's/\([( ]\)'.l:target.'\([,)]\)/\1\&'.l:target.'\2'
+        if l:msg ==# "missing ',' before newline in composite literal"
+                    \ || l:msg ==# "missing ',' before newline in argument list"
+                    \ || l:msg ==# 'syntax error: unexpected newline, expecting comma or }'
+                    \ || l:msg ==# 'syntax error: unexpected newline, expecting comma or )'
+            normal! A,
+            :w
         endif
-      endif
-      :w
-      return
+
+        let l:matches = matchlist(l:msg, '.\+ \(.\+\) should be \(.\+\)')
+        if len(l:matches) > 0
+            :call CocActionAsync('rename', matches[2])
+            :w
+            return
+        endif
+
+        if l:msg ==# 'no new variables on left side of :='
+            s/:=/=/
+            :w
+            return
+        endif
+
+        if l:msg =~# 'returns 2 values'
+            s/\(.\+\) \(:= .\+\)/\1, err \2/
+            :w
+            normal! ^W
+            return
+        endif
+
+        let l:matches = matchlist(l:msg, '\(.\+\) undefined (type .\+ has no field or method \(.\+\), but does have \(.\+\))')
+        if len(l:matches) > 2
+            let l:parts = split(l:matches[1], '\.')
+            let l:wrong = l:matches[2]
+            let l:correct = l:matches[3]
+            exe 's/'.l:parts[0].'.'.l:wrong.'/'.l:parts[0].'.'.l:correct
+            return
+        endif
+
+        if l:msg =~# 'Error return value of .\+ is not checked' || l:msg =~# 'Unhandled error in call to function '
+            if getline('.') !~# '='
+                exe 'normal! Ierr := '
+                :w
+                :ThxIfErr
+                return
+            endif
+        endif
+
+        if l:msg ==# 'extra empty line at the .\+ of a block'
+            normal! }dd
+            :w
+            return
+        endif
+
+        if l:msg ==# 'unnecessary leading newline (whitespace)'
+            normal! jdd
+            :w
+            return
+        endif
+
+        if l:msg =~# 'put a space between `//` and comment text'
+            s/\/\//\/\/ /
+            :w
+            return
+        endif
+
+        let l:matches = matchlist(l:msg, 'cannot use \(.\+\) (type \(.\+\)) as type \(.\+\) in argument to')
+        if len(l:matches) > 3
+            let l:prefixGiven = l:matches[2][0:0]
+            let l:prefixWanted = l:matches[3][0:0]
+            let l:replace = ''
+            let l:target = matches[1]
+            if l:prefixGiven ==# '*'
+                let l:givenType = l:matches[2][1:]
+                let l:wantedType = l:matches[3]
+            elseif l:prefixWanted ==# '*'
+                let l:givenType = l:matches[2]
+                let l:wantedType = l:matches[3][1:]
+            else
+                " neither is pointer
+                return
+            endif
+
+            if l:givenType == l:wantedType
+                if l:prefixGiven ==# '*'
+                    if l:target[0:0] ==# '&'
+                        exe 's/\([( ]\)'.l:target.'\([,)]\)/\1\'.l:target[1:].'\2'
+                    else
+                        exe 's/\([( ]\)'.l:target.'\([,)]\)/\1\*'.l:target.'\2'
+                    endif
+                else
+                    exe 's/\([( ]\)'.l:target.'\([,)]\)/\1\&'.l:target.'\2'
+                endif
+            endif
+            :w
+            return
+        endif
+
+        " let l:matches = matchlist(l:msg, "consider removing or renaming it as _")
+        " if len(l:matches) > 1
+        "       exe "s/<\".l:word.""\>/_/"
+        " endif
+
     endif
-
-    " let l:matches = matchlist(l:msg, "consider removing or renaming it as _")
-    " if len(l:matches) > 1
-    "       exe "s/<\".l:word.""\>/_/"
-    " endif
-
-  endif
 endfunction
 
-nnoremap <m-e> :call FixGoAleIssues()<cr>
+nnoremap <m-w> :call FixGoAleIssues()<cr>:w<cr>
+
+function! s:IfErr()
+    let bpos = wordcount()['cursor_bytes']
+    let out = systemlist('iferr -pos ' . bpos, bufnr('%'))
+    if len(out) == 1
+        return
+    endif
+    let pos = getcurpos()
+    call append(pos[1], out)
+    silent normal! j=2j
+    call setpos('.', pos)
+    silent normal! 4j
+endfunction
+
+command! -buffer -nargs=0 IfErr call s:IfErr()

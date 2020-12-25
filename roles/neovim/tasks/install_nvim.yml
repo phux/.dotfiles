@@ -1,14 +1,31 @@
 ---
 
-- name: neovim ppa
-  become: yes
-  apt_repository:
-    repo: 'ppa:neovim-ppa/stable'
-    state: present
-  when: ansible_service_mgr == 'apt'
+# - name: neovim ppa
+#   become: yes
+#   apt_repository:
+#     repo: 'ppa:neovim-ppa/unstable'
+#     state: present
+#   when: ansible_service_mgr == 'apt'
 
-- name: install neovim
+# - name: install neovim
+#   become: yes
+#   package:
+#     name: neovim
+#     state: "{{ neovim_install_state }}"
+
+- name: Check neovim_was_cloned
+  ansible.builtin.stat:
+    path: "{{ ansible_env.HOME }}/tools/neovim"
+  register: neovim_was_cloned
+
+- name: clone neovim
+  shell: >
+    git clone https://github.com/neovim/neovim.git
+    {{ ansible_env.HOME }}/tools/neovim && cd {{ ansible_env.HOME }}/tools/neovim
+  when: neovim_was_cloned.stat.exists == False
+
+- name: install & update neovim
   become: yes
-  package:
-    name: neovim
-    state: "{{ neovim_install_state }}"
+  ignore_errors: true
+  shell: >
+    cd {{ ansible_env.HOME }}/tools/tmux && git pull && make CMAKE_BUILD_TYPE=RelWithDebInfo && sudo make install

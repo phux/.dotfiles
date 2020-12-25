@@ -6,23 +6,22 @@
   register: diff_so_fancy_installed
   changed_when: false
 
-- block:
-  - name: create .local/bin dir
-    file: path={{ ansible_env.HOME }}/.local/bin/ state=directory
+- name: create .local/bin dir
+  file: path={{ ansible_env.HOME }}/.local/bin/ state=directory
 
-  - name: install diff-so-fancy
-    get_url:
-      url=https://raw.githubusercontent.com/so-fancy/diff-so-fancy/master/third_party/build_fatpack/diff-so-fancy
-      dest=~/.local/bin/
+- name: install diff-so-fancy
+  get_url:
+    url: https://raw.githubusercontent.com/so-fancy/diff-so-fancy/master/third_party/build_fatpack/diff-so-fancy
+    dest: ~/.local/bin/
+    force: yes
 
-  - name: make diff-so-fancy executable
-    file:
-      path: ~/.local/bin/diff-so-fancy
-      mode: a+x
-      state: file
+- name: make diff-so-fancy executable
+  file:
+    path: ~/.local/bin/diff-so-fancy
+    mode: a+x
+    state: file
 
-  - git_config:
-      name: core.pager
-      scope: global
-      value: diff-so-fancy | less --tabs=4 -RFX
-  when: diff_so_fancy_installed.rc != 0
+- git_config:
+    name: core.pager
+    scope: global
+    value: diff-so-fancy | less --tabs=4 -RFX

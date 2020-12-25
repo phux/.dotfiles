@@ -1,11 +1,16 @@
 ---
-- stat: path={{ ansible_env.HOME }}/.local/bin/pip
-  register: pip_is_installed
+- name: check pip2 is installed
+  ansible.builtin.stat:
+    path: "{{ ansible_env.HOME }}/.local/bin/pip2"
+  register: pip2_is_installed
 
-- stat: path={{ ansible_env.HOME }}/.local/bin/pip3
+- name: check pip3 is installed
+  ansible.builtin.stat:
+    path: "{{ ansible_env.HOME }}/.local/bin/pip3"
   register: pip3_is_installed
 
-- block:
+- name: install pip2
+  block:
 
   - name: install python-dev
     become: yes
@@ -20,16 +25,17 @@
   - name: delete get-pip.py
     file: state=absent path=/tmp/get-pip.py
 
-  when: pip_is_installed.stat.exists == False
+  when: pip2_is_installed.stat.exists == False
 
-- block:
+- name: install pip3
+  block:
 
   - name: install python3-dev
     become: yes
-    package: name=python3-dev state=present
+    package: name=python3-dev state=latest
 
   - name: download get-pip.py
-    get_url: url=https://bootstrap.pypa.io/3.2/get-pip.py  dest=/tmp/pip3.py
+    get_url: url=https://bootstrap.pypa.io/3.4/get-pip.py  dest=/tmp/pip3.py
 
   - name: install pip3
     command: "python3 /tmp/pip3.py --user"
@@ -38,6 +44,9 @@
     file: state=absent path=/tmp/pip3.py
 
   when: pip3_is_installed.stat.exists == False
+
+- name: updating pip
+  shell: "{{ ansible_env.HOME }}/.local/bin/pip install --user --upgrade pip"
 
 - name: installing pipenv
   shell: "{{ ansible_env.HOME }}/.local/bin/pip install --user pipenv"

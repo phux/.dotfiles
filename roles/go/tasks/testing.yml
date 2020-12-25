@@ -1,42 +1,6 @@
 ---
 
-- name: Check if gotests is installed
-  command: which gotests
-  register: gotests_check
-  ignore_errors: yes
-  changed_when: false
-
-- block:
-
-  - name: install gotests
-    shell: >
-      source ~/.config/zsh/.zshrc &&
-      go get -u github.com/cweill/gotests/... executable=/bin/zsh
-
-  when: gotests_check.stdout.find('gotests not found') != -1
-
-- name: Check if richgo is installed
-  command: which richgo
-  register: richgo_check
-  ignore_errors: yes
-  changed_when: false
-
-- block:
-  - name: install richgo
-    shell: >
-      source ~/.config/zsh/.zshrc &&
-      go get -u github.com/kyoh86/richgo executable=/bin/zsh
-  when: richgo_check.stdout.find('richgo not found') != -1
-
-- name: Check if mockery is installed
-  command: which mockery
-  register: mockery_check
-  ignore_errors: yes
-  changed_when: false
-
-- block:
-  - name: install mockery
-    shell: >
-      source ~/.config/zsh/.zshrc &&
-      go get -u github.com/vektra/mockery/.../ executable=/bin/zsh
-  when: mockery_check.stdout.find('mockery not found') != -1
+- name: install mockery
+  shell: >
+    source ~/.config/zsh/.zshrc &&
+    go get -u github.com/vektra/mockery/.../ executable=/bin/zsh

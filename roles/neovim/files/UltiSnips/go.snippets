@@ -91,6 +91,7 @@ endglobal
 
 snippet pk "insert pkg name for current dir"
 package `!p snip.rv = get_pkg_name()`
+
 $0
 endsnippet
 
@@ -112,16 +113,16 @@ func (e *$1Error) Error() string {
 }$0
 endsnippet
 
-snippet ew "fmt.Errorf(%w)"
-fmt.Errorf("$2: %w", ${1:err})$0
+snippet ew "errors.Wrap(err, msg)"
+errors.Wrap(${1:err}, "$2")$0
 endsnippet
 
-snippet rew "return fmt.Errorf wrap"
-return fmt.Errorf("$2: %w", ${1:err})$0
+snippet ewf "errors.Wrapf()"
+errors.Wrapf(${1:err}, "$2", $1)$0
 endsnippet
 
-snippet ref "return fmt.Errorf"
-return ${1:$2, }fmt.Errorf("$3", $4)
+snippet rew "return errors.Wrap"
+return errors.Wrap(${1:err}, "$2")$0
 endsnippet
 
 snippet of "open file" b
@@ -131,4 +132,64 @@ endsnippet
 
 snippet ap= "append = "
 $1 = append($1, ${2: val})
+endsnippet
+
+snippet init "func init()"
+func init() {
+	$0
+}
+endsnippet
+
+snippet ve "var err error"
+var err error$0
+endsnippet
+
+snippet errc "if method call = err; return err"
+if err := ${1:call()}; err != nil {
+	${2:return err}
+}
+endsnippet
+
+snippet ifel "if error != nil log fatal"
+if err != nil {
+	log.Fatalln(err)
+}
+endsnippet
+
+snippet rne "require no error"
+require.NoError(t, ${1:err})
+endsnippet
+
+snippet cc "context.Context"
+context.Context$0
+endsnippet
+
+snippet ior "io.Reader"
+io.Reader$0
+endsnippet
+
+snippet ju "json.Unmarshal"
+if err := json.Unmarshal(${1:source}, &${2:target}); err != nil {
+	return ${3:nil}, ${4:errors.Wrap(err, "failed to Unmarshal")}
+}$0
+endsnippet
+
+snippet req "http request"
+resp, err := http.DefaultClient.Do(req)
+if err != nil {
+	return nil, errors.Wrap(err, "failed to do request")
+}
+defer resp.Body.Close()
+
+if resp.StatusCode != ${1:http.StatusOK} {
+	return nil, errors.Errorf(
+		"Received non-$1 status code %d",
+		resp.StatusCode,
+	)
+}
+
+body, err := ioutil.ReadAll(resp.Body)
+if err != nil {
+	return nil, errors.Wrap(err, "could not read response body$2")
+}$0
 endsnippet

@@ -2,19 +2,37 @@
 
 - name: tmux build dep
   become: yes
-  package: name={{ item }} state=latest
+  package: 
+    name: "{{ item }}"
+    state: latest
   with_items:
     - libevent-dev
+    - libtool
+    - autotools-dev
+    - automake
+    - pkg-config
+    - ncurses-dev
 
-- name: clone tmux
-  shell: >
-    git clone git@github.com:tmux/tmux.git
-    {{ ansible_env.HOME }}/tools/tmux && cd {{ ansible_env.HOME }}/tools/tmux && sh autogen.sh && make
+- name: check to see if tmux is cloned
+  command: "ls {{ ansible_env.HOME }}/tools/tmux"
+  ignore_errors: true
+  register: tmux_was_cloned
+  changed_when: false
+
+- block:
+
+  - name: clone tmux
+    shell: >
+      git clone https://github.com/tmux/tmux.git
+      {{ ansible_env.HOME }}/tools/tmux && cd {{ ansible_env.HOME }}/tools/tmux
+
+  when: tmux_was_cloned.rc != 0
 
 - name: install tmux
   become: yes
+  ignore_errors: true
   shell: >
-    cd {{ ansible_env.HOME }}/tools/tmux && sudo make install
+    cd {{ ansible_env.HOME }}/tools/tmux && git pull && sh autogen.sh && ./configure && sudo make
 
 - name: Link .tmux.conf
   file: >
@@ -42,6 +60,10 @@
 
   when: tpm_is_installed.rc != 0
 
+- name: update tpm
+  shell: >
+    cd {{ ansible_env.HOME }}/.tmux/plugins/tpm && git pull
+
 - name: Link tmux files
   file: >
     src={{item}}
@@ -49,3 +71,9 @@
     state=link
   with_fileglob:
     - mux.sh
+
+- name: update tmux plugins
+  shell: >
+    source ~/.config/zsh/.zshrc &&
+    ~/.tmux/plugins/tpm/bin/update_plugins all
+    executable=/bin/zsh

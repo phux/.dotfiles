@@ -1,12 +1,17 @@
 ---
-- stat: path={{ ansible_env.HOME }}/.gvm
+- name: Check gmv is present
+  ansible.builtin.stat:
+    path: "{{ ansible_env.HOME }}/.gvm"
   register: gvm_check
 
-- block:
+- name: install go
+  block:
 
   - name: install gvm dependencies
     become: yes
-    package: name=bison state=present
+    package:
+      name: bison
+      state: present
 
   - name: Install Golang gvm
     shell: >

@@ -9,17 +9,21 @@
     - typescript-language-server
     - intelephense
 
+- name: Check if terraform-lsp is cloned
+  ansible.builtin.stat:
+    path: "{{ ansible_env.HOME }}/tools/terraform-lsp"
+  register: tf_lsp
+- name: clone terraform-lsp
+  git:
+    repo: 'https://github.com/juliosueiras/terraform-lsp.git'
+    dest: "{{ ansible_env.HOME }}/tools/terraform-lsp"
+  when: tf_lsp.stat.exists == False
+
+- name: update terraform-lsp
+  shell: >
+    source ~/.config/zsh/.zshrc &&
+    cd {{ ansible_env.HOME }}/tools/terraform-lsp && git pull && go install
+    executable=/bin/zsh
+
 - name: install pyls
   shell: "{{ ansible_env.HOME }}/.local/bin/pip install --user 'python-language-server[all]'"
-
-# install phpactor language server:
-# echo "extension_manager.minimum_stability: dev" > ~/.config/phpactor/phpactor.yml
-# ~/.config/nvim/plugged/phpactor/bin/phpactor extension:install phpactor/language-server-extension
-#
-# ~/.config/nvim/plugged/phpactor/bin/phpactor extension:install phpactor/language-server-reference-finder-extension
-# ~/.config/nvim/plugged/phpactor/bin/phpactor extension:install phpactor/worse-reference-finder-extension
-#
-# ~/.config/nvim/plugged/phpactor/bin/phpactor extension:install phpactor/language-server-completion-extension
-# ~/.config/nvim/plugged/phpactor/bin/phpactor extension:install phpactor/completion-worse-extension
-#
-# ~/.config/nvim/plugged/phpactor/bin/phpactor extension:install phpactor/language-server-hover-extension

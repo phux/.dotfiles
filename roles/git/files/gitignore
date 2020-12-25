@@ -8,6 +8,7 @@ npm-debug.log
 .vagrant/
 playbook.retry
 *.scratch.vim*
+*.vim.scratch*
 .scratch.vim
 .virtualgo
 .ropeproject/
@@ -16,4 +17,10 @@ bin/
 .classpath
 .settings/
 .vim/coc-settings.json
+.vim/
 .idea/
+.phpunit.result.cache
+.gtm
+observer.rb
+*.coverprofile
+.graphqlrc.json
