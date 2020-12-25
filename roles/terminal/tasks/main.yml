@@ -28,8 +28,6 @@
   shell: >
     cd {{ ansible_env.HOME }}/tools/st && git pull && git fetch upstream && git merge upstream/master && sudo make install
 
-# TODO: need to patch alt-l to alt-f (i n config.h)
-
 - name: check bat version
   shell: bat --version || /bin/true
   register: bat_version_check
