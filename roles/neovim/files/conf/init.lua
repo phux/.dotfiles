@@ -117,14 +117,15 @@ vim.g.buftabline_show = 1
 -- Tabs
 vim.o.autoindent = true
 vim.o.smartindent = true
-vim.o.wrap = true
 
 vim.o.showbreak = string.rep(" ", 3) -- Make it so that long lines wrap smartly
+vim.o.breakindent = true
+vim.o.breakindentopt = "sbr"
+-- wrap lines
+vim.o.wrap = true
+vim.o.whichwrap = "b,s,<,>,[,],h,l"
+-- but don't split words
 vim.o.linebreak = true
-
-vim.o.foldmethod = "marker"
-vim.o.foldlevel = 0
-vim.o.modelines = 1
 
 vim.o.belloff = "all"
 
@@ -138,6 +139,14 @@ execute("set noswapfile")
 -- vim.o.shada          = { "!", "'1000", "<50", "s10", "h" }
 
 vim.o.mouse = "n"
+
+vim.api.nvim_set_keymap("n", "<leader>sv", ":Subvert/<c-R><c-w>/<c-r><c-w>/g<left><left>", {noremap = true})
+vim.api.nvim_set_keymap("v", "<leader>sv", ":Subvert/<c-R><c-w>/<c-r><c-w>/g<left><left>", {noremap = true})
+
+vim.api.nvim_set_keymap("n", "<leader>sr", ":s/<c-R><c-w>/<c-r><c-w>/g<left><left>", {noremap = true})
+vim.api.nvim_set_keymap("v", "<leader>sr", ":s/<c-R><c-w>/<c-r><c-w>/g<left><left>", {noremap = true})
+
+vim.cmd("set shortmess+=c")
 
 vim.o.formatoptions = "qrn1tclj"
 
@@ -173,7 +182,8 @@ vim.cmd("hi! def link BufTabLineActive TabLineSel")
 
 local autocmds = {
     conf = {
-        {"BufWritePost", "~/.dotfiles/*.lua", ":luafile %"}
+        {"BufWritePost", "~/.dotfiles/*.lua", ":luafile %"},
+        {"FocusLost,WinLeave", "*", ":silent! update"}
     }
 }
 U.augroups(autocmds)
