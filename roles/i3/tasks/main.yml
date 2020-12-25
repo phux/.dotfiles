@@ -19,7 +19,6 @@
     - i3
     - i3lock
     - i3status
-    - xautolock
 
   - name: Link i3 files
     file: src={{item}} dest={{ i3_config_dir }}/{{ item | basename }} state=link
@@ -42,6 +41,26 @@
       dest="{{ ansible_env.HOME }}/.config/dunst/{{ item | basename }}"
       state=link
     with_fileglob:
-      - dunstrc
+    - dunstrc
 
-  when: i3_is_installed.rc != 0
+    when: i3_is_installed.rc != 0
+
+- name: install nix
+  shell: >
+    curl https://nixos.org/nix/install | sh
+
+- name: install xidlehook
+  shell: >
+    nix-env -iA nixpkgs.xidlehook
+
+- name: flux ppa
+  become: yes
+  apt_repository:
+    repo: 'ppa:nathan-renniewaldock/flux'
+    state: present
+
+- name: install flux
+  become: yes
+  package:
+    name: fluxgui
+    state: "latest"

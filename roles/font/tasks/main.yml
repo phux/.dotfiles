@@ -37,6 +37,7 @@
     unarchive:
       src: https://github.com/tonsky/FiraCode/releases/download/5.2/Fira_Code_v5.2.zip
       dest: /tmp/FiraCode
+      remote_src: yes
 
   - name: Move directory contents
     command: cp -r /tmp/FiraCode/ttf/. {{ ansible_env.HOME }}/.local/share/fonts/

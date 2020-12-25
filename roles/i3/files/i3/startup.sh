@@ -5,19 +5,9 @@ setxkbmap -option caps:escape
 # always pressing this menu key -> disable
 xmodmap -e 'keycode 135='
 
-# export TERM_BRIGHT='/tmp/term.bright'
-# currenttime=$(date +%H:%M)
-# if [[ "$currenttime" > "06:00" ]] || [[ "$currenttime" < "19:00" ]]; then
-#     export BAT_THEME="GitHub"
-#     xrdb -merge ~/.Xresources.papercolor
-#     touch $TERM_BRIGHT
-# else
-#     export BAT_THEME="ansi-dark"
+# if ! urxvtc "$@"; then
+#   urxvtd -q -o -f
 # fi
-
-if ! urxvtc "$@"; then
-  urxvtd -q -o -f
-fi
 
 tmux new-session -d -s def
 tmuxinator start dotfiles --no-attach

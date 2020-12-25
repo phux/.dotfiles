@@ -21,8 +21,10 @@ use {"neoclide/coc.nvim", branch = "release"}
 use "antoinemadec/coc-fzf"
 use {"rafcamlet/coc-nvim-lua", ft = "lua"}
 use {"junegunn/fzf", run = "./install --all"}
-use "junegunn/fzf.vim"
+use {"junegunn/fzf.vim"}
 use {"junegunn/gv.vim", cmd = "GV"}
+
+use {"majutsushi/tagbar", cmd = "TagbarOpenAutoClose"}
 
 -- " For various text objects
 use "wellle/targets.vim"
@@ -57,6 +59,7 @@ use {"whiteinge/diffconflicts", cmd = "DiffConflicts"}
 use {"AndrewRadev/splitjoin.vim", cmd = "SplitjoinSplit"}
 
 use {"nvim-treesitter/nvim-treesitter", run = ":TSUpdate"}
+
 use {"tweekmonster/startuptime.vim", cmd = "StartupTime"}
 
 use "tpope/vim-commentary"
