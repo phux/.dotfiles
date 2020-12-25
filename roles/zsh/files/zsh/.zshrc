@@ -135,13 +135,15 @@ alias gb="git for-each-ref --sort=committerdate refs/heads/ --format='%(committe
 alias gbd="git for-each-ref --sort=committerdate refs/heads/ --format='%(HEAD) %(color:yellow)%(refname:short)%(color:reset) - %(color:red)%(objectname:short)%(color:reset) - %(contents:subject) - %(authorname) (%(color:green)%(committerdate:relative)%(color:reset))'"
 
 alias gst='git status'
-alias gs='n +Gstatus'
+# alias gs='n +Gstatus'
+alias gs='git fuzzy status'
 alias ga='git add'
 alias gc='git commit -v'
 alias grh='git reset HEAD'
 alias guc='git reset HEAD~'
 alias gca='git commit -v --amend'
 alias gb='git branch'
+alias b='git fuzzy branch'
 alias gcb='git checkout -b'
 alias gco='git checkout'
 alias gd='git diff'
@@ -217,41 +219,42 @@ fo() {
 }
 
 
+# replaced by git fuzzy
 # b - checkout git branch/tag (only local)
-b() {
-  local branches branch
-  branches=$(git for-each-ref --count=90 --sort=-committerdate refs/heads/ --format="%(refname:short)") &&
-  branch=$(echo "$branches" |
-           fzf-tmux -d $(( 2 + $(wc -l <<< "$branches") )) +m) &&
-  git checkout $(echo "$branch" | sed "s/.* //" | sed "s#remotes/[^/]*/##")
-}
+# b() {
+#   local branches branch
+#   branches=$(git for-each-ref --count=90 --sort=-committerdate refs/heads/ --format="%(refname:short)") &&
+#   branch=$(echo "$branches" |
+#            fzf-tmux -d $(( 2 + $(wc -l <<< "$branches") )) +m) &&
+#   git checkout $(echo "$branch" | sed "s/.* //" | sed "s#remotes/[^/]*/##")
+# }
 
 # fco - checkout git branch/tag including remote
-fco() {
-  local tags branches target
-  tags=$(
-    git tag | awk '{print "\x1b[31;1mtag\x1b[m\t" $1}') || return
-  branches=$(
-    git branch --all --sort=-committerdate | grep -v HEAD             |
-    sed "s/.* //"    | sed "s#remotes/[^/]*/##" |
-    sort -u          | awk '{print "\x1b[34;1mbranch\x1b[m\t" $1}') || return
-  target=$(
-    (echo "$branches") |
-    fzf-tmux -- --no-hscroll --ansi +m -d "\t" -n 2) || return
-  git checkout $(echo "$target" | awk '{print $2}')
-}
+# fco() {
+#   local tags branches target
+#   tags=$(
+#     git tag | awk '{print "\x1b[31;1mtag\x1b[m\t" $1}') || return
+#   branches=$(
+#     git branch --all --sort=-committerdate | grep -v HEAD             |
+#     sed "s/.* //"    | sed "s#remotes/[^/]*/##" |
+#     sort -u          | awk '{print "\x1b[34;1mbranch\x1b[m\t" $1}') || return
+#   target=$(
+#     (echo "$branches") |
+#     fzf-tmux -- --no-hscroll --ansi +m -d "\t" -n 2) || return
+#   git checkout $(echo "$target" | awk '{print $2}')
+# }
 
 # fshow - git commit browser
-fshow() {
-  git log --graph --color=always \
-      --format="%C(auto)%h%d %s %C(black)%C(bold)%cr" "$@" |
-  fzf --ansi --no-sort --reverse --tiebreak=index --bind=ctrl-s:toggle-sort \
-      --bind "ctrl-m:execute:
-                (grep -o '[a-f0-9]\{7\}' | head -1 |
-                xargs -I % sh -c 'git show --color=always % | less -R') << 'FZF-EOF'
-                {}
-FZF-EOF"
-}
+# fshow() {
+#   git log --graph --color=always \
+#       --format="%C(auto)%h%d %s %C(black)%C(bold)%cr" "$@" |
+#   fzf --ansi --no-sort --reverse --tiebreak=index --bind=ctrl-s:toggle-sort \
+#       --bind "ctrl-m:execute:
+#                 (grep -o '[a-f0-9]\{7\}' | head -1 |
+#                 xargs -I % sh -c 'git show --color=always % | less -R') << 'FZF-EOF'
+#                 {}
+# FZF-EOF"
+# }
 
 alias glNoGraph='git log --color=always --format="%C(auto)%h%d %s %C(black)%C(bold)%cr% C(auto)%an" "$@"'
 _gitLogLineToHash="echo {} | grep -o '[a-f0-9]\{7\}' | head -1"
