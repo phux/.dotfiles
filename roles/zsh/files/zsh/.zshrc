@@ -94,16 +94,7 @@ export MANPAGER='less -X';
 alias update_antibody="antibody bundle < $XDG_CONFIG_HOME/zsh/antibody_plugins.txt  > $XDG_CONFIG_HOME/zsh/cached_plugins.sh; antibody update"
 
 alias sdn='sudo shutdown now -h'
-function update() {
-    sudo apt-fast update && sudo apt-fast -y upgrade;
-    antibody bundle < $XDG_CONFIG_HOME/zsh/antibody_plugins.txt  > $XDG_CONFIG_HOME/zsh/cached_plugins.sh; antibody update
-    ~/.tmux/plugins/tpm/bin/update_plugins all;
-    # npm -g i intelephense joplin typescript-language-server jsonlint fixjson markdownlint-cli instant-markdown-d neovim stylelint write-good remark-lint tern eslint tern-lint typescript eslint-config-standard eslint-plugin-node eslint-plugin-promise eslint-plugin-standard htmllint csslint prettier;
-    npm -g i intelephense joplin typescript-language-server jsonlint fixjson markdownlint-cli instant-markdown-d neovim stylelint write-good remark-lint tern tern-lint typescript htmllint csslint prettier;
-    cd ~/tools/golang_tools/ && git pull && cd gopls/ && go install;
-    nvim -c 'CocUpdate|q';
-    nvim +PackerUpdate;
-}
+alias update=".d && git pull && make provision"
 alias agi='sudo apt-fast install'
 
 alias vu='vagrant up'

@@ -1,6 +1,6 @@
 ---
 - name: install antibody
-  shell: curl -sL git.io/antibody | bash -s
+  shell: curl -sL git.io/antibody | bash -s --skip-shell
   ignore_errors: true
 
 - name: update antibody plugins
