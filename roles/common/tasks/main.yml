@@ -25,6 +25,7 @@
       - vagrant
       - virtualbox
       - thunar
+      - pcmanfm
       - chromium-browser
       - mousepad
       - feh
