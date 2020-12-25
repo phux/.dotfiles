@@ -8,9 +8,9 @@ robbyrussell/oh-my-zsh path:plugins/tmux
 robbyrussell/oh-my-zsh path:plugins/tmuxinator
 robbyrussell/oh-my-zsh path:plugins/terraform
 
-zsh-users/zsh-syntax-highlighting
+# zsh-users/zsh-syntax-highlighting
 zsh-users/zsh-autosuggestions
-djui/alias-tips
+# djui/alias-tips
 ytakahashi/igit
 MichaelAquilina/zsh-autoswitch-virtualenv
 bigH/git-fuzzy path:bin kind:path

@@ -1,36 +1,13 @@
+# zmodload zsh/zprof
 export TERM=st-256color
-# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.config//zsh//.zshrc.
-# Initialization code that may require console input (password prompts, [y/n]
-# confirmations, etc.) must go above this block, everything else may go below.
 if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
-# zmodload zsh/zprof
 
 export FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --follow -g "!.git/" -g "!node_modules" -g "!/*/vendor/*" -g "!vendor/*" -g "!*.neon" -g "!composer.lock" -g "!*/var/*" -g "!var/*" -g "!*/cache/*"  2> /dev/null'
 
 export FZF_BIN_PATH="$HOME/.fzf/bin"
-
-# if [[ ! -n $TMUX ]]; then
-#   # get the IDs
-#   ID="`tmux list-sessions`"
-#   if [[ -z "$ID" ]]; then
-#     tmux new-session
-#   fi
-#   create_new_session="Create New Session"
-#   ID="$ID\n${create_new_session}:"
-#   ID="`echo $ID | fzf | cut -d: -f1`"
-#   if [[ "$ID" = "${create_new_session}" ]]; then
-#     tmux new-session
-#   elif [[ -n "$ID" ]]; then
-#     tmux attach-session -t "$ID"
-#   else
-#     :  # Start terminal normally
-#   fi
-# fi
-
-# todo: why do i need to set this to get proper colors
 
 WORDCHARS='*?_-[]~=&;!#$%^(){}<>'
 
@@ -256,46 +233,46 @@ fo() {
 # FZF-EOF"
 # }
 
-alias glNoGraph='git log --color=always --format="%C(auto)%h%d %s %C(black)%C(bold)%cr% C(auto)%an" "$@"'
-_gitLogLineToHash="echo {} | grep -o '[a-f0-9]\{7\}' | head -1"
-_viewGitLogLine="$_gitLogLineToHash | xargs -I % sh -c 'git show --color=always % | diff-so-fancy'"
-# fshow_preview - git commit browser with previews
-fshow_preview() {
-    glNoGraph |
-        fzf --no-sort --reverse --tiebreak=index --no-multi \
-            --ansi --preview="$_viewGitLogLine" \
-                --header "enter to view, alt-y to copy hash" \
-                --bind "enter:execute:$_viewGitLogLine   | less -R" \
-                --bind "alt-y:execute:$_gitLogLineToHash | xclip"
-}
+# alias glNoGraph='git log --color=always --format="%C(auto)%h%d %s %C(black)%C(bold)%cr% C(auto)%an" "$@"'
+# _gitLogLineToHash="echo {} | grep -o '[a-f0-9]\{7\}' | head -1"
+# _viewGitLogLine="$_gitLogLineToHash | xargs -I % sh -c 'git show --color=always % | diff-so-fancy'"
+# # fshow_preview - git commit browser with previews
+# fshow_preview() {
+#     glNoGraph |
+#         fzf --no-sort --reverse --tiebreak=index --no-multi \
+#             --ansi --preview="$_viewGitLogLine" \
+#                 --header "enter to view, alt-y to copy hash" \
+#                 --bind "enter:execute:$_viewGitLogLine   | less -R" \
+#                 --bind "alt-y:execute:$_gitLogLineToHash | xclip"
+# }
 
 # fstash - easier way to deal with stashes
 # type fstash to get a list of your stashes
 # enter shows you the contents of the stash
 # ctrl-d shows a diff of the stash against your current HEAD
 # ctrl-b checks the stash out as a branch, for easier merging
-fstash() {
-  local out q k sha
-    while out=$(
-      git stash list --pretty="%C(yellow)%h %>(14)%Cgreen%cr %C(blue)%gs" |
-      fzf --cycle --ansi --no-sort --query="$q" --print-query \
-          --expect=ctrl-d,ctrl-b) \
-          ;
-    do
-      q=$(head -1 <<< "$out")
-      k=$(head -2 <<< "$out" | tail -1)
-      sha=$(tail -1 <<< "$out" | cut -d' ' -f1)
-      [ -z "$sha" ] && continue
-      if [ "$k" = 'ctrl-d' ]; then
-        git diff $sha
-      elif [ "$k" = 'ctrl-b' ]; then
-        git stash branch "stash-$sha" $sha
-        break;
-      else
-        git stash show -p $sha
-      fi
-    done
-}
+# fstash() {
+#   local out q k sha
+#     while out=$(
+#       git stash list --pretty="%C(yellow)%h %>(14)%Cgreen%cr %C(blue)%gs" |
+#       fzf --cycle --ansi --no-sort --query="$q" --print-query \
+#           --expect=ctrl-d,ctrl-b) \
+#           ;
+#     do
+#       q=$(head -1 <<< "$out")
+#       k=$(head -2 <<< "$out" | tail -1)
+#       sha=$(tail -1 <<< "$out" | cut -d' ' -f1)
+#       [ -z "$sha" ] && continue
+#       if [ "$k" = 'ctrl-d' ]; then
+#         git diff $sha
+#       elif [ "$k" = 'ctrl-b' ]; then
+#         git stash branch "stash-$sha" $sha
+#         break;
+#       else
+#         git stash show -p $sha
+#       fi
+#     done
+# }
 
 bindkey -e
 
@@ -338,7 +315,7 @@ zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
  # list of completers to use
 zstyle ':completion:*::::' completer _expand _complete _ignored _approximate
 
-source ~/.config/zsh/aws_zsh_completer.sh
+# source ~/.config/zsh/aws_zsh_completer.sh
 
 _tmuxinator() {
   local commands projects
@@ -374,16 +351,16 @@ alias nn='n +RecentNotes'
 alias gdt='n +"Git difftool -y"'
 alias glog='n +GV'
 
-function zd() {
-    file="/tmp/base_$(date '+%H%M%S').json"
-  echo $1 | sed -r 's/\\\\r\\\\n//g' | base64 -d | zlib -d > $file;n $file
-  echo "n $file"
-}
+# function zd() {
+#     file="/tmp/base_$(date '+%H%M%S').json"
+#   echo $1 | sed -r 's/\\\\r\\\\n//g' | base64 -d | zlib -d > $file;n $file
+#   echo "n $file"
+# }
 
 # latest payload
-function payload() {
-    nvim $(find /tmp/payload* -printf '%p\n' | sort -r | head -1)
-}
+# function payload() {
+#     nvim $(find /tmp/payload* -printf '%p\n' | sort -r | head -1)
+# }
 
 if [ -f $XDG_CONFIG_HOME/zsh/notifyosd.zsh ]; then
     source $XDG_CONFIG_HOME/zsh/notifyosd.zsh
@@ -437,8 +414,7 @@ export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
 export JAVA_HOME="/usr/lib/jvm/java-11-openjdk-amd64"
 
 
-# zprof
-source ~/.powerlevel10k/powerlevel10k.zsh-theme
+[ -f ~/.~/.powerlevel10k/powerlevel10k.zsh-theme ] && source ~/.powerlevel10k/powerlevel10k.zsh-theme
 
 # The next line updates PATH for the Google Cloud SDK.
 if [ -f '$HOME/Downloads/google-cloud-sdk/path.zsh.inc' ]; then . '$HOME/Downloads/google-cloud-sdk/path.zsh.inc'; fi
@@ -447,7 +423,7 @@ if [ -f '$HOME/Downloads/google-cloud-sdk/path.zsh.inc' ]; then . '$HOME/Downloa
 if [ -f '$HOME/Downloads/google-cloud-sdk/completion.zsh.inc' ]; then . '$HOME/Downloads/google-cloud-sdk/completion.zsh.inc'; fi
 
 # To customize prompt, run `p10k configure` or edit ~/.config//zsh//.p10k.zsh.
-[[ ! -f ~/.config//zsh//.p10k.zsh ]] || source ~/.config//zsh//.p10k.zsh
+[[ ! -f ~/.config/zsh/.p10k.zsh ]] || source ~/.config/zsh/.p10k.zsh
 
 if test -f "$TERM_BRIGHT"; then
     export BAT_THEME="gruvbox-light"
@@ -464,3 +440,5 @@ export PATH="$HOME/.rbenv/versions/2.7.1/bin:$PATH"
 # fnm
 export PATH=$HOME/.fnm:$PATH
 eval "`fnm env`"
+
+# zprof
