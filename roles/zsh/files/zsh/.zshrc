@@ -300,6 +300,7 @@ bindkey -e
 # alias nvim='nvim -w ~/.nvim_keylog "$@"'
 
 alias n='~/tools/neovim/build/bin/nvim'
+alias nd='cd ~/.dotfiles/roles/neovim/; n files/conf/init.lua'
 alias c='composer'
 alias ci='composer install --no-progress --prefer-dist --profile'
 alias cu='composer update --no-progress --prefer-dist --profile'
