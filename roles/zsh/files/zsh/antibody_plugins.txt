@@ -13,6 +13,7 @@ zsh-users/zsh-autosuggestions
 djui/alias-tips
 ytakahashi/igit
 MichaelAquilina/zsh-autoswitch-virtualenv
+bigH/git-fuzzy path:bin kind:path
 
 # prompt
 #mafredri/zsh-async #dep for pure&purer
