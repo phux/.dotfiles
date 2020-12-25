@@ -1,6 +1,4 @@
-" setlocal nofoldenable
-
-setlocal re=0
+setlocal regexpengine=0
 
 augroup gitcommit
   au!
