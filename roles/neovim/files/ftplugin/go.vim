@@ -1,8 +1,8 @@
 " setlocal noexpandtab tabstop=4 shiftwidth=4
 " setlocal nofoldenable
 " setlocal foldmethod=syntax
-" setlocal foldlevel=1
-" setlocal foldnestmax=1
+setlocal foldlevel=0
+setlocal foldnestmax=0
 
 augroup golang
   au BufWritePost *.go silent! !eval '[ -f ".git/hooks/ctags" ] && .git/hooks/ctags go' &
@@ -17,11 +17,11 @@ let b:ale_linters = ['golangci-lint']
 " let b:ale_linters = ['gopls']
 " let b:ale_linters = []
 let g:ale_go_golangci_lint_package=1
-let g:ale_go_staticcheck_lint_package=0
+let g:ale_go_staticcheck_lint_package=1
 let b:local_golangci_file = getcwd().'/.golangci.yml'
 let g:ale_go_golangci_lint_options = '--fix --fast --config '.b:local_golangci_file
 if !filereadable('.golangci.yml')
-  let g:ale_go_golangci_lint_options = '--fast --fix --config ~/.golangci.yml'
+  let g:ale_go_golangci_lint_options = '--fix --config ~/.golangci.yml'
 endif
 
 let g:revive_config_file = '.revive.toml'
@@ -35,6 +35,15 @@ call ale#linter#Define('go', {
 \   'executable': 'revive',
 \   'read_buffer': 0,
 \   'command': g:revive_cmd,
+\   'callback': 'ale#handlers#unix#HandleAsWarning',
+\})
+
+call ale#linter#Define('go', {
+\   'name': 'fullgolangci-lint',
+\   'output_stream': 'both',
+\   'executable': 'golangci-lint',
+\   'read_buffer': 0,
+\   'command': 'golangci-lint run ' .g:ale_go_golangci_lint_options . './...',
 \   'callback': 'ale#handlers#unix#HandleAsWarning',
 \})
 

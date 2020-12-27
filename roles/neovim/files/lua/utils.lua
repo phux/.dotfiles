@@ -48,4 +48,15 @@ function U.load_bright_theme()
     end
 end
 
+function U.GitRoot()
+    local output = io.popen("git rev-parse --show-toplevel")
+    local git_dir = output:read("*a")
+    local is_not_git_dir = string.match(git_dir, "^fatal:.*")
+
+    local trimmed = string.gsub(git_dir, "%s%d", "")
+    trimmed = string.gsub(trimmed, "\n", "")
+
+    return trimmed
+end
+
 return U

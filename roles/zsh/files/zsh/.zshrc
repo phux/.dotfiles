@@ -113,21 +113,25 @@ alias gbd="git for-each-ref --sort=committerdate refs/heads/ --format='%(HEAD) %
 
 alias gst='git status'
 # alias gs='n +Gstatus'
+export GF_LOG_MENU_PARAMS='--pretty="%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset" --topo-order'
 alias gs='git fuzzy status'
+alias gdt='n +"Git difftool -y"'
+alias glog='n +GV'
+alias b='git fuzzy branch'
+alias gdh='n +"Git! difftool"'
+alias gmt='n +"Git mergetool"'
+alias gdm='n +"Gdiff $(git merge-base master HEAD)"'
+
 alias ga='git add'
 alias gc='git commit -v'
 alias grh='git reset HEAD'
 alias guc='git reset HEAD~'
 alias gca='git commit -v --amend'
 alias gb='git branch'
-alias b='git fuzzy branch'
 alias gcb='git checkout -b'
 alias gco='git checkout'
 alias gd='git diff'
 alias gds='git diff --staged'
-alias gdh='n +"Git! difftool"'
-alias gmt='n +"Git mergetool"'
-alias gdm='n +"Gdiff $(git merge-base master HEAD)"'
 alias gfa='git fetch --all'
 alias glum='git pull upstream master'
 alias gpsup='git push --set-upstream origin $(git_current_branch)'
@@ -277,9 +281,9 @@ fo() {
 bindkey -e
 
 # http://www.drbunsen.org/vim-croquet/ analysing
-# alias nvim='nvim -w ~/.nvim_keylog "$@"'
+alias nl='nvim -w ~/.nvim_keylog "$@"'
 
-alias n='~/tools/neovim/build/bin/nvim'
+alias n='~/tools/neovim/build/bin/nvim -w ~/.nvim_keylog "$@"'
 alias nd='cd ~/.dotfiles/roles/neovim/; n files/conf/init.lua'
 alias c='composer'
 alias ci='composer install --no-progress --prefer-dist --profile'
@@ -348,8 +352,6 @@ alias tm='todotxt-machine'
 alias tnn='n ~/Dropbox/todo/work/todo.txt'
 alias tn='n ~/Dropbox/todo/todo.txt'
 alias nn='n +RecentNotes'
-alias gdt='n +"Git difftool -y"'
-alias glog='n +GV'
 
 # function zd() {
 #     file="/tmp/base_$(date '+%H%M%S').json"
