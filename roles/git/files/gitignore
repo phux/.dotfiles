@@ -2,7 +2,7 @@ tags
 .php_cs.cache
 .cfg
 .padawan
-.gtm
+.gtm/
 phpactor.log
 npm-debug.log
 .vagrant/
