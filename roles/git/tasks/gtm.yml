@@ -1,0 +1,22 @@
+
+
+---
+- name: check gtm version
+  shell: gtm -v || /bin/true
+  register: gtm_version_check
+
+- block:
+    - name: make tmp gtm dir
+      file: path=/tmp/gtm/ state=directory
+
+    - name: download & extract gtm binary
+      unarchive:
+          src: "https://github.com/git-time-metric/gtm/releases/download/v1.3.5/gtm.v1.3.5.linux.tar.gz"
+          dest: "/tmp/gtm"
+          remote_src: yes
+    - name: copy binary to .local/bin
+      copy:
+          src: /tmp/gtm/gtm
+          dest: "{{ ansible_env.HOME }}/.local/bin/"
+
+  when: "gtm_version_check.stdout.find('v1.3.5') == -1"
