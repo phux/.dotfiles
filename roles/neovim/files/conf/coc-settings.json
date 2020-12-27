@@ -13,6 +13,7 @@
   "suggest.triggerAfterInsertEnter": true,
   "diagnostic.enable": true,
   "diagnostic.displayByAle": true,
+  "diagnostic.checkCurrentLine": true,
   "html.format.enable": true,
   "html.validate.html": true,
   "html.validate.styles": true,

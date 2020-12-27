@@ -19,5 +19,6 @@ require("nvim-treesitter.configs").setup {
     }
 }
 
-vim.o.foldmethod = "expr"
-vim.o.foldexpr = "nvim_treesitter#foldexpr()"
+-- vim.o.foldmethod = "expr"
+vim.cmd("set foldmethod=expr")
+vim.cmd("set foldexpr=nvim_treesitter#foldexpr()")

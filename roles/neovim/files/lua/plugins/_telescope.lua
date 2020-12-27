@@ -14,5 +14,5 @@ require("telescope").setup {
 }
 
 -- vim.api.nvim_set_keymap('n', '<leader>of', ':Telescope find_files<cr>', {noremap = true})
-vim.api.nvim_set_keymap("n", "<leader>st", ":Telescope live_grep<cr>", {noremap = true})
+-- vim.api.nvim_set_keymap("n", "<leader>st", ":Telescope live_grep<cr>", {noremap = true})
 -- vim.api.nvim_set_keymap('n', '<leader>su', ':Telescope grep_string<cr>', {noremap = true})

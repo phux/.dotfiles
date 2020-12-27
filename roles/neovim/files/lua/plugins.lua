@@ -69,6 +69,7 @@ use {
 use {"AndrewRadev/splitjoin.vim", cmd = "SplitjoinSplit"}
 
 use {"nvim-treesitter/nvim-treesitter", run = ":TSUpdate"}
+-- use "romgrk/nvim-treesitter-context"
 
 use {"tweekmonster/startuptime.vim", cmd = "StartupTime"}
 
@@ -123,6 +124,12 @@ use {
 }
 
 use {"ThePrimeagen/vim-be-good", cmd = "VimBeGood"}
+
+use {"Yggdroot/LeaderF"}
+
+use {"phux/vim-hardtime"}
+use "kassio/neoterm"
+use "brooth/far.vim"
 
 local autocmds = {
     plugins = {

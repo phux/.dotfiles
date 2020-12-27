@@ -12,6 +12,7 @@ augroup END
 
 " let g:php_folding = 1
 " set foldmethod=syntax
+" set foldlevelstart=1
 " set foldlevel=1
 " set foldnestmax=2
 " set nofoldenable

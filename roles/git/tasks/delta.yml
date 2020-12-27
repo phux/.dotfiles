@@ -1,0 +1,43 @@
+---
+- name: install delta
+  shell: nix-env -iA nixpkgs.gitAndTools.delta
+
+- git_config:
+    name: diff.colorMoved
+    scope: global
+    value: default
+
+- git_config:
+    name: core.pager
+    scope: global
+    value: delta
+
+- git_config:
+    name: interactive.diffFilter
+    scope: global
+    value: delta --color-only
+
+- git_config:
+    name: delta.features
+    scope: global
+    value: line-numbers decorations side-by-side
+
+- git_config:
+    name: delta.syntax-theme
+    scope: global
+    value: Sublime Snazzy
+
+- git_config:
+    name: delta.syntax-theme
+    scope: global
+    value: Sublime Snazzy
+
+# - git_config:
+#     name: 'delta\ "commit-decoration-style".commit-decoration-style'
+#     scope: global
+#     value: bold yellow box ul
+
+# - git_config:
+#     name: 'delta\ "commit-decoration-style".hunk-header-decoration-style'
+#     scope: global
+#     value: cyan box ul

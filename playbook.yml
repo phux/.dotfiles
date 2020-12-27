@@ -1,19 +1,19 @@
 ---
 - hosts: localhost
   roles:
-    - pkg_manager
-    - terminal
-    - urxvt
-    - tmux
-    - zsh
-    - i3
-    - php
-    - go
     - common
-    - neovim
-    - mysql
     - font
-    - rg
+    - go
+    - i3
     - joplin
-    - vim-anywhere
     - keepassxc
+    - mysql
+    - neovim
+    - php
+    - pkg_manager
+    - rg
+    - terminal
+    - tmux
+    - urxvt
+    - vim-anywhere
+    - zsh
