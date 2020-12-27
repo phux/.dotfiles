@@ -130,6 +130,7 @@ use {"Yggdroot/LeaderF"}
 use {"phux/vim-hardtime"}
 use "kassio/neoterm"
 use "brooth/far.vim"
+use "git-time-metric/gtm-vim-plugin"
 
 local autocmds = {
     plugins = {
