@@ -1,7 +1,7 @@
 local U = require "utils"
 -- let test#strategy = "neovim"
 vim.api.nvim_set_keymap("n", "<leader>T", "<cmd>lua TestWithSmartRunner('TestFile')<CR>", {noremap = true})
--- vim.api.nvim_set_keymap("n", "<leader>tf", '<cmd>lua TestWithSmartRunner(":TestNearest<cr>")<CR>', {noremap = true})
+vim.api.nvim_set_keymap("n", "<leader>tf", "<cmd>lua TestWithSmartRunner('TestNearest')<CR>", {noremap = true})
 -- vim.api.nvim_set_keymap("n", "<leader>tt", '<cmd>lua TestWithSmartRunner(":TestLast<cr>")<CR>', {noremap = true})
 
 local function findDockerCompose(extension)
