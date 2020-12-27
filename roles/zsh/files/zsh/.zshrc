@@ -427,6 +427,8 @@ if [ -f '$HOME/Downloads/google-cloud-sdk/completion.zsh.inc' ]; then . '$HOME/D
 # To customize prompt, run `p10k configure` or edit ~/.config//zsh//.p10k.zsh.
 [[ ! -f ~/.config/zsh/.p10k.zsh ]] || source ~/.config/zsh/.p10k.zsh
 
+[[ ! -f ~/.dotfiles/roles/terminal/files/gtm-plugin.sh ]] || source ~/.dotfiles/roles/terminal/files/gtm-plugin.sh
+
 if test -f "$TERM_BRIGHT"; then
     export BAT_THEME="gruvbox-light"
     xrdb -merge ~/.gruvbox-light.Xresources
