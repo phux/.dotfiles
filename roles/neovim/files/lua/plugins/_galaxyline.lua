@@ -28,6 +28,8 @@ if U.load_bright_theme() then
     colors.line_bg = colors.bright
 end
 
+vim.g.gtm_plugin_status_enabled = 1
+
 local buffer_not_empty = function()
     if vim.fn.empty(vim.fn.expand("%:t")) ~= 1 then
         return true
@@ -118,6 +120,14 @@ gls.left[6] = {
     }
 }
 
+gls.left[7] = {
+    Space = {
+        provider = function()
+            return " "
+        end
+    }
+}
+
 local checkwidth = function()
     local squeeze_width = vim.fn.winwidth(0) / 2
     if squeeze_width > 40 then
@@ -126,7 +136,7 @@ local checkwidth = function()
     return false
 end
 
-gls.left[7] = {
+gls.left[8] = {
     DiffAdd = {
         provider = "DiffAdd",
         condition = checkwidth,
@@ -134,7 +144,7 @@ gls.left[7] = {
         highlight = {colors.green, colors.line_bg}
     }
 }
-gls.left[8] = {
+gls.left[9] = {
     DiffModified = {
         provider = "DiffModified",
         condition = checkwidth,
@@ -142,7 +152,7 @@ gls.left[8] = {
         highlight = {colors.orange, colors.line_bg}
     }
 }
-gls.left[9] = {
+gls.left[10] = {
     DiffRemove = {
         provider = "DiffRemove",
         condition = checkwidth,
@@ -150,7 +160,7 @@ gls.left[9] = {
         highlight = {colors.red, colors.line_bg}
     }
 }
-gls.left[10] = {
+gls.left[11] = {
     LeftEnd = {
         provider = function()
             return ""
@@ -160,28 +170,41 @@ gls.left[10] = {
         highlight = {colors.line_bg, colors.line_bg}
     }
 }
-gls.left[11] = {
+gls.left[12] = {
     DiagnosticError = {
         provider = "DiagnosticError",
         icon = "  ",
         highlight = {colors.red, colors.bg}
     }
 }
-gls.left[12] = {
+gls.left[13] = {
     Space = {
         provider = function()
             return " "
         end
     }
 }
-gls.left[13] = {
+gls.left[14] = {
     DiagnosticWarn = {
         provider = "DiagnosticWarn",
         icon = "  ",
         highlight = {colors.blue, colors.bg}
     }
 }
+
 gls.right[1] = {
+    GtmStatus = {
+        provider = function()
+            if vim.fn.exists("*GTMStatusline") then
+                return vim.fn.GTMStatusline()
+            end
+            return ""
+        end,
+        highlight = {colors.fg, colors.line_bg}
+    }
+}
+
+gls.right[2] = {
     FileFormat = {
         provider = "FileFormat",
         separator = " ",
@@ -189,7 +212,7 @@ gls.right[1] = {
         highlight = {colors.fg, colors.line_bg}
     }
 }
-gls.right[2] = {
+gls.right[3] = {
     LineInfo = {
         provider = "LineColumn",
         separator = " | ",
@@ -197,7 +220,7 @@ gls.right[2] = {
         highlight = {colors.fg, colors.line_bg}
     }
 }
-gls.right[3] = {
+gls.right[4] = {
     PerCent = {
         provider = "LinePercent",
         separator = " ",
