@@ -4,6 +4,7 @@
 - include: templates.yml
 - include: config.yml
 - include: delta.yml
+- include: gtm.yaml
 # replacing with git fuzzy
 # - include: diff-so-fancy.yml
 
