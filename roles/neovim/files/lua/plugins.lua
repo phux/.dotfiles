@@ -109,8 +109,8 @@ use {
 use {"hashivim/vim-terraform", ft = "tf"}
 
 -- " Vim motion in lightning fast speed
--- use "easymotion/vim-easymotion"
-use "justinmk/vim-sneak"
+use "easymotion/vim-easymotion"
+-- use "justinmk/vim-sneak"
 
 -- automatically clearing search highlights
 use "pgdouyon/vim-evanesco"
