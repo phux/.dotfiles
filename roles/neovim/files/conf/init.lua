@@ -91,6 +91,7 @@ vim.cmd("set diffopt+=vertical")
 
 -- vim.api.nvim_set_keymap('n', '<leader>of', ':Telescope find_files<cr>', {noremap = true})
 
+vim.o.wildmenu = true
 vim.o.wildmode = "longest,list,full"
 vim.o.wildoptions = "pum"
 
@@ -180,6 +181,13 @@ vim.api.nvim_set_keymap("n", "<leader>p", '"+p', {noremap = true})
 vim.api.nvim_set_keymap("v", "<leader>p", '"+p', {noremap = true})
 vim.api.nvim_set_keymap("v", "<leader>y", '"+y', {noremap = true})
 -- vnoremap <silent> y y`]
+
+-- cmode terminal like mappings
+vim.api.nvim_set_keymap("c", "<c-p>", "<Up>", {noremap = true})
+vim.api.nvim_set_keymap("c", "<c-n>", "<Down>", {noremap = true})
+vim.api.nvim_set_keymap("c", "<M-b>", "<S-Left>", {noremap = true})
+vim.api.nvim_set_keymap("c", "<M-f>", "<S-Right>", {noremap = true})
+vim.api.nvim_set_keymap("c", "<M-a>", "<Home>", {noremap = true})
 
 vim.api.nvim_set_keymap("n", "<leader>bt", ":TagbarOpenAutoClose<cr>", {noremap = true})
 
