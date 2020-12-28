@@ -12,7 +12,7 @@ vim.g.coc_global_extensions = {
     "coc-calc",
     "coc-css",
     "coc-docker",
-    "coc-explorer",
+    -- "coc-explorer",
     -- "coc-git",
     "coc-html",
     "coc-lua",
@@ -65,13 +65,6 @@ api.nvim_set_keymap(
 )
 api.nvim_set_keymap("i", "<S-TAB>", 'pumvisible() ? "<C-P>" : "<C-H>"', {expr = true})
 api.nvim_set_keymap("i", "<cr>", 'pumvisible() ? coc#_select_confirm() : "<CR>"', {expr = true})
-
--- api.nvim_set_keymap('n', '<leader>op', ':CocCommand explorer<cr>', {noremap = true})
-
-U.map("n", "<leader>nd", "<Plug>(coc-definition)", {noremap = false})
-U.map("n", "<leader>nD", "<Plug>(coc-type-definition)", {noremap = false})
-U.map("n", "<leader>ni", "<Plug>(coc-implementation)", {noremap = false})
-U.map("n", "<leader>nr", "<Plug>(coc-references)", {noremap = false})
 
 api.nvim_set_keymap("n", "<leader>lf", ":CocAction<cr>", {noremap = true})
 api.nvim_set_keymap("v", "<leader>lf", ":CocAction<cr>", {noremap = true})

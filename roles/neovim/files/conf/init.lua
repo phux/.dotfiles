@@ -50,19 +50,21 @@ vim.o.expandtab = true
 
 vim.cmd("set foldlevel=1")
 vim.cmd("set foldnestmax=1")
+vim.cmd("let g:sneak#label = 1")
 
 require "plugins"
 
 require "plugins/_ale"
 require "plugins/_coc"
-require "plugins/_easymotion"
+-- require "plugins/_easymotion"
+require "plugins/_sneak"
 require "plugins/_fugitive"
 require "plugins/_hardtime"
 -- require "plugins/_fzf"
 require "plugins/_leaderf"
 require "plugins/_galaxyline"
 require "plugins/_gv"
-require "plugins/_luatree"
+require "plugins/_nvimtree"
 require "plugins/_splitjoin"
 require "plugins/_telescope"
 require "plugins/_treesitter"
@@ -72,7 +74,7 @@ if vim.fn.exists("g:colors_name") == 0 then
     if U.load_bright_theme() then
         vim.o.background = "light"
     end
-    vim.cmd("colorscheme gruvbox-material")
+    vim.cmd("colorscheme gruvbox8")
 end
 
 vim.o.hidden = true
