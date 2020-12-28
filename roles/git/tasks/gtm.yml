@@ -2,7 +2,9 @@
 
 ---
 - name: check gtm version
-  shell: gtm -v || /bin/true
+  shell: >
+    gtm --version || /bin/true
+    executable=/bin/zsh
   register: gtm_version_check
 
 - block:
@@ -18,5 +20,8 @@
       copy:
           src: /tmp/gtm/gtm
           dest: "{{ ansible_env.HOME }}/.local/bin/"
+
+    - name: make it executable
+      file: dest={{ ansible_env.HOME }}/.local/bin/gtm mode=+x
 
   when: "gtm_version_check.stdout.find('v1.3.5') == -1"
