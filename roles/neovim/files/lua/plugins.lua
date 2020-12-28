@@ -8,7 +8,7 @@ packer.init()
 use {"wbthomason/packer.nvim"}
 
 use {"lifepillar/vim-gruvbox8"}
-use {"sainnhe/gruvbox-material"}
+-- use {"sainnhe/gruvbox-material"}
 
 -- " For navigating b/w tmux window, specially for navigating with NERDTree
 use "christoomey/vim-tmux-navigator"
@@ -109,7 +109,8 @@ use {
 use {"hashivim/vim-terraform", ft = "tf"}
 
 -- " Vim motion in lightning fast speed
-use "easymotion/vim-easymotion"
+-- use "easymotion/vim-easymotion"
+use "justinmk/vim-sneak"
 
 -- automatically clearing search highlights
 use "pgdouyon/vim-evanesco"
@@ -132,9 +133,21 @@ use "kassio/neoterm"
 use "brooth/far.vim"
 use "git-time-metric/gtm-vim-plugin"
 
+use {
+    "plasticboy/vim-markdown",
+    ft = "markdown",
+    requires = {"godlygeek/tabular", opt = true}
+}
+
+use {"iamcco/markdown-preview.nvim", ft = "markdown", run = "cd app & yarn install"}
+-- let g:mkdp_path_to_chrome = 'chromium-browser'
+-- let g:mkdp_auto_close = 1
+-- let g:mkdp_auto_start = 0
+
 local autocmds = {
     plugins = {
         {"BufWritePost", "plugins.lua", ":luafile %"}
     }
 }
+
 U.augroups(autocmds)

@@ -7,12 +7,13 @@ augroup end
 
 
 set nofoldenable
+set conceallevel=2
 let g:markdown_enable_mappings = 0
 let g:markdown_enable_folding = 0
 let g:vim_markdown_folding_disabled=1
 let g:markdown_enable_input_abbreviations = 0
 let g:markdown_enable_spell_checking = 0
-let g:markdown_enable_conceal = 1
+let g:markdown_enable_conceal = 0
 let g:markdown_fenced_languages = [
       \ 'vim',
       \ 'help',
@@ -39,8 +40,6 @@ let g:vim_markdown_frontmatter=1
 
 " setlocal spell
 setlocal wrap
-
-set conceallevel=2
 
 nnoremap <silent><buffer> <enter> :MarkdownPreview<cr>
 nnoremap <silent><buffer> <f11> :MarkdownPreviewStop<cr>
