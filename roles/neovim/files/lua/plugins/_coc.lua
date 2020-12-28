@@ -76,6 +76,8 @@ U.map("n", "<leader>RR", "<Plug>(coc-refactor)", {noremap = false})
 U.map("n", "[g", "<Plug>(coc-diagnostic-prev)", {noremap = false})
 U.map("n", "]g", "<Plug>(coc-diagnostic-next)", {noremap = false})
 
+U.map("n", "<leader>Y", ":<C-u>CocList -A --normal yank<cr>", {noremap = false})
+
 U.map("i", "<c-j>", "<Plug>(coc-snippets-expand-jump)", {noremap = false})
 
 api.nvim_set_keymap("n", "<leader>go", ":CocCommand git.browserOpen<cr>", {noremap = true})
