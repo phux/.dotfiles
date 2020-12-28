@@ -71,7 +71,7 @@ export MANPAGER='less -X';
 alias update_antibody="antibody bundle < $XDG_CONFIG_HOME/zsh/antibody_plugins.txt  > $XDG_CONFIG_HOME/zsh/cached_plugins.sh; antibody update"
 
 alias sdn='sudo shutdown now -h'
-alias update=".d && git pull && make provision"
+alias update="sudo apt update && sudo apt upgrade && .d && git pull && make provision"
 alias agi='sudo apt-fast install'
 
 alias vu='vagrant up'
