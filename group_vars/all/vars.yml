@@ -12,3 +12,4 @@ joplin_gui_version: 1.5.9
 ruby_version: 2.7.1
 rbenv_version: v1.1.2
 bat_version: 0.17.1
+rg_version: 12.1.1

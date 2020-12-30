@@ -1,7 +1,11 @@
 ---
 
-- name: Install ripgrep
-  package:
-    name: ripgrep
-    state: latest
+- name: check rg version
+  shell: rg --version || /bin/true
+  register: rg_version_check
+
+- name: download & install rg
   become: yes
+  apt:
+    deb: https://github.com/BurntSushi/ripgrep/releases/download/{{ rg_version }}/ripgrep_{{rg_version}}_amd64.deb
+  when: "rg_version_check.stdout.find('ripgrep ' ~ rg_version) == -1"
