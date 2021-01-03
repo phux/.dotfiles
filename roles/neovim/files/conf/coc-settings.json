@@ -140,7 +140,8 @@
   "go.goplsArgs": ["-logfile", "/tmp/gopls.log", "-rpc.trace", "-v"],
   "go.goplsUseDaemon": true,
   "go.goplsOptions": {
-    "usePlaceholders": true,
+    "usePlaceholders": false,
+    "allowModfileModifications": true,
     "gofumpt": true,
     "codelenses": {
       "generate": true

@@ -17,6 +17,6 @@ fixers["markdown"] = {"textlint", "remove_trailing_lines", "trim_whitespace"}
 fixers["html"] = {"tidy", "prettier"}
 -- -- ['sql'] = ['sqlformat'],
 fixers["python"] = {"autopep8"}
-fixers["go"] = {"goimports", "goline"}
+fixers["go"] = {"goimports"}
 fixers["lua"] = {"luafmt"}
 setvar("ale_fixers", fixers)

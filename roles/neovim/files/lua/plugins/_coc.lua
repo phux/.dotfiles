@@ -72,6 +72,10 @@ api.nvim_set_keymap("n", "<leader>ll", "<Plug>(coc-codelens-action)", {noremap =
 U.map("n", "<leader>qf", "<Plug>(coc-fix-current)", {noremap = false})
 U.map("n", "<leader>rr", "<Plug>(coc-rename)", {noremap = false})
 U.map("n", "<leader>RR", "<Plug>(coc-refactor)", {noremap = false})
+U.map("n", "<leader>nd", "<Plug>(coc-definition)", {noremap = false})
+U.map("n", "<leader>nD", "<Plug>(coc-type-definition)", {noremap = false})
+U.map("n", "<leader>ni", "<Plug>(coc-implementation)", {noremap = false})
+U.map("n", "<leader>nr", "<Plug>(coc-references)", {noremap = false})
 
 U.map("n", "[g", "<Plug>(coc-diagnostic-prev)", {noremap = false})
 U.map("n", "]g", "<Plug>(coc-diagnostic-next)", {noremap = false})
