@@ -205,6 +205,16 @@ gls.right[1] = {
 }
 
 gls.right[2] = {
+    BufferType = {
+        provider = "FileTypeName",
+        separator = " ",
+        separator_highlight = {colors.bg, colors.bg},
+        highlight = {colors.fg, colors.bg},
+        condition = buffer_not_empty
+    }
+}
+
+gls.right[3] = {
     FileFormat = {
         provider = "FileFormat",
         separator = " ",
@@ -212,7 +222,7 @@ gls.right[2] = {
         highlight = {colors.fg, colors.line_bg}
     }
 }
-gls.right[3] = {
+gls.right[4] = {
     LineInfo = {
         provider = "LineColumn",
         separator = " | ",
@@ -220,7 +230,7 @@ gls.right[3] = {
         highlight = {colors.fg, colors.line_bg}
     }
 }
-gls.right[4] = {
+gls.right[5] = {
     PerCent = {
         provider = "LinePercent",
         separator = " ",
