@@ -33,7 +33,7 @@ end
 disable_distribution_plugins()
 
 vim.g.mapleader = " "
-vim.api.nvim_set_keymap("n", "<leader>vi", ":e ~/.config/nvim/init.lua<cr>", {noremap = true})
+vim.api.nvim_set_keymap("n", "<leader>vi", ":e ~/.dotfiles/roles/neovim/files/conf/init.lua<cr>", {noremap = true})
 vim.api.nvim_set_keymap("n", "<leader>vc", "<cmd>lua EditFtPluginFile()<cr>", {noremap = true})
 function _G.EditFtPluginFile()
     vim.cmd("e ~/.dotfiles/roles/neovim/files/ftplugin/" .. vim.bo.filetype .. ".vim")
@@ -63,6 +63,7 @@ require "plugins/_hardtime"
 -- require "plugins/_fzf"
 require "plugins/_leaderf"
 require "plugins/_galaxyline"
+-- require "plugins/_lualine"
 require "plugins/_gv"
 require "plugins/_nvimtree"
 require "plugins/_splitjoin"
