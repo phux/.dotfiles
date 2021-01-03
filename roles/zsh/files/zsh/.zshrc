@@ -71,7 +71,7 @@ export MANPAGER='less -X';
 alias update_antibody="antibody bundle < $XDG_CONFIG_HOME/zsh/antibody_plugins.txt  > $XDG_CONFIG_HOME/zsh/cached_plugins.sh; antibody update"
 
 alias sdn='sudo shutdown now -h'
-alias update="sudo apt update && sudo apt upgrade && .d && git pull && make provision"
+alias update="sudo apt update && sudo apt upgrade -y && .d && git pull && make provision"
 alias agi='sudo apt-fast install'
 
 alias vu='vagrant up'
@@ -200,84 +200,6 @@ fo() {
 }
 
 
-# replaced by git fuzzy
-# b - checkout git branch/tag (only local)
-# b() {
-#   local branches branch
-#   branches=$(git for-each-ref --count=90 --sort=-committerdate refs/heads/ --format="%(refname:short)") &&
-#   branch=$(echo "$branches" |
-#            fzf-tmux -d $(( 2 + $(wc -l <<< "$branches") )) +m) &&
-#   git checkout $(echo "$branch" | sed "s/.* //" | sed "s#remotes/[^/]*/##")
-# }
-
-# fco - checkout git branch/tag including remote
-# fco() {
-#   local tags branches target
-#   tags=$(
-#     git tag | awk '{print "\x1b[31;1mtag\x1b[m\t" $1}') || return
-#   branches=$(
-#     git branch --all --sort=-committerdate | grep -v HEAD             |
-#     sed "s/.* //"    | sed "s#remotes/[^/]*/##" |
-#     sort -u          | awk '{print "\x1b[34;1mbranch\x1b[m\t" $1}') || return
-#   target=$(
-#     (echo "$branches") |
-#     fzf-tmux -- --no-hscroll --ansi +m -d "\t" -n 2) || return
-#   git checkout $(echo "$target" | awk '{print $2}')
-# }
-
-# fshow - git commit browser
-# fshow() {
-#   git log --graph --color=always \
-#       --format="%C(auto)%h%d %s %C(black)%C(bold)%cr" "$@" |
-#   fzf --ansi --no-sort --reverse --tiebreak=index --bind=ctrl-s:toggle-sort \
-#       --bind "ctrl-m:execute:
-#                 (grep -o '[a-f0-9]\{7\}' | head -1 |
-#                 xargs -I % sh -c 'git show --color=always % | less -R') << 'FZF-EOF'
-#                 {}
-# FZF-EOF"
-# }
-
-# alias glNoGraph='git log --color=always --format="%C(auto)%h%d %s %C(black)%C(bold)%cr% C(auto)%an" "$@"'
-# _gitLogLineToHash="echo {} | grep -o '[a-f0-9]\{7\}' | head -1"
-# _viewGitLogLine="$_gitLogLineToHash | xargs -I % sh -c 'git show --color=always % | diff-so-fancy'"
-# # fshow_preview - git commit browser with previews
-# fshow_preview() {
-#     glNoGraph |
-#         fzf --no-sort --reverse --tiebreak=index --no-multi \
-#             --ansi --preview="$_viewGitLogLine" \
-#                 --header "enter to view, alt-y to copy hash" \
-#                 --bind "enter:execute:$_viewGitLogLine   | less -R" \
-#                 --bind "alt-y:execute:$_gitLogLineToHash | xclip"
-# }
-
-# fstash - easier way to deal with stashes
-# type fstash to get a list of your stashes
-# enter shows you the contents of the stash
-# ctrl-d shows a diff of the stash against your current HEAD
-# ctrl-b checks the stash out as a branch, for easier merging
-# fstash() {
-#   local out q k sha
-#     while out=$(
-#       git stash list --pretty="%C(yellow)%h %>(14)%Cgreen%cr %C(blue)%gs" |
-#       fzf --cycle --ansi --no-sort --query="$q" --print-query \
-#           --expect=ctrl-d,ctrl-b) \
-#           ;
-#     do
-#       q=$(head -1 <<< "$out")
-#       k=$(head -2 <<< "$out" | tail -1)
-#       sha=$(tail -1 <<< "$out" | cut -d' ' -f1)
-#       [ -z "$sha" ] && continue
-#       if [ "$k" = 'ctrl-d' ]; then
-#         git diff $sha
-#       elif [ "$k" = 'ctrl-b' ]; then
-#         git stash branch "stash-$sha" $sha
-#         break;
-#       else
-#         git stash show -p $sha
-#       fi
-#     done
-# }
-
 bindkey -e
 
 # http://www.drbunsen.org/vim-croquet/ analysing
@@ -351,7 +273,15 @@ export TMUX_PLUGIN_MANAGER_PATH="$HOME/.tmux/plugins/"
 alias tm='todotxt-machine'
 alias tnn='n ~/Dropbox/todo/work/todo.txt'
 alias tn='n ~/Dropbox/todo/todo.txt'
-alias nn='n +RecentNotes'
+# alias nn='n +RecentNotes'
+alias ni='cd ~/Dropbox/1vimwiki && n +VimwikiIndex +ZettelOpen'
+alias nn='cd ~/Dropbox/1vimwiki && n +VimwikiIndex'
+function zn() {
+  n +VimwikiIndex -c "ZettelNew $1"
+}
+# alias nn='n +VimwikiIndex +ZettelOpen'
+# TODO
+# alias nn='n +VimwikiIndex +ZettelNew'
 
 # function zd() {
 #     file="/tmp/base_$(date '+%H%M%S').json"

@@ -94,7 +94,8 @@ use "ap/vim-buftabline"
 -- use 'akinsho/nvim-bufferline.lua'
 use "Shougo/echodoc.vim"
 
-use "cohama/lexima.vim"
+-- use "cohama/lexima.vim"
+use "jiangmiao/auto-pairs"
 
 -- use "itchyny/lightline.vim"
 
@@ -109,7 +110,7 @@ use {
 use {"hashivim/vim-terraform", ft = "tf"}
 
 -- " Vim motion in lightning fast speed
-use "easymotion/vim-easymotion"
+use {"easymotion/vim-easymotion"}
 -- use "justinmk/vim-sneak"
 
 -- automatically clearing search highlights
@@ -133,20 +134,25 @@ use "kassio/neoterm"
 use "brooth/far.vim"
 use "git-time-metric/gtm-vim-plugin"
 
-use {
-    "plasticboy/vim-markdown",
-    ft = "markdown",
-    requires = {"godlygeek/tabular", opt = true}
-}
+-- use {
+--     "plasticboy/vim-markdown",
+--     ft = "markdown",
+--     requires = {"godlygeek/tabular", opt = true}
+-- }
 
 use {"iamcco/markdown-preview.nvim", ft = "markdown", run = "cd app & yarn install"}
 -- let g:mkdp_path_to_chrome = 'chromium-browser'
 -- let g:mkdp_auto_close = 1
 -- let g:mkdp_auto_start = 0
 
+use "vimwiki/vimwiki"
+use "michal-h21/vim-zettel"
+-- use "KevinBockelandt/notoire"
+
 local autocmds = {
     plugins = {
-        {"BufWritePost", "plugins.lua", ":luafile %"}
+        {"BufWritePost", "plugins.lua", ":luafile %"},
+        {"BufWritePost", "plugins.lua", ":PackerCompile"}
     }
 }
 
