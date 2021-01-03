@@ -5,6 +5,9 @@ vim.api.nvim_set_keymap("n", "<leader>of", ":FZF<cr>", {noremap = true})
 
 vim.api.nvim_set_keymap("n", "<leader>su", "<cmd>lua RgUnderCursor()<CR>", {noremap = true})
 
+-- TODO
+-- U.map("i", "<c-x><c-f>", "fzf#vim#complete#path('rg --files')", {noremap = true, expr = true})
+
 function _G.RgUnderCursor()
     local cw = vim.fn.expand("<cword>")
     vim.cmd("Rg " .. cw)
