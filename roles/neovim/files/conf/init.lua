@@ -69,6 +69,9 @@ require "plugins/_splitjoin"
 require "plugins/_telescope"
 require "plugins/_treesitter"
 require "plugins/_vimtest"
+require "plugins/_vimwiki"
+require "plugins/_zettel"
+-- require "plugins/_notoire"
 
 if vim.fn.exists("g:colors_name") == 0 then
     if U.load_bright_theme() then
@@ -201,7 +204,12 @@ vim.cmd("hi! def link BufTabLineActive TabLineSel")
 local autocmds = {
     conf = {
         {"BufWritePost", "~/.dotfiles/*.lua", ":luafile %"},
-        {"FocusLost,WinLeave", "*", ":silent! update"}
+        {"FocusLost,WinLeave", "*", ":silent! update"},
+        {
+            "FileType",
+            "vimwiki",
+            'let b:AutoPairs = {\'```\': \'```\', \'`\': \'`\', \'"\': \'"\', \'\'\'\': \'\'\'\', \'(\': \')\', \'\'\'\'\'\'\'\': \'\'\'\'\'\'\'\', \'{\': \'}\', \'"""\': \'"""\'}'
+        }
     }
 }
 U.augroups(autocmds)

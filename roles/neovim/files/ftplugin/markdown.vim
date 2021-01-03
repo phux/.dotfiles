@@ -5,9 +5,12 @@ augroup markdown
   au BufNewFile,BufRead,BufEnter *.markdown set tags=.git/tags.markdown
 augroup end
 
+nmap <buffer> <cr> <Plug>VimwikiFollowLink
+vmap <buffer> <cr> <Plug>VimwikiNormalizeLinkVisualCR
 
-set nofoldenable
-set conceallevel=2
+setlocal nofoldenable
+" setlocal conceallevel=0
+let g:indentLine_enabled = 0
 let g:markdown_enable_mappings = 0
 let g:markdown_enable_folding = 0
 let g:vim_markdown_folding_disabled=1
@@ -41,8 +44,9 @@ let g:vim_markdown_frontmatter=1
 " setlocal spell
 setlocal wrap
 
-nnoremap <silent><buffer> <enter> :MarkdownPreview<cr>
+nnoremap <silent><buffer> <f12> :silent update<Bar>silent MarkdownPreview<CR>
 nnoremap <silent><buffer> <f11> :MarkdownPreviewStop<cr>
+nnoremap <silent><buffer> <leader><enter> :silent update<Bar>silent MarkdownPreview<CR>
 
 " convert url to markdown link
 " usage: just paste the raw url, :call UrlToMarkdownLink()<cr>
@@ -68,4 +72,3 @@ endfunction
 
 nnoremap gu :call UrlToMarkdownLink()<cr>
 
-nnoremap <buffer> <leader><enter> :silent update<Bar>silent MarkdownPreview<CR>
