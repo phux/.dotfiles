@@ -1,22 +1,22 @@
 local U = require "utils"
 -- don't show the help in normal mode
 -- let g:Lf_HideHelp = 1
-vim.g.Lf_UseCache = 1
-vim.g.Lf_UseVersionControlTool = 1
+vim.g.Lf_UseVersionControlTool = 0
 vim.g.Lf_IgnoreCurrentBufferName = 1
 -- " popup mode
 -- vim.g.Lf_WindowPosition = "popup"
-vim.g.Lf_NeedCacheTime = 0.1
-vim.g.Lf_UseMemoryCache = 1
 vim.g.Lf_DefaultMode = "FullPath"
 vim.g.Lf_CursorBlink = 0
 vim.g.Lf_WindowHeight = 10
-vim.g.Lf_FollowLinks = 1
 -- not using it
 vim.g.Lf_MruMaxFiles = 0
 vim.cmd("let g:Lf_StlSeparator = { 'left': '', 'right': '' }")
 vim.g.Lf_ReverseOrder = 1
 vim.g.Lf_PreviewInPopup = 1
+vim.g.Lf_FollowLinks = 1
+
+vim.g.Lf_NumberOfHighlight = 10
+vim.g.Lf_DisableStl = 1
 -- vim.g.Lf_PreviewCode = 1
 -- vim.g.Lf_PreviewResult = {
 --     File = 1,
