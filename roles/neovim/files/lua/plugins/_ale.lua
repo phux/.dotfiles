@@ -2,6 +2,7 @@ vim.api.nvim_set_keymap("n", "<c-p>", ":ALEPreviousWrap<CR>", {noremap = true})
 vim.api.nvim_set_keymap("n", "<c-n>", ":ALENextWrap<CR>", {noremap = true})
 
 vim.g.ale_disable_lsp = true
+vim.g.ale_set_quickfix = true
 vim.g.ale_lint_on_enter = false
 vim.g.ale_lint_on_text_changed = false
 vim.g.ale_fix_on_save = true

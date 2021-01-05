@@ -1,3 +1,4 @@
+local U = require "utils"
 local vim = vim
 local actions = require("telescope.actions")
 
@@ -7,11 +8,9 @@ require("telescope").setup {
             i = {
                 ["<esc>"] = actions.close
             }
-        },
-        file_previewer = require "telescope.previewers".vim_buffer_cat.new, -- For buffer previewer use `require'telescope.previewers'.vim_buffer_cat.new`
-        grep_previewer = require "telescope.previewers".vimgrep.new
-        -- file_sorter = require "telescope.sorters".get_fzy_sorter,
-        -- generic_sorter = require "telescope.sorters".get_fzy_sorter
+        }
+        -- file_previewer = require "telescope.previewers".vim_buffer_cat.new, -- For buffer previewer use `require'telescope.previewers'.vim_buffer_cat.new`
+        -- grep_previewer = require "telescope.previewers".vimgrep.new
     }
 }
 
@@ -20,3 +19,32 @@ vim.api.nvim_set_keymap("n", "<leader>of", ":Telescope find_files<cr>", {noremap
 vim.api.nvim_set_keymap("n", "<leader>st", ":Telescope live_grep<cr>", {noremap = true})
 vim.api.nvim_set_keymap("n", "<leader>su", ":Telescope grep_string<cr>", {noremap = true})
 vim.api.nvim_set_keymap("n", "<leader>ob", ":Telescope buffers<cr>", {noremap = true})
+vim.api.nvim_set_keymap("n", "<leader>oq", ":Telescope quickfix<cr>", {noremap = true})
+vim.api.nvim_set_keymap("n", "<leader>ot", ":Telescope quickfix<cr>", {noremap = true})
+
+local center_list =
+    require "telescope.themes".get_dropdown(
+    {
+        winblend = 10,
+        width = 0.5,
+        prompt = " ",
+        results_height = 15,
+        previewer = false
+    }
+)
+
+function _G.fd()
+    local opts = vim.deepcopy(center_list)
+    opts.prompt_prefix = "FD>"
+    require "telescope.builtin".fd(opts)
+end
+
+vim.api.nvim_set_keymap("n", "<leader>of", "<cmd>lua fd()<cr>", {noremap = true})
+vim.api.nvim_set_keymap("n", "<leader>or", "<cmd>lua fdFromGitRoot()<cr>", {noremap = true})
+
+function _G.fdFromGitRoot()
+    local opts = vim.deepcopy(center_list)
+    opts.prompt_prefix = "GR>"
+    opts.cwd = U.GitRoot()
+    require "telescope.builtin".fd(opts)
+end

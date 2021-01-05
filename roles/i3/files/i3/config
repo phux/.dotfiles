@@ -27,20 +27,20 @@ workspace_auto_back_and_forth no
 floating_modifier Mod1
 
 # start a terminal
-bindsym $mod+Return exec st
+bindsym $mod+Return exec --no-startup-id st
 
 # kill focused window
 bindsym $mod+Shift+Q kill
 
 # start dmenu (a program launcher)
-bindsym $mod+i exec "rofi -combi-modi window,drun -show combi -modi combi"
+bindsym $mod+i exec --no-startup-id "rofi -combi-modi window,drun -show combi -modi combi"
 
 # next/previous workspace
 bindsym Mod1+Tab focus right
 bindsym $mod+Tab workspace back_and_forth
 
 # Start common apps
-bindsym $mod+Shift+Return exec chromium-browser
+bindsym $mod+Shift+Return exec --no-startup-id chromium-browser
 
 # Change focused window
 bindsym $mod+j focus down
@@ -62,16 +62,16 @@ bindsym $mod+Control+h resize shrink width 15 px or 15 ppt
 
 # pulse audio volume control
 bindsym $mod+Up exec --no-startup-id ~/.config/i3/audio.sh raise
-bindsym XF86AudioRaiseVolume exec ~/.config/i3/audio.sh raise
+bindsym XF86AudioRaiseVolume exec --no-startup-id ~/.config/i3/audio.sh raise
 bindsym $mod+Down exec --no-startup-id ~/.config/i3/audio.sh lower
-bindsym XF86AudioLowerVolume exec ~/.config/i3/audio.sh lower
-bindsym $mod+Shift+s exec --no-startup-id ~/.config/i3/audio.sh mute
-bindsym XF86AudioMute exec ~/.config/i3/audio.sh mute
+bindsym XF86AudioLowerVolume exec --no-startup-id ~/.config/i3/audio.sh lower
+bindsym $mod+m exec --no-startup-id ~/.config/i3/audio.sh mute
+bindsym XF86AudioMute exec --no-startup-id ~/.config/i3/audio.sh mute
 
-bindsym $mod+Right exec sudo brightnessctl s +10% # increase screen brightness
-bindsym $mod+Left exec sudo brightnessctl s 10%- # decrease screen brightness
-bindsym XF86MonBrightnessUp exec sudo brightnessctl s +10% # increase screen brightness
-bindsym XF86MonBrightnessDown exec sudo brightnessctl s 10%- # decrease screen brightness
+bindsym $mod+Right exec --no-startup-id sudo brightnessctl s +10% # increase screen brightness
+bindsym $mod+Left exec --no-startup-id sudo brightnessctl s 10%- # decrease screen brightness
+bindsym XF86MonBrightnessUp exec --no-startup-id sudo brightnessctl s +10% # increase screen brightness
+bindsym XF86MonBrightnessDown exec --no-startup-id sudo brightnessctl s 10%- # decrease screen brightness
 
 # resize window (you can also use the mouse for that)
 mode "resize" {
@@ -94,17 +94,18 @@ mode "resize" {
 
 bindsym $mod+r mode "resize"
 
-# toggle splitting mode
-bindsym $mod+Shift+n layout toggle split
-
+# toggle splitting mode TODO: find better mapping
+# bindsym $mod+s layout toggle split
+bindsym $mod+a split toggle
+# bindsym $mod+Shift+v split vertical
 
 # go fullscreen
 bindsym $mod+f fullscreen
 
 # change container layout (stacked, tabbed, default)
-bindsym $mod+s layout stacking
-bindsym $mod+w layout tabbed
-bindsym $mod+d layout default
+bindsym $mod+Shift+s layout stacking
+bindsym $mod+Shift+w layout tabbed
+bindsym $mod+Shift+d layout default
 # toggle tiling / floating
 bindsym $mod+Shift+space floating toggle
 
@@ -121,12 +122,13 @@ bindsym $mod+c focus child
 bindsym $mod+u [urgent=latest] focus
 
 # keyboard layouts
-bindsym $mod+Control+d exec setxkbmap de
-bindsym $mod+Control+u exec setxkbmap us
+bindsym $mod+Control+d exec --no-startup-id setxkbmap de
+bindsym $mod+Control+u exec --no-startup-id setxkbmap us
 
 # scratchpad
-bindsym $mod+m move scratchpad
-bindsym $mod+o scratchpad show
+bindsym $mod+minus scratchpad show
+bindsym $mod+Shift+minus move scratchpad
+# bindsym $mod+o scratchpad show
 
 # switch to next workspace
 bindsym $mod+semicolon workspace next
@@ -134,15 +136,15 @@ bindsym $mod+semicolon workspace next
 # switch to workspace
 bindsym $mod+1 workspace number 1
 bindsym $mod+2 workspace number 2
-bindsym $mod+3 workspace number 3; exec [ $(ps h -C mysql-workbench | wc -l) = 0 ] && mysql-workbench
+bindsym $mod+3 workspace number 3; exec --no-startup-id [ $(ps h -C mysql-workbench | wc -l) = 0 ] && mysql-workbench
 # bindsym $mod+3 workspace number 3; exec [ $(ps h -C mysql-workbench | wc -l) = 0 ] && ~/Downloads/DataGrip-2019.2.5/bin/datagrip.sh
 bindsym $mod+4 workspace number 4
 bindsym $mod+5 workspace number 5
 bindsym $mod+6 workspace number 6
 bindsym $mod+7 workspace number 7
-bindsym $mod+8 workspace number 8; exec [ $(ps h -C spotify | wc -l) = 0 ] && spotify
-bindsym $mod+9 workspace number 9; exec [ $(ps h -C slack | wc -l) = 0 ] && slack
-bindsym $mod+0 workspace number 10; exec [ $(ps h -C chromium-browser | wc -l) = 0 ] && chromium-browser
+bindsym $mod+8 workspace number 8; exec --no-startup-id [ $(ps h -C spotify | wc -l) = 0 ] && spotify
+bindsym $mod+9 workspace number 9; exec --no-startup-id [ $(ps h -C slack | wc -l) = 0 ] && slack
+bindsym $mod+0 workspace number 10; exec --no-startup-id [ $(ps h -C chromium-browser | wc -l) = 0 ] && chromium-browser
 
 # bind workspace to display
 workspace 1 output DP-3
@@ -171,15 +173,19 @@ bindsym $mod+Shift+R restart
 bindsym $mod+Shift+E exit
 
 ###  ADDED KEY BINDINGS  ###
-bindsym $MOD+SHIFT+f exec pcmanfm
-bindsym $MOD+SHIFT+o exec urxvt -e 'ranger'
-bindsym Mod1+Return exec ~/.vim-anywhere/bin/run
-bindsym $MOD+n exec joplin-gui
-bindsym $MOD+p exec keepassxc
-bindsym $mod+Shift+p exec sh ~/.config/i3/i3lock.sh
-bindsym Print exec gnome-screenshot -i
+bindsym $MOD+SHIFT+f exec --no-startup-id pcmanfm
+bindsym $MOD+SHIFT+o exec --no-startup-id st -e 'ranger'
+bindsym Mod1+Return exec --no-startup-id ~/.vim-anywhere/bin/run
+# bindsym $MOD+n exec st -c "todo_notes" -e "nvim +OpenTodoNote"
+bindsym $MOD+n exec --no-startup-id [ $(ps h -C "open_note.sh" | wc -l) = 0 ] && st -c "todo_notes" -g 120x40 ~/.dotfiles/roles/i3/files/i3/open_note.sh
+# bindsym $MOD+n exec st -c "todo_notes" -g 120x40 ~/.dotfiles/roles/i3/files/i3/open_note.sh
+bindsym $MOD+t exec --no-startup-id [ $(ps h -C "todotxt-machine" | wc -l) = 0 ] && st -c "todo_txt" -g 120x40 todotxt-machine
+bindsym $MOD+p exec --no-startup-id keepassxc
+bindsym $mod+Shift+p exec --no-startup-id sh ~/.config/i3/i3lock.sh
+# bindsym Print exec gnome-screenshot -i
+bindsym --release Print exec --no-startup-id import /tmp/latest-screenshot.png
 
-bindsym $mod+Shift+m exec autorandr -c
+bindsym $mod+Shift+a exec --no-startup-id autorandr -c
 
 # workspace targeting
 assign [class="Chromium"] 10
@@ -194,9 +200,12 @@ for_window [class="Xfce4-notifyd"] border none
 for_window [class="Xfce4-notifyd"] floating enable
 for_window [class="PomoDoneApp"] floating enable
 for_window [class="Gnome-calculator"] floating enable
+for_window [class="todo_notes"] floating enable
+for_window [class="todo_txt"] floating enable
+for_window [class="vim_anywhere"] floating enable
 
 # disable screensaver; needed for autorandr, otherwise I get logged out in certain cable plugin scenarios :D
-exec xset -dpms; xset s off
+exec --no-startup-id xset -dpms; xset s off
 
 font pango:Hack 9
 

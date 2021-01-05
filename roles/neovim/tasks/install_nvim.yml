@@ -24,8 +24,16 @@
     {{ ansible_env.HOME }}/tools/neovim && cd {{ ansible_env.HOME }}/tools/neovim
   when: neovim_was_cloned.stat.exists == False
 
+- name: install luajit
+  become: yes
+  package:
+    name: luajit
+    state: present
+
+
 - name: install & update neovim
   become: yes
   ignore_errors: true
   shell: >
     cd {{ ansible_env.HOME }}/tools/tmux && git pull && make CMAKE_BUILD_TYPE=RelWithDebInfo && sudo make install
+
