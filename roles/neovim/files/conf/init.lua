@@ -10,6 +10,8 @@ if fn.empty(fn.glob(install_path)) > 0 then
     execute "packadd packer.nvim"
 end
 
+vim.o.termguicolors = true
+
 local disable_distribution_plugins = function()
     vim.g.loaded_gzip = 1
     vim.g.loaded_tar = 1
@@ -50,7 +52,8 @@ vim.o.expandtab = true
 
 vim.cmd("set foldlevel=1")
 vim.cmd("set foldnestmax=1")
-vim.cmd("let g:sneak#label = 1")
+-- vim.cmd("let g:sneak#label = 1")
+vim.g.indentLine_enabled = 0
 
 require "plugins"
 
@@ -60,8 +63,8 @@ require "plugins/_easymotion"
 -- require "plugins/_sneak"
 require "plugins/_fugitive"
 require "plugins/_hardtime"
--- require "plugins/_fzf"
-require "plugins/_leaderf"
+require "plugins/_fzf"
+-- require "plugins/_leaderf"
 require "plugins/_galaxyline"
 -- require "plugins/_lualine"
 require "plugins/_gv"
@@ -72,6 +75,7 @@ require "plugins/_treesitter"
 require "plugins/_vimtest"
 require "plugins/_vimwiki"
 require "plugins/_zettel"
+require "plugins/_simpletodo"
 -- require "plugins/_notoire"
 
 if vim.fn.exists("g:colors_name") == 0 then
@@ -154,7 +158,8 @@ vim.api.nvim_set_keymap("v", "<leader>sv", ":Subvert/<c-R><c-w>/<c-r><c-w>/g<lef
 vim.api.nvim_set_keymap("n", "<leader>sr", ":s/<c-R><c-w>/<c-r><c-w>/g<left><left>", {noremap = true})
 vim.api.nvim_set_keymap("v", "<leader>sr", ":s/<c-R><c-w>/<c-r><c-w>/g<left><left>", {noremap = true})
 
-vim.cmd("set shortmess+=c")
+-- shorten messages, don't display intro
+vim.cmd("set shortmess+=aI")
 
 vim.o.formatoptions = "qrn1tclj"
 
@@ -174,8 +179,6 @@ vim.api.nvim_set_keymap("n", "<m-l>", ":bn<cr>", {noremap = true})
 vim.api.nvim_set_keymap("n", "<m-h>", ":bp<cr>", {noremap = true})
 
 vim.api.nvim_set_keymap("n", "<leader>tn", ":tabnext<cr>", {noremap = true})
-vim.api.nvim_set_keymap("n", "<leader>tl", ":tabnext<cr>", {noremap = true})
-vim.api.nvim_set_keymap("n", "<leader>th", ":tabnext<cr>", {noremap = true})
 vim.api.nvim_set_keymap("n", "<leader>tp", ":tabprev<cr>", {noremap = true})
 vim.api.nvim_set_keymap("n", "<leader>tc", ":tabclose<cr>", {noremap = true})
 
@@ -195,10 +198,6 @@ vim.api.nvim_set_keymap("c", "<M-a>", "<Home>", {noremap = true})
 
 vim.api.nvim_set_keymap("n", "<leader>bt", ":TagbarOpenAutoClose<cr>", {noremap = true})
 
-vim.o.termguicolors = true
-
-require "colorizer".setup()
-
 vim.cmd("hi! def link BufTabLineCurrent PmenuSel")
 vim.cmd("hi! def link BufTabLineActive TabLineSel")
 
@@ -214,3 +213,19 @@ local autocmds = {
     }
 }
 U.augroups(autocmds)
+
+local result =
+    vim.api.nvim_exec(
+    [[
+function! OpenTodoNote(todofile)
+exe 'edit '.a:todofile
+normal! Go
+exe 'normal! Go## ' . strftime("%Y-%m-%d %H:%M")
+normal! 2o
+startinsert
+endfunction
+]],
+    true
+)
+
+vim.cmd("command! OpenTodoNote :call OpenTodoNote('~/Dropbox/1vimwiki/todo.md')")
