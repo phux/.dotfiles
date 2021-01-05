@@ -45,14 +45,6 @@
 
     when: i3_is_installed.rc != 0
 
-- name: Download nix installer
-  get_url:
-    url: https://nixos.org/nix/install
-    dest: /tmp/nixinstaller
-
-- name: Execute the nixinstaller
-  shell: sh /tmp/nixinstaller
-
 - name: install xidlehook
   shell: >
     nix-env -iA nixpkgs.xidlehook

@@ -1,0 +1,9 @@
+---
+
+- name: Download nix installer
+  get_url:
+    url: https://nixos.org/nix/install
+    dest: /tmp/nixinstaller
+
+- name: Execute the nixinstaller
+  shell: sh /tmp/nixinstaller

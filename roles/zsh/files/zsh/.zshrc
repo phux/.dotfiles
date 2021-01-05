@@ -1,12 +1,25 @@
-# zmodload zsh/zprof
+# start tracing
+# zmodload zsh/datetime
+# setopt PROMPT_SUBST
+# PS4='+$EPOCHREALTIME %N:%i> '
+# logfile=$(mktemp zsh_profile.XXXXXXXX)
+# echo "Logging to $logfile"
+# exec 3>&2 2>$logfile
+# setopt XTRACE
+# end tracing
+
 export TERM=st-256color
 if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
 
-export FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --follow -g "!.git/" -g "!node_modules" -g "!/*/vendor/*" -g "!vendor/*" -g "!*.neon" -g "!composer.lock" -g "!*/var/*" -g "!var/*" -g "!*/cache/*"  2> /dev/null'
+# export FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --follow -g "!.git/" -g "!node_modules" -g "!/*/vendor/*" -g "!vendor/*" -g "!*.neon" -g "!composer.lock" -g "!*/var/*" -g "!var/*" -g "!*/cache/*"  2> /dev/null'
 
+export FZF_DEFAULT_COMMAND='fd --type file --follow --exclude .git --exclude node_modules --exclude vendor --exclude var'
+# export FZF_DEFAULT_COMMAND='fd --type file --hidden --no-ignore'
+# export FZF_DEFAULT_OPTS="--ansi"
+export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 export FZF_BIN_PATH="$HOME/.fzf/bin"
 
 WORDCHARS='*?_-[]~=&;!#$%^(){}<>'
@@ -21,7 +34,6 @@ export PURE_PROMPT_PATH_FORMATTING="%~"
 if [ -f $XDG_CONFIG_HOME/zsh/cached_plugins.sh ]; then
     source $XDG_CONFIG_HOME/zsh/cached_plugins.sh
 fi
-
 export EDITOR="nvim"
 export USE_EDITOR=$EDITOR
 export VISUAL=$EDITOR
@@ -71,7 +83,7 @@ export MANPAGER='less -X';
 alias update_antibody="antibody bundle < $XDG_CONFIG_HOME/zsh/antibody_plugins.txt  > $XDG_CONFIG_HOME/zsh/cached_plugins.sh; antibody update"
 
 alias sdn='sudo shutdown now -h'
-alias update="sudo apt update && sudo apt upgrade -y && .d && git pull && make provision"
+alias update="sudo apt update && sudo apt upgrade -y && .d && git pull && make provision;nvim +PackerUpdate +PackerCompile +CocUpdate"
 alias agi='sudo apt-fast install'
 
 alias vu='vagrant up'
@@ -114,6 +126,10 @@ alias gbd="git for-each-ref --sort=committerdate refs/heads/ --format='%(HEAD) %
 alias gst='git status'
 # alias gs='n +Gstatus'
 export GF_LOG_MENU_PARAMS='--pretty="%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset" --topo-order'
+export GF_PREFERRED_PAGER="delta --theme=gruvbox --highlight-removed -w __WIDTH__"
+
+export GIT_FUZZY_STATUS_COMMIT_KEY="Alt-H"
+export GIT_FUZZY_BRANCH_CHECKOUT_KEY="Alt-H"
 alias gs='git fuzzy status'
 alias gdt='n +"Git difftool -y"'
 alias glog='n +GV'
@@ -263,8 +279,6 @@ _tmuxinator() {
   return
 }
 
-compdef _tmuxinator tmuxinator mux
-
 alias m='~/.tmux/mux.sh'
 alias mux='tmuxinator'
 alias tmux='tmux -2'
@@ -276,8 +290,12 @@ alias tn='n ~/Dropbox/todo/todo.txt'
 # alias nn='n +RecentNotes'
 alias ni='cd ~/Dropbox/1vimwiki && n +VimwikiIndex +ZettelOpen'
 alias nn='cd ~/Dropbox/1vimwiki && n +VimwikiIndex'
+alias no='cd ~/Dropbox/notes/ && n $(date "+%Y-%m-%d").md'
 function zn() {
-  n +VimwikiIndex -c "ZettelNew $1"
+  n +VimwikiIndex -c "ZettelNew $@"
+}
+function td() {
+  echo "$(date '+%Y-%m-%d') $@ +inbox" >> ~/Dropbox/todo/todo.txt
 }
 # alias nn='n +VimwikiIndex +ZettelOpen'
 # TODO
@@ -333,6 +351,17 @@ bindkey '^f' forward-char
 bindkey '\e.' insert-last-word
 
 bindkey '^R' fzf-history-widget
+# Use fd to generate the list for directory completion
+_fzf_compgen_dir() {
+  fd --type d --hidden --follow --exclude ".git" . "$1"
+}
+# Use fd (https://github.com/sharkdp/fd) instead of the default find
+# command for listing path candidates.
+# - The first argument to the function ($1) is the base path to start traversal
+# - See the source code (completion.{bash,zsh}) for the details.
+_fzf_compgen_path() {
+  fd --hidden --follow --exclude ".git" . "$1"
+}
 
 zle -N edit-command-line
 # allow v to edit the command line (standard behaviour)
@@ -361,10 +390,8 @@ if [ -f '$HOME/Downloads/google-cloud-sdk/completion.zsh.inc' ]; then . '$HOME/D
 
 if test -f "$TERM_BRIGHT"; then
     export BAT_THEME="gruvbox-light"
-    xrdb -merge ~/.gruvbox-light.Xresources
 else
     export BAT_THEME="gruvbox"
-    xrdb ~/.Xresources
 fi
 
 if [ -f '~/.gtm.sh' ]; then . ~/.gtm.sh ;fi
@@ -376,3 +403,7 @@ export PATH=$HOME/.fnm:$PATH
 eval "`fnm env`"
 
 # zprof
+# start tracing
+# unsetopt XTRACE
+# exec 2>&3 3>&-
+# end tracing

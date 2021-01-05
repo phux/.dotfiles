@@ -1,0 +1,5 @@
+---
+
+- name: install fd
+  shell: >
+    nix-env -i fd
