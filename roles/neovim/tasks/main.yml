@@ -56,11 +56,11 @@
     - .tern-config
     - .eslintrc.json
 
-- name: install/update plugins
-  shell: >
-    source ~/.config/zsh/.zshrc &&
-    nvim +PackerUpdate +PackerCompile +CocUpdate +qall!
-    executable=/bin/zsh
+# - name: install/update plugins
+#   shell: >
+#     source ~/.config/zsh/.zshrc &&
+#     nvim +PackerUpdate +PackerCompile +CocUpdate +qall!
+#     executable=/bin/zsh
 
 - name: link autoload files
   file: >

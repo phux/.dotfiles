@@ -828,7 +828,7 @@ if ($1empty($2)) {
 endsnippet
 
 snippet cm "create mock"
-$$1 = $this->createMock($1::class);
+$$1 = $this->createMock($1$2::class);$0
 endsnippet
 
 snippet test "test"
@@ -836,4 +836,20 @@ public function test$1(): void
 {
   $0
 }
+endsnippet
+
+snippet dp "dataprovider + function"
+/**
+ * @return array<string, array>
+ */
+public function $1Provider(): array
+{
+  return [
+    '' => [],
+  ];
+}
+
+/**
+ * @dataProvider $1Provider
+ */
 endsnippet

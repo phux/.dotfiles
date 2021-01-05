@@ -35,13 +35,19 @@ use {
     "nvim-lua/telescope.nvim",
     requires = {
         "nvim-lua/popup.nvim",
-        "nvim-lua/plenary.nvim"
+        "nvim-lua/plenary.nvim",
+        "nvim-telescope/telescope-fzy-native.nvim"
     }
 }
 
 -- " For showing the actual color of the hex value
-use "norcalli/nvim-colorizer.lua"
-
+use {
+    "norcalli/nvim-colorizer.lua",
+    ft = {"conf", "css"},
+    config = function()
+        require "colorizer".setup()
+    end
+}
 use "w0rp/ale"
 
 -- Wrapping/delimiters
@@ -62,7 +68,7 @@ use {
         "nvim-lua/plenary.nvim"
     },
     config = function()
-        require("gitsigns").setup()
+        -- require("gitsigns").setup()
     end
 }
 
@@ -76,9 +82,10 @@ use {"tweekmonster/startuptime.vim", cmd = "StartupTime"}
 use "tpope/vim-commentary"
 
 use "tpope/vim-abolish"
-use "tpope/vim-sleuth"
+-- use "tpope/vim-sleuth"
 
 use {"vim-test/vim-test", ft = {"go", "php"}}
+use {"adoy/vim-php-refactoring-toolbox", ft = "php"}
 
 use {
     "phpactor/phpactor",
@@ -104,7 +111,8 @@ use "jiangmiao/auto-pairs"
 -- install ttf-nerd-fonts-symbols` use 'ryanoasis/vim-devicons'
 use {
     "kyazdani42/nvim-tree.lua",
-    requires = {"kyazdani42/nvim-web-devicons", opt = true}
+    requires = {"kyazdani42/nvim-web-devicons", opt = true},
+    cmd = {"NvimTreeToggle", "NvimTreeFindFile"}
 }
 
 use {"hashivim/vim-terraform", ft = "tf"}
@@ -116,7 +124,7 @@ use {"easymotion/vim-easymotion"}
 -- automatically clearing search highlights
 use "pgdouyon/vim-evanesco"
 
-use "jparise/vim-graphql"
+use {"jparise/vim-graphql", ft = {"typescript", "javascript", "graphql"}}
 
 use {
     "glepnir/galaxyline.nvim",
@@ -131,11 +139,10 @@ use {
 
 use {"ThePrimeagen/vim-be-good", cmd = "VimBeGood"}
 
-use {"Yggdroot/LeaderF"}
+-- use {"Yggdroot/LeaderF"}
 
 use {"phux/vim-hardtime"}
-use "kassio/neoterm"
-use "brooth/far.vim"
+use {"brooth/far.vim", cmd = "Far"}
 use "git-time-metric/gtm-vim-plugin"
 
 -- use {
@@ -149,8 +156,13 @@ use {"iamcco/markdown-preview.nvim", ft = "markdown", run = "cd app & yarn insta
 -- let g:mkdp_auto_close = 1
 -- let g:mkdp_auto_start = 0
 
-use "vimwiki/vimwiki"
-use "michal-h21/vim-zettel"
+use {"vimwiki/vimwiki", cmd = "VimwikiIndex"}
+use {"michal-h21/vim-zettel"}
+
+use {"vitalk/vim-simple-todo", ft = {"markdown", "text"}}
+use {"dbeniamine/todo.txt-vim", ft = {"text"}}
+
+use "ActivityWatch/aw-watcher-vim"
 -- use "KevinBockelandt/notoire"
 
 local autocmds = {
