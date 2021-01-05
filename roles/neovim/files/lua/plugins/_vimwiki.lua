@@ -5,7 +5,7 @@ vim.g.vimwiki_list = {
         path = "~/Dropbox/1vimwiki/",
         syntax = "markdown",
         ext = ".md",
-        auto_tags = 1,
+        auto_tags = 0,
         path_html = "/tmp/vimwiki/site_html/",
         custom_wiki2html = "vimwiki_markdown"
     }

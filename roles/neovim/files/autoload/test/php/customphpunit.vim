@@ -43,18 +43,7 @@ function! test#php#customphpunit#build_args(args, color) abort
 endfunction
 
 function! test#php#customphpunit#executable() abort
-    echom "fooooo"
-  if exists('g:test#php#customphpunit#executable')
-    return g:test#php#customphpunit#executable
-  elseif filereadable('./vendor/bin/paratest')
     return "docker-compose exec -e REDIS_HOST='' -e TEST_TOKEN='' symfony ./vendor/bin/paratest"
-  elseif filereadable('./vendor/bin/phpunit')
-    return './vendor/bin/phpunit'
-  elseif filereadable('./bin/phpunit')
-    return './bin/phpunit'
-  else
-    return 'phpunit'
-  endif
 endfunction
 
 function! s:nearest_test(position) abort

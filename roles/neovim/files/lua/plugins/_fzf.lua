@@ -1,9 +1,10 @@
 local U = require "utils"
-vim.api.nvim_set_keymap("n", "<leader>st", ":Rg ", {noremap = true})
-vim.api.nvim_set_keymap("n", "<leader>ob", ":Buffers<CR>", {noremap = true})
-vim.api.nvim_set_keymap("n", "<leader>of", ":FZF<cr>", {noremap = true})
+-- vim.api.nvim_set_keymap("n", "<leader>st", ":Rg ", {noremap = true})
+-- vim.api.nvim_set_keymap("n", "<leader>ob", ":Buffers<CR>", {noremap = true})
+-- vim.api.nvim_set_keymap("n", "<leader>of", ":FZF<cr>", {noremap = true})
 
-vim.api.nvim_set_keymap("n", "<leader>su", "<cmd>lua RgUnderCursor()<CR>", {noremap = true})
+-- vim.api.nvim_set_keymap("n", "<leader>su", "<cmd>lua RgUnderCursor()<CR>", {noremap = true})
+vim.api.nvim_set_keymap("n", "<leader>vl", ":FZF ~/.dotfiles/roles/neovim<cr>", {noremap = true})
 
 -- TODO
 -- U.map("i", "<c-x><c-f>", "fzf#vim#complete#path('rg --files')", {noremap = true, expr = true})

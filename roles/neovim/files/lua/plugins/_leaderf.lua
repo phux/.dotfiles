@@ -2,6 +2,7 @@ local U = require "utils"
 -- don't show the help in normal mode
 -- let g:Lf_HideHelp = 1
 vim.g.Lf_UseVersionControlTool = 0
+vim.g.Lf_ShowHidden = 1
 vim.g.Lf_IgnoreCurrentBufferName = 1
 -- " popup mode
 -- vim.g.Lf_WindowPosition = "popup"
@@ -31,17 +32,23 @@ vim.g.Lf_DisableStl = 1
 --     Gtags = 0
 -- }
 
-U.map("n", "<leader>of", ":Leaderf file<cr>", {noremap = true})
+-- U.map("n", "<leader>of", ":Leaderf file<cr>", {noremap = true})
 -- U.map("n", "<leader>ob", ":Leaderf buffer<cr>", {noremap = true})
 vim.g.Lf_ShortcutB = "<leader>ob"
-vim.g.Lf_GtagsAutoGenerate = 1
+vim.g.Lf_GtagsAutoGenerate = 0
 vim.g.Lf_Gtagslabel = "native-pygments"
 vim.g.Lf_GtagsStoreInRootMarker = 1
 U.map("n", "<leader>oo", ":Leaderf --recall<cr>", {noremap = true})
 U.map("n", "<leader>su", ":Leaderf rg -LFi --hidden --cword<cr>", {noremap = true})
 U.map("n", "<leader>st", ":Leaderf rg<cr>", {noremap = true})
-U.map("n", "<leader>ot", ":Leaderf gtags<cr>", {noremap = true})
-U.map("n", "<leader>vl", ":Leaderf file " .. os.getenv("HOME") .. "/.config/nvim/lua<cr>", {noremap = true})
+-- U.map("n", "<leader>ot", ":Leaderf gtags<cr>", {noremap = true}) -- TODO: doesn't work for php
+U.map("n", "<leader>ot", ":Leaderf tag<cr>", {noremap = true})
+U.map(
+    "n",
+    "<leader>vl",
+    ":Leaderf file " .. os.getenv("HOME") .. "/.dotfiles/roles/neovim/files/lua<cr>",
+    {noremap = true}
+)
 
 -- U.map("v", "<leader>su", ':<C-U><C-R>=printf("Leaderf! rg -F -e %s ", leaderf#Rg#visual())<CR>', {noremap = true})
 -- xnoremap gf :<C-U><C-R>=printf("Leaderf! rg -F -e %s ", leaderf#Rg#visual())<CR>

@@ -39,7 +39,11 @@ function U.augroups(definitions)
 end
 
 function U.load_bright_theme()
-    local f = io.open(os.getenv("TERM_BRIGHT"), "r")
+    local termBright = os.getenv("TERM_BRIGHT")
+    if termBright == nil then
+        return false
+    end
+    local f = io.open(termBright, "r")
     if f ~= nil then
         io.close(f)
         return true
