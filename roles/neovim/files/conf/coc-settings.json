@@ -107,30 +107,8 @@
     { "http://json.schemastore.org/composer": "/composer.json" },
     { "http://json.schemastore.org/package": "/package.json" }
   ],
-  "git.enableGutters": false,
-  "coc.source.issues.enable": false,
-  "git.realtimeGutters": false,
-  "git.addedSign.hlGroup": "GitGutterAdd",
-  "git.changedSign.hlGroup": "GitGutterChange",
-  "git.removedSign.hlGroup": "GitGutterDelete",
-  "git.topRemovedSign.hlGroup": "GitGutterDelete",
-  "git.changeRemovedSign.hlGroup": "GitGutterChangeDelete",
-  "git.addGBlameToBufferVar": true,
   "yank.enableCompletion": true,
   "yank.highlight.duration": 100,
-  "explorer.file.showHiddenFiles": true,
-  "explorer.quitOnOpen": true,
-  "explorer.sources": [
-    {
-      "name": "file",
-      "expand": true
-    }
-  ],
-  "explorer.file.child.template": "[selection | clip | 1] [indent][icon | 1] [filename omitCenter 1] [linkIcon & 1][link growRight 1 omitCenter 5]",
-  "explorer.keyMappings.global": {
-    "u": "gotoParent"
-  },
-  "explorer.previewAction.onHover": false,
   "codeLens.enable": true,
   "coc.preferences.extensionUpdateCheck": "daily",
   "coc.preferences.currentFunctionSymbolAutoUpdate": true,
@@ -140,7 +118,7 @@
   "go.goplsArgs": ["-logfile", "/tmp/gopls.log", "-rpc.trace", "-v"],
   "go.goplsUseDaemon": true,
   "go.goplsOptions": {
-    "usePlaceholders": false,
+    "usePlaceholders": true,
     "allowModfileModifications": true,
     "gofumpt": true,
     "codelenses": {
@@ -149,8 +127,7 @@
     "analyses": {
       "fillreturns": true,
       "fieldalignment": true,
-      "undeclaredname": true,
-      "staticcheck": true
+      "undeclaredname": true
     }
   },
   "solargraph.hover": true,
@@ -162,39 +139,10 @@
   "solargraph.autoformat": true,
   "solargraph.diagnostics": true,
   "solargraph.useBundler": true,
-  "eslint.filetypes": [
-    "javascript",
-    "javascriptreact",
-    "typescript",
-    "typescriptreact"
-  ],
   "eslint.autoFixOnSave": false,
   "prettier.disableSuccessMessage": true,
   "prettier.trailingComma": "es5",
   "prettier.eslintIntegration": true,
   "tsserver.formatOnType": true,
-  "cSpell.userWords": [
-    "GmbH",
-    "Vite",
-    "autoformat",
-    "bson",
-    "circleci",
-    "dupl",
-    "echodoc",
-    "gofumpt",
-    "gopls",
-    "hardcoding",
-    "htmldjango",
-    "intelephense",
-    "logfile",
-    "mrkdwn",
-    "openjdk",
-    "paypal",
-    "plutov",
-    "solargraph",
-    "symfony"
-  ],
-  "cSpellExt.enableDictionaries": ["german"],
-  "cSpell.language": "en,de",
   "Lua.diagnostics.globals": ["vim"]
 }
