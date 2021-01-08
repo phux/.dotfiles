@@ -1,6 +1,6 @@
 #!/bin/zsh
 
-# fnm
+# fnm -> needed for node -> needed for coc.nvim
 export PATH=$HOME/.fnm:$PATH
 eval "`fnm env`"
 

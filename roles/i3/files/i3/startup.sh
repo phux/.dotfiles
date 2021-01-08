@@ -1,27 +1,20 @@
 #!/bin/bash
 
-xset r rate 300 35
-setxkbmap -option caps:escape
-# always pressing this menu key -> disable
-xmodmap -e 'keycode 135='
-
 # if ! urxvtc "$@"; then
 #   urxvtd -q -o -f
 # fi
 
-tmux new-session -d -s def
-tmuxinator start dotfiles --no-attach
+~/.config/i3/wp-changer.sh &
 
-sleep 3; autorandr --change
+# source ~/.dotfiles/roles/i3/files/i3/keyboard.sh &
+
+sleep 5; dropbox start -i &
+
+fluxgui &
 
 ~/Downloads/activitywatch/aw-qt &
 
-~/.config/i3/wp-changer.sh &
-
-joplin-gui &
+tmux new-session -d -s def &
+tmuxinator start dotfiles --no-attach &
 
 blueman-applet &
-
-sleep 5; dropbox start -i
-
-fluxgui &
