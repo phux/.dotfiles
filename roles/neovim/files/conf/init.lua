@@ -34,7 +34,9 @@ local disable_distribution_plugins = function()
 end
 disable_distribution_plugins()
 
+vim.api.nvim_set_keymap("", "<Space>", "<Nop>", {noremap = true})
 vim.g.mapleader = " "
+
 vim.api.nvim_set_keymap("n", "<leader>vi", ":e ~/.dotfiles/roles/neovim/files/conf/init.lua<cr>", {noremap = true})
 vim.api.nvim_set_keymap("n", "<leader>vc", "<cmd>lua EditFtPluginFile()<cr>", {noremap = true})
 function _G.EditFtPluginFile()
@@ -42,6 +44,7 @@ function _G.EditFtPluginFile()
 end
 vim.api.nvim_set_keymap("n", "<leader>w", ":w<CR>", {noremap = true})
 
+vim.o.completeopt = "menuone,noinsert,noselect"
 vim.o.tabstop = 2
 vim.o.shiftwidth = 2
 vim.o.softtabstop = 2
@@ -114,8 +117,8 @@ vim.cmd("set number")
 vim.cmd("set relativenumber")
 vim.o.ignorecase = true -- Ignore case when searching...
 vim.o.smartcase = true -- ... unless there is a capital letter in the query
--- vim.o.signcolumn = "yes" -- always show the signcolumne to avoid flicker
-vim.api.nvim_command("set signcolumn=yes")
+vim.wo.signcolumn = "yes" -- always show the signcolumne to avoid flicker
+-- vim.api.nvim_command("set signcolumn=yes")
 vim.o.hidden = true -- having more than 1 buffor open
 vim.o.cursorline = false -- Don't highlight the current line
 vim.o.equalalways = false --
@@ -143,8 +146,7 @@ vim.o.belloff = "all"
 
 vim.o.clipboard = "unnamed"
 
-vim.o.undofile = true
--- vim.o.undodir = '~/.vim_undodir'
+vim.cmd("set undofile")
 vim.o.inccommand = "split"
 vim.o.swapfile = false -- Living on the edge
 execute("set noswapfile")
@@ -162,6 +164,10 @@ vim.api.nvim_set_keymap("v", "<leader>sr", ":s/<c-R><c-w>/<c-r><c-w>/g<left><lef
 vim.cmd("set shortmess+=aI")
 
 vim.o.formatoptions = "qrn1tclj"
+
+-- if count supplied, move with line numbers, otherwise move visual lines
+vim.api.nvim_set_keymap("n", "k", "v:count == 0 ? 'gk' : 'k'", {noremap = true, expr = true})
+vim.api.nvim_set_keymap("n", "j", "v:count == 0 ? 'gj' : 'j'", {noremap = true, expr = true})
 
 vim.o.joinspaces = false
 vim.o.confirm = true
@@ -214,8 +220,7 @@ local autocmds = {
 }
 U.augroups(autocmds)
 
-local result =
-    vim.api.nvim_exec(
+vim.api.nvim_exec(
     [[
 function! OpenTodoNote(todofile)
 exe 'edit '.a:todofile
@@ -229,3 +234,25 @@ endfunction
 )
 
 vim.cmd("command! OpenTodoNote :call OpenTodoNote('~/Dropbox/1vimwiki/todo.md')")
+
+vim.api.nvim_exec(
+    [[
+let g:qf_loc_toggle_binds = 0
+function! ToggleQfLocListBinds()
+  if g:qf_loc_toggle_binds == 1
+    nnoremap <silent> <c-p> :ALEPreviousWrap<cr>
+    nnoremap <silent> <c-n> :ALENextWrap<cr>
+    let g:qf_loc_toggle_binds = 0
+    echo 'ale wrap binds loaded'
+  else
+    let g:qf_loc_toggle_binds = 1
+    nnoremap <c-p> :cp<cr>
+    nnoremap <c-n> :cn<cr>
+    echo 'qf binds loaded'
+  endif
+endfunction
+]],
+    true
+)
+
+vim.api.nvim_set_keymap("n", "<leader>lb", ":call ToggleQfLocListBinds()<cr>", {noremap = true})

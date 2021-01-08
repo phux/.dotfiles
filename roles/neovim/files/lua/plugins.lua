@@ -36,7 +36,8 @@ use {
     requires = {
         "nvim-lua/popup.nvim",
         "nvim-lua/plenary.nvim",
-        "nvim-telescope/telescope-fzy-native.nvim"
+        "nvim-telescope/telescope-fzy-native.nvim",
+        "nvim-telescope/telescope-fzf-writer.nvim"
     }
 }
 
@@ -115,7 +116,7 @@ use {
     cmd = {"NvimTreeToggle", "NvimTreeFindFile"}
 }
 
-use {"hashivim/vim-terraform", ft = "tf"}
+-- use {"hashivim/vim-terraform", ft = "tf"}
 
 -- " Vim motion in lightning fast speed
 use {"easymotion/vim-easymotion"}
@@ -124,7 +125,9 @@ use {"easymotion/vim-easymotion"}
 -- automatically clearing search highlights
 use "pgdouyon/vim-evanesco"
 
-use {"jparise/vim-graphql", ft = {"typescript", "javascript", "graphql"}}
+-- use {"jparise/vim-graphql", ft = {"typescript", "javascript", "graphql"}}
+-- use {"nelsyeung/twig.vim", ft = "twig"}
+use "sheerun/vim-polyglot"
 
 -- use {
 --     "glepnir/galaxyline.nvim",
@@ -166,7 +169,6 @@ use {"ThePrimeagen/vim-be-good", cmd = "VimBeGood"}
 
 use {"phux/vim-hardtime"}
 use {"brooth/far.vim", cmd = "Far"}
-use "git-time-metric/gtm-vim-plugin"
 
 -- use {
 --     "plasticboy/vim-markdown",
