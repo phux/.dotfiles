@@ -1,3 +1,10 @@
+# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.config/zsh/.zshrc.
+# Initialization code that may require console input (password prompts, [y/n]
+# confirmations, etc.) must go above this block; everything else may go below.
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+
 # start tracing
 # zmodload zsh/datetime
 # setopt PROMPT_SUBST
@@ -6,17 +13,15 @@
 # echo "Logging to $logfile"
 # exec 3>&2 2>$logfile
 # setopt XTRACE
+# zmodload zsh/zprof
 # end tracing
 
 export TERM=st-256color
-if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
-fi
 
 
 # export FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --follow -g "!.git/" -g "!node_modules" -g "!/*/vendor/*" -g "!vendor/*" -g "!*.neon" -g "!composer.lock" -g "!*/var/*" -g "!var/*" -g "!*/cache/*"  2> /dev/null'
 
-export FZF_DEFAULT_COMMAND='fd --type file --follow --exclude .git --exclude node_modules --exclude vendor --exclude var'
+export FZF_DEFAULT_COMMAND='fd --type file --follow --hidden --exclude .git --exclude node_modules --exclude vendor --exclude var'
 # export FZF_DEFAULT_COMMAND='fd --type file --hidden --no-ignore'
 # export FZF_DEFAULT_OPTS="--ansi"
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
@@ -31,9 +36,9 @@ export LC_ALL='en_US.UTF-8';
 export SHOW_AWS_PROMPT=false
 export PURE_PROMPT_PATH_FORMATTING="%~"
 
-if [ -f $XDG_CONFIG_HOME/zsh/cached_plugins.sh ]; then
-    source $XDG_CONFIG_HOME/zsh/cached_plugins.sh
-fi
+# if [ -f $XDG_CONFIG_HOME/zsh/cached_plugins.sh ]; then
+    # source $XDG_CONFIG_HOME/zsh/cached_plugins.sh
+# fi
 export EDITOR="nvim"
 export USE_EDITOR=$EDITOR
 export VISUAL=$EDITOR
@@ -41,7 +46,7 @@ export VISUAL=$EDITOR
 [[ -s "$HOME/.gvm/scripts/gvm" ]] && source "$HOME/.gvm/scripts/gvm"
 export GOPATH="$HOME/code/go"
 export LGOBIN="$HOME/code/go/bin"
-export PATH=$PATH:$HOME/bin:$HOME/.local/bin:$HOME/.composer/vendor/bin:$FZF_BIN_PATH:$LGOBIN:$HOME/.config/composer/vendor/bin:$HOME/.config/nvim/plugged/phpactor/bin:$HOME/.gem/ruby/2.7.0/bin:$HOME/.gem/ruby/2.5.0/bin:$HOME/.cargo/bin/
+export PATH=$PATH:$HOME/bin:$HOME/.local/bin:$HOME/.composer/vendor/bin:$FZF_BIN_PATH:$LGOBIN:$HOME/.config/composer/vendor/bin:$HOME/.config/nvim/plugged/phpactor/bin:$HOME/.gem/ruby/2.7.0/bin:$HOME/.gem/ruby/2.5.0/bin:$HOME/.cargo/bin/:$HOME/tools/git-fuzzy/bin
 
 HISTSIZE='100000';
 HISTFILESIZE="${HISTSIZE}";
@@ -182,39 +187,18 @@ alias 7='cd +7'
 alias 8='cd +8'
 alias 9='cd +9'
 
-alias asciicast2gif='docker run --rm -v $PWD:/data asciinema/asciicast2gif'
-
-function git_current_branch() {
-  local ref
-  ref=$(command git symbolic-ref --quiet HEAD 2> /dev/null)
-  local ret=$?
-  if [[ $ret != 0 ]]; then
-    [[ $ret == 128 ]] && return  # no git repo.
-    ref=$(command git rev-parse --short HEAD 2> /dev/null) || return
-  fi
-  echo ${ref#refs/heads/}
-}
-
-my-backward-delete-word() {
-    local WORDCHARS=${WORDCHARS/\//}
-    zle backward-delete-word
-}
-zle -N my-backward-delete-word
-bindkey '^W' my-backward-delete-word
+fpath=($fpath ~/.dotfiles/roles/zsh/files/autoloaded)
+autoload fo
+autoload git_current_branch
+autoload custom-backward-delete-word
+autoload zn
+autoload td
+zle -N custom-backward-delete-word
+bindkey '^W' custom-backward-delete-word
 
 # Modified version where you can press
 #   - CTRL-O to open with `open` command,
 #   - CTRL-E or Enter key to open with the $EDITOR
-fo() {
-  local out file key
-  IFS=$'\n' out=($(fzf-tmux --query="$1" --exit-0 --expect=ctrl-o,ctrl-e))
-  key=$(head -1 <<< "$out")
-  file=$(head -2 <<< "$out" | tail -1)
-  if [ -n "$file" ]; then
-    [ "$key" = ctrl-o ] && open "$file" || ${EDITOR:-vim} "$file"
-  fi
-}
-
 
 bindkey -e
 
@@ -291,12 +275,6 @@ alias tn='n ~/Dropbox/todo/todo.txt'
 alias ni='cd ~/Dropbox/1vimwiki && n +VimwikiIndex +ZettelOpen'
 alias nn='cd ~/Dropbox/1vimwiki && n +VimwikiIndex'
 alias no='cd ~/Dropbox/notes/ && n $(date "+%Y-%m-%d").md'
-function zn() {
-  n +VimwikiIndex -c "ZettelNew $@"
-}
-function td() {
-  echo "$(date '+%Y-%m-%d') $@ +inbox" >> ~/Dropbox/todo/todo.txt
-}
 # alias nn='n +VimwikiIndex +ZettelOpen'
 # TODO
 # alias nn='n +VimwikiIndex +ZettelNew'
@@ -375,18 +353,14 @@ export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
 export JAVA_HOME="/usr/lib/jvm/java-11-openjdk-amd64"
 
 
-[ -f ~/.~/.powerlevel10k/powerlevel10k.zsh-theme ] && source ~/.powerlevel10k/powerlevel10k.zsh-theme
+# [ -f ~/.~/.powerlevel10k/powerlevel10k.zsh-theme ] && source ~/.powerlevel10k/powerlevel10k.zsh-theme
 
 # The next line updates PATH for the Google Cloud SDK.
-if [ -f '$HOME/Downloads/google-cloud-sdk/path.zsh.inc' ]; then . '$HOME/Downloads/google-cloud-sdk/path.zsh.inc'; fi
+if [ -f '$HOME/tools/google-cloud-sdk/path.zsh.inc' ]; then . '$HOME/tools/google-cloud-sdk/path.zsh.inc'; fi
 
 # The next line enables shell command completion for gcloud.
-if [ -f '$HOME/Downloads/google-cloud-sdk/completion.zsh.inc' ]; then . '$HOME/Downloads/google-cloud-sdk/completion.zsh.inc'; fi
+if [ -f '$HOME/tools/google-cloud-sdk/completion.zsh.inc' ]; then . '$HOME/tools/google-cloud-sdk/completion.zsh.inc'; fi
 
-# To customize prompt, run `p10k configure` or edit ~/.config//zsh//.p10k.zsh.
-[[ ! -f ~/.config/zsh/.p10k.zsh ]] || source ~/.config/zsh/.p10k.zsh
-
-[[ ! -f ~/.dotfiles/roles/terminal/files/gtm-plugin.sh ]] || source ~/.dotfiles/roles/terminal/files/gtm-plugin.sh
 
 if test -f "$TERM_BRIGHT"; then
     export BAT_THEME="gruvbox-light"
@@ -394,16 +368,65 @@ else
     export BAT_THEME="gruvbox"
 fi
 
-if [ -f '~/.gtm.sh' ]; then . ~/.gtm.sh ;fi
-
 export PATH="$HOME/.rbenv/versions/2.7.1/bin:$PATH"
 
 # fnm
-export PATH=$HOME/.fnm:$PATH
-eval "`fnm env`"
+# export PATH=$HOME/.fnm:$PATH
+# eval "`fnm env`"
 
-# zprof
-# start tracing
+# if [ -e /home/jan/.nix-profile/etc/profile.d/nix.sh ]; then . /home/jan/.nix-profile/etc/profile.d/nix.sh; fi
+#
+### Added by Zinit's installer
+if [[ ! -f $HOME/.config/zsh/.zinit/bin/zinit.zsh ]]; then
+    print -P "%F{33}▓▒░ %F{220}Installing %F{33}DHARMA%F{220} Initiative Plugin Manager (%F{33}zdharma/zinit%F{220})…%f"
+    command mkdir -p "$HOME/.config/zsh/.zinit" && command chmod g-rwX "$HOME/.config/zsh/.zinit"
+    command git clone https://github.com/zdharma/zinit "$HOME/.config/zsh/.zinit/bin" && \
+        print -P "%F{33}▓▒░ %F{34}Installation successful.%f%b" || \
+        print -P "%F{160}▓▒░ The clone has failed.%f%b"
+fi
+
+source "$HOME/.config/zsh/.zinit/bin/zinit.zsh"
+
+zinit ice lucid nocd depth=1; zinit light romkatv/powerlevel10k
+
+# autoload -Uz _zinit
+# (( ${+_comps} )) && _comps[zinit]=_zinit
+#
+# Load a few important annexes, without Turbo
+# (this is currently required for annexes)
+zinit light-mode for \
+    zinit-zsh/z-a-rust \
+    zinit-zsh/z-a-as-monitor \
+    zinit-zsh/z-a-patch-dl
+
+zinit ice wait lucid
+zinit light "dominik-schwabe/zsh-fnm"
+zinit ice wait'1' lucid
+zinit light "MichaelAquilina/zsh-autoswitch-virtualenv"
+
+zinit ice wait'1' as"completion" lucid
+zinit snippet https://github.com/docker/cli/blob/master/contrib/completion/zsh/_docker
+zinit ice wait'1' as"completion" lucid
+zinit snippet https://github.com/robbyrussell/oh-my-zsh/blob/master/plugins/terraform/_terraform
+
+# zsh-fzy
+zinit ice wait'2' lucid
+zinit light aperezdc/zsh-fzy
+
+# git fuzzy TODO
+# zinit ice wait'!0' lucid as"command" from"gh-r" mv"fd* -> fd" pick"fd/fd"
+# zinit light bigH/git-fuzzy
+zinit ice wait lucid atload"!_zsh_autosuggest_start"
+zinit light zsh-users/zsh-autosuggestions
+
+### End of Zinit's installer chunk
+
+# start second tracing block
 # unsetopt XTRACE
 # exec 2>&3 3>&-
 # end tracing
+
+# To customize prompt, run `p10k configure` or edit ~/.config/zsh/.p10k.zsh.
+[[ ! -f ~/.config/zsh/.p10k.zsh ]] || source ~/.config/zsh/.p10k.zsh
+
+# zprof

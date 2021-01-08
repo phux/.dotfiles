@@ -1,0 +1,3 @@
+function td() {
+  echo "$(date '+%Y-%m-%d') $@ +inbox" >> ~/Dropbox/todo/todo.txt
+}

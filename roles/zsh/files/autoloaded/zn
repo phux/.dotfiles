@@ -1,0 +1,3 @@
+function zn() {
+  n +VimwikiIndex -c "ZettelNew $@"
+}
