@@ -52,19 +52,19 @@ let g:ale_php_phpmd_ruleset='~/.phpmd.xml'
 let g:ultisnips_php_scalar_types = 1
 let g:PHP_removeCRwhenUnix = 1
 
-function! PHPUnitSetupMethodPhake()
-  normal! oprotected function setUp()
-  normal! o{
-  normal! o}
-  normal! kp
-  while getline('.') =~ '\$'
-    normal! ==
-    :s/\(\w\+\) \(\$\w\+\),*/\2 = Phake::mock(\1::class);
-    normal! 0f$l
-    call PhpExtractClassProperty()
-    normal! j
-  endwhile
-endfunction
+" function! PHPUnitSetupMethodPhake()
+"   normal! oprotected function setUp()
+"   normal! o{
+"   normal! o}
+"   normal! kp
+"   while getline('.') =~ '\$'
+"     normal! ==
+"     :s/\(\w\+\) \(\$\w\+\),*/\2 = Phake::mock(\1::class);
+"     normal! 0f$l
+"     call PhpExtractClassProperty()
+"     normal! j
+"   endwhile
+" endfunction
 
 function! PHPUnitSetupMethod()
   normal! oprotected function setUp(): void
@@ -94,7 +94,7 @@ let g:vim_php_refactoring_default_property_visibility = 'private'
 let g:vim_php_refactoring_default_method_visibility = 'private'
 let g:vim_php_refactoring_auto_validate_visibility = 1
 let g:vim_php_refactoring_use_default_mapping = 0
-let g:vim_php_refactoring_phpdoc = "pdv#DocumentCurrentLine"
+" let g:vim_php_refactoring_phpdoc = "pdv#DocumentCurrentLine"
 
 function! PhpConstructorArgumentMagic()
     " update phpdoc
@@ -109,136 +109,135 @@ function! PhpConstructorArgumentMagic()
 endfunction
 
 
-function! PhpConstructorArgumentMagic2()
-    let l:currentLine = getline('.')
-    if l:currentLine !~ '\$'
-        echo "no $ found, are you on a line with an argument?"
-        return 0
-    endif
+"function! PhpConstructorArgumentMagic2()
+"    let l:currentLine = getline('.')
+"    if l:currentLine !~ '\$'
+"        echo "no $ found, are you on a line with an argument?"
+"        return 0
+"    endif
 
-    normal! 0f$
-    normal! mb
+"    normal! 0f$
+"    normal! mb
 
-    " yank variable
-    if l:currentLine =~ ','
-        normal! "ayt,
-    elseif l:currentLine =~ ')'
-        normal! "ayt)
-    else
-        normal! "ayW
-    endif
+"    " yank variable
+"    if l:currentLine =~ ','
+"        normal! "ayt,
+"    elseif l:currentLine =~ ')'
+"        normal! "ayt)
+"    else
+"        normal! "ayW
+"    endif
 
-    " search for closing brace
-    /{
-    normal! nf{
-    normal! %O
+"    " search for closing brace
+"    /{
+"    normal! nf{
+"    normal! %O
 
-    " property assignment
-    normal! "apa =
-    normal! "apA;
-    s/\$/$this->/
+"    " property assignment
+"    normal! "apa =
+"    normal! "apA;
+"    s/\$/$this->/
 
-    " create property
-    normal! 2joprivate
-    normal! "apa;
-    " mark for adding docblock
-    normal! mc
+"    " create property
+"    normal! 2joprivate
+"    normal! "apa;
+"    " mark for adding docblock
+"    normal! mc
 
-    " jump back into __construct
-    normal! 'b
+"    " jump back into __construct
+"    normal! 'b
 
-    " has typehint?
-    if getline('.') =~ '\s*\S\+\s\$'
-        " create docblock
-        normal! 0f$b"ayt 'c
-        normal! O/**
-        normal! o@var
-        normal! "apo/
-        " move var declaration up
-        normal! jd3kG%p%jo
+"    " has typehint?
+"    if getline('.') =~ '\s*\S\+\s\$'
+"        " create docblock
+"        normal! 0f$b"ayt 'c
+"        normal! O/**
+"        normal! o@var
+"        normal! "apo/
+"        " move var declaration up
+"        normal! jd3kG%p%jo
 
-        " update phpdoc
-        if exists("*UpdatePhpDocIfExists")
-            /__construct
-            normal! n
-            :call UpdatePhpDocIfExists()
-        endif
-    endif
+"        " update phpdoc
+"        if exists("*UpdatePhpDocIfExists")
+"            /__construct
+"            normal! n
+"            :call UpdatePhpDocIfExists()
+"        endif
+"    endif
 
-    "cleanup
-    normal! gg=G
-    :w
+"    "cleanup
+"    normal! gg=G
+"    :w
 
-    " jump to where we have started
-    normal! 'b
-endfunction
+"    " jump to where we have started
+"    normal! 'b
+"endfunction
 
-function! PhpDocOneliner()
-    let l:currentLine = getline('.')
-    if l:currentLine =~ '@'
-        normal! k
-    endif
-    if l:currentLine =~ '*/'
-        normal! 2k
-    endif
-    normal JxxJ
-endfunction
+" function! PhpDocOneliner()
+"     let l:currentLine = getline('.')
+"     if l:currentLine =~ '@'
+"         normal! k
+"     endif
+"     if l:currentLine =~ '*/'
+"         normal! 2k
+"     endif
+"     normal JxxJ
+" endfunction
 
-let g:phpactor_executable = '~/.config/nvim/plugged/phpactor/bin/phpactor'
+" let g:phpactor_executable = '~/.config/nvim/plugged/phpactor/bin/phpactor'
+let g:phpactor_executable = '~/.local/share/nvim/site/pack/packer/opt/phpactor/bin/phpactor'
 
-if !exists("*PHPMoveClass")
-  function! PHPMoveClass()
-      :w
-      let l:oldPath = expand('%')
-      let l:newPath = input("New path: ", l:oldPath)
-      execute "!".g:phpactor_executable." class:move ".l:oldPath.' '.l:newPath
-      execute "bd ".l:oldPath
-      execute "e ". l:newPath
-  endfunction
-endif
+" if !exists("*PHPMoveClass")
+"   function! PHPMoveClass()
+"       :w
+"       let l:oldPath = expand('%')
+"       let l:newPath = input("New path: ", l:oldPath)
+"       execute "!".g:phpactor_executable." class:move ".l:oldPath.' '.l:newPath
+"       execute "bd ".l:oldPath
+"       execute "e ". l:newPath
+"   endfunction
+" endif
 
-if !exists("*PHPMoveDir")
-  function! PHPMoveDir()
-      :w
-      let l:oldPath = input("old path: ", expand('%:p:h'))
-      let l:newPath = input("New path: ", l:oldPath)
-      execute "!".g:phpactor_executable." class:move ".l:oldPath.' '.l:newPath
-  endfunction
-endif
+" if !exists("*PHPMoveDir")
+"   function! PHPMoveDir()
+"       :w
+"       let l:oldPath = input("old path: ", expand('%:p:h'))
+"       let l:newPath = input("New path: ", l:oldPath)
+"       execute "!".g:phpactor_executable." class:move ".l:oldPath.' '.l:newPath
+"   endfunction
+" endif
 
-if !exists("*PHPModify")
-  function! PHPModify(transformer)
-      :update
-      let l:cmd = "silent !".g:phpactor_executable." class:transform ".expand('%').' --transform='.a:transformer
-      execute l:cmd
-  endfunction
-endif
+" if !exists("*PHPModify")
+"   function! PHPModify(transformer)
+"       :update
+"       let l:cmd = "silent !".g:phpactor_executable." class:transform ".expand('%').' --transform='.a:transformer
+"       execute l:cmd
+"   endfunction
+" endif
 
-if !exists("*PHPExtractInterface")
-  function! PHPCreateBuilder()
-      :w
-      let l:interfaceFile = substitute(expand('%'), '.php', 'Builder.php', '')
-      execute "!".g:phpactor_executable." class:inflect ".expand('%').' '.l:interfaceFile.' builder'
-      execute "e ". l:interfaceFile
-  endfunction
-endif
+" if !exists("*PHPExtractInterface")
+"   function! PHPCreateBuilder()
+"       :w
+"       let l:interfaceFile = substitute(expand('%'), '.php', 'Builder.php', '')
+"       execute "!".g:phpactor_executable." class:inflect ".expand('%').' '.l:interfaceFile.' builder'
+"       execute "e ". l:interfaceFile
+"   endfunction
+" endif
 
-let g:pdv_cfg_autoEndClass = 0
-let g:pdv_cfg_php4always = 0
-let g:pdv_cfg_autoEndFunction = 0
-let g:pdv_cfg_FunctionName = 0
-let g:pdv_cfg_Type = ""
-let g:pdv_cfg_annotation_Author = 0
-let g:pdv_cfg_annotation_Copyright = 0
-let g:pdv_cfg_annotation_License = 0
-let g:pdv_cfg_annotation_Package = 0
-let g:pdv_cfg_annotation_Version = 0
-let g:pdv_cfg_InsertFuncName = 0
-let g:pdv_cfg_InsertVarName = 0
+" let g:pdv_cfg_autoEndClass = 0
+" let g:pdv_cfg_php4always = 0
+" let g:pdv_cfg_autoEndFunction = 0
+" let g:pdv_cfg_FunctionName = 0
+" let g:pdv_cfg_Type = ""
+" let g:pdv_cfg_annotation_Author = 0
+" let g:pdv_cfg_annotation_Copyright = 0
+" let g:pdv_cfg_annotation_License = 0
+" let g:pdv_cfg_annotation_Package = 0
+" let g:pdv_cfg_annotation_Version = 0
+" let g:pdv_cfg_InsertFuncName = 0
+" let g:pdv_cfg_InsertVarName = 0
 
 " https://github.com/AJenbo/php-refactoring-browser
-let g:php_refactor_command='php ~/compiles/php-refactoring-browser/refactor.phar'
-
 
 function! UpdatePhpDocIfExists()
     normal! k

@@ -19,6 +19,7 @@
   "html.validate.styles": true,
   "html.validate.scripts": true,
   "html.filetypes": ["html", "handlebars", "htmldjango", "html.twig"],
+  "html.autoClosingTags": true,
   "coc.preferences.hoverTarget": "float",
   "intelephense.completion.insertUseDeclaration": true,
   "intelephense.completion.triggerParameterHints": true,
