@@ -37,6 +37,7 @@
       - blueman
       - graphviz
       - httpie
+      - autorandr
 
 - name: disable openvpn at boot
   become: yes
@@ -47,8 +48,8 @@
 - name: install todotxt-machine
   shell: "{{ ansible_env.HOME }}/.local/bin/pip install --user --upgrade todotxt-machine"
 
-- name: install autorandr
-  shell: "{{ ansible_env.HOME }}/.local/bin/pip install --user --upgrade autorandr"
+# - name: install autorandr
+#   shell: "{{ ansible_env.HOME }}/.local/bin/pip install --user --upgrade autorandr"
 
 - stat: path={{ ansible_env.HOME }}/Downloads/activitywatch
   register: aw_exists
