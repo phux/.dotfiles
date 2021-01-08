@@ -1,0 +1,4 @@
+custom-backward-delete-word() {
+    local WORDCHARS=${WORDCHARS/\//}
+    zle backward-delete-word
+}
