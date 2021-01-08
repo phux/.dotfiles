@@ -1,4 +1,4 @@
 #!/bin/sh
 .git/hooks/ctags >/dev/null 2>&1 &
 
-gtm commit --yes || $HOME/.local/bin/gtm commit --yes
+# gtm commit --yes || $HOME/.local/bin/gtm commit --yes
