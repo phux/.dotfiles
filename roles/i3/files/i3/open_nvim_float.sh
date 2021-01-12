@@ -4,4 +4,6 @@
 export PATH=$HOME/.fnm:$PATH
 eval "`fnm env`"
 
-nvim +OpenTodoNote
+# nvim +OpenTodoNote
+cd ~/Dropbox/1vimwiki
+nvim $@

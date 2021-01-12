@@ -359,10 +359,18 @@ function! FixGoAleIssues()
 
         if l:msg ==# "missing ',' before newline in composite literal"
                     \ || l:msg ==# "missing ',' before newline in argument list"
+                    \ || l:msg ==# "missing ',' before newline in parameter list"
                     \ || l:msg ==# 'syntax error: unexpected newline, expecting comma or }'
                     \ || l:msg ==# 'syntax error: unexpected newline, expecting comma or )'
             normal! A,
             :w
+        endif
+
+        let l:matches = matchlist(l:msg, 'method parameter `\(.\+\)` should be `\(\w\+\)` (golint)')
+        if len(l:matches) > 0
+            :call CocActionAsync('rename', matches[2])
+            :w
+            return
         endif
 
         let l:matches = matchlist(l:msg, '.\+ \(.\+\) should be \(.\+\)')
@@ -378,12 +386,26 @@ function! FixGoAleIssues()
             return
         endif
 
+        if l:msg ==# 'expected identifier on left side of :='
+            s/:=/=/
+            :w
+            return
+        endif
+
         if l:msg =~# 'returns 2 values'
             s/\(.\+\) \(:= .\+\)/\1, err \2/
             :w
             normal! ^W
             return
         endif
+
+        if l:msg =~# 'cannot assign 2 values to 1 variables'
+            s/\(.\+\) \(:*= .\+\)/\1, err \2/
+            :w
+            normal! ^W
+            return
+        endif
+
 
         let l:matches = matchlist(l:msg, '\(.\+\) undefined (type .\+ has no field or method \(.\+\), but does have \(.\+\))')
         if len(l:matches) > 2

@@ -87,6 +87,7 @@ use "tpope/vim-abolish"
 
 use {"vim-test/vim-test", ft = {"go", "php"}}
 use {"adoy/vim-php-refactoring-toolbox", ft = "php"}
+use {"phux/php-doc-modded", ft = "php"}
 
 use {
     "phpactor/phpactor",
