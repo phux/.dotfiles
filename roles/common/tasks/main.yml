@@ -38,6 +38,7 @@
       - graphviz
       - httpie
       - autorandr
+      - cargo
 
 - name: disable openvpn at boot
   become: yes

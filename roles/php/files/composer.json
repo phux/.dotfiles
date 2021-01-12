@@ -16,7 +16,8 @@
     "spatie/phpunit-watcher": "dev-master",
     "infection/infection": "dev-master",
     "phpstan/phpstan-phpunit": "^0.12.0@dev",
-    "escapestudios/symfony2-coding-standard": "3.x-dev"
+    "escapestudios/symfony2-coding-standard": "3.x-dev",
+    "phpactor/language-server": "^1.0@dev"
   },
   "require-dev": {}
 }

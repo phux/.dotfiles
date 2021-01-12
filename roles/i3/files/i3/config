@@ -176,10 +176,10 @@ bindsym $mod+Shift+E exit
 bindsym $MOD+SHIFT+f exec --no-startup-id pcmanfm
 bindsym $MOD+SHIFT+o exec --no-startup-id st -e 'ranger'
 bindsym Mod1+Return exec --no-startup-id ~/.vim-anywhere/bin/run
-# bindsym $MOD+n exec st -c "todo_notes" -e "nvim +OpenTodoNote"
-bindsym $MOD+n exec --no-startup-id [ $(ps h -C "open_note.sh" | wc -l) = 0 ] && st -c "todo_notes" -g 120x40 ~/.dotfiles/roles/i3/files/i3/open_note.sh
-# bindsym $MOD+n exec st -c "todo_notes" -g 120x40 ~/.dotfiles/roles/i3/files/i3/open_note.sh
+bindsym $MOD+n exec --no-startup-id st -c "nvim_float" -g 120x40 ~/.dotfiles/roles/i3/files/i3/open_nvim_float.sh "+OpenTodoNote"
+bindsym $MOD+Shift+n exec --no-startup-id st -c "nvim_float" -g 120x40 ~/.dotfiles/roles/i3/files/i3/open_nvim_float.sh "+Vimwiki"
 bindsym $MOD+t exec --no-startup-id [ $(ps h -C "todotxt-machine" | wc -l) = 0 ] && st -c "todo_txt" -g 120x40 todotxt-machine
+bindsym $MOD+Shift+t exec --no-startup-id [ $(ps h -C "todotxt-machine" | wc -l) = 0 ] && st -c "todo_txt" -g 120x40 todotxt-machine ~/Dropbox/todo/work/todo.txt ~/Dropbox/todo/work/done.txt
 bindsym $MOD+p exec --no-startup-id keepassxc
 bindsym $mod+Shift+p exec --no-startup-id sh ~/.config/i3/i3lock.sh
 # bindsym Print exec gnome-screenshot -i
@@ -200,7 +200,7 @@ for_window [class="Xfce4-notifyd"] border none
 for_window [class="Xfce4-notifyd"] floating enable
 for_window [class="PomoDoneApp"] floating enable
 for_window [class="Gnome-calculator"] floating enable
-for_window [class="todo_notes"] floating enable
+for_window [class="nvim_float"] floating enable
 for_window [class="todo_txt"] floating enable
 for_window [class="vim_anywhere"] floating enable
 
