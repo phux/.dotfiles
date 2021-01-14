@@ -1,0 +1,15 @@
+---
+
+- name: install pandoc & deps tools
+  become: yes
+  package:
+    state: latest
+    name:
+      - pandoc
+      - librsvg2-bin
+      - texlive-xetex
+
+- name: Link pandoc scripts
+  file: src={{ item }} dest={{ ansible_env.HOME }}/.local/bin/{{ item | basename }} state=link
+  with_fileglob:
+    - scripts/*
