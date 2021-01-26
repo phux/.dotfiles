@@ -22,6 +22,8 @@ export TERM=st-256color
 # export FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --follow -g "!.git/" -g "!node_modules" -g "!/*/vendor/*" -g "!vendor/*" -g "!*.neon" -g "!composer.lock" -g "!*/var/*" -g "!var/*" -g "!*/cache/*"  2> /dev/null'
 
 export FZF_DEFAULT_COMMAND='fd --type file --follow --hidden --exclude .git --exclude node_modules --exclude vendor --exclude var'
+
+export SKIM_DEFAULT_COMMAND="fd --type f || git ls-tree -r --name-only HEAD || rg --files || find ."
 # export FZF_DEFAULT_COMMAND='fd --type file --hidden --no-ignore'
 # export FZF_DEFAULT_OPTS="--ansi"
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
@@ -79,11 +81,12 @@ setopt PUSHD_IGNORE_DUPS
 
 export TERM_BRIGHT='/tmp/term.bright'
 
+export WIKI_DIR='~/Dropbox/1vimwiki/'
+
 # Highlight section titles in manual pages.
 export LESS_TERMCAP_md="${yellow}";
 
 # Don’t clear the screen after quitting a manual page.
-export MANPAGER='less -X';
 
 alias update_antibody="antibody bundle < $XDG_CONFIG_HOME/zsh/antibody_plugins.txt  > $XDG_CONFIG_HOME/zsh/cached_plugins.sh; antibody update"
 
@@ -116,6 +119,8 @@ alias ll='ls -l'      #long list
 alias grep='grep --color'
 
 alias cat='bat'
+export MANPAGER="sh -c 'col -bx | bat -l man -p'"
+export MANPAGER="nvim -c 'set ft=man' -"
 
 # disable c-s and c-q freeze
 # stty stop ''
@@ -135,6 +140,18 @@ export GF_PREFERRED_PAGER="delta --theme=gruvbox --highlight-removed -w __WIDTH_
 
 export GIT_FUZZY_STATUS_COMMIT_KEY="Alt-H"
 export GIT_FUZZY_BRANCH_CHECKOUT_KEY="Alt-H"
+# when diffing with branches or commits for preview
+export GF_DIFF_COMMIT_PREVIEW_DEFAULTS="--patch-with-stat"
+
+# when diffing with branches or commits for preview
+export GF_DIFF_COMMIT_RANGE_PREVIEW_DEFAULTS="--summary"
+
+# when diffing individual files
+export GF_DIFF_FILE_PREVIEW_DEFAULTS="--indent-heuristic"
+
+gch() {
+ git checkout "$(git branch --all | fzf| tr -d '[:space:]')"
+}
 alias gs='git fuzzy status'
 alias gdt='n +"Git difftool -y"'
 alias glog='n +GV'
@@ -272,9 +289,10 @@ alias tm='todotxt-machine'
 alias tnn='n ~/Dropbox/todo/work/todo.txt'
 alias tn='n ~/Dropbox/todo/todo.txt'
 # alias nn='n +RecentNotes'
-alias ni='cd ~/Dropbox/1vimwiki && n +VimwikiIndex +ZettelOpen'
-alias nn='cd ~/Dropbox/1vimwiki && n +VimwikiIndex'
-alias no='cd ~/Dropbox/notes/ && n $(date "+%Y-%m-%d").md'
+# alias ni='cd ~/Dropbox/1vimwiki && n +VimwikiIndex +ZettelOpen'
+# alias nn='cd ~/Dropbox/1vimwiki && n +VimwikiIndex'
+alias no='cd ~/Dropbox/1vimwiki/notes/ && n $(date "+%Y-%m-%d").md'
+alias nw='cd ~/Dropbox/1vimwiki/ && n'
 # alias nn='n +VimwikiIndex +ZettelOpen'
 # TODO
 # alias nn='n +VimwikiIndex +ZettelNew'
@@ -403,7 +421,8 @@ zinit ice wait lucid
 zinit light "dominik-schwabe/zsh-fnm"
 zinit ice wait'1' lucid
 zinit light "MichaelAquilina/zsh-autoswitch-virtualenv"
-
+zinit ice wait'1' lucid
+zinit snippet OMZP::rbenv
 zinit ice wait'1' as"completion" lucid
 zinit snippet https://github.com/docker/cli/blob/master/contrib/completion/zsh/_docker
 zinit ice wait'1' as"completion" lucid

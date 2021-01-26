@@ -27,7 +27,7 @@ local disable_distribution_plugins = function()
     vim.g.loaded_2html_plugin = 1
     vim.g.loaded_logiPat = 1
     vim.g.loaded_rrhelper = 1
-    vim.g.loaded_netrw = 1
+    -- vim.g.loaded_netrw = 1
     vim.g.loaded_netrwPlugin = 1
     vim.g.loaded_netrwSettings = 1
     vim.g.loaded_netrwFileHandlers = 1
@@ -99,6 +99,7 @@ vim.g.terraform_fmt_on_save = 1
 
 vim.cmd("set diffopt+=algorithm:histogram")
 vim.cmd("set diffopt+=vertical")
+vim.cmd("set diffopt+=indent-heuristic")
 
 -- vim.api.nvim_set_keymap('n', '<leader>of', ':Telescope find_files<cr>', {noremap = true})
 
@@ -132,6 +133,13 @@ vim.g.buftabline_show = 1
 -- Tabs
 vim.o.autoindent = true
 vim.o.smartindent = true
+vim.o.expandtab = true
+vim.o.smarttab = true
+vim.o.tabstop = 4
+vim.o.cindent = true
+vim.o.shiftwidth = 4
+vim.o.softtabstop = 4
+vim.o.autoindent = true
 
 vim.o.showbreak = string.rep(" ", 3) -- Make it so that long lines wrap smartly
 vim.o.breakindent = true
@@ -222,8 +230,8 @@ U.augroups(autocmds)
 
 vim.api.nvim_exec(
     [[
-function! OpenTodoNote(todofile)
-exe 'edit '.a:todofile
+function! OpenNote(file)
+exe 'edit '.a:file
 normal! Go
 exe 'normal! Go## ' . strftime("%Y-%m-%d %H:%M")
 normal! 2o
@@ -233,7 +241,26 @@ endfunction
     true
 )
 
-vim.cmd("command! OpenTodoNote :call OpenTodoNote('~/Dropbox/1vimwiki/todo.md')")
+vim.api.nvim_exec(
+    [[
+function! OpenMeetingNote()
+let l:name = input('Title: ')
+exe 'edit ~/Dropbox/1vimwiki/notes/meetings/'. strftime("%Y-%m-%d %H:%M").'-'.l:name.'.md'
+exe 'normal! i# '.l:name
+normal! 2o
+normal! i## Pre-Meeting Notes
+normal! 2o
+normal! i## Agenda
+normal! 2o
+normal! i## Notes
+endfunction
+]],
+    true
+)
+
+vim.cmd("command! OpenMeetingNote :call OpenMeetingNote()")
+vim.cmd("command! OpenTodoNote :call OpenNote('~/Dropbox/1vimwiki/notes/todo.md')")
+vim.cmd("command! OpenInboxNote :call OpenNote('~/Dropbox/1vimwiki/inbox/inbox.md')")
 
 vim.api.nvim_exec(
     [[
@@ -256,3 +283,36 @@ endfunction
 )
 
 vim.api.nvim_set_keymap("n", "<leader>lb", ":call ToggleQfLocListBinds()<cr>", {noremap = true})
+
+vim.api.nvim_exec(
+    [[
+function! ZettelHierarchy(...)
+    let l:startingHierarchy = get(a:, 1, '')
+    let l:result = system('rg "^title: n:'.l:startingHierarchy.'"')
+    let l:files = []
+    for item in split(l:result, "\n")
+        let l:parts = split(item, ":")
+        let l:file = l:parts[0]
+        let l:match = {'title': join(l:parts[3:], ':'), 'file': l:file}
+        call add(l:files, l:match)
+    endfor
+    call sort(l:files, function("SortZettelEntries"))
+
+    for item in l:files
+        exe 'normal! o- ['.item['title'].']('.item['file'].')'
+    endfor
+    " return l:files
+endfunction
+
+function! SortZettelEntries(leftArg, rightArg)
+  if a:leftArg['title'] == a:rightArg['title']
+    return 0
+  elseif a:leftArg['title'] < a:rightArg['title']
+    return -1
+  else
+    return 1
+  endif
+endfunction
+]],
+    true
+)

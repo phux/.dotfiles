@@ -23,8 +23,8 @@ require("telescope").setup {
 require("telescope").load_extension("fzy_native")
 -- require('telescope').extensions.fzf_writer.files()
 vim.api.nvim_set_keymap("n", "<leader>oF", ":Telescope find_files<cr>", {noremap = true})
-vim.api.nvim_set_keymap("n", "<leader>st", ":Telescope live_grep<cr>", {noremap = true})
-vim.api.nvim_set_keymap("n", "<leader>su", ":Telescope grep_string<cr>", {noremap = true})
+-- vim.api.nvim_set_keymap("n", "<leader>st", ":Telescope live_grep<cr>", {noremap = true})
+-- vim.api.nvim_set_keymap("n", "<leader>su", ":Telescope grep_string<cr>", {noremap = true})
 vim.api.nvim_set_keymap("n", "<leader>ob", ":Telescope buffers<cr>", {noremap = true})
 vim.api.nvim_set_keymap("n", "<leader>oq", ":Telescope quickfix<cr>", {noremap = true})
 vim.api.nvim_set_keymap("n", "<leader>oh", ":Telescope help_tags<cr>", {noremap = true})
@@ -51,7 +51,7 @@ function _G.fd()
 end
 
 vim.api.nvim_set_keymap("n", "<leader>of", "<cmd>lua fd()<cr>", {noremap = true})
-vim.api.nvim_set_keymap("n", "<leader>or", "<cmd>lua fdFromGitRoot()<cr>", {noremap = true})
+-- vim.api.nvim_set_keymap("n", "<leader>or", "<cmd>lua fdFromGitRoot()<cr>", {noremap = true})
 
 function _G.fdFromGitRoot()
     local opts = vim.deepcopy(center_list)

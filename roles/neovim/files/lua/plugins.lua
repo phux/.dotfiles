@@ -7,9 +7,6 @@ packer.init()
 -- use { 'wbthomason/packer.nvim', opt = true }
 use {"wbthomason/packer.nvim"}
 
-use {"lifepillar/vim-gruvbox8"}
--- use {"sainnhe/gruvbox-material"}
-
 -- " For navigating b/w tmux window, specially for navigating with NERDTree
 use "christoomey/vim-tmux-navigator"
 
@@ -21,15 +18,27 @@ use "tmux-plugins/vim-tmux-focus-events"
 use {"neoclide/coc.nvim", branch = "release"}
 use "antoinemadec/coc-fzf"
 use {"rafcamlet/coc-nvim-lua", ft = "lua"}
+use "honza/vim-snippets"
+
 use {"junegunn/fzf", run = "./install --all"}
 use {"junegunn/fzf.vim"}
 use {"junegunn/gv.vim", cmd = "GV"}
+use "sinetoami/fzy.nvim"
+-- use {"lotabout/skim", run = "./install"}
+-- use "lotabout/skim.vim"
 
 use {"majutsushi/tagbar", cmd = "TagbarOpenAutoClose"}
 
 -- " For various text objects
 use "wellle/targets.vim"
 use "wellle/tmux-complete.vim"
+use {
+    "wellle/context.vim",
+    config = function()
+        vim.g.context_enabled = false
+        vim.api.nvim_set_keymap("n", "<leader>cc", ":ContextToggleWindow<cr>", {noremap = true})
+    end
+}
 
 use {
     "nvim-lua/telescope.nvim",
@@ -63,20 +72,23 @@ use {"rhysd/git-messenger.vim"}
 use "tpope/vim-fugitive"
 use "tpope/vim-rhubarb"
 use {"whiteinge/diffconflicts", cmd = "DiffConflicts"}
-use {
-    "lewis6991/gitsigns.nvim",
-    requires = {
-        "nvim-lua/plenary.nvim"
-    },
-    config = function()
-        require("gitsigns").setup()
-    end
-}
+-- use {
+--     "lewis6991/gitsigns.nvim",
+--     requires = {
+--         "nvim-lua/plenary.nvim"
+--     },
+--     config = function()
+--         require("gitsigns").setup()
+--     end
+-- }
 
 use {"AndrewRadev/splitjoin.vim", cmd = "SplitjoinSplit"}
 
-use {"nvim-treesitter/nvim-treesitter", run = ":TSUpdate"}
+-- use {"nvim-treesitter/nvim-treesitter", run = ":TSUpdate"}
 -- use "romgrk/nvim-treesitter-context"
+
+use {"lifepillar/vim-gruvbox8"}
+-- use {"sainnhe/gruvbox-material"}
 
 use {"tweekmonster/startuptime.vim", cmd = "StartupTime"}
 
@@ -128,7 +140,7 @@ use "pgdouyon/vim-evanesco"
 
 -- use {"jparise/vim-graphql", ft = {"typescript", "javascript", "graphql"}}
 -- use {"nelsyeung/twig.vim", ft = "twig"}
-use "sheerun/vim-polyglot"
+-- use "sheerun/vim-polyglot"
 
 -- use {
 --     "glepnir/galaxyline.nvim",
@@ -139,30 +151,7 @@ use "sheerun/vim-polyglot"
 
 use {
     "hoob3rt/lualine.nvim",
-    requires = {"kyazdani42/nvim-web-devicons", opt = true},
-    config = function()
-        local lualine = require("lualine")
-        lualine.theme = "gruvbox"
-        lualine.separator = "|"
-        lualine.sections = {
-            lualine_a = {"mode"},
-            lualine_b = {"branch"},
-            lualine_c = {"filename"},
-            lualine_x = {"encoding", "fileformat", "filetype"},
-            lualine_y = {"progress"},
-            lualine_z = {"location"}
-        }
-        lualine.inactive_sections = {
-            lualine_a = {},
-            lualine_b = {},
-            lualine_c = {"filename"},
-            lualine_x = {"location"},
-            lualine_y = {},
-            lualine_z = {}
-        }
-        lualine.extensions = {"fzf"}
-        lualine.status()
-    end
+    requires = {"kyazdani42/nvim-web-devicons", opt = true}
 }
 use {"ThePrimeagen/vim-be-good", cmd = "VimBeGood"}
 
@@ -182,7 +171,7 @@ use {"iamcco/markdown-preview.nvim", ft = "markdown", run = "cd app & yarn insta
 -- let g:mkdp_auto_close = 1
 -- let g:mkdp_auto_start = 0
 
-use {"vimwiki/vimwiki", cmd = "VimwikiIndex"}
+use {"vimwiki/vimwiki"}
 use {"michal-h21/vim-zettel"}
 
 use {"vitalk/vim-simple-todo", ft = {"markdown", "text"}}
@@ -190,6 +179,8 @@ use {"dbeniamine/todo.txt-vim", ft = {"text"}}
 
 use "ActivityWatch/aw-watcher-vim"
 -- use "KevinBockelandt/notoire"
+
+use "~/code/vim-marker"
 
 local autocmds = {
     plugins = {

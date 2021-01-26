@@ -12,7 +12,8 @@ highlight TodoContext    ctermfg=Blue
 nnoremap <buffer> <leader>s :sort<CR>
 nnoremap <buffer> <leader>c :call todo#txt#mark_as_done()<CR>
 nnoremap <buffer> <leader>d :call todo#txt#set_date()<CR>
-let g:Todo_txt_prefix_creation_date=1
+let g:Todo_txt_prefix_creation_date=0
+let g:TodoTxtUseAbbrevInsertMode=0
 augroup todotxt
   au!
   au filetype todo setlocal omnifunc=todo#Complete

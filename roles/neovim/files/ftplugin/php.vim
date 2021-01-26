@@ -3,19 +3,25 @@ augroup php
   au BufNewFile,BufRead *.phtml set ft=php.html
   " au BufNewFile,BufRead,BufWinEnter *Test.php exe ":UltiSnipsAddFiletypes php.phpunit"
   " au BufNewFile,BufRead,BufWinEnter *Spec.php exe ":UltiSnipsAddFiletypes php.php-phpspec"
-  " au BufWritePost *.php silent! !eval '[ -f ".git/hooks/ctags" ] && .git/hooks/ctags php' &
-  " au BufWritePost *.php silent! !eval '[ -f "../.git/hooks/ctags" ] && ../.git/hooks/ctags php' &
+  au BufWritePost *.php silent! !eval '[ -f ".git/hooks/ctags" ] && .git/hooks/ctags php' &
+  au BufWritePost *.php silent! !eval '[ -f "../.git/hooks/ctags" ] && ../.git/hooks/ctags php' &
   " au BufWritePost *.php silent! exe ":!phpcbf --standard=~/.phpcs.xml ".expand('%:f')."; php-cs-fixer --config=.php_cs fix ".expand('%:f') | :e
   au BufWritePost *.php silent! exe "!php-cs-fixer --config=.php_cs fix ".expand('%:f') | :e
   au BufNewFile,BufRead,BufEnter *.php set tags=.git/tags.php,../.git/tags.php
+  au BufNewFile,BufRead,BufEnter,BufWritePost *.php set autoindent
 augroup END
 
+set smartindent
+set autoindent
 " let g:php_folding = 1
 " set foldmethod=syntax
 " set foldlevelstart=1
 " set foldlevel=1
 " set foldnestmax=2
 " set nofoldenable
+setlocal tabstop=2
+setlocal shiftwidth=2
+setlocal softtabstop=2
 
 
 " nnoremap <buffer> <leader>nr :call phpactor#FindReferences()<cr>

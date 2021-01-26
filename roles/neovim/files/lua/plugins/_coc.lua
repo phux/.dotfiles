@@ -13,7 +13,7 @@ vim.g.coc_global_extensions = {
     "coc-css",
     "coc-docker",
     -- "coc-explorer",
-    -- "coc-git",
+    "coc-git",
     "coc-html",
     "coc-lua",
     "coc-json",
@@ -34,9 +34,9 @@ vim.g.coc_global_extensions = {
     "coc-styled-components",
     "coc-go",
     "coc-markmap",
-    "coc-graphql"
-    -- 'coc-spell-checker',
-    -- 'coc-cspell-dicts',
+    "coc-graphql",
+    "coc-spell-checker",
+    "coc-cspell-dicts"
 }
 
 local autocmds = {

@@ -7,11 +7,13 @@ vim.g.zettel_options = {
     {
         template = "~/.dotfiles/roles/neovim/files/zettelkasten.tpl",
         disable_front_matter = 1
-    }
+    },
+    {}, -- not a zettel
+    {} -- not a zettel
 }
 
 U.map("n", "<leader>zn", ":ZettelNew ", {noremap = true})
 U.map("n", "<leader>zo", ":ZettelOpen<cr>", {noremap = true})
-U.map("n", "<leader>zs", ":Leaderf file " .. os.getenv("HOME") .. "/Dropbox/1vimwiki<cr>", {noremap = true})
+U.map("n", "<leader>zs", ":FZF ~/Dropbox/1vimwiki/zettel<cr>", {noremap = true})
 U.map("n", "<leader>zc", ":ZettelCapture<cr>", {noremap = true})
 U.map("n", "<leader>zb", ":ZettelBackLinks<cr>", {noremap = true})

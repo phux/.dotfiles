@@ -1,5 +1,9 @@
 #!/bin/bash
 
+file_name="${1##*/}"
+file_extension="${file_name##*.}"
+file="${file_name%.*}"
+out="/tmp/${file}_$(date +"%Y-%m-%d").pdf"
     # -H ~/.dotfiles/roles/pandoc/files/headers/chapter_break.tex \
 pandoc "$1" \
     -f gfm \
@@ -12,4 +16,6 @@ pandoc "$1" \
     -V mainfont="DejaVu Serif" \
     -V monofont="DejaVu Sans Mono" \
     --pdf-engine=xelatex \
-    -o "$2"
+    -o "${out}"
+
+echo "created pdf at ${out}";
