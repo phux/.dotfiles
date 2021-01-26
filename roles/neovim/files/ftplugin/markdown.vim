@@ -29,7 +29,8 @@ let g:markdown_fenced_languages = [
       \ 'typescript'
       \]
 
-let b:ale_linters = ['mdl', 'writegood', 'proselint']
+" let b:ale_linters = ['mdl', 'writegood', 'proselint']
+let b:ale_linters = ['mdl', 'vale']
 let g:ale_markdown_mdl_options = '-c ~/.mdlrc'
 
 let g:vim_markdown_frontmatter=1
@@ -38,8 +39,9 @@ let g:vim_markdown_frontmatter=1
 " setlocal autoindent
 " setlocal colorcolumn=0
 " setlocal linebreak
-" setlocal shiftwidth=2
-" setlocal tabstop=2
+setlocal shiftwidth=4
+setlocal softtabstop=4
+setlocal tabstop=4
 
 " setlocal spell
 setlocal wrap
@@ -58,7 +60,15 @@ function! UrlToMarkdownLink()
     " keep last part of url
     normal! dT[
     s/\.html//e
-    " titelize last part of url if abolish installed
+    " titelize last part of url
+    normal! "ayi[
+    if exists('g:loaded_abolish')
+        call setreg('a', substitute(getreg('a'), '-', '_', 'g'))
+    else
+        call setreg('a', substitute(getreg('a'), '-', ' ', 'g'))
+    endif
+    normal! di[h"ap
+
     if exists('g:loaded_abolish')
         normal crt
     endif
@@ -71,4 +81,3 @@ function! UrlToMarkdownLink()
 endfunction
 
 nnoremap gu :call UrlToMarkdownLink()<cr>
-

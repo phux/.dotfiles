@@ -21,6 +21,8 @@
   "html.filetypes": ["html", "handlebars", "htmldjango", "html.twig"],
   "html.autoClosingTags": true,
   "coc.preferences.hoverTarget": "float",
+  "git.enableGutters": true,
+  "git.realtimeGutters": false,
   "intelephense.completion.insertUseDeclaration": true,
   "intelephense.completion.triggerParameterHints": true,
   "intelephense.files.exclude": [
@@ -144,6 +146,30 @@
   "prettier.disableSuccessMessage": true,
   "prettier.trailingComma": "es5",
   "prettier.eslintIntegration": true,
-  "tsserver.formatOnType": true,
-  "Lua.diagnostics.globals": ["vim"]
+  "tsserver.formatOnType": false,
+  "typescript.format.enabled": false,
+  "javascript.format.enabled": false,
+  "Lua.diagnostics.globals": ["vim"],
+  "cSpell.enabledLanguageIds": [
+    /* "go", */
+    /* "javascript", */
+    /* "javascriptreact", */
+    "markdown",
+    "vimwiki",
+    /* "php", */
+    "plaintext",
+    /* "typescript", */
+    /* "typescriptreact", */
+    "yml"
+  ],
+  "cSpell.userWords": [
+    "Babauta",
+    "IAMs",
+    "KPIs",
+    "MITs",
+    "Spotify",
+    "devs",
+    "newpage",
+    "roadmap"
+  ]
 }

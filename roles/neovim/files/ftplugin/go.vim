@@ -78,7 +78,7 @@ endfunction
 " nnoremap <buffer> <silent> <leader>lf :call LanguageClient#textDocument_codeAction()<cr>
 vnoremap <buffer> <leader>rem :Refactor extract
 vnoremap <buffer> <leader>rev :call GoExtractVariable()<cr>
-nnoremap <buffer> <leader>rm :call GoMoveDirV2()<cr>
+nnoremap <buffer> <leader>rm :call GoMove()<cr>
 noremap <buffer> <leader>rd :Refactor godoc<cr>
 nnoremap <buffer> <leader>oj :CocCommand go.tags.add json
 nnoremap <buffer> <leader>oJ :CocCommand go.tags.remove json
@@ -97,6 +97,7 @@ command! Mockery execute 'normal! O//go:generate mockery --name '.expand('<cword
 nnoremap <buffer> <leader>ds :DlvDebug<cr>
 nnoremap <buffer> <leader>dt :DlvTest<cr>
 nnoremap <buffer> <leader>db :DlvToggleBreakpoint<cr>
+nnoremap <buffer> <silent> <leader>ef :call ExtractToFile()<cr>
 
 
 " visually mark the code you want to extract into variable
@@ -199,35 +200,6 @@ function! GoMoveDir()
   endif
 endfunction
 
-" non-gomod projects
-" dependency: go get golang.org/x/tools/cmd/gomvpkg
-function! GoMoveFile()
-  :update
-
-  " find current gopath
-  let l:gopath = ''
-  for gopath in split($GOPATH, ':')
-    if expand('%:p:h') =~ '^'.gopath
-      let l:gopath = gopath
-    endif
-  endfor
-
-  if len(l:gopath) == 0
-    echo 'Cannot move pkg - not in configured gopath?!'
-    return
-  endif
-
-  let l:currentFile = expand('%:p')
-  let l:oldPath = input('Old path: ', substitute(expand('%:p:h'), gopath.'/src/', '', ''))
-  let l:newPath = input('New path ==> ', l:oldPath)
-
-  execute '!gomvpkg -from '.l:oldPath.' -to '.l:newPath
-
-  if !filereadable(l:currentFile)
-    :bd
-  endif
-endfunction
-
 " dependency: go get -u github.com/ksubedi/gomove
 function! GoMoveDirV2()
   :update
@@ -263,6 +235,52 @@ function! GoMoveDirV2()
     :bd
   endif
 endfunction
+
+function! GoMoveCmd()
+    call feedkeys(":call GoMove")
+endfunction
+
+" dependency: go get -u github.com/rsc/rf
+" move a single file or a complete directory
+function! GoMove()
+  let l:go_mod_path = 'go.mod'
+  if !filereadable(l:go_mod_path)
+      echom 'no go.mod found'
+      return
+  endif
+
+  :update
+
+  let l:selection = input('what to move (1 = file, 2 = dir): ')
+
+  let l:source = []
+  if l:selection == 1
+      let l:source = [expand('%:f')]
+  elseif l:selection == 2
+      let l:oldDir = input('old dir: ', substitute(expand('%:p:h'), getcwd(), '', ''))
+      let l:source = split(globpath(getcwd().l:oldDir, '*'), '\n')
+  endif
+
+  let l:newPackage = input('new package: ', substitute(expand('%:p:h'), getcwd(), '', ''))
+  let l:currentBasePackage = substitute(substitute(system('head -n 1 '.l:go_mod_path), 'module ', '', ''), '\n\+$', '', '')
+
+  if l:newPackage =~# '/$'
+      let l:newPackage = strpart(l:newPackage, 0, len(l:newPackage) -1)
+  endif
+
+  for file in l:source
+      exe ':!rf "mv '.file.' '.l:currentBasePackage.l:newPackage.'"'
+  endfor
+
+  if l:selection == 1 && !filereadable(l:source[0])
+      :bd
+  elseif len(globpath(getcwd().l:oldDir, '*')) == 0
+      exe ':!rm -r ' .getcwd().l:oldDir
+  endif
+
+  :silent CocRestart
+endfunction
+
 
 function! AliasGoImport()
     let l:skip = !has_key(v:completed_item, 'word') || v:completed_item['kind'] !=# 'M'
@@ -499,3 +517,55 @@ function! s:IfErr()
 endfunction
 
 command! -buffer -nargs=0 IfErr call s:IfErr()
+
+" dependency: go get -u github.com/rsc/rf
+" extract type ... or  methods to file
+"
+" cursor on the line `type <Foo> struct` will result in <foo>.go, containing the
+" struct and all its methods.
+" cursor on the line `func (f <Foo>) Method()...` will result in just this
+" method moved to <foo>.go.
+function! ExtractToFile()
+    let l:line = getline('.')
+    let l:thingtomove = ''
+    if l:line =~# '^func ('
+        let l:receiver = matchstr(l:line, 'func (\w\+ \**\zs\w\+\ze')
+        let l:func = matchstr(l:line, 'func (\w\+ \**\w\+) \zs\w\+\ze(')
+        let l:thingtomove = l:receiver.'.'.l:func
+        let l:target = l:receiver
+        if len(l:thingtomove) == 0
+            echo 'found no method to move'
+            return
+        endif
+
+        let l:previousCwd = getcwd()
+        exe 'cd '.expand('%:p:h')
+        exe ":silent !rf 'mv ".l:thingtomove.' '.tolower(l:target).".go'"
+        exe 'cd '.l:previousCwd
+    elseif l:line =~# '^type '
+        let l:thingtomove = matchstr(l:line, 'type \zs\w\+\ze')
+        let l:target = l:thingtomove
+
+        exe 'cd '.expand('%:p:h')
+        let l:fileName = tolower(l:target).'.go'
+        exe ":!rf 'mv ".l:thingtomove.' '.l:fileName."'"
+
+        if search('func (.\+ \**'.l:thingtomove.') \w\+()') > 0
+            let l:matches = []
+            silent exe '%s/^func (\w\+ \**'.l:thingtomove.')/\=add(l:matches, submatch(0))/gn'
+            let i = 1
+
+            echo 'moving '.len(l:matches).' methods'
+            while i <= len(l:matches)
+                let i += 1
+                let l:line = search('func (.\+ \**'.l:thingtomove.') \w\+()')
+                if l:line != 0
+                    exe 'normal '.l:line.'G'
+                    call ExtractToFile()
+                endif
+            endwhile
+        endif
+    endif
+
+    :silent CocRestart
+endfunction

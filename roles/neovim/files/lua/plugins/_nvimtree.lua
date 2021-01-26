@@ -14,9 +14,10 @@ vim.g.nvim_tree_git_hl = 1 -- 0 by default, will enable file highlight for git a
 vim.g.nvim_tree_root_folder_modifier = ":~" -- This is the default. See :help filename-modifiers for more options
 -- vim.g.nvim_tree_tab_open = 1 "0 by default, will open the tree when entering a new tab and the tree was previously open
 vim.g.nvim_tree_width_allow_resize = 1 -- 0 by default, will not resize the tree when opening a file
+vim.g.nvim_tree_git_hl = false
 
--- vim.g.nvim_tree_show_icons = {
---     'git'= 1,
---     'folders'= 0,
---     'files'= 0,
--- }
+vim.g.nvim_tree_show_icons = {
+    git = 0,
+    folders = 1,
+    files = 1
+}

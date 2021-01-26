@@ -39,8 +39,8 @@ vim.g.Lf_GtagsAutoGenerate = 0
 vim.g.Lf_Gtagslabel = "native-pygments"
 vim.g.Lf_GtagsStoreInRootMarker = 1
 U.map("n", "<leader>oo", ":Leaderf --recall<cr>", {noremap = true})
-U.map("n", "<leader>su", ":Leaderf rg -LFi --hidden --cword<cr>", {noremap = true})
-U.map("n", "<leader>st", ":Leaderf rg<cr>", {noremap = true})
+-- U.map("n", "<leader>su", ":Leaderf rg -LFi --hidden --cword<cr>", {noremap = true})
+-- U.map("n", "<leader>st", ":Leaderf rg<cr>", {noremap = true})
 -- U.map("n", "<leader>ot", ":Leaderf gtags<cr>", {noremap = true}) -- TODO: doesn't work for php
 U.map("n", "<leader>ot", ":Leaderf tag<cr>", {noremap = true})
 U.map(
