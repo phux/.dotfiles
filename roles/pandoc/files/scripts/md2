@@ -11,6 +11,8 @@ pandoc "$1" \
     -V colorlinks -V urlcolor=NavyBlue \
     -H ~/.dotfiles/roles/pandoc/files/headers/syntax_highlight.tex \
     -H ~/.dotfiles/roles/pandoc/files/headers/bullet_list.tex \
+    -H ~/.dotfiles/roles/pandoc/files/headers/deeplist.tex \
+    -F mermaid-filter \
     -V geometry:a4paper \
     -V geometry:"top=2cm, bottom=1.5cm, left=2cm, right=2cm" \
     -V mainfont="DejaVu Serif" \

@@ -20,5 +20,9 @@ vim.g.rg_command =
 
 vim.api.nvim_set_keymap("n", "<leader>or", "<cmd>lua findFromGitRoot()<cr>", {noremap = true})
 function _G.findFromGitRoot()
-    vim.cmd(":Files" .. U.GitRoot())
+    vim.cmd(":SK " .. U.GitRoot())
 end
+
+-- vim.cmd(
+--     ":command! -bang -nargs=* Rg call fzf#vim#rg_interactive(<q-args>, fzf#vim#with_preview('right:50%:hidden', 'alt-h'))"
+-- )

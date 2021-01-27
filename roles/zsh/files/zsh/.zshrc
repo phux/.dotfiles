@@ -23,7 +23,7 @@ export TERM=st-256color
 
 export FZF_DEFAULT_COMMAND='fd --type file --follow --hidden --exclude .git --exclude node_modules --exclude vendor --exclude var'
 
-export SKIM_DEFAULT_COMMAND="fd --type f || git ls-tree -r --name-only HEAD || rg --files || find ."
+export SKIM_DEFAULT_COMMAND="fd --type f --hidden || git ls-tree -r --name-only HEAD || rg --files || find ."
 # export FZF_DEFAULT_COMMAND='fd --type file --hidden --no-ignore'
 # export FZF_DEFAULT_OPTS="--ansi"
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
@@ -209,7 +209,7 @@ autoload fo
 autoload git_current_branch
 autoload custom-backward-delete-word
 autoload zn
-autoload td
+# autoload td
 zle -N custom-backward-delete-word
 bindkey '^W' custom-backward-delete-word
 
@@ -285,7 +285,7 @@ alias mux='tmuxinator'
 alias tmux='tmux -2'
 
 export TMUX_PLUGIN_MANAGER_PATH="$HOME/.tmux/plugins/"
-alias tm='todotxt-machine'
+alias tt='todotxt-machine'
 alias tnn='n ~/Dropbox/todo/work/todo.txt'
 alias tn='n ~/Dropbox/todo/todo.txt'
 # alias nn='n +RecentNotes'
@@ -293,6 +293,14 @@ alias tn='n ~/Dropbox/todo/todo.txt'
 # alias nn='cd ~/Dropbox/1vimwiki && n +VimwikiIndex'
 alias no='cd ~/Dropbox/1vimwiki/notes/ && n $(date "+%Y-%m-%d").md'
 alias nw='cd ~/Dropbox/1vimwiki/ && n'
+alias t='~/tools/todo.txt_cli-2.9/todo.sh -d ~/tools/todo.txt_cli-2.9/todo.cfg'
+alias tl='t list'
+alias ta='t add'
+alias tp='t pri'
+alias td='t del'
+alias tf='t do'
+alias tm='t mit'
+alias tmd='t mit today'
 # alias nn='n +VimwikiIndex +ZettelOpen'
 # TODO
 # alias nn='n +VimwikiIndex +ZettelNew'
