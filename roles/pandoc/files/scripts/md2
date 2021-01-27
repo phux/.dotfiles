@@ -21,3 +21,5 @@ pandoc "$1" \
     -o "${out}"
 
 echo "created pdf at ${out}";
+
+xdg-open "${out}"
