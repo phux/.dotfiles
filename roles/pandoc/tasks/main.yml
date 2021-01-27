@@ -13,3 +13,9 @@
   file: src={{ item }} dest={{ ansible_env.HOME }}/.local/bin/{{ item | basename }} state=link
   with_fileglob:
     - scripts/*
+
+
+- name: installing filters via npm
+  shell: >
+    source ~/.config/zsh/.zshrc &&
+    npm install -g mermaid-filter

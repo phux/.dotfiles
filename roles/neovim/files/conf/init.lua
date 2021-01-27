@@ -316,3 +316,5 @@ endfunction
 ]],
     true
 )
+
+vim.cmd("set title")

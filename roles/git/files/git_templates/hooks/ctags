@@ -2,6 +2,13 @@
 set -e
 PATH="/usr/local/bin:$PATH"
 dir="`git rev-parse --git-dir`"
-trap 'rm -f "$dir/$$.tags.$1"' EXIT
-ctags --tag-relative -R -f "$dir/$$.tags.$1" --fields=+aimlS --languages=$1 --PHP-kinds=+cf-va --exclude=var/cache --exclude=vendor/bin --exclude=*.phar --exclude=web --exclude=assets --exclude=node_modules
-mv "$dir/$$.tags.$1" "$dir/tags.$1"
+# trap 'rm -f "$dir/$$.tags.$1"' EXIT
+excludes="--exclude=var/cache --exclude=vendor/bin --exclude=*/*.phar --exclude=web --exclude=bin"
+if test "$1" = "markdown" ; then
+	excludes="$excludes --exclude=vendor --exclude=node_modules --exclude=assets"
+fi
+if test "$1" = "php" ; then
+	excludes="$excludes --exclude=node_modules --exclude=assets"
+fi
+
+ctags --tag-relative -R --append=yes -f "$dir/tags.$1" --fields=+aimlS --languages=$1 --PHP-kinds=+cf-va $excludes

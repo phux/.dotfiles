@@ -24,8 +24,8 @@ use {"junegunn/fzf", run = "./install --all"}
 use {"junegunn/fzf.vim"}
 use {"junegunn/gv.vim", cmd = "GV"}
 use "sinetoami/fzy.nvim"
--- use {"lotabout/skim", run = "./install"}
--- use "lotabout/skim.vim"
+use {"lotabout/skim", run = "./install"}
+use "lotabout/skim.vim"
 
 use {"majutsushi/tagbar", cmd = "TagbarOpenAutoClose"}
 
