@@ -218,6 +218,7 @@ vim.cmd("hi! def link BufTabLineActive TabLineSel")
 local autocmds = {
     conf = {
         {"BufWritePost", "~/.dotfiles/*.lua", ":luafile %"},
+        {"WinEnter", "*", ":call ResizeSplits()"},
         {"FocusLost,WinLeave", "*", ":silent! update"},
         {
             "FileType",
@@ -318,3 +319,18 @@ endfunction
 )
 
 vim.cmd("set title")
+vim.cmd('nmap gx yiW:!xdg-open <cWORD><CR> <C-r>" & <CR><CR>')
+
+vim.g.obvious_resize_run_tmux = 1
+vim.g.obvious_resize_default = 5
+vim.api.nvim_set_keymap("n", "<C-Up>", ":<C-U>ObviousResizeUp<CR>", {noremap = true})
+vim.api.nvim_set_keymap("n", "<C-Down>", ":<C-U>ObviousResizeDown<CR>", {noremap = true})
+vim.api.nvim_set_keymap("n", "<C-Left>", ":<C-U>ObviousResizeLeft<CR>", {noremap = true})
+vim.api.nvim_set_keymap("n", "<C-Right>", ":<C-U>ObviousResizeRight<CR>", {noremap = true})
+
+vim.api.nvim_exec([[
+function! ResizeSplits()
+    set winwidth=85
+    wincmd =
+endfunction
+]], true)

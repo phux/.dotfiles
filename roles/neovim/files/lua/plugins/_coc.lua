@@ -64,7 +64,8 @@ api.nvim_set_keymap(
     {expr = true}
 )
 api.nvim_set_keymap("i", "<S-TAB>", 'pumvisible() ? "<C-P>" : "<C-H>"', {expr = true})
-api.nvim_set_keymap("i", "<cr>", 'pumvisible() ? coc#_select_confirm() : "<CR>"', {expr = true})
+-- api.nvim_set_keymap("i", "<cr>", 'pumvisible() ? coc#_select_confirm() : "<CR>"', {expr = true})
+api.nvim_set_keymap("i", "<cr>", 'pumvisible() ? "<c-y>" : "<CR>"', {expr = true})
 
 api.nvim_set_keymap("n", "<leader>lf", ":CocAction<cr>", {noremap = true})
 api.nvim_set_keymap("v", "<leader>lf", ":CocAction<cr>", {noremap = true})

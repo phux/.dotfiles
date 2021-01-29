@@ -23,7 +23,7 @@ export TERM=st-256color
 
 export FZF_DEFAULT_COMMAND='fd --type file --follow --hidden --exclude .git --exclude node_modules --exclude vendor --exclude var'
 
-export SKIM_DEFAULT_COMMAND="fd --type f --hidden || git ls-tree -r --name-only HEAD || rg --files || find ."
+# export SKIM_DEFAULT_COMMAND="fd --type f --hidden || git ls-tree -r --name-only HEAD || rg --files || find ."
 # export FZF_DEFAULT_COMMAND='fd --type file --hidden --no-ignore'
 # export FZF_DEFAULT_OPTS="--ansi"
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
@@ -100,13 +100,15 @@ alias vh='vagrant halt'
 alias vp='vagrant provision'
 
 alias dcup='docker-compose up'
+alias dcps='docker-compose ps'
+alias dcr='docker-compose restart'
 alias dcstop='docker-compose stop'
 alias dcdn='docker-compose down -v --remove-orphans'
 alias dce='docker-compose exec'
 alias dcl='docker-compose logs'
 alias dclf='docker-compose logs -f'
 
-alias tf='terraform'
+# alias tf='terraform'
 alias tfw='terraform workspace'
 
 alias ob='observr observer.rb'
@@ -291,16 +293,34 @@ alias tn='n ~/Dropbox/todo/todo.txt'
 # alias nn='n +RecentNotes'
 # alias ni='cd ~/Dropbox/1vimwiki && n +VimwikiIndex +ZettelOpen'
 # alias nn='cd ~/Dropbox/1vimwiki && n +VimwikiIndex'
+alias om='cd ~/Dropbox/1vimwiki/notes/meetings/ && n +OpenMeetingNote'
 alias no='cd ~/Dropbox/1vimwiki/notes/ && n $(date "+%Y-%m-%d").md'
 alias nw='cd ~/Dropbox/1vimwiki/ && n'
-alias t='~/tools/todo.txt_cli-2.9/todo.sh -d ~/tools/todo.txt_cli-2.9/todo.cfg'
+alias t='~/tools/todo.txt_cli-2.9/todo.sh -d ~/Dropbox/todo/work/todo.cfg'
 alias tl='t list'
+alias tlp='t lsp'
+alias tb='t birdseye'
+alias te='ts; t edit'
 alias ta='t add'
 alias tp='t pri'
-alias td='t del'
+alias ta='t autopri'
+alias tap='ts; echo "autoprio 0 days = A\n";t autopri 0 A; echo "autoprio 1 days = B\n"; t autopri 1 B; echo "autoprio 7 days = C\n"; t autopri 7 C;ts'
+alias ts='t commit'
+alias td='ts; t del'
 alias tf='t do'
 alias tm='t mit'
 alias tmd='t mit today'
+alias tgl='cd ~/Dropbox/todo/work/ && glog'
+# https://github.com/samuelsnyder/outline-todo.txt
+alias to='t outline'
+alias tol='t outline ls'
+alias toa='t outline addto' # PROJECT "TEXT"
+alias toe='ts; t outline edit' # PROJECT
+alias toi='ts; t outline import; tap' # sync from outlines
+# Create an outline file corresponding to PROJECT, and move task at line #ITEM in todo.txt to the outline.
+alias toc='t outline mkol' # PROJECT [#ITEM]
+alias tom='ts; t outline mv' # #ITEM PROJECT
+
 # alias nn='n +VimwikiIndex +ZettelOpen'
 # TODO
 # alias nn='n +VimwikiIndex +ZettelNew'

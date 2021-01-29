@@ -18,5 +18,6 @@ fluxgui &
 
 tmux new-session -d -s def &
 tmuxinator start dotfiles --no-attach &
+tmuxinator start todo --no-attach &
 
 blueman-applet &

@@ -24,8 +24,8 @@ use {"junegunn/fzf", run = "./install --all"}
 use {"junegunn/fzf.vim"}
 use {"junegunn/gv.vim", cmd = "GV"}
 use "sinetoami/fzy.nvim"
-use {"lotabout/skim", run = "./install"}
-use "lotabout/skim.vim"
+-- use {"lotabout/skim", run = "./install"}
+-- use "lotabout/skim.vim"
 
 use {"majutsushi/tagbar", cmd = "TagbarOpenAutoClose"}
 
@@ -65,6 +65,8 @@ use {"machakann/vim-sandwich", {"andymass/vim-matchup", event = "VimEnter *"}}
 
 -- Indentation tracking
 use "yggdroot/indentLine"
+
+use "talek/obvious-resize"
 
 -- " git stuff
 -- use {"rhysd/git-messenger.vim", cmd = "GitMessenger"}
@@ -176,6 +178,7 @@ use {"michal-h21/vim-zettel"}
 
 use {"vitalk/vim-simple-todo", ft = {"markdown", "text"}}
 use {"dbeniamine/todo.txt-vim", ft = {"text"}}
+use "dhruvasagar/vim-dotoo"
 
 use "ActivityWatch/aw-watcher-vim"
 -- use "KevinBockelandt/notoire"
