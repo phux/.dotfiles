@@ -1,0 +1,18 @@
+---
+
+- name: check to see if todo.txt-cli is cloned
+  command: "ls {{ ansible_env.HOME }}/tools/todo.txt-cli"
+  ignore_errors: true
+  register: todotxt_was_cloned
+  changed_when: false
+
+- name: clone todo.txt-cli
+  block:
+    - name: clone repo
+      shell: >
+        git clone https://github.com/todotxt/todo.txt-cli.git
+        {{ ansible_env.HOME }}/tools/todo.txt-cli && cd {{ ansible_env.HOME }}/tools/todo.txt-cli &&
+  when: todotxt_was_cloned.rc != 0
+
+# TODO create config in ~/.todo
+# TODO pip2 install --user https://github.com/SamuelMarks/watchdog_exec/archive/master.zip#egg=watchdog_exec

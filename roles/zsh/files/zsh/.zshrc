@@ -296,14 +296,15 @@ alias tn='n ~/Dropbox/todo/todo.txt'
 alias om='cd ~/Dropbox/1vimwiki/notes/meetings/ && n +OpenMeetingNote'
 alias no='cd ~/Dropbox/1vimwiki/notes/ && n $(date "+%Y-%m-%d").md'
 alias nw='cd ~/Dropbox/1vimwiki/ && n'
-alias t='~/tools/todo.txt_cli-2.9/todo.sh -d ~/Dropbox/todo/work/todo.cfg'
+# alias t='~/tools/todo.txt_cli-2.9/todo.sh -d ~/Dropbox/todo/work/todo.cfg'
+alias t='todo.sh -f -n'
 alias tl='t list'
 alias tlp='t lsp'
 alias tb='t birdseye'
 alias te='ts; t edit'
 alias ta='t add'
 alias tp='t pri'
-alias ta='t autopri'
+# alias ta='t autopri'
 alias tap='ts; echo "autoprio 0 days = A\n";t autopri 0 A; echo "autoprio 1 days = B\n"; t autopri 1 B; echo "autoprio 7 days = C\n"; t autopri 7 C;ts'
 alias ts='t commit'
 alias td='ts; t del'
@@ -477,3 +478,5 @@ zinit light zsh-users/zsh-autosuggestions
 [[ ! -f ~/.config/zsh/.p10k.zsh ]] || source ~/.config/zsh/.p10k.zsh
 
 # zprof
+#
+#
