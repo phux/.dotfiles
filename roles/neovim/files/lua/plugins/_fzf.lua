@@ -20,7 +20,7 @@ vim.g.rg_command =
 
 vim.api.nvim_set_keymap("n", "<leader>or", "<cmd>lua findFromGitRoot()<cr>", {noremap = true})
 function _G.findFromGitRoot()
-    vim.cmd(":SK " .. U.GitRoot())
+    vim.cmd(":Files " .. U.GitRoot())
 end
 
 -- vim.cmd(

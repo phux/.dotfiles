@@ -3,7 +3,8 @@ lualine.theme = "gruvbox"
 lualine.extensions = {"fzf"}
 
 local function rel_filename()
-    return vim.fn.substitute(vim.fn.expand("%"), vim.fn.getcwd(), "", "")
+    -- return vim.fn.substitute(vim.fn.expand("%"), vim.fn.getcwd(), "", "")
+    return vim.fn.expand("%:f")
 end
 lualine.sections = {
     lualine_a = {"mode"},

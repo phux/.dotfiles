@@ -230,18 +230,18 @@ let g:phpactor_executable = '~/.local/share/nvim/site/pack/packer/opt/phpactor/b
 "   endfunction
 " endif
 
-" let g:pdv_cfg_autoEndClass = 0
-" let g:pdv_cfg_php4always = 0
-" let g:pdv_cfg_autoEndFunction = 0
-" let g:pdv_cfg_FunctionName = 0
-" let g:pdv_cfg_Type = ""
-" let g:pdv_cfg_annotation_Author = 0
-" let g:pdv_cfg_annotation_Copyright = 0
-" let g:pdv_cfg_annotation_License = 0
-" let g:pdv_cfg_annotation_Package = 0
-" let g:pdv_cfg_annotation_Version = 0
-" let g:pdv_cfg_InsertFuncName = 0
-" let g:pdv_cfg_InsertVarName = 0
+let g:pdv_cfg_autoEndClass = 0
+let g:pdv_cfg_php4always = 0
+let g:pdv_cfg_autoEndFunction = 0
+let g:pdv_cfg_FunctionName = 0
+let g:pdv_cfg_Type = ""
+let g:pdv_cfg_annotation_Author = 0
+let g:pdv_cfg_annotation_Copyright = 0
+let g:pdv_cfg_annotation_License = 0
+let g:pdv_cfg_annotation_Package = 0
+let g:pdv_cfg_annotation_Version = 0
+let g:pdv_cfg_InsertFuncName = 0
+let g:pdv_cfg_InsertVarName = 0
 
 " https://github.com/AJenbo/php-refactoring-browser
 

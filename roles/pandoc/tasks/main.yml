@@ -19,3 +19,4 @@
   shell: >
     source ~/.config/zsh/.zshrc &&
     npm install -g mermaid-filter
+    executable=/bin/zsh
