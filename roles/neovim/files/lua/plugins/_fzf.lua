@@ -18,7 +18,7 @@ end
 vim.g.rg_command =
     "rg --column --line-number --no-heading --smart-case --hidden --follow --color 'always' -g '!.git' -g '!node_modules' -g '!*/vendor/*' -g '!*.neon' -g '!package-lock.json' -g '!*/composer.lock' -g '!.composer/*' -g '!*/var/*' -g '!*/cache/*' "
 
-vim.api.nvim_set_keymap("n", "<leader>or", "<cmd>lua findFromGitRoot()<cr>", {noremap = true})
+vim.api.nvim_set_keymap("n", "<leader>og", "<cmd>lua findFromGitRoot()<cr>", {noremap = true})
 function _G.findFromGitRoot()
     vim.cmd(":Files " .. U.GitRoot())
 end
