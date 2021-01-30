@@ -1,4 +1,4 @@
-vim.api.nvim_set_keymap("n", "<leader>op", ":NvimTreeToggle<cr>", {noremap = true})
+vim.api.nvim_set_keymap("n", "<leader>ot", ":NvimTreeToggle<cr>", {noremap = true})
 
 vim.g.nvim_tree_show_icons = {git = 1, folders = 1, files = 1}
 vim.g.nvim_tree_side = "left"

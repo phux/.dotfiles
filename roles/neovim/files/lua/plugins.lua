@@ -171,6 +171,9 @@ use {"brooth/far.vim", cmd = "Far"}
 
 use {"iamcco/markdown-preview.nvim", ft = "markdown", run = "cd app & yarn install"}
 use {"SidOfc/mkdx", ft = "markdown"}
+
+use {"junegunn/goyo.vim", ft = {"markdown", "vimwiki"}}
+use {"junegunn/limelight.vim", ft = {"markdown", "vimwiki"}}
 -- let g:mkdp_path_to_chrome = 'chromium-browser'
 -- let g:mkdp_auto_close = 1
 -- let g:mkdp_auto_start = 0
