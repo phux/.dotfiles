@@ -1,4 +1,5 @@
 nnoremap <leader>zf :vimgrep! /title: n:/ *.*<bar>:cwindow<left><left><left><left><left><left><left><left><left><left><left><left><left><left>
+set expandtab
 
 function! TodoTxtCreateOutlineFromDoc()
     let l:titleLine = getline(search('^# '))

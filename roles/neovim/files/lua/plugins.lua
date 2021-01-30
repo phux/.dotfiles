@@ -169,6 +169,7 @@ use {"brooth/far.vim", cmd = "Far"}
 -- }
 
 use {"iamcco/markdown-preview.nvim", ft = "markdown", run = "cd app & yarn install"}
+use {"SidOfc/mkdx", ft = "markdown"}
 -- let g:mkdp_path_to_chrome = 'chromium-browser'
 -- let g:mkdp_auto_close = 1
 -- let g:mkdp_auto_start = 0
@@ -176,9 +177,9 @@ use {"iamcco/markdown-preview.nvim", ft = "markdown", run = "cd app & yarn insta
 use {"vimwiki/vimwiki"}
 use {"michal-h21/vim-zettel"}
 
-use {"vitalk/vim-simple-todo", ft = {"markdown", "text"}}
+-- use {"vitalk/vim-simple-todo", ft = {"markdown", "text"}}
 use {"dbeniamine/todo.txt-vim", ft = {"text"}}
-use "dhruvasagar/vim-dotoo"
+-- use "dhruvasagar/vim-dotoo"
 
 use "ActivityWatch/aw-watcher-vim"
 -- use "KevinBockelandt/notoire"

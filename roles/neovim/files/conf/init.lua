@@ -79,6 +79,7 @@ require "plugins/_vimtest"
 require "plugins/_vimwiki"
 require "plugins/_zettel"
 require "plugins/_simpletodo"
+require "plugins/_mkdx"
 -- require "plugins/_notoire"
 
 if vim.fn.exists("g:colors_name") == 0 then
