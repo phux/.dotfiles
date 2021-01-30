@@ -232,7 +232,7 @@ U.augroups(autocmds)
 
 vim.api.nvim_exec(
     [[
-function! OpenNote(file)
+function! CreateNoteWithFile(file)
 exe 'edit '.a:file
 normal! Go
 exe 'normal! Go## ' . strftime("%Y-%m-%d %H:%M")
@@ -245,7 +245,7 @@ endfunction
 
 vim.api.nvim_exec(
     [[
-function! OpenMeetingNote()
+function! CreateMeetingNote()
 let l:name = input('Title: ')
 exe 'edit ~/Dropbox/1vimwiki/notes/meetings/'. strftime("%Y-%m-%d %H:%M").'-'.l:name.'.md'
 exe 'normal! i# '.l:name
@@ -260,9 +260,22 @@ endfunction
     true
 )
 
-vim.cmd("command! OpenMeetingNote :call OpenMeetingNote()")
-vim.cmd("command! OpenTodoNote :call OpenNote('~/Dropbox/1vimwiki/notes/todo.md')")
-vim.cmd("command! OpenInboxNote :call OpenNote('~/Dropbox/1vimwiki/inbox/inbox.md')")
+vim.api.nvim_exec(
+    [[
+function! CreateNote()
+let l:name = input('Title: ')
+exe 'edit ~/Dropbox/1vimwiki/notes/'. strftime("%Y-%m-%d %H:%M").'-'.l:name.'.md'
+exe 'normal! i# '.l:name
+normal! 2o
+endfunction
+]],
+    true
+)
+
+vim.cmd("command! CreateNote :call CreateNote()")
+vim.cmd("command! CreateMeetingNote :call CreateMeetingNote()")
+vim.cmd("command! OpenTodoNote :call CreateNoteWithFile('~/Dropbox/1vimwiki/notes/todo.md')")
+vim.cmd("command! OpenInboxNote :call CreateNoteWithFile('~/Dropbox/1vimwiki/inbox/inbox.md')")
 
 vim.api.nvim_exec(
     [[
