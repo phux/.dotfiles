@@ -74,7 +74,8 @@ use {"rhysd/git-messenger.vim"}
 use "tpope/vim-fugitive"
 use "tpope/vim-rhubarb"
 use {"whiteinge/diffconflicts", cmd = "DiffConflicts"}
-use "jreybert/vimagit"
+use {"jreybert/vimagit", cmd = {"Magit", "MagitOnly"}}
+use "sodapopcan/vim-twiggy"
 -- use {
 --     "lewis6991/gitsigns.nvim",
 --     requires = {
