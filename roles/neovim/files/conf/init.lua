@@ -272,7 +272,30 @@ endfunction
     true
 )
 
+vim.api.nvim_exec(
+    [[
+function! CreateProject()
+let l:name = input('Title: ')
+let l:projectSlug = join(split(tolower(l:name), '\W\+'), '-')
+let l:projectDir = '~/Dropbox/1vimwiki/notes/projects/'.strftime("%Y%m%d").'_'.l:projectSlug
+exe '!mkdir -p '.l:projectDir
+exe 'edit '.l:projectDir.'/main.md'
+exe 'normal! i# Project: '.l:name
+normal! 2o
+normal! i## Participants
+normal! 2o
+normal! i## Timeline
+normal! 2o
+normal! i## Meetings
+normal! 2o
+normal! i - Kickoff
+endfunction
+]],
+    true
+)
+
 vim.cmd("command! CreateNote :call CreateNote()")
+vim.cmd("command! CreateProject :call CreateProject()")
 vim.cmd("command! CreateMeetingNote :call CreateMeetingNote()")
 vim.cmd("command! OpenTodoNote :call CreateNoteWithFile('~/Dropbox/1vimwiki/notes/todo.md')")
 vim.cmd("command! OpenInboxNote :call CreateNoteWithFile('~/Dropbox/1vimwiki/inbox/inbox.md')")
@@ -299,40 +322,9 @@ endfunction
 
 vim.api.nvim_set_keymap("n", "<leader>lb", ":call ToggleQfLocListBinds()<cr>", {noremap = true})
 
-vim.api.nvim_exec(
-    [[
-function! ZettelHierarchy(...)
-    let l:startingHierarchy = get(a:, 1, '')
-    let l:result = system('rg "^title: n:'.l:startingHierarchy.'"')
-    let l:files = []
-    for item in split(l:result, "\n")
-        let l:parts = split(item, ":")
-        let l:file = l:parts[0]
-        let l:match = {'title': join(l:parts[3:], ':'), 'file': l:file}
-        call add(l:files, l:match)
-    endfor
-    call sort(l:files, function("SortZettelEntries"))
-
-    for item in l:files
-        exe 'normal! o- ['.item['title'].']('.item['file'].')'
-    endfor
-    " return l:files
-endfunction
-
-function! SortZettelEntries(leftArg, rightArg)
-  if a:leftArg['title'] == a:rightArg['title']
-    return 0
-  elseif a:leftArg['title'] < a:rightArg['title']
-    return -1
-  else
-    return 1
-  endif
-endfunction
-]],
-    true
-)
-
+-- better time tracking via ActivityWatch
 vim.cmd("set title")
+
 vim.cmd('nmap gx yiW:!xdg-open <cWORD><CR> <C-r>" & <CR><CR>')
 
 vim.g.obvious_resize_run_tmux = 1
@@ -348,3 +340,12 @@ function! ResizeSplits()
     wincmd =
 endfunction
 ]], true)
+
+-- sw - start/stop writing mode
+vim.api.nvim_set_keymap("n", "<leader>sw", "<cmd>lua ToggleWritingMode()<cr>", {noremap = true})
+function _G.ToggleWritingMode()
+    vim.cmd("Goyo")
+    vim.cmd("Limelight!!")
+end
+
+vim.api.nvim_set_keymap("n", "<leader>M", ":Magit<CR>", {noremap = true})
