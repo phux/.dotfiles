@@ -26,3 +26,9 @@ end
 -- vim.cmd(
 --     ":command! -bang -nargs=* Rg call fzf#vim#rg_interactive(<q-args>, fzf#vim#with_preview('right:50%:hidden', 'alt-h'))"
 -- )
+--
+U.map("n", "<leader>onm", ":FZF ~/Dropbox/1vimwiki/notes/meetings/<cr>", {noremap = false})
+U.map("n", "<leader>onp", ":FZF ~/Dropbox/1vimwiki/notes/projects/<cr>", {noremap = false})
+U.map("n", "<leader>onn", ":FZF ~/Dropbox/1vimwiki/notes/<cr>", {noremap = false})
+U.map("n", "<leader>onr", ":FZF ~/Dropbox/1vimwiki/notes/routines/<cr>", {noremap = false})
+U.map("n", "<leader>onz", ":FZF ~/Dropbox/1vimwiki/zettel/<cr>", {noremap = false})

@@ -11,6 +11,11 @@ exceptions:
   - API
   - ASP
   - CLI
+  - CET
+  - CEST
+  - EOM
+  - EOD
+  - EOW
   - CPU
   - CSS
   - CSV

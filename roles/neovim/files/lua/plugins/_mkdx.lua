@@ -5,7 +5,9 @@ let g:polyglot_disabled = ['markdown']
 
 let g:mkdx#settings.fold.enable = 1
 nmap <leader>ml <Plug>(mkdx-toggle-list-n)                                    
-vmap <leader>ml <Plug>(mkdx-toggle-list-v)                                    
+xmap <leader>ml <Plug>(mkdx-toggle-list-v)                                    
+nmap <leader>mc <Plug>(mkdx-toggle-checkbox-n)
+xmap <leader>mc <Plug>(mkdx-toggle-checkbox-v)
 
 
 ]],
