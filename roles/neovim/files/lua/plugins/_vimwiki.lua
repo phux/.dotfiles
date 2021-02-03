@@ -22,7 +22,7 @@ vim.g.vimwiki_list = {
         custom_wiki2html = "vimwiki_markdown"
     },
     {
-        path = "~/Dropbox/1vimwiki/inbox",
+        path = "~/Dropbox/1vimwiki/notes/inbox",
         name = "Inbox",
         syntax = "markdown",
         ext = ".md",
@@ -39,8 +39,7 @@ vim.g.vimwiki_key_mappings = {
 
 U.map("n", "<leader>oi", ":VimwikiIndex<cr>:%d<cr>:VimwikiGenerateLinks<cr>", {noremap = false})
 U.map("n", "<leader>ow", "<Plug>VimwikiUISelect", {noremap = false})
-U.map("n", "<leader>om", ":FZF ~/Dropbox/1vimwiki/notes/meetings/<cr>", {noremap = false})
-U.map("n", "<leader>on", ":FZF ~/Dropbox/1vimwiki/<cr>", {noremap = false})
+-- <leader>onX OpenNoteX
 -- U.map("n", "<leader>zt", "<Plug>VimwikiTabIndex", {noremap = false})
 -- U.map("n", "<leader>zd", "<Plug>VimwikiDiaryIndex", {noremap = false})
 

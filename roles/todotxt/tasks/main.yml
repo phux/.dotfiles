@@ -11,7 +11,7 @@
     - name: clone repo
       shell: >
         git clone https://github.com/todotxt/todo.txt-cli.git
-        {{ ansible_env.HOME }}/tools/todo.txt-cli && cd {{ ansible_env.HOME }}/tools/todo.txt-cli &&
+        {{ ansible_env.HOME }}/tools/todo.txt-cli && cd {{ ansible_env.HOME }}/tools/todo.txt-cli && git pull
   when: todotxt_was_cloned.rc != 0
 
 # TODO create config in ~/.todo

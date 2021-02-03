@@ -190,6 +190,7 @@ use "ActivityWatch/aw-watcher-vim"
 -- use "KevinBockelandt/notoire"
 
 use "~/code/vim-marker"
+use "~/code/notetaker.vim"
 
 local autocmds = {
     plugins = {

@@ -233,76 +233,6 @@ U.augroups(autocmds)
 
 vim.api.nvim_exec(
     [[
-function! CreateNoteWithFile(file)
-exe 'edit '.a:file
-normal! Go
-exe 'normal! Go## ' . strftime("%Y-%m-%d %H:%M")
-normal! 2o
-startinsert
-endfunction
-]],
-    true
-)
-
-vim.api.nvim_exec(
-    [[
-function! CreateMeetingNote()
-let l:name = input('Title: ')
-exe 'edit ~/Dropbox/1vimwiki/notes/meetings/'. strftime("%Y-%m-%d %H:%M").'-'.l:name.'.md'
-exe 'normal! i# '.l:name
-normal! 2o
-normal! i## Pre-Meeting Notes
-normal! 2o
-normal! i## Agenda
-normal! 2o
-normal! i## Notes
-endfunction
-]],
-    true
-)
-
-vim.api.nvim_exec(
-    [[
-function! CreateNote()
-let l:name = input('Title: ')
-exe 'edit ~/Dropbox/1vimwiki/notes/'. strftime("%Y-%m-%d %H:%M").'-'.l:name.'.md'
-exe 'normal! i# '.l:name
-normal! 2o
-endfunction
-]],
-    true
-)
-
-vim.api.nvim_exec(
-    [[
-function! CreateProject()
-let l:name = input('Title: ')
-let l:projectSlug = join(split(tolower(l:name), '\W\+'), '-')
-let l:projectDir = '~/Dropbox/1vimwiki/notes/projects/'.strftime("%Y%m%d").'_'.l:projectSlug
-exe '!mkdir -p '.l:projectDir
-exe 'edit '.l:projectDir.'/main.md'
-exe 'normal! i# Project: '.l:name
-normal! 2o
-normal! i## Participants
-normal! 2o
-normal! i## Timeline
-normal! 2o
-normal! i## Meetings
-normal! 2o
-normal! i - Kickoff
-endfunction
-]],
-    true
-)
-
-vim.cmd("command! CreateNote :call CreateNote()")
-vim.cmd("command! CreateProject :call CreateProject()")
-vim.cmd("command! CreateMeetingNote :call CreateMeetingNote()")
-vim.cmd("command! OpenTodoNote :call CreateNoteWithFile('~/Dropbox/1vimwiki/notes/todo.md')")
-vim.cmd("command! OpenInboxNote :call CreateNoteWithFile('~/Dropbox/1vimwiki/inbox/inbox.md')")
-
-vim.api.nvim_exec(
-    [[
 let g:qf_loc_toggle_binds = 0
 function! ToggleQfLocListBinds()
   if g:qf_loc_toggle_binds == 1
@@ -350,3 +280,19 @@ function _G.ToggleWritingMode()
 end
 
 vim.api.nvim_set_keymap("n", "<leader>M", ":Magit<CR>", {noremap = true})
+
+vim.g.notetaker_root_dir = "~/Dropbox/1vimwiki/notes/"
+
+-- TODO: disable autopairs and map to <m-n>, <m-p>
+vim.api.nvim_set_keymap("n", "<leader>mn", ":call marker#NextMark()<cr>", {noremap = true})
+vim.api.nvim_set_keymap("n", "<leader>mp", ":call marker#PrevMark()<cr>", {noremap = true})
+
+vim.api.nvim_exec(
+    [[
+if executable("rg")
+    set grepprg=rg\ --vimgrep\ --no-heading
+    set grepformat=%f:%l:%c:%m,%f:%l:%m
+endif
+]],
+    true
+)
