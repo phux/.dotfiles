@@ -191,6 +191,7 @@ use "ActivityWatch/aw-watcher-vim"
 
 use "~/code/vim-marker"
 use "~/code/notetaker.vim"
+use "mtth/scratch.vim"
 
 local autocmds = {
     plugins = {
