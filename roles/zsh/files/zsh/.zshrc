@@ -82,6 +82,7 @@ setopt PUSHD_IGNORE_DUPS
 export TERM_BRIGHT='/tmp/term.bright'
 
 export WIKI_DIR='~/Dropbox/1vimwiki/'
+export NEXTWORD_DATA_PATH=~/tools/nextword-data/nextword-data-large
 
 # Highlight section titles in manual pages.
 export LESS_TERMCAP_md="${yellow}";
@@ -152,7 +153,7 @@ export GF_DIFF_COMMIT_RANGE_PREVIEW_DEFAULTS="--summary"
 export GF_DIFF_FILE_PREVIEW_DEFAULTS="--indent-heuristic"
 
 gch() {
- git checkout "$(git branch --all | fzf| tr -d '[:space:]')"
+	git for-each-ref --sort=-committerdate --format='%(refname:short)' refs/heads | fzf | xargs git checkout
 }
 alias gs='git fuzzy status'
 alias gdt='n +"Git difftool -y"'
@@ -478,5 +479,3 @@ zinit light zsh-users/zsh-autosuggestions
 [[ ! -f ~/.config/zsh/.p10k.zsh ]] || source ~/.config/zsh/.p10k.zsh
 
 # zprof
-#
-#

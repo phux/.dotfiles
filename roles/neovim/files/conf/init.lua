@@ -283,6 +283,9 @@ vim.api.nvim_set_keymap("n", "<leader>M", ":Magit<CR>", {noremap = true})
 
 vim.g.notetaker_root_dir = "~/Dropbox/1vimwiki/notes/"
 
+vim.g.scratch_persistence_file = ".scratch.vim"
+vim.g.scratch_height = 10
+
 -- TODO: disable autopairs and map to <m-n>, <m-p>
 vim.api.nvim_set_keymap("n", "<leader>mn", ":call marker#NextMark()<cr>", {noremap = true})
 vim.api.nvim_set_keymap("n", "<leader>mp", ":call marker#PrevMark()<cr>", {noremap = true})
