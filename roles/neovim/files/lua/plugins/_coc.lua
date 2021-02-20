@@ -31,13 +31,14 @@ vim.g.coc_global_extensions = {
     "coc-phpls",
     "coc-nextword",
     -- "coc-prettier",
-    "coc-eslint",
-    "coc-styled-components",
+    -- "coc-eslint",
+    -- "coc-styled-components",
     "coc-go",
     "coc-markmap",
-    "coc-graphql",
+    -- "coc-graphql",
     "coc-spell-checker",
-    "coc-cspell-dicts"
+    "coc-cspell-dicts",
+    "coc-svelte"
 }
 
 local autocmds = {

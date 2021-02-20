@@ -2,7 +2,7 @@ if !exists('g:test#go#dockercomposego#file_pattern')
   let g:test#go#dockercomposego#file_pattern = '\v[^_].*_test\.go$'
 endif
 if !exists('g:test#go#dockercomposego#service_name')
-  let g:test#go#dockercomposego#service_name = 'api'
+  let g:test#go#dockercomposego#service_name = 'publicbox'
 endif
 
 function! test#go#dockercomposego#test_file(file) abort

@@ -29,6 +29,7 @@ end
 --
 U.map("n", "<leader>onm", ":FZF ~/Dropbox/1vimwiki/notes/meetings/<cr>", {noremap = false})
 U.map("n", "<leader>onp", ":FZF ~/Dropbox/1vimwiki/notes/projects/<cr>", {noremap = false})
+U.map("n", "<leader>onf", ":FZF ~/Dropbox/1vimwiki/notes/feedbacks/<cr>", {noremap = false})
 U.map("n", "<leader>onn", ":FZF ~/Dropbox/1vimwiki/notes/<cr>", {noremap = false})
 U.map("n", "<leader>onr", ":FZF ~/Dropbox/1vimwiki/notes/routines/<cr>", {noremap = false})
 U.map("n", "<leader>onz", ":FZF ~/Dropbox/1vimwiki/zettel/<cr>", {noremap = false})

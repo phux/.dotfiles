@@ -53,7 +53,6 @@ use {
 -- " For showing the actual color of the hex value
 use {
     "norcalli/nvim-colorizer.lua",
-    ft = {"conf", "css"},
     config = function()
         require "colorizer".setup()
     end
@@ -88,7 +87,7 @@ use "sodapopcan/vim-twiggy"
 
 use {"AndrewRadev/splitjoin.vim", cmd = "SplitjoinSplit"}
 
--- use {"nvim-treesitter/nvim-treesitter", run = ":TSUpdate"}
+use {"nvim-treesitter/nvim-treesitter", run = ":TSUpdate"}
 -- use "romgrk/nvim-treesitter-context"
 
 use {"lifepillar/vim-gruvbox8"}
@@ -129,19 +128,24 @@ use "jiangmiao/auto-pairs"
 -- install ttf-nerd-fonts-symbols` use 'ryanoasis/vim-devicons'
 use {
     "kyazdani42/nvim-tree.lua",
-    requires = {"kyazdani42/nvim-web-devicons", opt = true},
+    -- requires = {"kyazdani42/nvim-web-devicons", opt = true},
     cmd = {"NvimTreeToggle", "NvimTreeFindFile"}
 }
 
 -- use {"hashivim/vim-terraform", ft = "tf"}
 
 -- " Vim motion in lightning fast speed
-use {"easymotion/vim-easymotion"}
+-- use {"easymotion/vim-easymotion"}
+use {"phaazon/hop.nvim"}
 -- use "justinmk/vim-sneak"
 
 -- automatically clearing search highlights
 use "pgdouyon/vim-evanesco"
 
+use "mlaursen/vim-react-snippets"
+use "leafOfTree/vim-svelte-plugin"
+use {"mattn/emmet-vim", ft = {"html", "javascript", "typescriptreact", "svelte"}}
+use {"MaxMEllon/vim-jsx-pretty", ft = {"typescript", "javascript"}}
 -- use {"jparise/vim-graphql", ft = {"typescript", "javascript", "graphql"}}
 -- use {"nelsyeung/twig.vim", ft = "twig"}
 -- use "sheerun/vim-polyglot"
@@ -154,8 +158,8 @@ use "pgdouyon/vim-evanesco"
 -- }
 
 use {
-    "hoob3rt/lualine.nvim",
-    requires = {"kyazdani42/nvim-web-devicons", opt = true}
+    "hoob3rt/lualine.nvim"
+    -- requires = {"kyazdani42/nvim-web-devicons", opt = true}
 }
 use {"ThePrimeagen/vim-be-good", cmd = "VimBeGood"}
 
@@ -192,6 +196,7 @@ use "ActivityWatch/aw-watcher-vim"
 use "~/code/vim-marker"
 use "~/code/notetaker.vim"
 use "mtth/scratch.vim"
+use "gcmt/wildfire.vim"
 
 local autocmds = {
     plugins = {
