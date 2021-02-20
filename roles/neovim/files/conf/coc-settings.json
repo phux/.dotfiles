@@ -160,17 +160,6 @@
     "solargraph.autoformat": true,
     "solargraph.diagnostics": true,
     "solargraph.useBundler": true,
-    "eslint.run": "onSave",
-    "eslint.autoFixOnSave":true,
-    "eslint.lintTask.options":[
-        "--fix",
-        "--fix-type suggestion,layout",
-        "."
-    ],
-    "eslint.options": {
-        "fix": true,
-        "fix-type": "suggestion,layout "
-    },
     "tsserver.formatOnType": false,
     "typescript.format.enabled": false,
     "javascript.format.enabled": false,
@@ -186,19 +175,24 @@
         "php",
         "plaintext",
         "typescript",
-        "typescriptreact",
         "yml"
     ],
     "cSpell.userWords": [
-        "Babauta",
-        "IAMs",
-        "KPIs",
-        "MITs",
-        "Spotify",
-        "Symfony",
-        "devs",
-        "newpage",
-        "roadmap"
+      "Babauta",
+      "IAMs",
+      "KPIs",
+      "MITs",
+      "Spotify",
+      "Symfony",
+      "devs",
+      "gmbh",
+      "newpage",
+      "roadmap"
     ],
-    "nextword.greedy": false
+    "nextword.greedy": false,
+    "nextword.filetypes": [
+        "markdown",
+        "gitcommit",
+        "vimwiki"
+    ]
 }

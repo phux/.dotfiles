@@ -165,12 +165,18 @@ alias gdm='n +"Gdiff $(git merge-base master HEAD)"'
 
 alias ga='git add'
 alias gc='git commit -v'
+alias gcm='n +Magit'
 alias grh='git reset HEAD'
 alias guc='git reset HEAD~'
 alias gca='git commit -v --amend'
 alias gb='git branch'
 alias gcb='git checkout -b'
 alias gco='git checkout'
+alias gcoo='gittake --ours'
+gittake() {
+	git checkout $1 $2 && git add $2
+}
+alias gcot='gittake --theirs'
 alias gd='git diff'
 alias gds='git diff --staged'
 alias gfa='git fetch --all'
@@ -181,8 +187,8 @@ alias gl='git pull'
 # alias glog="git log --graph --abbrev-commit --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset'"
 alias glp="git log --first-parent --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset'"
 alias glm="git log --first-parent --merges --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset'"
-alias gm='git merge -X histogram'
-alias gmp='git merge -X patience'
+alias gm='git merge -X patience'
+alias gmh='git merge -X histogram'
 alias gmd='git merge'
 alias gp='git push'
 alias grp='git rebase -i @{u}'
@@ -309,7 +315,7 @@ alias tp='t pri'
 alias tap='ts; echo "autoprio 0 days = A\n";t autopri 0 A; echo "autoprio 1 days = B\n"; t autopri 1 B; echo "autoprio 7 days = C\n"; t autopri 7 C;ts'
 alias ts='t commit'
 alias td='ts; t del'
-alias tf='t do'
+alias tf='ts; t do'
 alias tm='t mit'
 alias tmd='t mit today'
 alias tgl='cd ~/Dropbox/todo/work/ && glog'
@@ -372,7 +378,6 @@ bindkey '^w' backward-kill-word
 
 bindkey '^a' beginning-of-line
 bindkey '^b' backward-char
-bindkey '^e' end-of-line
 bindkey '^f' forward-char
 bindkey '\e.' insert-last-word
 
@@ -478,4 +483,5 @@ zinit light zsh-users/zsh-autosuggestions
 # To customize prompt, run `p10k configure` or edit ~/.config/zsh/.p10k.zsh.
 [[ ! -f ~/.config/zsh/.p10k.zsh ]] || source ~/.config/zsh/.p10k.zsh
 
+bindkey '^e' end-of-line
 # zprof

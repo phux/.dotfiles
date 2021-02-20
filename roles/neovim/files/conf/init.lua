@@ -62,7 +62,8 @@ require "plugins"
 
 require "plugins/_ale"
 require "plugins/_coc"
-require "plugins/_easymotion"
+require "plugins/_hop"
+-- require "plugins/_easymotion"
 -- require "plugins/_sneak"
 require "plugins/_fugitive"
 require "plugins/_twiggy"
@@ -75,12 +76,16 @@ require "plugins/_gv"
 require "plugins/_nvimtree"
 require "plugins/_splitjoin"
 require "plugins/_telescope"
--- require "plugins/_treesitter"
+require "plugins/_treesitter"
 require "plugins/_vimtest"
 require "plugins/_vimwiki"
 require "plugins/_zettel"
 require "plugins/_simpletodo"
 require "plugins/_mkdx"
+require "plugins/_context"
+require "plugins/_gitmessenger"
+require "plugins/_diffconflicts"
+
 -- require "plugins/_notoire"
 
 if vim.fn.exists("g:colors_name") == 0 then
@@ -99,11 +104,9 @@ vim.o.splitright = true
 vim.g.terraform_align = 1
 vim.g.terraform_fmt_on_save = 1
 
-vim.cmd("set diffopt+=algorithm:histogram")
+vim.cmd("set diffopt+=algorithm:patience")
 vim.cmd("set diffopt+=vertical")
 vim.cmd("set diffopt+=indent-heuristic")
-
--- vim.api.nvim_set_keymap('n', '<leader>of', ':Telescope find_files<cr>', {noremap = true})
 
 vim.o.wildmenu = true
 vim.o.wildmode = "longest,list,full"
@@ -299,3 +302,24 @@ endif
 ]],
     true
 )
+
+vim.cmd([[hi link diffAdded DiffAdd]])
+vim.cmd([[hi link diffRemoved DiffDelete]])
+-- vim.cmd([[hi diffFile cterm=NONE ctermfg=DarkBlue]])
+-- vim.cmd([[hi gitcommitDiff cterm=NONE ctermfg=DarkBlue]])
+-- vim.cmd([[hi diffIndexLine cterm=NONE ctermfg=DarkBlue]])
+-- vim.cmd([[hi diffLine cterm=NONE ctermfg=DarkBlue]])
+vim.api.nvim_exec(
+    [[
+nmap <F12> :call SynStack()<CR>
+function! SynStack()
+  if !exists("*synstack")
+    return
+  endif   
+  echo map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")')
+endfunc
+]],
+    true
+)
+
+vim.g.vim_svelte_plugin_use_typescript = 1

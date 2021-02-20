@@ -5,6 +5,9 @@ augroup markdown
   au BufNewFile,BufRead,BufEnter *.markdown set tags=.git/tags.markdown
 augroup end
 
+" better wordwrapping with mkdx
+setlocal iskeyword+=-
+
 nmap <buffer> <cr> <Plug>VimwikiFollowLink
 vmap <buffer> <cr> <Plug>VimwikiNormalizeLinkVisualCR
 
@@ -70,7 +73,7 @@ function! UrlToMarkdownLink()
     normal! di[h"ap
 
     if exists('g:loaded_abolish')
-        normal crt
+        normal hcrt
     endif
     " check for trailing slashes
     normal! f]h

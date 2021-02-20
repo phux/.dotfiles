@@ -26,7 +26,8 @@
 
 - name: install/update st
   shell: >
-    cd {{ ansible_env.HOME }}/tools/st && git pull && git fetch upstream && git merge upstream/master && sudo make install
+    cd {{ ansible_env.HOME }}/tools/st && git pull && git checkout before_broken && make clean && sudo make install
+    # cd {{ ansible_env.HOME }}/tools/st && git pull && git fetch upstream && git merge upstream/master && sudo make install
 
 - name: check bat version
   shell: bat --version || /bin/true
