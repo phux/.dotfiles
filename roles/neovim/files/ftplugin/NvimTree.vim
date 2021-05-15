@@ -1,1 +1,1 @@
-setlocal signcolumn=
+" setlocal signcolumn=

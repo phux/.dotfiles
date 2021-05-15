@@ -62,15 +62,17 @@ require "plugins"
 
 require "plugins/_ale"
 require "plugins/_coc"
-require "plugins/_hop"
--- require "plugins/_easymotion"
+-- require "plugins/_hop"
 -- require "plugins/_sneak"
+-- require "plugins/_leaderf"
+-- require "plugins/_galaxyline"
+
+require "plugins/_easymotion"
+require "plugins/_echodoc"
 require "plugins/_fugitive"
 require "plugins/_twiggy"
 require "plugins/_hardtime"
 require "plugins/_fzf"
--- require "plugins/_leaderf"
--- require "plugins/_galaxyline"
 require "plugins/_lualine"
 require "plugins/_gv"
 require "plugins/_nvimtree"
@@ -85,6 +87,13 @@ require "plugins/_mkdx"
 require "plugins/_context"
 require "plugins/_gitmessenger"
 require "plugins/_diffconflicts"
+require "plugins/_mergetool"
+-- require "plugins/_lspconfig"
+-- require "plugins/_completion"
+-- require "plugins/_vsnip"
+
+-- require "plugins/_compe"
+-- require "plugins/_lsputils"
 
 -- require "plugins/_notoire"
 
@@ -160,6 +169,7 @@ vim.o.belloff = "all"
 vim.o.clipboard = "unnamed"
 
 vim.cmd("set undofile")
+vim.cmd("set undodir=~/.vim/undo")
 vim.o.inccommand = "split"
 vim.o.swapfile = false -- Living on the edge
 execute("set noswapfile")
@@ -174,13 +184,15 @@ vim.api.nvim_set_keymap("n", "<leader>sr", ":s/<c-R><c-w>/<c-r><c-w>/g<left><lef
 vim.api.nvim_set_keymap("v", "<leader>sr", ":s/<c-R><c-w>/<c-r><c-w>/g<left><left>", {noremap = true})
 
 -- shorten messages, don't display intro
-vim.cmd("set shortmess+=aI")
+vim.cmd("set shortmess+=aIc")
 
 vim.o.formatoptions = "qrn1tclj"
 
 -- if count supplied, move with line numbers, otherwise move visual lines
 vim.api.nvim_set_keymap("n", "k", "v:count == 0 ? 'gk' : 'k'", {noremap = true, expr = true})
 vim.api.nvim_set_keymap("n", "j", "v:count == 0 ? 'gj' : 'j'", {noremap = true, expr = true})
+vim.api.nvim_set_keymap("n", "<Up>", "&diff ? '[c' : '<Up>'", {noremap = true, expr = true})
+vim.api.nvim_set_keymap("n", "<Down>", "&diff ? ']c' : '<Down>'", {noremap = true, expr = true})
 
 vim.o.joinspaces = false
 vim.o.confirm = true
@@ -224,6 +236,8 @@ local autocmds = {
     conf = {
         {"BufWritePost", "~/.dotfiles/*.lua", ":luafile %"},
         {"WinEnter", "*", ":call ResizeSplits()"},
+        {"BufNewFile,BufRead", "*.graphqls", "set ft=graphql"},
+        {"BufNewFile,BufRead", "*.tf", "set ft=tf"},
         {"FocusLost,WinLeave", "*", ":silent! update"},
         {
             "FileType",
@@ -237,6 +251,8 @@ U.augroups(autocmds)
 vim.api.nvim_exec(
     [[
 let g:qf_loc_toggle_binds = 0
+nnoremap <silent> <c-p> :ALEPreviousWrap<cr>
+nnoremap <silent> <c-n> :ALENextWrap<cr>
 function! ToggleQfLocListBinds()
   if g:qf_loc_toggle_binds == 1
     nnoremap <silent> <c-p> :ALEPreviousWrap<cr>
@@ -323,3 +339,9 @@ endfunc
 )
 
 vim.g.vim_svelte_plugin_use_typescript = 1
+vim.cmd(
+    [[
+let g:grammarous#disabled_rules = {}
+let g:grammarous#disabled_rules['*'] = ["DASH_RULE", "WHITESPACE_RULE", "EN_QUOTES", "COMMA_PARENTHESIS_WHITESPACE"]
+]]
+)

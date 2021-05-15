@@ -1,11 +1,24 @@
 local U = require "utils"
 vim.api.nvim_set_keymap("n", "<leader>st", ":Rg ", {noremap = true})
 -- vim.api.nvim_set_keymap("n", "<leader>ob", ":Buffers<CR>", {noremap = true})
--- vim.api.nvim_set_keymap("n", "<leader>of", ":FZF<cr>", {noremap = true})
+vim.api.nvim_set_keymap("n", "<leader>of", ":FZF<cr>", {noremap = true})
 -- vim.api.nvim_set_keymap("n", "<leader>ot", ":Tags<cr>", {noremap = true})
 
 vim.api.nvim_set_keymap("n", "<leader>su", "<cmd>lua RgUnderCursor()<CR>", {noremap = true})
 vim.api.nvim_set_keymap("n", "<leader>vl", ":FZF ~/.dotfiles/roles/neovim<cr>", {noremap = true})
+
+vim.api.nvim_exec(
+    [[
+" An action can be a reference to a function that processes selected lines
+function! FZFbuild_quickfix_list(lines)
+  call setqflist(map(copy(a:lines), '{ "filename": v:val }'))
+  copen
+  cc
+endfunction
+let g:fzf_action = { 'ctrl-q': function('FZFbuild_quickfix_list'), 'ctrl-t': 'tab split', 'ctrl-x': 'split', 'ctrl-v': 'vsplit' }
+]],
+    true
+)
 
 -- TODO
 -- U.map("i", "<c-x><c-f>", "fzf#vim#complete#path('rg --files')", {noremap = true, expr = true})

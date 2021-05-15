@@ -293,7 +293,8 @@ Plug 'mzlogin/vim-markdown-toc', {'for': 'markdown'}
 
 """ markdown preview
 Plug 'iamcco/markdown-preview.nvim', { 'for': ['markdown', 'notes'],  'do': 'cd app & yarn install'  }
-let g:mkdp_path_to_chrome = 'chromium-browser'
+" let g:mkdp_path_to_chrome = 'chromium-browser'
+let g:mkdp_path_to_chrome = 'google-chrome'
 let g:mkdp_auto_close = 1
 let g:mkdp_auto_start = 0
 

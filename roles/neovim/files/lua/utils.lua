@@ -1,5 +1,6 @@
 local U = {}
 local fn = vim.fn
+local api = vim.api
 
 function U.map(mode, key, result, opts)
     opts =
@@ -13,7 +14,7 @@ function U.map(mode, key, result, opts)
         }
     )
 
-    fn.nvim_set_keymap(mode, key, result, opts)
+    api.nvim_set_keymap(mode, key, result, opts)
 end
 
 function U.is_buffer_empty()
@@ -61,6 +62,12 @@ function U.GitRoot()
     trimmed = string.gsub(trimmed, "\n", "")
 
     return trimmed
+end
+
+U.show_diagnostics = function(opts)
+  opts = opts or {}
+  vim.lsp.diagnostic.set_loclist({open_loclist = false})
+  require'telescope.builtin'.loclist(opts)
 end
 
 return U
