@@ -123,7 +123,7 @@ alias grep='grep --color'
 
 alias cat='bat'
 export MANPAGER="sh -c 'col -bx | bat -l man -p'"
-export MANPAGER="nvim -c 'set ft=man' -"
+# export MANPAGER="nvim -c 'set ft=man' -"
 
 # disable c-s and c-q freeze
 # stty stop ''
@@ -231,7 +231,8 @@ bindkey -e
 # http://www.drbunsen.org/vim-croquet/ analysing
 alias nl='nvim -w ~/.nvim_keylog "$@"'
 
-alias n='~/tools/neovim/build/bin/nvim -w ~/.nvim_keylog "$@"'
+# alias n='~/tools/neovim/build/bin/nvim -w ~/.nvim_keylog "$@"'
+alias n='~/tools/neovim/build/bin/nvim'
 alias nd='cd ~/.dotfiles/roles/neovim/; n files/conf/init.lua'
 alias c='composer'
 alias ci='composer install --no-progress --prefer-dist --profile'
@@ -308,26 +309,27 @@ alias t='todo.sh -f -n'
 alias tl='t list'
 alias tlp='t lsp'
 alias tb='t birdseye'
-alias te='ts; t edit'
-alias ta='t add'
+alias te='tco; t edit'
+alias ta='tco; t add'
 alias tp='t pri'
 # alias ta='t autopri'
-alias tap='ts; echo "autoprio 0 days = A\n";t autopri 0 A; echo "autoprio 1 days = B\n"; t autopri 1 B; echo "autoprio 7 days = C\n"; t autopri 7 C;ts'
-alias ts='t commit'
-alias td='ts; t del'
-alias tf='ts; t do'
+alias tap='tco; echo "autoprio 0 days = A\n";t autopri 0 A; echo "autoprio 1 days = B\n"; t autopri 1 B; echo "autoprio 7 days = C\n"; t autopri 7 C;tco'
+alias tco='t commit'
+alias ts='tco; t schedule'
+alias td='tco; t del'
+alias tf='tco; t do'
 alias tm='t mit'
 alias tmd='t mit today'
 alias tgl='cd ~/Dropbox/todo/work/ && glog'
 # https://github.com/samuelsnyder/outline-todo.txt
 alias to='t outline'
 alias tol='t outline ls'
-alias toa='t outline addto' # PROJECT "TEXT"
-alias toe='ts; t outline edit' # PROJECT
-alias toi='ts; t outline import; tap' # sync from outlines
+alias toa='tco; t outline addto' # PROJECT "TEXT"
+alias toe='tco; t outline edit' # PROJECT
+alias toi='tco; t outline import; tap' # sync from outlines
 # Create an outline file corresponding to PROJECT, and move task at line #ITEM in todo.txt to the outline.
 alias toc='t outline mkol' # PROJECT [#ITEM]
-alias tom='ts; t outline mv' # #ITEM PROJECT
+alias tom='tco; t outline mv' # #ITEM PROJECT
 
 # alias nn='n +VimwikiIndex +ZettelOpen'
 # TODO

@@ -12,7 +12,7 @@ vim.g.coc_global_extensions = {
     "coc-calc",
     "coc-css",
     "coc-docker",
-    -- "coc-explorer",
+    "coc-explorer",
     "coc-git",
     "coc-html",
     "coc-lua",
@@ -79,6 +79,7 @@ U.map("n", "<leader>nd", "<Plug>(coc-definition)", {noremap = false})
 U.map("n", "<leader>nD", "<Plug>(coc-type-definition)", {noremap = false})
 U.map("n", "<leader>ni", "<Plug>(coc-implementation)", {noremap = false})
 U.map("n", "<leader>nr", "<Plug>(coc-references)", {noremap = false})
+api.nvim_set_keymap("n", "<leader>os", ":CocList symbols<cr>", {noremap = true})
 
 U.map("n", "[g", "<Plug>(coc-diagnostic-prev)", {noremap = false})
 U.map("n", "]g", "<Plug>(coc-diagnostic-next)", {noremap = false})
@@ -90,6 +91,8 @@ U.map("i", "<c-j>", "<Plug>(coc-snippets-expand-jump)", {noremap = false})
 api.nvim_set_keymap("n", "<leader>go", ":CocCommand git.browserOpen<cr>", {noremap = true})
 
 api.nvim_set_keymap("n", "<leader>gi", ":CocCommand git.chunkInfo<cr>", {noremap = true})
+
+api.nvim_set_keymap("n", "<leader>ot", ":CocCommand explorer --preset simplify --reveal<cr>", {noremap = true})
 
 -- Use gh to show documentation in preview window.
 function _G.show_docs()
@@ -104,3 +107,9 @@ function _G.show_docs()
 end
 
 U.map("n", "K", "<CMD>lua show_docs()<CR>")
+
+vim.cmd(
+    [[
+let g:coc_explorer_global_presets = {'simplify': { 'file-child-template': '[selection | clip | 1] [indent][icon | 1] [filename omitCenter 1]' }}
+]]
+)

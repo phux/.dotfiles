@@ -8,6 +8,7 @@
 
 ! hard contrast: *background: #f9f5d7
 *background: #fbf1c7
+! from vim
 ! soft contrast: *background: #f2e5bc
 *foreground: #3c3836
 ! Black + DarkGrey

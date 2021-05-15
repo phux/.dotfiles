@@ -14,7 +14,6 @@ use "christoomey/vim-tmux-navigator"
 -- vim. This plugin restores them when using vim inside Tmux.
 use "tmux-plugins/vim-tmux-focus-events"
 
--- " Intellisense and completion engine
 use {"neoclide/coc.nvim", branch = "release"}
 use "antoinemadec/coc-fzf"
 use {"rafcamlet/coc-nvim-lua", ft = "lua"}
@@ -36,7 +35,6 @@ use {
     "wellle/context.vim",
     config = function()
         vim.g.context_enabled = false
-        vim.api.nvim_set_keymap("n", "<leader>cc", ":ContextToggleWindow<cr>", {noremap = true})
     end
 }
 
@@ -72,9 +70,12 @@ use "talek/obvious-resize"
 use {"rhysd/git-messenger.vim"}
 use "tpope/vim-fugitive"
 use "tpope/vim-rhubarb"
-use {"whiteinge/diffconflicts", cmd = "DiffConflicts"}
+use "samoshkin/vim-mergetool"
+-- use {"whiteinge/diffconflicts", cmd = "DiffConflicts"}
+-- use "christoomey/vim-conflicted"
 use {"jreybert/vimagit", cmd = {"Magit", "MagitOnly"}}
 use "sodapopcan/vim-twiggy"
+use "airblade/vim-gitgutter"
 -- use {
 --     "lewis6991/gitsigns.nvim",
 --     requires = {
@@ -113,6 +114,7 @@ use {
 use {"laher/gothx.vim", ft = "go"}
 use {"sebdah/vim-delve", ft = "go"}
 use {"rhysd/vim-go-impl", ft = "go"}
+use {"benmills/vim-golang-alternate", ft = "go"}
 
 use "ap/vim-buftabline"
 -- use 'akinsho/nvim-bufferline.lua'
@@ -132,22 +134,23 @@ use {
     cmd = {"NvimTreeToggle", "NvimTreeFindFile"}
 }
 
--- use {"hashivim/vim-terraform", ft = "tf"}
+use {"hashivim/vim-terraform", ft = "tf"}
 
 -- " Vim motion in lightning fast speed
--- use {"easymotion/vim-easymotion"}
-use {"phaazon/hop.nvim"}
+use {"easymotion/vim-easymotion"}
+-- use {"phaazon/hop.nvim"}
+-- use "zsugabubus/vim-jumpmotion"
 -- use "justinmk/vim-sneak"
 
 -- automatically clearing search highlights
 use "pgdouyon/vim-evanesco"
 
-use "mlaursen/vim-react-snippets"
+-- use "mlaursen/vim-react-snippets"
 use "leafOfTree/vim-svelte-plugin"
 use {"mattn/emmet-vim", ft = {"html", "javascript", "typescriptreact", "svelte"}}
 use {"MaxMEllon/vim-jsx-pretty", ft = {"typescript", "javascript"}}
--- use {"jparise/vim-graphql", ft = {"typescript", "javascript", "graphql"}}
--- use {"nelsyeung/twig.vim", ft = "twig"}
+use {"jparise/vim-graphql", ft = {"graphql"}}
+use {"nelsyeung/twig.vim", ft = "twig"}
 -- use "sheerun/vim-polyglot"
 
 -- use {
@@ -157,10 +160,8 @@ use {"MaxMEllon/vim-jsx-pretty", ft = {"typescript", "javascript"}}
 --     requires = {"kyazdani42/nvim-web-devicons", opt = true}
 -- }
 
-use {
-    "hoob3rt/lualine.nvim"
-    -- requires = {"kyazdani42/nvim-web-devicons", opt = true}
-}
+use "hoob3rt/lualine.nvim"
+-- requires = {"kyazdani42/nvim-web-devicons", opt = true}
 use {"ThePrimeagen/vim-be-good", cmd = "VimBeGood"}
 
 -- use {"Yggdroot/LeaderF"}
@@ -168,20 +169,11 @@ use {"ThePrimeagen/vim-be-good", cmd = "VimBeGood"}
 use {"phux/vim-hardtime"}
 use {"brooth/far.vim", cmd = "Far"}
 
--- use {
---     "plasticboy/vim-markdown",
---     ft = "markdown",
---     requires = {"godlygeek/tabular", opt = true}
--- }
-
 use {"iamcco/markdown-preview.nvim", ft = "markdown", run = "cd app & yarn install"}
 use {"SidOfc/mkdx", ft = "markdown"}
 
 use {"junegunn/goyo.vim", ft = {"markdown", "vimwiki"}}
 use {"junegunn/limelight.vim", ft = {"markdown", "vimwiki"}}
--- let g:mkdp_path_to_chrome = 'chromium-browser'
--- let g:mkdp_auto_close = 1
--- let g:mkdp_auto_start = 0
 
 use {"vimwiki/vimwiki"}
 use {"michal-h21/vim-zettel"}
@@ -197,6 +189,30 @@ use "~/code/vim-marker"
 use "~/code/notetaker.vim"
 use "mtth/scratch.vim"
 use "gcmt/wildfire.vim"
+use "rhysd/vim-grammarous"
+use "simnalamburt/vim-mundo"
+
+-- use "neovim/nvim-lspconfig"
+-- use "nvim-lua/lsp-status.nvim"
+-- use "mattn/vim-lsp-settings"
+-- use "RishabhRD/popfix"
+-- use "glepnir/lspsaga.nvim"
+-- use "nvim-lua/completion-nvim"
+
+-- use "steelsojka/completion-buffers"
+-- use "albertoCaroM/completion-tmux"
+-- use "nvim-treesitter/completion-treesitter"
+
+-- use "hrsh7th/nvim-compe"
+use {
+    "hrsh7th/vim-vsnip",
+    requires = {
+        "hrsh7th/vim-vsnip-integ",
+        "golang/vscode-go"
+    }
+}
+
+--
 
 local autocmds = {
     plugins = {

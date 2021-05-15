@@ -29,11 +29,11 @@
 - git_config:
     name: rerere.enabled
     scope: global
-    value: "true"
+    value: "false"
 - git_config:
     name: rerere.autoupdate
     scope: global
-    value: "true"
+    value: "false"
 
 - git_config:
     name: advice.statusHints

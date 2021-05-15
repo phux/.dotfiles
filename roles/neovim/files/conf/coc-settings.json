@@ -30,9 +30,9 @@
         "html.twig"
     ],
     "html.autoClosingTags": true,
-    "coc.preferences.hoverTarget": "float",
     "git.enableGutters": true,
     "git.realtimeGutters": false,
+    "intelephense.rename.namespaceMode": "all",
     "intelephense.completion.insertUseDeclaration": true,
     "intelephense.completion.triggerParameterHints": true,
     "intelephense.files.exclude": [
@@ -142,13 +142,14 @@
         "usePlaceholders": true,
         "allowModfileModifications": true,
         "gofumpt": true,
+		"staticcheck": true,
         "codelenses": {
-            "generate": true
+            "generate": true,
+			"gc_details": true
         },
         "analyses": {
-            "fillreturns": true,
             "fieldalignment": true,
-            "undeclaredname": true
+			"shadow": true
         }
     },
     "solargraph.hover": true,
@@ -187,7 +188,8 @@
       "devs",
       "gmbh",
       "newpage",
-      "roadmap"
+      "roadmap",
+      "tuevsued"
     ],
     "nextword.greedy": false,
     "nextword.filetypes": [

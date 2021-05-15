@@ -100,7 +100,7 @@ function! TodoTxtCreateOutlineFromDoc()
 
     let l:outlineFile = '~/Dropbox/todo/work/'.l:titleSlug.'.ol.txt'
     if !filereadable(l:outlineFile)
-        exe '!echo "' . substitute(l:titleLine, '# ', '', '') . ' +'.l:titleSlug.'" > '.l:outlineFile
+        exe '!echo "' . shellescape(substitute(l:titleLine, '# ', '', '')) . ' +'.l:titleSlug.'" > '.l:outlineFile
     endif
 
     if getline(1) !~# '---'
@@ -113,11 +113,11 @@ function! TodoTxtCreateOutlineFromDoc()
 endfunction
 
 function! TodoTxtAddCurrentLineToOutline()
-    let l:task = substitute(getline('.'), '\s\+- ', '' ,'')
+    let l:task = TodoTxtCleanCurrentLine(getline('.'))
     let l:titleSlug = TodoTxtGetTitleSlug()
 
-    exe ':!echo "\t'.l:task.' +'.l:titleSlug.'" >> '.TodoTxtOutlineFilename(l:titleSlug)
-    exe 's/'.l:task.'/'.l:task.' @me +'.l:titleSlug.'/'
+    exe ':!echo '.shellescape('\t'.l:task.' +'.l:titleSlug).' >> '.TodoTxtOutlineFilename(l:titleSlug)
+    " exe 's/'.l:task.'/'.l:task.' @me +'.l:titleSlug.'/e'
 endfunction
 
 function! TodoTxtGetTitleSlug()
@@ -148,14 +148,22 @@ function! TodoTxtAddToOutline(line)
     let l:titleSlug = TodoTxtGetTitleSlug()
     let l:outlineFile = TodoTxtOutlineFilename(l:titleSlug)
 
-    exe ':!echo "\t'.substitute(a:line, '\s*- ', '' ,'').' +'.l:titleSlug.'" >> '.outlineFile
-    exe 's/'.a:line.'/'.a:line.' +'.l:titleSlug.'/'
-    exe 's/\s*@me//'
+    exe ':!echo "\t'.TodoTxtCleanCurrentLine(a:line).' +'.l:titleSlug.'" >> '.outlineFile
+    exe 's/'.a:line.'/'.a:line.' +'.l:titleSlug.'/e'
+    exe 's/\s*@me//e'
+endfunction
+
+function! TodoTxtCleanCurrentLine(line)
+    return substitute(
+                \ substitute(
+                \    substitute(a:line, '\s*\t*-*\s*', '' ,'e')
+                \   , '\(\d*\.\)\+ ', '' ,'e')
+                \ , '\s*\[.*]\s*', '' ,'e')
 endfunction
 
 function! TodoTxtAddCurrentLine()
-    let l:task = substitute(getline('.'), '\s\+- ', '' ,'')
-    exe ':!echo "'.l:task.'" >> ~/Dropbox/todo/work/todo.txt'
+    let l:task = TodoTxtCleanCurrentLine(getline('.'))
+    exe ':!echo '.shellescape(l:task).' >> ~/Dropbox/todo/work/todo.txt'
 endfunction
 
 nnoremap <leader>tuc :call TodoTxtCreateOutlineFromDoc()<cr>

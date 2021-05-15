@@ -9,11 +9,11 @@ augroup golang
   au BufWritePost *.go silent! !eval '[ -f "../.git/hooks/ctags" ] && ../.git/hooks/ctags go' &
   au BufWritePost *.go silent! !eval '[ -f "../../.git/hooks/ctags" ] && ../../.git/hooks/ctags go' &
   au BufNewFile,BufRead,BufEnter *.go set tags=.git/tags.go,../.git/tags.go,../../.git/hooks/tags.go
-  " au BufWritePre *.go :silent call CocAction('runCommand', 'editor.action.organizeImport')
+  au BufWritePre *.go :silent call CocAction('runCommand', 'editor.action.organizeImport')
 augroup end
 
 " let b:ale_linters = ['gobuild', 'golangci-lint']
-let b:ale_linters = ['golangci-lint']
+let b:ale_linters = ['golangci-lint', 'gopls']
 " let b:ale_linters = ['gopls']
 " let b:ale_linters = []
 let g:ale_go_golangci_lint_package=1
@@ -29,36 +29,6 @@ if !filereadable('.revive.toml')
   let g:revive_config_file = '~/.revive.toml'
 endif
 let g:revive_cmd = 'revive -exclude vendor/... -config '.g:revive_config_file.' %t'
-call ale#linter#Define('go', {
-\   'name': 'revive',
-\   'output_stream': 'both',
-\   'executable': 'revive',
-\   'read_buffer': 0,
-\   'command': g:revive_cmd,
-\   'callback': 'ale#handlers#unix#HandleAsWarning',
-\})
-
-call ale#linter#Define('go', {
-\   'name': 'fullgolangci-lint',
-\   'output_stream': 'both',
-\   'executable': 'golangci-lint',
-\   'read_buffer': 0,
-\   'command': 'golangci-lint run ' .g:ale_go_golangci_lint_options . './...',
-\   'callback': 'ale#handlers#unix#HandleAsWarning',
-\})
-
-call ale#fix#registry#Add('goline', 'RunGolines', ['go'], 'run goline on go files')
-function! RunGolines(buffer) abort
-    return {
-    \   'command': 'golines'
-    \       . ' -w'
-    \       . ' %t'
-    \       . '--base-formatter goimports'
-    \       . '-m 120',
-    \   'read_temporary_file': 1,
-    \}
-endfunction
-
 " load oldsql bindings
 " if !filereadable('go.mod')
 "     nmap <buffer> <silent> gd :GoDef<cr>
@@ -80,16 +50,17 @@ vnoremap <buffer> <leader>rem :Refactor extract
 vnoremap <buffer> <leader>rev :call GoExtractVariable()<cr>
 nnoremap <buffer> <leader>rm :call GoMove()<cr>
 noremap <buffer> <leader>rd :Refactor godoc<cr>
-nnoremap <buffer> <leader>oj :CocCommand go.tags.add json
-nnoremap <buffer> <leader>oJ :CocCommand go.tags.remove json
+" nnoremap <buffer> <leader>oj :CocCommand go.tags.add json
+" nnoremap <buffer> <leader>oJ :CocCommand go.tags.remove json
+" nmap <buffer> <leader>ll <Plug>(coc-codelens-action)
 nnoremap <buffer> <leader>oe :ThxIfErr<cr>
 nnoremap <buffer> <silent> <leader>na :CocCommand go.test.toggle<cr>
 " nnoremap <buffer> <leader>oc :GoCoverageToggle<cr>
 nnoremap <buffer> <leader>oc :GoCoverage toggle<cr>
 " nnoremap <buffer> <leader>os :<C-u>call CocActionAsync('codeLensAction')<CR>
-nnoremap <buffer> <leader>os :ThxFillStruct<cr>
-nnoremap <buffer> <leader>gt :CocCommand go.test.generate.function<cr>
-nnoremap <buffer> <leader>GT :CocCommand go.test.generate.exported<cr>
+" nnoremap <buffer> <leader>os :ThxFillStruct<cr>
+" nnoremap <buffer> <leader>gt :CocCommand go.test.generate.function<cr>
+" nnoremap <buffer> <leader>GT :CocCommand go.test.generate.exported<cr>
 nnoremap <buffer> <leader>om :Mockery<cr>
 command! Mockery execute 'normal! O//go:generate mockery --name '.expand('<cword>')
 
@@ -542,6 +513,26 @@ function! ExtractToFile()
         exe 'cd '.expand('%:p:h')
         exe ":silent !rf 'mv ".l:thingtomove.' '.tolower(l:target).".go'"
         exe 'cd '.l:previousCwd
+    elseif l:line =~# '^const'
+        let l:const = matchstr(l:line, 'const \zs\w\+\ze')
+        let l:thingtomove = l:const
+        if len(l:thingtomove) == 0
+            echo 'found no const to move'
+            return
+        endif
+
+        let l:currentPath = substitute(expand('%:p:h'), getcwd(), '', '')
+        let l:target = input('Target file: ', l:currentPath)
+        let l:newPath = fnamemodify(l:target, ':h')
+        if !isdirectory(l:newPath)
+             let l:shouldCreate = input('Directory '.l:newPath.' does not exist. Create it? ', 'y')
+             if l:shouldCreate != 'y'
+                 echo 'Cannot continue - aborting'
+                 return
+             endif
+             call mkdir(l:newPath, 'p')
+        endif
+        exe ":!rf 'mv ".l:thingtomove.' '.l:target."'"
     elseif l:line =~# '^type '
         let l:thingtomove = matchstr(l:line, 'type \zs\w\+\ze')
         let l:target = l:thingtomove
