@@ -2,7 +2,12 @@ local U = require "utils"
 local vim = vim
 local actions = require("telescope.actions")
 
-require("telescope").setup {
+local actions = require("telescope.actions")
+local trouble = require("trouble.providers.telescope")
+
+local telescope = require("telescope")
+
+telescope.setup {
     defaults = {
         vimgrep_arguments = {
             "rg",
@@ -14,13 +19,15 @@ require("telescope").setup {
             "--smart-case"
         },
         winblend = 0,
-        width = 0.9,
+        -- width = 0.9,
         -- layout_strategy = "vertical",
-        prompt_position = "top",
+        -- prompt_position = "top",
         color_devicons = false,
         mappings = {
             i = {
-                ["<esc>"] = actions.close
+                ["<esc>"] = actions.close,
+                i = {["<c-t>"] = trouble.open_with_trouble},
+                n = {["<c-t>"] = trouble.open_with_trouble}
             }
         },
         file_previewer = require "telescope.previewers".vim_buffer_cat.new, -- For buffer previewer use `require'telescope.previewers'.vim_buffer_cat.new`
@@ -34,19 +41,22 @@ require("telescope").setup {
     -- }
 }
 
-require("telescope").load_extension("fzy_native")
+telescope.load_extension("fzy_native")
 -- require "telescope".load_extension("frecency")
 
 -- vim.api.nvim_set_keymap("n", "<leader>of", ":Telescope find_files theme=get_dropdown<cr>", {noremap = true})
-vim.api.nvim_set_keymap("n", "<leader>oF", ":Telescope find_files theme=get_dropdown<cr>", {noremap = true})
-vim.api.nvim_set_keymap("n", "<leader>oo", ":Telescope oldfiles theme=get_dropdown<cr>", {noremap = true})
-vim.api.nvim_set_keymap("n", "<leader>ob", ":Telescope buffers theme=get_dropdown<cr>", {noremap = true})
-vim.api.nvim_set_keymap("n", "<leader>oq", ":Telescope quickfix<cr>", {noremap = true})
-vim.api.nvim_set_keymap("n", "<leader>oh", ":Telescope help_tags theme=get_dropdown<cr>", {noremap = true})
+-- vim.api.nvim_set_keymap("n", "<leader>oF", ":Telescope find_files theme=get_dropdown<cr>", {noremap = true})
+-- vim.api.nvim_set_keymap("n", "<leader>oo", ":Telescope oldfiles theme=get_dropdown<cr>", {noremap = true})
+-- vim.api.nvim_set_keymap("n", "<leader>ob", ":Telescope buffers theme=get_dropdown<cr>", {noremap = true})
+-- vim.api.nvim_set_keymap("n", "<leader>ob", ":Telescope file_browser<cr>", {noremap = true})
+-- vim.api.nvim_set_keymap("n", "<leader>oq", ":Telescope quickfix<cr>", {noremap = true})
+-- vim.api.nvim_set_keymap("n", "<leader>oh", ":Telescope help_tags theme=get_dropdown<cr>", {noremap = true})
+-- vim.api.nvim_set_keymap("n", "<leader>oo", ":Telescope git_branches<cr>", {noremap = true})
+-- vim.api.nvim_set_keymap("n", "<leader>os", ":Telescope git_status<cr>", {noremap = true})
 
 -- vim.api.nvim_set_keymap("n", "<leader>nr", ":Telescope lsp_references theme=get_dropdown<cr>", {noremap = true})
 -- vim.api.nvim_set_keymap("n", "<leader>lf", ":Telescope lsp_code_actions theme=get_dropdown<cr>", {noremap = true})
-vim.api.nvim_set_keymap("n", "<leader>os", ":Telescope lsp_workspace_symbols theme=get_dropdown<cr>", {noremap = true})
+-- vim.api.nvim_set_keymap("n", "<leader>os", ":Telescope lsp_workspace_symbols theme=get_dropdown<cr>", {noremap = true})
 -- vim.api.nvim_set_keymap("n", "<leader>of", require('telescope').extensions.fzf_writer.files(), {noremap = true})
 
 -- todo: broken -> using fzf's :Tags for now
@@ -56,9 +66,9 @@ local center_list =
     require "telescope.themes".get_dropdown(
     {
         winblend = 0,
-        width = 0.7,
+        -- width = 0.7,
         prompt = " ",
-        results_height = 15,
+        -- results_height = 15,
         previewer = false
     }
 )
@@ -70,23 +80,19 @@ function _G.fd()
     require "telescope.builtin".fd(opts)
 end
 
-vim.api.nvim_set_keymap("n", "<leader>of", "<cmd>lua fd()<cr>", {noremap = true})
-vim.api.nvim_set_keymap("n", "<leader>og", "<cmd>lua fdFromGitRoot()<cr>", {noremap = true})
+-- vim.api.nvim_set_keymap("n", "<leader>of", "<cmd>lua fd()<cr>", {noremap = true})
 -- vim.api.nvim_set_keymap("n", "<leader>og", "<cmd>lua fdFromGitRoot()<cr>", {noremap = true})
-vim.api.nvim_set_keymap("n", "<leader>sg", "<cmd>lua grepFromGitRoot()<cr>", {noremap = true})
+-- vim.api.nvim_set_keymap("n", "<leader>sg", "<cmd>lua grepFromGitRoot()<cr>", {noremap = true})
 -- vim.api.nvim_set_keymap("n", "<leader>st", "<cmd>lua liveGrep()<cr>", {noremap = true})
 
 local with_preview =
     require "telescope.themes".get_dropdown(
     {
         winblend = 0,
-        width = 0.7,
+        -- width = 0.7,
         show_line = false,
         results_title = false,
-        preview_title = false,
-        layout_config = {
-            preview_width = 0.5
-        }
+        preview_title = false
     }
 )
 function _G.liveGrep()

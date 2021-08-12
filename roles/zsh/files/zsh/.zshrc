@@ -92,7 +92,7 @@ export LESS_TERMCAP_md="${yellow}";
 alias update_antibody="antibody bundle < $XDG_CONFIG_HOME/zsh/antibody_plugins.txt  > $XDG_CONFIG_HOME/zsh/cached_plugins.sh; antibody update"
 
 alias sdn='sudo shutdown now -h'
-alias update="sudo apt update && sudo apt upgrade -y && .d && git pull && make provision;nvim +PackerUpdate +PackerCompile +CocUpdate"
+alias update="sudo apt update && sudo apt upgrade -y && .d && git pull && make provision;zinit update;zinit compile;nvim +PackerUpdate +PackerCompile +CocUpdate"
 alias agi='sudo apt-fast install'
 
 alias vu='vagrant up'
@@ -304,6 +304,8 @@ alias tn='n ~/Dropbox/todo/todo.txt'
 alias cm='cd ~/Dropbox/1vimwiki/notes/meetings/ && n +CreateMeetingNote'
 alias no='cd ~/Dropbox/1vimwiki/notes/ && n $(date "+%Y-%m-%d").md'
 alias nw='cd ~/Dropbox/1vimwiki/ && n'
+alias org='cd ~/Dropbox/org/ && n refile.org +Files'
+alias orgi="cd ~/Dropbox/org/ && n -c \"lua require('orgmode').action('capture.prompt')\""
 # alias t='~/tools/todo.txt_cli-2.9/todo.sh -d ~/Dropbox/todo/work/todo.cfg'
 alias t='todo.sh -f -n'
 alias tl='t list'
@@ -420,7 +422,7 @@ if [ -f '$HOME/tools/google-cloud-sdk/completion.zsh.inc' ]; then . '$HOME/tools
 if test -f "$TERM_BRIGHT"; then
     export BAT_THEME="gruvbox-light"
 else
-    export BAT_THEME="gruvbox"
+    export BAT_THEME="gruvbox-dark"
 fi
 
 export PATH="$HOME/.rbenv/versions/2.7.1/bin:$PATH"

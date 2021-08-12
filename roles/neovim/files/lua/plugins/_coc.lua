@@ -15,7 +15,8 @@ vim.g.coc_global_extensions = {
     "coc-explorer",
     "coc-git",
     "coc-html",
-    "coc-lua",
+    -- "coc-lua",
+    "coc-sumneko-lua",
     "coc-json",
     "coc-lists",
     "coc-pyright",
@@ -71,7 +72,7 @@ api.nvim_set_keymap("i", "<cr>", 'pumvisible() ? "<c-y>" : "<CR>"', {expr = true
 
 api.nvim_set_keymap("n", "<leader>lf", ":CocAction<cr>", {noremap = true})
 api.nvim_set_keymap("v", "<leader>lf", ":CocAction<cr>", {noremap = true})
-api.nvim_set_keymap("n", "<leader>ll", "<Plug>(coc-codelens-action)", {noremap = true})
+api.nvim_set_keymap("n", "<leader>ll", "<Plug>(coc-codelens-action)", {noremap = false})
 U.map("n", "<leader>qf", "<Plug>(coc-fix-current)", {noremap = false})
 U.map("n", "<leader>rr", "<Plug>(coc-rename)", {noremap = false})
 U.map("n", "<leader>RR", "<Plug>(coc-refactor)", {noremap = false})

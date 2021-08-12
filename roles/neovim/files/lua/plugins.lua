@@ -14,10 +14,11 @@ use "christoomey/vim-tmux-navigator"
 -- vim. This plugin restores them when using vim inside Tmux.
 use "tmux-plugins/vim-tmux-focus-events"
 
-use {"neoclide/coc.nvim", branch = "release"}
+use {"neoclide/coc.nvim", branch = "master", run = "yarn install --frozen-lockfile"}
 use "antoinemadec/coc-fzf"
 use {"rafcamlet/coc-nvim-lua", ft = "lua"}
 use "honza/vim-snippets"
+use "triglav/vim-visual-increment"
 
 use {"junegunn/fzf", run = "./install --all"}
 use {"junegunn/fzf.vim"}
@@ -38,15 +39,16 @@ use {
     end
 }
 
-use {
-    "nvim-lua/telescope.nvim",
-    requires = {
-        "nvim-lua/popup.nvim",
-        "nvim-lua/plenary.nvim",
-        "nvim-telescope/telescope-fzy-native.nvim",
-        "nvim-telescope/telescope-fzf-writer.nvim"
-    }
-}
+-- use "folke/trouble.nvim"
+-- use {
+--     "nvim-lua/telescope.nvim",
+--     requires = {
+--         "nvim-lua/popup.nvim",
+--         "nvim-lua/plenary.nvim",
+--         "nvim-telescope/telescope-fzy-native.nvim",
+--         "nvim-telescope/telescope-fzf-writer.nvim"
+--     }
+-- }
 
 -- " For showing the actual color of the hex value
 use {
@@ -58,11 +60,12 @@ use {
 use "w0rp/ale"
 
 -- Wrapping/delimiters
-use {"machakann/vim-sandwich", {"andymass/vim-matchup", event = "VimEnter *"}}
+-- use {"machakann/vim-sandwich", {"andymass/vim-matchup", event = "VimEnter *"}}
 
 -- Indentation tracking
 use "yggdroot/indentLine"
 
+use "zhaocai/GoldenView.Vim"
 use "talek/obvious-resize"
 
 -- " git stuff
@@ -116,8 +119,14 @@ use {"sebdah/vim-delve", ft = "go"}
 use {"rhysd/vim-go-impl", ft = "go"}
 use {"benmills/vim-golang-alternate", ft = "go"}
 
-use "ap/vim-buftabline"
--- use 'akinsho/nvim-bufferline.lua'
+-- use "ap/vim-buftabline"
+use {
+    "akinsho/nvim-bufferline.lua",
+    requires = "kyazdani42/nvim-web-devicons",
+    config = function()
+        require "bufferline".setup()
+    end
+}
 use "Shougo/echodoc.vim"
 
 -- use "cohama/lexima.vim"
@@ -188,7 +197,7 @@ use "ActivityWatch/aw-watcher-vim"
 use "~/code/vim-marker"
 use "~/code/notetaker.vim"
 use "mtth/scratch.vim"
-use "gcmt/wildfire.vim"
+-- use "gcmt/wildfire.vim"
 use "rhysd/vim-grammarous"
 use "simnalamburt/vim-mundo"
 
@@ -212,7 +221,79 @@ use {
     }
 }
 
---
+-- use {
+--     "vhyrro/neorg",
+--     config = function()
+--         require("neorg").setup {
+--             -- Tell Neorg what modules to load
+--             load = {
+--                 ["core.defaults"] = {}, -- Load all the default modules
+--                 ["core.keybinds"] = {
+--                     -- Configure core.keybinds
+--                     config = {
+--                         default_keybinds = true, -- Generate the default keybinds
+--                         neorg_leader = "<Leader>u" -- This is the default if unspecified
+--                     }
+--                 },
+--                 ["core.norg.concealer"] = {}, -- Allows for use of icons
+--                 ["core.norg.dirman"] = {
+--                     -- Manage your directories with Neorg
+--                     config = {
+--                         workspaces = {
+--                             my_workspace = "~/neorg"
+--                         }
+--                     }
+--                 }
+--             }
+--         }
+--     end,
+--     requires = "nvim-lua/plenary.nvim"
+-- }
+
+use {
+    "kristijanhusak/orgmode.nvim",
+    -- ft = {"org"},
+    config = function()
+        require("orgmode").setup {
+            org_agenda_files = {"~/Dropbox/org/*"},
+            org_default_notes_file = "~/Dropbox/org/refile.org",
+            org_agenda_skip_scheduled_if_done = true,
+            org_agenda_skip_deadline_if_done = true,
+            -- org_hide_leading_stars = true,
+            -- org_hide_emphasis_markers = true,
+            mappings = {
+                org = {
+                    org_set_tags_command = {"gA"}
+                },
+                capture = {
+                    org_set_tags_command = {"gA"}
+                }
+            }
+        }
+    end,
+    requires = {
+        "akinsho/org-bullets.nvim"
+    }
+}
+
+use {
+    "ibhagwan/fzf-lua",
+    requires = {
+        "vijaymarupudi/nvim-fzf",
+        "kyazdani42/nvim-web-devicons"
+    } -- optional for icons
+}
+-- use {"camspiers/snap", rocks = {"fzy"}}
+-- local snap = require "snap"
+-- snap.maps {
+--     {"<Leader>ff", snap.config.file {producer = "ripgrep.file"}},
+--     {"<Leader>fb", snap.config.file {producer = "vim.buffer"}},
+--     {"<Leader>fo", snap.config.file {producer = "vim.oldfile"}}
+--     -- {"<Leader>ff", snap.config.vimgrep {}}
+-- }
+
+use "ggandor/lightspeed.nvim"
+use "sindrets/diffview.nvim"
 
 local autocmds = {
     plugins = {
