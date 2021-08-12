@@ -16,6 +16,21 @@
     "suggest.triggerAfterInsertEnter": false,
     "suggest.noselect": true,
     "suggest.acceptSuggestionOnCommitCharacter": false,
+	"explorer.sources": [
+		{
+			"name": "bookmark",
+			"expand": false
+		},
+		{
+			"name": "buffer",
+			"expand": false
+		},
+		{
+			"name": "file",
+			"expand": true
+		}
+	],
+	"explorer.git.enable": false,
     "diagnostic.enable": true,
     "diagnostic.displayByAle": true,
     "diagnostic.checkCurrentLine": true,

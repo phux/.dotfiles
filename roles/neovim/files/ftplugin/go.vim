@@ -7,8 +7,7 @@ setlocal foldnestmax=0
 augroup golang
   au BufWritePost *.go silent! !eval '[ -f ".git/hooks/ctags" ] && .git/hooks/ctags go' &
   au BufWritePost *.go silent! !eval '[ -f "../.git/hooks/ctags" ] && ../.git/hooks/ctags go' &
-  au BufWritePost *.go silent! !eval '[ -f "../../.git/hooks/ctags" ] && ../../.git/hooks/ctags go' &
-  au BufNewFile,BufRead,BufEnter *.go set tags=.git/tags.go,../.git/tags.go,../../.git/hooks/tags.go
+  au BufNewFile,BufRead,BufEnter *.go set tags=.git/tags.go,../.git/tags.go
   au BufWritePre *.go :silent call CocAction('runCommand', 'editor.action.organizeImport')
 augroup end
 
@@ -20,7 +19,8 @@ let g:ale_go_golangci_lint_package=1
 let g:ale_go_staticcheck_lint_package=1
 let b:local_golangci_file = getcwd().'/.golangci.yml'
 let g:ale_go_golangci_lint_options = '--fix --fast --config '.b:local_golangci_file
-if !filereadable('.golangci.yml')
+if !filereadable(b:local_golangci_file)
+    echom 'local .golangci.yml not found'
   let g:ale_go_golangci_lint_options = '--fix --config ~/.golangci.yml'
 endif
 
@@ -46,12 +46,12 @@ let g:revive_cmd = 'revive -exclude vendor/... -config '.g:revive_config_file.' 
 " nnoremap <buffer> <silent> <leader>rr :call LanguageClient#textDocument_rename()<CR>
 " nnoremap <buffer> <silent> <leader>nr :call LanguageClient#textDocument_references()<cr>
 " nnoremap <buffer> <silent> <leader>lf :call LanguageClient#textDocument_codeAction()<cr>
-vnoremap <buffer> <leader>rem :Refactor extract
+vnoremap <buffer> <leader>rem :CocAction<cr>
 vnoremap <buffer> <leader>rev :call GoExtractVariable()<cr>
 nnoremap <buffer> <leader>rm :call GoMove()<cr>
 noremap <buffer> <leader>rd :Refactor godoc<cr>
-" nnoremap <buffer> <leader>oj :CocCommand go.tags.add json
-" nnoremap <buffer> <leader>oJ :CocCommand go.tags.remove json
+nnoremap <buffer> <leader>oj :CocCommand go.tags.add json
+nnoremap <buffer> <leader>oJ :CocCommand go.tags.remove json
 " nmap <buffer> <leader>ll <Plug>(coc-codelens-action)
 nnoremap <buffer> <leader>oe :ThxIfErr<cr>
 nnoremap <buffer> <silent> <leader>na :CocCommand go.test.toggle<cr>
@@ -62,7 +62,7 @@ nnoremap <buffer> <leader>oc :GoCoverage toggle<cr>
 " nnoremap <buffer> <leader>gt :CocCommand go.test.generate.function<cr>
 " nnoremap <buffer> <leader>GT :CocCommand go.test.generate.exported<cr>
 nnoremap <buffer> <leader>om :Mockery<cr>
-command! Mockery execute 'normal! O//go:generate mockery --name '.expand('<cword>')
+command! Mockery execute 'normal! O//go:generate mockery --name '.expand('<cword>').' --output=internal/mocks'
 
 
 nnoremap <buffer> <leader>ds :DlvDebug<cr>

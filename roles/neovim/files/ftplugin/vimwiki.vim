@@ -1,4 +1,4 @@
-nnoremap <leader>zf :vimgrep! /title: n:/ zettel/*.*<bar>:cwindow<left><left><left><left><left><left><left><left><left><left><left><left><left><left>
+noremap <leader>zf :vimgrep! /title: n:/ zettel/*.*<bar>:cwindow<left><left><left><left><left><left><left><left><left><left><left><left><left><left>
 set expandtab
 
 function! ZettelHierarchy(...)

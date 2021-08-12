@@ -77,7 +77,8 @@ require "plugins/_lualine"
 require "plugins/_gv"
 require "plugins/_nvimtree"
 require "plugins/_splitjoin"
-require "plugins/_telescope"
+require "plugins/_goldenview"
+-- require "plugins/_telescope"
 require "plugins/_treesitter"
 require "plugins/_vimtest"
 require "plugins/_vimwiki"
@@ -88,6 +89,7 @@ require "plugins/_context"
 require "plugins/_gitmessenger"
 require "plugins/_diffconflicts"
 require "plugins/_mergetool"
+require "plugins/_fzflua"
 -- require "plugins/_lspconfig"
 -- require "plugins/_completion"
 -- require "plugins/_vsnip"
@@ -235,9 +237,10 @@ vim.cmd("hi! def link BufTabLineActive TabLineSel")
 local autocmds = {
     conf = {
         {"BufWritePost", "~/.dotfiles/*.lua", ":luafile %"},
-        {"WinEnter", "*", ":call ResizeSplits()"},
+        -- {"WinEnter", "*", ":call ResizeSplits()"},
         {"BufNewFile,BufRead", "*.graphqls", "set ft=graphql"},
         {"BufNewFile,BufRead", "*.tf", "set ft=tf"},
+        {"BufNewFile,BufRead", "Dockerfile*", "set ft=dockerfile"},
         {"FocusLost,WinLeave", "*", ":silent! update"},
         {
             "FileType",
@@ -284,12 +287,12 @@ vim.api.nvim_set_keymap("n", "<C-Down>", ":<C-U>ObviousResizeDown<CR>", {noremap
 vim.api.nvim_set_keymap("n", "<C-Left>", ":<C-U>ObviousResizeLeft<CR>", {noremap = true})
 vim.api.nvim_set_keymap("n", "<C-Right>", ":<C-U>ObviousResizeRight<CR>", {noremap = true})
 
-vim.api.nvim_exec([[
-function! ResizeSplits()
-    set winwidth=85
-    wincmd =
-endfunction
-]], true)
+-- vim.api.nvim_exec([[
+-- function! ResizeSplits()
+--     set winwidth=85
+--     wincmd =
+-- endfunction
+-- ]], true)
 
 -- sw - start/stop writing mode
 vim.api.nvim_set_keymap("n", "<leader>sw", "<cmd>lua ToggleWritingMode()<cr>", {noremap = true})

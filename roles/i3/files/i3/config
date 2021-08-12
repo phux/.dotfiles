@@ -183,7 +183,9 @@ bindsym $MOD+Shift+n exec --no-startup-id st -c "nvim_float" -g 120x40 ~/.dotfil
 # bindsym $MOD+t exec --no-startup-id st -g 120x40 ~/.dotfiles/roles/i3/files/i3/open_pomogoro.sh
 bindsym $MOD+t exec --no-startup-id st ~/.dotfiles/roles/i3/files/i3/open_pomogoro.sh
 # bindsym $MOD+Shift+t exec --no-startup-id st -c "todo_txt" -g 120x40 ~/.dotfiles/roles/i3/files/i3/open_nvim_float.sh ~/Dropbox/todo/work/todo.txt
-bindsym $MOD+Shift+t exec st -c "todo_txt" -g 170x60 ~/.dotfiles/roles/i3/files/i3/open_tmux.sh todo
+# bindsym $MOD+Shift+t exec st -c "todo_txt" -g 170x60 ~/.dotfiles/roles/i3/files/i3/open_tmux.sh todo
+# bindsym $MOD+Shift+t exec st -c "todo_txt" -g 170x60 ~/.dotfiles/roles/i3/files/i3/open_tmux.sh todo
+bindsym $MOD+Shift+t exec --no-startup-id st -c "nvim_float" -g 120x40 ~/.dotfiles/roles/i3/files/i3/open_nvim_float.sh "org"
 bindsym $MOD+p exec --no-startup-id keepassxc
 bindsym $mod+Shift+p exec --no-startup-id sh ~/.config/i3/i3lock.sh
 # bindsym Print exec gnome-screenshot -i
