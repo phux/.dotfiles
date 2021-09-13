@@ -13,7 +13,8 @@ require("nvim-treesitter.configs").setup {
     highlight = {
         enable = true, -- false will disable the whole extension
         -- disable = {"php"}, -- list of language that will be disabled
-        use_languagetree = false
+        use_languagetree = false,
+        additional_vim_regex_highlighting = true
     }
     -- incremental_selection = { -- doesn't work yet
     --     enable = true,

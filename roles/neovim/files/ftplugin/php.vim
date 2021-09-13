@@ -43,6 +43,7 @@ nnoremap <buffer> <leader>ru :PhpactorImportMissingClasses<cr>
 " nnoremap <buffer> <Leader>u :PHPImportClass<cr>
 
 nnoremap <buffer> <leader>c :PhpactorContextMenu<cr>
+vnoremap <buffer> <leader>c :PhpactorContextMenu<cr>
 
 let b:ale_linters = ['php', 'phpstan']
 let g:ale_php_phpstan_executable = 'vendor/bin/phpstan'

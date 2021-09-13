@@ -3,7 +3,6 @@ local vim = vim
 local actions = require("telescope.actions")
 
 local actions = require("telescope.actions")
-local trouble = require("trouble.providers.telescope")
 
 local telescope = require("telescope")
 
@@ -25,9 +24,7 @@ telescope.setup {
         color_devicons = false,
         mappings = {
             i = {
-                ["<esc>"] = actions.close,
-                i = {["<c-t>"] = trouble.open_with_trouble},
-                n = {["<c-t>"] = trouble.open_with_trouble}
+                ["<esc>"] = actions.close
             }
         },
         file_previewer = require "telescope.previewers".vim_buffer_cat.new, -- For buffer previewer use `require'telescope.previewers'.vim_buffer_cat.new`
@@ -41,13 +38,13 @@ telescope.setup {
     -- }
 }
 
-telescope.load_extension("fzy_native")
+-- telescope.load_extension("fzy_native")
 -- require "telescope".load_extension("frecency")
 
 -- vim.api.nvim_set_keymap("n", "<leader>of", ":Telescope find_files theme=get_dropdown<cr>", {noremap = true})
 -- vim.api.nvim_set_keymap("n", "<leader>oF", ":Telescope find_files theme=get_dropdown<cr>", {noremap = true})
 -- vim.api.nvim_set_keymap("n", "<leader>oo", ":Telescope oldfiles theme=get_dropdown<cr>", {noremap = true})
--- vim.api.nvim_set_keymap("n", "<leader>ob", ":Telescope buffers theme=get_dropdown<cr>", {noremap = true})
+vim.api.nvim_set_keymap("n", "<leader>ob", ":Telescope buffers theme=get_dropdown<cr>", {noremap = true})
 -- vim.api.nvim_set_keymap("n", "<leader>ob", ":Telescope file_browser<cr>", {noremap = true})
 -- vim.api.nvim_set_keymap("n", "<leader>oq", ":Telescope quickfix<cr>", {noremap = true})
 -- vim.api.nvim_set_keymap("n", "<leader>oh", ":Telescope help_tags theme=get_dropdown<cr>", {noremap = true})
