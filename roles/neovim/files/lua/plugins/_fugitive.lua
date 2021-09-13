@@ -1,6 +1,6 @@
 vim.api.nvim_set_keymap("n", "<leader>gw", ":Gwrite<cr>", {noremap = true})
 vim.api.nvim_set_keymap("n", "<leader>ge", ":Gedit<cr>", {noremap = true})
-vim.api.nvim_set_keymap("n", "<leader>gs", ":Gstatus<cr>", {noremap = true})
+vim.api.nvim_set_keymap("n", "<leader>gs", ":Git<cr>", {noremap = true})
 vim.api.nvim_set_keymap("n", "<leader>gb", ":Git blame<cr>", {noremap = true})
 -- vim.api.nvim_set_keymap("n", "<leader>gc", ":Gcommit -v<cr>", {noremap = true})
 vim.api.nvim_set_keymap("n", "<leader>gp", ":Gpush<cr>", {noremap = true})

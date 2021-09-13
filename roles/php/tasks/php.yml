@@ -24,6 +24,7 @@
       - php-imagick
       - php-memcached
       - php-redis
+      - php7.4-redis
       - php-xdebug
       - php-zip
       - php-ast
