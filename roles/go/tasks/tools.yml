@@ -23,4 +23,4 @@
 - name: install delve
   shell: >
     source ~/.config/zsh/.zshrc &&
-    go get -u github.com/go-delve/delve/cmd/dlv executable=/bin/zsh
+    go install github.com/go-delve/delve/cmd/dlv@latest executable=/bin/zsh

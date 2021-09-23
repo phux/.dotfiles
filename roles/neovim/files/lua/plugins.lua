@@ -32,12 +32,6 @@ use {"majutsushi/tagbar", cmd = "TagbarOpenAutoClose"}
 -- " For various text objects
 use "wellle/targets.vim"
 use "wellle/tmux-complete.vim"
-use {
-    "wellle/context.vim",
-    config = function()
-        vim.g.context_enabled = false
-    end
-}
 
 -- use "folke/trouble.nvim"
 -- use {
