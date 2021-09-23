@@ -165,8 +165,7 @@
         "analyses": {
             "fieldalignment": true,
 			"shadow": true
-        },
-		"matcher": "FastFuzzy"
+        }
     },
     "solargraph.hover": true,
     "solargraph.rename": true,

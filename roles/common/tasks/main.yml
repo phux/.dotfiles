@@ -39,6 +39,7 @@
       - httpie
       - autorandr
       - cargo
+      - pwgen #zsh-autoswitch-virtualenv
 
 - name: disable openvpn at boot
   become: yes

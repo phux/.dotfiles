@@ -8,8 +8,8 @@ firacode_version: 5.2
 go_version: go1.17
 go_mockery_version: 2.4.0
 go_golangcilint_version: 1.41.1
-joplin_gui_version: v2.2.5
+joplin_gui_version: v2.4.8
 ruby_version: 2.7.1
 rbenv_version: v1.1.2
-bat_version: 0.18.2
+bat_version: 0.18.3
 # rg_version: 12.1.1
