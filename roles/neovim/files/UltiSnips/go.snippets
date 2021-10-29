@@ -168,6 +168,11 @@ snippet ior "io.Reader"
 io.Reader$0
 endsnippet
 
+snippet pop "pop last slice element"
+${2:lastElement} := ${1:slice}[len($1)-1]
+$1 = $1[:len($1)-1]
+endsnippet
+
 snippet ju "json.Unmarshal"
 if err := json.Unmarshal(${1:source}, &${2:target}); err != nil {
 	return ${3:nil}, ${4:errors.Wrap(err, "failed to Unmarshal")}
@@ -192,4 +197,12 @@ body, err := ioutil.ReadAll(resp.Body)
 if err != nil {
 	return nil, errors.Wrap(err, "could not read response body$2")
 }$0
+endsnippet
+
+snippet tp "testhelper persist"
+th.NoError(th.DB.Persist(th.Ctx, &${1:entity}))
+endsnippet
+
+snippet ma "mock.AnythingOfTypeArgument"
+mock.AnythingOfTypeArgument("${1:*context.emptyCtx}"),
 endsnippet

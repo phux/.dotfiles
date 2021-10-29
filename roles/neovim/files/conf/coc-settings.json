@@ -146,25 +146,13 @@
     "coc.preferences.currentFunctionSymbolAutoUpdate": true,
     "xml.java.home": "/usr/lib/jvm/java-11-openjdk-amd64",
     "go.goplsPath": "/home/jan/code/go/bin/gopls",
-    "go.goplsArgs": [
-        "-logfile",
-        "/tmp/gopls.log",
-        "-rpc.trace",
-        "-v"
-    ],
     "go.goplsUseDaemon": true,
     "go.goplsOptions": {
         "usePlaceholders": true,
         "allowModfileModifications": true,
-        "gofumpt": true,
-		"staticcheck": true,
         "codelenses": {
             "generate": true,
 			"gc_details": true
-        },
-        "analyses": {
-            "fieldalignment": true,
-			"shadow": true
         }
     },
     "solargraph.hover": true,
@@ -183,15 +171,7 @@
         "vim"
     ],
     "cSpell.enabledLanguageIds": [
-        "go",
-        "javascript",
-        "javascriptreact",
-        "markdown",
-        "vimwiki",
-        "php",
-        "plaintext",
-        "typescript",
-        "yml"
+        "markdown"
     ],
     "cSpell.userWords": [
       "Babauta",
