@@ -304,7 +304,7 @@ alias tn='n ~/Dropbox/todo/todo.txt'
 alias cm='cd ~/Dropbox/1vimwiki/notes/meetings/ && n +CreateMeetingNote'
 alias no='cd ~/Dropbox/1vimwiki/notes/ && n $(date "+%Y-%m-%d").md'
 alias nw='cd ~/Dropbox/1vimwiki/ && n'
-alias org='cd ~/Dropbox/org/ && n refile.org +Files'
+alias org='cd ~/Dropbox/org/ && n refile.org +"Telescope find_files"'
 alias orgi="cd ~/Dropbox/org/ && n -c \"lua require('orgmode').action('capture.prompt')\""
 # alias t='~/tools/todo.txt_cli-2.9/todo.sh -d ~/Dropbox/todo/work/todo.cfg'
 alias t='todo.sh -f -n'
@@ -409,6 +409,20 @@ export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
 
 export JAVA_HOME="/usr/lib/jvm/java-11-openjdk-amd64"
 
+
+# https://stackoverflow.com/a/20721203
+splitCsv() {
+    HEADER=$(head -1 $1)
+    if [ -n "$2" ]; then
+        CHUNK=$2
+    else 
+        CHUNK=1000
+    fi
+    tail -n +2 $1 | split -l $CHUNK - $1_split_
+    for i in $1_split_*; do
+        sed -i -e "1i$HEADER" "$i"
+    done
+}
 
 # [ -f ~/.~/.powerlevel10k/powerlevel10k.zsh-theme ] && source ~/.powerlevel10k/powerlevel10k.zsh-theme
 

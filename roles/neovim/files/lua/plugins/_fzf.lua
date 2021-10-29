@@ -1,11 +1,11 @@
 local U = require "utils"
-vim.api.nvim_set_keymap("n", "<leader>st", ":Rg ", {noremap = true})
+-- vim.api.nvim_set_keymap("n", "<leader>st", ":Rg ", {noremap = true})
 -- vim.api.nvim_set_keymap("n", "<leader>ob", ":Buffers<CR>", {noremap = true})
-vim.api.nvim_set_keymap("n", "<leader>of", ":FZF<cr>", {noremap = true})
+-- vim.api.nvim_set_keymap("n", "<leader>of", ":FZF<cr>", {noremap = true})
 -- vim.api.nvim_set_keymap("n", "<leader>ot", ":Tags<cr>", {noremap = true})
 
-vim.api.nvim_set_keymap("n", "<leader>su", "<cmd>lua RgUnderCursor()<CR>", {noremap = true})
-vim.api.nvim_set_keymap("n", "<leader>vl", ":FZF ~/.dotfiles/roles/neovim<cr>", {noremap = true})
+-- vim.api.nvim_set_keymap("n", "<leader>su", "<cmd>lua RgUnderCursor()<CR>", {noremap = true})
+-- vim.api.nvim_set_keymap("n", "<leader>vl", ":FZF ~/.dotfiles/roles/neovim<cr>", {noremap = true})
 
 vim.api.nvim_exec(
     [[
@@ -31,7 +31,7 @@ end
 vim.g.rg_command =
     "rg --column --line-number --no-heading --smart-case --hidden --follow --color 'always' -g '!.git' -g '!node_modules' -g '!*/vendor/*' -g '!*.neon' -g '!package-lock.json' -g '!*/composer.lock' -g '!.composer/*' -g '!*/var/*' -g '!*/cache/*' "
 
-vim.api.nvim_set_keymap("n", "<leader>og", "<cmd>lua findFromGitRoot()<cr>", {noremap = true})
+-- vim.api.nvim_set_keymap("n", "<leader>og", "<cmd>lua findFromGitRoot()<cr>", {noremap = true})
 function _G.findFromGitRoot()
     vim.cmd(":Files " .. U.GitRoot())
 end

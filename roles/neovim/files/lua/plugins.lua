@@ -16,8 +16,8 @@ use "tmux-plugins/vim-tmux-focus-events"
 
 use {"neoclide/coc.nvim", branch = "master", run = "yarn install --frozen-lockfile"}
 use "antoinemadec/coc-fzf"
-use {"rafcamlet/coc-nvim-lua", ft = "lua"}
 use "honza/vim-snippets"
+-- use {"rafcamlet/coc-nvim-lua", ft = "lua"}
 use "triglav/vim-visual-increment"
 
 use {"junegunn/fzf", run = "./install --all"}
@@ -124,10 +124,10 @@ use {
     ft = {"php"}
 }
 
-use {"laher/gothx.vim", ft = "go"}
+-- use {"laher/gothx.vim", ft = "go"}
 use {"sebdah/vim-delve", ft = "go"}
 use {"rhysd/vim-go-impl", ft = "go"}
-use {"benmills/vim-golang-alternate", ft = "go"}
+-- use {"benmills/vim-golang-alternate", ft = "go"}
 
 -- use "ap/vim-buftabline"
 use {
@@ -147,11 +147,11 @@ use "jiangmiao/auto-pairs"
 -- " For getting file icons in status-line, nerdtree etc. " Note: Make sure you
 -- have installed ttf-nerd-fonts-symbols, if you manjaro just run `pamac
 -- install ttf-nerd-fonts-symbols` use 'ryanoasis/vim-devicons'
-use {
-    "kyazdani42/nvim-tree.lua",
-    -- requires = {"kyazdani42/nvim-web-devicons", opt = true},
-    cmd = {"NvimTreeToggle", "NvimTreeFindFile"}
-}
+-- use {
+--     "kyazdani42/nvim-tree.lua",
+--     -- requires = {"kyazdani42/nvim-web-devicons", opt = true},
+--     cmd = {"NvimTreeToggle", "NvimTreeFindFile"}
+-- }
 
 use {"hashivim/vim-terraform", ft = "tf"}
 
@@ -269,7 +269,7 @@ use {
             org_default_notes_file = "~/Dropbox/org/refile.org",
             org_agenda_skip_scheduled_if_done = true,
             org_agenda_skip_deadline_if_done = true,
-            -- org_hide_leading_stars = true,
+            org_hide_leading_stars = true,
             -- org_hide_emphasis_markers = true,
             mappings = {
                 org = {
@@ -286,13 +286,13 @@ use {
     }
 }
 
-use {
-    "ibhagwan/fzf-lua",
-    requires = {
-        "vijaymarupudi/nvim-fzf",
-        "kyazdani42/nvim-web-devicons"
-    } -- optional for icons
-}
+-- use {
+--     "ibhagwan/fzf-lua",
+--     requires = {
+--         "vijaymarupudi/nvim-fzf",
+--         "kyazdani42/nvim-web-devicons"
+--     } -- optional for icons
+-- }
 -- use {"camspiers/snap", rocks = {"fzy"}}
 -- local snap = require "snap"
 -- snap.maps {
@@ -301,8 +301,6 @@ use {
 --     {"<Leader>fo", snap.config.file {producer = "vim.oldfile"}}
 --     -- {"<Leader>ff", snap.config.vimgrep {}}
 -- }
-
-use "ggandor/lightspeed.nvim"
 
 local autocmds = {
     plugins = {

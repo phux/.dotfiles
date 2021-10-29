@@ -18,17 +18,18 @@ let b:ale_linters = ['golangci-lint', 'gopls']
 let g:ale_go_golangci_lint_package=1
 let g:ale_go_staticcheck_lint_package=1
 let b:local_golangci_file = getcwd().'/.golangci.yml'
-let g:ale_go_golangci_lint_options = '--fix --fast --config '.b:local_golangci_file
+let g:ale_go_golangci_lint_options = '--fix --fast --allow-parallel-runners --config '.b:local_golangci_file
 if !filereadable(b:local_golangci_file)
     echom 'local .golangci.yml not found'
-  let g:ale_go_golangci_lint_options = '--fix --config ~/.golangci.yml'
+  let g:ale_go_golangci_lint_options = '--fix --allow-parallel-runners --config ~/.golangci.yml'
 endif
 
-let g:revive_config_file = '.revive.toml'
-if !filereadable('.revive.toml')
-  let g:revive_config_file = '~/.revive.toml'
-endif
-let g:revive_cmd = 'revive -exclude vendor/... -config '.g:revive_config_file.' %t'
+" let g:revive_config_file = '.revive.toml'
+" if !filereadable('.revive.toml')
+"   let g:revive_config_file = '~/.revive.toml'
+" endif
+" let g:revive_cmd = 'revive -exclude vendor/... -config '.g:revive_config_file.' %t'
+
 " load oldsql bindings
 " if !filereadable('go.mod')
 "     nmap <buffer> <silent> gd :GoDef<cr>
@@ -50,19 +51,18 @@ vnoremap <buffer> <leader>rem :CocAction<cr>
 vnoremap <buffer> <leader>rev :call GoExtractVariable()<cr>
 nnoremap <buffer> <leader>rm :call GoMove()<cr>
 noremap <buffer> <leader>rd :Refactor godoc<cr>
-nnoremap <buffer> <leader>oj :CocCommand go.tags.add json
+:nnoremap <buffer> <leader>oj :CocCommand go.tags.add json
 nnoremap <buffer> <leader>oJ :CocCommand go.tags.remove json
 " nmap <buffer> <leader>ll <Plug>(coc-codelens-action)
-nnoremap <buffer> <leader>oe :ThxIfErr<cr>
+nnoremap <buffer> <leader>oe :IfErr<cr>
 nnoremap <buffer> <silent> <leader>na :CocCommand go.test.toggle<cr>
 " nnoremap <buffer> <leader>oc :GoCoverageToggle<cr>
 nnoremap <buffer> <leader>oc :GoCoverage toggle<cr>
 " nnoremap <buffer> <leader>os :<C-u>call CocActionAsync('codeLensAction')<CR>
-" nnoremap <buffer> <leader>os :ThxFillStruct<cr>
 " nnoremap <buffer> <leader>gt :CocCommand go.test.generate.function<cr>
 " nnoremap <buffer> <leader>GT :CocCommand go.test.generate.exported<cr>
 nnoremap <buffer> <leader>om :Mockery<cr>
-command! Mockery execute 'normal! O//go:generate mockery --name '.expand('<cword>').' --output=internal/mocks'
+command! Mockery execute 'normal! O//go:generate mockery --name '.expand('<cword>').' --structname '.expand('<cword>').' --output=internal/mocks'
 
 
 nnoremap <buffer> <leader>ds :DlvDebug<cr>
@@ -123,89 +123,73 @@ let g:go_fmt_options = {
 let g:go_def_mode = 'godef'
 " let g:go_def_mode = 'guru'
 
-nnoremap <buffer> <leader>il :Iface<cr>
-nnoremap <buffer> <leader>is :GoImpl
 
-vnoremap <m-e> :'<,'>d<cr>:call GoExtractFunc()<cr>
-function! GoExtractFunc()
-  let l:newName = input('New function name: ')
-  execute 'normal! i'.l:newName."()\r"
-  normal! ml==
+" " non-gomod projects
+" " dependency: go get golang.org/x/tools/cmd/gomvpkg
+" function! GoMoveDir()
+"   :update
 
-  ?func
-  normal! $%o
-  execute 'normal! ofunc '.l:newName.'() {'
-  normal! p
-  normal! }ko}
-  normal! 'l
-endfunction
+"   " find current gopath
+"   let l:gopath = ''
+"   for gopath in split($GOPATH, ':')
+"     if expand('%:p:h') =~ '^'.gopath
+"       let l:gopath = gopath
+"     endif
+"   endfor
 
+"     let l:currentFile = expand('%:p')
+"     let l:oldPath = input('Old path: ', substitute(expand('%:p:h'), gopath.'/src/', '', ''))
+"     let l:newPath = input('New path ==> ', l:oldPath)
 
-" non-gomod projects
-" dependency: go get golang.org/x/tools/cmd/gomvpkg
-function! GoMoveDir()
-  :update
-
-  " find current gopath
-  let l:gopath = ''
-  for gopath in split($GOPATH, ':')
-    if expand('%:p:h') =~ '^'.gopath
-      let l:gopath = gopath
-    endif
-  endfor
-
-    let l:currentFile = expand('%:p')
-    let l:oldPath = input('Old path: ', substitute(expand('%:p:h'), gopath.'/src/', '', ''))
-    let l:newPath = input('New path ==> ', l:oldPath)
-
-  if len(l:gopath) == 0
-    " echo 'Cannot move pkg - not in configured gopath?!'
-    " return
-  endif
+"   if len(l:gopath) == 0
+"     " echo 'Cannot move pkg - not in configured gopath?!'
+"     " return
+"   endif
 
 
-  execute '!gomvpkg -from '.l:oldPath.' -to '.l:newPath
+"   execute '!gomvpkg -from '.l:oldPath.' -to '.l:newPath
 
-  if !filereadable(l:currentFile)
-    :bd
-  endif
-endfunction
+"   if !filereadable(l:currentFile)
+"     :bd
+"   endif
+" endfunction
 
-" dependency: go get -u github.com/ksubedi/gomove
-function! GoMoveDirV2()
-  :update
+" Deprecated by GoMove()
+"dependency: go get -u github.com/ksubedi/gomove
+" function! GoMoveDirV2()
+"   :update
 
-  if !filereadable('go.mod')
-      echo 'no go.mod found in cwd - not moving anything'
-      return
-  endif
+"   if !filereadable('go.mod')
+"       echo 'no go.mod found in cwd - not moving anything'
+"       return
+"   endif
 
 
-  let l:currentBasePackage = substitute(substitute(system('head -n 1 go.mod'), 'module ', '', ''), '\n\+$', '', '')
-  let l:currentFile = expand('%:p')
-  let l:oldPath = substitute(expand('%:p:h'), getcwd(), '', '')
-  let l:oldPackage = input('Old package: ', l:currentBasePackage.''.l:oldPath)
-  let l:newPackage = input('New package ==> ', l:oldPackage)
-  let l:oldPath = getcwd().'/'.substitute(l:oldPackage, l:currentBasePackage, '', '')
-  let l:newPath = getcwd().'/'.substitute(l:newPackage, l:currentBasePackage, '', '')
-  if l:oldPackage =~# '/$'
-      let l:oldPackage = strpart(l:oldPackage, 0, len(l:oldPackage) -1)
-  endif
-  if l:newPackage =~# '/$'
-      let l:newPackage = strpart(l:newPackage, 0, len(l:newPackage) -1)
-  endif
+"   let l:currentBasePackage = substitute(substitute(system('head -n 1 go.mod'), 'module ', '', ''), '\n\+$', '', '')
+"   let l:currentFile = expand('%:p')
+"   let l:oldPath = substitute(expand('%:p:h'), getcwd(), '', '')
+"   let l:oldPackage = input('Old package: ', l:currentBasePackage.''.l:oldPath)
+"   let l:newPackage = input('New package ==> ', l:oldPackage)
+"   let l:oldPath = getcwd().'/'.substitute(l:oldPackage, l:currentBasePackage, '', '')
+"   let l:newPath = getcwd().'/'.substitute(l:newPackage, l:currentBasePackage, '', '')
+"   if l:oldPackage =~# '/$'
+"       let l:oldPackage = strpart(l:oldPackage, 0, len(l:oldPackage) -1)
+"   endif
+"   if l:newPackage =~# '/$'
+"       let l:newPackage = strpart(l:newPackage, 0, len(l:newPackage) -1)
+"   endif
 
-  if empty(glob(l:newPath))
-      exe '!mkdir -p '.l:newPath
-  endif
+"   if empty(glob(l:newPath))
+"       exe '!mkdir -p '.l:newPath
+"   endif
 
-  exe '!mv '.l:oldPath.'/* '.l:newPath
-  exe '!gomove '.l:oldPackage.' '.l:newPackage
+"   exe '!mv '.l:oldPath.'/* '.l:newPath
+"   exe '!gomove '.l:oldPackage.' '.l:newPackage
 
-  if !filereadable(l:currentFile)
-    :bd
-  endif
-endfunction
+"   if !filereadable(l:currentFile)
+"     :bd
+"   endif
+" endfunction
 
 function! GoMoveCmd()
     call feedkeys(":call GoMove")
@@ -252,51 +236,8 @@ function! GoMove()
   :silent CocRestart
 endfunction
 
-
-function! AliasGoImport()
-    let l:skip = !has_key(v:completed_item, 'word') || v:completed_item['kind'] !=# 'M'
-
-    if !l:skip
-        let l:currentPackage = v:completed_item['word']
-        let l:importPath = substitute(substitute(v:completed_item['menu'], ' \[LS\]', '', ''), '"', '', 'g')
-    endif
-
-    if !l:skip
-        " check if selected package is already imported
-        let [s:line, s:col] = searchpos('"'.l:importPath.'"', 'n')
-        let l:skip = s:line
-    endif
-
-    if !l:skip
-        " check if different package with same name is already imported
-        let [s:line, s:col] = searchpos('\s\+".\+/'.l:currentPackage.'"$', 'n')
-        if s:line > 0
-            let l:alias = input('Package already imported. Alias '.l:importPath.' as: ')
-            if l:alias ==# ''
-                echo 'No alias given - not doing anything'
-            else
-                let l:cmd = 'GoImportAs ' . l:alias . ' ' . l:importPath
-                execute l:cmd
-                execute 'normal! ciw'.l:alias
-            endif
-
-            let l:skip = 1
-        endif
-    endif
-
-    if !l:skip
-        let l:cmd = 'GoImport ' . l:importPath
-        execute l:cmd
-    endif
-
-    normal! a.
-    if col('.') == col('$') - 1
-        startinsert!
-    else
-        normal! l
-        startinsert
-    end
-endfunction
+nnoremap <buffer> <leader>il :Iface<cr>
+nnoremap <buffer> <leader>is :GoImpl
 
 " dependency: go get -u github.com/josharian/impl
 " dependency: https://github.com/rhysd/vim-go-impl
@@ -409,7 +350,7 @@ function! FixGoAleIssues()
             if getline('.') !~# '='
                 exe 'normal! Ierr := '
                 :w
-                :ThxIfErr
+                :IfErr
                 return
             endif
         endif
