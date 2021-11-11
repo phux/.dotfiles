@@ -7,7 +7,7 @@ activitywatch_version: v0.11.0
 firacode_version: 5.2
 go_version: go1.17
 go_mockery_version: 2.4.0
-go_golangcilint_version: 1.41.1
+go_golangcilint_version: 1.43.0
 joplin_gui_version: v2.4.8
 ruby_version: 2.7.1
 rbenv_version: v1.1.2
