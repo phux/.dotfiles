@@ -48,6 +48,15 @@ telescope.setup {
         file_previewer = require "telescope.previewers".vim_buffer_cat.new, -- For buffer previewer use `require'telescope.previewers'.vim_buffer_cat.new`
         buffer_previewer_maker = new_maker,
         grep_previewer = require "telescope.previewers".vim_buffer_vimgrep.new
+    },
+    extensions = {
+        fzf = {
+            fuzzy = true, -- false will only do exact matching
+            override_generic_sorter = true, -- override the generic sorter
+            override_file_sorter = true, -- override the file sorter
+            case_mode = "smart_case" -- or "ignore_case" or "respect_case"
+            -- the default case_mode is "smart_case"
+        }
     }
     -- extensions = {
     --     fzy_native = {
@@ -57,6 +66,8 @@ telescope.setup {
     -- }
 }
 
+require("telescope").load_extension("fzf")
+require("telescope").load_extension("coc")
 -- telescope.load_extension("fzy_native")
 -- require "telescope".load_extension("frecency")
 
@@ -81,33 +92,13 @@ vim.api.nvim_set_keymap("n", "<leader>vl", ":Telescope find_files cwd=~/.dotfile
 -- todo: broken -> using fzf's :Tags for now
 -- vim.api.nvim_set_keymap("n", "<leader>ot", ":Telescope tags<cr>", {noremap = true})
 
-vim.api.nvim_set_keymap("n", "<leader>of", ":Telescope find_files<cr>", {noremap = true})
+vim.api.nvim_set_keymap("n", "<leader>of", ":Telescope find_files theme=get_ivy<cr>", {noremap = true})
 vim.api.nvim_set_keymap("n", "<leader>og", "<cmd>lua fdFromGitRoot()<cr>", {noremap = true})
 vim.api.nvim_set_keymap("n", "<leader>sg", "<cmd>lua grepFromGitRoot()<cr>", {noremap = true})
-vim.api.nvim_set_keymap("n", "<leader>su", ":Telescope grep_string<cr>", {noremap = true})
-vim.api.nvim_set_keymap("n", "<leader>st", "<cmd>lua liveGrep()<cr>", {noremap = true})
+vim.api.nvim_set_keymap("n", "<leader>su", ":Telescope grep_string theme=get_ivy<cr>", {noremap = true})
+vim.api.nvim_set_keymap("n", "<leader>st", ":Telescope live_grep theme=get_ivy<cr>", {noremap = true})
 
-local center_list =
-    require "telescope.themes".get_dropdown(
-    {
-        winblend = 0,
-        -- width = 0.7,
-        prompt = " ",
-        -- results_height = 15,
-        previewer = false
-    }
-)
-
-local with_preview =
-    require "telescope.themes".get_dropdown(
-    {
-        winblend = 0,
-        -- width = 0.7,
-        show_line = false,
-        results_title = false,
-        preview_title = false
-    }
-)
+local with_preview = require "telescope.themes".get_ivy({})
 
 function _G.fd()
     -- local opts = vim.deepcopy(center_list)

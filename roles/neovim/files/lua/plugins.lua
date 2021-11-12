@@ -35,15 +35,14 @@ require("packer").startup(
         use "wellle/tmux-complete.vim"
 
         -- use "folke/trouble.nvim"
-        -- use {
-        --     "nvim-lua/telescope.nvim",
-        --     requires = {
-        --         "nvim-lua/popup.nvim",
-        --         "nvim-lua/plenary.nvim",
-        --         "nvim-telescope/telescope-fzy-native.nvim",
-        --         "nvim-telescope/telescope-fzf-writer.nvim"
-        --     }
-        -- }
+        use {
+            "nvim-lua/telescope.nvim",
+            requires = {
+                "nvim-lua/plenary.nvim"
+            }
+        }
+        use {"nvim-telescope/telescope-fzf-native.nvim", run = "make"}
+        use {"fannheyward/telescope-coc.nvim"}
 
         use {
             "ThePrimeagen/refactoring.nvim",
