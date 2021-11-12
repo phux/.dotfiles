@@ -92,7 +92,7 @@ export LESS_TERMCAP_md="${yellow}";
 alias update_antibody="antibody bundle < $XDG_CONFIG_HOME/zsh/antibody_plugins.txt  > $XDG_CONFIG_HOME/zsh/cached_plugins.sh; antibody update"
 
 alias sdn='sudo shutdown now -h'
-alias update="sudo apt update && sudo apt upgrade -y && .d && git pull && make provision;zinit update;zinit compile;nvim +PackerUpdate +PackerCompile +CocUpdate"
+alias update="sudo apt update && sudo apt upgrade -y && .d && git pull && make provision;sheldon lock --update;nvim +PackerUpdate +PackerCompile +CocUpdate"
 alias agi='sudo apt-fast install'
 
 alias vu='vagrant up'
@@ -441,62 +441,12 @@ fi
 
 export PATH="$HOME/.rbenv/versions/2.7.1/bin:$PATH"
 
-# fnm
-# export PATH=$HOME/.fnm:$PATH
-# eval "`fnm env`"
-
-# if [ -e /home/jan/.nix-profile/etc/profile.d/nix.sh ]; then . /home/jan/.nix-profile/etc/profile.d/nix.sh; fi
-#
-### Added by Zinit's installer
-if [[ ! -f $HOME/.config/zsh/.zinit/bin/zinit.zsh ]]; then
-    print -P "%F{33}▓▒░ %F{220}Installing %F{33}DHARMA%F{220} Initiative Plugin Manager (%F{33}zdharma/zinit%F{220})…%f"
-    command mkdir -p "$HOME/.config/zsh/.zinit" && command chmod g-rwX "$HOME/.config/zsh/.zinit"
-    command git clone https://github.com/zdharma/zinit "$HOME/.config/zsh/.zinit/bin" && \
-        print -P "%F{33}▓▒░ %F{34}Installation successful.%f%b" || \
-        print -P "%F{160}▓▒░ The clone has failed.%f%b"
-fi
-
-source "$HOME/.config/zsh/.zinit/bin/zinit.zsh"
-
-zinit ice lucid nocd depth=1; zinit light romkatv/powerlevel10k
-
-# autoload -Uz _zinit
-# (( ${+_comps} )) && _comps[zinit]=_zinit
-#
-# Load a few important annexes, without Turbo
-# (this is currently required for annexes)
-zinit light-mode for \
-    zinit-zsh/z-a-rust \
-    zinit-zsh/z-a-as-monitor \
-    zinit-zsh/z-a-patch-dl
-
-zinit ice wait lucid
-zinit light "dominik-schwabe/zsh-fnm"
-zinit ice wait'1' lucid
-zinit light "MichaelAquilina/zsh-autoswitch-virtualenv"
-zinit ice wait'1' lucid
-zinit snippet OMZP::rbenv
-zinit ice wait'1' as"completion" lucid
-zinit snippet https://github.com/docker/cli/blob/master/contrib/completion/zsh/_docker
-zinit ice wait'1' as"completion" lucid
-zinit snippet https://github.com/robbyrussell/oh-my-zsh/blob/master/plugins/terraform/_terraform
-
-# zsh-fzy
-zinit ice wait'2' lucid
-zinit light aperezdc/zsh-fzy
-
-# git fuzzy TODO
-# zinit ice wait'!0' lucid as"command" from"gh-r" mv"fd* -> fd" pick"fd/fd"
-# zinit light bigH/git-fuzzy
-zinit ice wait lucid atload"!_zsh_autosuggest_start"
-zinit light zsh-users/zsh-autosuggestions
-
-### End of Zinit's installer chunk
-
 # start second tracing block
 # unsetopt XTRACE
 # exec 2>&3 3>&-
 # end tracing
+
+eval "$(sheldon source)"
 
 # To customize prompt, run `p10k configure` or edit ~/.config/zsh/.p10k.zsh.
 [[ ! -f ~/.config/zsh/.p10k.zsh ]] || source ~/.config/zsh/.p10k.zsh

@@ -11,8 +11,8 @@ require("lualine").setup {
         lualine_a = {"g:coc_status", "mode"},
         lualine_b = {"branch"},
         lualine_c = {
-            {"filename", full_name = true, path = 1},
-            {"diagnostics", sources = {"nvim_lsp"}}
+            {"filename", full_name = true, path = 1}
+            -- {"diagnostics", sources = {"nvim_lsp"}}
         },
         lualine_x = {"encoding", "fileformat", "filetype"},
         lualine_y = {"progress"},
