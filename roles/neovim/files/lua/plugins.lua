@@ -24,7 +24,7 @@ require("packer").startup(
         use {"junegunn/fzf", run = "./install --all"}
         use {"junegunn/fzf.vim"}
         use {"junegunn/gv.vim", cmd = "GV"}
-        use "sinetoami/fzy.nvim"
+        -- use "sinetoami/fzy.nvim"
         -- use {"lotabout/skim", run = "./install"}
         -- use "lotabout/skim.vim"
 
@@ -44,14 +44,14 @@ require("packer").startup(
         use {"nvim-telescope/telescope-fzf-native.nvim", run = "make"}
         use {"fannheyward/telescope-coc.nvim"}
 
-        use {
-            "ThePrimeagen/refactoring.nvim",
-            requires = {
-                {"nvim-lua/plenary.nvim"},
-                {"nvim-treesitter/nvim-treesitter"},
-                {"nvim-lua/telescope.nvim"}
-            }
-        }
+        -- use {
+        --     "ThePrimeagen/refactoring.nvim",
+        --     requires = {
+        --         {"nvim-lua/plenary.nvim"},
+        --         {"nvim-treesitter/nvim-treesitter"},
+        --         {"nvim-lua/telescope.nvim"}
+        --     }
+        -- }
 
         -- " For showing the actual color of the hex value
         use {
@@ -61,9 +61,8 @@ require("packer").startup(
             end
         }
         use "w0rp/ale"
-
         -- Wrapping/delimiters
-        -- use {"machakann/vim-sandwich", {"andymass/vim-matchup", event = "VimEnter *"}}
+        use {"machakann/vim-sandwich", {"andymass/vim-matchup", event = "VimEnter *"}}
 
         -- Indentation tracking
         use "yggdroot/indentLine"
@@ -123,6 +122,10 @@ require("packer").startup(
             run = " composer install --no-dev -o",
             ft = {"php"}
         }
+
+        use {"rcarriga/nvim-dap-ui", requires = {"mfussenegger/nvim-dap"}}
+        use "leoluz/nvim-dap-go"
+        use "theHamsta/nvim-dap-virtual-text"
 
         -- use {"laher/gothx.vim", ft = "go"}
         use {"sebdah/vim-delve", ft = "go"}
@@ -285,6 +288,7 @@ require("packer").startup(
                 "akinsho/org-bullets.nvim"
             }
         }
+        use "kevinhwang91/rnvimr"
     end
 )
 
@@ -312,57 +316,3 @@ local autocmds = {
 }
 
 U.augroups(autocmds)
-
-local refactor = require("refactoring")
-refactor.setup()
-
--- telescope refactoring helper
-local function refactorfn(prompt_bufnr)
-    local content = require("telescope.actions.state").get_selected_entry(prompt_bufnr)
-    require("telescope.actions").close(prompt_bufnr)
-    require("refactoring").refactor(content.value)
-end
--- NOTE: M is a global object
--- for the sake of simplicity in this example
--- you can extract this function and the helper above
--- and then require the file and call the extracted function
--- in the mappings below
-M = {}
-M.refactors = function()
-    require("telescope.pickers").new(
-        {},
-        {
-            prompt_title = "refactors",
-            finder = require("telescope.finders").new_table(
-                {
-                    results = require("refactoring").get_refactors()
-                }
-            ),
-            sorter = require("telescope.config").values.generic_sorter({}),
-            attach_mappings = function(_, map)
-                map("i", "<CR>", refactorfn)
-                map("n", "<CR>", refactorfn)
-                return true
-            end
-        }
-    ):find()
-end
-
-vim.api.nvim_set_keymap(
-    "v",
-    "<Leader>re",
-    [[ <Cmd>lua require('refactoring').refactor('Extract Function')<CR>]],
-    {noremap = true, silent = true, expr = false}
-)
-vim.api.nvim_set_keymap(
-    "v",
-    "<Leader>rf",
-    [[ <Cmd>lua require('refactoring').refactor('Extract Function To File')<CR>]],
-    {noremap = true, silent = true, expr = false}
-)
-vim.api.nvim_set_keymap(
-    "v",
-    "<Leader>rt",
-    [[ <Cmd>lua M.refactors()<CR>]],
-    {noremap = true, silent = true, expr = false}
-)

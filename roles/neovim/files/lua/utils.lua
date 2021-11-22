@@ -53,10 +53,19 @@ function U.load_bright_theme()
     end
 end
 
+function U.IsInGitRepo()
+    local output = io.popen("git rev-parse --show-toplevel")
+    local git_dir = output:read("*a")
+    return string.match(git_dir, "^fatal:.*") ~= nil
+end
+
 function U.GitRoot()
     local output = io.popen("git rev-parse --show-toplevel")
     local git_dir = output:read("*a")
     local is_not_git_dir = string.match(git_dir, "^fatal:.*")
+    if is_not_git_dir then
+        return io.popen "cd":read "*l"
+    end
 
     local trimmed = string.gsub(git_dir, "%s%d", "")
     trimmed = string.gsub(trimmed, "\n", "")
@@ -65,9 +74,9 @@ function U.GitRoot()
 end
 
 U.show_diagnostics = function(opts)
-  opts = opts or {}
-  vim.lsp.diagnostic.set_loclist({open_loclist = false})
-  require'telescope.builtin'.loclist(opts)
+    opts = opts or {}
+    vim.lsp.diagnostic.set_loclist({open_loclist = false})
+    require "telescope.builtin".loclist(opts)
 end
 
 return U

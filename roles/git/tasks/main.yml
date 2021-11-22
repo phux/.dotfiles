@@ -4,9 +4,6 @@
 - include: templates.yml
 - include: config.yml
 - include: delta.yml
-# - include: gtm.yml
-# replacing with git fuzzy
-# - include: diff-so-fancy.yml
 
 - name: Link global gitignore
   file:
