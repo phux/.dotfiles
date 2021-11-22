@@ -79,7 +79,7 @@ U.map("n", "<leader>RR", "<Plug>(coc-refactor)", {noremap = false})
 U.map("n", "<leader>nd", "<Plug>(coc-definition)", {noremap = false})
 U.map("n", "<leader>nD", "<Plug>(coc-type-definition)", {noremap = false})
 U.map("n", "<leader>ni", "<Plug>(coc-implementation)", {noremap = false})
-U.map("n", "<leader>nr", "<Plug>(coc-references)", {noremap = false})
+-- U.map("n", "<leader>nr", "<Plug>(coc-references)", {noremap = false}) -- replaced with telescope
 api.nvim_set_keymap("n", "<leader>os", ":CocList symbols<cr>", {noremap = true})
 
 U.map("n", "[g", "<Plug>(coc-diagnostic-prev)", {noremap = false})

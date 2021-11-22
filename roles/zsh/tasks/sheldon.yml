@@ -1,0 +1,15 @@
+---
+- name: Creates .local/bin directory
+  file:
+    path: "{{ansible_env.HOME}}/.local/bin"
+    state: directory
+
+- name: Execute the sheldon installer
+  args:
+    warn: false
+  shell: curl --proto '=https' -fLsS https://rossmacarthur.github.io/install/crate.sh | bash -s -- --repo rossmacarthur/sheldon --force --to ~/.local/bin
+
+- name: update sheldon plugins
+  shell: >
+    {{ ansible_env.HOME }}/.local/bin/sheldon lock --update
+    executable=/bin/zsh

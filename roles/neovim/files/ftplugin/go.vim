@@ -15,8 +15,8 @@ augroup end
 let b:ale_linters = ['golangci-lint', 'gopls']
 " let b:ale_linters = ['gopls']
 " let b:ale_linters = []
-let g:ale_go_golangci_lint_package=1
-let g:ale_go_staticcheck_lint_package=1
+let g:ale_go_golangci_lint_package=0
+let g:ale_go_staticcheck_lint_package=0
 let b:local_golangci_file = getcwd().'/.golangci.yml'
 let g:ale_go_golangci_lint_options = '--fix --fast --allow-parallel-runners --config '.b:local_golangci_file
 if !filereadable(b:local_golangci_file)
@@ -65,9 +65,10 @@ nnoremap <buffer> <leader>om :Mockery<cr>
 command! Mockery execute 'normal! O//go:generate mockery --name '.expand('<cword>').' --structname '.expand('<cword>').' --output=internal/mocks'
 
 
-nnoremap <buffer> <leader>ds :DlvDebug<cr>
-nnoremap <buffer> <leader>dt :DlvTest<cr>
-nnoremap <buffer> <leader>db :DlvToggleBreakpoint<cr>
+" nnoremap <buffer> <leader>ds :DlvDebug<cr>
+" nnoremap <buffer> <leader>dt :DlvTest<cr>
+" nnoremap <buffer> <leader>db :DlvToggleBreakpoint<cr>
+
 nnoremap <buffer> <silent> <leader>ef :call ExtractToFile()<cr>
 
 

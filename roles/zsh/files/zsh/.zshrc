@@ -1,20 +1,12 @@
+# start tracing
+# zmodload zsh/zprof
+
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.config/zsh/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
 # confirmations, etc.) must go above this block; everything else may go below.
 if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
-
-# start tracing
-# zmodload zsh/datetime
-# setopt PROMPT_SUBST
-# PS4='+$EPOCHREALTIME %N:%i> '
-# logfile=$(mktemp zsh_profile.XXXXXXXX)
-# echo "Logging to $logfile"
-# exec 3>&2 2>$logfile
-# setopt XTRACE
-# zmodload zsh/zprof
-# end tracing
 
 export TERM=st-256color
 
@@ -152,9 +144,6 @@ export GF_DIFF_COMMIT_RANGE_PREVIEW_DEFAULTS="--summary"
 # when diffing individual files
 export GF_DIFF_FILE_PREVIEW_DEFAULTS="--indent-heuristic"
 
-gch() {
-	git for-each-ref --sort=-committerdate --format='%(refname:short)' refs/heads | fzf | xargs git checkout
-}
 alias gs='git fuzzy status'
 alias gdt='n +"Git difftool -y"'
 alias glog='n +GV'
@@ -173,9 +162,6 @@ alias gb='git branch'
 alias gcb='git checkout -b'
 alias gco='git checkout'
 alias gcoo='gittake --ours'
-gittake() {
-	git checkout $1 $2 && git add $2
-}
 alias gcot='gittake --theirs'
 alias gd='git diff'
 alias gds='git diff --staged'
@@ -270,26 +256,6 @@ zstyle ':completion:*::::' completer _expand _complete _ignored _approximate
 
 # source ~/.config/zsh/aws_zsh_completer.sh
 
-_tmuxinator() {
-  local commands projects
-  commands=(${(f)"$(tmuxinator commands zsh)"})
-  projects=(${(f)"$(tmuxinator completions start)"})
-
-  if (( CURRENT == 2 )); then
-    _alternative \
-      'commands:: _describe -t commands "tmuxinator subcommands" commands' \
-      'projects:: _describe -t projects "tmuxinator projects" projects'
-  elif (( CURRENT == 3)); then
-    case $words[2] in
-      copy|debug|delete|open|start)
-        _arguments '*:projects:($projects)'
-      ;;
-    esac
-  fi
-
-  return
-}
-
 alias m='~/.tmux/mux.sh'
 alias mux='tmuxinator'
 alias tmux='tmux -2'
@@ -332,21 +298,6 @@ alias toi='tco; t outline import; tap' # sync from outlines
 # Create an outline file corresponding to PROJECT, and move task at line #ITEM in todo.txt to the outline.
 alias toc='t outline mkol' # PROJECT [#ITEM]
 alias tom='tco; t outline mv' # #ITEM PROJECT
-
-# alias nn='n +VimwikiIndex +ZettelOpen'
-# TODO
-# alias nn='n +VimwikiIndex +ZettelNew'
-
-# function zd() {
-#     file="/tmp/base_$(date '+%H%M%S').json"
-#   echo $1 | sed -r 's/\\\\r\\\\n//g' | base64 -d | zlib -d > $file;n $file
-#   echo "n $file"
-# }
-
-# latest payload
-# function payload() {
-#     nvim $(find /tmp/payload* -printf '%p\n' | sort -r | head -1)
-# }
 
 if [ -f $XDG_CONFIG_HOME/zsh/notifyosd.zsh ]; then
     source $XDG_CONFIG_HOME/zsh/notifyosd.zsh
@@ -410,27 +361,8 @@ export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
 export JAVA_HOME="/usr/lib/jvm/java-11-openjdk-amd64"
 
 
-# https://stackoverflow.com/a/20721203
-splitCsv() {
-    HEADER=$(head -1 $1)
-    if [ -n "$2" ]; then
-        CHUNK=$2
-    else 
-        CHUNK=1000
-    fi
-    tail -n +2 $1 | split -l $CHUNK - $1_split_
-    for i in $1_split_*; do
-        sed -i -e "1i$HEADER" "$i"
-    done
-}
-
-# [ -f ~/.~/.powerlevel10k/powerlevel10k.zsh-theme ] && source ~/.powerlevel10k/powerlevel10k.zsh-theme
-
 # The next line updates PATH for the Google Cloud SDK.
 if [ -f '$HOME/tools/google-cloud-sdk/path.zsh.inc' ]; then . '$HOME/tools/google-cloud-sdk/path.zsh.inc'; fi
-
-# The next line enables shell command completion for gcloud.
-if [ -f '$HOME/tools/google-cloud-sdk/completion.zsh.inc' ]; then . '$HOME/tools/google-cloud-sdk/completion.zsh.inc'; fi
 
 
 if test -f "$TERM_BRIGHT"; then
@@ -452,4 +384,5 @@ eval "$(sheldon source)"
 [[ ! -f ~/.config/zsh/.p10k.zsh ]] || source ~/.config/zsh/.p10k.zsh
 
 bindkey '^e' end-of-line
-# zprof
+
+# zprof | head -n 30

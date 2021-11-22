@@ -62,6 +62,7 @@ require "plugins"
 
 require "plugins/_ale"
 require "plugins/_coc"
+require "plugins/_dap"
 -- require "plugins/_hop"
 -- require "plugins/_sneak"
 -- require "plugins/_leaderf"
