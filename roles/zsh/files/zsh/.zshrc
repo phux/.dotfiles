@@ -106,9 +106,9 @@ alias tfw='terraform workspace'
 
 alias ob='observr observer.rb'
 
-alias ls="ls --color=auto"
-alias l='ls -lFh'     #size,show type,human readable
-alias la='ls -lAFh'   #long list,show almost all,show type,human readable
+# alias ls=""
+# alias l='ls -lFh'     #size,show type,human readable
+alias la='ls --all'   #long list,show almost all,show type,human readable
 alias ll='ls -l'      #long list
 
 alias grep='grep --color'
