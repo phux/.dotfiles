@@ -134,6 +134,7 @@ export GF_LOG_MENU_PARAMS='--pretty="%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgr
 export GF_PREFERRED_PAGER="delta --theme=gruvbox --highlight-removed -w __WIDTH__"
 
 export GIT_FUZZY_STATUS_COMMIT_KEY="Alt-H"
+export GIT_FUZZY_STATUS_DISCARD_KEY="Alt-M"
 export GIT_FUZZY_BRANCH_CHECKOUT_KEY="Alt-H"
 # when diffing with branches or commits for preview
 export GF_DIFF_COMMIT_PREVIEW_DEFAULTS="--patch-with-stat"
