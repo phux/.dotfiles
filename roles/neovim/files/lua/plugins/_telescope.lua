@@ -102,7 +102,7 @@ vim.api.nvim_set_keymap("n", "<leader>vl", ":Telescope find_files cwd=~/.dotfile
 -- vim.api.nvim_set_keymap("n", "<leader>os", ":Telescope git_status<cr>", {noremap = true})
 vim.api.nvim_set_keymap("n", "<leader>GL", ":Telescope git_bcommits<cr>", {noremap = true})
 
-vim.api.nvim_set_keymap("n", "<leader>nr", ":Telescope coc references theme=get_ivy<cr>", {noremap = true})
+-- vim.api.nvim_set_keymap("n", "<leader>nr", ":Telescope coc references theme=get_ivy<cr>", {noremap = true}) -- too slow compared to coc's native
 -- vim.api.nvim_set_keymap("n", "<leader>lf", ":Telescope lsp_code_actions theme=get_dropdown<cr>", {noremap = true})
 -- vim.api.nvim_set_keymap("n", "<leader>os", ":Telescope lsp_workspace_symbols theme=get_dropdown<cr>", {noremap = true})
 -- vim.api.nvim_set_keymap("n", "<leader>of", require('telescope').extensions.fzf_writer.files(), {noremap = true})
