@@ -15,8 +15,6 @@ require("packer").startup(
         -- vim. This plugin restores them when using vim inside Tmux.
         use "tmux-plugins/vim-tmux-focus-events"
 
-        use {"neoclide/coc.nvim", branch = "master", run = "yarn install --frozen-lockfile"}
-        use "antoinemadec/coc-fzf"
         use "honza/vim-snippets"
         -- use {"rafcamlet/coc-nvim-lua", ft = "lua"}
         use "triglav/vim-visual-increment"
@@ -42,7 +40,8 @@ require("packer").startup(
             }
         }
         use {"nvim-telescope/telescope-fzf-native.nvim", run = "make"}
-        use {"fannheyward/telescope-coc.nvim"}
+
+        use "neovim/nvim-lspconfig"
 
         -- use {
         --     "ThePrimeagen/refactoring.nvim",

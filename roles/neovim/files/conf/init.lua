@@ -60,23 +60,13 @@ vim.g.indentLine_enabled = 0
 
 require "plugins"
 
-require "plugins/_ale"
-require "plugins/_coc"
-require "plugins/_dap"
--- require "plugins/_hop"
--- require "plugins/_sneak"
--- require "plugins/_leaderf"
--- require "plugins/_galaxyline"
-
 require "plugins/_easymotion"
-require "plugins/_echodoc"
 require "plugins/_fugitive"
 require "plugins/_twiggy"
 require "plugins/_hardtime"
 require "plugins/_fzf"
 require "plugins/_lualine"
 require "plugins/_gv"
--- require "plugins/_nvimtree"
 require "plugins/_splitjoin"
 require "plugins/_goldenview"
 require "plugins/_telescope"
@@ -90,15 +80,6 @@ require "plugins/_context"
 require "plugins/_gitmessenger"
 require "plugins/_diffconflicts"
 require "plugins/_mergetool"
--- require "plugins/_fzflua"
--- require "plugins/_lspconfig"
--- require "plugins/_completion"
--- require "plugins/_vsnip"
-
--- require "plugins/_compe"
--- require "plugins/_lsputils"
-
--- require "plugins/_notoire"
 
 if vim.fn.exists("g:colors_name") == 0 then
     if U.load_bright_theme() then
