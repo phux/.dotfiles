@@ -1,0 +1,60 @@
+# `sheldon` configuration file
+# ----------------------------
+#
+# You can modify this file directly or you can use one of the following
+# `sheldon` commands which are provided to assist in editing the config file:
+#
+# - `sheldon add` to add a new plugin to the config file
+# - `sheldon edit` to open up the config file in the default editor
+# - `sheldon remove` to remove a plugin from the config file
+#
+# See the documentation for more https://github.com/rossmacarthur/sheldon#readme
+
+shell = "zsh"
+
+# Default apply defer
+apply = ["defer"]
+
+[templates]
+defer = { value = 'zsh-defer source "{{ file }}"', each = true }
+
+[plugins]
+
+# Non-deferred plugins 
+[plugins.zsh-defer]
+github = "romkatv/zsh-defer"
+apply = ["source"]
+
+[plugins.powerlevel10k]
+github = "romkatv/powerlevel10k"
+apply = ["source"]
+
+# Deferred
+[plugins.fnm]
+github = "dominik-schwabe/zsh-fnm"
+apply = ["defer"]
+
+[plugins.autoswitch-virtualenv]
+github = "MichaelAquilina/zsh-autoswitch-virtualenv"
+apply = ["defer"]
+
+[plugins.exa]
+github = "birdhackor/zsh-exa-ls-plugin"
+apply = ["defer"]
+
+[plugins.ohmyzsh]
+github = 'ohmyzsh/ohmyzsh'
+dir = 'plugins'
+use = ['{terraform}/*.plugin.zsh']
+apply = ["defer"]
+
+[plugins.docker-zsh-completion]
+github = "greymd/docker-zsh-completion"
+apply = ["defer"]
+
+[plugins.suggestions]
+github = "zsh-users/zsh-autosuggestions"
+apply = ["defer"]
+
+[plugins.compinit]
+inline = 'autoload -Uz compinit && zsh-defer compinit -C'

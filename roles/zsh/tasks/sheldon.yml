@@ -9,7 +9,16 @@
     warn: false
   shell: curl --proto '=https' -fLsS https://rossmacarthur.github.io/install/crate.sh | bash -s -- --repo rossmacarthur/sheldon --force --to ~/.local/bin
 
+- name: Link zsh files
+  file: >
+    src={{item}}
+    dest={{ ansible_env.HOME }}/.config/sheldon/{{ item | basename }}
+    state=link
+  with_fileglob:
+    - sheldon/plugins.toml
+
 - name: update sheldon plugins
   shell: >
     {{ ansible_env.HOME }}/.local/bin/sheldon lock --update
     executable=/bin/zsh
+
