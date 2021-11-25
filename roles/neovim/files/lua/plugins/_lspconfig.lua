@@ -1,121 +1,59 @@
-local lspconfig = require'lspconfig'
+local nvimcmp = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
 
--- For snippet support
+require'lspconfig'.bashls.setup{
+  capabilities = nvimcmp
+}
+
+require'lspconfig'.cmake.setup{
+  capabilities = nvimcmp
+}
+
+--Enable (broadcasting) snippet capability for completion
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities.textDocument.completion.completionItem.snippetSupport = true
 
--- configuring diagnostics
-vim.lsp.handlers['textDocument/publishDiagnostics'] = vim.lsp.with(
-vim.lsp.diagnostic.on_publish_diagnostics, {
-    underline = true,
-    virtual_text = true,
-    signs = true,
-    update_in_insert = false,
+require'lspconfig'.cssls.setup {
+  capabilities = capabilities,
 }
-)
-local on_attach_general = function(client, bufnr)
-    local function buf_set_keymap(...)
-        vim.api.nvim_buf_set_keymap(bufnr, ...)
-    end
-    local function buf_set_option(...)
-        vim.api.nvim_buf_set_option(bufnr, ...)
-    end
-
-    buf_set_option("omnifunc", "v:lua.vim.lsp.omnifunc")
-
-    -- Mappings.
-    local opts = {noremap = true, silent = true}
-    buf_set_keymap("n", "gD", "<Cmd>lua vim.lsp.buf.declaration()<CR>", opts)
-    buf_set_keymap("n", "<leader>nd", "<Cmd>lua vim.lsp.buf.definition()<CR>", opts)
-    buf_set_keymap('n','<leader>ll', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
-    buf_set_keymap('n','<leader>lf', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
-    buf_set_keymap("n", "K", "<Cmd>lua vim.lsp.buf.hover()<CR>", opts)
-    buf_set_keymap("n", "<leader>ni", "<cmd>lua vim.lsp.buf.implementation()<CR>", opts)
-    -- buf_set_keymap("n", "<C-k>", "<cmd>lua vim.lsp.buf.signature_help()<CR>", opts)
-    -- buf_set_keymap("n", "<leader>wa", "<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>", opts)
-    -- buf_set_keymap("n", "<leader>wr", "<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>", opts)
-    -- buf_set_keymap("n", "<leader>wl", "<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>", opts)
-    buf_set_keymap("n", "<leader>nD", "<cmd>lua vim.lsp.buf.type_definition()<CR>", opts)
-    buf_set_keymap("n", "<leader>rr", "<cmd>lua vim.lsp.buf.rename()<CR>", opts)
-    -- telescope
-    buf_set_keymap("n", "<leader>nr", "<cmd>lua vim.lsp.buf.references()<CR>", opts)
-    -- buf_set_keymap("n", "<leader>e", "<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>", opts)
-    buf_set_keymap("n", "[d", "<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>", opts)
-    buf_set_keymap("n", "]d", "<cmd>lua vim.lsp.diagnostic.goto_next()<CR>", opts)
-    buf_set_keymap("n", "<leader>q", "<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>", opts)
-
-    -- Set some keybinds conditional on server capabilities
-
-    -- -- Set autocommands conditional on server_capabilities
-    -- if client.resolved_capabilities.document_highlight then
-    --     vim.api.nvim_exec(
-    --         [[
-    --   hi LspReferenceRead cterm=bold ctermbg=red guibg=Red
-    --   hi LspReferenceText cterm=bold ctermbg=red guibg=Red
-    --   hi LspReferenceWrite cterm=bold ctermbg=red guibg=Red
-    --   augroup lsp_document_highlight
-    --     autocmd! * <buffer>
-    --     autocmd CursorHold <buffer> lua vim.lsp.buf.document_highlight()
-    --     autocmd CursorMoved <buffer> lua vim.lsp.buf.clear_references()
-    --   augroup END
-    -- ]],
-    --         false
-    --     )
-    -- end
-    if client.resolved_capabilities.document_formatting then
-        vim.api.nvim_command [[augroup Format]]
-        vim.api.nvim_command [[autocmd! * <buffer>]]
-        vim.api.nvim_command [[autocmd BufWritePost <buffer> lua vim.lsp.buf.formatting()]]
-        vim.api.nvim_command [[augroup END]]
-    end
-
-end
-
-lspconfig.bashls.setup { on_attach = on_attach_general }
-lspconfig.cssls.setup { on_attach = on_attach_general }
-lspconfig.dockerls.setup { on_attach = on_attach_general }
-lspconfig.html.setup { on_attach = on_attach_general }
-lspconfig.intelephense.setup { on_attach = on_attach_general }
-lspconfig.jsonls.setup { on_attach = on_attach_general }
-lspconfig.solargraph.setup { on_attach = on_attach_general }
-lspconfig.svelte.setup { on_attach = on_attach_general }
-lspconfig.terraformls.setup { on_attach = on_attach_general , filetypes = {"terraform", "tf", "hcl"}}
-lspconfig.vimls.setup { on_attach = on_attach_general }
-lspconfig.yamlls.setup { on_attach = on_attach_general }
-lspconfig.tsserver.setup {
-    on_attach = function(client, bufnr)
-        if client.config.flags then
-            client.config.flags.allow_incremental_sync = true
-        end
-        client.resolved_capabilities.document_formatting = false
-        on_attach_general(client, bufnr)
-    end
-}
-lspconfig.efm.setup {
-    init_options = {documentFormatting = true},
-    settings = {
-        rootMarkers = {".git/"}
-    }
+require'lspconfig'.html.setup {
+  capabilities = capabilities,
 }
 
-lspconfig.gopls.setup {
-    on_attach= on_attach_general,
-    cmd = {"gopls", "serve"},
-    settings = {
-      gopls = {
-        analyses = {
-          unusedparams = true,
-          fieldalignment = true,
-          shadow = true
-        },
-        staticcheck = true,
-        gofumpt  = true,
-        usePlaceholders  = true,
-      },
+require('lspconfig').jsonls.setup {
+  settings = {
+    json = {
+      schemas = require('schemastore').json.schemas(),
     },
+  },
+  capabilities = nvimcmp
+}
+
+require'lspconfig'.dockerls.setup{
+  capabilities = nvimcmp
+}
+
+require'lspconfig'.gopls.setup{
+  capabilities = nvimcmp
+}
+
+require'lspconfig'.graphql.setup{
+  capabilities = nvimcmp
+}
+
+require'lspconfig'.intelephense.setup{
+  capabilities = nvimcmp
+}
+
+require'lspconfig'.terraformls.setup{
+  capabilities = nvimcmp
+}
+
+require'lspconfig'.tsserver.setup{
+  capabilities = nvimcmp
 }
 
 
+-- sumneko
 local system_name
 if vim.fn.has("mac") == 1 then
   system_name = "macOS"
@@ -131,6 +69,10 @@ end
 local sumneko_root_path = vim.fn.stdpath('cache')..'/lspconfig/sumneko_lua/lua-language-server'
 local sumneko_binary = sumneko_root_path.."/bin/"..system_name.."/lua-language-server"
 
+local runtime_path = vim.split(package.path, ';')
+table.insert(runtime_path, "lua/?.lua")
+table.insert(runtime_path, "lua/?/init.lua")
+
 require'lspconfig'.sumneko_lua.setup {
   cmd = {sumneko_binary, "-E", sumneko_root_path .. "/main.lua"};
   settings = {
@@ -139,7 +81,7 @@ require'lspconfig'.sumneko_lua.setup {
         -- Tell the language server which version of Lua you're using (most likely LuaJIT in the case of Neovim)
         version = 'LuaJIT',
         -- Setup your lua path
-        path = vim.split(package.path, ';'),
+        path = runtime_path,
       },
       diagnostics = {
         -- Get the language server to recognize the `vim` global
@@ -147,11 +89,89 @@ require'lspconfig'.sumneko_lua.setup {
       },
       workspace = {
         -- Make the server aware of Neovim runtime files
-        library = {
-          [vim.fn.expand('$VIMRUNTIME/lua')] = true,
-          [vim.fn.expand('$VIMRUNTIME/lua/vim/lsp')] = true,
-        },
+        library = vim.api.nvim_get_runtime_file("", true),
+      },
+      -- Do not send telemetry data containing a randomized but unique identifier
+      telemetry = {
+        enable = false,
       },
     },
   },
+  capabilities = nvimcmp
 }
+
+require "lsp_signature".setup()
+
+
+local opts =  {silent = true, noremap = true}
+vim.api.nvim_set_keymap("n", "<leader>xw", "<cmd>Trouble lsp_workspace_diagnostics<cr>", opts)
+vim.api.nvim_set_keymap("n", "<leader>xd", "<cmd>Trouble lsp_document_diagnostics<cr>", opts)
+vim.api.nvim_set_keymap("n", "<leader>xl", "<cmd>Trouble loclist<cr>", opts)
+vim.api.nvim_set_keymap("n", "<leader>xq", "<cmd>Trouble quickfix<cr>", opts)
+vim.api.nvim_set_keymap("n", "<leader>nr", "<cmd>Trouble lsp_references<cr>", opts)
+vim.api.nvim_set_keymap("n", "<leader>nd", "<cmd>Telescope lsp_definitions<cr>", opts)
+vim.api.nvim_set_keymap("n", "<leader>ni", "<cmd>Telescope lsp_implementations<cr>", opts)
+
+local map = vim.api.nvim_set_keymap
+map("n", "<leader>rr", "<cmd>Lspsaga rename<cr>", opts)
+map("n", "<leader>ll", "<cmd>Lspsaga code_action<cr>", opts)
+map("x", "<leader>ll", ":<c-u>Lspsaga range_code_action<cr>", opts)
+map("n", "K",  "<cmd>Lspsaga hover_doc<cr>", opts)
+-- map("n", "go", "<cmd>Lspsaga show_line_diagnostics<cr>", opts)
+map("n", "gj", "<cmd>Lspsaga diagnostic_jump_next<cr>", opts)
+map("n", "gk", "<cmd>Lspsaga diagnostic_jump_prev<cr>", opts)
+map("n", "<C-u>", "<cmd>lua require('lspsaga.action').smart_scroll_with_saga(-1)<cr>", opts)
+map("n", "<C-d>", "<cmd>lua require('lspsaga.action').smart_scroll_with_saga(1)<cr>", opts)
+
+
+local cmp = require'cmp'
+
+  cmp.setup({
+    snippet = {
+      -- REQUIRED - you must specify a snippet engine
+      expand = function(args)
+        vim.fn["vsnip#anonymous"](args.body) -- For `vsnip` users.
+        -- require('luasnip').lsp_expand(args.body) -- For `luasnip` users.
+        -- vim.fn["UltiSnips#Anon"](args.body) -- For `ultisnips` users.
+        -- require'snippy'.expand_snippet(args.body) -- For `snippy` users.
+      end,
+    },
+    mapping = {
+      ['<C-b>'] = cmp.mapping(cmp.mapping.scroll_docs(-4), { 'i', 'c' }),
+      ['<C-f>'] = cmp.mapping(cmp.mapping.scroll_docs(4), { 'i', 'c' }),
+      ['<C-Space>'] = cmp.mapping(cmp.mapping.complete(), { 'i', 'c' }),
+      ['<C-y>'] = cmp.config.disable, -- Specify `cmp.config.disable` if you want to remove the default `<C-y>` mapping.
+      ['<C-e>'] = cmp.mapping({
+        i = cmp.mapping.abort(),
+        c = cmp.mapping.close(),
+      }),
+      ['<CR>'] = cmp.mapping.confirm({ select = true }),
+    },
+    sources = cmp.config.sources({
+      { name = 'nvim_lsp' },
+      { name = 'vsnip' }, -- For vsnip users.
+      -- { name = 'luasnip' }, -- For luasnip users.
+      -- { name = 'ultisnips' }, -- For ultisnips users.
+      -- { name = 'snippy' }, -- For snippy users.
+    }, {
+      { name = 'buffer' },
+      { name = 'orgmode' }
+    })
+  })
+
+  -- Use buffer source for `/` (if you enabled `native_menu`, this won't work anymore).
+  cmp.setup.cmdline('/', {
+    sources = {
+      { name = 'buffer' }
+    }
+  })
+
+  -- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
+  cmp.setup.cmdline(':', {
+    sources = cmp.config.sources({
+      { name = 'path' }
+    }, {
+      { name = 'cmdline' }
+    })
+  })
+

@@ -42,7 +42,31 @@ require("packer").startup(
         use {"nvim-telescope/telescope-fzf-native.nvim", run = "make"}
 
         use "neovim/nvim-lspconfig"
+        use "alexaandru/nvim-lspupdate"
+        use {
+          "ray-x/lsp_signature.nvim",
+        }
+        use "tami5/lspsaga.nvim"
 
+use "b0o/schemastore.nvim"
+use {
+  "folke/trouble.nvim",
+  requires = "kyazdani42/nvim-web-devicons",
+  config = function()
+    require("trouble").setup {
+      -- your configuration comes here
+      -- or leave it empty to use the default settings
+      -- refer to the configuration section below
+    }
+  end
+}
+
+use 'hrsh7th/cmp-nvim-lsp'
+use 'hrsh7th/cmp-buffer'
+use 'hrsh7th/cmp-path'
+use 'hrsh7th/cmp-cmdline'
+use 'hrsh7th/nvim-cmp'
+-- use {'ray-x/navigator.lua', requires = {'ray-x/guihua.lua', run = 'cd lua/fzy && make'}}
         -- use {
         --     "ThePrimeagen/refactoring.nvim",
         --     requires = {
@@ -149,11 +173,6 @@ require("packer").startup(
         -- " For getting file icons in status-line, nerdtree etc. " Note: Make sure you
         -- have installed ttf-nerd-fonts-symbols, if you manjaro just run `pamac
         -- install ttf-nerd-fonts-symbols` use 'ryanoasis/vim-devicons'
-        -- use {
-        --     "kyazdani42/nvim-tree.lua",
-        --     -- requires = {"kyazdani42/nvim-web-devicons", opt = true},
-        --     cmd = {"NvimTreeToggle", "NvimTreeFindFile"}
-        -- }
 
         use {"hashivim/vim-terraform", ft = "tf"}
 
@@ -213,18 +232,6 @@ require("packer").startup(
         use "rhysd/vim-grammarous"
         use "simnalamburt/vim-mundo"
 
-        -- use "neovim/nvim-lspconfig"
-        -- use "nvim-lua/lsp-status.nvim"
-        -- use "mattn/vim-lsp-settings"
-        -- use "RishabhRD/popfix"
-        -- use "glepnir/lspsaga.nvim"
-        -- use "nvim-lua/completion-nvim"
-
-        -- use "steelsojka/completion-buffers"
-        -- use "albertoCaroM/completion-tmux"
-        -- use "nvim-treesitter/completion-treesitter"
-
-        -- use "hrsh7th/nvim-compe"
         use {
             "hrsh7th/vim-vsnip",
             requires = {

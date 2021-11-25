@@ -80,6 +80,8 @@ require "plugins/_context"
 require "plugins/_gitmessenger"
 require "plugins/_diffconflicts"
 require "plugins/_mergetool"
+require "plugins/_lspconfig"
+
 
 if vim.fn.exists("g:colors_name") == 0 then
     if U.load_bright_theme() then

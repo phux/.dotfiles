@@ -8,7 +8,8 @@ augroup golang
   au BufWritePost *.go silent! !eval '[ -f ".git/hooks/ctags" ] && .git/hooks/ctags go' &
   au BufWritePost *.go silent! !eval '[ -f "../.git/hooks/ctags" ] && ../.git/hooks/ctags go' &
   au BufNewFile,BufRead,BufEnter *.go set tags=.git/tags.go,../.git/tags.go
-  au BufWritePre *.go :silent call CocAction('runCommand', 'editor.action.organizeImport')
+
+  " au BufWritePre *.go :silent call CocAction('runCommand', 'editor.action.organizeImport')
 augroup end
 
 " let b:ale_linters = ['gobuild', 'golangci-lint']
