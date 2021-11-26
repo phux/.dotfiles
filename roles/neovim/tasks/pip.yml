@@ -1,8 +1,5 @@
 ---
 
-- name: pip2 | neovim
-  shell: "{{ ansible_env.HOME }}/.local/bin/pip install --user --upgrade neovim"
-
 - name: pip3 | neovim
   shell: >
-    {{ ansible_env.HOME }}/.local/bin/pip3 install --user --upgrade neovim
+    pip install --user --upgrade neovim

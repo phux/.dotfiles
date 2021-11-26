@@ -10,4 +10,4 @@
   file: state=absent path=/tmp/get-docker.sh
 
 - name: install docker-compose
-  shell: "{{ ansible_env.HOME }}/.local/bin/pip install --user --upgrade docker-compose"
+  shell: "pip install --user --upgrade docker-compose"

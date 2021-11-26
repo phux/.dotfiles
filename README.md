@@ -34,3 +34,7 @@ make provision
 - linking dotfiles
 - antibody (zsh)
 - php & golang linters
+
+
+## TODOs
+- go get -u github.com/high-moctane/nextword

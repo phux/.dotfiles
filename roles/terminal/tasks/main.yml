@@ -8,6 +8,9 @@
     - ncdu
     - htop
     - ranger
+    - libx11-dev
+    - libharfbuzz-dev
+    - libxft-dev
 
 - name: check to see if st fork is cloned
   command: "ls {{ ansible_env.HOME }}/tools/st"

@@ -10,6 +10,7 @@
   - include: ftplugin.yml
   - include: ctags.yml
   - include: linters.yml
+  - include: conf.yml
 
   - name: creating project file
     copy:
@@ -28,17 +29,6 @@
     state: link
   with_fileglob:
     - UltiSnips/*
-
-
-- name: install | go plugins
-  command: >
-    nvim
-    +GoInstallBinaries!
-    +GoDoctorInstall!
-    +UpdateRemotePlugins
-    +qall!
-    /tmp/needed_file.go
-    ignore_errors: true
 
 
 - name: installing sqlfmt

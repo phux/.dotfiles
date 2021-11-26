@@ -1,18 +1,5 @@
 ---
 
-# - name: neovim ppa
-#   become: yes
-#   apt_repository:
-#     repo: 'ppa:neovim-ppa/unstable'
-#     state: present
-#   when: ansible_service_mgr == 'apt'
-
-# - name: install neovim
-#   become: yes
-#   package:
-#     name: neovim
-#     state: "{{ neovim_install_state }}"
-
 - name: Check neovim_was_cloned
   ansible.builtin.stat:
     path: "{{ ansible_env.HOME }}/tools/neovim"
@@ -29,7 +16,6 @@
   package:
     name: luajit
     state: present
-
 
 - name: install & update neovim
   become: yes

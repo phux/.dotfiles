@@ -2,6 +2,7 @@
 - name: check to see if php is already installed
   command: dpkg-query -l php
   register: php_is_installed
+  ignore_errors: true
 
 - name: install php & packages
   apt:
@@ -24,7 +25,6 @@
       - php-imagick
       - php-memcached
       - php-redis
-      - php7.4-redis
       - php-xdebug
       - php-zip
       - php-ast

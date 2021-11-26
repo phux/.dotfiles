@@ -15,7 +15,7 @@ require("packer").startup(
         -- vim. This plugin restores them when using vim inside Tmux.
         use "tmux-plugins/vim-tmux-focus-events"
 
-        use {"neoclide/coc.nvim", branch = "master", run = "yarn install --frozen-lockfile"}
+        use {"neoclide/coc.nvim", branch = "release"}
         use "antoinemadec/coc-fzf"
         use "honza/vim-snippets"
         -- use {"rafcamlet/coc-nvim-lua", ft = "lua"}

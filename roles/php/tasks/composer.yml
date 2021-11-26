@@ -46,8 +46,6 @@
 
 - name: install deps
   block:
-    - name: require prestissimo to speedup global update
-      command: composer global require hirak/prestissimo
     - name: Install global composer packages
       command: composer global install
   when: composer_is_installed.stat.exists == False

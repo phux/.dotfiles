@@ -7,11 +7,6 @@
   with_items:
     - zsh
 
-- name: "Make ZSH default shell for user {{ ansible_env.USER }}"
-  user:
-    name: "{{ ansible_env.USER }}"
-    shell: /bin/zsh
-
 - name: copy global zshenv file
   become: yes
   copy:

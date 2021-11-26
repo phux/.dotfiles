@@ -1,6 +1,7 @@
 #!/bin/bash
 
-ACTIVESYNC=$(pacmd list-sinks | grep \* | awk '{print $3}')
+# ACTIVESYNC=$(pacmd list-sinks | grep \* | awk '{print $3}')
+ACTIVESYNC=3
 
 case "$1" in
     raise)

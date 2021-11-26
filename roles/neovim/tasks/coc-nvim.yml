@@ -26,4 +26,4 @@
     executable=/bin/zsh
 
 - name: install pyls
-  shell: "{{ ansible_env.HOME }}/.local/bin/pip install --user 'python-language-server[all]'"
+  shell: "pip install --user 'python-language-server[all]'"

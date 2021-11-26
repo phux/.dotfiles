@@ -27,15 +27,3 @@
       - keymap.json
   when: joplin_cli_installed.rc != 0
 
-- name: check to see if joplin GUI is already installed
-  stat:
-    path: ~/.local/bin/joplin-gui
-  register: joplin_gui_installed
-
-- block:
-  - name: installing joplin GUI
-    shell: >
-      source ~/.config/zsh/.zshrc &&
-      wget https://github.com/laurent22/joplin/releases/download/v{{ joplin_gui_version }}/Joplin-{{ joplin_gui_version }}-x86_64.AppImage -O ~/.local/bin/joplin-gui && chmod +x ~/.local/bin/joplin-gui
-      executable=/bin/zsh
-  when: joplin_gui_installed.stat.exists == false

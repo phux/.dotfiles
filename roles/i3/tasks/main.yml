@@ -19,6 +19,7 @@
     - i3
     - i3lock
     - i3status
+    - pavucontrol
 
   - name: Link i3 files
     file: src={{item}} dest={{ i3_config_dir }}/{{ item | basename }} state=link
@@ -49,14 +50,4 @@
   shell: >
     nix-env -iA nixpkgs.xidlehook
 
-- name: flux ppa
-  become: yes
-  apt_repository:
-    repo: 'ppa:nathan-renniewaldock/flux'
-    state: present
 
-- name: install flux
-  become: yes
-  package:
-    name: fluxgui
-    state: "latest"

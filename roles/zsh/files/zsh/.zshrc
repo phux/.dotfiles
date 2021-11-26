@@ -306,8 +306,7 @@ fi
 
 # Automate ssh-agent startup
 if [ -z "$SSH_AUTH_SOCK" ] ; then
- eval `ssh-agent -s`
- ssh-add
+ eval `ssh-agent -s` > /dev/null
 fi
 
 if [ -f ~/.secret_aliases ]; then
@@ -362,15 +361,14 @@ export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
 export JAVA_HOME="/usr/lib/jvm/java-11-openjdk-amd64"
 
 
-# The next line updates PATH for the Google Cloud SDK.
-if [ -f '$HOME/tools/google-cloud-sdk/path.zsh.inc' ]; then . '$HOME/tools/google-cloud-sdk/path.zsh.inc'; fi
-
-
 if test -f "$TERM_BRIGHT"; then
     export BAT_THEME="gruvbox-light"
 else
     export BAT_THEME="gruvbox-dark"
 fi
+
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '$HOME/google-cloud-sdk/path.zsh.inc' ]; then . '$HOME/google-cloud-sdk/path.zsh.inc'; fi
 
 export PATH="$HOME/.rbenv/versions/2.7.1/bin:$PATH"
 

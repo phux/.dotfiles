@@ -32,7 +32,7 @@
   become: yes
   ignore_errors: true
   shell: >
-    cd {{ ansible_env.HOME }}/tools/tmux && git pull && sh autogen.sh && ./configure && sudo make
+    cd {{ ansible_env.HOME }}/tools/tmux && git pull && sudo sh autogen.sh && sudo ./configure && sudo make
 
 - name: Link .tmux.conf
   file: >
@@ -77,3 +77,8 @@
     source ~/.config/zsh/.zshrc &&
     ~/.tmux/plugins/tpm/bin/update_plugins all
     executable=/bin/zsh
+
+- name: install tmuxinator
+  shell: >
+    gem install --user tmuxinator
+

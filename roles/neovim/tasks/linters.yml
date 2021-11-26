@@ -41,7 +41,7 @@
     executable=/bin/zsh
 
 - name: installing linters via pip
-  shell: "{{ ansible_env.HOME }}/.local/bin/pip install --user {{ item }}"
+  shell: "pip install --user {{ item }}"
   with_items:
     - pyflakes
     - proselint
