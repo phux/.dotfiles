@@ -54,11 +54,11 @@
 - name: install todotxt-machine
   shell: "pip install --user --upgrade todotxt-machine"
 
-- name: Link autorandr hooks
+- name: copy autorandr hooks
   file:
     src: "{{ item }}"
-    dest: "{{ config_dir }}/autorandr"
-    state: link
+    dest: "{{ config_dir }}/autorandr/{{ item | basename }}"
+    state: present
   with_fileglob:
   - autorandr/*
 

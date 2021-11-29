@@ -21,3 +21,5 @@ tmuxinator start dotfiles --no-attach &
 tmuxinator start todo --no-attach &
 
 blueman-applet &
+
+xinput --set-prop "TPPS/2 Elan TrackPoint" "libinput Accel Speed" 0

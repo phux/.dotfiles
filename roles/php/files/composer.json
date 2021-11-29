@@ -7,7 +7,6 @@
   },
   "minimum-stability": "dev",
   "require": {
-    "hirak/prestissimo": "dev-master",
     "phpstan/phpstan": "@stable",
     "phpmd/phpmd": "@stable",
     "squizlabs/php_codesniffer": "@stable",
