@@ -207,8 +207,8 @@ require("packer").startup(
         use "ActivityWatch/aw-watcher-vim"
         -- use "KevinBockelandt/notoire"
 
-        use "~/code/vim-marker"
-        use "~/code/notetaker.vim"
+        -- use "~/code/vim-marker"
+        -- use "~/code/notetaker.vim"
         use "mtth/scratch.vim"
         -- use "gcmt/wildfire.vim"
         use "rhysd/vim-grammarous"
@@ -264,7 +264,7 @@ require("packer").startup(
         -- }
 
         use {
-            "kristijanhusak/orgmode.nvim",
+            "nvim-orgmode/orgmode",
             -- ft = {"org"},
             config = function()
                 require("orgmode").setup {

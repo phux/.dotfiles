@@ -8,7 +8,7 @@ augroup golang
   au BufWritePost *.go silent! !eval '[ -f ".git/hooks/ctags" ] && .git/hooks/ctags go' &
   au BufWritePost *.go silent! !eval '[ -f "../.git/hooks/ctags" ] && ../.git/hooks/ctags go' &
   au BufNewFile,BufRead,BufEnter *.go set tags=.git/tags.go,../.git/tags.go
-  au BufWritePre *.go :silent call CocAction('runCommand', 'editor.action.organizeImport')
+  au BufWritePre *.go :silent call CocAction('runCommand', 'editor.action.organizeImport') | call CocAction('format')
 augroup end
 
 " let b:ale_linters = ['gobuild', 'golangci-lint']
@@ -18,7 +18,7 @@ let b:ale_linters = ['golangci-lint', 'gopls']
 let g:ale_go_golangci_lint_package=0
 let g:ale_go_staticcheck_lint_package=0
 let b:local_golangci_file = getcwd().'/.golangci.yml'
-let g:ale_go_golangci_lint_options = '--fix --fast --allow-parallel-runners --config '.b:local_golangci_file
+let g:ale_go_golangci_lint_options = '--fix --allow-parallel-runners --config '.b:local_golangci_file
 if !filereadable(b:local_golangci_file)
     echom 'local .golangci.yml not found'
   let g:ale_go_golangci_lint_options = '--fix --allow-parallel-runners --config ~/.golangci.yml'
