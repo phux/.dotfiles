@@ -30,7 +30,7 @@ vim.g.coc_global_extensions = {
     "coc-yank",
     "coc-tsserver",
     "coc-phpls",
-    "coc-nextword",
+    -- "coc-nextword",
     -- "coc-prettier",
     -- "coc-eslint",
     -- "coc-styled-components",

@@ -228,6 +228,7 @@ vim.api.nvim_set_keymap("c", "<c-p>", "<Up>", {noremap = true})
 vim.api.nvim_set_keymap("c", "<c-n>", "<Down>", {noremap = true})
 vim.api.nvim_set_keymap("c", "<M-b>", "<S-Left>", {noremap = true})
 vim.api.nvim_set_keymap("c", "<M-f>", "<S-Right>", {noremap = true})
+
 vim.api.nvim_set_keymap("c", "<M-a>", "<Home>", {noremap = true})
 
 vim.api.nvim_set_keymap("n", "<leader>bt", ":TagbarOpenAutoClose<cr>", {noremap = true})
@@ -349,3 +350,5 @@ let g:grammarous#disabled_rules = {}
 let g:grammarous#disabled_rules['*'] = ["DASH_RULE", "WHITESPACE_RULE", "EN_QUOTES", "COMMA_PARENTHESIS_WHITESPACE"]
 ]]
 )
+
+vim.api.nvim_set_keymap("n", "<M-f>", ":set ft=json | %!python -m json.tool<cr>", {noremap = true})

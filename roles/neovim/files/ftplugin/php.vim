@@ -3,16 +3,15 @@ augroup php
   au BufNewFile,BufRead *.phtml set ft=php.html
   " au BufNewFile,BufRead,BufWinEnter *Test.php exe ":UltiSnipsAddFiletypes php.phpunit"
   " au BufNewFile,BufRead,BufWinEnter *Spec.php exe ":UltiSnipsAddFiletypes php.php-phpspec"
-  au BufWritePost *.php silent! !eval '[ -f ".git/hooks/ctags" ] && .git/hooks/ctags php' &
-  au BufWritePost *.php silent! !eval '[ -f "../.git/hooks/ctags" ] && ../.git/hooks/ctags php' &
+  " au BufWritePost *.php silent! !eval '[ -f ".git/hooks/ctags" ] && .git/hooks/ctags php' &
+  " au BufWritePost *.php silent! !eval '[ -f "../.git/hooks/ctags" ] && ../.git/hooks/ctags php' &
   " au BufWritePost *.php silent! exe ":!phpcbf --standard=~/.phpcs.xml ".expand('%:f')."; php-cs-fixer --config=.php_cs fix ".expand('%:f') | :e
-  au BufWritePost *.php silent! exe "!php-cs-fixer --config=.php_cs fix ".expand('%:f') | :e
-  au BufNewFile,BufRead,BufEnter *.php set tags=.git/tags.php,../.git/tags.php
-  au BufNewFile,BufRead,BufEnter,BufWritePost *.php set autoindent
+  " au BufWritePost *.php silent! exe "!php-cs-fixer --config=.php_cs fix ".expand('%:f') | :e
+  " au BufNewFile,BufRead,BufEnter *.php set tags=.git/tags.php,../.git/tags.php
+  " au BufNewFile,BufRead,BufEnter,BufWritePost *.php set autoindent
 augroup END
 
-set smartindent
-set autoindent
+" set smartindent
 " let g:php_folding = 1
 " set foldmethod=syntax
 " set foldlevelstart=1
@@ -35,7 +34,7 @@ vnoremap <buffer> <leader>rem :<C-U>PhpactorExtractMethod<CR>
 " vnoremap <buffer> <leader>rec :call PhpExtractConst()<CR>
 " nnoremap <buffer> <leader>rr :<C-U>call phpactor#ContextMenu()<CR>
 nnoremap <buffer> <leader>rd :call UpdatePhpDocIfExists()<CR>
-nnoremap <buffer> <leader>rt :call phpactor#Transform()<CR>
+nnoremap <buffer> <leader>rt :PhpactorTransform<CR>
 nnoremap <buffer> <leader>rep :call PhpExtractClassProperty()<cr>
 nnoremap <buffer> <Leader>ref :PHPExpandFQCNAbsolute<cr>
 nnoremap <buffer> <leader>reu :call PhpExtractUse()<CR>
@@ -45,12 +44,13 @@ nnoremap <buffer> <leader>ru :PhpactorImportMissingClasses<cr>
 nnoremap <buffer> <leader>c :PhpactorContextMenu<cr>
 vnoremap <buffer> <leader>c :PhpactorContextMenu<cr>
 
-let b:ale_linters = ['php', 'phpstan']
+let b:ale_linters = ['phpstan']
+let b:ale_fixers = ['php_cs_fixer']
 let g:ale_php_phpstan_executable = 'vendor/bin/phpstan'
 let g:ale_php_cs_fixer_options = '--config=".php_cs"'
 let g:ale_php_cs_fixer_use_global = 0
 let g:ale_php_phpstan_configuration = 'phpstan.neon'
-let g:ale_php_phpstan_level = 'max'
+" let g:ale_php_phpstan_level = 'max'
 let g:ale_php_phpcbf_standard='~/.phpcs.xml'
 " let g:ale_php_phpcbf_standard='Symfony'
 let g:ale_php_phpcs_standard='~/.phpcs.xml'

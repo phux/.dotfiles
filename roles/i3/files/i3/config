@@ -144,7 +144,7 @@ bindsym $mod+6 workspace number 6
 bindsym $mod+7 workspace number 7
 bindsym $mod+8 workspace number 8; exec --no-startup-id [ $(ps h -C spotify | wc -l) = 0 ] && spotify
 bindsym $mod+9 workspace number 9; exec --no-startup-id [ $(ps h -C slack | wc -l) = 0 ] && slack
-bindsym $mod+0 workspace number 10; exec --no-startup-id [ $(ps h -C chrome | wc -l) = 0 ] && google-chrome
+bindsym $mod+0 workspace number 10; exec --no-startup-id [ $(ps h -C chrome | wc -l) = 0 ] && chromium-browser
 
 # bind workspace to display
 workspace 1 output HDMI-2

@@ -34,8 +34,8 @@ require("nvim-treesitter.configs").setup {
         enable = true, -- false will disable the whole extension
         -- disable = {"php"}, -- list of language that will be disabled
         use_languagetree = false,
-        additional_vim_regex_highlighting = true
-    }
+        additional_vim_regex_highlighting = false
+    },
     -- incremental_selection = { -- doesn't work yet
     --     enable = true,
     --     keymaps = {
@@ -45,19 +45,19 @@ require("nvim-treesitter.configs").setup {
     --         node_decremental = "grm"
     --     }
     -- },
-    -- indent = {
-    --     enable = true
-    -- }
+    indent = {
+        enable = true
+    }
 }
 -- vim.o.foldmethod = "expr"
 -- vim.cmd("set foldmethod=expr")
 -- vim.cmd("set foldexpr=nvim_treesitter#foldexpr()")
 
 require "treesitter-context".setup {
-    enable = true, -- Enable this plugin (Can be enabled/disabled later via commands)
+    enable = false, -- Enable this plugin (Can be enabled/disabled later via TSContextToggle)
     throttle = true, -- Throttles plugin updates (may improve performance)
     max_lines = 0, -- How many lines the window should span. Values <= 0 mean no limit.
-    patterns = {
+    -- patterns = {
         -- Match patterns for TS nodes. These get wrapped to match at word boundaries.
         -- For all filetypes
         -- Note that setting an entry here replaces all other patterns for this entry.
@@ -78,5 +78,5 @@ require "treesitter-context".setup {
         --   rust = {
         --       'impl_item',
         --   },
-    }
+    -- }
 }

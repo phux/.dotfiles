@@ -40,7 +40,7 @@ export VISUAL=$EDITOR
 [[ -s "$HOME/.gvm/scripts/gvm" ]] && source "$HOME/.gvm/scripts/gvm"
 export GOPATH="$HOME/code/go"
 export LGOBIN="$HOME/code/go/bin"
-export PATH=$PATH:$HOME/bin:$HOME/.local/bin:$HOME/.composer/vendor/bin:$FZF_BIN_PATH:$LGOBIN:$HOME/.config/composer/vendor/bin:$HOME/.config/nvim/plugged/phpactor/bin:$HOME/.gem/ruby/2.7.0/bin:$HOME/.gem/ruby/2.5.0/bin:$HOME/.cargo/bin/:$HOME/tools/git-fuzzy/bin
+export PATH=$PATH:$HOME/bin:$HOME/.local/bin:$HOME/.composer/vendor/bin:$FZF_BIN_PATH:$LGOBIN:$HOME/.config/composer/vendor/bin:$HOME/.config/nvim/plugged/phpactor/bin:$HOME/.gem/ruby/2.7.0/bin:$HOME/.gem/ruby/2.5.0/bin:$HOME/.cargo/bin/:$HOME/tools/git-fuzzy/bin:$HOME/google-cloud-sdk/bin
 
 HISTSIZE='100000';
 HISTFILESIZE="${HISTSIZE}";
@@ -130,25 +130,54 @@ alias gbd="git for-each-ref --sort=committerdate refs/heads/ --format='%(HEAD) %
 
 alias gst='git status'
 # alias gs='n +Gstatus'
-export GF_LOG_MENU_PARAMS='--pretty="%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset" --topo-order'
-export GF_PREFERRED_PAGER="delta --theme=gruvbox --highlight-removed -w __WIDTH__"
+# export GF_LOG_MENU_PARAMS='--pretty="%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset" --topo-order'
+# export GF_PREFERRED_PAGER="delta --theme=gruvbox --highlight-removed -w __WIDTH__"
 
-export GIT_FUZZY_STATUS_COMMIT_KEY="Alt-H"
-export GIT_FUZZY_STATUS_DISCARD_KEY="Alt-M"
-export GIT_FUZZY_BRANCH_CHECKOUT_KEY="Alt-H"
+# export GIT_FUZZY_STATUS_COMMIT_KEY="Alt-H"
+# export GIT_FUZZY_STATUS_DISCARD_KEY="Alt-M"
+# export GIT_FUZZY_BRANCH_CHECKOUT_KEY="Alt-H"
 # when diffing with branches or commits for preview
-export GF_DIFF_COMMIT_PREVIEW_DEFAULTS="--patch-with-stat"
+# export GF_DIFF_COMMIT_PREVIEW_DEFAULTS="--patch-with-stat"
 
 # when diffing with branches or commits for preview
-export GF_DIFF_COMMIT_RANGE_PREVIEW_DEFAULTS="--summary"
+# export GF_DIFF_COMMIT_RANGE_PREVIEW_DEFAULTS="--summary"
 
 # when diffing individual files
-export GF_DIFF_FILE_PREVIEW_DEFAULTS="--indent-heuristic"
+# export GF_DIFF_FILE_PREVIEW_DEFAULTS="--indent-heuristic"
 
 alias gs='git fuzzy status'
 alias gdt='n +"Git difftool -y"'
 alias glog='n +GV'
-alias b='git fuzzy branch'
+# alias b='git fuzzy branch'
+fzf-git-branch() {
+    git rev-parse HEAD > /dev/null 2>&1 || return
+
+    git branch --color=always --all --sort=-committerdate |
+        grep -v HEAD |
+        fzf --height 50% --ansi --no-multi --preview-window right:65% \
+            --preview 'git log -n 50 --color=always --date=short --pretty="format:%C(auto)%cd %h%d %s" $(sed "s/.* //" <<< {})' |
+        sed "s/.* //"
+}
+b() {
+    git rev-parse HEAD > /dev/null 2>&1 || return
+
+    local branch
+
+    branch=$(fzf-git-branch)
+    if [[ "$branch" = "" ]]; then
+        echo "No branch selected."
+        return
+    fi
+
+    # If branch name starts with 'remotes/' then it is a remote branch. By
+    # using --track and a remote branch name, it is the same as:
+    # git checkout -b branchName --track origin/branchName
+    if [[ "$branch" = 'remotes/'* ]]; then
+        git checkout --track $branch
+    else
+        git checkout $branch;
+    fi
+}
 alias gdh='n +"Git! difftool"'
 alias gmt='n +"Git mergetool"'
 alias gdm='n +"Gdiff $(git merge-base master HEAD)"'
