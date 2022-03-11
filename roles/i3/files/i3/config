@@ -145,6 +145,7 @@ bindsym $mod+7 workspace number 7
 bindsym $mod+8 workspace number 8; exec --no-startup-id [ $(ps h -C spotify | wc -l) = 0 ] && spotify
 bindsym $mod+9 workspace number 9; exec --no-startup-id [ $(ps h -C slack | wc -l) = 0 ] && slack
 bindsym $mod+0 workspace number 10; exec --no-startup-id [ $(ps h -C chrome | wc -l) = 0 ] && chromium-browser
+# bindsym $mod+0 workspace number 10; exec --no-startup-id [ $(ps aux | grep firefox | wc -l) = 1 ] && firefox
 
 # bind workspace to display
 workspace 1 output HDMI-2
@@ -189,7 +190,7 @@ bindsym $MOD+Shift+t exec --no-startup-id st -c "nvim_float" -g 120x40 ~/.dotfil
 bindsym $MOD+p exec --no-startup-id keepassxc
 bindsym $mod+Shift+p exec --no-startup-id sh ~/.config/i3/i3lock.sh
 # bindsym Print exec gnome-screenshot -i
-bindsym --release Print exec --no-startup-id sh ~/.dotfiles/roles/i3/files/i3/screenshot.sh
+bindsym --release $mod+s exec --no-startup-id sh ~/.dotfiles/roles/i3/files/i3/screenshot.sh
 
 bindsym $mod+Shift+a exec --no-startup-id autorandr -c
 

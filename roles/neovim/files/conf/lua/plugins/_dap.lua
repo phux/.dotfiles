@@ -14,7 +14,7 @@ require("nvim-dap-virtual-text").setup()
 
 vim.api.nvim_set_keymap("n", "<leader>ds", ":lua require'dap'.continue()require'dapui'.open()<cr>", {noremap = true})
 vim.api.nvim_set_keymap("n", "<leader>db", ":lua require'dap'.toggle_breakpoint()<cr>", {noremap = true})
-vim.api.nvim_set_keymap("n", "<leader>dc", ":lua require'dap'.run_to_cursor()<cr>", {noremap = true})
+-- vim.api.nvim_set_keymap("n", "<leader>dc", ":lua require'dap'.run_to_cursor()<cr>", {noremap = true})
 vim.api.nvim_set_keymap("n", "<leader>dt", ":lua require'dap'.terminate() require'dapui'.close()<cr>", {noremap = true})
 -- vim.api.nvim_set_keymap("n", "<leader>DB", ":lua require'dap'.toggle_breakpoint()<cr>", {noremap = true})
 vim.api.nvim_set_keymap("n", "<F9>", ":lua require'dap'.step_over()<cr>", {noremap = true})

@@ -3,8 +3,10 @@ setlocal shiftwidth=2
 setlocal softtabstop=2
 
 function! OrgmodeInsertTodo()
-    s/^\s\+\(.\+\)/\1/
+    s/^\s\+\(.\+\)/\1/e
     normal! 0i** TODO 
 endfunction
 
-inoremap <buffer> <m-i> <Esc>:call OrgmodeInsertTodo()<cr>
+inoremap <buffer> <c-b> <Esc>:call OrgmodeInsertTodo()<cr>
+
+

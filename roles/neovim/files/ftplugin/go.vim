@@ -12,13 +12,13 @@ augroup golang
 augroup end
 
 " let b:ale_linters = ['gobuild', 'golangci-lint']
-let b:ale_linters = ['golangci-lint', 'gopls']
+let b:ale_linters = ['golangci-lint']
 " let b:ale_linters = ['gopls']
 " let b:ale_linters = []
 let g:ale_go_golangci_lint_package=0
 let g:ale_go_staticcheck_lint_package=0
 let b:local_golangci_file = getcwd().'/.golangci.yml'
-let g:ale_go_golangci_lint_options = '--fix --allow-parallel-runners --config '.b:local_golangci_file
+let g:ale_go_golangci_lint_options = '--fix --fast --config '.b:local_golangci_file
 if !filereadable(b:local_golangci_file)
     echom 'local .golangci.yml not found'
   let g:ale_go_golangci_lint_options = '--fix --allow-parallel-runners --config ~/.golangci.yml'

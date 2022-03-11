@@ -66,7 +66,7 @@ require("packer").startup(
         use {
             "blackCauldron7/surround.nvim",
             config = function()
-                require"surround".setup {mappings_style = "surround"}
+                require "surround".setup {mappings_style = "surround"}
             end
         }
         -- Indentation tracking
@@ -80,11 +80,11 @@ require("packer").startup(
         use {"rhysd/git-messenger.vim"}
         use "tpope/vim-fugitive"
         use "tpope/vim-rhubarb"
-        use "samoshkin/vim-mergetool"
+        -- use "samoshkin/vim-mergetool"
         use {"sindrets/diffview.nvim"}
         use {"whiteinge/diffconflicts", cmd = "DiffConflicts"}
         -- use "christoomey/vim-conflicted"
-        use {"jreybert/vimagit", cmd = {"Magit", "MagitOnly"}}
+        -- use {"jreybert/vimagit", cmd = {"Magit", "MagitOnly"}}
         -- use "sodapopcan/vim-twiggy"
         use "airblade/vim-gitgutter"
         use {
@@ -119,12 +119,13 @@ require("packer").startup(
         -- use "tpope/vim-sleuth"
 
         use {"vim-test/vim-test", ft = {"go", "php"}}
+        -- use { "rcarriga/vim-ultest", requires = {"vim-test/vim-test"}, run = ":UpdateRemotePlugins" }
         use {"adoy/vim-php-refactoring-toolbox", ft = "php"}
         use {"phux/php-doc-modded", ft = "php"}
 
         use {
             "phpactor/phpactor",
-            run = " composer install --no-dev -o",
+            run = " composer install --no-dev -o"
         }
 
         use {"rcarriga/nvim-dap-ui", requires = {"mfussenegger/nvim-dap"}}
@@ -230,41 +231,12 @@ require("packer").startup(
         -- use "nvim-treesitter/completion-treesitter"
 
         -- use "hrsh7th/nvim-compe"
-        use {
-            "hrsh7th/vim-vsnip",
-            requires = {
-                "hrsh7th/vim-vsnip-integ",
-                "golang/vscode-go"
-            }
-        }
-
         -- use {
-        --     "vhyrro/neorg",
-        --     config = function()
-        --         require("neorg").setup {
-        --             -- Tell Neorg what modules to load
-        --             load = {
-        --                 ["core.defaults"] = {}, -- Load all the default modules
-        --                 ["core.keybinds"] = {
-        --                     -- Configure core.keybinds
-        --                     config = {
-        --                         default_keybinds = true, -- Generate the default keybinds
-        --                         neorg_leader = "<Leader>u" -- This is the default if unspecified
-        --                     }
-        --                 },
-        --                 ["core.norg.concealer"] = {}, -- Allows for use of icons
-        --                 ["core.norg.dirman"] = {
-        --                     -- Manage your directories with Neorg
-        --                     config = {
-        --                         workspaces = {
-        --                             my_workspace = "~/neorg"
-        --                         }
-        --                     }
-        --                 }
-        --             }
-        --         }
-        --     end,
-        --     requires = "nvim-lua/plenary.nvim"
+        --     "hrsh7th/vim-vsnip",
+        --     requires = {
+        --         "hrsh7th/vim-vsnip-integ",
+        --         "golang/vscode-go"
+        --     }
         -- }
 
         use {
@@ -274,6 +246,7 @@ require("packer").startup(
                 require("orgmode").setup {
                     org_agenda_files = {"~/Dropbox/org/*"},
                     org_default_notes_file = "~/Dropbox/org/refile.org",
+                    diagnostics = false,
                     org_agenda_skip_scheduled_if_done = true,
                     org_agenda_skip_deadline_if_done = true,
                     org_hide_leading_stars = true,
@@ -285,7 +258,8 @@ require("packer").startup(
                         capture = {
                             org_set_tags_command = {"gA"}
                         }
-                    }
+                    },
+                    org_agenda_templates = {t = {description = "Task", template = "* TODO %?\n SCHEDULED: %t\n %u"}}
                 }
             end,
             requires = {
@@ -295,22 +269,6 @@ require("packer").startup(
         use "kevinhwang91/rnvimr"
     end
 )
-
--- use {
---     "ibhagwan/fzf-lua",
---     requires = {
---         "vijaymarupudi/nvim-fzf",
---         "kyazdani42/nvim-web-devicons"
---     } -- optional for icons
--- }
--- use {"camspiers/snap", rocks = {"fzy"}}
--- local snap = require "snap"
--- snap.maps {
---     {"<Leader>ff", snap.config.file {producer = "ripgrep.file"}},
---     {"<Leader>fb", snap.config.file {producer = "vim.buffer"}},
---     {"<Leader>fo", snap.config.file {producer = "vim.oldfile"}}
---     -- {"<Leader>ff", snap.config.vimgrep {}}
--- }
 
 local autocmds = {
     plugins = {

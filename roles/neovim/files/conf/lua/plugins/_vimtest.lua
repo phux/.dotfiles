@@ -20,10 +20,11 @@ function _G.TestWithSmartRunner(cmd)
     end
     if file_found == nil then
         print("docker-compose not found")
-        vim.cmd("let test#custom_runners = {}")
     else
         print("docker-compose found")
-        vim.cmd("let test#custom_runners = {'go': ['Dockercomposego'], 'php': ['Customphpunit'] }")
+        -- vim.cmd("let test#custom_runners = {'go': ['Dockercomposego'], 'php': ['Customphpunit'] }")
+        vim.cmd("let test#go#gotest#executable = 'docker-compose exec -T publicbox go test'")
+        vim.cmd("let test#php#phpunit#executable = 'docker-compose exec -e REDIS_HOST=\"\" -e TEST_TOKEN=\"\" -e SKIP_DB_RESET=true symfony ./vendor/bin/paratest'")
     end
     vim.cmd(":" .. cmd)
 end
