@@ -1,8 +1,12 @@
 ---
 - hosts: localhost
   roles:
+    - pkg_manager
+    - zsh
     - common
     - font
+    - terminal
+    - urxvt
     - go
     - i3
     - joplin
@@ -10,11 +14,7 @@
     - mysql
     - neovim
     - php
-    - pkg_manager
     - rg
-    - terminal
     - tmux
-    - urxvt
-    - zsh
     - pandoc
     - todotxt

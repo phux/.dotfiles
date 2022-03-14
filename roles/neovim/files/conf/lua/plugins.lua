@@ -62,13 +62,13 @@ require("packer").startup(
         }
         use "w0rp/ale"
         -- Wrapping/delimiters
-        -- use {"machakann/vim-sandwich", {"andymass/vim-matchup", event = "VimEnter *"}}
-        use {
-            "blackCauldron7/surround.nvim",
-            config = function()
-                require "surround".setup {mappings_style = "surround"}
-            end
-        }
+        use {"machakann/vim-sandwich", {"andymass/vim-matchup", event = "VimEnter *"}}
+        -- use {
+        --     "blackCauldron7/surround.nvim",
+        --     config = function()
+        --         require "surround".setup {mappings_style = "surround"}
+        --     end
+        -- }
         -- Indentation tracking
         use "yggdroot/indentLine"
 
@@ -87,12 +87,12 @@ require("packer").startup(
         -- use {"jreybert/vimagit", cmd = {"Magit", "MagitOnly"}}
         -- use "sodapopcan/vim-twiggy"
         use "airblade/vim-gitgutter"
-        use {
-            "pwntester/octo.nvim",
-            config = function()
-                require "octo".setup()
-            end
-        }
+        -- use {
+        --     "pwntester/octo.nvim",
+        --     config = function()
+        --         require "octo".setup()
+        --     end
+        -- }
         -- use {
         --     "lewis6991/gitsigns.nvim",
         --     requires = {
@@ -103,7 +103,7 @@ require("packer").startup(
         --     end
         -- }
 
-        use {"AndrewRadev/splitjoin.vim", cmd = "SplitjoinSplit"}
+        use {"AndrewRadev/splitjoin.vim"}
 
         use {"nvim-treesitter/nvim-treesitter", run = ":TSUpdate"}
         use {"romgrk/nvim-treesitter-context"}
@@ -196,7 +196,8 @@ require("packer").startup(
         use {"phux/vim-hardtime"}
         use {"brooth/far.vim", cmd = "Far"}
 
-        use {"iamcco/markdown-preview.nvim", ft = {"markdown", "vimwiki"}, run = "cd app & npm install"}
+        -- use {"iamcco/markdown-preview.nvim", ft = {"markdown", "vimwiki"}, run = "cd app & npm install"}
+        use {"davidgranstrom/nvim-markdown-preview", ft = {"markdown", "vimwiki"}}
         use {"SidOfc/mkdx", ft = "markdown"}
 
         use {"junegunn/goyo.vim", ft = {"markdown", "vimwiki"}}

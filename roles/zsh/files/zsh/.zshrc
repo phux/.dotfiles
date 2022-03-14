@@ -107,7 +107,7 @@ alias tfw='terraform workspace'
 alias ob='observr observer.rb'
 
 # alias ls=""
-# alias l='ls -lFh'     #size,show type,human readable
+# alias l='ls -lFh'     #size,show type,human readable # covered by exa
 alias la='ls --all'   #long list,show almost all,show type,human readable
 alias ll='ls -l'      #long list
 
@@ -413,5 +413,5 @@ eval "$(sheldon source)"
 [[ ! -f ~/.config/zsh/.p10k.zsh ]] || source ~/.config/zsh/.p10k.zsh
 
 bindkey '^e' end-of-line
-
+source ~/.nix-profile/etc/profile.d/nix.sh
 # zprof | head -n 30

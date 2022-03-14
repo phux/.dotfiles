@@ -54,6 +54,7 @@
 - name: install todotxt-machine
   shell: "pip install --user --upgrade todotxt-machine"
 
+# todo: create dir
 - name: copy autorandr hooks
   copy:
     src: "{{ item }}"

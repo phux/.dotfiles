@@ -1,13 +1,10 @@
 ---
 
 - name: download get-docker.sh
-  get_url: url=https://get.docker.com  dest=/tmp/get-docker.sh
-
-- name: install docker
-  command: "sh /tmp/get-docker.sh"
-
-- name: delete get-docker.sh
-  file: state=absent path=/tmp/get-docker.sh
+  apt:
+    state: latest
+    pkg:
+      - docker.io
 
 - name: install docker-compose
   shell: "pip install --user --upgrade docker-compose"

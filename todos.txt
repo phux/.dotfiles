@@ -1,0 +1,2 @@
+install nix-env
+create sheldon config dir
