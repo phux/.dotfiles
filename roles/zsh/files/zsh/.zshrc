@@ -40,7 +40,7 @@ export VISUAL=$EDITOR
 [[ -s "$HOME/.gvm/scripts/gvm" ]] && source "$HOME/.gvm/scripts/gvm"
 export GOPATH="$HOME/code/go"
 export LGOBIN="$HOME/code/go/bin"
-export PATH=$PATH:$HOME/bin:$HOME/.local/bin:$HOME/.composer/vendor/bin:$FZF_BIN_PATH:$LGOBIN:$HOME/.config/composer/vendor/bin:$HOME/.config/nvim/plugged/phpactor/bin:$HOME/.gem/ruby/2.7.0/bin:$HOME/.gem/ruby/2.5.0/bin:$HOME/.cargo/bin/:$HOME/tools/git-fuzzy/bin:$HOME/google-cloud-sdk/bin
+export PATH=$PATH:$HOME/bin:$HOME/.local/bin:$HOME/.composer/vendor/bin:$FZF_BIN_PATH:$LGOBIN:$HOME/.config/composer/vendor/bin:$HOME/.config/nvim/plugged/phpactor/bin:$HOME/.cargo/bin/:$HOME/google-cloud-sdk/bin
 
 HISTSIZE='100000';
 HISTFILESIZE="${HISTSIZE}";
@@ -85,7 +85,7 @@ alias update_antibody="antibody bundle < $XDG_CONFIG_HOME/zsh/antibody_plugins.t
 
 alias sdn='sudo shutdown now -h'
 alias update="sudo apt update && sudo apt upgrade -y && .d && git pull && make provision;sheldon lock --update;nvim +PackerUpdate +PackerCompile"
-alias agi='sudo apt-fast install'
+alias agi='sudo apt install'
 
 alias vu='vagrant up'
 alias vs='vagrant ssh'
@@ -104,7 +104,7 @@ alias dclf='docker-compose logs -f'
 # alias tf='terraform'
 alias tfw='terraform workspace'
 
-alias ob='observr observer.rb'
+alias ob='observr observr.rb'
 
 # alias ls=""
 # alias l='ls -lFh'     #size,show type,human readable # covered by exa
@@ -133,22 +133,8 @@ alias gst='git status'
 # export GF_LOG_MENU_PARAMS='--pretty="%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset" --topo-order'
 # export GF_PREFERRED_PAGER="delta --theme=gruvbox --highlight-removed -w __WIDTH__"
 
-# export GIT_FUZZY_STATUS_COMMIT_KEY="Alt-H"
-# export GIT_FUZZY_STATUS_DISCARD_KEY="Alt-M"
-# export GIT_FUZZY_BRANCH_CHECKOUT_KEY="Alt-H"
-# when diffing with branches or commits for preview
-# export GF_DIFF_COMMIT_PREVIEW_DEFAULTS="--patch-with-stat"
-
-# when diffing with branches or commits for preview
-# export GF_DIFF_COMMIT_RANGE_PREVIEW_DEFAULTS="--summary"
-
-# when diffing individual files
-# export GF_DIFF_FILE_PREVIEW_DEFAULTS="--indent-heuristic"
-
-alias gs='git fuzzy status'
 alias gdt='n +"Git difftool -y"'
 alias glog='n +GV'
-# alias b='git fuzzy branch'
 fzf-git-branch() {
     git rev-parse HEAD > /dev/null 2>&1 || return
 
@@ -296,7 +282,7 @@ alias tt='todotxt-machine'
 alias tnn='n ~/Dropbox/todo/work/todo.txt'
 alias tn='n ~/Dropbox/todo/todo.txt'
 # alias nn='n +RecentNotes'
-# alias ni='cd ~/Dropbox/1vimwiki && n +VimwikiIndex +ZettelOpen'
+alias ni='cd ~/Dropbox/1vimwiki && n +VimwikiIndex +ZettelOpen'
 # alias nn='cd ~/Dropbox/1vimwiki && n +VimwikiIndex'
 alias cm='cd ~/Dropbox/1vimwiki/notes/meetings/ && n +CreateMeetingNote'
 alias no='cd ~/Dropbox/1vimwiki/notes/ && n $(date "+%Y-%m-%d").md'
@@ -415,3 +401,5 @@ eval "$(sheldon source)"
 bindkey '^e' end-of-line
 source ~/.nix-profile/etc/profile.d/nix.sh
 # zprof | head -n 30
+#
+eval "$(~/.rbenv/bin/rbenv init -)"

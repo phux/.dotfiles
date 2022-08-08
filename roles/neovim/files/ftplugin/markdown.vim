@@ -3,10 +3,24 @@
 augroup markdown
   au BufWritePost *.md silent! !eval '[ -f ".git/hooks/ctags" ] && .git/hooks/ctags markdown' &
   au BufNewFile,BufRead,BufEnter *.markdown set tags=.git/tags.markdown
+  " au InsertLeave *md TableModeRealign
 augroup end
 
 " better wordwrapping with mkdx
 setlocal iskeyword+=-
+
+inoremap <silent> <Bar>   <Bar><Esc>:call <SID>align()<CR>a
+
+function! s:align()
+  let p = '^\s*|\s.*\s|\s*$'
+  if exists(':Tabularize') && getline('.') =~# '^\s*|' && (getline(line('.')-1) =~# p || getline(line('.')+1) =~# p)
+    let column = strlen(substitute(getline('.')[0:col('.')],'[^|]','','g'))
+    let position = strlen(matchstr(getline('.')[0:col('.')],'.*|\s*\zs.*'))
+    Tabularize/|/l1
+    normal! 0
+    call search(repeat('[^|]*|',column).'\s\{-\}'.repeat('.',position),'ce',line('.'))
+  endif
+endfunction
 
 nmap <buffer> <cr> <Plug>VimwikiFollowLink
 vmap <buffer> <cr> <Plug>VimwikiNormalizeLinkVisualCR
@@ -51,7 +65,7 @@ setlocal wrap
 
 nnoremap <silent><buffer> <f12> :silent update<Bar>silent MarkdownPreview<CR>
 nnoremap <silent><buffer> <f11> :MarkdownPreviewStop<cr>
-nnoremap <silent><buffer> <leader><enter> :silent update<Bar>silent MarkdownPreview<CR>
+nnoremap <silent><buffer> <leader><enter> :silent update<Bar>MarkdownPreviewToggle<CR>
 
 " convert url to markdown link
 " usage: just paste the raw url, :call UrlToMarkdownLink()<cr>
@@ -170,3 +184,5 @@ nnoremap <leader>tuc :call TodoTxtCreateOutlineFromDoc()<cr>
 nnoremap <leader>tua :call TodoTxtAddCurrentLineToOutline()<cr>
 nnoremap <leader>ta :call TodoTxtAddCurrentLine()<cr>
 " nnoremap <leader>oo :FZF ~/Dropbox/todo/work/<cr>
+" vim table mode
+let g:table_mode_corner='|'

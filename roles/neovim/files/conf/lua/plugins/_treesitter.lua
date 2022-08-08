@@ -3,7 +3,7 @@
 require("orgmode").setup_ts_grammar()
 
 require("nvim-treesitter.configs").setup {
-    ensure_installed = "maintained", -- one of "all", "maintained" (parsers with maintainers), or a list of languages
+    ensure_installed = "all", -- one of "all", "maintained" (parsers with maintainers), or a list of languages
     highlight = {
         enable = true, -- false will disable the whole extension
         disable = {"org"}, -- list of language that will be disabled
@@ -30,7 +30,7 @@ require("nvim-treesitter.configs").setup {
 require "treesitter-context".setup {
     enable = true, -- Enable this plugin (Can be enabled/disabled later via TSContextToggle)
     throttle = true, -- Throttles plugin updates (may improve performance)
-    max_lines = 0 -- How many lines the window should span. Values <= 0 mean no limit.
+    max_lines = 0, -- How many lines the window should span. Values <= 0 mean no limit.
     -- patterns = {
     -- Match patterns for TS nodes. These get wrapped to match at word boundaries.
     -- For all filetypes
@@ -53,4 +53,5 @@ require "treesitter-context".setup {
     --       'impl_item',
     --   },
     -- }
+    mode = "topline" -- Line used to calculate context. Choices: 'cursor', 'topline'
 }

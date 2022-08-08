@@ -63,15 +63,15 @@ end
 api.nvim_set_keymap(
     "i",
     "<TAB>",
-    'pumvisible() ? "<C-N>" : v:lua.check_back_space() ? "<TAB>" : coc#refresh()',
+    'coc#pum#visible() ? coc#pum#next(1) : v:lua.check_back_space() ? "<TAB>" : coc#refresh()',
     {expr = true}
 )
-api.nvim_set_keymap("i", "<S-TAB>", 'pumvisible() ? "<C-P>" : "<C-H>"', {expr = true})
+api.nvim_set_keymap("i", "<S-TAB>", 'coc#pum#visible() ? coc#pum#prev(1)  : "<C-H>"', {expr = true})
 -- api.nvim_set_keymap("i", "<cr>", 'pumvisible() ? coc#_select_confirm() : "<CR>"', {expr = true})
-api.nvim_set_keymap("i", "<cr>", 'pumvisible() ? "<c-y>" : "<CR>"', {expr = true})
+api.nvim_set_keymap("i", "<cr>", 'coc#pum#visible() ? coc#pum#confirm() : "<C-g>u<CR><c-r>=coc#on_enter()<CR>"', {expr = true})
 
-api.nvim_set_keymap("n", "<leader>lf", ":CocAction<cr>", {noremap = true})
-api.nvim_set_keymap("v", "<leader>lf", ":CocAction<cr>", {noremap = true})
+api.nvim_set_keymap("n", "<leader>lf", "<Plug>(coc-codeaction-cursor)", {noremap = true})
+api.nvim_set_keymap("v", "<leader>lf", "<plug>(coc-codeaction-selected)", {noremap = true})
 api.nvim_set_keymap("n", "<leader>ll", "<Plug>(coc-codelens-action)", {noremap = false})
 U.map("n", "<leader>qf", "<Plug>(coc-fix-current)", {noremap = false})
 U.map("n", "<leader>rr", "<Plug>(coc-rename)", {noremap = false})
@@ -82,6 +82,7 @@ U.map("n", "<leader>ni", "<Plug>(coc-implementation)", {noremap = false})
 U.map("n", "<leader>nr", "<Plug>(coc-references)", {noremap = false}) -- replaced with telescope
 api.nvim_set_keymap("n", "<leader>os", ":CocList symbols<cr>", {noremap = true})
 
+api.nvim_set_keymap("n", "<leader>lh", ":call CocAction('showIncomingCalls')<cr>", {noremap = false})
 U.map("n", "[g", "<Plug>(coc-diagnostic-prev)", {noremap = false})
 U.map("n", "]g", "<Plug>(coc-diagnostic-next)", {noremap = false})
 

@@ -47,8 +47,9 @@ endif
 " nnoremap <buffer> <silent> <leader>rr :call LanguageClient#textDocument_rename()<CR>
 " nnoremap <buffer> <silent> <leader>nr :call LanguageClient#textDocument_references()<cr>
 " nnoremap <buffer> <silent> <leader>lf :call LanguageClient#textDocument_codeAction()<cr>
-vnoremap <buffer> <leader>rem :CocAction<cr>
-vnoremap <buffer> <leader>rev :call GoExtractVariable()<cr>
+vnoremap <buffer> <leader>rem <plug>(coc-codeaction-selected)
+
+" vnoremap <buffer> <leader>rev :call GoExtractVariable()<cr>
 nnoremap <buffer> <leader>rm :call GoMove()<cr>
 noremap <buffer> <leader>rd :Refactor godoc<cr>
 :nnoremap <buffer> <leader>oj :CocCommand go.tags.add json

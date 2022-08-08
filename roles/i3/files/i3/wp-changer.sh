@@ -4,4 +4,4 @@
 #   sleep 10
 # done
 
- feh --bg-max ~/Pictures/wp/software_development_happiness.jpg
+feh --bg-max ~/Pictures/1440.png

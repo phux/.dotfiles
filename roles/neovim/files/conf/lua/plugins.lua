@@ -28,7 +28,7 @@ require("packer").startup(
         -- use {"lotabout/skim", run = "./install"}
         -- use "lotabout/skim.vim"
 
-        use {"majutsushi/tagbar", cmd = "TagbarOpenAutoClose"}
+        use {"majutsushi/tagbar", cmd = "TagbarToggle"}
 
         -- " For various text objects
         use "wellle/targets.vim"
@@ -41,17 +41,31 @@ require("packer").startup(
                 "nvim-lua/plenary.nvim"
             }
         }
-        use {"nvim-telescope/telescope-fzf-native.nvim", run = "make"}
+        use {"nvim-telescope/telescope-fzf-native.nvim", run = "make clean && make"}
         use {"fannheyward/telescope-coc.nvim"}
 
-        -- use {
-        --     "ThePrimeagen/refactoring.nvim",
-        --     requires = {
-        --         {"nvim-lua/plenary.nvim"},
-        --         {"nvim-treesitter/nvim-treesitter"},
-        --         {"nvim-lua/telescope.nvim"}
-        --     }
-        -- }
+        use {
+            "ThePrimeagen/refactoring.nvim",
+            requires = {
+                {"nvim-lua/plenary.nvim"},
+                {"nvim-treesitter/nvim-treesitter"},
+                {"nvim-lua/telescope.nvim"}
+            },
+            config = function()
+                require("refactoring").setup(
+                    {
+                        -- prompt for return type
+                        prompt_func_return_type = {
+                            go = true
+                        },
+                        -- prompt for function parameters
+                        prompt_func_param_type = {
+                            go = true
+                        }
+                    }
+                )
+            end
+        }
 
         -- " For showing the actual color of the hex value
         use {
@@ -71,6 +85,7 @@ require("packer").startup(
         -- }
         -- Indentation tracking
         use "yggdroot/indentLine"
+        use {"godlygeek/tabular"}
 
         use "zhaocai/GoldenView.Vim"
         use "talek/obvious-resize"
@@ -87,12 +102,17 @@ require("packer").startup(
         -- use {"jreybert/vimagit", cmd = {"Magit", "MagitOnly"}}
         -- use "sodapopcan/vim-twiggy"
         use "airblade/vim-gitgutter"
-        -- use {
-        --     "pwntester/octo.nvim",
-        --     config = function()
-        --         require "octo".setup()
-        --     end
-        -- }
+        use {
+          'pwntester/octo.nvim',
+          requires = {
+            'nvim-lua/plenary.nvim',
+            'nvim-telescope/telescope.nvim',
+            'kyazdani42/nvim-web-devicons',
+          },
+          config = function ()
+            require"octo".setup()
+          end
+        }
         -- use {
         --     "lewis6991/gitsigns.nvim",
         --     requires = {
@@ -106,7 +126,7 @@ require("packer").startup(
         use {"AndrewRadev/splitjoin.vim"}
 
         use {"nvim-treesitter/nvim-treesitter", run = ":TSUpdate"}
-        use {"romgrk/nvim-treesitter-context"}
+        use {"nvim-treesitter/nvim-treesitter-context"}
 
         use {"lifepillar/vim-gruvbox8"}
         -- use {"sainnhe/gruvbox-material"}
@@ -139,12 +159,20 @@ require("packer").startup(
 
         -- use "ap/vim-buftabline"
         use {
-            "akinsho/nvim-bufferline.lua",
+            "akinsho/bufferline.nvim",
+            tag = "v2.*",
             requires = "kyazdani42/nvim-web-devicons",
             config = function()
                 require "bufferline".setup()
             end
         }
+        -- use {
+        --     "akinsho/bufferline.nvim",
+        --     requires = "kyazdani42/nvim-web-devicons",
+        --     config = function()
+        --         require "bufferline".setup()
+        --     end
+        -- }
         use "Shougo/echodoc.vim"
 
         -- use "cohama/lexima.vim"
@@ -197,8 +225,21 @@ require("packer").startup(
         use {"brooth/far.vim", cmd = "Far"}
 
         -- use {"iamcco/markdown-preview.nvim", ft = {"markdown", "vimwiki"}, run = "cd app & npm install"}
-        use {"davidgranstrom/nvim-markdown-preview", ft = {"markdown", "vimwiki"}}
-        use {"SidOfc/mkdx", ft = "markdown"}
+        -- use {"davidgranstrom/nvim-markdown-preview", ft = {"markdown", "vimwiki"}}
+
+        -- mermaid support
+        use { 'zhaozg/vim-diagram' }
+        use(
+            {
+                "iamcco/markdown-preview.nvim",
+                run = "cd app && npm install",
+                setup = function()
+                    vim.g.mkdp_filetypes = {"markdown"}
+                end,
+                ft = {"markdown", "vimwiki"}
+            }
+        )
+        use {"SidOfc/mkdx", ft = {"markdown", "vimwiki"}}
 
         use {"junegunn/goyo.vim", ft = {"markdown", "vimwiki"}}
         use {"junegunn/limelight.vim", ft = {"markdown", "vimwiki"}}
@@ -214,6 +255,7 @@ require("packer").startup(
         -- use "KevinBockelandt/notoire"
 
         -- use "~/code/vim-marker"
+        use {"phux/vim-marker"}
         -- use "~/code/notetaker.vim"
         use "mtth/scratch.vim"
         -- use "gcmt/wildfire.vim"
@@ -264,7 +306,8 @@ require("packer").startup(
                 }
             end,
             requires = {
-                "akinsho/org-bullets.nvim"
+                "akinsho/org-bullets.nvim",
+                "dhruvasagar/vim-table-mode"
             }
         }
         use "kevinhwang91/rnvimr"

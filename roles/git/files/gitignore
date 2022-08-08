@@ -25,3 +25,4 @@ observer.rb
 *.coverprofile
 .graphqlrc.json
 .eslintcache
+.phpactor.json

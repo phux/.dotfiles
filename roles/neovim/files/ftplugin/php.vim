@@ -28,7 +28,7 @@ setlocal softtabstop=2
 nnoremap <buffer> <leader>nn :call phpactor#Navigate()<cr>
 nnoremap <buffer> <leader>na :call SymfonySwitchToAlternateFile()<cr>
 nnoremap <buffer> <leader>rm :PhpactorMoveFile<cr>
-vnoremap <buffer> <silent><leader>rev :<C-U>PhpactorExtractExpression<CR>
+" vnoremap <buffer> <silent><leader>rev :<C-U>PhpactorExtractExpression<CR>
 nnoremap <buffer> <silent><leader>rev :PhpactorExtractExpression<CR>
 vnoremap <buffer> <leader>rem :<C-U>PhpactorExtractMethod<CR>
 " vnoremap <buffer> <leader>rec :call PhpExtractConst()<CR>

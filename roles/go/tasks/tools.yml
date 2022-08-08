@@ -3,22 +3,22 @@
 - name: install benchstat
   shell: >
     source ~/.config/zsh/.zshrc &&
-    go get -u golang.org/x/perf/cmd/benchstat executable=/bin/zsh
+    go install golang.org/x/perf/cmd/benchstat@latest executable=/bin/zsh
 
 - name: install iferr
   shell: >
     source ~/.config/zsh/.zshrc &&
-    go get -u github.com/koron/iferr executable=/bin/zsh
+    go install github.com/koron/iferr@latest executable=/bin/zsh
 
 - name: install impl
   shell: >
     source ~/.config/zsh/.zshrc &&
-    go get -u github.com/josharian/impl executable=/bin/zsh
+    go install github.com/josharian/impl@latest executable=/bin/zsh
 
 - name: install gofumpt
   shell: >
     source ~/.config/zsh/.zshrc &&
-    go get -u mvdan.cc/gofumpt executable=/bin/zsh
+    go install mvdan.cc/gofumpt@latest executable=/bin/zsh
 
 - name: install delve
   shell: >

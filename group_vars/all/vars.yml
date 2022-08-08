@@ -2,14 +2,14 @@ default_xdg_config_home: "{{ ansible_user_dir }}/.config"
 
 config_dir: "{{ ansible_env.XDG_CONFIG_HOME | default(default_xdg_config_home) }}"
 
-node_version: v16.14.2
+node_version: v18.7.0
 activitywatch_version: v0.11.0
 firacode_version: 5.2
-go_version: go1.17
-go_mockery_version: 2.4.0
-go_golangcilint_version: 1.43.0
+go_version: go1.19
+go_mockery_version: 2.14.0
+go_golangcilint_version: 1.48.0
 joplin_gui_version: v2.4.8
 ruby_version: 2.7.1
-rbenv_version: v1.1.2
-bat_version: 0.18.3
+rbenv_version: v1.2.0
+bat_version: 0.21.0
 # rg_version: 12.1.1

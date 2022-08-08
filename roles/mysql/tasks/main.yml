@@ -1,11 +1,11 @@
----
-- block:
+# ---
+# - block:
 
-  - name: install mysql-workbench
-    become: yes
-    package: name={{ item }} state=latest
-    with_items:
-      - mysql-workbench
+#   - name: install mysql-workbench
+#     become: yes
+#     package: name={{ item }} state=latest
+#     with_items:
+#       - mysql-workbench
 
-    # only needed @ work
-  when: ansible_hostname != "phux"
+#     # only needed @ work
+#   when: ansible_hostname != "phux"

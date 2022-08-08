@@ -17,6 +17,7 @@ apply = ["defer"]
 
 [templates]
 defer = { value = 'zsh-defer source "{{ file }}"', each = true }
+PATH = 'export PATH="$PATH:{{ dir }}"'
 
 [plugins]
 

@@ -76,6 +76,7 @@ require "plugins/_hardtime"
 require "plugins/_fzf"
 require "plugins/_lualine"
 require "plugins/_gv"
+require "plugins/_marker"
 -- require "plugins/_nvimtree"
 require "plugins/_splitjoin"
 require "plugins/_goldenview"
@@ -156,7 +157,6 @@ vim.o.tabstop = 4
 vim.o.cindent = true
 vim.o.shiftwidth = 4
 vim.o.softtabstop = 4
-vim.o.autoindent = true
 
 vim.o.showbreak = string.rep(" ", 3) -- Make it so that long lines wrap smartly
 vim.o.breakindent = true
@@ -199,6 +199,7 @@ vim.api.nvim_set_keymap("n", "<Down>", "&diff ? ']c' : '<Down>'", {noremap = tru
 
 vim.o.joinspaces = false
 vim.o.confirm = true
+vim.o.autowriteall = true
 
 -- inoremap <c-l> <del>
 vim.api.nvim_set_keymap("i", "<c-l>", "<del>", {noremap = true})
@@ -231,7 +232,7 @@ vim.api.nvim_set_keymap("c", "<M-f>", "<S-Right>", {noremap = true})
 
 vim.api.nvim_set_keymap("c", "<M-a>", "<Home>", {noremap = true})
 
-vim.api.nvim_set_keymap("n", "<leader>bt", ":TagbarOpenAutoClose<cr>", {noremap = true})
+vim.api.nvim_set_keymap("n", "<leader>;", ":TagbarToggle<cr>", {noremap = true})
 
 vim.cmd("hi! def link BufTabLineCurrent PmenuSel")
 vim.cmd("hi! def link BufTabLineActive TabLineSel")

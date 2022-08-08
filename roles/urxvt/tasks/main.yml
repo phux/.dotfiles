@@ -1,5 +1,5 @@
 ---
 - name: install urxvt
   become: yes
-  package: name=rxvt-unicode-256color state=present
+  package: name=rxvt-unicode state=present
 

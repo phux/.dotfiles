@@ -78,7 +78,29 @@ telescope.setup {
     -- }
 }
 
-require("telescope").load_extension("fzf")
+telescope.load_extension("fzf")
+
+telescope.load_extension("refactoring")
+vim.api.nvim_set_keymap(
+    "v",
+    "<leader>ref",
+    "<Esc><cmd>lua require('telescope').extensions.refactoring.refactors()<CR>",
+    {noremap = true}
+)
+vim.api.nvim_set_keymap(
+    "v",
+    "<leader>rem",
+    [[ <Esc><Cmd>lua require('refactoring').refactor('Extract Function')<CR>]],
+    {noremap = true, silent = true, expr = false}
+)
+
+vim.api.nvim_set_keymap(
+    "v",
+    "<leader>rev",
+    [[ <Esc><Cmd>lua require('refactoring').refactor('Extract Variable')<CR>]],
+    {noremap = true, silent = true, expr = false}
+)
+
 -- telescope.load_extension("fzy_native")
 -- require "telescope".load_extension("frecency")
 
@@ -119,12 +141,12 @@ local ivy_themed = require "telescope.themes".get_ivy({})
 
 function _G.fd()
     local opts = vim.deepcopy(ivy_themed)
-    if vim.fn.isdirectory(".git") ~= 0 or vim.fn.isdirectory("../.git") ~= 0 then
-        opts.use_git_root = false
-        require "telescope.builtin".git_files(opts)
-    else
+    -- if vim.fn.isdirectory(".git") ~= 0 or vim.fn.isdirectory("../.git") ~= 0 then
+    --     opts.use_git_root = false
+    --     require "telescope.builtin".git_files(opts)
+    -- else
         require "telescope.builtin".fd(opts)
-    end
+    -- end
 end
 
 function _G.liveGrep()

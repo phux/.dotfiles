@@ -47,6 +47,11 @@
     "html.autoClosingTags": true,
     "git.enableGutters": true,
     "git.realtimeGutters": false,
+	"phpactor.config": {
+		"language_server_phpstan.enabled": true,
+		"code_transform.indentation": "  ",
+		"language_server_completion.trim_leading_dollar": true
+	},
     "intelephense.completion.insertUseDeclaration": true,
     "intelephense.completion.triggerParameterHints": true,
     "intelephense.files.exclude": [

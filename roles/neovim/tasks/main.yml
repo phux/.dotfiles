@@ -31,11 +31,11 @@
     - UltiSnips/*
 
 
-- name: installing sqlfmt
-  shell: >
-    source ~/.config/zsh/.zshrc &&
-    go get -u github.com/jackc/sqlfmt/...
-    executable=/bin/zsh
+# - name: installing sqlfmt
+#   shell: >
+#     source ~/.config/zsh/.zshrc &&
+#     go get -u github.com/jackc/sqlfmt/...
+#     executable=/bin/zsh
 
 - name: Link global js configs
   file: >
