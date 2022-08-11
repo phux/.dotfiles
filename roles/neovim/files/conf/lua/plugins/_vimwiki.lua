@@ -31,7 +31,7 @@ vim.g.vimwiki_list = {
         custom_wiki2html = "vimwiki_markdown"
     }
 }
-
+vim.g.vimwiki_filetypes = {'markdown'}
 -- vim.g.vimwiki_conceallevel = 0
 vim.g.vimwiki_key_mappings = {
     all_maps = 0

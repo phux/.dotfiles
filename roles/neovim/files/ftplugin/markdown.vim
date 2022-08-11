@@ -25,6 +25,8 @@ endfunction
 nmap <buffer> <cr> <Plug>VimwikiFollowLink
 vmap <buffer> <cr> <Plug>VimwikiNormalizeLinkVisualCR
 
+nmap <buffer> <F10> :CocCommand markmap.watch<cr>
+
 " setlocal nofoldenable
 " setlocal conceallevel=0
 let g:indentLine_enabled = 0

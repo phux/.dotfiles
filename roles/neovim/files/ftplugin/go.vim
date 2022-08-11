@@ -5,10 +5,12 @@ setlocal foldlevel=0
 setlocal foldnestmax=0
 
 augroup golang
-  au BufWritePost *.go silent! !eval '[ -f ".git/hooks/ctags" ] && .git/hooks/ctags go' &
-  au BufWritePost *.go silent! !eval '[ -f "../.git/hooks/ctags" ] && ../.git/hooks/ctags go' &
-  au BufNewFile,BufRead,BufEnter *.go set tags=.git/tags.go,../.git/tags.go
-  au BufWritePre *.go :silent call CocAction('runCommand', 'editor.action.organizeImport') | call CocAction('format')
+  " au BufWritePost *.go silent! !eval '[ -f ".git/hooks/ctags" ] && .git/hooks/ctags go' &
+  " au BufWritePost *.go silent! !eval '[ -f "../.git/hooks/ctags" ] && ../.git/hooks/ctags go' &
+  " au BufNewFile,BufRead,BufEnter *.go set tags=.git/tags.go,../.git/tags.go
+  " au BufWritePre *.go :silent call CocAction('runCommand', 'editor.action.organizeImport') | call CocAction('format')
+  au BufWritePre *.go :silent call CocAction('runCommand', 'editor.action.organizeImport')
+  " au BufWritePre *.go :silent call CocAction('format')
 augroup end
 
 " let b:ale_linters = ['gobuild', 'golangci-lint']
