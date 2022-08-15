@@ -145,7 +145,8 @@ function _G.fd()
     --     opts.use_git_root = false
     --     require "telescope.builtin".git_files(opts)
     -- else
-        require "telescope.builtin".fd(opts)
+    opts.hidden = true
+    require "telescope.builtin".fd(opts)
     -- end
 end
 

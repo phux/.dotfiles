@@ -28,17 +28,18 @@
 
   when: last_gem_linter_check.rc != 0
 
-# - name: installing linters/tools via npm
-#   shell: >
-#     source ~/.config/zsh/.zshrc &&
-#     npm install -g
-#     tree-sitter neovim instant-markdown-d live-server
-#     jsonlint fixjson markdownlint-cli serverless
-#     stylelint write-good remark-lint remark-preset-lint-recommended tern eslint tern-lint typescript
-#     eslint-config-standard eslint-plugin-node eslint-plugin-promise
-#     eslint-plugin-standard htmllint textlint textlint-rule-write-good eslint_d
-#     csslint prettier lua-fmt
-#     executable=/bin/zsh
+- name: installing linters/tools via npm
+  # todo: reenable tree-sitter
+  shell: >
+    source ~/.config/zsh/.zshrc &&
+    npm install -g
+    neovim instant-markdown-d live-server
+    jsonlint fixjson markdownlint-cli serverless
+    stylelint write-good remark-lint remark-preset-lint-recommended tern eslint tern-lint typescript
+    eslint-config-standard eslint-plugin-node eslint-plugin-promise
+    eslint-plugin-standard htmllint textlint textlint-rule-write-good eslint_d
+    csslint prettier lua-fmt
+    executable=/bin/zsh
 
 - name: installing linters via pip
   shell: "pip install --user {{ item }}"
