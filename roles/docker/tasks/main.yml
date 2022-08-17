@@ -1,10 +1,13 @@
 ---
 
-- name: download get-docker.sh
+- name: install docker
   apt:
     state: latest
     pkg:
-      - docker.io
+      - docker-ce
+      - docker-ce-cli
+      - containerd.io
+      - docker-compose-plugin
 
 - name: install docker-compose
   shell: "pip install --user --upgrade docker-compose"
