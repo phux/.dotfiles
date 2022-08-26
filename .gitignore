@@ -9,3 +9,4 @@ npm-debug.log
 .vagrant/
 playbook.retry
 /.gtm/
+coc-settings.json
