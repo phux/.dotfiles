@@ -11,12 +11,11 @@
     "phpmd/phpmd": "@stable",
     "squizlabs/php_codesniffer": "@stable",
     "friendsofphp/php-cs-fixer": "^2.17@dev",
-    "brianium/paratest": "dev-master",
     "spatie/phpunit-watcher": "dev-master",
     "phpstan/phpstan-phpunit": "^0.12.0@dev",
     "escapestudios/symfony2-coding-standard": "3.x-dev",
     "dominikb/composer-license-checker": "dev-master",
 	"phpactor/phpactor": "dev-master",
-    "phpactor/language-server": "1.x-dev"
+    "phpactor/language-server": "^3"
   }
 }

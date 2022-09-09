@@ -68,14 +68,19 @@ api.nvim_set_keymap(
 )
 api.nvim_set_keymap("i", "<S-TAB>", 'coc#pum#visible() ? coc#pum#prev(1)  : "<C-H>"', {expr = true})
 -- api.nvim_set_keymap("i", "<cr>", 'pumvisible() ? coc#_select_confirm() : "<CR>"', {expr = true})
-api.nvim_set_keymap("i", "<cr>", 'coc#pum#visible() ? coc#pum#confirm() : "<C-g>u<CR><c-r>=coc#on_enter()<CR>"', {expr = true})
+api.nvim_set_keymap(
+    "i",
+    "<cr>",
+    'coc#pum#visible() ? coc#pum#confirm() : "<C-g>u<CR><c-r>=coc#on_enter()<CR>"',
+    {expr = true}
+)
 
 api.nvim_set_keymap("n", "<leader>lf", "<Plug>(coc-codeaction-cursor)", {noremap = true})
 api.nvim_set_keymap("v", "<leader>lf", "<plug>(coc-codeaction-selected)", {noremap = true})
 api.nvim_set_keymap("n", "<leader>ll", "<Plug>(coc-codelens-action)", {noremap = false})
 U.map("n", "<leader>qf", "<Plug>(coc-fix-current)", {noremap = false})
 U.map("n", "<leader>rr", "<Plug>(coc-rename)", {noremap = false})
-U.map("n", "<leader>RR", "<Plug>(coc-refactor)", {noremap = false})
+U.map("n", "<leader>RR", "<Plug>(coc-refactor)", {noremap = true})
 U.map("n", "<leader>nd", "<Plug>(coc-definition)", {noremap = false})
 U.map("n", "<leader>nD", "<Plug>(coc-type-definition)", {noremap = false})
 U.map("n", "<leader>ni", "<Plug>(coc-implementation)", {noremap = false})

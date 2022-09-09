@@ -103,15 +103,15 @@ require("packer").startup(
         -- use "sodapopcan/vim-twiggy"
         use "airblade/vim-gitgutter"
         use {
-          'pwntester/octo.nvim',
-          requires = {
-            'nvim-lua/plenary.nvim',
-            'nvim-telescope/telescope.nvim',
-            'kyazdani42/nvim-web-devicons',
-          },
-          config = function ()
-            require"octo".setup()
-          end
+            "pwntester/octo.nvim",
+            requires = {
+                "nvim-lua/plenary.nvim",
+                "nvim-telescope/telescope.nvim",
+                "kyazdani42/nvim-web-devicons"
+            },
+            config = function()
+                require "octo".setup()
+            end
         }
         -- use {
         --     "lewis6991/gitsigns.nvim",
@@ -148,9 +148,9 @@ require("packer").startup(
             run = " composer install --no-dev -o"
         }
 
-        use {"rcarriga/nvim-dap-ui", requires = {"mfussenegger/nvim-dap"}}
-        use "leoluz/nvim-dap-go"
-        use "theHamsta/nvim-dap-virtual-text"
+        -- use {"rcarriga/nvim-dap-ui", requires = {"mfussenegger/nvim-dap"}}
+        -- use "leoluz/nvim-dap-go"
+        -- use "theHamsta/nvim-dap-virtual-text"
 
         -- use {"laher/gothx.vim", ft = "go"}
         use {"sebdah/vim-delve", ft = "go"}
@@ -173,7 +173,7 @@ require("packer").startup(
         --         require "bufferline".setup()
         --     end
         -- }
-        use "Shougo/echodoc.vim"
+        -- use "Shougo/echodoc.vim"
 
         -- use "cohama/lexima.vim"
         use "jiangmiao/auto-pairs"
@@ -201,7 +201,7 @@ require("packer").startup(
         use "pgdouyon/vim-evanesco"
 
         -- use "mlaursen/vim-react-snippets"
-        use "leafOfTree/vim-svelte-plugin"
+        -- use "leafOfTree/vim-svelte-plugin"
         use {"mattn/emmet-vim", ft = {"html", "javascript", "typescriptreact", "svelte"}}
         use {"MaxMEllon/vim-jsx-pretty", ft = {"typescript", "javascript"}}
         use {"jparise/vim-graphql", ft = {"graphql"}}
@@ -222,13 +222,9 @@ require("packer").startup(
         -- use {"Yggdroot/LeaderF"}
 
         use {"phux/vim-hardtime"}
-        use {"brooth/far.vim", cmd = "Far"}
-
-        -- use {"iamcco/markdown-preview.nvim", ft = {"markdown", "vimwiki"}, run = "cd app & npm install"}
-        -- use {"davidgranstrom/nvim-markdown-preview", ft = {"markdown", "vimwiki"}}
 
         -- mermaid support
-        use { 'zhaozg/vim-diagram' }
+        use {"zhaozg/vim-diagram"}
         use(
             {
                 "iamcco/markdown-preview.nvim",
@@ -304,13 +300,14 @@ require("packer").startup(
                     },
                     org_agenda_templates = {t = {description = "Task", template = "* TODO %?\n SCHEDULED: %t\n %u"}}
                 }
+                require("orgmode").setup_ts_grammar()
             end,
             requires = {
-                "akinsho/org-bullets.nvim",
-                "dhruvasagar/vim-table-mode"
+                "akinsho/org-bullets.nvim"
             }
         }
         use "kevinhwang91/rnvimr"
+        use "dhruvasagar/vim-table-mode"
     end
 )
 

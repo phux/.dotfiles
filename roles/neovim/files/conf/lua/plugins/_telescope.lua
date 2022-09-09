@@ -132,6 +132,7 @@ vim.api.nvim_set_keymap("n", "<leader>GL", ":Telescope git_bcommits<cr>", {norem
 
 vim.api.nvim_set_keymap("n", "<leader>of", "<cmd>lua fd()<cr>", {noremap = true})
 vim.api.nvim_set_keymap("n", "<leader>og", ":Telescope git_files theme=get_ivy<cr>", {noremap = true, silent = true})
+-- vim.api.nvim_set_keymap("n", "<leader>og", "<cmd>lua fdFromGitRoot()<cr>", {noremap = true, silent = true})
 vim.api.nvim_set_keymap("n", "<leader>sg", "<cmd>lua grepFromGitRoot()<cr>", {noremap = true, silent = true})
 vim.api.nvim_set_keymap("n", "<leader>SG", "<cmd>lua grepStringFromGitRoot()<cr>", {noremap = true, silent = true})
 vim.api.nvim_set_keymap("n", "<leader>su", ":Telescope grep_string theme=get_ivy<cr>", {noremap = true, silent = true})

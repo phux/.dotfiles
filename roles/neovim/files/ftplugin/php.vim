@@ -3,11 +3,11 @@ augroup php
   au BufNewFile,BufRead *.phtml set ft=php.html
   " au BufNewFile,BufRead,BufWinEnter *Test.php exe ":UltiSnipsAddFiletypes php.phpunit"
   " au BufNewFile,BufRead,BufWinEnter *Spec.php exe ":UltiSnipsAddFiletypes php.php-phpspec"
-  " au BufWritePost *.php silent! !eval '[ -f ".git/hooks/ctags" ] && .git/hooks/ctags php' &
-  " au BufWritePost *.php silent! !eval '[ -f "../.git/hooks/ctags" ] && ../.git/hooks/ctags php' &
+  au BufWritePost *.php silent! !eval '[ -f ".git/hooks/ctags" ] && .git/hooks/ctags php' &
+  au BufWritePost *.php silent! !eval '[ -f "../.git/hooks/ctags" ] && ../.git/hooks/ctags php' &
   " au BufWritePost *.php silent! exe ":!phpcbf --standard=~/.phpcs.xml ".expand('%:f')."; php-cs-fixer --config=.php_cs fix ".expand('%:f') | :e
   " au BufWritePost *.php silent! exe "!php-cs-fixer --config=.php_cs fix ".expand('%:f') | :e
-  " au BufNewFile,BufRead,BufEnter *.php set tags=.git/tags.php,../.git/tags.php
+  au BufNewFile,BufRead,BufEnter *.php set tags=.git/tags.php,../.git/tags.php
   " au BufNewFile,BufRead,BufEnter,BufWritePost *.php set autoindent
 augroup END
 
@@ -36,7 +36,7 @@ vnoremap <buffer> <leader>rem :<C-U>PhpactorExtractMethod<CR>
 nnoremap <buffer> <leader>rd :call UpdatePhpDocIfExists()<CR>
 nnoremap <buffer> <leader>rt :PhpactorTransform<CR>
 nnoremap <buffer> <leader>rep :call PhpExtractClassProperty()<cr>
-nnoremap <buffer> <Leader>ref :PHPExpandFQCNAbsolute<cr>
+nnoremap <buffer> <Leader>ref :PhpactorClassExpand<cr>
 nnoremap <buffer> <leader>reu :call PhpExtractUse()<CR>
 nnoremap <buffer> <leader>ru :PhpactorImportMissingClasses<cr>
 " nnoremap <buffer> <Leader>u :PHPImportClass<cr>
