@@ -1,0 +1,19 @@
+---
+
+- name: check to see if gitfuzzy is cloned
+  command: "ls {{ ansible_env.HOME }}/tools/git-fuzzy"
+  ignore_errors: true
+  register: gitfuzzy_was_cloned
+  changed_when: false
+
+- name: clone gitfuzzy
+  block:
+    - name: clone gitfuzzy
+      shell: >
+        git clone https://github.com/bigH/git-fuzzy.git
+        {{ ansible_env.HOME }}/tools/git-fuzzy &&
+  when: gitfuzzy_was_cloned.rc != 0
+
+- name: update git-fuzzy
+  shell: >
+    cd {{ ansible_env.HOME }}/tools/git-fuzzy && git pull

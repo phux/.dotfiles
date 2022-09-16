@@ -64,6 +64,19 @@ require("packer").startup(
                         }
                     }
                 )
+                vim.api.nvim_set_keymap(
+                    "v",
+                    "<leader>rem",
+                    [[ <Esc><Cmd>lua require('refactoring').refactor('Extract Function')<CR>]],
+                    {noremap = true, silent = true, expr = false}
+                )
+
+                vim.api.nvim_set_keymap(
+                    "v",
+                    "<leader>rev",
+                    [[ <Esc><Cmd>lua require('refactoring').refactor('Extract Variable')<CR>]],
+                    {noremap = true, silent = true, expr = false}
+                )
             end
         }
 
@@ -113,15 +126,6 @@ require("packer").startup(
                 require "octo".setup()
             end
         }
-        -- use {
-        --     "lewis6991/gitsigns.nvim",
-        --     requires = {
-        --         "nvim-lua/plenary.nvim"
-        --     },
-        --     config = function()
-        --         require("gitsigns").setup()
-        --     end
-        -- }
 
         use {"AndrewRadev/splitjoin.vim"}
 

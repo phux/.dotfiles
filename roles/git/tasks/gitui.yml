@@ -1,0 +1,11 @@
+---
+- name: install gitui
+  shell: nix-env -iA nixpkgs.gitui
+
+- name: Link gitui config files
+  file:
+    src: "{{ item }}"
+    dest: "{{ ansible_env.HOME }}/.config/gitui/{{ item | basename }}"
+    state: link
+  with_fileglob:
+  - key_bindings.ron

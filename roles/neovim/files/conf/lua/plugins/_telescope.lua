@@ -87,19 +87,6 @@ vim.api.nvim_set_keymap(
     "<Esc><cmd>lua require('telescope').extensions.refactoring.refactors()<CR>",
     {noremap = true}
 )
-vim.api.nvim_set_keymap(
-    "v",
-    "<leader>rem",
-    [[ <Esc><Cmd>lua require('refactoring').refactor('Extract Function')<CR>]],
-    {noremap = true, silent = true, expr = false}
-)
-
-vim.api.nvim_set_keymap(
-    "v",
-    "<leader>rev",
-    [[ <Esc><Cmd>lua require('refactoring').refactor('Extract Variable')<CR>]],
-    {noremap = true, silent = true, expr = false}
-)
 
 -- telescope.load_extension("fzy_native")
 -- require "telescope".load_extension("frecency")

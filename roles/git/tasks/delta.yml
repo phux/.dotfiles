@@ -1,7 +1,6 @@
 ---
 - name: install delta
   shell: nix-env -iA nixpkgs.gitAndTools.delta
-
 - git_config:
     name: diff.colorMoved
     scope: global

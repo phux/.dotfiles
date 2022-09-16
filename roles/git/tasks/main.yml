@@ -4,6 +4,7 @@
 - include: templates.yml
 - include: config.yml
 - include: delta.yml
+- include: gitui.yml
 
 - name: Link global gitignore
   file:

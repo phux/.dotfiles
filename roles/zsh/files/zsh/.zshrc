@@ -130,12 +130,13 @@ alias gb="git for-each-ref --sort=committerdate refs/heads/ --format='%(committe
 alias gbd="git for-each-ref --sort=committerdate refs/heads/ --format='%(HEAD) %(color:yellow)%(refname:short)%(color:reset) - %(color:red)%(objectname:short)%(color:reset) - %(contents:subject) - %(authorname) (%(color:green)%(committerdate:relative)%(color:reset))'"
 
 alias gst='git status'
-# alias gs='n +Gstatus'
+alias gs='git fuzzy status'
 # export GF_LOG_MENU_PARAMS='--pretty="%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset" --topo-order'
 # export GF_PREFERRED_PAGER="delta --theme=gruvbox --highlight-removed -w __WIDTH__"
 
-alias gdt='n +"Git difftool -y"'
-alias glog='n +GV'
+alias gdt='n +"DiffviewOpen"'
+# alias glog='n +GV'
+alias glog='gitui'
 fzf-git-branch() {
     git rev-parse HEAD > /dev/null 2>&1 || return
 
@@ -388,6 +389,7 @@ fi
 if [ -f '$HOME/google-cloud-sdk/path.zsh.inc' ]; then . '$HOME/google-cloud-sdk/path.zsh.inc'; fi
 
 export PATH="$HOME/.rbenv/versions/2.7.1/bin:$PATH"
+export PATH="$HOME/tools/git-fuzzy/bin:$PATH"
 
 # start second tracing block
 # unsetopt XTRACE

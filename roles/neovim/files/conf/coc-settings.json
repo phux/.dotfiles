@@ -149,13 +149,8 @@
     "coc.preferences.extensionUpdateCheck": "daily",
     "coc.preferences.currentFunctionSymbolAutoUpdate": true,
     "xml.java.home": "/usr/lib/jvm/java-11-openjdk-amd64",
-    "go.goplsPath": "/home/jm/code/go/bin/gopls",
     "go.goplsUseDaemon": true,
     "go.goplsOptions": {
-		"analyses": {
-			"nilness": true,
-			"unusedwrite": true
-		},
         "usePlaceholders": true,
         "allowModfileModifications": true,
 		"gofumpt": true,
