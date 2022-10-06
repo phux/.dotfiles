@@ -66,9 +66,3 @@
 - name: install vale
   shell: >
     nix-env -i vale
-
-# - name: install checkmake
-#   shell: >
-#       source ~/.config/zsh/.zshrc &&
-#       go install github.com/mrtazz/checkmake@latest
-#       executable=/bin/zsh
