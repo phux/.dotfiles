@@ -14,6 +14,27 @@
   with_fileglob:
     - scripts/*
 
+- name: Check pandoc themes were cloned
+  ansible.builtin.stat:
+    path: "{{ ansible_env.HOME }}/tools/pandoc_themes"
+  register: pandoc_themes_exist
+
+- name: clone pandoc themes
+  shell: >
+    git clone https://github.com/cab-1729/Pandoc-Themes.git
+    {{ ansible_env.HOME }}/tools/pandoc_themes
+  when: pandoc_themes_exist.stat.exists == False
+
+- name: pull pandoc themes
+  ignore_errors: true
+  shell: >
+    cd {{ ansible_env.HOME }}/tools/pandoc_themes && git pull
+
+- name: link pandoc themes
+  ignore_errors: true
+  become: yes
+  shell: >
+    cd /usr/share/pandoc/data/templates/ && ln -sf {{ ansible_env.HOME }}/tools/pandoc_themes/*.tex . && cd /usr/share/fonts/ && ln -sf {{ ansible_env.HOME }}/tools/pandoc_themes/pandoc-fonts/ . && chmod +x /usr/share/fonts/pandoc-fonts
 
 - name: installing filters via npm
   shell: >

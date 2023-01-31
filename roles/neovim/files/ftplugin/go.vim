@@ -9,7 +9,7 @@ augroup golang
   " au BufWritePost *.go silent! !eval '[ -f "../.git/hooks/ctags" ] && ../.git/hooks/ctags go' &
   " au BufNewFile,BufRead,BufEnter *.go set tags=.git/tags.go,../.git/tags.go
   " au BufWritePre *.go :silent call CocAction('runCommand', 'editor.action.organizeImport') | call CocAction('format')
-  au BufWritePre *.go :silent call CocAction('runCommand', 'editor.action.organizeImport')
+  " au BufWritePre *.go :silent call CocActionAsync('runCommand', 'editor.action.organizeImport')
   " au BufWritePre *.go :silent call CocAction('format')
 augroup end
 
@@ -434,7 +434,9 @@ endfunction
 
 command! -buffer -nargs=0 IfErr call s:IfErr()
 
-" dependency: go get -u github.com/rsc/rf
+" dependency: go install rsc.io/rf@latest
+
+
 " extract type ... or  methods to file
 "
 " cursor on the line `type <Foo> struct` will result in <foo>.go, containing the

@@ -6,7 +6,7 @@ file="${file_name%.*}"
 out="/tmp/${file}_$(date +"%Y-%m-%d").pdf"
     # -H ~/.dotfiles/roles/pandoc/files/headers/chapter_break.tex \
 pandoc "$1" \
-    -f gfm \
+    -f markdown \
     --toc -N \
     -V colorlinks -V urlcolor=NavyBlue \
     -H ~/.dotfiles/roles/pandoc/files/headers/syntax_highlight.tex \
@@ -18,8 +18,8 @@ pandoc "$1" \
     -V mainfont="DejaVu Serif" \
     -V monofont="DejaVu Sans Mono" \
     --pdf-engine=xelatex \
+    --template=gitbook-azure.tex \
     -o "${out}"
-
 echo "created pdf at ${out}";
 
 xdg-open "${out}"

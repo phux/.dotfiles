@@ -25,7 +25,7 @@ endfunction
 nmap <buffer> <cr> <Plug>VimwikiFollowLink
 vmap <buffer> <cr> <Plug>VimwikiNormalizeLinkVisualCR
 
-nmap <buffer> <F10> :CocCommand markmap.watch<cr>
+nmap <buffer> <F10> :set ft=markdown\|CocCommand markmap.watch<cr>
 
 " setlocal nofoldenable
 " setlocal conceallevel=0

@@ -66,3 +66,17 @@
 - name: install vale
   shell: >
     nix-env -i vale
+
+- name: install tflint
+  shell: >
+    curl -s https://raw.githubusercontent.com/terraform-linters/tflint/master/install_linux.sh | bash
+    executable="/bin/bash"
+  ignore_errors: yes
+
+- name: link tfling cfg
+  file:
+    src: "{{ item }}"
+    dest: "{{  ansible_env.HOME }}/.tflint.hcl"
+    state: link
+  with_fileglob:
+    - linters/tflint.hcl

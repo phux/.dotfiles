@@ -54,6 +54,7 @@
 	},
     "intelephense.completion.insertUseDeclaration": true,
     "intelephense.completion.triggerParameterHints": true,
+    "intelephense.licenceKey": "00M63INVEI9YQKQ",
     "intelephense.files.exclude": [
         "**/.git/**",
         "**/.svn/**",

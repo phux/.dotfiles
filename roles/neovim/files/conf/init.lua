@@ -33,7 +33,7 @@ local disable_distribution_plugins = function()
     vim.g.loaded_netrwFileHandlers = 1
 end
 disable_distribution_plugins()
-
+vim.cmd("language en_US.utf8")
 vim.api.nvim_set_keymap("", "<Space>", "<Nop>", {noremap = true})
 vim.g.mapleader = " "
 
@@ -43,6 +43,9 @@ function _G.EditFtPluginFile()
     vim.cmd("e ~/.dotfiles/roles/neovim/files/ftplugin/" .. vim.bo.filetype .. ".vim")
 end
 vim.api.nvim_set_keymap("n", "<leader>w", ":w<CR>", {noremap = true})
+
+vim.opt.conceallevel = 2
+vim.opt.concealcursor = "nc"
 
 vim.o.completeopt = "menuone,noinsert,noselect"
 vim.o.tabstop = 2
@@ -281,7 +284,9 @@ vim.api.nvim_set_keymap("n", "<leader>lb", ":call ToggleQfLocListBinds()<cr>", {
 -- better time tracking via ActivityWatch
 vim.cmd("set title")
 
-vim.cmd('nmap gx yiW:!xdg-open <cWORD><CR> <C-r>" & <CR><CR>')
+-- vim.cmd('nmap gx "ayiW:exe "call system("chromium-browser ".shellescape(expand("<cWORD>"))."<CR>')
+
+vim.cmd('nmap gx :exe "!chromium-browser ".shellescape(expand("<cWORD>"))<cr><cr>')
 
 vim.g.obvious_resize_run_tmux = 1
 vim.g.obvious_resize_default = 5

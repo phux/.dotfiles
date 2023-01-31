@@ -4,10 +4,11 @@
     path: "{{ansible_env.HOME}}/.local/bin"
     state: directory
 
-- name: Execute the sheldon installer
-  args:
-    warn: false
-  shell: curl --proto '=https' -fLsS https://rossmacarthur.github.io/install/crate.sh | bash -s -- --repo rossmacarthur/sheldon --force --to ~/.local/bin
+# tmp disabled due to some issues in the installer
+# - name: Execute the sheldon installer
+#   args:
+#     warn: false
+#   shell: curl --proto '=https' -fLsS https://rossmacarthur.github.io/install/crate.sh | bash -s -- --repo rossmacarthur/sheldon --force --to ~/.local/bin
 
 - name: Link zsh files
   file: >

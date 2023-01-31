@@ -101,18 +101,19 @@ api.nvim_set_keymap("n", "<leader>go", ":CocCommand git.browserOpen<cr>", {norem
 
 api.nvim_set_keymap("n", "<leader>gi", ":CocCommand git.chunkInfo<cr>", {noremap = true})
 
-api.nvim_set_keymap("n", "<leader>ot", ":CocCommand explorer --preset simplify --reveal<cr>", {noremap = true})
+api.nvim_set_keymap("n", "<leader>ot", ":CocCommand explorer --preset simplify<cr>", {noremap = true, silent = true})
 
 -- Use gh to show documentation in preview window.
 function _G.show_docs()
     local cw = fn.expand("<cword>")
     if fn.index({"vim", "help"}, vim.bo.filetype) >= 0 then
         vim.cmd("h " .. cw)
-    elseif api.nvim_eval("coc#rpc#ready()") then
-        fn.CocActionAsync("doHover")
     else
-        vim.cmd("!" .. vim.o.keywordprg .. " " .. cw)
+        -- elseif api.nvim_eval("coc#rpc#ready()") then
+        fn.CocActionAsync("doHover")
     end
+    -- else
+    --     vim.cmd("!" .. vim.o.keywordprg .. " " .. cw)
 end
 
 U.map("n", "K", "<CMD>lua show_docs()<CR>")

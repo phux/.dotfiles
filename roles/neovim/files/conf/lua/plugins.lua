@@ -23,7 +23,8 @@ require("packer").startup(
 
         use {"junegunn/fzf", run = "./install --all"}
         use {"junegunn/fzf.vim"}
-        use {"junegunn/gv.vim", cmd = "GV"}
+        use {"junegunn/gv.vim"}
+        use "junegunn/vim-peekaboo"
         -- use "sinetoami/fzy.nvim"
         -- use {"lotabout/skim", run = "./install"}
         -- use "lotabout/skim.vim"
@@ -124,6 +125,18 @@ require("packer").startup(
             },
             config = function()
                 require "octo".setup()
+                vim.api.nvim_set_keymap(
+                    "n",
+                    "<leader>opl",
+                    [[ <Esc><Cmd>Octo pr list<CR>]],
+                    {noremap = true, silent = true, expr = false}
+                )
+                vim.api.nvim_set_keymap(
+                    "n",
+                    "<leader>ors",
+                    [[ <Esc><Cmd>Octo review start<CR>]],
+                    {noremap = true, silent = true, expr = false}
+                )
             end
         }
 
@@ -180,7 +193,13 @@ require("packer").startup(
         -- use "Shougo/echodoc.vim"
 
         -- use "cohama/lexima.vim"
-        use "jiangmiao/auto-pairs"
+        -- use "jiangmiao/auto-pairs"
+        use {
+            "windwp/nvim-autopairs",
+            config = function()
+                require("nvim-autopairs").setup {}
+            end
+        }
 
         -- use "itchyny/lightline.vim"
 
@@ -234,12 +253,12 @@ require("packer").startup(
                 "iamcco/markdown-preview.nvim",
                 run = "cd app && npm install",
                 setup = function()
-                    vim.g.mkdp_filetypes = {"markdown"}
+                    vim.g.mkdp_filetypes = {"markdown", "vimwiki.markdown"}
                 end,
-                ft = {"markdown", "vimwiki"}
+                ft = {"markdown", "vimwiki", "vimwiki.markdown"}
             }
         )
-        use {"SidOfc/mkdx", ft = {"markdown", "vimwiki"}}
+        use {"SidOfc/mkdx", ft = {"markdown", "vimwiki", "vimwiki.markdown"}}
 
         use {"junegunn/goyo.vim", ft = {"markdown", "vimwiki"}}
         use {"junegunn/limelight.vim", ft = {"markdown", "vimwiki"}}
@@ -294,6 +313,7 @@ require("packer").startup(
                     org_agenda_skip_deadline_if_done = true,
                     org_hide_leading_stars = true,
                     -- org_hide_emphasis_markers = true,
+                    win_split_mode = "auto",
                     mappings = {
                         org = {
                             org_set_tags_command = {"gA"}
