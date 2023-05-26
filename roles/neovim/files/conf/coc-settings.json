@@ -84,7 +84,8 @@
         "http://json.schemastore.org/circleciconfig": "/.circleci/config.yml",
         "http://json.schemastore.org/github-workflow": "/.github/workflows/*.yml",
         "https://raw.githubusercontent.com/docker/compose/master/compose/config/config_schema_v3.0.json": "/docker-compose*ml",
-        "https://raw.githubusercontent.com/OAI/OpenAPI-Specification/master/schemas/v2.0/schema.json": "/swagger.yml"
+        "https://raw.githubusercontent.com/OAI/OpenAPI-Specification/master/schemas/v2.0/schema.json": "/swagger.yml",
+				"kubernetes": "/*.yaml"
     },
     "yaml.customTags": [
         "!And scalar",
