@@ -20,6 +20,7 @@
     - i3lock
     - i3status
     - pavucontrol
+    - dunst
 
   - name: Link i3 files
     file: src={{item}} dest={{ i3_config_dir }}/{{ item | basename }} state=link
