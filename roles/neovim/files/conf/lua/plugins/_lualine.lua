@@ -1,3 +1,4 @@
+local CodeGPTModule = require("codegpt")
 require("lualine").setup {
     options = {
         theme = "gruvbox"
@@ -40,7 +41,7 @@ require("lualine").setup {
         lualine_a = {},
         lualine_b = {},
         lualine_c = {{"filename", full_name = true, path = 1}},
-        lualine_x = {},
+        lualine_x = {CodeGPTModule.get_status, "encoding", "fileformat"},
         lualine_y = {},
         lualine_z = {}
     },

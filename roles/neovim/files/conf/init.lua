@@ -64,7 +64,6 @@ vim.g.indentLine_enabled = 0
 require "plugins"
 
 require "plugins/_ale"
-require "plugins/_coc"
 -- require "plugins/_dap"
 -- require "plugins/_hop"
 -- require "plugins/_sneak"
@@ -93,6 +92,7 @@ require "plugins/_mkdx"
 require "plugins/_context"
 require "plugins/_gitmessenger"
 require "plugins/_diffconflicts"
+require("plugins/_coc")
 -- require "plugins/_mergetool"
 -- require "plugins/_fzflua"
 -- require "plugins/_lspconfig"
@@ -357,4 +357,9 @@ let g:grammarous#disabled_rules['*'] = ["DASH_RULE", "WHITESPACE_RULE", "EN_QUOT
 ]]
 )
 
-vim.api.nvim_set_keymap("n", "<M-f>", ":set ft=json | %!python -m json.tool<cr>", {noremap = true})
+vim.api.nvim_set_keymap("n", "<M-f>", ":set ft=json | %!python3 -m json.tool<cr>", {noremap = true})
+vim.cmd([[
+nnoremap <Leader>sw :%s/\<<C-r><C-w>\>//g<Left><Left>
+    ]])
+
+require "plugins/_coc"

@@ -177,7 +177,7 @@ require("packer").startup(
         -- use "ap/vim-buftabline"
         use {
             "akinsho/bufferline.nvim",
-            tag = "v2.*",
+            tag = "v4.*",
             requires = "kyazdani42/nvim-web-devicons",
             config = function()
                 require "bufferline".setup()
@@ -248,22 +248,22 @@ require("packer").startup(
 
         -- mermaid support
         use {"zhaozg/vim-diagram"}
-        use(
-            {
-                "iamcco/markdown-preview.nvim",
-                run = "cd app && npm install",
-                setup = function()
-                    vim.g.mkdp_filetypes = {"markdown", "vimwiki.markdown"}
-                end,
-                ft = {"markdown", "vimwiki", "vimwiki.markdown"}
-            }
-        )
+        -- use(
+        --     {
+        --         "iamcco/markdown-preview.nvim",
+        --         run = "cd app && npm install",
+        --         setup = function()
+        --             vim.g.mkdp_filetypes = {"markdown", "vimwiki.markdown"}
+        --         end,
+        --         ft = {"markdown", "vimwiki", "vimwiki.markdown"}
+        --     }
+        -- )
         use {"SidOfc/mkdx", ft = {"markdown", "vimwiki", "vimwiki.markdown"}}
 
         use {"junegunn/goyo.vim", ft = {"markdown", "vimwiki"}}
         use {"junegunn/limelight.vim", ft = {"markdown", "vimwiki"}}
 
-        use {"vimwiki/vimwiki"}
+        -- use {"vimwiki/vimwiki"}
         use {"michal-h21/vim-zettel"}
 
         -- use {"vitalk/vim-simple-todo", ft = {"markdown", "text"}}
@@ -332,6 +332,18 @@ require("packer").startup(
         }
         use "kevinhwang91/rnvimr"
         use "dhruvasagar/vim-table-mode"
+        use(
+            {
+                "dpayne/CodeGPT.nvim",
+                requires = {
+                    "MunifTanjim/nui.nvim",
+                    "nvim-lua/plenary.nvim"
+                },
+                config = function()
+                    require("codegpt.config")
+                end
+            }
+        )
     end
 )
 

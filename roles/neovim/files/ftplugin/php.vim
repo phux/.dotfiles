@@ -6,7 +6,7 @@ augroup php
   au BufWritePost *.php silent! !eval '[ -f ".git/hooks/ctags" ] && .git/hooks/ctags php' &
   au BufWritePost *.php silent! !eval '[ -f "../.git/hooks/ctags" ] && ../.git/hooks/ctags php' &
   " au BufWritePost *.php silent! exe ":!phpcbf --standard=~/.phpcs.xml ".expand('%:f')."; php-cs-fixer --config=.php_cs fix ".expand('%:f') | :e
-  " au BufWritePost *.php silent! exe "!php-cs-fixer --config=.php_cs fix ".expand('%:f') | :e
+  " au BufWritePost *.php exe "!php-cs-fixer --config=".getcwd()."/.php_cs fix ".expand('%:f') | :e
   au BufNewFile,BufRead,BufEnter *.php set tags=.git/tags.php,../.git/tags.php
   " au BufNewFile,BufRead,BufEnter,BufWritePost *.php set autoindent
 augroup END
@@ -18,9 +18,9 @@ augroup END
 " set foldlevel=1
 " set foldnestmax=2
 " set nofoldenable
-setlocal tabstop=2
-setlocal shiftwidth=2
-setlocal softtabstop=2
+setlocal tabstop=4
+setlocal shiftwidth=4
+setlocal softtabstop=4
 
 
 " nnoremap <buffer> <leader>nr :call phpactor#FindReferences()<cr>
@@ -47,7 +47,7 @@ vnoremap <buffer> <leader>c :PhpactorContextMenu<cr>
 let b:ale_linters = ['phpstan']
 let b:ale_fixers = ['php_cs_fixer']
 let g:ale_php_phpstan_executable = 'vendor/bin/phpstan'
-let g:ale_php_cs_fixer_options = '--config=".php_cs"'
+let g:ale_php_cs_fixer_options = '--config=".php-cs-fixer.php"'
 let g:ale_php_cs_fixer_use_global = 0
 let g:ale_php_phpstan_configuration = 'phpstan.neon'
 " let g:ale_php_phpstan_level = 'max'

@@ -39,7 +39,9 @@ vim.g.coc_global_extensions = {
     -- "coc-graphql",
     "coc-spell-checker",
     "coc-cspell-dicts",
-    "coc-svelte"
+    -- "coc-svelte",
+    "coc-markdown-preview-enhanced",
+    "coc-webview"
 }
 
 local autocmds = {
@@ -68,12 +70,12 @@ api.nvim_set_keymap(
 )
 api.nvim_set_keymap("i", "<S-TAB>", 'coc#pum#visible() ? coc#pum#prev(1)  : "<C-H>"', {expr = true})
 -- api.nvim_set_keymap("i", "<cr>", 'pumvisible() ? coc#_select_confirm() : "<CR>"', {expr = true})
-api.nvim_set_keymap(
-    "i",
-    "<cr>",
-    'coc#pum#visible() ? coc#pum#confirm() : "<C-g>u<CR><c-r>=coc#on_enter()<CR>"',
-    {expr = true}
-)
+-- api.nvim_set_keymap(
+--     "i",
+--     "<cr>",
+--     'coc#pum#visible() ? coc#pum#confirm() : "<C-g>u<CR><c-r>=coc#on_enter()<CR>"',
+--     {expr = true}
+-- )
 
 api.nvim_set_keymap("n", "<leader>lf", "<Plug>(coc-codeaction-cursor)", {noremap = true})
 api.nvim_set_keymap("v", "<leader>lf", "<plug>(coc-codeaction-selected)", {noremap = true})
@@ -121,5 +123,23 @@ U.map("n", "K", "<CMD>lua show_docs()<CR>")
 vim.cmd(
     [[
 let g:coc_explorer_global_presets = {'simplify': { 'file-child-template': '[selection | clip | 1] [indent][icon | 1] [filename omitCenter 1]' }}
+]]
+)
+vim.cmd(
+    [[
+function! CheckBackspace() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+inoremap <silent><expr> <TAB>
+      \ coc#pum#visible() ? coc#pum#next(1) :
+      \ CheckBackspace() ? "\<Tab>" :
+      \ coc#refresh()
+inoremap <expr><S-TAB> coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"
+
+" Make <CR> to accept selected completion item or notify coc.nvim to format
+" <C-g>u breaks current undo, please make your own choice
+inoremap <silent><expr> <CR> coc#pum#visible() ? coc#pum#confirm()
+                              \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
 ]]
 )

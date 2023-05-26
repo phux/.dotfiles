@@ -28,7 +28,7 @@ vmap <buffer> <cr> <Plug>VimwikiNormalizeLinkVisualCR
 nmap <buffer> <F10> :set ft=markdown\|CocCommand markmap.watch<cr>
 
 " setlocal nofoldenable
-" setlocal conceallevel=0
+setlocal conceallevel=0
 let g:indentLine_enabled = 0
 " let g:markdown_enable_mappings = 0
 " let g:markdown_enable_folding = 0
@@ -49,8 +49,8 @@ let g:indentLine_enabled = 0
 "       \]
 
 " let b:ale_linters = ['mdl', 'writegood', 'proselint']
-let b:ale_linters = ['mdl', 'vale']
-let g:ale_markdown_mdl_options = '-c ~/.mdlrc'
+" let b:ale_linters = ['mdl', 'vale']
+" let g:ale_markdown_mdl_options = '-c ~/.mdlrc'
 
 " let g:vim_markdown_frontmatter=1
 
@@ -68,6 +68,7 @@ setlocal wrap
 nnoremap <silent><buffer> <f12> :silent update<Bar>silent MarkdownPreview<CR>
 nnoremap <silent><buffer> <f11> :MarkdownPreviewStop<cr>
 nnoremap <silent><buffer> <leader><enter> :silent update<Bar>MarkdownPreviewToggle<CR>
+nnoremap <silent><buffer> <leader><enter> :CocCommand markdown-preview-enhanced.openPreview<CR>
 
 " convert url to markdown link
 " usage: just paste the raw url, :call UrlToMarkdownLink()<cr>
