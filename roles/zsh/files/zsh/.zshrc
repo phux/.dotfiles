@@ -406,4 +406,7 @@ bindkey '^e' end-of-line
 source ~/.nix-profile/etc/profile.d/nix.sh
 # zprof | head -n 30
 #
+
+export USE_GKE_GCLOUD_AUTH_PLUGIN=True
+
 eval "$(~/.rbenv/bin/rbenv init -)"
