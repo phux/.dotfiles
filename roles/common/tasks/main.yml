@@ -44,6 +44,7 @@
       - libtool #neovim
       - libtool-bin
       - ninja-build
+      - imagemagick
 
 - name: disable openvpn at boot
   become: yes
