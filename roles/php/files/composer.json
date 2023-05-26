@@ -10,12 +10,12 @@
     "phpstan/phpstan": "@stable",
     "phpmd/phpmd": "@stable",
     "squizlabs/php_codesniffer": "@stable",
-    "friendsofphp/php-cs-fixer": "^2.17@dev",
+    "friendsofphp/php-cs-fixer": "^3",
     "spatie/phpunit-watcher": "dev-master",
     "phpstan/phpstan-phpunit": "^0.12.0@dev",
     "escapestudios/symfony2-coding-standard": "3.x-dev",
     "dominikb/composer-license-checker": "dev-master",
 	"phpactor/phpactor": "dev-master",
-    "phpactor/language-server": "^3"
+    "phpactor/language-server": "^4"
   }
 }
