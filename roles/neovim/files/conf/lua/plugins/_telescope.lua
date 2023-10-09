@@ -5,6 +5,19 @@ local actions = require("telescope.actions")
 local telescope = require("telescope")
 local previewers = require("telescope.previewers")
 
+-- start customized find_files
+local telescopeConfig = require("telescope.config")
+
+-- Clone the default Telescope configuration
+local vimgrep_arguments = {unpack(telescopeConfig.values.vimgrep_arguments)}
+
+-- I want to search in hidden/dot files.
+table.insert(vimgrep_arguments, "--hidden")
+-- I don't want to search in the `.git` directory.
+table.insert(vimgrep_arguments, "--glob")
+table.insert(vimgrep_arguments, "!**/.git/*")
+-- start customized find_files
+
 local new_maker = function(filepath, bufnr, opts)
     opts = opts or {}
 
@@ -61,6 +74,12 @@ telescope.setup {
         buffer_previewer_maker = new_maker,
         grep_previewer = require "telescope.previewers".vim_buffer_vimgrep.new
     },
+    -- pickers = {
+    --     find_files = {
+    --         -- `hidden = true` will still show the inside of `.git/` as it's not `.gitignore`d.
+    --         find_command = {"rg", "--files", "--hidden", "--glob", "!**/.git/*"}
+    --     }
+    -- },
     extensions = {
         fzf = {
             fuzzy = true, -- false will only do exact matching
@@ -88,36 +107,21 @@ vim.api.nvim_set_keymap(
     {noremap = true}
 )
 
--- telescope.load_extension("fzy_native")
--- require "telescope".load_extension("frecency")
-
--- vim.api.nvim_set_keymap("n", "<leader>of", ":Telescope find_files theme=get_dropdown<cr>", {noremap = true})
--- vim.api.nvim_set_keymap("n", "<leader>oF", ":Telescope find_files theme=get_dropdown<cr>", {noremap = true})
--- vim.api.nvim_set_keymap("n", "<leader>oo", ":Telescope oldfiles theme=get_dropdown<cr>", {noremap = true})
-vim.api.nvim_set_keymap(
-    "n",
-    "<leader>ob",
-    ":Telescope buffers sort_mru=true ignore_current_buffer=true theme=get_ivy<cr>",
-    {noremap = true}
-)
-vim.api.nvim_set_keymap("n", "<leader>oo", ":Telescope resume<cr>", {noremap = true})
+local builtin = require("telescope.builtin")
+vim.keymap.set("n", "<leader>ob", builtin.buffers, {})
+-- vim.api.nvim_set_keymap(
+--     "n",
+--     "<leader>ob",
+--     ":Telescope buffers sort_mru=true ignore_current_buffer=true theme=get_ivy<cr>",
+--     {noremap = true}
+-- )
+-- vim.api.nvim_set_keymap("n", "<leader>oo", ":Telescope resume<cr>", {noremap = true})
+vim.keymap.set("n", "<leader>oo", builtin.resume, {})
 vim.api.nvim_set_keymap("n", "<leader>vl", ":Telescope find_files cwd=~/.dotfiles/roles/neovim<cr>", {noremap = true})
 
--- vim.api.nvim_set_keymap("n", "<leader>ob", ":Telescope file_browser<cr>", {noremap = true})
--- vim.api.nvim_set_keymap("n", "<leader>oq", ":Telescope quickfix<cr>", {noremap = true})
--- vim.api.nvim_set_keymap("n", "<leader>oh", ":Telescope help_tags theme=get_dropdown<cr>", {noremap = true})
--- vim.api.nvim_set_keymap("n", "<leader>oo", ":Telescope git_branches<cr>", {noremap = true})
--- vim.api.nvim_set_keymap("n", "<leader>os", ":Telescope git_status<cr>", {noremap = true})
 vim.api.nvim_set_keymap("n", "<leader>GL", ":Telescope git_bcommits<cr>", {noremap = true})
 
--- vim.api.nvim_set_keymap("n", "<leader>lf", ":Telescope lsp_code_actions theme=get_dropdown<cr>", {noremap = true})
--- vim.api.nvim_set_keymap("n", "<leader>os", ":Telescope lsp_workspace_symbols theme=get_dropdown<cr>", {noremap = true})
--- vim.api.nvim_set_keymap("n", "<leader>of", require('telescope').extensions.fzf_writer.files(), {noremap = true})
-
--- todo: broken -> using fzf's :Tags for now
--- vim.api.nvim_set_keymap("n", "<leader>ot", ":Telescope tags<cr>", {noremap = true})
-
-vim.api.nvim_set_keymap("n", "<leader>of", "<cmd>lua fd()<cr>", {noremap = true})
+vim.keymap.set("n", "<leader>of", builtin.find_files, {})
 vim.api.nvim_set_keymap("n", "<leader>og", ":Telescope git_files theme=get_ivy<cr>", {noremap = true, silent = true})
 -- vim.api.nvim_set_keymap("n", "<leader>og", "<cmd>lua fdFromGitRoot()<cr>", {noremap = true, silent = true})
 vim.api.nvim_set_keymap("n", "<leader>sg", "<cmd>lua grepFromGitRoot()<cr>", {noremap = true, silent = true})

@@ -31,6 +31,7 @@
 		}
 	],
 	"explorer.git.enable": false,
+	"explorer.file.showHiddenFiles": true,
     "diagnostic.enable": true,
     "diagnostic.displayByAle": true,
     "diagnostic.checkCurrentLine": true,
@@ -82,10 +83,9 @@
     "yaml.schemas": {
         "https://raw.githubusercontent.com/softprops/serverless-yml-schema/master/serverless-schema.json": "/serverless.yaml",
         "http://json.schemastore.org/circleciconfig": "/.circleci/config.yml",
-        "http://json.schemastore.org/github-workflow": "/.github/workflows/*.yml",
+        "http://json.schemastore.org/github-workflow": "/.github/workflows/*ml",
         "https://raw.githubusercontent.com/docker/compose/master/compose/config/config_schema_v3.0.json": "/docker-compose*ml",
-        "https://raw.githubusercontent.com/OAI/OpenAPI-Specification/master/schemas/v2.0/schema.json": "/swagger.yml",
-				"kubernetes": "/*.yaml"
+        "https://raw.githubusercontent.com/OAI/OpenAPI-Specification/master/schemas/v2.0/schema.json": "/swagger.*ml"
     },
     "yaml.customTags": [
         "!And scalar",
@@ -153,6 +153,7 @@
     "xml.java.home": "/usr/lib/jvm/java-11-openjdk-amd64",
     "go.goplsUseDaemon": true,
     "go.goplsOptions": {
+		"expandWorkspaceToModule": true,
         "usePlaceholders": true,
         "allowModfileModifications": true,
 		"gofumpt": true,
@@ -180,17 +181,22 @@
         "markdown"
     ],
     "cSpell.userWords": [
-      "Babauta",
       "IAMs",
       "KPIs",
       "MITs",
       "Spotify",
       "Symfony",
+      "artifactregistry",
+      "bigquery",
+      "cloudbuild",
+      "cloudsql",
       "devs",
-      "gmbh",
+      "gcloud",
+      "gserviceaccount",
       "newpage",
       "roadmap",
-      "tuevsued"
+      "secretmanager",
+      "sqladmin",
     ],
     "nextword.greedy": false,
     "nextword.filetypes": [

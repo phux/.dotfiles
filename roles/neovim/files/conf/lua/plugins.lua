@@ -38,6 +38,7 @@ require("packer").startup(
         -- use "folke/trouble.nvim"
         use {
             "nvim-lua/telescope.nvim",
+            branch = "0.1.x",
             requires = {
                 "nvim-lua/plenary.nvim"
             }
@@ -56,13 +57,9 @@ require("packer").startup(
                 require("refactoring").setup(
                     {
                         -- prompt for return type
-                        prompt_func_return_type = {
-                            go = true
-                        },
+                        prompt_func_return_type = {},
                         -- prompt for function parameters
-                        prompt_func_param_type = {
-                            go = true
-                        }
+                        prompt_func_param_type = {}
                     }
                 )
                 vim.api.nvim_set_keymap(
@@ -76,6 +73,18 @@ require("packer").startup(
                     "v",
                     "<leader>rev",
                     [[ <Esc><Cmd>lua require('refactoring').refactor('Extract Variable')<CR>]],
+                    {noremap = true, silent = true, expr = false}
+                )
+                vim.api.nvim_set_keymap(
+                    "n",
+                    "<leader>reb",
+                    [[ <Cmd>lua require('refactoring').refactor('Extract Block')<CR>]],
+                    {noremap = true, silent = true, expr = false}
+                )
+                vim.api.nvim_set_keymap(
+                    "n",
+                    "<leader>rebf",
+                    [[ <Cmd>lua require('refactoring').refactor('Extract Block To File')<CR>]],
                     {noremap = true, silent = true, expr = false}
                 )
             end

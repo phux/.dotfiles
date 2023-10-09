@@ -3,6 +3,7 @@ augroup yaml
   au BufWritePost *.php silent! !eval '[ -f ".git/hooks/ctags" ] && .git/hooks/ctags yaml' &
   au BufWritePost *.php silent! !eval '[ -f "../.git/hooks/ctags" ] && ../.git/hooks/ctags yaml' &
   au BufNewFile,BufRead,BufEnter *.yaml,*.yml set tags=.git/tags.php,../.git/tags.php,.git/tags.yaml,../.git/tags.yaml
+  au BufNewFile,BufRead,BufEnter *.yml.jinja,*.yaml.jinja set ft=yaml
 augroup END
 
 setlocal tabstop=2 sts=2 sw=2 expandtab

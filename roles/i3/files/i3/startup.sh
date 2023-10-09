@@ -1,8 +1,8 @@
 #!/bin/bash
 
-# if ! urxvtc "$@"; then
-#   urxvtd -q -o -f
-# fi
+if ! urxvtc "$@"; then
+  urxvtcd -q -o -f
+fi
 
 autorandr -c
 

@@ -30,6 +30,8 @@ export LC_ALL='en_US.UTF-8';
 export SHOW_AWS_PROMPT=false
 export PURE_PROMPT_PATH_FORMATTING="%~"
 
+export PHP_CS_FIXER_IGNORE_ENV=true
+
 # if [ -f $XDG_CONFIG_HOME/zsh/cached_plugins.sh ]; then
     # source $XDG_CONFIG_HOME/zsh/cached_plugins.sh
 # fi

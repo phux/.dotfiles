@@ -44,7 +44,7 @@ nnoremap <buffer> <leader>ru :PhpactorImportMissingClasses<cr>
 nnoremap <buffer> <leader>c :PhpactorContextMenu<cr>
 vnoremap <buffer> <leader>c :PhpactorContextMenu<cr>
 
-let b:ale_linters = ['phpstan']
+let b:ale_linters = ['php','phpstan']
 let b:ale_fixers = ['php_cs_fixer']
 let g:ale_php_phpstan_executable = 'vendor/bin/phpstan'
 let g:ale_php_cs_fixer_options = '--config=".php-cs-fixer.php"'

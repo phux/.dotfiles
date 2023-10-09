@@ -21,4 +21,4 @@
   become: yes
   ignore_errors: true
   shell: >
-    cd {{ ansible_env.HOME }}/tools/neovim && git pull && make CMAKE_BUILD_TYPE=Release  && sudo make install && chown -R jm .
+    cd {{ ansible_env.HOME }}/tools/neovim && git pull && make CMAKE_BUILD_TYPE=Release  && sudo make install && sudo chown -R jm .

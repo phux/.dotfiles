@@ -245,6 +245,8 @@ local autocmds = {
         {"BufWritePost", "~/.dotfiles/*.lua", ":luafile %"},
         -- {"WinEnter", "*", ":call ResizeSplits()"},
         {"BufNewFile,BufRead", "*.graphqls", "set ft=graphql"},
+        {"BufNewFile,BufRead", "*.yaml.jinja", "set ft=yaml"},
+        {"BufNewFile,BufRead", "*.yml.jinja", "set ft=yaml"},
         {"BufNewFile,BufRead", "*.tf", "set ft=tf"},
         {"BufNewFile,BufRead", "Dockerfile*", "set ft=dockerfile"},
         {"FocusLost,WinLeave", "*", ":silent! update"},

@@ -6,21 +6,22 @@
     pkg:
       - php8.1
         #- php-common
-        #- php-mysql
+      - php-mysql
         #      - php-mcrypt
-        #      - php-mbstring
+      - php-mbstring
+      - php-bcmath
         #      - php-json
-        #      - php-curl
+      - php-curl
         #      - php-gd
-        #      - php-intl
+      - php-intl
         #      - php-cli
-        # - php-xml
+      - php-xml
         #      - php-bz2
         #      - mcrypt
         #      - openssl
         #      - php-imagick
         #      - php-memcached
-        #      - php-redis
+      - php-redis
         #      - php-xdebug
         #      - php-zip
         #      - php-ast

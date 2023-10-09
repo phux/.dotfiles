@@ -16,6 +16,6 @@
     "escapestudios/symfony2-coding-standard": "3.x-dev",
     "dominikb/composer-license-checker": "dev-master",
 	"phpactor/phpactor": "dev-master",
-    "phpactor/language-server": "^4"
+    "phpactor/language-server": "^5"
   }
 }

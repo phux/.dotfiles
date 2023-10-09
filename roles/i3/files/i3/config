@@ -27,7 +27,8 @@ workspace_auto_back_and_forth no
 floating_modifier Mod1
 
 # start a terminal
-bindsym $mod+Return exec --no-startup-id st
+# bindsym $mod+Return exec --no-startup-id st
+bindsym $mod+Return exec --no-startup-id urxvtc
 
 # kill focused window
 bindsym $mod+Shift+Q kill
@@ -135,6 +136,7 @@ bindsym $mod+semicolon workspace next
 
 # switch to workspace
 bindsym $mod+1 workspace number 1
+# bindsym $mod+1 workspace number 1; exec --no-startup-id [ $(ps h -C ClickUp | wc -l) = 0 ] && ~/Downloads/desktop-3.3.22.AppImage
 bindsym $mod+2 workspace number 2
 bindsym $mod+3 workspace number 3; exec --no-startup-id [ $(ps h -C mysql-workbench-community | wc -l) = 0 ] && mysql-workbench-community
 # bindsym $mod+3 workspace number 3; exec [ $(ps h -C mysql-workbench | wc -l) = 0 ] && ~/Downloads/DataGrip-2019.2.5/bin/datagrip.sh
