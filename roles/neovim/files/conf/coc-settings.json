@@ -77,6 +77,7 @@
     "signature.hideOnTextChange": true,
     "yaml.trace.server": "verbose",
     "yaml.format.proseWrap": "always",
+	"yaml.schemaStore.enable": true,
     "yaml.completion": true,
     "yaml.format.enable": true,
     "yaml.hover": true,
@@ -85,7 +86,9 @@
         "http://json.schemastore.org/circleciconfig": "/.circleci/config.yml",
         "http://json.schemastore.org/github-workflow": "/.github/workflows/*ml",
         "https://raw.githubusercontent.com/docker/compose/master/compose/config/config_schema_v3.0.json": "/docker-compose*ml",
-        "https://raw.githubusercontent.com/OAI/OpenAPI-Specification/master/schemas/v2.0/schema.json": "/swagger.*ml"
+        "https://raw.githubusercontent.com/OAI/OpenAPI-Specification/master/schemas/v2.0/schema.json": "/swagger.*ml",
+		"kubernetes": "*ml"
+
     },
     "yaml.customTags": [
         "!And scalar",
@@ -204,5 +207,7 @@
         "gitcommit",
         "vimwiki"
     ],
-    "Lua.telemetry.enable": false
+    "Lua.telemetry.enable": false,
+    "svelte.enable-ts-plugin": false,
+    "snippets.ultisnips.pythonPrompt": false
 }

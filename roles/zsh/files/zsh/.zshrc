@@ -42,7 +42,7 @@ export VISUAL=$EDITOR
 [[ -s "$HOME/.gvm/scripts/gvm" ]] && source "$HOME/.gvm/scripts/gvm"
 export GOPATH="$HOME/code/go"
 export LGOBIN="$HOME/code/go/bin"
-export PATH=$PATH:$HOME/bin:$HOME/.local/bin:$HOME/.composer/vendor/bin:$FZF_BIN_PATH:$LGOBIN:$HOME/.config/composer/vendor/bin:$HOME/.config/nvim/plugged/phpactor/bin:$HOME/.cargo/bin/:$HOME/google-cloud-sdk/bin
+export PATH=$PATH:$HOME/bin:$HOME/.local/bin:$HOME/.composer/vendor/bin:$FZF_BIN_PATH:$LGOBIN:$HOME/.config/composer/vendor/bin:$HOME/.config/nvim/plugged/phpactor/bin:$HOME/.cargo/bin/:$HOME/google-cloud-sdk/bin:$HOME/.tfenv/bin
 
 HISTSIZE='100000';
 HISTFILESIZE="${HISTSIZE}";
@@ -113,6 +113,7 @@ alias ob='observr observr.rb'
 # alias l='ls -lFh'     #size,show type,human readable # covered by exa
 alias la='ls --all'   #long list,show almost all,show type,human readable
 alias ll='ls -l'      #long list
+alias llc='ls -l -s created'      #long list
 
 alias grep='grep --color'
 
@@ -132,13 +133,16 @@ alias gb="git for-each-ref --sort=committerdate refs/heads/ --format='%(committe
 alias gbd="git for-each-ref --sort=committerdate refs/heads/ --format='%(HEAD) %(color:yellow)%(refname:short)%(color:reset) - %(color:red)%(objectname:short)%(color:reset) - %(contents:subject) - %(authorname) (%(color:green)%(committerdate:relative)%(color:reset))'"
 
 alias gst='git status'
-alias gs='git fuzzy status'
+# alias gst='exa --long --git'
+# alias gs='git fuzzy status'
+alias gs='n +"DiffviewOpen"'
 # export GF_LOG_MENU_PARAMS='--pretty="%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset" --topo-order'
 # export GF_PREFERRED_PAGER="delta --theme=gruvbox --highlight-removed -w __WIDTH__"
 
 alias gdt='n +"DiffviewOpen"'
 # alias glog='n +GV'
 alias glog='gitui'
+alias glo='n +"DiffviewFileHistory"'
 fzf-git-branch() {
     git rev-parse HEAD > /dev/null 2>&1 || return
 
@@ -174,7 +178,7 @@ alias gdm='n +"Gdiff $(git merge-base master HEAD)"'
 
 alias ga='git add'
 alias gc='git commit -v'
-alias gcm='n +Magit'
+# alias gcm='n +Magit'
 alias grh='git reset HEAD'
 alias guc='git reset HEAD~'
 alias gca='git commit -v --amend'
@@ -254,6 +258,7 @@ alias mprof='go tool pprof -http=":9001" mprofile.out'
 alias gt='richgo test ./...'
 
 alias ez='n ~/.dotfiles/roles/zsh/files/zsh/.zshrc;source $ZDOTDIR/.zshrc'
+alias nx='n ~/.Xresources;xrdb -m ~/.Xresources;exit'
 alias .d='cd ~/.dotfiles'
 alias ma='make'
 alias mt='make test'
@@ -412,3 +417,8 @@ source ~/.nix-profile/etc/profile.d/nix.sh
 export USE_GKE_GCLOUD_AUTH_PLUGIN=True
 
 eval "$(~/.rbenv/bin/rbenv init -)"
+
+
+export PYENV_ROOT="$HOME/.pyenv"
+command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init -)"

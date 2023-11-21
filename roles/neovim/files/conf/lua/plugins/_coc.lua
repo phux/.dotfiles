@@ -13,7 +13,7 @@ vim.g.coc_global_extensions = {
     "coc-css",
     "coc-docker",
     "coc-explorer",
-    "coc-git",
+    -- "coc-git",
     "coc-html",
     -- "coc-lua",
     "coc-sumneko-lua",
@@ -57,29 +57,44 @@ U.augroups(autocmds)
 -- NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
 -- other plugin before putting this into your config.
 -- Source: https://github.com/nanotee/nvim-lua-guide#vlua
+-- function _G.check_back_space()
+--     local col = fn.col(".") - 1
+--     if col == 0 or fn.getline("."):sub(col, col):match("%s") then
+--         return true
+--     else
+--         return false
+--     end
+-- end
+local keyset = vim.keymap.set
 function _G.check_back_space()
-    local col = fn.col(".") - 1
-    if col == 0 or fn.getline("."):sub(col, col):match("%s") then
-        return true
-    else
-        return false
-    end
+    local col = vim.fn.col(".") - 1
+    return col == 0 or vim.fn.getline("."):sub(col, col):match("%s") ~= nil
 end
 
-api.nvim_set_keymap(
-    "i",
-    "<TAB>",
-    'coc#pum#visible() ? coc#pum#next(1) : v:lua.check_back_space() ? "<TAB>" : coc#refresh()',
-    {expr = true}
-)
-api.nvim_set_keymap("i", "<S-TAB>", 'coc#pum#visible() ? coc#pum#prev(1)  : "<C-H>"', {expr = true})
--- api.nvim_set_keymap("i", "<cr>", 'pumvisible() ? coc#_select_confirm() : "<CR>"', {expr = true})
+local opts = {silent = true, noremap = true, expr = true, replace_keycodes = false}
+keyset("i", "<TAB>", 'coc#pum#visible() ? coc#pum#next(1) : v:lua.check_back_space() ? "<TAB>" : coc#refresh()', opts)
+keyset("i", "<S-TAB>", [[coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"]], opts)
+
+-- keyset("i", "<cr>", [[coc#pum#visible() ? coc#pum#confirm() : "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"]], opts)
 -- api.nvim_set_keymap(
 --     "i",
 --     "<cr>",
 --     'coc#pum#visible() ? coc#pum#confirm() : "<C-g>u<CR><c-r>=coc#on_enter()<CR>"',
 --     {expr = true}
 -- )
+local remap = vim.api.nvim_set_keymap
+local npairs = require("nvim-autopairs")
+npairs.setup({map_cr = false})
+_G.MUtils = {}
+MUtils.completion_confirm = function()
+    if vim.fn["coc#pum#visible"]() ~= 0 then
+        return vim.fn["coc#pum#confirm"]()
+    else
+        return npairs.autopairs_cr()
+    end
+end
+
+remap("i", "<CR>", "v:lua.MUtils.completion_confirm()", {expr = true, noremap = true})
 
 api.nvim_set_keymap("n", "<leader>lf", "<Plug>(coc-codeaction-cursor)", {noremap = true})
 api.nvim_set_keymap("v", "<leader>lf", "<plug>(coc-codeaction-selected)", {noremap = true})
@@ -93,7 +108,7 @@ U.map("n", "<leader>nd", "<Plug>(coc-definition)", {noremap = false})
 U.map("n", "<leader>nD", "<Plug>(coc-type-definition)", {noremap = false})
 U.map("n", "<leader>ni", "<Plug>(coc-implementation)", {noremap = false})
 U.map("n", "<leader>nr", "<Plug>(coc-references)", {noremap = false}) -- replaced with telescope
-api.nvim_set_keymap("n", "<leader>os", ":CocList symbols<cr>", {noremap = true})
+api.nvim_set_keymap("n", "<leader>os", ":CocList -I symbols<cr>", {noremap = true})
 
 api.nvim_set_keymap("n", "<leader>lh", ":call CocAction('showIncomingCalls')<cr>", {noremap = false})
 U.map("n", "[g", "<Plug>(coc-diagnostic-prev)", {noremap = false})
@@ -101,27 +116,36 @@ U.map("n", "]g", "<Plug>(coc-diagnostic-next)", {noremap = false})
 
 U.map("n", "<leader>Y", ":<C-u>CocList -A --normal yank<cr>", {noremap = false})
 
-U.map("i", "<c-j>", "<Plug>(coc-snippets-expand-jump)", {noremap = false})
+keyset("i", "<c-j>", "<Plug>(coc-snippets-expand-jump)")
 
-api.nvim_set_keymap("n", "<leader>go", ":CocCommand git.browserOpen<cr>", {noremap = true})
+-- api.nvim_set_keymap("n", "<leader>go", ":CocCommand git.browserOpen<cr>", {noremap = true})
 
 api.nvim_set_keymap("n", "<leader>gi", ":CocCommand git.chunkInfo<cr>", {noremap = true})
 
-api.nvim_set_keymap("n", "<leader>ot", ":CocCommand explorer --preset simplify<cr>", {noremap = true, silent = true})
+-- api.nvim_set_keymap("n", "<leader>ot", ":CocCommand explorer --preset simplify<cr>", {noremap = true, silent = true})
 
 -- Use gh to show documentation in preview window.
+-- function _G.show_docs()
+--     local cw = fn.expand("<cword>")
+--     if fn.index({"vim", "help"}, vim.bo.filetype) >= 0 then
+--         vim.cmd("h " .. cw)
+--     else
+--         -- elseif api.nvim_eval("coc#rpc#ready()") then
+--         fn.CocActionAsync("doHover")
+--     end
+--     -- else
+--     --     vim.cmd("!" .. vim.o.keywordprg .. " " .. cw)
+-- end
 function _G.show_docs()
-    local cw = fn.expand("<cword>")
-    if fn.index({"vim", "help"}, vim.bo.filetype) >= 0 then
-        vim.cmd("h " .. cw)
+    local cw = vim.fn.expand("<cword>")
+    if vim.fn.index({"vim", "help"}, vim.bo.filetype) >= 0 then
+        vim.api.nvim_command("h " .. cw)
+    elseif vim.api.nvim_eval("coc#rpc#ready()") then
+        vim.fn.CocActionAsync("doHover")
     else
-        -- elseif api.nvim_eval("coc#rpc#ready()") then
-        fn.CocActionAsync("doHover")
+        vim.api.nvim_command("!" .. vim.o.keywordprg .. " " .. cw)
     end
-    -- else
-    --     vim.cmd("!" .. vim.o.keywordprg .. " " .. cw)
 end
-
 U.map("n", "K", "<CMD>lua show_docs()<CR>")
 
 vim.cmd(
@@ -129,20 +153,3 @@ vim.cmd(
 let g:coc_explorer_global_presets = {'simplify': { 'file-child-template': '[selection | clip | 1] [indent][icon | 1] [filename omitCenter 1]' }}
 ]]
 )
-vim.cmd(
-    [[
-function! CheckBackspace() abort
-  let col = col('.') - 1
-  return !col || getline('.')[col - 1]  =~# '\s'
-endfunction
-inoremap <silent><expr> <TAB>
-      \ coc#pum#visible() ? coc#pum#next(1) :
-      \ CheckBackspace() ? "\<Tab>" :
-      \ coc#refresh()
-inoremap <expr><S-TAB> coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"
-
-]]
-)
-
-local opts = {silent = true, noremap = true, expr = true, replace_keycodes = false}
-vim.keymap.set("i", "<cr>", [[coc#pum#visible() ? coc#pum#confirm() : "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"]], opts)

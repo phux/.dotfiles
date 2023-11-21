@@ -92,7 +92,11 @@ require "plugins/_mkdx"
 require "plugins/_context"
 require "plugins/_gitmessenger"
 require "plugins/_diffconflicts"
+require "plugins/_diffview"
 require("plugins/_coc")
+require("plugins/_gitsigns")
+require("plugins/_hlslens")
+require("plugins/_neotree")
 -- require "plugins/_mergetool"
 -- require "plugins/_fzflua"
 -- require "plugins/_lspconfig"
@@ -104,11 +108,15 @@ require("plugins/_coc")
 
 -- require "plugins/_notoire"
 
+require("numb").setup()
+
 if vim.fn.exists("g:colors_name") == 0 then
     if U.load_bright_theme() then
         vim.o.background = "light"
     end
-    vim.cmd("colorscheme gruvbox8")
+    vim.cmd("let g:gruvbox_material_better_performance = 1")
+    -- vim.cmd("let g:gruvbox_material_foreground = 'original'")
+    vim.cmd("colorscheme gruvbox-material")
 end
 
 vim.o.hidden = true
@@ -359,7 +367,7 @@ let g:grammarous#disabled_rules['*'] = ["DASH_RULE", "WHITESPACE_RULE", "EN_QUOT
 ]]
 )
 
-vim.api.nvim_set_keymap("n", "<M-f>", ":set ft=json | %!python3 -m json.tool<cr>", {noremap = true})
+vim.api.nvim_set_keymap("n", "<M-f>", ":set ft=json | CocCommand editor.action.formatDocument<cr>", {noremap = true})
 vim.cmd([[
 nnoremap <Leader>sw :%s/\<<C-r><C-w>\>//g<Left><Left>
     ]])

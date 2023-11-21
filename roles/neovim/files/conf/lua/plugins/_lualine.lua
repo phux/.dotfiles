@@ -5,10 +5,11 @@ require("lualine").setup {
     },
     sections = {
         lualine_a = {
-            "g:coc_status",
+            -- "g:coc_status",
             "mode"
         },
-        lualine_b = {"branch"},
+        -- lualine_b = {"branch"},
+        lualine_b = {"branch", "b:gitsigns_status"},
         lualine_c = {
             {
                 "diagnostics",

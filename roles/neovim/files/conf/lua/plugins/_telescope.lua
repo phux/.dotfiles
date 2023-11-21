@@ -80,24 +80,25 @@ telescope.setup {
     --         find_command = {"rg", "--files", "--hidden", "--glob", "!**/.git/*"}
     --     }
     -- },
-    extensions = {
-        fzf = {
-            fuzzy = true, -- false will only do exact matching
-            override_generic_sorter = true, -- override the generic sorter
-            override_file_sorter = true, -- override the file sorter
-            case_mode = "smart_case" -- or "ignore_case" or "respect_case"
-            -- the default case_mode is "smart_case"
-        }
-    }
     -- extensions = {
-    --     fzy_native = {
-    --         override_generic_sorter = true,
-    --         override_file_sorter = true
+    --     fzf = {
+    --         fuzzy = true, -- false will only do exact matching
+    --         override_generic_sorter = true, -- override the generic sorter
+    --         override_file_sorter = true, -- override the file sorter
+    --         case_mode = "smart_case" -- or "ignore_case" or "respect_case"
+    --         -- the default case_mode is "smart_case"
     --     }
     -- }
+    extensions = {
+        fzy_native = {
+            override_generic_sorter = true,
+            override_file_sorter = true
+        }
+    }
 }
 
-telescope.load_extension("fzf")
+-- telescope.load_extension("fzf")
+telescope.load_extension("fzy_native")
 
 telescope.load_extension("refactoring")
 vim.api.nvim_set_keymap(
@@ -123,6 +124,7 @@ vim.api.nvim_set_keymap("n", "<leader>GL", ":Telescope git_bcommits<cr>", {norem
 
 vim.keymap.set("n", "<leader>of", builtin.find_files, {})
 vim.api.nvim_set_keymap("n", "<leader>og", ":Telescope git_files theme=get_ivy<cr>", {noremap = true, silent = true})
+-- vim.api.nvim_set_keymap("n", "<leader>gs", ":Telescope git_status<cr>", {noremap = true, silent = true})
 -- vim.api.nvim_set_keymap("n", "<leader>og", "<cmd>lua fdFromGitRoot()<cr>", {noremap = true, silent = true})
 vim.api.nvim_set_keymap("n", "<leader>sg", "<cmd>lua grepFromGitRoot()<cr>", {noremap = true, silent = true})
 vim.api.nvim_set_keymap("n", "<leader>SG", "<cmd>lua grepStringFromGitRoot()<cr>", {noremap = true, silent = true})

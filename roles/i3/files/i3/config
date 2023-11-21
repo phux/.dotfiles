@@ -28,7 +28,8 @@ floating_modifier Mod1
 
 # start a terminal
 # bindsym $mod+Return exec --no-startup-id st
-bindsym $mod+Return exec --no-startup-id urxvtc
+# bindsym $mod+Return exec --no-startup-id urxvtc
+bindsym $mod+Return exec --no-startup-id urxvt
 
 # kill focused window
 bindsym $mod+Shift+Q kill

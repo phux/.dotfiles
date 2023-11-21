@@ -45,6 +45,7 @@
       - libtool-bin
       - ninja-build
       - imagemagick
+      - fzy # telescope nvim 
 
 - name: disable openvpn at boot
   become: yes

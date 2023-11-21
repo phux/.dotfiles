@@ -43,7 +43,8 @@ require("packer").startup(
                 "nvim-lua/plenary.nvim"
             }
         }
-        use {"nvim-telescope/telescope-fzf-native.nvim", run = "make clean && make"}
+        -- use {"nvim-telescope/telescope-fzf-native.nvim", run = "make clean && make"}
+        use {"nvim-telescope/telescope-fzy-native.nvim"}
         use {"fannheyward/telescope-coc.nvim"}
 
         use {
@@ -124,13 +125,13 @@ require("packer").startup(
         -- use "christoomey/vim-conflicted"
         -- use {"jreybert/vimagit", cmd = {"Magit", "MagitOnly"}}
         -- use "sodapopcan/vim-twiggy"
-        use "airblade/vim-gitgutter"
+        use {"lewis6991/gitsigns.nvim"}
         use {
             "pwntester/octo.nvim",
             requires = {
                 "nvim-lua/plenary.nvim",
                 "nvim-telescope/telescope.nvim",
-                "kyazdani42/nvim-web-devicons"
+                "nvim-tree/nvim-web-devicons"
             },
             config = function()
                 require "octo".setup()
@@ -150,12 +151,44 @@ require("packer").startup(
         }
 
         use {"AndrewRadev/splitjoin.vim"}
+        use {"kevinhwang91/nvim-hlslens"}
+        use {
+            "nvim-neo-tree/neo-tree.nvim",
+            branch = "v3.x",
+            requires = {
+                "nvim-lua/plenary.nvim",
+                "nvim-tree/nvim-web-devicons", -- not strictly required, but recommended
+                "MunifTanjim/nui.nvim",
+                -- "3rd/image.nvim", -- Optional image support in preview window: See `# Preview Mode` for more information
+                {
+                    "s1n7ax/nvim-window-picker",
+                    version = "2.*",
+                    config = function()
+                        require "window-picker".setup(
+                            {
+                                filter_rules = {
+                                    include_current_win = false,
+                                    autoselect_one = true,
+                                    -- filter using buffer options
+                                    bo = {
+                                        -- if the file type is one of following, the window will be ignored
+                                        filetype = {"neo-tree", "neo-tree-popup", "notify"},
+                                        -- if the buffer type is one of following, the window will be ignored
+                                        buftype = {"terminal", "quickfix"}
+                                    }
+                                }
+                            }
+                        )
+                    end
+                }
+            }
+        }
 
         use {"nvim-treesitter/nvim-treesitter", run = ":TSUpdate"}
         use {"nvim-treesitter/nvim-treesitter-context"}
 
-        use {"lifepillar/vim-gruvbox8"}
-        -- use {"sainnhe/gruvbox-material"}
+        -- use {"lifepillar/vim-gruvbox8"}
+        use {"sainnhe/gruvbox-material"}
 
         use {"tweekmonster/startuptime.vim", cmd = "StartupTime"}
 
@@ -186,8 +219,8 @@ require("packer").startup(
         -- use "ap/vim-buftabline"
         use {
             "akinsho/bufferline.nvim",
-            tag = "v4.*",
-            requires = "kyazdani42/nvim-web-devicons",
+            tag = "*",
+            requires = "nvim-tree/nvim-web-devicons",
             config = function()
                 require "bufferline".setup()
             end
@@ -285,7 +318,7 @@ require("packer").startup(
         -- use "~/code/vim-marker"
         use {"phux/vim-marker"}
         -- use "~/code/notetaker.vim"
-        use "mtth/scratch.vim"
+        -- use "mtth/scratch.vim"
         -- use "gcmt/wildfire.vim"
         use "rhysd/vim-grammarous"
         use "simnalamburt/vim-mundo"
@@ -353,6 +386,9 @@ require("packer").startup(
                 end
             }
         )
+        use "nacro90/numb.nvim" -- peek lines
+        use "chrisgrieser/nvim-puppeteer"
+        use "ggandor/lightspeed.nvim"
     end
 )
 

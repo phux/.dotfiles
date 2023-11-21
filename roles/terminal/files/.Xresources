@@ -1,8 +1,9 @@
 /* URxvt*font: xft:DejaVuSansMono\ Nerd\ Font:pixelsize=12 */
 /* *.font: xft:DejaVuSansMono\ Nerd\ Font:pixelsize=14 */
-/* *.font: xft:Fira\ Code:pixelsize=12:antialias=true:autohint=true; */
+/* *.font: xft:Fira\ Code:pixelsize=12:antialias=true:utohint=true; */
 /* URxvt.font: xft:InconsolataGo\ Nerd\ Font:size=12 */
-URxvt*font: xft:Hack:pixelsize=14
+URxvt*font: xft:Hack\ Nerd\ Font\ Mono:pixelsize=14
+/* URxvt*font: xft:Hack:pixelsize=14 */
 URxvt*scrollBar: false
 URxvt.saveLines: 2048
 /* ! lag ? URxvt*buffered: true */
