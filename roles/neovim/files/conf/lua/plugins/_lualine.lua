@@ -1,4 +1,3 @@
-local CodeGPTModule = require("codegpt")
 require("lualine").setup {
     options = {
         theme = "gruvbox"

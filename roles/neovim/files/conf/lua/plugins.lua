@@ -9,43 +9,24 @@ require("packer").startup(
         use {"wbthomason/packer.nvim"}
 
         -- " For navigating b/w tmux window, specially for navigating with NERDTree
-        use "christoomey/vim-tmux-navigator"
 
         -- " FocusGained and FocusLost autocommand events are not working in terminal
         -- vim. This plugin restores them when using vim inside Tmux.
-        use "tmux-plugins/vim-tmux-focus-events"
 
-        use {"neoclide/coc.nvim", branch = "release"}
-        use "antoinemadec/coc-fzf"
-        use "honza/vim-snippets"
         -- use {"rafcamlet/coc-nvim-lua", ft = "lua"}
-        use "triglav/vim-visual-increment"
 
         use {"junegunn/fzf", run = "./install --all"}
         use {"junegunn/fzf.vim"}
-        use {"junegunn/gv.vim"}
         use "junegunn/vim-peekaboo"
         -- use "sinetoami/fzy.nvim"
         -- use {"lotabout/skim", run = "./install"}
         -- use "lotabout/skim.vim"
 
-        use {"majutsushi/tagbar", cmd = "TagbarToggle"}
 
         -- " For various text objects
-        use "wellle/targets.vim"
-        use "wellle/tmux-complete.vim"
 
         -- use "folke/trouble.nvim"
-        use {
-            "nvim-lua/telescope.nvim",
-            branch = "0.1.x",
-            requires = {
-                "nvim-lua/plenary.nvim"
-            }
-        }
         -- use {"nvim-telescope/telescope-fzf-native.nvim", run = "make clean && make"}
-        use {"nvim-telescope/telescope-fzy-native.nvim"}
-        use {"fannheyward/telescope-coc.nvim"}
 
         use {
             "ThePrimeagen/refactoring.nvim",
@@ -98,9 +79,6 @@ require("packer").startup(
                 require "colorizer".setup()
             end
         }
-        use "w0rp/ale"
-        -- Wrapping/delimiters
-        use {"machakann/vim-sandwich", {"andymass/vim-matchup", event = "VimEnter *"}}
         -- use {
         --     "blackCauldron7/surround.nvim",
         --     config = function()
@@ -108,123 +86,14 @@ require("packer").startup(
         --     end
         -- }
         -- Indentation tracking
-        use "yggdroot/indentLine"
-        use {"godlygeek/tabular"}
-
-        use "zhaocai/GoldenView.Vim"
-        use "talek/obvious-resize"
-
-        -- " git stuff
-        -- use {"rhysd/git-messenger.vim", cmd = "GitMessenger"}
-        use {"rhysd/git-messenger.vim"}
-        use "tpope/vim-fugitive"
-        use "tpope/vim-rhubarb"
-        -- use "samoshkin/vim-mergetool"
-        use {"sindrets/diffview.nvim"}
-        use {"whiteinge/diffconflicts", cmd = "DiffConflicts"}
-        -- use "christoomey/vim-conflicted"
-        -- use {"jreybert/vimagit", cmd = {"Magit", "MagitOnly"}}
-        -- use "sodapopcan/vim-twiggy"
-        use {"lewis6991/gitsigns.nvim"}
-        use {
-            "pwntester/octo.nvim",
-            requires = {
-                "nvim-lua/plenary.nvim",
-                "nvim-telescope/telescope.nvim",
-                "nvim-tree/nvim-web-devicons"
-            },
-            config = function()
-                require "octo".setup()
-                vim.api.nvim_set_keymap(
-                    "n",
-                    "<leader>opl",
-                    [[ <Esc><Cmd>Octo pr list<CR>]],
-                    {noremap = true, silent = true, expr = false}
-                )
-                vim.api.nvim_set_keymap(
-                    "n",
-                    "<leader>ors",
-                    [[ <Esc><Cmd>Octo review start<CR>]],
-                    {noremap = true, silent = true, expr = false}
-                )
-            end
-        }
-
-        use {"AndrewRadev/splitjoin.vim"}
-        use {"kevinhwang91/nvim-hlslens"}
-        use {
-            "nvim-neo-tree/neo-tree.nvim",
-            branch = "v3.x",
-            requires = {
-                "nvim-lua/plenary.nvim",
-                "nvim-tree/nvim-web-devicons", -- not strictly required, but recommended
-                "MunifTanjim/nui.nvim",
-                -- "3rd/image.nvim", -- Optional image support in preview window: See `# Preview Mode` for more information
-                {
-                    "s1n7ax/nvim-window-picker",
-                    version = "2.*",
-                    config = function()
-                        require "window-picker".setup(
-                            {
-                                filter_rules = {
-                                    include_current_win = false,
-                                    autoselect_one = true,
-                                    -- filter using buffer options
-                                    bo = {
-                                        -- if the file type is one of following, the window will be ignored
-                                        filetype = {"neo-tree", "neo-tree-popup", "notify"},
-                                        -- if the buffer type is one of following, the window will be ignored
-                                        buftype = {"terminal", "quickfix"}
-                                    }
-                                }
-                            }
-                        )
-                    end
-                }
-            }
-        }
-
-        use {"nvim-treesitter/nvim-treesitter", run = ":TSUpdate"}
-        use {"nvim-treesitter/nvim-treesitter-context"}
 
         -- use {"lifepillar/vim-gruvbox8"}
-        use {"sainnhe/gruvbox-material"}
 
-        use {"tweekmonster/startuptime.vim", cmd = "StartupTime"}
 
-        use "tpope/vim-commentary"
-
-        use "tpope/vim-abolish"
         -- use "tpope/vim-sleuth"
 
         use {"vim-test/vim-test", ft = {"go", "php"}}
         -- use { "rcarriga/vim-ultest", requires = {"vim-test/vim-test"}, run = ":UpdateRemotePlugins" }
-        use {"adoy/vim-php-refactoring-toolbox", ft = "php"}
-        use {"phux/php-doc-modded", ft = "php"}
-
-        use {
-            "phpactor/phpactor",
-            run = " composer install --no-dev -o"
-        }
-
-        -- use {"rcarriga/nvim-dap-ui", requires = {"mfussenegger/nvim-dap"}}
-        -- use "leoluz/nvim-dap-go"
-        -- use "theHamsta/nvim-dap-virtual-text"
-
-        -- use {"laher/gothx.vim", ft = "go"}
-        use {"sebdah/vim-delve", ft = "go"}
-        use {"rhysd/vim-go-impl", ft = "go"}
-        -- use {"benmills/vim-golang-alternate", ft = "go"}
-
-        -- use "ap/vim-buftabline"
-        use {
-            "akinsho/bufferline.nvim",
-            tag = "*",
-            requires = "nvim-tree/nvim-web-devicons",
-            config = function()
-                require "bufferline".setup()
-            end
-        }
         -- use {
         --     "akinsho/bufferline.nvim",
         --     requires = "kyazdani42/nvim-web-devicons",
@@ -236,12 +105,6 @@ require("packer").startup(
 
         -- use "cohama/lexima.vim"
         -- use "jiangmiao/auto-pairs"
-        use {
-            "windwp/nvim-autopairs",
-            config = function()
-                require("nvim-autopairs").setup {}
-            end
-        }
 
         -- use "itchyny/lightline.vim"
 
@@ -254,10 +117,8 @@ require("packer").startup(
         --     cmd = {"NvimTreeToggle", "NvimTreeFindFile"}
         -- }
 
-        use {"hashivim/vim-terraform", ft = "tf"}
 
         -- " Vim motion in lightning fast speed
-        use {"easymotion/vim-easymotion"}
         -- use {"phaazon/hop.nvim"}
         -- use "zsugabubus/vim-jumpmotion"
         -- use "justinmk/vim-sneak"
@@ -269,7 +130,6 @@ require("packer").startup(
         -- use "leafOfTree/vim-svelte-plugin"
         use {"mattn/emmet-vim", ft = {"html", "javascript", "typescriptreact", "svelte"}}
         use {"MaxMEllon/vim-jsx-pretty", ft = {"typescript", "javascript"}}
-        use {"jparise/vim-graphql", ft = {"graphql"}}
         use {"nelsyeung/twig.vim", ft = "twig"}
         -- use "sheerun/vim-polyglot"
 
@@ -280,7 +140,6 @@ require("packer").startup(
         --     requires = {"kyazdani42/nvim-web-devicons", opt = true}
         -- }
 
-        use "hoob3rt/lualine.nvim"
         -- requires = {"kyazdani42/nvim-web-devicons", opt = true}
         use {"ThePrimeagen/vim-be-good", cmd = "VimBeGood"}
 
@@ -289,7 +148,6 @@ require("packer").startup(
         use {"phux/vim-hardtime"}
 
         -- mermaid support
-        use {"zhaozg/vim-diagram"}
         -- use(
         --     {
         --         "iamcco/markdown-preview.nvim",
@@ -300,7 +158,6 @@ require("packer").startup(
         --         ft = {"markdown", "vimwiki", "vimwiki.markdown"}
         --     }
         -- )
-        use {"SidOfc/mkdx", ft = {"markdown", "vimwiki", "vimwiki.markdown"}}
 
         use {"junegunn/goyo.vim", ft = {"markdown", "vimwiki"}}
         use {"junegunn/limelight.vim", ft = {"markdown", "vimwiki"}}
@@ -312,16 +169,13 @@ require("packer").startup(
         use {"dbeniamine/todo.txt-vim", ft = {"text"}}
         -- use "dhruvasagar/vim-dotoo"
 
-        use "ActivityWatch/aw-watcher-vim"
         -- use "KevinBockelandt/notoire"
 
         -- use "~/code/vim-marker"
-        use {"phux/vim-marker"}
         -- use "~/code/notetaker.vim"
         -- use "mtth/scratch.vim"
         -- use "gcmt/wildfire.vim"
         use "rhysd/vim-grammarous"
-        use "simnalamburt/vim-mundo"
 
         -- use "neovim/nvim-lspconfig"
         -- use "nvim-lua/lsp-status.nvim"
@@ -343,52 +197,6 @@ require("packer").startup(
         --     }
         -- }
 
-        use {
-            "nvim-orgmode/orgmode",
-            -- ft = {"org"},
-            config = function()
-                require("orgmode").setup {
-                    org_agenda_files = {"~/Dropbox/org/*"},
-                    org_default_notes_file = "~/Dropbox/org/refile.org",
-                    diagnostics = false,
-                    org_agenda_skip_scheduled_if_done = true,
-                    org_agenda_skip_deadline_if_done = true,
-                    org_hide_leading_stars = true,
-                    -- org_hide_emphasis_markers = true,
-                    win_split_mode = "auto",
-                    mappings = {
-                        org = {
-                            org_set_tags_command = {"gA"}
-                        },
-                        capture = {
-                            org_set_tags_command = {"gA"}
-                        }
-                    },
-                    org_agenda_templates = {t = {description = "Task", template = "* TODO %?\n SCHEDULED: %t\n %u"}}
-                }
-                require("orgmode").setup_ts_grammar()
-            end,
-            requires = {
-                "akinsho/org-bullets.nvim"
-            }
-        }
-        use "kevinhwang91/rnvimr"
-        use "dhruvasagar/vim-table-mode"
-        use(
-            {
-                "dpayne/CodeGPT.nvim",
-                requires = {
-                    "MunifTanjim/nui.nvim",
-                    "nvim-lua/plenary.nvim"
-                },
-                config = function()
-                    require("codegpt.config")
-                end
-            }
-        )
-        use "nacro90/numb.nvim" -- peek lines
-        use "chrisgrieser/nvim-puppeteer"
-        use "ggandor/lightspeed.nvim"
     end
 )
 

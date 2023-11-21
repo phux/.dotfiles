@@ -362,7 +362,7 @@ bindkey '^b' backward-char
 bindkey '^f' forward-char
 bindkey '\e.' insert-last-word
 
-bindkey '^R' fzf-history-widget
+# bindkey '^R' fzf-history-widget
 # Use fd to generate the list for directory completion
 _fzf_compgen_dir() {
   fd --type d --hidden --follow --exclude ".git" . "$1"
@@ -382,7 +382,9 @@ bindkey -M vicmd 'v' edit-command-line
 
 export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
 
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+# [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+source /usr/share/doc/fzf/examples/key-bindings.zsh
+source /usr/share/doc/fzf/examples/completion.zsh
 
 export JAVA_HOME="/usr/lib/jvm/java-11-openjdk-amd64"
 
