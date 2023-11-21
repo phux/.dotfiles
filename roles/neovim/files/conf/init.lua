@@ -3,13 +3,6 @@ local fn = vim.fn
 local vim = vim
 local U = require "utils"
 
--- local install_path = fn.stdpath("data") .. "/site/pack/packer/start/packer.nvim"
-
--- if fn.empty(fn.glob(install_path)) > 0 then
---     execute("!git clone https://github.com/wbthomason/packer.nvim " .. install_path)
---     execute "packadd packer.nvim"
--- end
-
 vim.o.termguicolors = true
 
 local disable_distribution_plugins = function()
@@ -59,7 +52,6 @@ vim.o.expandtab = true
 
 vim.cmd("set foldlevel=1")
 vim.cmd("set foldnestmax=1")
--- vim.cmd("let g:sneak#label = 1")
 vim.g.indentLine_enabled = 0
 
 
@@ -316,7 +308,6 @@ vim.cmd([[
 nnoremap <Leader>sw :%s/\<<C-r><C-w>\>//g<Left><Left>
     ]])
 
--- require "plugins/_coc"
 
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
@@ -347,13 +338,7 @@ require("lazy").setup(
         },
         { "yggdroot/indentLine" },
         { "godlygeek/tabular", lazy=true },
-        {
-            "zhaocai/GoldenView.Vim",
-            config = function()
-                vim.g.goldenview__enable_default_mapping = 0
-                vim.api.nvim_set_keymap("n", "<leader>mm", "<Plug>GoldenViewSwitchToggle", { noremap = false })
-            end
-        },
+        {"roman/golden-ratio"},
         {
             "talek/obvious-resize",
             keys = {
@@ -676,10 +661,14 @@ require("lazy").setup(
             end
         },
         -- {"andymass/vim-matchup"},
-        -- {
-        --     "machakann/vim-sandwich",
-        --     event = "VimEnter *"
-        -- },
+         {
+             "machakann/vim-sandwich",
+             event = "VimEnter *",
+            config = function()
+                vim.cmd("runtime macros/sandwich/keymap/surround.vim")
+            end
+
+         },
         {
             "pwntester/octo.nvim",
             cmd = "Octo",
@@ -992,7 +981,7 @@ require("lazy").setup(
                             follow_current_file = {
                                 enabled = true,         -- This will find and focus the file in the active buffer every time
                                 --              -- the current file is changed while the tree is open.
-                                leave_dirs_open = false -- `false` closes auto expanded dirs, such as with `:Neotree reveal`
+                                leave_dirs_open = true -- `false` closes auto expanded dirs, such as with `:Neotree reveal`
                             },
                             group_empty_dirs = true,    -- when true, empty folders will be grouped together
                             show_unloaded = true,
@@ -1066,7 +1055,7 @@ require("lazy").setup(
             end
         },
         { "nvim-treesitter/nvim-treesitter-context" },
-        {"tpope/vim-commentary", keys={"gcc"}},
+        {"tpope/vim-commentary"},
         "tpope/vim-abolish",
         { "adoy/vim-php-refactoring-toolbox", ft = "php" },
         { "phux/php-doc-modded",              ft = "php" },
@@ -1231,7 +1220,7 @@ require("lazy").setup(
             end
         }, -- peek lines
         { "chrisgrieser/nvim-puppeteer" },
-        { "ggandor/lightspeed.nvim", keys={"S", "s"} },
+        -- { "ggandor/lightspeed.nvim", keys={"S", "s"} },
         { "christoomey/vim-tmux-navigator" },
         { "tmux-plugins/vim-tmux-focus-events" },
         {
