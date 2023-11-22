@@ -185,7 +185,7 @@ vim.api.nvim_set_keymap("c", "<M-f>", "<S-Right>", { noremap = true })
 
 vim.api.nvim_set_keymap("c", "<M-a>", "<Home>", { noremap = true })
 
-vim.api.nvim_set_keymap("n", "<leader>;", ":TagbarToggle<cr>", { noremap = true })
+-- vim.api.nvim_set_keymap("n", "<leader>;", ":TagbarToggle<cr>", { noremap = true })
 
 vim.cmd("hi! def link BufTabLineCurrent PmenuSel")
 vim.cmd("hi! def link BufTabLineActive TabLineSel")
@@ -303,7 +303,7 @@ let g:grammarous#disabled_rules['*'] = ["DASH_RULE", "WHITESPACE_RULE", "EN_QUOT
 ]]
 )
 
-vim.api.nvim_set_keymap("n", "<M-f>", ":set ft=json | CocCommand editor.action.formatDocument<cr>", { noremap = true })
+-- vim.api.nvim_set_keymap("n", "<M-f>", ":set ft=json | CocCommand editor.action.formatDocument<cr>", { noremap = true })
 vim.cmd([[
 nnoremap <Leader>sw :%s/\<<C-r><C-w>\>//g<Left><Left>
     ]])
@@ -337,8 +337,8 @@ require("lazy").setup(
             end
         },
         { "yggdroot/indentLine" },
-        { "godlygeek/tabular", lazy=true },
-        {"roman/golden-ratio"},
+        { "godlygeek/tabular",  lazy = true },
+        { "roman/golden-ratio" },
         {
             "talek/obvious-resize",
             keys = {
@@ -661,18 +661,18 @@ require("lazy").setup(
             end
         },
         -- {"andymass/vim-matchup"},
-         {
-             "machakann/vim-sandwich",
-             event = "VimEnter *",
+        {
+            "machakann/vim-sandwich",
+            event = "VimEnter *",
             config = function()
                 vim.cmd("runtime macros/sandwich/keymap/surround.vim")
             end
 
-         },
+        },
         {
             "pwntester/octo.nvim",
             cmd = "Octo",
-            lazy=true,
+            lazy = true,
             dependencies = {
                 "nvim-lua/plenary.nvim",
                 "nvim-telescope/telescope.nvim",
@@ -979,11 +979,11 @@ require("lazy").setup(
                         },
                         buffers = {
                             follow_current_file = {
-                                enabled = true,         -- This will find and focus the file in the active buffer every time
+                                enabled = true,        -- This will find and focus the file in the active buffer every time
                                 --              -- the current file is changed while the tree is open.
                                 leave_dirs_open = true -- `false` closes auto expanded dirs, such as with `:Neotree reveal`
                             },
-                            group_empty_dirs = true,    -- when true, empty folders will be grouped together
+                            group_empty_dirs = true,   -- when true, empty folders will be grouped together
                             show_unloaded = true,
                             window = {
                                 mappings = {
@@ -1055,13 +1055,13 @@ require("lazy").setup(
             end
         },
         { "nvim-treesitter/nvim-treesitter-context" },
-        {"tpope/vim-commentary"},
+        { "tpope/vim-commentary" },
         "tpope/vim-abolish",
         { "adoy/vim-php-refactoring-toolbox", ft = "php" },
         { "phux/php-doc-modded",              ft = "php" },
         {
             "phpactor/phpactor",
-            ft="php",
+            ft = "php",
             build = " composer install --no-dev -o"
         },
         { "sebdah/vim-delve",  ft = "go" },
@@ -1075,7 +1075,7 @@ require("lazy").setup(
         },
         {
             "windwp/nvim-autopairs",
-            lazy=true,
+            lazy = true,
             config = function()
                 require("nvim-autopairs").setup {}
             end
@@ -1084,7 +1084,7 @@ require("lazy").setup(
         {
             "easymotion/vim-easymotion",
             lazy = true,
-            keys = {"<space>f"},
+            keys = { "<space>f" },
             config = function()
                 local U = require "utils"
                 U.map("n", "<leader>f", "<Plug>(easymotion-bd-w)", { noremap = false })
@@ -1100,10 +1100,9 @@ require("lazy").setup(
                     },
                     sections = {
                         lualine_a = {
-                            -- "g:coc_status",
+                            require('lsp-progress').progress,
                             "mode"
                         },
-                        -- lualine_b = {"branch"},
                         lualine_b = { "branch", "b:gitsigns_status" },
                         lualine_c = {
                             {
@@ -1143,9 +1142,16 @@ require("lazy").setup(
                     },
                     extensions = { "fzf" }
                 }
+                -- listen lsp-progress event and refresh lualine
+                vim.api.nvim_create_augroup("lualine_augroup", { clear = true })
+                vim.api.nvim_create_autocmd("User", {
+                    group = "lualine_augroup",
+                    pattern = "LspProgressStatusUpdated",
+                    callback = require("lualine").refresh,
+                })
             end
         },
-        { "zhaozg/vim-diagram", ft="markdown" },
+        { "zhaozg/vim-diagram",        ft = "markdown" },
         {
             "SidOfc/mkdx",
             ft = { "markdown", "vimwiki", "vimwiki.markdown" },
@@ -1184,7 +1190,7 @@ require("lazy").setup(
         "simnalamburt/vim-mundo",
         {
             "nvim-orgmode/orgmode",
-            ft = {"org"},
+            ft = { "org" },
             config = function()
                 require("orgmode").setup {
                     org_agenda_files = { "~/Dropbox/org/*" },
@@ -1214,7 +1220,7 @@ require("lazy").setup(
         { "dhruvasagar/vim-table-mode" },
         {
             "nacro90/numb.nvim",
-            keys = {":"},
+            keys = { ":" },
             config = function()
                 require('numb').setup()
             end
@@ -1223,137 +1229,255 @@ require("lazy").setup(
         -- { "ggandor/lightspeed.nvim", keys={"S", "s"} },
         { "christoomey/vim-tmux-navigator" },
         { "tmux-plugins/vim-tmux-focus-events" },
+        -- {
+        --     "neoclide/coc.nvim",
+        --     branch = "release",
+        --     config = function()
+        --         local U = require "utils"
+        --         local vim = vim
+        --         local api = vim.api
+        --         local fn = vim.fn
+
+        --         vim.g.coc_global_extensions = {
+        --             "coc-calc",
+        --             "coc-css",
+        --             "coc-docker",
+        --             "coc-html",
+        --             "coc-sumneko-lua",
+        --             "coc-json",
+        --             "coc-lists",
+        --             "coc-pyright",
+        --             "coc-sh",
+        --             "coc-snippets",
+        --             "coc-solargraph",
+        --             "coc-syntax",
+        --             "coc-vimlsp",
+        --             "coc-xml",
+        --             "coc-yaml",
+        --             "coc-yank",
+        --             "coc-tsserver",
+        --             "coc-phpls",
+        --             "coc-go",
+        --             "coc-markmap",
+        --             "coc-spell-checker",
+        --             "coc-cspell-dicts",
+        --             "coc-markdown-preview-enhanced",
+        --             "coc-webview",
+        --             "coc-toml",
+        --             "coc-swagger",
+        --             "coc-sqlfluff",
+        --             "@yaegassy/coc-nginx"
+        --         }
+
+        --         local autocmds = {
+        --             coc_go = {}
+        --         }
+        --         U.augroups(autocmds)
+
+        --         -- Use tab for trigger completion with characters ahead and navigate.
+        --         -- NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
+        --         -- other plugin before putting this into your config.
+        --         -- Source: https://github.com/nanotee/nvim-lua-guide#vlua
+        --         -- function _G.check_back_space()
+        --         --     local col = fn.col(".") - 1
+        --         --     if col == 0 or fn.getline("."):sub(col, col):match("%s") then
+        --         --         return true
+        --         --     else
+        --         --         return false
+        --         --     end
+        --         -- end
+        --         local keyset = vim.keymap.set
+        --         function _G.check_back_space()
+        --             local col = vim.fn.col(".") - 1
+        --             return col == 0 or vim.fn.getline("."):sub(col, col):match("%s") ~= nil
+        --         end
+
+        --         local opts = { silent = true, noremap = true, expr = true, replace_keycodes = false }
+        --         keyset("i", "<TAB>",
+        --             'coc#pum#visible() ? coc#pum#next(1) : v:lua.check_back_space() ? "<TAB>" : coc#refresh()', opts)
+        --         keyset("i", "<S-TAB>", [[coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"]], opts)
+
+        --         local remap = vim.api.nvim_set_keymap
+        --         local npairs = require("nvim-autopairs")
+        --         npairs.setup({ map_cr = false })
+        --         _G.MUtils = {}
+        --         MUtils.completion_confirm = function()
+        --             if vim.fn["coc#pum#visible"]() ~= 0 then
+        --                 return vim.fn["coc#pum#confirm"]()
+        --             else
+        --                 return npairs.autopairs_cr()
+        --             end
+        --         end
+
+        --         remap("i", "<CR>", "v:lua.MUtils.completion_confirm()", { expr = true, noremap = true })
+
+        --         api.nvim_set_keymap("n", "<leader>lf", "<Plug>(coc-codeaction-cursor)", { noremap = true })
+        --         api.nvim_set_keymap("v", "<leader>lf", "<plug>(coc-codeaction-selected)", { noremap = true })
+        --         api.nvim_set_keymap("n", "<leader>ll", "<Plug>(coc-codelens-action)", { noremap = false })
+        --         U.map("n", "<leader>qf", "<Plug>(coc-fix-current)", { noremap = false })
+        --         U.map("n", "<leader>rr", "<Plug>(coc-rename)", { noremap = false })
+        --         U.map("n", "<leader>RR", "<Plug>(coc-refactor)", { noremap = true })
+        --         U.map("n", "<leader>rs", ":CocSearch <c-r><c-w><cr>", { noremap = false })
+        --         U.map("n", "<leader>RS", ":CocSearch -w <c-r><c-w><cr>", { noremap = false })
+        --         U.map("n", "<leader>nd", "<Plug>(coc-definition)", { noremap = false })
+        --         U.map("n", "<leader>nD", "<Plug>(coc-type-definition)", { noremap = false })
+        --         U.map("n", "<leader>ni", "<Plug>(coc-implementation)", { noremap = false })
+        --         U.map("n", "<leader>nr", "<Plug>(coc-references)", { noremap = false }) -- replaced with telescope
+        --         api.nvim_set_keymap("n", "<leader>os", ":CocList -I symbols<cr>", { noremap = true })
+
+        --         api.nvim_set_keymap("n", "<leader>lh", ":call CocAction('showIncomingCalls')<cr>", { noremap = false })
+        --         U.map("n", "[g", "<Plug>(coc-diagnostic-prev)", { noremap = false })
+        --         U.map("n", "]g", "<Plug>(coc-diagnostic-next)", { noremap = false })
+
+        --         U.map("n", "<leader>Y", ":<C-u>CocList -A --normal yank<cr>", { noremap = false })
+
+        --         keyset("i", "<c-j>", "<Plug>(coc-snippets-expand-jump)")
+
+        --         api.nvim_set_keymap("n", "<leader>gi", ":CocCommand git.chunkInfo<cr>", { noremap = true })
+
+        --         function _G.show_docs()
+        --             local cw = vim.fn.expand("<cword>")
+        --             if vim.fn.index({ "vim", "help" }, vim.bo.filetype) >= 0 then
+        --                 vim.api.nvim_command("h " .. cw)
+        --             elseif vim.api.nvim_eval("coc#rpc#ready()") then
+        --                 vim.fn.CocActionAsync("doHover")
+        --             else
+        --                 vim.api.nvim_command("!" .. vim.o.keywordprg .. " " .. cw)
+        --             end
+        --         end
+
+        --         U.map("n", "K", "<CMD>lua show_docs()<CR>")
+
+        --         )
+        --     end
+        -- },
+        -- "antoinemadec/coc-fzf",
+        {'VonHeikemen/lsp-zero.nvim', branch = 'v3.x'},
         {
-            "neoclide/coc.nvim",
-            branch = "release",
+            'williamboman/mason.nvim',
+            dependencies = {
+                'williamboman/mason-lspconfig.nvim',
+                'neovim/nvim-lspconfig'
+            },
             config = function()
-                local U = require "utils"
-                local vim = vim
-                local api = vim.api
-                local fn = vim.fn
+                require("mason").setup()
+                require("mason-lspconfig").setup {
+                    -- A list of servers to automatically install if they're not already installed. Example: { "rust_analyzer@nightly", "lua_ls" }
+                    -- This setting has no relation with the `automatic_installation` setting.
+                    -- see https://github.com/williamboman/mason-lspconfig.nvim#available-lsp-servers
+                    ---@type string[]
+                    -- ensure_installed = {
+                    --     'lua_ls',
+                    --     'ansiblels',
+                    --     'bashls',
+                    --     'cssls',
+                    --     'dockerls',
+                    --     'docker_compose_language_service',
+                    --     'gopls',
+                    --     'golangci_lint_ls',
+                    --     'graphql',
+                    --     'html',
+                    --     'jsonls',
+                    --     'tsserver',
+                    --     'marksman', -- markdown
+                    --     'spectral', -- openapi
+                    --     'intelephense',
+                    --     'pyright',
+                    --     'ruby_ls',
+                    --     'sqlls',
+                    --     'taplo', -- toml
+                    --     'terraformls',
+                    --     'vimls',
+                    --     'lemminx',
+                    --     'yamlls'
+                    -- },
 
-                vim.g.coc_global_extensions = {
-                    "coc-calc",
-                    "coc-css",
-                    "coc-docker",
-                    "coc-html",
-                    "coc-sumneko-lua",
-                    "coc-json",
-                    "coc-lists",
-                    "coc-pyright",
-                    "coc-sh",
-                    "coc-snippets",
-                    "coc-solargraph",
-                    "coc-syntax",
-                    "coc-vimlsp",
-                    "coc-xml",
-                    "coc-yaml",
-                    "coc-yank",
-                    "coc-tsserver",
-                    "coc-phpls",
-                    "coc-go",
-                    "coc-markmap",
-                    "coc-spell-checker",
-                    "coc-cspell-dicts",
-                    "coc-markdown-preview-enhanced",
-                    "coc-webview",
-                    "coc-toml",
-                    "coc-swagger",
-                    "coc-sqlfluff",
-                    "@yaegassy/coc-nginx"
+                    -- Whether servers that are set up (via lspconfig) should be automatically installed if they're not already installed.
+                    -- This setting has no relation with the `ensure_installed` setting.
+                    -- Can either be:
+                    --   - false: Servers are not automatically installed.
+                    --   - true: All servers set up via lspconfig are automatically installed.
+                    --   - { exclude: string[] }: All servers set up via lspconfig, except the ones provided in the list, are automatically installed.
+                    --       Example: automatic_installation = { exclude = { "rust_analyzer", "solargraph" } }
+                    ---@type boolean
+                    automatic_installation = true,
                 }
 
-                local autocmds = {
-                    coc_go = {}
-                }
-                U.augroups(autocmds)
-
-                -- Use tab for trigger completion with characters ahead and navigate.
-                -- NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
-                -- other plugin before putting this into your config.
-                -- Source: https://github.com/nanotee/nvim-lua-guide#vlua
-                -- function _G.check_back_space()
-                --     local col = fn.col(".") - 1
-                --     if col == 0 or fn.getline("."):sub(col, col):match("%s") then
-                --         return true
-                --     else
-                --         return false
+                -- local lsp_capabilities = require('cmp_nvim_lsp').default_capabilities()
+                -- local lspconfig = require('lspconfig')
+                -- require("mason-lspconfig").setup_handlers {
+                --     -- The first entry (without a key) will be the default handler
+                --     -- and will be called for each installed server that doesn't have
+                --     -- a dedicated handler.
+                --     function(server_name) -- default handler (optional)
+                --         lspconfig[server_name].setup ({
+                --             capabilities = lsp_capabilities,
+                --         })
+                --     end,
+                --     ['tsserver'] = function()
+                --         lspconfig.tsserver.setup({
+                --             capabilities = lsp_capabilities,
+                --             settings = {
+                --                 completions = {
+                --                     completeFunctionCalls = true
+                --                 }
+                --             }
+                --         })
+                --     end,
+                --     ['gopls'] = function()
+                --         lspconfig.gopls.setup({
+                --             capabilities = lsp_capabilities,
+                --         })
                 --     end
-                -- end
-                local keyset = vim.keymap.set
-                function _G.check_back_space()
-                    local col = vim.fn.col(".") - 1
-                    return col == 0 or vim.fn.getline("."):sub(col, col):match("%s") ~= nil
-                end
-
-                local opts = { silent = true, noremap = true, expr = true, replace_keycodes = false }
-                keyset("i", "<TAB>",
-                    'coc#pum#visible() ? coc#pum#next(1) : v:lua.check_back_space() ? "<TAB>" : coc#refresh()', opts)
-                keyset("i", "<S-TAB>", [[coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"]], opts)
-
-                local remap = vim.api.nvim_set_keymap
-                local npairs = require("nvim-autopairs")
-                npairs.setup({ map_cr = false })
-                _G.MUtils = {}
-                MUtils.completion_confirm = function()
-                    if vim.fn["coc#pum#visible"]() ~= 0 then
-                        return vim.fn["coc#pum#confirm"]()
-                    else
-                        return npairs.autopairs_cr()
-                    end
-                end
-
-                remap("i", "<CR>", "v:lua.MUtils.completion_confirm()", { expr = true, noremap = true })
-
-                api.nvim_set_keymap("n", "<leader>lf", "<Plug>(coc-codeaction-cursor)", { noremap = true })
-                api.nvim_set_keymap("v", "<leader>lf", "<plug>(coc-codeaction-selected)", { noremap = true })
-                api.nvim_set_keymap("n", "<leader>ll", "<Plug>(coc-codelens-action)", { noremap = false })
-                U.map("n", "<leader>qf", "<Plug>(coc-fix-current)", { noremap = false })
-                U.map("n", "<leader>rr", "<Plug>(coc-rename)", { noremap = false })
-                U.map("n", "<leader>RR", "<Plug>(coc-refactor)", { noremap = true })
-                U.map("n", "<leader>rs", ":CocSearch <c-r><c-w><cr>", { noremap = false })
-                U.map("n", "<leader>RS", ":CocSearch -w <c-r><c-w><cr>", { noremap = false })
-                U.map("n", "<leader>nd", "<Plug>(coc-definition)", { noremap = false })
-                U.map("n", "<leader>nD", "<Plug>(coc-type-definition)", { noremap = false })
-                U.map("n", "<leader>ni", "<Plug>(coc-implementation)", { noremap = false })
-                U.map("n", "<leader>nr", "<Plug>(coc-references)", { noremap = false }) -- replaced with telescope
-                api.nvim_set_keymap("n", "<leader>os", ":CocList -I symbols<cr>", { noremap = true })
-
-                api.nvim_set_keymap("n", "<leader>lh", ":call CocAction('showIncomingCalls')<cr>", { noremap = false })
-                U.map("n", "[g", "<Plug>(coc-diagnostic-prev)", { noremap = false })
-                U.map("n", "]g", "<Plug>(coc-diagnostic-next)", { noremap = false })
-
-                U.map("n", "<leader>Y", ":<C-u>CocList -A --normal yank<cr>", { noremap = false })
-
-                keyset("i", "<c-j>", "<Plug>(coc-snippets-expand-jump)")
-
-                api.nvim_set_keymap("n", "<leader>gi", ":CocCommand git.chunkInfo<cr>", { noremap = true })
-
-                function _G.show_docs()
-                    local cw = vim.fn.expand("<cword>")
-                    if vim.fn.index({ "vim", "help" }, vim.bo.filetype) >= 0 then
-                        vim.api.nvim_command("h " .. cw)
-                    elseif vim.api.nvim_eval("coc#rpc#ready()") then
-                        vim.fn.CocActionAsync("doHover")
-                    else
-                        vim.api.nvim_command("!" .. vim.o.keywordprg .. " " .. cw)
-                    end
-                end
-
-                U.map("n", "K", "<CMD>lua show_docs()<CR>")
-
-                vim.cmd(
-                    [[
-                let g:coc_explorer_global_presets = {'simplify': { 'file-child-template': '[selection | clip | 1] [indent][icon | 1] [filename omitCenter 1]' }}
-                ]]
-                )
+                --     -- Next, you can provide a dedicated handler for specific servers.
+                --     -- For example, a handler override for the `rust_analyzer`:
+                --     -- ["rust_analyzer"] = function()
+                --     --     require("rust-tools").setup {}
+                --     -- end
+                -- }
             end
         },
-        "antoinemadec/coc-fzf",
-        "honza/vim-snippets",
+        {
+            "ray-x/lsp_signature.nvim",
+            event = "VeryLazy",
+            opts = {},
+            config = function(_, opts) require 'lsp_signature'.setup(opts) end
+        },
+        {
+            "smjonas/inc-rename.nvim",
+            config = function()
+                require("inc_rename").setup()
+                vim.keymap.set("n", "<leader>rn", function()
+                    return ":IncRename " .. vim.fn.expand("<cword>")
+                end, { expr = true })
+            end,
+        },
+        {
+            "hrsh7th/nvim-cmp",
+            config = function()
+                -- import nvim-cmp plugin safely
+            end
+        },                        -- completion plugin
+        { "hrsh7th/cmp-buffer" }, -- source for text in buffer
+        { "hrsh7th/cmp-nvim-lsp" },
+        { "hrsh7th/cmp-path" },   -- source for file system paths
+
+        -- snippets
+        { "L3MON4D3/LuaSnip" },         -- snippet engine
+        { "saadparwaiz1/cmp_luasnip" }, -- for autocompletion
+        { "rafamadriz/friendly-snippets" },
+        -- "honza/vim-snippets",
         {
             "triglav/vim-visual-increment",
             lazy = true
+        },
+
+        {
+            'linrongbin16/lsp-progress.nvim',
+            dependencies = { 'nvim-tree/nvim-web-devicons' },
+            config = function()
+                require('lsp-progress').setup()
+            end
         },
         {
             "junegunn/gv.vim",
@@ -1363,7 +1487,18 @@ require("lazy").setup(
                 vim.api.nvim_set_keymap("n", "<leader>gS", ":GV! -S", { noremap = true })
             end
         },
-        { "majutsushi/tagbar",                        cmd = "TagbarToggle" },
+        -- { "majutsushi/tagbar",                        cmd = "TagbarToggle" },
+        {
+            "hedyhli/outline.nvim",
+            lazy = true,
+            cmd = { "Outline", "OutlineOpen" },
+            keys = { -- Example mapping to toggle outline
+                { "<leader>;", "<cmd>Outline<CR>", desc = "Toggle outline" },
+            },
+            opts = {
+                -- Your setup opts here
+            },
+        },
         "wellle/targets.vim",
         "wellle/tmux-complete.vim",
         {
@@ -1478,6 +1613,13 @@ require("lazy").setup(
                 vim.api.nvim_set_keymap("n", "<leader>st", ":Telescope live_grep theme=get_ivy<cr>",
                     { noremap = true, silent = true })
 
+                vim.api.nvim_set_keymap("n", "<leader>nr", ":Telescope lsp_references theme=get_ivy<cr>",
+                    { noremap = true, silent = true })
+                vim.api.nvim_set_keymap("n", "<leader>li", ":Telescope lsp_incoming_calls theme=get_ivy<cr>",
+                    { noremap = true, silent = true })
+                vim.api.nvim_set_keymap("n", "<leader>lo", ":Telescope lsp_outgoing_calls theme=get_ivy<cr>",
+                    { noremap = true, silent = true })
+
                 local ivy_themed = require "telescope.themes".get_ivy({})
 
                 function _G.fd()
@@ -1524,3 +1666,137 @@ require("lazy").setup(
         { "fannheyward/telescope-coc.nvim",           lazy = true }
     }
 )
+
+vim.api.nvim_create_autocmd('LspAttach', {
+    desc = 'LSP actions',
+    callback = function()
+        local bufmap = function(mode, lhs, rhs)
+            local opts = { buffer = true }
+            vim.keymap.set(mode, lhs, rhs, opts)
+        end
+
+        -- Displays hover information about the symbol under the cursor
+        bufmap('n', 'K', '<cmd>lua vim.lsp.buf.hover()<cr>')
+
+        -- Jump to the definition
+        bufmap('n', '<leader>nd', '<cmd>lua vim.lsp.buf.definition()<cr>')
+
+        -- Jump to declaration
+        bufmap('n', '<leader>gd', '<cmd>lua vim.lsp.buf.declaration()<cr>')
+
+        -- Lists all the implementations for the symbol under the cursor
+        bufmap('n', '<leader>ni', '<cmd>lua vim.lsp.buf.implementation()<cr>')
+
+        -- Jumps to the definition of the type symbol
+        bufmap('n', '<leader>nD', '<cmd>lua vim.lsp.buf.type_definition()<cr>')
+
+        -- Lists all the references  // telescope
+        -- bufmap('n', '<leader>nr', '<cmd>lua vim.lsp.buf.references()<cr>')
+
+        -- Displays a function's signature information
+        -- bufmap('n', 'gs', '<cmd>lua vim.lsp.buf.signature_help()<cr>')
+
+        -- Renames all references to the symbol under the cursor
+        bufmap('n', '<leader>rr', '<cmd>lua vim.lsp.buf.rename()<cr>')
+
+        -- Selects a code action available at the current cursor position
+        bufmap('n', '<leader>ll', '<cmd>lua vim.lsp.buf.code_action()<cr>')
+
+        -- Show diagnostics in a floating window
+        bufmap('n', 'gl', '<cmd>lua vim.diagnostic.open_float()<cr>')
+
+        -- Move to the previous diagnostic
+        bufmap('n', '<c-p>', '<cmd>lua vim.diagnostic.goto_prev()<cr>')
+
+        -- Move to the next diagnostic
+        bufmap('n', '<c-n>', '<cmd>lua vim.diagnostic.goto_next()<cr>')
+    end
+})
+
+local lsp_zero = require('lsp-zero')
+
+lsp_zero.on_attach(function(client, bufnr)
+  -- see :help lsp-zero-keybindings
+  -- to learn the available actions
+  lsp_zero.default_keymaps({buffer = bufnr})
+end)
+
+require('mason').setup({})
+require('mason-lspconfig').setup({
+  handlers = {
+    lsp_zero.default_setup,
+        gopls = function()
+      require('lspconfig').gopls.setup({
+        settings = {
+          completions = {
+            usePlaceholders = true
+          }
+        }
+      })
+    end,
+  },
+})
+
+local cmp_status, cmp = pcall(require, "cmp")
+if not cmp_status then
+    return
+end
+
+-- import luasnip plugin safely
+local luasnip_status, luasnip = pcall(require, "luasnip")
+if not luasnip_status then
+    return
+end
+
+local cmp_action = require('lsp-zero').cmp_action()
+
+-- load VSCode-like snippets from plugins (e.g., friendly-snippets)
+require("luasnip/loaders/from_vscode").lazy_load()
+
+vim.opt.completeopt = "menu,menuone,noselect"
+
+local select_opts = { behavior = cmp.SelectBehavior.Select }
+
+local cmp_format = require('lsp-zero').cmp_format()
+cmp.setup({
+    formatting = cmp_format,
+    preselect = 'item', -- always select first item
+    snippet = {
+        expand = function(args)
+            luasnip.lsp_expand(args.body)
+        end,
+    },
+    mapping = cmp.mapping.preset.insert({
+        -- ["<C-k>"] = cmp.mapping.select_prev_item(), -- previous suggestion
+        -- ["<C-j>"] = cmp.mapping.select_next_item(), -- next suggestion
+        ["<C-u>"] = cmp.mapping.scroll_docs(-4),
+        ["<C-d>"] = cmp.mapping.scroll_docs(4),
+        ["<C-Space>"] = cmp.mapping.complete(), -- show completion suggestions
+        ["<C-e>"] = cmp.mapping.abort(),        -- close completion window
+        ["<CR>"] = cmp.mapping.confirm({ select = false }),
+        ["<c-y>"] = cmp.mapping.confirm({ select = true }),
+        ['<C-j>'] = cmp.mapping(function(fallback)
+            if luasnip.jumpable(1) then
+                luasnip.jump(1)
+            else
+                fallback()
+            end
+        end, { 'i', 's' }),
+        ['<C-k>'] = cmp.mapping(function(fallback)
+            if luasnip.jumpable(-1) then
+                luasnip.jump(-1)
+            else
+                fallback()
+            end
+        end, { 'i', 's' }),
+        ['<Tab>'] = cmp_action.luasnip_supertab(),
+        ['<S-Tab>'] = cmp_action.luasnip_shift_supertab(),
+    }),
+    -- sources for autocompletion
+    sources = cmp.config.sources({
+        { name = "nvim_lsp", keyword_length = 1 }, -- LSP
+        { name = "luasnip",  keyword_length = 2 }, -- snippets
+        { name = "buffer",   keyword_length = 3 }, -- text within the current buffer
+        { name = "path" },                         -- file system paths
+    }),
+})

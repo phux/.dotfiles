@@ -22,7 +22,7 @@ let g:ale_go_staticcheck_lint_package=0
 let b:local_golangci_file = getcwd().'/.golangci.yml'
 let g:ale_go_golangci_lint_options = '--fix --fast --config '.b:local_golangci_file
 if !filereadable(b:local_golangci_file)
-    echom 'local .golangci.yml not found'
+    " echom 'local .golangci.yml not found'
   let g:ale_go_golangci_lint_options = '--fix --allow-parallel-runners --config ~/.golangci.yml'
 endif
 
@@ -204,7 +204,7 @@ endfunction
 function! GoMove()
   let l:go_mod_path = 'go.mod'
   if !filereadable(l:go_mod_path)
-      echom 'no go.mod found'
+      " echom 'no go.mod found'
       return
   endif
 
