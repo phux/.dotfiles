@@ -308,7 +308,7 @@ require("lazy").setup(
                     }
                 })
 
-                local ignore_filetypes = { 'neo-tree', 'Outline' }
+                local ignore_filetypes = { 'neo-tree', 'Outline', 'DiffviewFiles' }
                 local ignore_buftypes = { 'nofile', 'prompt', 'popup' }
 
                 local augroup =
@@ -1555,7 +1555,7 @@ require("lazy").setup(
                 vim.keymap.set("n", "<leader>dw", function() require("trouble").toggle("workspace_diagnostics") end)
             end
         },
-        "wellle/targets.vim",
+        { "wellle/targets.vim" },
         {
             "rgroli/other.nvim",
             config = function()
