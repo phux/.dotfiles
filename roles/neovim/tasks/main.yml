@@ -1,7 +1,5 @@
 ---
 
-- include: coc-nvim.yml
-
 - name: run includes
   block:
   - include: install_nvim.yml
@@ -18,25 +16,6 @@
       dest: "{{ ansible_env.HOME }}/.projects.private.vim"
       force: no
 
-- name: Create coc.nvim UltiSnips dir
-  file: path={{ config_dir }}/coc/ultisnips state=directory
-
-
-- name: Link custom UltiSnips snippets
-  file:
-    src: "{{ item }}"
-    dest: "{{ config_dir }}/coc/ultisnips/{{ item | basename }}"
-    state: link
-  with_fileglob:
-    - UltiSnips/*
-
-
-# - name: installing sqlfmt
-#   shell: >
-#     source ~/.config/zsh/.zshrc &&
-#     go get -u github.com/jackc/sqlfmt/...
-#     executable=/bin/zsh
-
 - name: Link global js configs
   file: >
     src={{item}}
@@ -45,12 +24,6 @@
   with_fileglob:
     - .tern-config
     - .eslintrc.json
-
-# - name: install/update plugins
-#   shell: >
-#     source ~/.config/zsh/.zshrc &&
-#     nvim +PackerUpdate +PackerCompile +CocUpdate +qall!
-#     executable=/bin/zsh
 
 - name: link autoload files
   file: >

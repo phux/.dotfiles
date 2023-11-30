@@ -34,8 +34,3 @@
   shell: >
     source ~/.config/zsh/.zshrc &&
     go install -v github.com/incu6us/goimports-reviser/v3@latest executable=/bin/zsh
-
-- name: install cover
-  shell: >
-    source ~/.config/zsh/.zshrc &&
-    go install -v golang.org/x/tools/cmd/cover executable=/bin/zsh

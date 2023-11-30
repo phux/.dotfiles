@@ -1,5 +1,5 @@
 ---
-- name: Check gmv is present
+- name: Check gvm is present
   ansible.builtin.stat:
     path: "{{ ansible_env.HOME }}/.gvm"
   register: gvm_check

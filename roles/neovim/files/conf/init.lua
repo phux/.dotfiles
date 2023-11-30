@@ -368,8 +368,21 @@ require("lazy").setup(
                 vim.api.nvim_set_keymap("n", "<leader>ge", ":Gedit<cr>", { noremap = true })
                 -- vim.api.nvim_set_keymap("n", "<leader>gs", ":Git<cr>", {noremap = true})
                 vim.api.nvim_set_keymap("n", "<leader>gb", ":Git blame<cr>", { noremap = true })
-                -- vim.api.nvim_set_keymap("n", "<leader>gc", ":Gcommit -v<cr>", {noremap = true})
-                vim.api.nvim_set_keymap("n", "<leader>gp", ":Gpush<cr>", { noremap = true })
+                -- vim.api.nvim_set_keymap("n", "<leader>gc", ":Gcommit -v<cr>", {noremap = true}) -- replaced by diffview
+
+                function _G.pushIfNotMainMasterOrStaging()
+                    vim.cmd([[
+                        let gitBranch = system("git rev-parse --abbrev-ref HEAD")
+                        if "main" ==# gitBranch || "staging" ==# gitBranch
+                            echo "you are in main/staging - no direct push"
+                        else
+                            execute ":Git push"
+                        endif
+                    ]])
+                end
+
+                vim.api.nvim_set_keymap("n", "<leader>gp", "<cmd>lua pushIfNotMainMasterOrStaging()<cr>",
+                    { noremap = true, silent = true })
                 vim.api.nvim_set_keymap("n", "<leader>gdh", ":Git! difftool<cr>", { noremap = true })
                 vim.api.nvim_set_keymap("n", "<leader>gmt", ":Git! mergetool<cr>", { noremap = true })
                 vim.api.nvim_set_keymap("n", "<leader>gds", ":Gdiffsplit<cr>", { noremap = true })
@@ -384,6 +397,9 @@ require("lazy").setup(
                 vim.g.git_messenger_include_diff = "current"
                 vim.g.git_messenger_always_into_popup = 1
                 vim.api.nvim_set_keymap("n", "<leader>do", ":DiffviewOpen<cr>", { noremap = true })
+                vim.api.nvim_set_keymap("n", "<leader>do", ":DiffviewOpen<cr>", { noremap = true })
+                vim.api.nvim_set_keymap("n", "<leader>gs", ":DiffviewOpen<cr>", { noremap = true })
+                vim.api.nvim_set_keymap("n", "<leader>gc", ":DiffviewOpen<cr>", { noremap = true })
                 vim.keymap.set({ "n", "v" }, "<leader>df", ":DiffviewFileHistory", { noremap = true })
             end
         },
@@ -532,13 +548,15 @@ require("lazy").setup(
             "mfussenegger/nvim-lint",
             config = function()
                 require('lint').linters_by_ft = {
-                    -- markdown = { 'vale', 'markdownlint' },
-                    markdown = { 'markdownlint' },
+                    markdown = { 'vale', 'markdownlint' },
+                    -- markdown = { 'markdownlint' },
+                    text = { 'vale' },
                     yaml = { 'yamllint' },
                     json = { 'jsonlint' },
                     php = { 'php', 'phpstan' },
                     go = { 'golangcilint' },
-                    terraform = { 'tfsec' },
+                    terraform = { 'tfsec', 'tflint' },
+                    dockerfile = { 'hadolint' },
                     bash = { 'shellcheck' },
                     lua = { 'luacheck' },
                     html = { 'tidy' },
@@ -1092,9 +1110,7 @@ require("lazy").setup(
                         theme = "gruvbox"
                     },
                     sections = {
-                        lualine_a = {
-                            "mode"
-                        },
+                        lualine_a = { "mode" },
                         lualine_b = { "branch", "b:gitsigns_status" },
                         lualine_c = {
                             {
@@ -1103,7 +1119,7 @@ require("lazy").setup(
                                 -- 'nvim_lsp', 'nvim', 'coc', 'ale', 'vim_lsp'
                                 -- Or a function that returns a table like
                                 --   {error=error_cnt, warn=warn_cnt, info=info_cnt, hint=hint_cnt}
-                                sources = { "nvim_diagnostic", "coc", "ale" },
+                                sources = { "nvim_diagnostic", },
                                 -- displays diagnostics from defined severity
                                 sections = { "error", "warn", "info", "hint" },
                                 diagnostics_color = {
@@ -1267,7 +1283,9 @@ require("lazy").setup(
                     --     'terraformls',
                     --     'vimls',
                     --     'lemminx',
-                    --     'yamlls'
+                    --     'yamlls',
+                    --     'hadolint',
+                    --     'tfsec',
                     -- },
 
                     -- Whether servers that are set up (via lspconfig) should be automatically installed

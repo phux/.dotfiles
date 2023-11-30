@@ -1,14 +1,10 @@
 augroup php
   au!
   au BufNewFile,BufRead *.phtml set ft=php.html
-  " au BufNewFile,BufRead,BufWinEnter *Test.php exe ":UltiSnipsAddFiletypes php.phpunit"
-  " au BufNewFile,BufRead,BufWinEnter *Spec.php exe ":UltiSnipsAddFiletypes php.php-phpspec"
   au BufWritePost *.php silent! !eval '[ -f ".git/hooks/ctags" ] && .git/hooks/ctags php' &
   au BufWritePost *.php silent! !eval '[ -f "../.git/hooks/ctags" ] && ../.git/hooks/ctags php' &
-  " au BufWritePost *.php silent! exe ":!phpcbf --standard=~/.phpcs.xml ".expand('%:f')."; php-cs-fixer --config=.php_cs fix ".expand('%:f') | :e
   au BufWritePost *.php silent! exe "!php-cs-fixer --config=".getcwd()."/.php-cs-fixer.php fix ".expand('%:f') | :e
   au BufNewFile,BufRead,BufEnter *.php set tags=.git/tags.php,../.git/tags.php
-  " au BufNewFile,BufRead,BufEnter,BufWritePost *.php set autoindent
 augroup END
 
 setlocal tabstop=4
@@ -16,40 +12,20 @@ setlocal shiftwidth=4
 setlocal softtabstop=4
 
 
-" nnoremap <buffer> <leader>nr :call phpactor#FindReferences()<cr>
-" nnoremap <buffer> <leader>ni :call phpactor#GotoImplementations()<cr>
 nnoremap <buffer> <leader>nn :call phpactor#Navigate()<cr>
 nnoremap <buffer> <leader>na :call SymfonySwitchToAlternateFile()<cr>
 nnoremap <buffer> <leader>rm :PhpactorMoveFile<cr>
-" vnoremap <buffer> <silent><leader>rev :<C-U>PhpactorExtractExpression<CR>
-" nnoremap <buffer> <silent><leader>rev :PhpactorExtractExpression<CR>
 vnoremap <buffer> <leader>rem :<C-U>PhpactorExtractMethod<CR>
-" vnoremap <buffer> <leader>rec :call PhpExtractConst()<CR>
-" nnoremap <buffer> <leader>rr :<C-U>call phpactor#ContextMenu()<CR>
 nnoremap <buffer> <leader>rd :call UpdatePhpDocIfExists()<CR>
 nnoremap <buffer> <leader>rt :PhpactorTransform<CR>
 nnoremap <buffer> <leader>rep :call PhpExtractClassProperty()<cr>
 nnoremap <buffer> <Leader>ref :PhpactorClassExpand<cr>
 nnoremap <buffer> <leader>reu :call PhpExtractUse()<CR>
 nnoremap <buffer> <leader>ru :PhpactorImportMissingClasses<cr>
-" nnoremap <buffer> <Leader>u :PHPImportClass<cr>
 
 nnoremap <buffer> <leader>c :PhpactorContextMenu<cr>
 vnoremap <buffer> <leader>c :PhpactorContextMenu<cr>
 
-let b:ale_linters = ['php','phpstan']
-let b:ale_fixers = ['php_cs_fixer']
-let g:ale_php_phpstan_executable = 'vendor/bin/phpstan'
-let g:ale_php_cs_fixer_options = '--config=".php-cs-fixer.php"'
-let g:ale_php_cs_fixer_use_global = 0
-let g:ale_php_phpstan_configuration = 'phpstan.neon'
-" let g:ale_php_phpstan_level = 'max'
-let g:ale_php_phpcbf_standard='~/.phpcs.xml'
-" let g:ale_php_phpcbf_standard='Symfony'
-let g:ale_php_phpcs_standard='~/.phpcs.xml'
-" let g:ale_php_phpcs_standard='Symfony'
-let g:ale_php_phpmd_ruleset='~/.phpmd.xml'
-let g:ultisnips_php_scalar_types = 1
 let g:PHP_removeCRwhenUnix = 1
 
 " function! PHPUnitSetupMethodPhake()
@@ -109,120 +85,10 @@ function! PhpConstructorArgumentMagic()
 endfunction
 
 
-"function! PhpConstructorArgumentMagic2()
-"    let l:currentLine = getline('.')
-"    if l:currentLine !~ '\$'
-"        echo "no $ found, are you on a line with an argument?"
-"        return 0
-"    endif
-
-"    normal! 0f$
-"    normal! mb
-
-"    " yank variable
-"    if l:currentLine =~ ','
-"        normal! "ayt,
-"    elseif l:currentLine =~ ')'
-"        normal! "ayt)
-"    else
-"        normal! "ayW
-"    endif
-
-"    " search for closing brace
-"    /{
-"    normal! nf{
-"    normal! %O
-
-"    " property assignment
-"    normal! "apa =
-"    normal! "apA;
-"    s/\$/$this->/
-
-"    " create property
-"    normal! 2joprivate
-"    normal! "apa;
-"    " mark for adding docblock
-"    normal! mc
-
-"    " jump back into __construct
-"    normal! 'b
-
-"    " has typehint?
-"    if getline('.') =~ '\s*\S\+\s\$'
-"        " create docblock
-"        normal! 0f$b"ayt 'c
-"        normal! O/**
-"        normal! o@var
-"        normal! "apo/
-"        " move var declaration up
-"        normal! jd3kG%p%jo
-
-"        " update phpdoc
-"        if exists("*UpdatePhpDocIfExists")
-"            /__construct
-"            normal! n
-"            :call UpdatePhpDocIfExists()
-"        endif
-"    endif
-
-"    "cleanup
-"    normal! gg=G
-"    :w
-
-"    " jump to where we have started
-"    normal! 'b
-"endfunction
-
-" function! PhpDocOneliner()
-"     let l:currentLine = getline('.')
-"     if l:currentLine =~ '@'
-"         normal! k
-"     endif
-"     if l:currentLine =~ '*/'
-"         normal! 2k
-"     endif
-"     normal JxxJ
-" endfunction
 
 " let g:phpactor_executable = '~/.config/nvim/plugged/phpactor/bin/phpactor'
 let g:phpactor_executable = '~/.local/share/nvim/site/pack/packer/opt/phpactor/bin/phpactor'
 
-" if !exists("*PHPMoveClass")
-"   function! PHPMoveClass()
-"       :w
-"       let l:oldPath = expand('%')
-"       let l:newPath = input("New path: ", l:oldPath)
-"       execute "!".g:phpactor_executable." class:move ".l:oldPath.' '.l:newPath
-"       execute "bd ".l:oldPath
-"       execute "e ". l:newPath
-"   endfunction
-" endif
-
-" if !exists("*PHPMoveDir")
-"   function! PHPMoveDir()
-"       :w
-"       let l:oldPath = input("old path: ", expand('%:p:h'))
-"       let l:newPath = input("New path: ", l:oldPath)
-"       execute "!".g:phpactor_executable." class:move ".l:oldPath.' '.l:newPath
-"   endfunction
-" endif
-
-" if !exists("*PHPModify")
-"   function! PHPModify(transformer)
-"       :update
-"       let l:cmd = "silent !".g:phpactor_executable." class:transform ".expand('%').' --transform='.a:transformer
-"       execute l:cmd
-"   endfunction
-" endif
-
-" if !exists("*PHPExtractInterface")
-"   function! PHPCreateBuilder()
-"       :w
-"       let l:interfaceFile = substitute(expand('%'), '.php', 'Builder.php', '')
-"       execute "!".g:phpactor_executable." class:inflect ".expand('%').' '.l:interfaceFile.' builder'
-"       execute "e ". l:interfaceFile
-"   endfunction
-" endif
 
 let g:pdv_cfg_autoEndClass = 0
 let g:pdv_cfg_php4always = 0
@@ -304,5 +170,3 @@ if !exists("*SymfonySwitchToAlternateFile")
   endfunction
 endif
 " }}}
-
-" setlocal tabstop=2 shiftwidth=2 et autoindent smartindent

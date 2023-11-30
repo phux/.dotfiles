@@ -1,29 +1,29 @@
 ---
-
-- name: install coc.nvim language servers
-  shell: >
-    source ~/.config/zsh/.zshrc &&
-    npm install -g {{ item }}
-    executable=/bin/zsh
-  with_items:
-    - typescript-language-server
-    - intelephense
-
-- name: Check if terraform-lsp is cloned
-  ansible.builtin.stat:
-    path: "{{ ansible_env.HOME }}/tools/terraform-lsp"
-  register: tf_lsp
-- name: clone terraform-lsp
-  git:
-    repo: 'https://github.com/juliosueiras/terraform-lsp.git'
-    dest: "{{ ansible_env.HOME }}/tools/terraform-lsp"
-  when: tf_lsp.stat.exists == False
-
-- name: update terraform-lsp
-  shell: >
-    source ~/.config/zsh/.zshrc &&
-    cd {{ ansible_env.HOME }}/tools/terraform-lsp && git pull && go install
-    executable=/bin/zsh
-
-- name: install pyls
-  shell: "pip install --user 'python-language-server[all]'"
+#
+# - name: install coc.nvim language servers
+#   shell: >
+#     source ~/.config/zsh/.zshrc &&
+#     npm install -g {{ item }}
+#     executable=/bin/zsh
+#   with_items:
+#     - typescript-language-server
+#     - intelephense
+#
+# - name: Check if terraform-lsp is cloned
+#   ansible.builtin.stat:
+#     path: "{{ ansible_env.HOME }}/tools/terraform-lsp"
+#   register: tf_lsp
+# - name: clone terraform-lsp
+#   git:
+#     repo: 'https://github.com/juliosueiras/terraform-lsp.git'
+#     dest: "{{ ansible_env.HOME }}/tools/terraform-lsp"
+#   when: tf_lsp.stat.exists == False
+#
+# - name: update terraform-lsp
+#   shell: >
+#     source ~/.config/zsh/.zshrc &&
+#     cd {{ ansible_env.HOME }}/tools/terraform-lsp && git pull && go install
+#     executable=/bin/zsh
+#
+# - name: install pyls
+#   shell: "pip install --user 'python-language-server[all]'"
