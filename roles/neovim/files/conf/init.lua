@@ -1160,7 +1160,7 @@ require("lazy").setup(
                 })
             end
         },
-        { "zhaozg/vim-diagram",                      ft = "markdown" },
+        { "zhaozg/vim-diagram",   ft = "markdown" },
         {
             "SidOfc/mkdx",
             ft = { "markdown", "vimwiki", "vimwiki.markdown" },
@@ -1248,45 +1248,46 @@ require("lazy").setup(
         },
         {
             'williamboman/mason.nvim',
-            dependencies = {
-                'williamboman/mason-lspconfig.nvim',
-                'neovim/nvim-lspconfig'
-            },
             config = function()
                 require("mason").setup()
+            end
+        },
+        {
+            "williamboman/mason-lspconfig.nvim",
+            config = function()
                 require("mason-lspconfig").setup {
                     -- A list of servers to automatically install if they're not already installed.
                     -- Example: { "rust_analyzer@nightly", "lua_ls" }
                     -- This setting has no relation with the `automatic_installation` setting.
                     -- see https://github.com/williamboman/mason-lspconfig.nvim#available-lsp-servers
                     ---@type string[]
-                    -- ensure_installed = {
-                    --     'lua_ls',
-                    --     'ansiblels',
-                    --     'bashls',
-                    --     'cssls',
-                    --     'dockerls',
-                    --     'docker_compose_language_service',
-                    --     'gopls',
-                    --     'golangci_lint_ls',
-                    --     'graphql',
-                    --     'html',
-                    --     'jsonls',
-                    --     'tsserver',
-                    --     'marksman', -- markdown
-                    --     'spectral', -- openapi
-                    --     'intelephense',
-                    --     'pyright',
-                    --     'ruby_ls',
-                    --     'sqlls',
-                    --     'taplo', -- toml
-                    --     'terraformls',
-                    --     'vimls',
-                    --     'lemminx',
-                    --     'yamlls',
-                    --     'hadolint',
-                    --     'tfsec',
-                    -- },
+                    ensure_installed = {
+                        'lua_ls',
+                        'ansiblels',
+                        'bashls',
+                        'cssls',
+                        'dockerls',
+                        'docker_compose_language_service',
+                        'gopls',
+                        'golangci_lint_ls',
+                        'graphql',
+                        'html',
+                        'jsonls',
+                        'tsserver',
+                        'marksman', -- markdown
+                        'spectral', -- openapi
+                        'intelephense',
+                        'pyright',
+                        -- 'ruby_ls',
+                        'sqlls',
+                        'taplo', -- toml
+                        'terraformls',
+                        'vimls',
+                        'lemminx',
+                        'yamlls',
+                        -- 'hadolint',
+                        -- 'tfsec',
+                    },
 
                     -- Whether servers that are set up (via lspconfig) should be automatically installed
                     -- if they're not already installed.
@@ -1300,41 +1301,9 @@ require("lazy").setup(
                     ---@type boolean
                     automatic_installation = true,
                 }
-
-                -- local lsp_capabilities = require('cmp_nvim_lsp').default_capabilities()
-                -- local lspconfig = require('lspconfig')
-                -- require("mason-lspconfig").setup_handlers {
-                --     -- The first entry (without a key) will be the default handler
-                --     -- and will be called for each installed server that doesn't have
-                --     -- a dedicated handler.
-                --     function(server_name) -- default handler (optional)
-                --         lspconfig[server_name].setup ({
-                --             capabilities = lsp_capabilities,
-                --         })
-                --     end,
-                --     ['tsserver'] = function()
-                --         lspconfig.tsserver.setup({
-                --             capabilities = lsp_capabilities,
-                --             settings = {
-                --                 completions = {
-                --                     completeFunctionCalls = true
-                --                 }
-                --             }
-                --         })
-                --     end,
-                --     ['gopls'] = function()
-                --         lspconfig.gopls.setup({
-                --             capabilities = lsp_capabilities,
-                --         })
-                --     end
-                --     -- Next, you can provide a dedicated handler for specific servers.
-                --     -- For example, a handler override for the `rust_analyzer`:
-                --     -- ["rust_analyzer"] = function()
-                --     --     require("rust-tools").setup {}
-                --     -- end
-                -- }
             end
         },
+        { "neovim/nvim-lspconfig" },
         {
             "b0o/schemastore.nvim",
         },
