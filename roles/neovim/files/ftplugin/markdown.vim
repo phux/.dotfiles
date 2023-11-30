@@ -183,9 +183,9 @@ function! TodoTxtAddCurrentLine()
     exe ':!echo '.shellescape(l:task).' >> ~/Dropbox/todo/work/todo.txt'
 endfunction
 
-nnoremap <leader>tuc :call TodoTxtCreateOutlineFromDoc()<cr>
-nnoremap <leader>tua :call TodoTxtAddCurrentLineToOutline()<cr>
-nnoremap <leader>ta :call TodoTxtAddCurrentLine()<cr>
+" nnoremap <leader>tuc :call TodoTxtCreateOutlineFromDoc()<cr>
+" nnoremap <leader>tua :call TodoTxtAddCurrentLineToOutline()<cr>
+" nnoremap <leader>ta :call TodoTxtAddCurrentLine()<cr>
 " nnoremap <leader>oo :FZF ~/Dropbox/todo/work/<cr>
 " vim table mode
 let g:table_mode_corner='|'

@@ -83,11 +83,9 @@ export LESS_TERMCAP_md="${yellow}";
 
 # Don’t clear the screen after quitting a manual page.
 
-alias update_antibody="antibody bundle < $XDG_CONFIG_HOME/zsh/antibody_plugins.txt  > $XDG_CONFIG_HOME/zsh/cached_plugins.sh; antibody update"
-
 alias sdn='sudo shutdown now -h'
 # alias update="sudo apt update && sudo apt upgrade -y && npm -g install tree-sitter && .d && git pull && make provision;sheldon lock --update;nvim +PackerUpdate +PackerCompile"
-alias update="sudo apt update && sudo apt upgrade -y && .d && git pull && make provision;sheldon lock --update;nvim +PackerUpdate +PackerCompile"
+alias update="sudo apt update && sudo apt upgrade -y && make provision;sheldon lock --update;"
 alias agi='sudo apt install'
 
 alias vu='vagrant up'
@@ -117,7 +115,7 @@ alias llc='ls -l -s created'      #long list
 
 alias grep='grep --color'
 
-alias cat='bat'
+# alias cat='bat'
 export MANPAGER="sh -c 'col -bx | bat -l man -p'"
 # export MANPAGER="nvim -c 'set ft=man' -"
 

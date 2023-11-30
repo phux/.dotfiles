@@ -47,6 +47,7 @@
       - imagemagick
       - fzy # telescope nvim 
       - fzf
+      - luarocks
 
 - name: disable openvpn at boot
   become: yes

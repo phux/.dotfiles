@@ -6,18 +6,11 @@ augroup php
   au BufWritePost *.php silent! !eval '[ -f ".git/hooks/ctags" ] && .git/hooks/ctags php' &
   au BufWritePost *.php silent! !eval '[ -f "../.git/hooks/ctags" ] && ../.git/hooks/ctags php' &
   " au BufWritePost *.php silent! exe ":!phpcbf --standard=~/.phpcs.xml ".expand('%:f')."; php-cs-fixer --config=.php_cs fix ".expand('%:f') | :e
-  " au BufWritePost *.php exe "!php-cs-fixer --config=".getcwd()."/.php_cs fix ".expand('%:f') | :e
+  au BufWritePost *.php silent! exe "!php-cs-fixer --config=".getcwd()."/.php-cs-fixer.php fix ".expand('%:f') | :e
   au BufNewFile,BufRead,BufEnter *.php set tags=.git/tags.php,../.git/tags.php
   " au BufNewFile,BufRead,BufEnter,BufWritePost *.php set autoindent
 augroup END
 
-" set smartindent
-" let g:php_folding = 1
-" set foldmethod=syntax
-" set foldlevelstart=1
-" set foldlevel=1
-" set foldnestmax=2
-" set nofoldenable
 setlocal tabstop=4
 setlocal shiftwidth=4
 setlocal softtabstop=4

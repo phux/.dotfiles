@@ -1,0 +1,8 @@
+{
+	"todo with date": {
+		"prefix": "t",
+		"body": [
+		"* TODO $1\n  SCHEDULED: <${CURRENT_YEAR}-${CURRENT_MONTH}-${CURRENT_DATE}>"
+		]
+	}
+}

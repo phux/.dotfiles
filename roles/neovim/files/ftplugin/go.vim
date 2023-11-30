@@ -3,6 +3,9 @@
 " setlocal foldmethod=syntax
 setlocal foldlevel=0
 setlocal foldnestmax=0
+setlocal tabstop=2
+setlocal shiftwidth=2
+setlocal softtabstop=2
 
 augroup golang
   au BufWritePost *.go silent! !eval '[ -f ".git/hooks/ctags" ] && .git/hooks/ctags go' &
@@ -25,40 +28,18 @@ if !filereadable(b:local_golangci_file)
     " echom 'local .golangci.yml not found'
   let g:ale_go_golangci_lint_options = '--fix --allow-parallel-runners --config ~/.golangci.yml'
 endif
-
-" let g:revive_config_file = '.revive.toml'
-" if !filereadable('.revive.toml')
-"   let g:revive_config_file = '~/.revive.toml'
-" endif
-" let g:revive_cmd = 'revive -exclude vendor/... -config '.g:revive_config_file.' %t'
-
-" load oldsql bindings
-" if !filereadable('go.mod')
-"     nmap <buffer> <silent> gd :GoDef<cr>
-"     nmap <buffer> <silent> gD :GoDefType<cr>
-"     nmap <buffer> <silent> gi :GoImplements<cr>
-"     nmap <buffer> <silent> gr :GoReferrers<cr>
-"     nmap <buffer> <leader>gr :GoRename
-"     nmap <buffer> K :GoInfo<cr>
-"     noremap <buffer> <leader>u :exec "GoImport ".expand("<cword>")<cr>
-" endif
-
-" nnoremap <buffer> <m-n> :call LanguageClient_contextMenu()<CR>
-" nnoremap <buffer> <silent> K :call LanguageClient#textDocument_hover()<CR>
-" nnoremap <buffer> <silent> <leader>nd :call LanguageClient#textDocument_definition()<CR>
-" nnoremap <buffer> <silent> <leader>rr :call LanguageClient#textDocument_rename()<CR>
-" nnoremap <buffer> <silent> <leader>nr :call LanguageClient#textDocument_references()<cr>
-" nnoremap <buffer> <silent> <leader>lf :call LanguageClient#textDocument_codeAction()<cr>
-vnoremap <buffer> <leader>rem <plug>(coc-codeaction-selected)
+" vnoremap <buffer> <leader>rem <plug>(coc-codeaction-selected)
 
 " vnoremap <buffer> <leader>rev :call GoExtractVariable()<cr>
 nnoremap <buffer> <leader>rm :call GoMove()<cr>
 noremap <buffer> <leader>rd :Refactor godoc<cr>
-:nnoremap <buffer> <leader>oj :CocCommand go.tags.add json
-nnoremap <buffer> <leader>oJ :CocCommand go.tags.remove json
+nnoremap <silent> <Leader>oj <Cmd>lua require('gomodifytags').GoAddTags("json")<CR>
+nnoremap <silent> <Leader>oJ <Cmd>lua require('gomodifytags').GoRemoveTags("json")<CR>
+" :nnoremap <buffer> <leader>oj :CocCommand go.tags.add json
+" nnoremap <buffer> <leader>oJ :CocCommand go.tags.remove json
 " nmap <buffer> <leader>ll <Plug>(coc-codelens-action)
 nnoremap <buffer> <leader>oe :IfErr<cr>
-nnoremap <buffer> <silent> <leader>na :CocCommand go.test.toggle<cr>
+" nnoremap <buffer> <silent> <leader>na :CocCommand go.test.toggle<cr>
 " nnoremap <buffer> <leader>oc :GoCoverageToggle<cr>
 nnoremap <buffer> <leader>oc :GoCoverage toggle<cr>
 " nnoremap <buffer> <leader>os :<C-u>call CocActionAsync('codeLensAction')<CR>
@@ -505,5 +486,4 @@ function! ExtractToFile()
         endif
     endif
 
-    :silent CocRestart
 endfunction

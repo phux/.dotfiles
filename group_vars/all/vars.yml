@@ -5,7 +5,7 @@ config_dir: "{{ ansible_env.XDG_CONFIG_HOME | default(default_xdg_config_home) }
 node_version: v20.9.0
 activitywatch_version: v0.12.2
 firacode_version: 5.2
-go_version: go1.19.13
+go_version: go1.21.4
 go_mockery_version: 2.14.0
 go_golangcilint_version: 1.52.2
 joplin_gui_version: v2.4.8
