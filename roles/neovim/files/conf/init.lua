@@ -501,7 +501,7 @@ require("lazy").setup(
 
                         -- Actions
                         map("n", "<leader>hs", gs.stage_hunk)
-                        -- map("n", "<leader>hr", gs.reset_hunk)
+                        map("n", "<leader>hr", gs.reset_hunk)
                         map(
                             "v",
                             "<leader>hs",
@@ -548,9 +548,9 @@ require("lazy").setup(
             "mfussenegger/nvim-lint",
             config = function()
                 require('lint').linters_by_ft = {
-                    markdown = { 'vale', 'markdownlint' },
+                    markdown = { 'proselint', 'markdownlint' },
                     -- markdown = { 'markdownlint' },
-                    text = { 'vale' },
+                    text = { 'proselint' },
                     yaml = { 'yamllint' },
                     json = { 'jsonlint' },
                     php = { 'php', 'phpstan' },
@@ -999,11 +999,16 @@ require("lazy").setup(
             'simondrake/gomodifytags',
             dependencies = { 'nvim-treesitter/nvim-treesitter', build = ':TSUpdate' },
             opts = {
-                transformation = "camelCase",
+                transformation = "camelcase",
                 skip_unexported = true,
-                override = false,
-                options = {}
+                override = true,
+                options = { "json=omitempty" },
+                parse = { enabled = true, seperator = "--" },
             },
+            config = function()
+                vim.api.nvim_create_user_command('GoAddTags',
+                    function(opts) require('gomodifytags').GoAddTags(opts.fargs[1], opts.args) end, { nargs = "+" })
+            end
         },
         {
             "phux/gotests-vim",
@@ -1105,6 +1110,13 @@ require("lazy").setup(
         {
             "hoob3rt/lualine.nvim",
             config = function()
+                local lint_progress = function()
+                    local linters = require("lint").get_running()
+                    if #linters == 0 then
+                        return "󰦕"
+                    end
+                    return "󱉶 " .. table.concat(linters, ", ")
+                end
                 require("lualine").setup {
                     options = {
                         theme = "gruvbox"
@@ -1167,7 +1179,7 @@ require("lazy").setup(
             config = function()
                 vim.api.nvim_exec(
                     [[
-                let g:mkdx#settings     = { 'highlight': { 'enable': 1 },  'enter': { 'shift': 1, 'malformed': 1 },  'links': { 'external': { 'enable': 1 } },  'toc': { 'text': 'Table of Contents', 'update_on_write': 1 },  'fold': { 'enable': 1 }, 'map': {'prefix': '<leader>'}}
+                let g:mkdx#settings     = { 'highlight': { 'enable': 1 },  'enter': { 'shift': 1, 'malformed': 1 },  'links': { 'external': { 'enable': 1 } },  'toc': { 'text': 'Table of Contents', 'update_on_write': 0 },  'fold': { 'enable': 1 }, 'map': {'prefix': '<leader>'}}
                 let g:polyglot_disabled = ['markdown']
 
                 let g:mkdx#settings.fold.enable = 1
@@ -1177,6 +1189,10 @@ require("lazy").setup(
                     true
                 )
             end
+        },
+        {
+            'iamcco/markdown-preview.nvim',
+            build = 'cd app && npx --yes yarn install',
         },
         "ActivityWatch/aw-watcher-vim",
         {
@@ -1493,7 +1509,7 @@ require("lazy").setup(
                             formatters.remove_trailing_whitespace,
                             formatters.shell({ cmd = "tidy-imports" }),
                             formatters.black,
-                            formatters.ruff,
+                            -- formatters.ruff,
                         },
 
                         -- Use a tempfile instead of stdin
@@ -1887,6 +1903,19 @@ require('mason-lspconfig').setup({
                     },
                 },
             })
+        end,
+        intelephense = function()
+            require('lspconfig').intelephense.setup {
+                settings = {
+                    intelephense = {
+                        files = {
+                            exclude = {
+                                "**/var/cache/**"
+                            }
+                        },
+                    },
+                },
+            }
         end,
         jsonls = function()
             require('lspconfig').jsonls.setup {
