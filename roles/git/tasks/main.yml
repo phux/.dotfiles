@@ -1,10 +1,24 @@
 ---
 
-- include: install.yml
-- include: templates.yml
-- include: config.yml
-- include: delta.yml
-- include: gitui.yml
+- name: install.yml
+  ansible.builtin.import_tasks:
+    file: install.yml
+
+- name: templates.yml
+  ansible.builtin.import_tasks:
+    file: templates.yml
+
+- name: config.yml
+  ansible.builtin.import_tasks:
+    file: config.yml
+
+- name: delta.yml
+  ansible.builtin.import_tasks:
+    file: delta.yml
+
+- name: gitui.yml
+  ansible.builtin.import_tasks:
+    file: gitui.yml
 
 - name: Link global gitignore
   file:

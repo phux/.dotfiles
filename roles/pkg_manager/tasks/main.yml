@@ -1,4 +1,7 @@
 ---
 
-- include: apt.yml
+- name: apt.yml
+  ansible.builtin.import_tasks:
+    file: apt.yml
+
   when: ansible_pkg_mgr == 'apt'

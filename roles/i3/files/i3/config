@@ -35,7 +35,7 @@ bindsym $mod+Return exec --no-startup-id urxvt
 bindsym $mod+Shift+Q kill
 
 # start dmenu (a program launcher)
-bindsym $mod+i exec --no-startup-id "rofi -combi-modi window,drun -show combi -modi combi"
+bindsym $mod+i exec --no-startup-id "rofi -combi-modi window,drun,calc -show combi -modi combi"
 
 # next/previous workspace
 bindsym Mod1+Tab focus right

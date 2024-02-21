@@ -50,10 +50,12 @@
       - luarocks
 
 - name: disable openvpn at boot
-  become: yes
+  become: true
   shell: "update-rc.d openvpn disable"
 
-- include: rofi.yml
+- name: rofi.yml
+  ansible.builtin.import_tasks:
+    file: rofi.yml
 
 - name: install todotxt-machine
   shell: "pip install --user --upgrade todotxt-machine"

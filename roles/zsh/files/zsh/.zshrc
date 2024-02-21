@@ -85,7 +85,7 @@ export LESS_TERMCAP_md="${yellow}";
 
 alias sdn='sudo shutdown now -h'
 # alias update="sudo apt update && sudo apt upgrade -y && npm -g install tree-sitter && .d && git pull && make provision;sheldon lock --update;nvim +PackerUpdate +PackerCompile"
-alias update="sudo apt update && sudo apt upgrade -y && .d && make provision;sheldon lock --update;"
+alias update="sudo apt update && sudo apt autoremove --purge && sudo apt upgrade -y && .d && make provision;sheldon lock --update;"
 alias agi='sudo apt install'
 
 alias vu='vagrant up'
@@ -199,8 +199,7 @@ alias gm='git merge -X patience'
 alias gmh='git merge -X histogram'
 alias gmd='git merge'
 alias gp='git push'
-alias grp='git rebase -i @{u}'
-alias gr='git rebase'
+alias gr='git restore'
 alias gss='git stash save'
 alias gsp='git stash pop'
 alias gsl='git stash list'
@@ -295,7 +294,7 @@ alias cm='cd ~/Dropbox/1vimwiki/notes/meetings/ && n +CreateMeetingNote'
 alias no='cd ~/Dropbox/1vimwiki/notes/ && n $(date "+%Y-%m-%d").md'
 alias nw='cd ~/Dropbox/1vimwiki/ && n; git add .; git commit -m "save"'
 # alias org='cd ~/Dropbox/org/ && n refile.org +"Telescope find_files"'
-alias org='cd ~/Dropbox/org/ && n refile.org; ga .; git commit -m "save"'
+alias org='cd ~/Dropbox/org/ && n refile.org today.org; ga .; git commit -m "save"'
 alias orgi="cd ~/Dropbox/org/ && n -c \"lua require('orgmode').action('capture.prompt')\""
 # alias t='~/tools/todo.txt_cli-2.9/todo.sh -d ~/Dropbox/todo/work/todo.cfg'
 alias t='todo.sh -f -n'

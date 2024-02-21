@@ -41,11 +41,13 @@ nnoremap <silent> <Leader>oJ <Cmd>lua require('gomodifytags').GoRemoveTags("json
 nnoremap <buffer> <leader>oe :IfErr<cr>
 " nnoremap <buffer> <silent> <leader>na :CocCommand go.test.toggle<cr>
 " nnoremap <buffer> <leader>oc :GoCoverageToggle<cr>
-nnoremap <buffer> <leader>oc :GoCoverage toggle<cr>
+" nnoremap <buffer> <leader>oc :GoCoverage toggle<cr>
+nnoremap <buffer> <leader>oc :CoverageToggle<cr>
+nnoremap <buffer> <leader>OC :CoverageSummary<cr>
 " nnoremap <buffer> <leader>os :<C-u>call CocActionAsync('codeLensAction')<CR>
 " nnoremap <buffer> <leader>gt :CocCommand go.test.generate.function<cr>
 " nnoremap <buffer> <leader>GT :CocCommand go.test.generate.exported<cr>
-nnoremap <buffer> <leader>om :Mockery<cr>
+" nnoremap <buffer> <leader>om :Mockery<cr>
 command! Mockery execute 'normal! O//go:generate mockery --name '.expand('<cword>').' --structname '.expand('<cword>').' --output=internal/mocks'
 
 

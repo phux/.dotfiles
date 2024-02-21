@@ -14,7 +14,11 @@
 
 
 - name: installing rofi
-  become: yes
+  become: true
   package:
-    name: "rofi"
     state: present
+    name:
+    - rofi
+    - rofi-dev
+    - qalc
+    - libtool

@@ -5,24 +5,14 @@
     state: latest
   become: yes
 
+- name: Download fnm installer
+  get_url:
+    url: https://fnm.vercel.app/install
+    dest: /tmp/fnminstall.sh
 
-- name: Check if node version is as configured
-  command: "node -v"
-  ignore_errors: true
-  register: node_version_check
-  changed_when: false
+- name: Execute the fnm installer
+  shell: cat /tmp/fnminstall.sh | bash -s -- --skip-shell
 
-- block:
-  - name: Download fnm installer
-    get_url:
-      url: https://github.com/Schniz/fnm/raw/master/.ci/install.sh
-      dest: /tmp/fnminstall.sh
-
-  - name: Execute the fnm installer
-    shell: cat /tmp/fnminstall.sh | bash -s -- --skip-shell
-
-  - name: installing node & npm
-    shell: >
-      source ~/.config/zsh/.zshrc && fnm install {{ node_version }} && fnm default {{ node_version }} executable=/bin/zsh
-
-  when: "node_version_check.stdout_lines != node_version"
+- name: installing node & npm
+  shell: >
+    source ~/.config/zsh/.zshrc && fnm install {{ node_version }} && fnm default {{ node_version }} executable=/bin/zsh

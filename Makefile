@@ -1,6 +1,7 @@
 all: bootstrap
 
 bootstrap:
+	ansible-galaxy collection install community.general
 	sudo apt -y install ansible
 
 provision:

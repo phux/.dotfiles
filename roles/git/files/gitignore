@@ -26,3 +26,4 @@ observer.rb
 .graphqlrc.json
 .eslintcache
 .phpactor.json
+.vim-bookmarks

@@ -1,4 +1,10 @@
 ---
 
-- include: php.yml
-- include: composer.yml
+- name: php.yml
+  ansible.builtin.import_tasks:
+    file: php.yml
+
+
+- name: composer.yml
+  ansible.builtin.import_tasks:
+    file: composer.yml

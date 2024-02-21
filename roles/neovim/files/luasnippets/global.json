@@ -1,8 +1,14 @@
 {
-	"todo with date": {
-		"prefix": "t",
-		"body": [
-		"* TODO $1\n  SCHEDULED: <${CURRENT_YEAR}-${CURRENT_MONTH}-${CURRENT_DATE}>"
-		]
-	}
+    "todo with date": {
+        "prefix": "t",
+        "body": [
+            "* TODO $1\n  SCHEDULED: <${CURRENT_YEAR}-${CURRENT_MONTH}-${CURRENT_DATE}>"
+        ]
+    },
+    "todo": {
+        "prefix": "t",
+        "body": [
+            "* TODO [#B] $1"
+        ]
+    }
 }

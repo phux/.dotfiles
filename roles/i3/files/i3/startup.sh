@@ -8,7 +8,7 @@ autorandr -c
 
 ~/.config/i3/wp-changer.sh &
 
-source ~/.dotfiles/roles/i3/files/i3/keyboard.sh &
+~/.dotfiles/roles/i3/files/i3/keyboard.sh &
 
 ~/Downloads/activitywatch/aw-qt &
 

@@ -29,4 +29,6 @@
     - zsh/*
     - zsh/.*
 
-- include: sheldon.yml
+- name: sheldon.yml
+  ansible.builtin.import_tasks:
+    file: sheldon.yml

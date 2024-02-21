@@ -1,145 +1,178 @@
 ---
-- git_config:
+
+- name: init.templatedir
+  community.general.git_config:
     name: init.templatedir
     scope: global
     value: ~/.git_templates
-- git_config:
+
+- name: core.excludesfile
+  community.general.git_config:
     name: core.excludesfile
     scope: global
     value: ~/.gitignore
 
-- git_config:
+- name: alias.ri
+  community.general.git_config:
     name: alias.ri
     scope: global
     value: "rebase --interactive --autosquash"
 
-- git_config:
+- name: pull.rebase
+  community.general.git_config:
     name: pull.rebase
     scope: global
     value: "true"
-- git_config:
+- name: fetch.prune
+  community.general.git_config:
     name: fetch.prune
     scope: global
     value: "true"
-- git_config:
+- name: rebase.autoStash
+  community.general.git_config:
     name: rebase.autoStash
     scope: global
     value: "true"
 
-- git_config:
+- name: rerere.enabled
+  community.general.git_config:
     name: rerere.enabled
     scope: global
     value: "false"
-- git_config:
+- name: rerere.autoupdate
+  community.general.git_config:
     name: rerere.autoupdate
     scope: global
     value: "false"
 
-- git_config:
+- name: advice.statusHints
+  community.general.git_config:
     name: advice.statusHints
     scope: global
     value: "false"
 
-- git_config:
+- name: diff.algorithm
+  community.general.git_config:
     name: diff.algorithm
     scope: global
     value: "histogram"
 
-- git_config:
+- name: diff.renames
+  community.general.git_config:
     name: diff.renames
     scope: global
     value: "copies"
 
-- git_config:
+- name: diff.mnemonicprefix
+  community.general.git_config:
     name: diff.mnemonicprefix
     scope: global
     value: "true"
 
-- git_config:
+- name: url.diff.whitespace
+  community.general.git_config:
     name: url.diff.whitespace
     scope: global
     value: "red reverse"
 
-- git_config:
+- name: diff.tool
+  community.general.git_config:
     name: diff.tool
     scope: global
     value: nvimdiff
 
-- git_config:
+- name: difftool.prompt
+  community.general.git_config:
     name: difftool.prompt
     scope: global
     value: "false"
 
-- git_config:
+- name: difftool.trustExitCode
+  community.general.git_config:
     name: difftool.trustExitCode
     scope: global
     value: "true"
 
-- git_config:
+- name: merge.tool
+  community.general.git_config:
     name: merge.tool
     scope: global
     value: diffconflicts
 
-- git_config:
+- name: mergetool.prompt
+  community.general.git_config:
     name: mergetool.prompt
     scope: global
     value: "false"
 
-- git_config:
+- name: mergetool.keepBackup
+  community.general.git_config:
     name: mergetool.keepBackup
     scope: global
     value: "false"
 
-- git_config:
+- name: commit.verbose
+  community.general.git_config:
     name: commit.verbose
     scope: global
     value: "true"
 
-- git_config:
+- name: color.ui
+  community.general.git_config:
     name: color.ui
     scope: global
     value: "true"
 
-- git_config:
-    name: color.diff-highlight.oldNormal
+- name: color.diff-highlight.oldNormal
+  community.general.git_config:
+    name: color.diff-highlight.ol
     scope: global
     value: "red bold"
-- git_config:
-    name: color.diff-highlight.oldHighlight
+- name: color.diff-highlight.oldHighlight
+  community.general.git_config:
+    name: color.diff-highlight.ol
     scope: global
     value: "red bold 52"
 
-- git_config:
-    name: color.diff-highlight.newNormal
+- name: color.diff-highlight.newNormal
+  community.general.git_config:
+    name: color.diff-highlight.ne
     scope: global
     value: "green bold"
 
-- git_config:
-    name: color.diff-highlight.newHighlight
+- name: color.diff-highlight.newHighlight
+  community.general.git_config:
+    name: color.diff-highlight.ne
     scope: global
     value: "green bold 22"
 
-- git_config:
+- name: color.diff.meta
+  community.general.git_config:
     name: color.diff.meta
     scope: global
     value: "yellow"
-- git_config:
+- name: color.diff.frag
+  community.general.git_config:
     name: color.diff.frag
     scope: global
     value: "magenta bold"
-- git_config:
+- name: color.diff.commit
+  community.general.git_config:
     name: color.diff.commit
     scope: global
     value: "yellow bold"
-- git_config:
+- name: color.diff.old
+  community.general.git_config:
     name: color.diff.old
     scope: global
     value: "red bold"
-- git_config:
+- name: color.diff.new
+  community.general.git_config:
     name: color.diff.new
     scope: global
     value: "green bold"
-- git_config:
+- name: color.diff.whitespace
+  community.general.git_config:
     name: color.diff.whitespace
     scope: global
     value: "red reverse"

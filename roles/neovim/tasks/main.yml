@@ -2,13 +2,34 @@
 
 - name: run includes
   block:
-  - include: install_nvim.yml
-  - include: pip.yml
-  - include: colors.yml
-  - include: ftplugin.yml
-  - include: ctags.yml
-  - include: linters.yml
-  - include: conf.yml
+  - name: install_nvim.yml
+    ansible.builtin.import_tasks:
+      file: install_nvim.yml
+
+  - name: pip.yml
+    ansible.builtin.import_tasks:
+      file: pip.yml
+
+  - name: colors.yml
+    ansible.builtin.import_tasks:
+      file: colors.yml
+
+  - name: ftplugin.yml
+    ansible.builtin.import_tasks:
+      file: ftplugin.yml
+
+  - name: ctags.yml
+    ansible.builtin.import_tasks:
+      file: ctags.yml
+
+  - name: linters.yml
+    ansible.builtin.import_tasks:
+      file: linters.yml
+
+  - name: conf.yml
+    ansible.builtin.import_tasks:
+      file: conf.yml
+
 
   - name: creating project file
     copy:

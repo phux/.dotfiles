@@ -1,12 +1,31 @@
 ---
 
-- include: gvm.yml
-- include: go1.4.yml
-- include: go-latest.yml
+- name: gvm.yml
+  ansible.builtin.import_tasks:
+    file: gvm.yml
 
-- include: linters.yml
-- include: gopls.yml
+- name: go1.4.yml
+  ansible.builtin.import_tasks:
+    file: go1.4.yml
 
-- include: testing.yml
+- name: go-latest.yml
+  ansible.builtin.import_tasks:
+    file: go-latest.yml
 
-- include: tools.yml
+
+- name: linters.yml
+  ansible.builtin.import_tasks:
+    file: linters.yml
+
+- name: gopls.yml
+  ansible.builtin.import_tasks:
+    file: gopls.yml
+
+
+- name: testing.yml
+  ansible.builtin.import_tasks:
+    file: testing.yml
+
+- name: tools.yml
+  ansible.builtin.import_tasks:
+    file: tools.yml

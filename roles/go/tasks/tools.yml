@@ -5,11 +5,11 @@
     source ~/.config/zsh/.zshrc &&
     go install golang.org/x/perf/cmd/benchstat@latest executable=/bin/zsh
 
-- name: install iferr
-  shell: >
-    source ~/.config/zsh/.zshrc &&
-    go install github.com/koron/iferr@latest executable=/bin/zsh
-
+# - name: install iferr
+#   shell: >
+#     source ~/.config/zsh/.zshrc &&
+#     go install github.com/koron/iferr@latest executable=/bin/zsh
+#
 - name: install impl
   shell: >
     source ~/.config/zsh/.zshrc &&
