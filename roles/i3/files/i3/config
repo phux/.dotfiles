@@ -182,13 +182,8 @@ bindsym $MOD+SHIFT+o exec --no-startup-id st -e 'ranger'
 bindsym Mod1+Return exec --no-startup-id ~/.vim-anywhere/bin/run
 bindsym $MOD+n exec --no-startup-id st -c "nvim_float" -g 120x40 ~/.dotfiles/roles/i3/files/i3/open_nvim_float.sh "+OpenInboxNote"
 bindsym $MOD+Shift+n exec --no-startup-id st -c "nvim_float" -g 120x40 ~/.dotfiles/roles/i3/files/i3/open_nvim_float.sh "+VimwikiUISelect"
-# bindsym $MOD+t exec --no-startup-id [ $(ps h -C "todotxt-machine" | wc -l) = 0 ] && st -c "todo_txt" -g 120x40 todotxt-machine
-# bindsym $MOD+t exec --no-startup-id st -c "todo_txt" -g 120x40 ~/.dotfiles/roles/i3/files/i3/open_nvim_float.sh ~/Dropbox/todo/todo.txt
 # bindsym $MOD+t exec --no-startup-id st -g 120x40 ~/.dotfiles/roles/i3/files/i3/open_pomogoro.sh
 bindsym $MOD+t exec --no-startup-id st ~/.dotfiles/roles/i3/files/i3/open_pomogoro.sh
-# bindsym $MOD+Shift+t exec --no-startup-id st -c "todo_txt" -g 120x40 ~/.dotfiles/roles/i3/files/i3/open_nvim_float.sh ~/Dropbox/todo/work/todo.txt
-# bindsym $MOD+Shift+t exec st -c "todo_txt" -g 170x60 ~/.dotfiles/roles/i3/files/i3/open_tmux.sh todo
-# bindsym $MOD+Shift+t exec st -c "todo_txt" -g 170x60 ~/.dotfiles/roles/i3/files/i3/open_tmux.sh todo
 bindsym $MOD+Shift+t exec --no-startup-id st -c "nvim_float" -g 120x40 ~/.dotfiles/roles/i3/files/i3/open_nvim_float.sh "org"
 bindsym $MOD+p exec --no-startup-id keepassxc
 bindsym $mod+Shift+p exec --no-startup-id sh ~/.config/i3/i3lock.sh

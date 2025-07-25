@@ -1,7 +1,0 @@
----
-- name: Clone todo.txt-cli repository
-  ansible.builtin.git:
-    repo: https://github.com/todotxt/todo.txt-cli.git
-    dest: "{{ ansible_env.HOME }}/tools/todo.txt-cli"
-    version: "{{ todotxt_version }}"
-    accept_hostkey: true

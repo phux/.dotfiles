@@ -12,7 +12,6 @@ ruby_version: 3.2.0
 rbenv_version: v1.3.2
 bat_version: v0.25.0
 rg_version: 14.1.1
-todotxt_version: v2.13.0
 tmux_version: v3.5a
 tpm_version: master
 pandoc_themes_version: master

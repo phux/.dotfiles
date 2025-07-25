@@ -17,7 +17,6 @@ REPOS=(
   "rbenv_version:rbenv/rbenv"
   "bat_version:sharkdp/bat"
   "rg_version:BurntSushi/ripgrep"
-  "todotxt_version:todotxt/todo.txt-cli"
   "tmux_version:tmux/tmux"
   "hack_font_version:source-foundry/Hack"
   "fnm_version:Schniz/fnm"

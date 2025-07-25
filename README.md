@@ -39,7 +39,7 @@ This collection of dotfiles automates the setup and configuration of many essent
     - **`nix`**: Nix package manager configurations.
     - **`pandoc`**: Document converter configurations.
     - **`pkg_manager`**: Package manager configurations (e.g., `apt`).
-    - **`todotxt`**: Configuration for the todo.txt CLI.
+    
     - **`zip`**: Zip utility configurations.
 
 ## Installation
