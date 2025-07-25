@@ -13,7 +13,7 @@ REPOS=(
   "firacode_version:tonsky/FiraCode"
   "go_mockery_version:vektra/mockery"
   "go_golangcilint_version:golangci/golangci-lint"
-  "ruby_version:ruby/ruby"
+  # "ruby_version:ruby/ruby"
   "rbenv_version:rbenv/rbenv"
   "bat_version:sharkdp/bat"
   "rg_version:BurntSushi/ripgrep"

@@ -20,7 +20,7 @@
   ansible.builtin.git:
     repo: https://github.com/neovim/neovim.git
     dest: "{{ ansible_env.HOME }}/tools/neovim"
-    version: "v{{ neovim_version }}"
+    version: "{{ neovim_version }}"
     force: yes
 
 - name: Build and install neovim

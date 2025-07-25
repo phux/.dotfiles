@@ -47,6 +47,12 @@
       async: 300
       poll: 5
 
+    - name: Symlink rbenv to ~/.local/bin/
+      ansible.builtin.file:
+        src: "{{ ansible_env.HOME }}/.rbenv/bin/rbenv"
+        dest: "{{ ansible_env.HOME }}/.local/bin/rbenv"
+        state: link
+
   when: not rbenv_check.stat.exists
 
 - name: Check if desired ruby version is installed
