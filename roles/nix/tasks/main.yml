@@ -1,9 +1,22 @@
 ---
+- name: Check if nix is installed
+  stat:
+    path: "{{ ansible_env.HOME }}/.nix-profile/etc/profile.d/nix.sh"
+  register: nix_check
 
-# - name: Download nix installer
-#   get_url:
-#     url: https://nixos.org/nix/install
-#     dest: /tmp/nixinstaller
+- name: Install nix
+  block:
+    - name: Download nix installer
+      get_url:
+        url: https://nixos.org/nix/install
+        dest: /tmp/nixinstaller
+        mode: '0755'
 
-# - name: Execute the nixinstaller
-#   shell: sh <(curl -L https://nixos.org/nix/install) --no-daemon
+    - name: Execute the nixinstaller
+      shell: /tmp/nixinstaller --no-daemon
+
+    - name: source nix
+      shell: . {{ ansible_env.HOME }}/.nix-profile/etc/profile.d/nix.sh
+      args:
+        executable: /bin/bash
+  when: not nix_check.stat.exists

@@ -2,14 +2,6 @@
 "
 set spell
 
-augroup markdown
-  au BufWritePost *.md silent! !eval '[ -f ".git/hooks/ctags" ] && .git/hooks/ctags markdown' &
-  au BufNewFile,BufRead,BufEnter *.md set tags=.git/tags.markdown
-  " au BufNewFile,BufRead,BufEnter *.markdown let g:mkdx#settings.toc.position = 0
-
-  " au InsertLeave *md TableModeRealign
-augroup end
-
 " better wordwrapping with mkdx
 setlocal iskeyword+=-
 
@@ -26,23 +18,25 @@ function! s:align()
   endif
 endfunction
 
-function! HandleURL()
-  let s:uri = matchstr(getline("."), '[a-z]*:\/\/[^ >,;()]*')
-  let s:uri = shellescape(s:uri, 1)
-  if s:uri =~ "("
-     echo s:uri
-     return
-  endif
-  if s:uri != ""
-    silent exec "!open '".s:uri."'"
-    :redraw!
-  else
-    echo "No URI found in line."
-  endif
-endfunction
-
-nnoremap gx :call HandleURL()<CR>¬
-vnoremap gx :call HandleURL()<CR>¬
+nmap <leader><enter> :exe "!chromium-browser ".shellescape(expand("<cWORD>"))<cr><cr>
+nmap gx :exe "!chromium-browser ".shellescape(expand("<cWORD>"))<cr><cr>
+" function! HandleURL()
+"   let s:uri = matchstr(getline("."), '[a-z]*:\/\/[^ >,;()]*')
+"   let s:uri = shellescape(s:uri, 1)
+"   if s:uri =~ "("
+"      echo s:uri
+"      return
+"   endif
+"   if s:uri != ""
+"     silent exec "!open '".s:uri."'"
+"     :redraw!
+"   else
+"     echo "No URI found in line."
+"   endif
+" endfunction
+"
+" nnoremap gx :call HandleURL()<CR>¬
+" vnoremap gx :call HandleURL()<CR>¬
 
 setlocal conceallevel=0
 " let g:indentLine_enabled = 0

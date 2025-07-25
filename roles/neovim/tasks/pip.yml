@@ -1,5 +1,8 @@
 ---
 
-- name: pip3 | neovim
-  shell: >
-    pip install --user --upgrade neovim
+- name: Install neovim globally (with caution)
+  ansible.builtin.pip:
+    name: neovim
+    state: present
+    executable: pip3
+    extra_args: --break-system-packages

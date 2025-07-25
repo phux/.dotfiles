@@ -1,0 +1,35 @@
+---
+- name: Clone tfenv repository
+  ansible.builtin.git:
+    repo: 'https://github.com/tfutils/tfenv.git'
+    dest: "{{ ansible_env.HOME }}/.tfenv"
+    version: "master"
+    update: yes
+
+- name: Add tfenv to PATH
+  ansible.builtin.lineinfile:
+    path: "{{ ansible_env.HOME }}/.bashrc"
+    line: 'export PATH="$HOME/.tfenv/bin:$PATH"'
+    create: yes
+    insertafter: EOF
+  when: ansible_facts['os_family'] == "Debian"
+
+- name: Add tfenv to Zsh PATH
+  ansible.builtin.lineinfile:
+    path: "{{ ansible_env.HOME }}/.zshrc"
+    line: 'export PATH="$HOME/.tfenv/bin:$PATH"'
+    create: yes
+    insertafter: EOF
+  when: ansible_env.SHELL is defined and 'zsh' in ansible_env.SHELL
+
+- name: Install Terraform {{ terraform_version }}
+  ansible.builtin.shell: |
+    export PATH="$HOME/.tfenv/bin:$PATH"
+    tfenv install {{ terraform_version }}
+  args:
+    creates: "{{ ansible_env.HOME }}/.tfenv/versions/{{ terraform_version }}"
+
+- name: Set global Terraform version to {{ terraform_version }}
+  ansible.builtin.shell: |
+    export PATH="$HOME/.tfenv/bin:$PATH"
+    tfenv use {{ terraform_version }}

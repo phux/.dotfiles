@@ -1,5 +1,11 @@
 ---
+- name: Check if fd is installed
+  ansible.builtin.command: which fd
+  register: fd_check
+  changed_when: false
+  failed_when: false
 
 - name: install fd
   shell: >
     nix-env -i fd
+  when: fd_check.rc != 0

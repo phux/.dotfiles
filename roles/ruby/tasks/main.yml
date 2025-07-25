@@ -1,42 +1,64 @@
 ---
-- name: check rbenv version
-  shell: rbenv -v || /bin/true
-  register: rbenv_version_check
+- name: Check if rbenv is installed
+  stat:
+    path: "{{ ansible_env.HOME }}/.rbenv/bin/rbenv"
+  register: rbenv_check
 
-- block:
-  - name: ruby deps
-    become: yes
-    package: name={{ item }} state=present
-    with_items:
-      - libssl-dev
-      - libreadline-dev
-      - zlib1g-dev
+- name: Install and configure rbenv
+  block:
+    - name: Install rbenv dependencies
+      become: true
+      ansible.builtin.package:
+        name:
+          - libssl-dev
+          - libreadline-dev
+          - zlib1g-dev
+          - libyaml-dev
+        state: present
 
-  - name: checkout rbenv repo
-    git: >
-      repo=https://github.com/rbenv/rbenv.git
-      dest={{ ansible_env.HOME }}/.rbenv
-      version={{ rbenv_version }}
-      accept_hostkey=yes
-      force=yes
-    ignore_errors: yes
+    - name: Clone rbenv repository
+      ansible.builtin.git:
+        repo: https://github.com/rbenv/rbenv.git
+        dest: "{{ ansible_env.HOME }}/.rbenv"
+        version: "{{ rbenv_version }}"
+        accept_hostkey: true
+      async: 300
+      poll: 5
 
-  - name: create plugins directory
-    file: state=directory path={{ ansible_env.HOME }}/.rbenv/plugins
-    ignore_errors: yes
+    - name: Create rbenv plugins directory
+      ansible.builtin.file:
+        path: "{{ ansible_env.HOME }}/.rbenv/plugins"
+        state: directory
 
-  - name: configure rbenv
-    shell: cd ~/.rbenv && src/configure && make -C src && eval "$(rbenv init -)"
+    - name: Configure rbenv
+      ansible.builtin.shell: |
+        cd ~/.rbenv
+        src/configure
+        make -C src
+        eval "$(rbenv init -)"
+      async: 1800
+      poll: 10
 
-  - name: checkout rbenv ruby-build repo
-    git: >
-      repo=https://github.com/rbenv/ruby-build.git
-      dest={{ ansible_env.HOME }}/.rbenv/plugins/ruby-build
-      accept_hostkey=yes
-      force=yes
-    ignore_errors: yes
+    - name: Clone ruby-build repository
+      ansible.builtin.git:
+        repo: https://github.com/rbenv/ruby-build.git
+        dest: "{{ ansible_env.HOME }}/.rbenv/plugins/ruby-build"
+        accept_hostkey: true
+      async: 300
+      poll: 5
 
-  when: "rbenv_version_check.stdout.find('rbenv ' ~ rbenv_version) == -1"
+  when: not rbenv_check.stat.exists
 
-- name: install ruby {{ ruby_version }}
-  shell: $SHELL -lc "{{ ansible_env.HOME }}/.rbenv/bin/rbenv install --skip-existing {{ ruby_version }} && {{ ansible_env.HOME }}/.rbenv/bin/rbenv global {{ ruby_version }}"
+- name: Check if desired ruby version is installed
+  shell: "{{ ansible_env.HOME }}/.rbenv/bin/rbenv versions --bare | grep -x {{ ruby_version | replace('v', '') }}"
+  register: ruby_version_check
+  ignore_errors: true
+  changed_when: false
+
+- name: Install Ruby
+  ansible.builtin.shell: |
+    {{ ansible_env.HOME }}/.rbenv/bin/rbenv install --skip-existing {{ ruby_version | replace('v', '') }}
+    {{ ansible_env.HOME }}/.rbenv/bin/rbenv global {{ ruby_version | replace('v', '') }}
+  async: 1800
+  poll: 10
+  when: ruby_version_check.rc != 0

@@ -7,15 +7,6 @@ setlocal tabstop=2
 setlocal shiftwidth=2
 setlocal softtabstop=2
 
-augroup golang
-  au BufWritePost *.go silent! !eval '[ -f ".git/hooks/ctags" ] && .git/hooks/ctags go' &
-  au BufWritePost *.go silent! !eval '[ -f "../.git/hooks/ctags" ] && ../.git/hooks/ctags go' &
-  au BufNewFile,BufRead,BufEnter *.go set tags=.git/tags.go,../.git/tags.go
-  " au BufWritePre *.go :silent call CocAction('runCommand', 'editor.action.organizeImport') | call CocAction('format')
-  " au BufWritePre *.go :silent call CocActionAsync('runCommand', 'editor.action.organizeImport')
-  " au BufWritePre *.go :silent call CocAction('format')
-augroup end
-
 " let b:ale_linters = ['gobuild', 'golangci-lint']
 let b:ale_linters = ['golangci-lint']
 " let b:ale_linters = ['gopls']
@@ -75,33 +66,6 @@ let g:go_debug_windows = {
       \ 'vars':  'leftabove 90vnew',
 \ }
 
-" let g:tagbar_type_go = {
-"     \ 'ctagstype' : 'go',
-"     \ 'kinds'     : [
-"         \ 'p:package',
-"         \ 'i:imports:1',
-"         \ 'c:constants',
-"         \ 'v:variables',
-"         \ 't:types',
-"         \ 'n:interfaces',
-"         \ 'w:fields',
-"         \ 'e:embedded',
-"         \ 'm:methods',
-"         \ 'r:constructor',
-"         \ 'f:functions'
-"     \ ],
-"     \ 'sro' : '.',
-"     \ 'kind2scope' : {
-"         \ 't' : 'ctype',
-"         \ 'n' : 'ntype'
-"     \ },
-"     \ 'scope2kind' : {
-"         \ 'ctype' : 't',
-"         \ 'ntype' : 'n'
-"     \ },
-"     \ 'ctagsbin'  : 'gotags',
-"     \ 'ctagsargs' : '-sort -silent'
-" \ }
 
 let g:go_fmt_options = {
   \ 'gofmt': '-s',

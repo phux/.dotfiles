@@ -1,0 +1,56 @@
+{
+  "theme": "GitHub",
+  "selectedAuthType": "oauth-personal",
+  "model": "gemini-1.5-flash-latest",
+  "mcpServers": {
+    "sequential-thinking": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-sequential-thinking"
+      ]
+    },
+    "github": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-github@latest"
+      ],
+      "disabled": false,
+      "alwaysAllow": []
+    },
+    "git": {
+      "command": "uvx",
+      "args": [
+        "mcp-server-git"
+      ],
+      "disabled": false,
+      "alwaysAllow": []
+    },
+    "shell": {
+      "command": "uvx",
+      "args": [
+        "mcp-shell-server"
+      ],
+      "env": {
+        "ALLOW_COMMANDS": "ls,cat,pwd,grep,wc,touch,find"
+      },
+      "disabled": false,
+      "alwaysAllow": []
+    },
+    "code-analysis": {
+      "command": "/home/jm/tools/code-analysis-mcp/venv/bin/python3",
+      "args": [
+        "/home/jm/tools/code-analysis-mcp/code_analysis.py"
+      ]
+    },
+    "context7": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@upstash/context7-mcp"
+      ]
+    }
+  },
+  "preferredEditor": "vscode"
+}

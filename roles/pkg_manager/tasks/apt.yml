@@ -1,11 +1,16 @@
 ---
 
-- name: update
+- name: Update apt cache
   become: yes
   apt:
-    upgrade: 'yes'
     update_cache: yes
     cache_valid_time: 86400
+
+- name: Install packages
+  become: yes
+  apt:
+    name: "{{ packages }}"
+    state: present
 
 # - name: check to see if apt-fast is already installed
 #   command: "apt-fast --version"

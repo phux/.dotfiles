@@ -27,7 +27,6 @@ workspace_auto_back_and_forth no
 floating_modifier Mod1
 
 # start a terminal
-# bindsym $mod+Return exec --no-startup-id st
 # bindsym $mod+Return exec --no-startup-id urxvtc
 bindsym $mod+Return exec --no-startup-id urxvt
 
@@ -145,7 +144,8 @@ bindsym $mod+4 workspace number 4
 bindsym $mod+5 workspace number 5
 bindsym $mod+6 workspace number 6
 bindsym $mod+7 workspace number 7
-bindsym $mod+8 workspace number 8; exec --no-startup-id [ $(ps h -C spotify | wc -l) = 0 ] && spotify
+bindsym $mod+8 workspace number 8
+#bindsym $mod+8 workspace number 8; exec --no-startup-id [ $(ps h -C spotify | wc -l) = 0 ] && spotify
 bindsym $mod+9 workspace number 9; exec --no-startup-id [ $(ps h -C slack | wc -l) = 0 ] && slack
 bindsym $mod+0 workspace number 10; exec --no-startup-id [ $(ps h -C chrome | wc -l) = 0 ] && chromium-browser
 # bindsym $mod+0 workspace number 10; exec --no-startup-id [ $(ps aux | grep firefox | wc -l) = 1 ] && firefox
@@ -198,6 +198,7 @@ bindsym --release $mod+s exec --no-startup-id sh ~/.dotfiles/roles/i3/files/i3/s
 bindsym $mod+Shift+a exec --no-startup-id autorandr -c
 
 # workspace targeting
+assign [title="YouTube Music"] 8
 assign [class="Chromium"] 10
 assign [class="Firefox"] 10
 assign [class="Slack"] 9
@@ -209,7 +210,7 @@ assign [class="jetbrains-idea-ce"] 2
 for_window [class="Xfce4-notifyd"] border none
 for_window [class="Xfce4-notifyd"] floating enable
 for_window [class="PomoDoneApp"] floating enable
-for_window [class="Gnome-calculator"] floating enable
+for_window [class="gnome-calculator"] floating enable
 for_window [class="nvim_float"] floating enable
 # for_window [title="pomogoro_cli"] floating enable
 for_window [title="pomogoro_cli"] move scratchpad

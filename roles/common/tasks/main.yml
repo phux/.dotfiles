@@ -1,17 +1,7 @@
 ---
-
-# TODO
-# - name: add dropbox source
-#   become: yes
-#   shell: >
-#     apt-key adv --keyserver pgp.mit.edu --recv-keys 5044912E
-#     sh -c 'echo "deb http://linux.dropbox.com/ubuntu/ xenial main" > /etc/apt/sources.list.d/dropbox.list'
-#     apt update
-
-- name: install common tools
-  become: yes
-  package:
-    state: latest
+- name: Install common tools
+  become: true
+  ansible.builtin.package:
     name:
       - wget
       - build-essential
@@ -22,7 +12,6 @@
       - curl
       - gdebi
       - filezilla
-      - vagrant
       - virtualbox
       - thunar
       - pcmanfm
@@ -39,41 +28,52 @@
       - httpie
       - autorandr
       - cargo
-      - pwgen #zsh-autoswitch-virtualenv
+      - pwgen
       - cmake
-      - libtool #neovim
+      - libtool
       - libtool-bin
       - ninja-build
       - imagemagick
-      - fzy # telescope nvim 
+      - fzy
       - fzf
       - luarocks
+      - bat
+    state: latest
 
-- name: disable openvpn at boot
+- name: Disable OpenVPN service
   become: true
-  shell: "update-rc.d openvpn disable"
+  ansible.builtin.service:
+    name: openvpn
+    enabled: false
 
-- name: rofi.yml
+- name: Import rofi tasks
   ansible.builtin.import_tasks:
     file: rofi.yml
 
-- name: install todotxt-machine
-  shell: "pip install --user --upgrade todotxt-machine"
+- name: Create autorandr config directory
+  ansible.builtin.file:
+    path: "{{ config_dir }}/autorandr"
+    state: directory
+    mode: '0755'
 
-# todo: create dir
-- name: copy autorandr hooks
-  copy:
+- name: Copy autorandr hooks
+  ansible.builtin.copy:
     src: "{{ item }}"
     dest: "{{ config_dir }}/autorandr/{{ item | basename }}"
   with_fileglob:
-  - autorandr/*
+    - autorandr/*
 
-
-- stat: path={{ ansible_env.HOME }}/Downloads/activitywatch
+- name: Check if ActivityWatch is installed
+  stat:
+    path: "{{ ansible_env.HOME }}/Downloads/activitywatch"
   register: aw_exists
-- name: install activitywatch
-  unarchive:
+
+- name: Install ActivityWatch
+  ansible.builtin.unarchive:
     src: "https://github.com/ActivityWatch/activitywatch/releases/download/{{ activitywatch_version }}/activitywatch-{{ activitywatch_version }}-linux-x86_64.zip"
     dest: "{{ ansible_env.HOME }}/Downloads"
-    remote_src: yes
-  when: aw_exists.stat.exists == False
+    remote_src: true
+  when: not aw_exists.stat.exists
+
+- name: Sudo
+  include_tasks: sudo.yml

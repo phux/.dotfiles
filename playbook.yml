@@ -2,14 +2,15 @@
 - hosts: localhost
   roles:
     - pkg_manager
+    - nix
     - zsh
     - common
     - font
     - terminal
     - urxvt
     - go
+    - git
     - i3
-    - joplin
     - keepassxc
     - mysql
     - neovim
@@ -17,4 +18,6 @@
     - rg
     - tmux
     - pandoc
-    - todotxt
+    - gemini-cli
+    - {role: "tfenv", "tags": "tf"}
+    - pyenv

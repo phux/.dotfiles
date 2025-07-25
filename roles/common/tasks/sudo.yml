@@ -1,0 +1,7 @@
+---
+- name: Allow user to run sudo without a password
+  become: true
+  copy:
+    dest: "/etc/sudoers.d/{{ ansible_user_id }}"
+    content: "{{ ansible_user_id }} ALL=(ALL) NOPASSWD: ALL"
+    validate: "visudo -cf %s"

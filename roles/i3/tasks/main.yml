@@ -1,54 +1,57 @@
 ---
-
-- name: check to see if i3 is already installed
+- name: Check if i3 is installed
   command: "i3 --version"
   ignore_errors: true
   register: i3_is_installed
   changed_when: false
 
-- name: install i3
+- name: Install and configure i3
   block:
+    - name: Install i3 and dependencies
+      become: true
+      ansible.builtin.package:
+        name:
+          - i3
+          - i3lock
+          - i3status
+          - pavucontrol
+          - dunst
+        state: latest
 
-  - name: Create i3 config directory
-    file: path={{ i3_config_dir }} state=directory
+    - name: Create i3 config directory
+      ansible.builtin.file:
+        path: "{{ i3_config_dir }}"
+        state: directory
 
-  - name: Install i3 and deps
-    become: yes
-    package: name={{ item }} state=latest
-    with_items:
-    - i3
-    - i3lock
-    - i3status
-    - pavucontrol
-    - dunst
+    - name: Link i3 configuration files
+      ansible.builtin.file:
+        src: "{{ item }}"
+        dest: "{{ i3_config_dir }}/{{ item | basename }}"
+        state: link
+      with_fileglob:
+        - i3/*
 
-  - name: Link i3 files
-    file: src={{item}} dest={{ i3_config_dir }}/{{ item | basename }} state=link
-    with_fileglob:
-    - i3/*
+    - name: Add user to audio group
+      become: true
+      ansible.builtin.user:
+        name: "{{ lookup('env', 'USER') }}"
+        groups: audio
+        append: true
 
-  - name: set up pulseaudio group memberships
-    user:
-      append: yes
-      groups: audio
-      user: "{{ lookup('env','USER')}}"
-    become: yes
+    - name: Create dunst config directory
+      ansible.builtin.file:
+        path: "{{ ansible_env.HOME }}/.config/dunst"
+        state: directory
 
-  - name: create dunst config dir
-    file: path="{{ ansible_env.HOME }}/.config/dunst" state=directory
+    - name: Link dunstrc file
+      ansible.builtin.file:
+        src: "{{ item }}"
+        dest: "{{ ansible_env.HOME }}/.config/dunst/{{ item | basename }}"
+        state: link
+      with_fileglob:
+        - dunstrc
+  when: i3_is_installed.rc != 0
 
-  - name: Link dunstrc file
-    file: >
-      src={{item}}
-      dest="{{ ansible_env.HOME }}/.config/dunst/{{ item | basename }}"
-      state=link
-    with_fileglob:
-    - dunstrc
-
-    when: i3_is_installed.rc != 0
-
-- name: install xidlehook
-  shell: >
+- name: Install xidlehook
+  ansible.builtin.shell: >
     nix-env -iA nixpkgs.xidlehook
-
-

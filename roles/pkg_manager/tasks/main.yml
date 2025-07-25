@@ -1,7 +1,8 @@
 ---
-
-- name: apt.yml
-  ansible.builtin.import_tasks:
-    file: apt.yml
-
+- name: Run package manager setup tasks
+  block:
+    - name: Import apt.yml
+      ansible.builtin.import_tasks:
+        file: apt.yml
+  become: true
   when: ansible_pkg_mgr == 'apt'

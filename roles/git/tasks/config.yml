@@ -1,178 +1,39 @@
 ---
 
-- name: init.templatedir
+- name: Configure git
   community.general.git_config:
-    name: init.templatedir
+    name: "{{ item.name }}"
     scope: global
-    value: ~/.git_templates
-
-- name: core.excludesfile
-  community.general.git_config:
-    name: core.excludesfile
-    scope: global
-    value: ~/.gitignore
-
-- name: alias.ri
-  community.general.git_config:
-    name: alias.ri
-    scope: global
-    value: "rebase --interactive --autosquash"
-
-- name: pull.rebase
-  community.general.git_config:
-    name: pull.rebase
-    scope: global
-    value: "true"
-- name: fetch.prune
-  community.general.git_config:
-    name: fetch.prune
-    scope: global
-    value: "true"
-- name: rebase.autoStash
-  community.general.git_config:
-    name: rebase.autoStash
-    scope: global
-    value: "true"
-
-- name: rerere.enabled
-  community.general.git_config:
-    name: rerere.enabled
-    scope: global
-    value: "false"
-- name: rerere.autoupdate
-  community.general.git_config:
-    name: rerere.autoupdate
-    scope: global
-    value: "false"
-
-- name: advice.statusHints
-  community.general.git_config:
-    name: advice.statusHints
-    scope: global
-    value: "false"
-
-- name: diff.algorithm
-  community.general.git_config:
-    name: diff.algorithm
-    scope: global
-    value: "histogram"
-
-- name: diff.renames
-  community.general.git_config:
-    name: diff.renames
-    scope: global
-    value: "copies"
-
-- name: diff.mnemonicprefix
-  community.general.git_config:
-    name: diff.mnemonicprefix
-    scope: global
-    value: "true"
-
-- name: url.diff.whitespace
-  community.general.git_config:
-    name: url.diff.whitespace
-    scope: global
-    value: "red reverse"
-
-- name: diff.tool
-  community.general.git_config:
-    name: diff.tool
-    scope: global
-    value: nvimdiff
-
-- name: difftool.prompt
-  community.general.git_config:
-    name: difftool.prompt
-    scope: global
-    value: "false"
-
-- name: difftool.trustExitCode
-  community.general.git_config:
-    name: difftool.trustExitCode
-    scope: global
-    value: "true"
-
-- name: merge.tool
-  community.general.git_config:
-    name: merge.tool
-    scope: global
-    value: diffconflicts
-
-- name: mergetool.prompt
-  community.general.git_config:
-    name: mergetool.prompt
-    scope: global
-    value: "false"
-
-- name: mergetool.keepBackup
-  community.general.git_config:
-    name: mergetool.keepBackup
-    scope: global
-    value: "false"
-
-- name: commit.verbose
-  community.general.git_config:
-    name: commit.verbose
-    scope: global
-    value: "true"
-
-- name: color.ui
-  community.general.git_config:
-    name: color.ui
-    scope: global
-    value: "true"
-
-- name: color.diff-highlight.oldNormal
-  community.general.git_config:
-    name: color.diff-highlight.ol
-    scope: global
-    value: "red bold"
-- name: color.diff-highlight.oldHighlight
-  community.general.git_config:
-    name: color.diff-highlight.ol
-    scope: global
-    value: "red bold 52"
-
-- name: color.diff-highlight.newNormal
-  community.general.git_config:
-    name: color.diff-highlight.ne
-    scope: global
-    value: "green bold"
-
-- name: color.diff-highlight.newHighlight
-  community.general.git_config:
-    name: color.diff-highlight.ne
-    scope: global
-    value: "green bold 22"
-
-- name: color.diff.meta
-  community.general.git_config:
-    name: color.diff.meta
-    scope: global
-    value: "yellow"
-- name: color.diff.frag
-  community.general.git_config:
-    name: color.diff.frag
-    scope: global
-    value: "magenta bold"
-- name: color.diff.commit
-  community.general.git_config:
-    name: color.diff.commit
-    scope: global
-    value: "yellow bold"
-- name: color.diff.old
-  community.general.git_config:
-    name: color.diff.old
-    scope: global
-    value: "red bold"
-- name: color.diff.new
-  community.general.git_config:
-    name: color.diff.new
-    scope: global
-    value: "green bold"
-- name: color.diff.whitespace
-  community.general.git_config:
-    name: color.diff.whitespace
-    scope: global
-    value: "red reverse"
+    value: "{{ item.value }}"
+  with_items:
+    - { name: 'init.templatedir', value: '~/.git_templates' }
+    - { name: 'core.excludesfile', value: '~/.gitignore' }
+    - { name: 'alias.ri', value: 'rebase --interactive --autosquash' }
+    - { name: 'pull.rebase', value: 'true' }
+    - { name: 'fetch.prune', value: 'true' }
+    - { name: 'rebase.autoStash', value: 'true' }
+    - { name: 'rerere.enabled', value: 'false' }
+    - { name: 'rerere.autoupdate', value: 'false' }
+    - { name: 'advice.statusHints', value: 'false' }
+    - { name: 'diff.algorithm', value: 'histogram' }
+    - { name: 'diff.renames', value: 'copies' }
+    - { name: 'diff.mnemonicprefix', value: 'true' }
+    - { name: 'url.diff.whitespace', value: 'red reverse' }
+    - { name: 'diff.tool', value: 'nvimdiff' }
+    - { name: 'difftool.prompt', value: 'false' }
+    - { name: 'difftool.trustExitCode', value: 'true' }
+    - { name: 'merge.tool', value: 'diffconflicts' }
+    - { name: 'mergetool.prompt', value: 'false' }
+    - { name: 'mergetool.keepBackup', value: 'false' }
+    - { name: 'commit.verbose', value: 'true' }
+    - { name: 'color.ui', value: 'true' }
+    - { name: 'color.diff-highlight.oldNormal', value: 'red bold' }
+    - { name: 'color.diff-highlight.oldHighlight', value: 'red bold 52' }
+    - { name: 'color.diff-highlight.newNormal', value: 'green bold' }
+    - { name: 'color.diff-highlight.newHighlight', value: 'green bold 22' }
+    - { name: 'color.diff.meta', value: 'yellow' }
+    - { name: 'color.diff.frag', value: 'magenta bold' }
+    - { name: 'color.diff.commit', value: 'yellow bold' }
+    - { name: 'color.diff.old', value: 'red bold' }
+    - { name: 'color.diff.new', value: 'green bold' }
+    - { name: 'color.diff.whitespace', value: 'red reverse' }

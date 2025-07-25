@@ -2,3 +2,4 @@
 neovim_config_dir: "{{ config_dir }}/nvim"
 
 neovim_install_state: latest
+neovim_version: 0.11.3

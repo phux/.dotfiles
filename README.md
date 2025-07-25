@@ -1,4 +1,8 @@
-# Installation
+# Table of Contents
+
+- [Table of Contents](#table-of-contents)
+  - [Some tasks it does](#some-tasks-it-does)
+  - [TODOs](#todos)
 
 Clone the repository:
 
@@ -35,6 +39,15 @@ make provision
 - antibody (zsh)
 - php & golang linters
 
-
 ## TODOs
-- go get -u github.com/high-moctane/nextword
+
+
+
+
+
+
+
+
+
+
+

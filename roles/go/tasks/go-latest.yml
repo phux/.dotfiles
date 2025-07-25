@@ -1,8 +1,20 @@
 ---
-- name: install latest golang
-  shell: source ~/.config/zsh/.zshrc && gvm install {{ go_version }} executable=/bin/zsh
+- name: Check current go version
+  shell: |
+    gvm list | grep '=>' | sed 's/=> \(.*\)/\1/'
+  register: current_go_version
+  ignore_errors: true
+  changed_when: false
 
-- name: use latest golang
-  shell: >
-    source ~/.config/zsh/.zshrc &&
-    gvm use {{ go_version }} --default executable=/bin/zsh
+- name: Install and use latest golang
+  block:
+    - name: install latest golang
+      shell: source ~/.config/zsh/.zshrc && gvm install {{ go_version }} executable=/bin/zsh
+      async: 1800
+      poll: 10
+
+    - name: use latest golang
+      shell: >
+        source ~/.config/zsh/.zshrc &&
+        gvm use {{ go_version }} --default executable=/bin/zsh
+  when: "(current_go_version.stdout | default('')) != go_version"

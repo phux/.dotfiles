@@ -1,36 +1,72 @@
 ---
+- name: Check if benchstat is installed
+  shell: "zsh -c 'source ~/.config/zsh/.zshrc && command -v benchstat'"
+  register: benchstat_check
+  ignore_errors: true
+  changed_when: false
 
 - name: install benchstat
-  shell: >
-    source ~/.config/zsh/.zshrc &&
-    go install golang.org/x/perf/cmd/benchstat@latest executable=/bin/zsh
+  shell: "zsh -c 'source ~/.config/zsh/.zshrc && go install golang.org/x/perf/cmd/benchstat@latest'"
+  async: 1800
+  poll: 10
+  when: benchstat_check.rc != 0
 
-# - name: install iferr
-#   shell: >
-#     source ~/.config/zsh/.zshrc &&
-#     go install github.com/koron/iferr@latest executable=/bin/zsh
-#
+- name: Check if impl is installed
+  shell: "zsh -c 'source ~/.config/zsh/.zshrc && command -v impl'"
+  register: impl_check
+  ignore_errors: true
+  changed_when: false
+
 - name: install impl
-  shell: >
-    source ~/.config/zsh/.zshrc &&
-    go install github.com/josharian/impl@latest executable=/bin/zsh
+  shell: "zsh -c 'source ~/.config/zsh/.zshrc && go install github.com/josharian/impl@latest'"
+  async: 1800
+  poll: 10
+  when: impl_check.rc != 0
+
+- name: Check if gofumpt is installed
+  shell: "zsh -c 'source ~/.config/zsh/.zshrc && command -v gofumpt'"
+  register: gofumpt_check
+  ignore_errors: true
+  changed_when: false
 
 - name: install gofumpt
-  shell: >
-    source ~/.config/zsh/.zshrc &&
-    go install mvdan.cc/gofumpt@latest executable=/bin/zsh
+  shell: "zsh -c 'source ~/.config/zsh/.zshrc && go install mvdan.cc/gofumpt@latest'"
+  async: 1800
+  poll: 10
+  when: gofumpt_check.rc != 0
+
+- name: Check if delve is installed
+  shell: "zsh -c 'source ~/.config/zsh/.zshrc && command -v dlv'"
+  register: delve_check
+  ignore_errors: true
+  changed_when: false
 
 - name: install delve
-  shell: >
-    source ~/.config/zsh/.zshrc &&
-    go install github.com/go-delve/delve/cmd/dlv@latest executable=/bin/zsh
+  shell: "zsh -c 'source ~/.config/zsh/.zshrc && go install github.com/go-delve/delve/cmd/dlv@latest'"
+  async: 1800
+  poll: 10
+  when: delve_check.rc != 0
+
+- name: Check if gomodifytags is installed
+  shell: "zsh -c 'source ~/.config/zsh/.zshrc && command -v gomodifytags'"
+  register: gomodifytags_check
+  ignore_errors: true
+  changed_when: false
 
 - name: install gomodifytags
-  shell: >
-    source ~/.config/zsh/.zshrc &&
-    go install -v github.com/fatih/gomodifytags@latest executable=/bin/zsh
+  shell: "zsh -c 'source ~/.config/zsh/.zshrc && go install -v github.com/fatih/gomodifytags@latest'"
+  async: 1800
+  poll: 10
+  when: gomodifytags_check.rc != 0
+
+- name: Check if goimports-reviser is installed
+  shell: "zsh -c 'source ~/.config/zsh/.zshrc && command -v goimports-reviser'"
+  register: goimports_reviser_check
+  ignore_errors: true
+  changed_when: false
 
 - name: install goimports-reviser
-  shell: >
-    source ~/.config/zsh/.zshrc &&
-    go install -v github.com/incu6us/goimports-reviser/v3@latest executable=/bin/zsh
+  shell: "zsh -c 'source ~/.config/zsh/.zshrc && go install -v github.com/incu6us/goimports-reviser/v3@latest'"
+  async: 1800
+  poll: 10
+  when: goimports_reviser_check.rc != 0

@@ -1,31 +1,36 @@
 ---
+- name: Source gvm
+  ansible.builtin.shell: . {{ ansible_env.HOME }}/.gvm/scripts/gvm
+  args:
+    executable: /bin/bash
+  when: ansible_env.HOME is defined and ansible_env.HOME != ''
 
-- name: gvm.yml
-  ansible.builtin.import_tasks:
-    file: gvm.yml
+- name: Run Go setup tasks
+  block:
+    - name: Import gvm.yml
+      ansible.builtin.import_tasks:
+        file: gvm.yml
 
-- name: go1.4.yml
-  ansible.builtin.import_tasks:
-    file: go1.4.yml
+    - name: Import go1.4.yml
+      ansible.builtin.import_tasks:
+        file: go1.4.yml
 
-- name: go-latest.yml
-  ansible.builtin.import_tasks:
-    file: go-latest.yml
+    - name: Import go-latest.yml
+      ansible.builtin.import_tasks:
+        file: go-latest.yml
 
+    - name: Import linters.yml
+      ansible.builtin.import_tasks:
+        file: linters.yml
 
-- name: linters.yml
-  ansible.builtin.import_tasks:
-    file: linters.yml
+    - name: Import gopls.yml
+      ansible.builtin.import_tasks:
+        file: gopls.yml
 
-- name: gopls.yml
-  ansible.builtin.import_tasks:
-    file: gopls.yml
+    - name: Import testing.yml
+      ansible.builtin.import_tasks:
+        file: testing.yml
 
-
-- name: testing.yml
-  ansible.builtin.import_tasks:
-    file: testing.yml
-
-- name: tools.yml
-  ansible.builtin.import_tasks:
-    file: tools.yml
+    - name: Import tools.yml
+      ansible.builtin.import_tasks:
+        file: tools.yml

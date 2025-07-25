@@ -1,43 +1,47 @@
 ---
-
-- name: install pandoc & deps tools
-  become: yes
-  package:
-    state: latest
+- name: Install Pandoc and dependencies
+  become: true
+  ansible.builtin.package:
     name:
       - pandoc
       - librsvg2-bin
       - texlive-xetex
+    state: latest
 
-- name: Link pandoc scripts
-  file: src={{ item }} dest={{ ansible_env.HOME }}/.local/bin/{{ item | basename }} state=link
+- name: Link Pandoc scripts
+  ansible.builtin.file:
+    src: "{{ item }}"
+    dest: "{{ ansible_env.HOME }}/.local/bin/{{ item | basename }}"
+    state: link
   with_fileglob:
     - scripts/*
 
-- name: Check pandoc themes were cloned
-  ansible.builtin.stat:
-    path: "{{ ansible_env.HOME }}/tools/pandoc_themes"
-  register: pandoc_themes_exist
+- name: Clone or update Pandoc themes repository
+  ansible.builtin.git:
+    repo: https://github.com/cab-1729/Pandoc-Themes.git
+    dest: "{{ ansible_env.HOME }}/tools/pandoc_themes"
+    version: main
+    depth: 1
+    force: yes
 
-- name: clone pandoc themes
-  shell: >
-    git clone https://github.com/cab-1729/Pandoc-Themes.git
-    {{ ansible_env.HOME }}/tools/pandoc_themes
-  when: pandoc_themes_exist.stat.exists == False
+- name: Link Pandoc themes
+  become: true
+  ansible.builtin.file:
+    src: "{{ item }}"
+    dest: "/usr/share/pandoc/data/templates/{{ item | basename }}"
+    state: link
+  with_fileglob:
+    - "{{ ansible_env.HOME }}/tools/pandoc_themes/*.tex"
 
-- name: pull pandoc themes
-  ignore_errors: true
-  shell: >
-    cd {{ ansible_env.HOME }}/tools/pandoc_themes && git pull
+- name: Link Pandoc fonts
+  become: true
+  ansible.builtin.file:
+    src: "{{ ansible_env.HOME }}/tools/pandoc_themes/pandoc-fonts"
+    dest: /usr/share/fonts/pandoc-fonts
+    state: link
 
-- name: link pandoc themes
-  ignore_errors: true
-  become: yes
-  shell: >
-    cd /usr/share/pandoc/data/templates/ && ln -sf {{ ansible_env.HOME }}/tools/pandoc_themes/*.tex . && cd /usr/share/fonts/ && ln -sf {{ ansible_env.HOME }}/tools/pandoc_themes/pandoc-fonts/ . && chmod +x /usr/share/fonts/pandoc-fonts
-
-- name: installing filters via npm
-  shell: >
-    source ~/.config/zsh/.zshrc &&
-    npm install -g mermaid-filter
-    executable=/bin/zsh
+- name: Install mermaid-filter
+  ansible.builtin.npm:
+    name: mermaid-filter
+    global: true
+    state: latest

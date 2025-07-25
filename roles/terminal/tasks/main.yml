@@ -1,39 +1,28 @@
 ---
-- name: terminal
-  become: yes
-  package:
-    name: "{{ item }}"
+- name: Install terminal tools
+  become: true
+  ansible.builtin.package:
+    name:
+      - ncdu
+      - htop
+      - ranger
+      - libx11-dev
+      - libharfbuzz-dev
+      - libxft-dev
     state: latest
-  with_items:
-    - ncdu
-    - htop
-    - ranger
-    - libx11-dev
-    - libharfbuzz-dev
-    - libxft-dev
-
-- name: check bat version
-  shell: bat --version || /bin/true
-  register: bat_version_check
-
-- name: download & install bat
-  become: yes
-  apt:
-    deb: https://github.com/sharkdp/bat/releases/download/v{{ bat_version }}/bat_{{ bat_version }}_amd64.deb
-  when: "bat_version_check.stdout.find('bat ' ~ bat_version) == -1"
 
 - name: Link helper scripts
-  file:
+  ansible.builtin.file:
     src: "{{ item }}"
     dest: "{{ ansible_env.HOME }}/.local/bin/{{ item | basename }}"
     state: link
   with_fileglob:
     - scripts/*
 
-- name: Link xresources
-  file: >
-    src={{item}}
-    dest={{ ansible_env.HOME }}/{{ item | basename }}
-    state=link
+- name: Link Xresources
+  ansible.builtin.file:
+    src: "{{ item }}"
+    dest: "{{ ansible_env.HOME }}/{{ item | basename }}"
+    state: link
   with_fileglob:
     - .*

@@ -1,8 +1,8 @@
 ---
-- name: install zip
-  become: yes
-  package: name=zip state=present
-
-- name: install unzip
-  become: yes
-  package: name=unzip state=present
+- name: Install zip and unzip
+  become: true
+  ansible.builtin.package:
+    name:
+      - zip
+      - unzip
+    state: present

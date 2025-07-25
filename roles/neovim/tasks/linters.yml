@@ -2,12 +2,20 @@
 
 
 - name: installing linters via package manager
-  become: yes
+  become: true
   package: name={{ item }} state=present
   with_items:
     - shellcheck
     - libxml2-utils
     - tidy
+
+- name: installing linters/tools via npm
+  shell: >
+    npm install -g neovim instant-markdown-d live-server jsonlint fixjson markdownlint-cli serverless stylelint write-good remark-lint remark-preset-lint-recommended tern eslint tern-lint typescript eslint-config-standard eslint-plugin-node eslint-plugin-promise eslint-plugin-standard htmllint textlint textlint-rule-write-good eslint_d csslint prettier @fsouza/prettierd lua-fmt @ocular-d/vale-bin markmap-cli
+  register: npm_install_result
+  changed_when: npm_install_result.rc == 0
+  args:
+    executable: /bin/zsh
 
 - name: Check if last gem linter is installed
   command: "rubocop --version"
@@ -19,30 +27,17 @@
 
   - name: installing linters via gem
     shell: >
-      {{  ansible_env.HOME }}/.rbenv/versions/{{ ruby_version }}/bin/gem install {{ item }}
+      {{ ansible_env.HOME }}/.rbenv/bin/rbenv exec gem install {{ item }}
     with_items:
       - scss_lint
       - sqlint
-      - observr #autotest
       - rubocop
 
   when: last_gem_linter_check.rc != 0
 
-- name: installing linters/tools via npm
-  # todo: reenable tree-sitter
-  shell: >
-    source ~/.config/zsh/.zshrc &&
-    npm install -g
-    yarn neovim instant-markdown-d live-server
-    jsonlint fixjson markdownlint-cli serverless
-    stylelint write-good remark-lint remark-preset-lint-recommended tern eslint tern-lint typescript
-    eslint-config-standard eslint-plugin-node eslint-plugin-promise
-    eslint-plugin-standard htmllint textlint textlint-rule-write-good eslint_d
-    csslint prettier @fsouza/prettierd lua-fmt @ocular-d/vale-bin markmap-cli
-    executable=/bin/zsh
 
 - name: installing linters via pip
-  shell: "pip install --user {{ item }}"
+  shell: "pip install --user --break-system-packages {{ item }}"
   with_items:
     - pyflakes
     - proselint
@@ -67,7 +62,7 @@
   shell: >
     curl -s https://raw.githubusercontent.com/terraform-linters/tflint/master/install_linux.sh | bash
     executable="/bin/bash"
-  ignore_errors: yes
+  ignore_errors: true
 
 - name: link tfling cfg
   file:

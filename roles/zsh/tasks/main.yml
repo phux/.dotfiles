@@ -1,34 +1,35 @@
 ---
-- name: zsh
-  become: yes
-  package:
-    name: "{{ item }}"
-    state: latest
-  with_items:
-    - zsh
+- name: Install and configure zsh
+  become: true
+  block:
+    - name: Install zsh
+      ansible.builtin.package:
+        name: zsh
+        state: latest
 
-- name: copy global zshenv file
-  become: yes
-  copy:
-    src: zshenv
-    dest: /etc/zsh/zshenv
-    owner: root
-    group: root
-    mode: '0644'
-    backup: yes
+    - name: Copy global zshenv file
+      ansible.builtin.copy:
+        src: zshenv
+        dest: /etc/zsh/zshenv
+        owner: root
+        group: root
+        mode: '0644'
+        backup: true
 
-- name: create zsh dir
-  file: path="{{ ansible_env.HOME }}/.config/zsh/" state=directory
+- name: Create zsh config directory
+  ansible.builtin.file:
+    path: "{{ ansible_env.HOME }}/.config/zsh/"
+    state: directory
 
-- name: Link zsh files
-  file: >
-    src={{item}}
-    dest={{ ansible_env.HOME }}/.config/zsh/{{ item | basename }}
-    state=link
+- name: Link zsh configuration files
+  ansible.builtin.file:
+    src: "{{ item }}"
+    dest: "{{ ansible_env.HOME }}/.config/zsh/{{ item | basename }}"
+    state: link
   with_fileglob:
     - zsh/*
     - zsh/.*
 
-- name: sheldon.yml
+- name: Import sheldon tasks
   ansible.builtin.import_tasks:
     file: sheldon.yml

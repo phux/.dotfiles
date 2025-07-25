@@ -1,0 +1,13 @@
+---
+- name: Install gemini-cli
+  npm:
+    name: '@google/gemini-cli'
+    global: yes
+    state: present
+
+- name: Link gemini-cli settings
+  file:
+    src: "{{ role_path }}/files/settings.json"
+    dest: "{{ ansible_env.HOME }}/.gemini/settings.json"
+    state: link
+    force: yes

@@ -1,10 +1,11 @@
 ---
+- name: Run PHP setup tasks
+  block:
+    - name: Import php.yml
+      ansible.builtin.import_tasks:
+        file: php.yml
 
-- name: php.yml
-  ansible.builtin.import_tasks:
-    file: php.yml
-
-
-- name: composer.yml
-  ansible.builtin.import_tasks:
-    file: composer.yml
+    - name: Import composer.yml
+      ansible.builtin.import_tasks:
+        file: composer.yml
+  become: true

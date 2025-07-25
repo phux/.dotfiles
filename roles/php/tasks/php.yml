@@ -4,7 +4,7 @@
   apt:
     state: latest
     pkg:
-      - php8.2
+      - php8.3
         #- php-common
       - php-mysql
         #      - php-mcrypt

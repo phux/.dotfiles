@@ -1,10 +1,7 @@
 augroup php
   au!
   au BufNewFile,BufRead *.phtml set ft=php.html
-  au BufWritePost *.php silent! !eval '[ -f ".git/hooks/ctags" ] && .git/hooks/ctags php' &
-  au BufWritePost *.php silent! !eval '[ -f "../.git/hooks/ctags" ] && ../.git/hooks/ctags php' &
   au BufWritePost *.php silent! exe "!php-cs-fixer --config=".getcwd()."/.php-cs-fixer.php fix ".expand('%:f') | :e
-  au BufNewFile,BufRead,BufEnter *.php set tags=.git/tags.php,../.git/tags.php
 augroup END
 
 setlocal tabstop=4

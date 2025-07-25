@@ -1,84 +1,113 @@
 ---
-
-- name: tmux build dep
-  become: yes
-  package: 
-    name: "{{ item }}"
+- name: Install tmux build dependencies
+  become: true
+  ansible.builtin.package:
+    name:
+      - libevent-dev
+      - libtool
+      - autotools-dev
+      - automake
+      - pkg-config
+      - ncurses-dev
     state: latest
-  with_items:
-    - libevent-dev
-    - libtool
-    - autotools-dev
-    - automake
-    - pkg-config
-    - ncurses-dev
 
-- name: check to see if tmux is cloned
-  command: "ls {{ ansible_env.HOME }}/tools/tmux"
-  ignore_errors: true
-  register: tmux_was_cloned
+- name: Check current tmux version
+  ansible.builtin.shell: "tmux -V | awk '{print $2}' || echo 'not found'"
+  register: current_tmux_version
   changed_when: false
-
-- block:
-
-  - name: clone tmux
-    shell: >
-      git clone https://github.com/tmux/tmux.git
-      {{ ansible_env.HOME }}/tools/tmux && cd {{ ansible_env.HOME }}/tools/tmux
-
-  when: tmux_was_cloned.rc != 0
-
-- name: install tmux
-  become: yes
   ignore_errors: true
-  shell: >
-    cd {{ ansible_env.HOME }}/tools/tmux && git pull && sudo sh autogen.sh && sudo ./configure && sudo make
+
+- name: Clone tmux repository
+  ansible.builtin.git:
+    repo: https://github.com/tmux/tmux.git
+    dest: "{{ ansible_env.HOME }}/tools/tmux"
+    version: "{{ tmux_version | replace('v', '') }}"
+    accept_hostkey: true
+  when: current_tmux_version.stdout | trim != (tmux_version | replace('v', ''))
+
+- name: Install tmux
+  become: true
+  ansible.builtin.shell: |
+    cd {{ ansible_env.HOME }}/tools/tmux
+    git pull
+    sh autogen.sh
+    ./configure
+    make
+    make install
+  when: current_tmux_version.stdout | trim != (tmux_version | replace('v', ''))
+
+- name: Symlink tmux to ~/.local/bin/
+  ansible.builtin.file:
+    src: /usr/local/bin/tmux
+    dest: "{{ ansible_env.HOME }}/.local/bin/tmux"
+    state: link
 
 - name: Link .tmux.conf
-  file: >
-    src={{item}}
-    dest={{ ansible_env.HOME }}/.{{ item | basename }}
-    state=link
+  ansible.builtin.file:
+    src: "{{ item }}"
+    dest: "{{ ansible_env.HOME }}/.{{ item | basename }}"
+    state: link
   with_fileglob:
     - tmux.*
 
-- name: check to see if tpm is already installed
-  command: "ls {{ ansible_env.HOME }}/.tmux/plugins/tpm"
-  ignore_errors: true
-  register: tpm_is_installed
+- name: Check if tpm is cloned
+  ansible.builtin.stat:
+    path: "{{ ansible_env.HOME }}/.tmux/plugins/tpm"
+  register: tpm_cloned
+
+- name: Clone tpm repository
+  ansible.builtin.git:
+    repo: https://github.com/tmux-plugins/tpm
+    dest: "{{ ansible_env.HOME }}/.tmux/plugins/tpm"
+    version: "{{ tpm_version }}"
+    accept_hostkey: true
+  when: not tpm_cloned.stat.exists
+
+- name: Fetch latest changes for tpm
+  ansible.builtin.shell: |
+    cd {{ ansible_env.HOME }}/.tmux/plugins/tpm && git fetch origin
+  args:
+    executable: /bin/bash
   changed_when: false
+  when: tpm_cloned.stat.exists
 
-- block:
+- name: Check if tpm needs update
+  ansible.builtin.shell: |
+    cd {{ ansible_env.HOME }}/.tmux/plugins/tpm && git rev-parse HEAD
+  register: local_tpm_head
+  changed_when: false
+  when: tpm_cloned.stat.exists
 
-    - name: ensure tpm dir
-      file: path={{ ansible_env.HOME }}/.tmux/plugins/tpm state=directory
+- name: Check remote tpm head
+  ansible.builtin.shell: |
+    cd {{ ansible_env.HOME }}/.tmux/plugins/tpm && git rev-parse origin/master
+  register: remote_tpm_head
+  changed_when: false
+  when: tpm_cloned.stat.exists
 
-    - name: clone tpm
-      shell: >
-        git clone https://github.com/tmux-plugins/tpm
-        {{ ansible_env.HOME }}/.tmux/plugins/tpm
-
-  when: tpm_is_installed.rc != 0
-
-- name: update tpm
-  shell: >
-    cd {{ ansible_env.HOME }}/.tmux/plugins/tpm && git pull
+- name: Update tpm
+  ansible.builtin.shell: |
+    cd {{ ansible_env.HOME }}/.tmux/plugins/tpm
+    git pull
+  when: tpm_cloned.stat.exists and local_tpm_head.stdout != remote_tpm_head.stdout
 
 - name: Link tmux files
-  file: >
-    src={{item}}
-    dest={{ ansible_env.HOME }}/.tmux/{{ item | basename }}
-    state=link
+  ansible.builtin.file:
+    src: "{{ item }}"
+    dest: "{{ ansible_env.HOME }}/.tmux/{{ item | basename }}"
+    state: link
   with_fileglob:
     - mux.sh
 
-- name: update tmux plugins
-  shell: >
-    source ~/.config/zsh/.zshrc &&
+- name: Update tmux plugins
+  ansible.builtin.shell: |
+    source ~/.config/zsh/.zshrc
     ~/.tmux/plugins/tpm/bin/update_plugins all
-    executable=/bin/zsh
+  args:
+    executable: /bin/zsh
 
-- name: install tmuxinator
-  shell: >
-    gem install --user tmuxinator
-
+- name: Install tmuxinator
+  ansible.builtin.shell: "{{ ansible_env.HOME }}/.rbenv/bin/rbenv exec gem install tmuxinator"
+  become: true
+  args:
+    creates: "{{ ansible_env.HOME }}/.rbenv/shims/tmuxinator"

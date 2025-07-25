@@ -21,9 +21,9 @@ bin/
 .idea/
 .phpunit.result.cache
 .gtm
-observer.rb
 *.coverprofile
 .graphqlrc.json
 .eslintcache
 .phpactor.json
 .vim-bookmarks
+.phpactor.json

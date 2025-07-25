@@ -1,5 +1,0 @@
----
-dependencies:
-  - { role: common } # wget
-  - { role: zsh } # nvm
-  - { role: node }

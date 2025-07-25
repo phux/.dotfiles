@@ -1,18 +1,38 @@
 ---
-- name: unzip
-  package:
-    name: unzip
-    state: latest
-  become: yes
+- name: Install fnm and Node.js
+  block:
+    - name: Install unzip
+      become: true
+      ansible.builtin.package:
+        name: unzip
+        state: latest
 
-- name: Download fnm installer
-  get_url:
-    url: https://fnm.vercel.app/install
-    dest: /tmp/fnminstall.sh
+    - name: Check if fnm is installed
+      stat:
+        path: "{{ ansible_env.HOME }}/.local/share/fnm/fnm"
+      register: fnm_check
 
-- name: Execute the fnm installer
-  shell: cat /tmp/fnminstall.sh | bash -s -- --skip-shell
+    - name: Download and install fnm
+      ansible.builtin.shell: |
+        curl -fsSL https://fnm.vercel.app/install | bash -s -- --install-dir "{{ ansible_env.HOME }}/.local/share/fnm" --fnm-version {{ fnm_version }} --skip-shell
+      async: 300
+      poll: 5
+      when: not fnm_check.stat.exists
 
-- name: installing node & npm
-  shell: >
-    source ~/.config/zsh/.zshrc && fnm install {{ node_version }} && fnm default {{ node_version }} executable=/bin/zsh
+    - name: Get current node version
+      shell: source ~/.config/zsh/.zshrc && fnm current
+      register: current_node_version
+      changed_when: false
+      args:
+        executable: /bin/zsh
+
+    - name: Install Node.js and npm
+      ansible.builtin.shell: |
+        source ~/.config/zsh/.zshrc
+        fnm install {{ node_version }}
+        fnm default {{ node_version }}
+      args:
+        executable: /bin/zsh
+      async: 1800
+      poll: 10
+      when: current_node_version.stdout != node_version

@@ -1,55 +1,45 @@
 ---
-
-- name: run includes
+- name: Run Neovim setup tasks
   block:
-  - name: install_nvim.yml
-    ansible.builtin.import_tasks:
-      file: install_nvim.yml
+    - name: Import install_nvim.yml
+      ansible.builtin.import_tasks:
+        file: install_nvim.yml
 
-  - name: pip.yml
-    ansible.builtin.import_tasks:
-      file: pip.yml
+    - name: Import pip.yml
+      ansible.builtin.import_tasks:
+        file: pip.yml
 
-  - name: colors.yml
-    ansible.builtin.import_tasks:
-      file: colors.yml
+    - name: Import colors.yml
+      ansible.builtin.import_tasks:
+        file: colors.yml
 
-  - name: ftplugin.yml
-    ansible.builtin.import_tasks:
-      file: ftplugin.yml
+    - name: Import linters.yml
+      ansible.builtin.import_tasks:
+        file: linters.yml
 
-  - name: ctags.yml
-    ansible.builtin.import_tasks:
-      file: ctags.yml
+    - name: Import conf.yml
+      ansible.builtin.import_tasks:
+        file: conf.yml
 
-  - name: linters.yml
-    ansible.builtin.import_tasks:
-      file: linters.yml
+    - name: Create project file
+      ansible.builtin.copy:
+        content: ""
+        dest: "{{ ansible_env.HOME }}/.projects.private.vim"
+        force: false
 
-  - name: conf.yml
-    ansible.builtin.import_tasks:
-      file: conf.yml
-
-
-  - name: creating project file
-    copy:
-      content: ""
-      dest: "{{ ansible_env.HOME }}/.projects.private.vim"
-      force: no
-
-- name: Link global js configs
-  file: >
-    src={{item}}
-    dest={{ ansible_env.HOME }}/{{ item | basename }}
-    state=link
+- name: Link global JavaScript configs
+  ansible.builtin.file:
+    src: "{{ item }}"
+    dest: "{{ ansible_env.HOME }}/{{ item | basename }}"
+    state: link
   with_fileglob:
     - .tern-config
     - .eslintrc.json
 
-- name: link autoload files
-  file: >
-    src={{item}}
-    dest={{ config_dir }}/{{ item }}
-    state=link
+- name: Link autoload files
+  ansible.builtin.file:
+    src: "{{ item }}"
+    dest: "{{ config_dir }}/{{ item }}"
+    state: link
   with_fileglob:
     - autoload

@@ -1,24 +1,36 @@
 ---
+- name: Install build dependencies
+  become: yes
+  package:
+    name:
+      - ninja-build
+      - gettext
+      - libtool
+      - libtool-bin
+      - autoconf
+      - automake
+      - cmake
+      - g++
+      - pkg-config
+      - unzip
+      - curl
+    state: present
 
-- name: Check neovim_was_cloned
-  ansible.builtin.stat:
-    path: "{{ ansible_env.HOME }}/tools/neovim"
-  register: neovim_was_cloned
+- name: Clone or update neovim repository
+  ansible.builtin.git:
+    repo: https://github.com/neovim/neovim.git
+    dest: "{{ ansible_env.HOME }}/tools/neovim"
+    version: "v{{ neovim_version }}"
+    force: yes
 
-- name: clone neovim
-  shell: >
-    git clone https://github.com/neovim/neovim.git
-    {{ ansible_env.HOME }}/tools/neovim && cd {{ ansible_env.HOME }}/tools/neovim
-  when: neovim_was_cloned.stat.exists == False
+- name: Build and install neovim
+  ansible.builtin.shell: |
+    cd {{ ansible_env.HOME }}/tools/neovim && make CMAKE_BUILD_TYPE=Release && sudo make install
+  args:
+    creates: /usr/local/bin/nvim
 
 - name: install luajit
   become: yes
   package:
     name: luajit
     state: present
-
-- name: install & update neovim
-  become: yes
-  ignore_errors: true
-  shell: >
-    cd {{ ansible_env.HOME }}/tools/neovim && git pull && make CMAKE_BUILD_TYPE=Release  && sudo make install && sudo chown -R jm .

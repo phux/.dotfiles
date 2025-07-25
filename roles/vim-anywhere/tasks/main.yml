@@ -1,8 +1,0 @@
----
-- name: Download vim-anywhere installer
-  get_url:
-    url: https://raw.github.com/phux/vim-anywhere/master/install
-    dest: /tmp/vimanywhere-install.sh
-
-- name: install vim-anywhere
-  shell: bash /tmp/vimanywhere-install.sh

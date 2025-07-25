@@ -1,27 +1,28 @@
 ---
+- name: Run Git setup tasks
+  block:
+    - name: Import install.yml
+      ansible.builtin.import_tasks:
+        file: install.yml
 
-- name: install.yml
-  ansible.builtin.import_tasks:
-    file: install.yml
+    - name: Import templates.yml
+      ansible.builtin.import_tasks:
+        file: templates.yml
 
-- name: templates.yml
-  ansible.builtin.import_tasks:
-    file: templates.yml
+    - name: Import config.yml
+      ansible.builtin.import_tasks:
+        file: config.yml
 
-- name: config.yml
-  ansible.builtin.import_tasks:
-    file: config.yml
+    - name: Import delta.yml
+      ansible.builtin.import_tasks:
+        file: delta.yml
 
-- name: delta.yml
-  ansible.builtin.import_tasks:
-    file: delta.yml
-
-- name: gitui.yml
-  ansible.builtin.import_tasks:
-    file: gitui.yml
+    - name: Import gitui.yml
+      ansible.builtin.import_tasks:
+        file: gitui.yml
 
 - name: Link global gitignore
-  file:
+  ansible.builtin.file:
     src: "{{ item }}"
     dest: "{{ ansible_env.HOME }}/.{{ item | basename }}"
     state: link

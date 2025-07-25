@@ -8,7 +8,7 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
-export TERM=st-256color
+#export TERM=st-256color
 
 
 # export FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --follow -g "!.git/" -g "!node_modules" -g "!/*/vendor/*" -g "!vendor/*" -g "!*.neon" -g "!composer.lock" -g "!*/var/*" -g "!var/*" -g "!*/cache/*"  2> /dev/null'
@@ -93,29 +93,34 @@ alias vs='vagrant ssh'
 alias vh='vagrant halt'
 alias vp='vagrant provision'
 
-alias dcup='docker-compose up'
-alias dcps='docker-compose ps'
-alias dcr='docker-compose restart'
-alias dcstop='docker-compose stop'
-alias dcdn='docker-compose down -v --remove-orphans'
-alias dce='docker-compose exec'
-alias dcl='docker-compose logs'
-alias dclf='docker-compose logs -f'
+alias dcup='docker compose up'
+alias dcps='docker compose ps'
+alias dcr='docker compose restart'
+alias dcstop='docker compose stop'
+alias dcdn='docker compose down -v --remove-orphans'
+alias dce='docker compose exec'
+alias dcl='docker compose logs'
+alias dcrm='docker compose rm'
+alias dclf='docker compose logs -f'
+
+alias k='kubectl'
 
 # alias tf='terraform'
 alias tfw='terraform workspace'
-
-alias ob='observr observr.rb'
 
 # alias ls=""
 # alias l='ls -lFh'     #size,show type,human readable # covered by exa
 alias la='ls --all'   #long list,show almost all,show type,human readable
 alias ll='ls -l'      #long list
+alias l='exa -l'      #long list
 alias llc='ls -l -s created'      #long list
 
 alias grep='grep --color'
 
-# alias cat='bat'
+#alias cat='bat'
+alias bat='batcat'
+alias c='batcat --style plain'
+alias cat='batcat'
 export MANPAGER="sh -c 'col -bx | bat -l man -p'"
 # export MANPAGER="nvim -c 'set ft=man' -"
 
@@ -242,7 +247,7 @@ alias nl='nvim -w ~/.nvim_keylog "$@"'
 # alias n='~/tools/neovim/build/bin/nvim'
 alias n='nvim'
 alias nd='cd ~/.dotfiles/roles/neovim/; n files/conf/init.lua'
-alias c='composer'
+# alias c='composer'
 alias ci='composer install --no-progress --prefer-dist --profile'
 alias cu='composer update --no-progress --prefer-dist --profile'
 
@@ -284,7 +289,6 @@ alias mux='tmuxinator'
 alias tmux='tmux -2'
 
 export TMUX_PLUGIN_MANAGER_PATH="$HOME/.tmux/plugins/"
-alias tt='todotxt-machine'
 alias tnn='n ~/Dropbox/todo/work/todo.txt'
 alias tn='n ~/Dropbox/todo/todo.txt'
 # alias nn='n +RecentNotes'
@@ -294,17 +298,12 @@ alias cm='cd ~/Dropbox/1vimwiki/notes/meetings/ && n +CreateMeetingNote'
 alias no='cd ~/Dropbox/1vimwiki/notes/ && n $(date "+%Y-%m-%d").md'
 alias nw='cd ~/Dropbox/1vimwiki/ && n; git add .; git commit -m "save"'
 # alias org='cd ~/Dropbox/org/ && n refile.org +"Telescope find_files"'
-alias org='cd ~/Dropbox/org/ && n refile.org today.org; ga .; git commit -m "save"'
+alias org='cd ~/Dropbox/org/ && n bujo-daily-log.org bujo-monthly-log.org bujo-future-log.org; ga .; git commit -m "save"'
 alias orgi="cd ~/Dropbox/org/ && n -c \"lua require('orgmode').action('capture.prompt')\""
 # alias t='~/tools/todo.txt_cli-2.9/todo.sh -d ~/Dropbox/todo/work/todo.cfg'
-alias t='todo.sh -f -n'
-alias tl='t list'
-alias tlp='t lsp'
-alias tb='t birdseye'
-alias te='tco; t edit'
-alias ta='tco; t add'
-alias tp='t pri'
-# alias ta='t autopri'
+alias t='tmux'
+alias ta='tmux attach'
+
 alias tap='tco; echo "autoprio 0 days = A\n";t autopri 0 A; echo "autoprio 1 days = B\n"; t autopri 1 B; echo "autoprio 7 days = C\n"; t autopri 7 C;tco'
 alias tco='t commit'
 alias ts='tco; t schedule'
@@ -322,6 +321,7 @@ alias toi='tco; t outline import; tap' # sync from outlines
 # Create an outline file corresponding to PROJECT, and move task at line #ITEM in todo.txt to the outline.
 alias toc='t outline mkol' # PROJECT [#ITEM]
 alias tom='tco; t outline mv' # #ITEM PROJECT
+alias rg='rg --color=always --line-number --follow --smart-case --hidden --max-columns=150 --max-columns-preview --glob "!.git/*" --glob "!node_modules/*" --glob "!vendor/*" --glob "!var/*"'
 
 if [ -f $XDG_CONFIG_HOME/zsh/notifyosd.zsh ]; then
     source $XDG_CONFIG_HOME/zsh/notifyosd.zsh
@@ -392,9 +392,6 @@ else
     export BAT_THEME="gruvbox-dark"
 fi
 
-# The next line updates PATH for the Google Cloud SDK.
-if [ -f '$HOME/google-cloud-sdk/path.zsh.inc' ]; then . '$HOME/google-cloud-sdk/path.zsh.inc'; fi
-
 export PATH="$HOME/.rbenv/versions/2.7.1/bin:$PATH"
 export PATH="$HOME/tools/git-fuzzy/bin:$PATH"
 
@@ -415,9 +412,26 @@ source ~/.nix-profile/etc/profile.d/nix.sh
 
 export USE_GKE_GCLOUD_AUTH_PLUGIN=True
 
-eval "$(~/.rbenv/bin/rbenv init -)"
+#eval "$(~/.rbenv/bin/rbenv init -)"
 
 
 export PYENV_ROOT="$HOME/.pyenv"
 command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
 eval "$(pyenv init -)"
+
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/home/jm/Downloads/google-cloud-sdk/path.zsh.inc' ]; then . '/home/jm/Downloads/google-cloud-sdk/path.zsh.inc'; fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f '/home/jm/Downloads/google-cloud-sdk/completion.zsh.inc' ]; then . '/home/jm/Downloads/google-cloud-sdk/completion.zsh.inc'; fi
+
+# fnm
+FNM_PATH="/home/jm/.local/share/fnm"
+if [ -d "$FNM_PATH" ]; then
+  export PATH="/home/jm/.local/share/fnm:$PATH"
+  eval "`fnm env`"
+fi
+
+. "$HOME/.local/share/../bin/env"
+
+source ~/.zshenv

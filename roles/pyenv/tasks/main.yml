@@ -1,0 +1,14 @@
+---
+- name: Install pyenv
+  ansible.builtin.git:
+    repo: https://github.com/pyenv/pyenv.git
+    dest: "{{ ansible_env.HOME }}/.pyenv"
+    version: master
+    update: yes
+
+- name: Install pyenv-virtualenv
+  ansible.builtin.git:
+    repo: https://github.com/pyenv/pyenv-virtualenv.git
+    dest: "{{ ansible_env.HOME }}/.pyenv/plugins/pyenv-virtualenv"
+    version: master
+    update: yes

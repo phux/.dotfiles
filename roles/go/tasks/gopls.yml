@@ -5,18 +5,18 @@
   register: gopls_installed
   changed_when: false
 
-- name: clone gopls
+- name: Install gopls
   block:
-  - name: Creates tools directory
-    file:
-      path: "{{ansible_env.HOME}}/tools"
-      state: directory
+    - name: Creates tools directory
+      file:
+        path: "{{ansible_env.HOME}}/tools"
+        state: directory
 
-  - name: clone gopls
-    git:
-      repo: 'https://github.com/golang/tools.git'
-      dest: "{{ ansible_env.HOME }}/tools/golang_tools"
+    - name: clone gopls
+      git:
+        repo: 'https://github.com/golang/tools.git'
+        dest: "{{ ansible_env.HOME }}/tools/golang_tools"
+
+    - name: install/update gopls
+      shell: cd ~/tools/golang_tools/gopls && git pull && go install
   when: gopls_installed.rc != 0
-
-- name: install/update gopls
-  shell: cd ~/tools/golang_tools/gopls && git pull && go install

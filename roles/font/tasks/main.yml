@@ -1,49 +1,67 @@
 ---
-- stat: path={{ ansible_env.HOME }}/.local/share/fonts/Hack-Regular.ttf
+- name: Initialize font_installed flag
+  set_fact:
+    font_installed: false
+
+- name: Check if Hack font is installed
+  stat:
+    path: "{{ ansible_env.HOME }}/.local/share/fonts/Hack-Regular.ttf"
   register: hack_font_check
 
-- block:
+- name: Install Hack font
+  block:
+    - name: Create font directory
+      ansible.builtin.file:
+        path: "{{ ansible_env.HOME }}/.local/share/fonts"
+        state: directory
+        mode: '0755'
 
-  - name: make font dir
-    file: path={{ ansible_env.HOME }}/.local/share/fonts/ state=directory
+    - name: Clone Hack font repository
+      ansible.builtin.git:
+        repo: https://github.com/source-foundry/Hack.git
+        dest: /tmp/hackfont
+        version: "{{ hack_font_version }}"
+        accept_hostkey: true
 
-  - name: checkout hack-font repo
-    git: >
-      repo=https://github.com/powerline/fonts.git
-      dest=/tmp/hackfont
-      accept_hostkey=yes
-      force=yes
-    ignore_errors: yes
+    - name: Install Hack font
+      ansible.builtin.shell: /tmp/hackfont/install.sh
 
-  - name: install font
-    shell: /tmp/hackfont/install.sh
+    - name: Clean up Hack font repository
+      ansible.builtin.file:
+        path: /tmp/hackfont
+        state: absent
 
-  - name: cleanup font
-    file: path=/tmp/hackfont/ state=absent
+    - name: Set font_installed flag
+      set_fact:
+        font_installed: true
+  when: not hack_font_check.stat.exists
 
-  when: hack_font_check.stat.exists == False
-
-
-
-- stat: path={{ ansible_env.HOME }}/.local/share/fonts/FiraCode-Regular.ttf
+- name: Check if Fira Code font is installed
+  stat:
+    path: "{{ ansible_env.HOME }}/.local/share/fonts/FiraCode-Regular.ttf"
   register: firacode_font_check
 
-- block:
+- name: Install Fira Code font
+  block:
+    - name: Create font directory
+      ansible.builtin.file:
+        path: "{{ ansible_env.HOME }}/.local/share/fonts"
+        state: directory
+        mode: '0755'
 
-  - name: make font dir
-    file: path={{ ansible_env.HOME }}/.local/share/fonts/ state=directory
+    - name: Download and unarchive Fira Code font
+      ansible.builtin.unarchive:
+        src: "https://github.com/tonsky/FiraCode/releases/download/{{ firacode_version }}/Fira_Code_v{{ firacode_version }}.zip"
+        dest: "{{ ansible_env.HOME }}/.local/share/fonts"
+        remote_src: true
+        creates: "{{ ansible_env.HOME }}/.local/share/fonts/FiraCode-Regular.ttf"
 
-  - name: make tmp dir
-    file: path=/tmp/FiraCode/ state=directory
+    - name: Set font_installed flag
+      set_fact:
+        font_installed: true
+  when: not firacode_font_check.stat.exists
 
-
-  - name: Download and unarchive
-    unarchive:
-      src: https://github.com/tonsky/FiraCode/releases/download/{{ firacode_version }}/Fira_Code_v{{ firacode_version }}.zip
-      dest: /tmp/FiraCode
-      remote_src: yes
-
-  - name: Move directory contents
-    command: cp -r /tmp/FiraCode/ttf/. {{ ansible_env.HOME }}/.local/share/fonts/
-
-  when: firacode_font_check.stat.exists == False
+- name: Update font cache
+  ansible.builtin.command: fc-cache -f -v
+  changed_when: false
+  when: font_installed

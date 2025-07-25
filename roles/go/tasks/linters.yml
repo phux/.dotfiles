@@ -7,7 +7,7 @@
 - name: download & install golangci-lint
   become: yes
   apt:
-    deb: https://github.com/golangci/golangci-lint/releases/download/v{{ go_golangcilint_version }}/golangci-lint-{{ go_golangcilint_version }}-linux-amd64.deb
+    deb: https://github.com/golangci/golangci-lint/releases/download/{{ go_golangcilint_version }}/golangci-lint-{{ go_golangcilint_version | replace('v', '') }}-linux-amd64.deb
   when: "golangcilint_version_check.stdout.find('golangci-lint has version ' ~ go_golangcilint_version) == -1"
 
 - name: Link .golangci-lint & config

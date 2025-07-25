@@ -1,13 +1,14 @@
 ---
-- name: add ppa
-  apt_repository:
-    repo: ppa:phoerious/keepassxc
-    state: present
-  become: yes
-  when: ansible_service_mgr == 'apt'
+- name: Install KeePassXC
+  become: true
+  block:
+    - name: Add KeePassXC PPA
+      ansible.builtin.apt_repository:
+        repo: ppa:phoerious/keepassxc
+        state: present
+      when: ansible_pkg_mgr == 'apt'
 
-- name: install keepassxc
-  become: yes
-  package:
-    name: keepassxc
-    state: latest
+    - name: Install KeePassXC
+      ansible.builtin.package:
+        name: keepassxc
+        state: latest

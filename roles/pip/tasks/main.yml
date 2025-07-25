@@ -1,5 +1,0 @@
----
-
-# todo: install pip
-- name: installing pipenv
-  shell: "pip install --user pipenv"
