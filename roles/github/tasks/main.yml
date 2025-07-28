@@ -5,13 +5,12 @@
     state: directory
     mode: '0700'
 
-- name: Link ssh config file
-  ansible.builtin.file:
-    src: "{{ role_path }}/files/config"
+- name: cp ssh config file
+  ansible.builtin.copy:
+    src: "{{ item }}"
     dest: "{{ ansible_env.HOME }}/.ssh/config"
-    state: link
-    force: true
-    mode: '0600'
+  with_fileglob:
+    - config
 
 - name: Generate SSH key if it doesn't exist
   community.crypto.openssh_keypair:
