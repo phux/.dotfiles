@@ -213,7 +213,7 @@ local autocmds = {
 }
 U.augroups(autocmds)
 
--- better time tracking via ActivityWatch
+-- better time tracking via ActivityWatch (aw-watcher)
 vim.cmd("set title")
 
 
@@ -2178,6 +2178,17 @@ require("lazy").setup(
             "tom-anders/telescope-vim-bookmarks.nvim",
             -- cmd = "Telescope"
         },
+        {
+            "lowitea/aw-watcher.nvim",
+            opts = { -- required, but can be empty table: {}
+                -- add any options here
+                -- for example:
+                aw_server = {
+                    host = "127.0.0.1",
+                    port = 5600,
+                },
+            },
+        }
 
     }
 )

@@ -3,7 +3,7 @@
   npm:
     name: '@google/gemini-cli'
     global: yes
-    state: present
+    state: latest
 
 - name: Link gemini-cli settings
   file:

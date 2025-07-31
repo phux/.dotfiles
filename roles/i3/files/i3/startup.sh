@@ -1,25 +1,23 @@
 #!/bin/bash
 
-if ! urxvtc "$@"; then
-  urxvtcd -q -o -f
-fi
+urxvtcd -q -o -f
 
-autorandr -c
+# autorandr -c
 
-~/.config/i3/wp-changer.sh &
+# ~/.config/i3/wp-changer.sh &
 
 ~/.dotfiles/roles/i3/files/i3/keyboard.sh &
 
 ~/Downloads/activitywatch/aw-qt &
 
-sleep 5; dropbox start -i &
+# sleep 5; dropbox start -i &
 
-fluxgui &
+# fluxgui &
 
-tmux new-session -d -s def &
-tmuxinator start dotfiles --no-attach &
-tmuxinator start todo --no-attach &
+# tmux new-session -d -s def &
+# tmuxinator start dotfiles --no-attach &
+# tmuxinator start todo --no-attach &
 
-blueman-applet &
+# blueman-applet &
 
 xinput --set-prop "TPPS/2 Elan TrackPoint" "libinput Accel Speed" 0

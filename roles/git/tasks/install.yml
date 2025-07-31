@@ -1,11 +1,11 @@
 ---
 - name: use git-core ppa for latest git
   apt_repository: repo="ppa:git-core/ppa" state=present
-  become: yes
+  become: true
   when: ansible_service_mgr == 'apt'
 
 - name: git
-  become: yes
+  become: true
   package:
     name: git
     state: latest

@@ -27,3 +27,4 @@ bin/
 .phpactor.json
 .vim-bookmarks
 .phpactor.json
+.ai/
