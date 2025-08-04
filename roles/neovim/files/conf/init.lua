@@ -39,7 +39,7 @@ end
 
 vim.api.nvim_set_keymap("n", "<leader>w", ":w<CR>", { noremap = true })
 
-vim.opt.conceallevel = 2
+vim.opt.conceallevel = 1
 vim.opt.concealcursor = "nc"
 
 vim.o.completeopt = "menuone,noinsert,noselect"
@@ -266,6 +266,28 @@ vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup(
     {
+        -- {
+        --     -- This is the path to your local plugin directory
+        --     dir = '/home/jm/code/obsidian-tasks/obsidian-tasks.nvim',
+        --
+        --     -- Dependencies are still needed
+        --     dependencies = { 'nvim-lua/plenary.nvim', 'nvim-telescope/telescope.nvim' },
+        --
+        --     -- Set dev=true for local development.
+        --     -- This tells lazy.nvim to load the plugin directly from the `dir`
+        --     -- and not try to clone it from GitHub.
+        --     dev = true,
+        --
+        --     -- Your configuration options go here
+        --     opts = {
+        --         vault_path = '~/Dropbox/DropsyncFiles/Main Vault',
+        --     },
+        --     -- The main change is here in the config function
+        --     config = function(_, opts)
+        --         -- Use 'obsidian-tasks' which matches the folder name in your 'lua' directory
+        --         require('obsidian-tasks').setup(opts)
+        --     end
+        -- },
         {
             'ellisonleao/gruvbox.nvim',
             lazy = false,
@@ -1058,10 +1080,17 @@ require("lazy").setup(
                 'toml',
                 'markdown',
                 'docker',
+                'org',
             },
             config = function()
                 require('pairs'):setup()
             end,
+        },
+        {
+            'Kicamon/markdown-table-mode.nvim',
+            config = function()
+                require('markdown-table-mode').setup()
+            end
         },
         {
             "metiulekm/nvim-treesitter-endwise",
@@ -1146,7 +1175,7 @@ require("lazy").setup(
             end
 
         },
-        { "zhaozg/vim-diagram", ft = "markdown" },
+        { "zhaozg/vim-diagram",          ft = "markdown" },
 
         {
             'iamcco/markdown-preview.nvim',
@@ -1325,10 +1354,11 @@ require("lazy").setup(
             end
 
         },
-        {
-            "dhruvasagar/vim-table-mode",
-            event = "VeryLazy",
-        },
+        { "qaptoR-nvim/fantableous.nvim" },
+        -- {
+        --     "dhruvasagar/vim-table-mode",
+        --     event = "VeryLazy",
+        -- },
         {
             "nacro90/numb.nvim",
             keys = { ":" },
@@ -2018,7 +2048,11 @@ require("lazy").setup(
                         fzy_native = {
                             override_generic_sorter = true,
                             override_file_sorter = true
-                        }
+                        },
+                        obsidian_todo = {
+                            search_path = "$HOME/Dropbox/DropsyncFiles/Main Vault",
+                            search_pattern = "- [ ] ", -- This is the default value
+                        },
                     }
                 }
 
@@ -2188,8 +2222,51 @@ require("lazy").setup(
                     port = 5600,
                 },
             },
-        }
+        },
+        {
+            "obsidian-nvim/obsidian.nvim",
+            version = "*", -- recommended, use latest release instead of latest commit
+            -- lazy = true,
+            -- ft = "markdown",
+            -- Replace the above line with this if you only want to load obsidian.nvim for markdown files in your vault:
+            -- event = {
+            --   -- If you want to use the home shortcut '~' here you need to call 'vim.fn.expand'.
+            --   -- E.g. "BufReadPre " .. vim.fn.expand "~" .. "/my-vault/*.md"
+            --   -- refer to `:h file-pattern` for more examples
+            --   "BufReadPre path/to/my-vault/*.md",
+            --   "BufNewFile path/to/my-vault/*.md",
+            -- },
+            ---@module 'obsidian'
+            ---@type obsidian.config
 
+            opts = {
+                legacy_commands = false,
+                workspaces = {
+                    -- {
+                    --     name = "personal",
+                    --     path = "~/vaults/personal",
+                    -- },
+                    {
+                        name = "work",
+                        path = "~/Dropbox/DropsyncFiles/Main Vault",
+                    },
+                },
+
+            },
+        },
+        -- {
+        --     'MeanderingProgrammer/render-markdown.nvim',
+        --     dependencies = { 'nvim-treesitter/nvim-treesitter', 'echasnovski/mini.nvim' }, -- if you use the mini.nvim suite
+        --     -- dependencies = { 'nvim-treesitter/nvim-treesitter', 'echasnovski/mini.icons' }, -- if you use standalone mini plugins
+        --     -- dependencies = { 'nvim-treesitter/nvim-treesitter', 'nvim-tree/nvim-web-devicons' }, -- if you prefer nvim-web-devicons
+        --     ---@module 'render-markdown'
+        --     ---@type render.md.UserConfig
+        --     opts = {},
+        -- },
+        {
+            "LilleAila/obsidian-todo.nvim",
+            -- :Telescope obsidian_todo
+        }
     }
 )
 

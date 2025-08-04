@@ -1,96 +1,132 @@
 {
-    "todo with date": {
-        "prefix": "td",
-        "body": [
-            "* TODO $1\n  SCHEDULED: <${CURRENT_YEAR}-${CURRENT_MONTH}-${CURRENT_DATE}>"
-        ]
-    },
-    "h2_todo with date": {
-        "prefix": "2t",
-        "body": [
-            "** TODO $1\n  SCHEDULED: <${CURRENT_YEAR}-${CURRENT_MONTH}-${CURRENT_DATE}>"
-        ]
-    },
-    "h3_todo with date": {
-        "prefix": "3t",
-        "body": [
-            "*** TODO $1\n  SCHEDULED: <${CURRENT_YEAR}-${CURRENT_MONTH}-${CURRENT_DATE}>"
-        ]
-    },
-    "h4_todo with date": {
-        "prefix": "4t",
-        "body": [
-            "**** TODO $1\n  SCHEDULED: <${CURRENT_YEAR}-${CURRENT_MONTH}-${CURRENT_DATE}>"
-        ]
-    },
-    "todo with prio": {
-        "prefix": "tp",
-        "body": [
-            "* TODO [#B] $1"
-        ]
-    },
-    "bujo daily log entry": {
-        "description": "bullet journal daily entry",
-        "prefix": "bd",
-        "body": [
-            "* ${CURRENT_YEAR}-${CURRENT_MONTH}-${CURRENT_DATE}",
-            "** $0"
-        ]
-    },
-    "h1": {
-        "prefix": "h1",
-        "body": [
-            "* $0"
-        ],
-        "description": "level 1 heading"
-    },
-    "h2": {
-        "prefix": "h2",
-        "body": [
-            "** $0"
-        ],
-        "description": "level 2 heading"
-    },
-    "h3": {
-        "prefix": "h3",
-        "body": [
-            "*** $0"
-        ],
-        "description": "level 3 heading"
-    },
-    "h4": {
-        "prefix": "h4",
-        "body": [
-            "**** $0"
-        ],
-        "description": "level 4 heading"
-    },
-    "h5": {
-        "prefix": "h5",
-        "body": [
-            "***** $0"
-        ],
-        "description": "level 5 heading"
-    },
-    "h6": {
-        "prefix": "h6",
-        "body": [
-            "****** $0"
-        ],
-        "description": "level 6 heading"
-    },
-    "date": {
-        "prefix": "d",
-        "body": [
-            "<${CURRENT_YEAR}-${CURRENT_MONTH}-${CURRENT_DATE}>"
-        ],
-        "description": "orgmode <date>"
-    },
-    "scheduled": {
-        "prefix": "s",
-        "body": [
-            "SCHEDULED: <${CURRENT_YEAR}-${CURRENT_MONTH}-${CURRENT_DATE}>"
-        ],
-        "description": "scheduled <date>"
-    }
+  "todo with date": {
+    "prefix": "td",
+    "body": [
+      "* TODO $1\n  SCHEDULED: <${CURRENT_YEAR}-${CURRENT_MONTH}-${CURRENT_DATE}>"
+    ]
+  },
+  "h2_todo with date": {
+    "prefix": "2t",
+    "body": [
+      "** TODO $1\n  SCHEDULED: <${CURRENT_YEAR}-${CURRENT_MONTH}-${CURRENT_DATE}>"
+    ]
+  },
+  "h3_todo with date": {
+    "prefix": "3t",
+    "body": [
+      "*** TODO $1\n  SCHEDULED: <${CURRENT_YEAR}-${CURRENT_MONTH}-${CURRENT_DATE}>"
+    ]
+  },
+  "h4_todo with date": {
+    "prefix": "4t",
+    "body": [
+      "**** TODO $1\n  SCHEDULED: <${CURRENT_YEAR}-${CURRENT_MONTH}-${CURRENT_DATE}>"
+    ]
+  },
+  "todo with prio": {
+    "prefix": "tp",
+    "body": [
+      "* TODO [#B] $1"
+    ]
+  },
+  "bujo daily log entry": {
+    "description": "bullet journal daily entry",
+    "prefix": "bd",
+    "body": [
+      "* ${CURRENT_YEAR}-${CURRENT_MONTH}-${CURRENT_DATE}",
+      "** $0"
+    ]
+  },
+  "h1": {
+    "prefix": "h1",
+    "body": [
+      "* $0"
+    ],
+    "description": "level 1 heading"
+  },
+  "h2": {
+    "prefix": "h2",
+    "body": [
+      "** $0"
+    ],
+    "description": "level 2 heading"
+  },
+  "h3": {
+    "prefix": "h3",
+    "body": [
+      "*** $0"
+    ],
+    "description": "level 3 heading"
+  },
+  "h4": {
+    "prefix": "h4",
+    "body": [
+      "**** $0"
+    ],
+    "description": "level 4 heading"
+  },
+  "h5": {
+    "prefix": "h5",
+    "body": [
+      "***** $0"
+    ],
+    "description": "level 5 heading"
+  },
+  "h6": {
+    "prefix": "h6",
+    "body": [
+      "****** $0"
+    ],
+    "description": "level 6 heading"
+  },
+  "date": {
+    "prefix": "d",
+    "body": [
+      "${CURRENT_YEAR}-${CURRENT_MONTH}-${CURRENT_DATE}"
+    ],
+    "description": "current date"
+  },
+  "scheduled": {
+    "prefix": "s",
+    "body": [
+      "SCHEDULED: <${CURRENT_YEAR}-${CURRENT_MONTH}-${CURRENT_DATE}>"
+    ],
+    "description": "scheduled <date>"
+  },
+  "scheduled date (obsidian tasks)": {
+    "prefix": "sd",
+    "body": [
+      "[scheduled:: ]"
+    ]
+  },
+  "due date (obsidian tasks)": {
+    "prefix": "dd",
+    "body": [
+      "[due:: ]"
+    ]
+  },
+  "priority (obsidian tasks)": {
+    "prefix": "p",
+    "body": [
+      "[priority:: ]"
+    ]
+  },
+  "priority low (obsidian tasks)": {
+    "prefix": "pl",
+    "body": [
+      "[priority:: low]"
+    ]
+  },
+  "priority medium (obsidian tasks)": {
+    "prefix": "pm",
+    "body": [
+      "[priority:: medium]"
+    ]
+  },
+  "priority high (obsidian tasks)": {
+    "prefix": "ph",
+    "body": [
+      "[priority:: high]"
+    ]
+  }
 }

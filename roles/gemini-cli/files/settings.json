@@ -1,7 +1,6 @@
 {
   "theme": "GitHub",
   "selectedAuthType": "oauth-personal",
-  "model": "gemini-1.5-flash-latest",
   "mcpServers": {
     "sequential-thinking": {
       "command": "npx",

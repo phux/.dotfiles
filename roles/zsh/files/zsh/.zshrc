@@ -8,16 +8,8 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
-#export TERM=st-256color
-
-
-# export FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --follow -g "!.git/" -g "!node_modules" -g "!/*/vendor/*" -g "!vendor/*" -g "!*.neon" -g "!composer.lock" -g "!*/var/*" -g "!var/*" -g "!*/cache/*"  2> /dev/null'
-
 export FZF_DEFAULT_COMMAND='fd --type file --follow --hidden --exclude .git --exclude node_modules --exclude vendor --exclude var'
 
-# export SKIM_DEFAULT_COMMAND="fd --type f --hidden || git ls-tree -r --name-only HEAD || rg --files || find ."
-# export FZF_DEFAULT_COMMAND='fd --type file --hidden --no-ignore'
-# export FZF_DEFAULT_OPTS="--ansi"
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 export FZF_BIN_PATH="$HOME/.fzf/bin"
 
@@ -113,7 +105,7 @@ alias tfw='terraform workspace'
 alias la='ls --all'   #long list,show almost all,show type,human readable
 alias ll='ls -l'      #long list
 alias l='exa -l'      #long list
-alias llc='ls -l -s created'      #long list
+alias llm='ls -l -s modified -r'
 
 alias grep='grep --color'
 
@@ -121,8 +113,8 @@ alias grep='grep --color'
 alias bat='batcat'
 alias c='batcat --style plain'
 alias cat='batcat'
-export MANPAGER="sh -c 'col -bx | bat -l man -p'"
-# export MANPAGER="nvim -c 'set ft=man' -"
+export MANPAGER="sh -c 'col -bx | batcat -l man -p'"
+export MANROFFOPT="-c"
 
 # disable c-s and c-q freeze
 # stty stop ''
@@ -136,16 +128,12 @@ alias gb="git for-each-ref --sort=committerdate refs/heads/ --format='%(committe
 alias gbd="git for-each-ref --sort=committerdate refs/heads/ --format='%(HEAD) %(color:yellow)%(refname:short)%(color:reset) - %(color:red)%(objectname:short)%(color:reset) - %(contents:subject) - %(authorname) (%(color:green)%(committerdate:relative)%(color:reset))'"
 
 alias gst='git status'
-# alias gst='exa --long --git'
-# alias gs='git fuzzy status'
 alias gs='n +"DiffviewOpen"'
-# export GF_LOG_MENU_PARAMS='--pretty="%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset" --topo-order'
-# export GF_PREFERRED_PAGER="delta --theme=gruvbox --highlight-removed -w __WIDTH__"
 
 alias gdt='n +"DiffviewOpen"'
 # alias glog='n +GV'
 alias glog='gitui'
-alias glo='n +"DiffviewFileHistory"'
+
 fzf-git-branch() {
     git rev-parse HEAD > /dev/null 2>&1 || return
 
@@ -243,28 +231,20 @@ bindkey -e
 # http://www.drbunsen.org/vim-croquet/ analysing
 alias nl='nvim -w ~/.nvim_keylog "$@"'
 
-# alias n='~/tools/neovim/build/bin/nvim -w ~/.nvim_keylog "$@"'
-# alias n='~/tools/neovim/build/bin/nvim'
 alias n='nvim'
-alias nd='cd ~/.dotfiles/roles/neovim/; n files/conf/init.lua'
-# alias c='composer'
+
 alias ci='composer install --no-progress --prefer-dist --profile'
 alias cu='composer update --no-progress --prefer-dist --profile'
 
-alias efg='exercism download --track=go'
-alias es='exercism submit'
-alias eg='cd $HOME/code/exercism/go/$(ls -t $HOME/code/exercism/go/ | head -1)'
 alias gtb='go test -bench=. -benchmem -cpuprofile cprofile.out -memprofile mprofile.out'
 alias cprof='go tool pprof -http=":9001" cprofile.out'
 alias mprof='go tool pprof -http=":9001" mprofile.out'
-alias gt='richgo test ./...'
 
 alias ez='n ~/.dotfiles/roles/zsh/files/zsh/.zshrc;source $ZDOTDIR/.zshrc'
 alias nx='n ~/.Xresources;xrdb -m ~/.Xresources;exit'
 alias .d='cd ~/.dotfiles'
 alias ma='make'
 alias mt='make test'
-alias tgo='testomatic --config ~/.testomatic.yml'
 
 export ANSIBLE_NOCOWS=1
 
@@ -282,45 +262,26 @@ zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
  # list of completers to use
 zstyle ':completion:*::::' completer _expand _complete _ignored _approximate
 
-# source ~/.config/zsh/aws_zsh_completer.sh
-
 alias m='~/.tmux/mux.sh'
 alias mux='tmuxinator'
 alias tmux='tmux -2'
-
 export TMUX_PLUGIN_MANAGER_PATH="$HOME/.tmux/plugins/"
-alias tnn='n ~/Dropbox/todo/work/todo.txt'
-alias tn='n ~/Dropbox/todo/todo.txt'
-# alias nn='n +RecentNotes'
+
 alias ni='cd ~/Dropbox/1vimwiki && n +VimwikiIndex +ZettelOpen'
 # alias nn='cd ~/Dropbox/1vimwiki && n +VimwikiIndex'
-alias cm='cd ~/Dropbox/1vimwiki/notes/meetings/ && n +CreateMeetingNote'
-alias no='cd ~/Dropbox/1vimwiki/notes/ && n $(date "+%Y-%m-%d").md'
 alias nw='cd ~/Dropbox/1vimwiki/ && n; git add .; git commit -m "save"'
-# alias org='cd ~/Dropbox/org/ && n refile.org +"Telescope find_files"'
-alias org='cd ~/Dropbox/org/ && n bujo-daily-log.org bujo-monthly-log.org bujo-future-log.org; ga .; git commit -m "save"'
-alias orgi="cd ~/Dropbox/org/ && n -c \"lua require('orgmode').action('capture.prompt')\""
-# alias t='~/tools/todo.txt_cli-2.9/todo.sh -d ~/Dropbox/todo/work/todo.cfg'
+alias org='cd ~/Dropbox/org/ && n refile.org +"Telescope find_files"'
+# alias org='cd ~/Dropbox/org/ && n refile.org; ga .; git commit -m "orgmode save"'
+alias bujo='cd ~/Dropbox/org/ && n bujo-daily-log.org bujo-monthly-log.org bujo-future-log.org; ga .; git commit -m "bullet journal update"'
+alias orgi="cd ~/Dropbox/org/ && n -c \"Org capture t\""
+alias orga="cd ~/Dropbox/org/ && n -c \"Org agenda t\""
+
+alias obn="cd ~/Dropbox/DropsyncFiles && n +\"Obsidian new\""
+alias obs="cd ~/Dropbox/DropsyncFiles && n +\"Obsidian new\""
+
 alias t='tmux'
 alias ta='tmux attach'
 
-alias tap='tco; echo "autoprio 0 days = A\n";t autopri 0 A; echo "autoprio 1 days = B\n"; t autopri 1 B; echo "autoprio 7 days = C\n"; t autopri 7 C;tco'
-alias tco='t commit'
-alias ts='tco; t schedule'
-alias td='tco; t del'
-alias tf='tco; t do'
-alias tm='t mit'
-alias tmd='t mit today'
-alias tgl='cd ~/Dropbox/todo/work/ && glog'
-# https://github.com/samuelsnyder/outline-todo.txt
-alias to='t outline'
-alias tol='t outline ls'
-alias toa='tco; t outline addto' # PROJECT "TEXT"
-alias toe='tco; t outline edit' # PROJECT
-alias toi='tco; t outline import; tap' # sync from outlines
-# Create an outline file corresponding to PROJECT, and move task at line #ITEM in todo.txt to the outline.
-alias toc='t outline mkol' # PROJECT [#ITEM]
-alias tom='tco; t outline mv' # #ITEM PROJECT
 alias rg='rg --color=always --line-number --follow --smart-case --hidden --max-columns=150 --max-columns-preview --glob "!.git/*" --glob "!node_modules/*" --glob "!vendor/*" --glob "!var/*"'
 
 if [ -f $XDG_CONFIG_HOME/zsh/notifyosd.zsh ]; then
@@ -392,7 +353,7 @@ else
     export BAT_THEME="gruvbox-dark"
 fi
 
-export PATH="$HOME/.rbenv/versions/2.7.1/bin:$PATH"
+# export PATH="$HOME/.rbenv/versions/2.7.1/bin:$PATH"
 export PATH="$HOME/tools/git-fuzzy/bin:$PATH"
 
 # start second tracing block
@@ -408,30 +369,36 @@ eval "$(sheldon source)"
 bindkey '^e' end-of-line
 source ~/.nix-profile/etc/profile.d/nix.sh
 # zprof | head -n 30
-#
 
 export USE_GKE_GCLOUD_AUTH_PLUGIN=True
-
-#eval "$(~/.rbenv/bin/rbenv init -)"
-
 
 export PYENV_ROOT="$HOME/.pyenv"
 command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
 eval "$(pyenv init -)"
 
 # The next line updates PATH for the Google Cloud SDK.
-if [ -f '/home/jm/Downloads/google-cloud-sdk/path.zsh.inc' ]; then . '/home/jm/Downloads/google-cloud-sdk/path.zsh.inc'; fi
+if [ -f '~/Downloads/google-cloud-sdk/path.zsh.inc' ]; then . '~/Downloads/google-cloud-sdk/path.zsh.inc'; fi
 
 # The next line enables shell command completion for gcloud.
-if [ -f '/home/jm/Downloads/google-cloud-sdk/completion.zsh.inc' ]; then . '/home/jm/Downloads/google-cloud-sdk/completion.zsh.inc'; fi
+if [ -f '~/Downloads/google-cloud-sdk/completion.zsh.inc' ]; then . '~/Downloads/google-cloud-sdk/completion.zsh.inc'; fi
 
 # fnm
-FNM_PATH="/home/jm/.local/share/fnm"
+FNM_PATH="~/.local/share/fnm"
 if [ -d "$FNM_PATH" ]; then
-  export PATH="/home/jm/.local/share/fnm:$PATH"
+  export PATH="~/.local/share/fnm:$PATH"
   eval "`fnm env`"
 fi
 
 . "$HOME/.local/share/../bin/env"
 
 source ~/.zshenv
+
+# Set tmux window title
+if [ -n "$TMUX" ]; then
+  preexec() {
+    tmux rename-window "$1"
+  }
+  precmd() {
+    tmux rename-window "zsh"
+  }
+fi

@@ -63,6 +63,13 @@
   with_fileglob:
     - autorandr/*
 
+- name: Get installed ActivityWatch version
+  shell: "{{ ansible_env.HOME }}/Downloads/activitywatch/aw-server --version | awk '{print $2}'"
+  register: activitywatch_installed_version
+  changed_when: false
+  failed_when: false
+  check_mode: false
+
 - name: Check if ActivityWatch is installed
   stat:
     path: "{{ ansible_env.HOME }}/Downloads/activitywatch"
@@ -73,7 +80,7 @@
     src: "https://github.com/ActivityWatch/activitywatch/releases/download/{{ activitywatch_version }}/activitywatch-{{ activitywatch_version }}-linux-x86_64.zip"
     dest: "{{ ansible_env.HOME }}/Downloads"
     remote_src: true
-  when: not aw_exists.stat.exists
+  when: not aw_exists.stat.exists or (activitywatch_installed_version.stdout is defined and activitywatch_installed_version.stdout != activitywatch_version)
 
 - name: Sudo
   include_tasks: sudo.yml
