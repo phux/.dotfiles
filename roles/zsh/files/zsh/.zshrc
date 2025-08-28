@@ -1,5 +1,9 @@
 # start tracing
 # zmodload zsh/zprof
+#
+if [ -z "$TMUX" ]; then
+  exec tmux new-session -A -s local
+fi
 
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.config/zsh/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
@@ -21,8 +25,6 @@ export LC_ALL='en_US.UTF-8';
 
 export SHOW_AWS_PROMPT=false
 export PURE_PROMPT_PATH_FORMATTING="%~"
-
-export PHP_CS_FIXER_IGNORE_ENV=true
 
 # if [ -f $XDG_CONFIG_HOME/zsh/cached_plugins.sh ]; then
     # source $XDG_CONFIG_HOME/zsh/cached_plugins.sh
@@ -77,7 +79,7 @@ export LESS_TERMCAP_md="${yellow}";
 
 alias sdn='sudo shutdown now -h'
 # alias update="sudo apt update && sudo apt upgrade -y && npm -g install tree-sitter && .d && git pull && make provision;sheldon lock --update;nvim +PackerUpdate +PackerCompile"
-alias update="sudo apt update && sudo apt autoremove --purge && sudo apt upgrade -y && .d && make provision;sheldon lock --update;"
+alias update="sudo apt update && sudo apt upgrade -y && .d && make provision;sheldon lock --update;"
 alias agi='sudo apt install'
 
 alias vu='vagrant up'
@@ -281,6 +283,7 @@ alias obs="cd ~/Dropbox/DropsyncFiles && n +\"Obsidian new\""
 
 alias t='tmux'
 alias ta='tmux attach'
+alias tl='tmux new-session -A -s local'
 
 alias rg='rg --color=always --line-number --follow --smart-case --hidden --max-columns=150 --max-columns-preview --glob "!.git/*" --glob "!node_modules/*" --glob "!vendor/*" --glob "!var/*"'
 
@@ -367,6 +370,7 @@ eval "$(sheldon source)"
 [[ ! -f ~/.config/zsh/.p10k.zsh ]] || source ~/.config/zsh/.p10k.zsh
 
 bindkey '^e' end-of-line
+
 source ~/.nix-profile/etc/profile.d/nix.sh
 # zprof | head -n 30
 
@@ -392,13 +396,3 @@ fi
 . "$HOME/.local/share/../bin/env"
 
 source ~/.zshenv
-
-# Set tmux window title
-if [ -n "$TMUX" ]; then
-  preexec() {
-    tmux rename-window "$1"
-  }
-  precmd() {
-    tmux rename-window "zsh"
-  }
-fi
