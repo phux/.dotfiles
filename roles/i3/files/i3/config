@@ -135,7 +135,7 @@ bindsym $mod+Shift+minus move scratchpad
 bindsym $mod+semicolon workspace next
 
 # switch to workspace
-bindsym $mod+1 workspace number 1
+bindsym $mod+1 workspace number 1; exec --no-startup-id [ $(ps h -C obsidian | wc -l) = 0 ] && obsidian
 # bindsym $mod+1 workspace number 1; exec --no-startup-id [ $(ps h -C ClickUp | wc -l) = 0 ] && ~/Downloads/desktop-3.3.22.AppImage
 bindsym $mod+2 workspace number 2
 bindsym $mod+3 workspace number 3; exec --no-startup-id [ $(ps h -C mysql-workbench-community | wc -l) = 0 ] && mysql-workbench-community
@@ -144,9 +144,9 @@ bindsym $mod+4 workspace number 4
 bindsym $mod+5 workspace number 5
 bindsym $mod+6 workspace number 6
 bindsym $mod+7 workspace number 7
-bindsym $mod+8 workspace number 8
+bindsym $mod+8 workspace number 8; exec --no-startup-id [ $(ps h -C youtube-music-desktop-app | wc -l) = 0 ] && youtube-music-desktop-app
 #bindsym $mod+8 workspace number 8; exec --no-startup-id [ $(ps h -C spotify | wc -l) = 0 ] && spotify
-bindsym $mod+9 workspace number 9; exec --no-startup-id [ $(ps h -C slack | wc -l) = 0 ] && slack
+bindsym $mod+9 workspace number 9; exec --no-startup-id [ $(ps h -C jkslack | wc -l) = 0 ] && slack
 bindsym $mod+0 workspace number 10; exec --no-startup-id [ $(ps h -C chrome | wc -l) = 0 ] && chromium-browser
 # bindsym $mod+0 workspace number 10; exec --no-startup-id [ $(ps aux | grep firefox | wc -l) = 1 ] && firefox
 
@@ -194,6 +194,7 @@ bindsym $mod+Shift+a exec --no-startup-id autorandr -c
 
 # workspace targeting
 assign [title="YouTube Music"] 8
+assign [title="Obsidian"] 1
 assign [class="Chromium"] 10
 assign [class="Firefox"] 10
 assign [class="Slack"] 9

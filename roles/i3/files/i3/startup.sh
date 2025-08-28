@@ -1,14 +1,18 @@
 #!/bin/bash
 
+autorandr --change
+
 urxvtcd -q -o -f
 
-# autorandr -c
 
 # ~/.config/i3/wp-changer.sh &
 
 ~/.dotfiles/roles/i3/files/i3/keyboard.sh &
 
 ~/Downloads/activitywatch/aw-qt &
+
+obsidian &
+chromium-browser &
 
 # sleep 5; dropbox start -i &
 

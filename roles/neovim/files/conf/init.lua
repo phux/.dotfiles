@@ -64,8 +64,6 @@ vim.o.hidden = true
 vim.o.splitbelow = true
 vim.o.splitright = true
 
--- vim.g.terraform_align = 1
--- vim.g.terraform_fmt_on_save = 1
 
 vim.cmd("set diffopt+=algorithm:patience")
 vim.cmd("set diffopt+=vertical")
@@ -206,7 +204,7 @@ local autocmds = {
         { "BufNewFile,BufRead", "*.graphqls",   "set ft=graphql" },
         { "BufNewFile,BufRead", "*.yaml.jinja", "set ft=yaml" },
         { "BufNewFile,BufRead", "*.yml.jinja",  "set ft=yaml" },
-        { "BufNewFile,BufRead", "*.tf",         "set ft=tf" },
+        -- { "BufNewFile,BufRead", "*.tf",         "set ft=tf" },
         { "BufNewFile,BufRead", "Dockerfile*",  "set ft=dockerfile" },
         { "FocusLost,WinLeave", "*",            ":silent! update" },
     }
@@ -1400,8 +1398,6 @@ require("lazy").setup(
                     -- php = { 'php' },
                     php = { 'php', 'phpstan' },
                     go = { 'golangcilint' },
-                    -- terraform = { 'tflint' },
-                    terraform = { 'tfsec', 'tflint' },
                     dockerfile = { 'hadolint' },
                     bash = { 'shellcheck' },
                     -- lua = { 'luacheck' },

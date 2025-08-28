@@ -8,7 +8,7 @@ VARS_FILE="group_vars/all/vars.yml"
 
 # Define the mapping between the variable names in vars.yml and their GitHub repositories.
 REPOS=(
-  "node_version:nodejs/node"
+  # "node_version:nodejs/node"
   "activitywatch_version:ActivityWatch/activitywatch"
   "firacode_version:tonsky/FiraCode"
   "go_mockery_version:vektra/mockery"
@@ -29,6 +29,7 @@ for repo_info in "${REPOS[@]}"; do
 
   echo "Checking latest version for $REPO..."
 
+  curl "https://api.github.com/repos/$REPO/releases/latest"
   LATEST_VERSION=$(curl -s "https://api.github.com/repos/$REPO/releases/latest" | grep '"tag_name":' | sed -E 's/.*"tag_name": "v?([^"]+)".*/\1/')
 
   if [[ -n "$LATEST_VERSION" ]]; then
