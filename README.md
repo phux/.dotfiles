@@ -4,6 +4,19 @@ Welcome to my personal dotfiles repository! 🎉 This collection is designed to 
 
 These dotfiles are more than just configuration files; they are the blueprint for a consistent, efficient, and delightful computing experience. Say goodbye to manual setups and hello to instant productivity!
 
+## 📖 Table of Contents
+
+- [🚀 Features at a Glance](#-features-at-a-glance)
+  - [💻 Development Essentials](#-development-essentials)
+  - [🐚 Shell & Terminal Power-Ups](#-shell--terminal-power-ups)
+  - [✍️ Editors & IDEs](#️-editors--ides)
+  - [🛠️ System & Desktop Utilities](#️-system--desktop-utilities)
+- [🚀 Getting Started](#-getting-started)
+  - [Requirements](#requirements)
+- [🔧 Customization](#-customization)
+- [📂 Project Structure](#-project-structure)
+- [🤝 Contributing](#-contributing)
+
 ## 🚀 Features at a Glance
 
 This repository automates the installation and configuration of a wide array of essential tools and applications, ensuring you have everything you need right out of the box. Here's a peek at what's included:
@@ -22,7 +35,7 @@ This repository automates the installation and configuration of a wide array of 
 
 ### 🐚 Shell & Terminal Power-Ups
 
-- **`zsh`**: A powerful shell, supercharged with `antibody` for lightning-fast plugin management.
+- **`zsh`**: A powerful shell, supercharged with `sheldon` for lightning-fast plugin management.
 - **`tmux`**: Boost your terminal productivity with persistent sessions and window management.
 - **`git`**: Enhanced Git configurations, including `delta` for beautiful diffs, `git-fuzzy` for fuzzy finding, and `gitui` for a terminal UI.
 - **`rg` (Ripgrep)**: Blazing-fast recursive line-oriented search tool.
@@ -51,28 +64,34 @@ This repository automates the installation and configuration of a wide array of 
 
 Ready to transform your development environment? Follow these simple steps:
 
-1.  **Clone the repository:**
+### Requirements
 
-    ```bash
-    git clone https://github.com/phux/.dotfiles.git
-    cd .dotfiles
-    ```
+- **Ansible**: This project relies on Ansible for provisioning. Ensure you have it installed on your system.
 
-2.  **Install Ansible and dependencies:**
+### Installation Steps
 
-    ```bash
-    make
-    ```
+1. **Clone the repository:**
 
-    This command will install Ansible and any other necessary dependencies to run the playbooks on your system.
+  ```bash
+  git clone https://github.com/phux/.dotfiles.git
+  cd .dotfiles
+  ```
 
-3.  **Install on localhost (use with caution!):**
+2. **Install Ansible and dependencies:**
 
-    This step will apply all the configurations directly to your current machine. **Please be aware that this process will overwrite your existing configuration files, and no automatic backup is made. It's highly recommended to back up your current dotfiles before proceeding.**
+  ```bash
+  make
+  ```
 
-    ```bash
-    make provision
-    ```
+  This command will install Ansible and any other necessary Python dependencies required to run the playbooks on your system.
+
+3. **Install on localhost (use with caution!):**
+
+  This step will apply all the configurations directly to your current machine. **Please be aware that this process will overwrite your existing configuration files, and no automatic backup is made. It's highly recommended to back up your current dotfiles before proceeding.**
+
+  ```bash
+  make provision
+  ```
 
 ## 🔧 Customization
 
@@ -81,8 +100,16 @@ These dotfiles are designed to be flexible! Feel free to tailor them to your uni
 - **Variables:** Adjust global settings by modifying the variables in `group_vars/all/vars.yml`.
 - **Roles:** Dive into the `roles/` directory to understand how each application is configured. You can easily enable, disable, or modify specific tasks within these roles to suit your needs.
 
+## 📂 Project Structure
+
+This repository follows a standard Ansible project structure:
+
+- **`playbook.yml`**: The main Ansible playbook that orchestrates the execution of roles.
+- **`roles/`**: Contains individual Ansible roles, each responsible for configuring a specific tool or aspect of the system.
+- **`group_vars/`**: Stores variables that apply to groups of hosts. `group_vars/all/vars.yml` contains global variables.
+- **`hosts`**: The Ansible inventory file, defining the hosts to be managed.
+- **`Makefile`**: Provides convenient shortcuts for common tasks like installing dependencies and running the playbook.
+
 ## 🤝 Contributing
 
 While these are personal dotfiles, I welcome suggestions and improvements! If you have ideas for enhancements or find issues, feel free to open an issue or submit a pull request. Let's make our development environments even better together!
-
----

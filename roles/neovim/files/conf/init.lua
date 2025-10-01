@@ -1740,99 +1740,157 @@ require("lazy").setup(
                 -- options
             },
         },
+        -- {
+        --     "elentok/format-on-save.nvim",
+        --     event = "VeryLazy",
+        --
+        --     config = function()
+        --         local format_on_save = require("format-on-save")
+        --         local formatters = require("format-on-save.formatters")
+        --
+        --         format_on_save.setup({
+        --             experiments = {
+        --                 partial_update = 'diff',
+        --             },
+        --             exclude_path_patterns = {
+        --                 "/node_modules/",
+        --                 ".local/share/nvim/lazy",
+        --             },
+        --             formatter_by_ft = {
+        --                 css = formatters.lsp,
+        --                 html = formatters.lsp,
+        --                 java = formatters.lsp,
+        --                 json = formatters.lsp,
+        --                 lua = formatters.lsp,
+        --                 -- go = formatters.lsp,
+        --                 markdown = formatters.prettierd,
+        --                 openscad = formatters.lsp,
+        --                 rust = formatters.lsp,
+        --                 scad = formatters.lsp,
+        --                 scss = formatters.lsp,
+        --                 -- sh = formatters.shfmt,
+        --                 terraform = formatters.lsp,
+        --                 typescript = formatters.prettierd,
+        --                 typescriptreact = formatters.prettierd,
+        --                 yaml = formatters.lsp,
+        --                 -- php = formatters.lsp,
+        --                 php = {
+        --                     -- formatters.lsp,
+        --                     formatters.if_file_exists({
+        --                         pattern = ".php-cs-fixer.php.*",
+        --                         formatter = formatters.shell({ cmd = "php-cs-fixer" }),
+        --                         -- formatter = formatters.eslint_d_fix
+        --                     }),
+        --                 },
+        --
+        --                 -- Add lazy formatter that will only run when formatting:
+        --                 my_custom_formatter = function()
+        --                     if vim.api.nvim_buf_get_name(0):match("/README.md$") then
+        --                         return formatters.prettierd
+        --                     else
+        --                         return formatters.lsp()
+        --                     end
+        --                 end,
+        --
+        --                 -- Add custom formatter
+        --                 -- filetype1 = formatters.remove_trailing_whitespace,
+        --                 -- filetype2 = formatters.custom({
+        --                 --     format = function(lines)
+        --                 --         return vim.tbl_map(function(line)
+        --                 --             return line:gsub("true", "false")
+        --                 --         end, lines)
+        --                 --     end
+        --                 -- }),
+        --
+        --                 -- Concatenate formatters
+        --                 python = {
+        --                     formatters.remove_trailing_whitespace,
+        --                     -- formatters.shell({ cmd = "tidy-imports" }),
+        --                     -- formatters.black,
+        --                     -- formatters.ruff,
+        --                 },
+        --
+        --                 -- Use a tempfile instead of stdin
+        --                 -- go = {
+        --                 --     formatters.shell({
+        --                 --         cmd = { "goimports-reviser", "-set-alias", "-format", "%" },
+        --                 --         tempfile = function()
+        --                 --             return vim.fn.expand("%") .. '.formatter-tmp'
+        --                 --         end
+        --                 --     }),
+        --                 --     -- formatters.shell({ cmd = { "gofmt" } }),
+        --                 -- },
+        --
+        --             },
+        --
+        --             -- Optional: fallback formatter to use when no formatters match the current filetype
+        --             fallback_formatter = {
+        --                 formatters.remove_trailing_whitespace,
+        --                 formatters.remove_trailing_newlines,
+        --                 -- formatters.prettierd,
+        --             },
+        --
+        --             -- By default, all shell commands are prefixed with "sh -c" (see PR #3)
+        --             -- To prevent that set `run_with_sh` to `false`.
+        --             run_with_sh = false,
+        --         })
+        --     end
+        -- },
         {
-            "elentok/format-on-save.nvim",
-            event = "VeryLazy",
-
+            'stevearc/conform.nvim',
+            opts = {},
             config = function()
-                local format_on_save = require("format-on-save")
-                local formatters = require("format-on-save.formatters")
-
-                format_on_save.setup({
-                    experiments = {
-                        partial_update = 'diff',
+                require("conform").setup({
+                    formatters_by_ft = {
+                        --                 css = formatters.lsp,
+                        --                 html = formatters.lsp,
+                        --                 java = formatters.lsp,
+                        --                 json = formatters.lsp,
+                        --                 lua = formatters.lsp,
+                        --                 -- go = formatters.lsp,
+                        --                 markdown = formatters.prettierd,
+                        --                 openscad = formatters.lsp,
+                        --                 rust = formatters.lsp,
+                        --                 scad = formatters.lsp,
+                        --                 scss = formatters.lsp,
+                        --                 -- sh = formatters.shfmt,
+                        --                 terraform = formatters.lsp,
+                        --                 typescript = formatters.prettierd,
+                        --                 typescriptreact = formatters.prettierd,
+                        --                 yaml = formatters.lsp,
+                        --                 php = {
+                        --                     -- formatters.lsp,
+                        --                     formatters.if_file_exists({
+                        --                         pattern = ".php-cs-fixer.php.*",
+                        --                         formatter = formatters.shell({ cmd = "php-cs-fixer" }),
+                        --                         -- formatter = formatters.eslint_d_fix
+                        --                     }),
+                        --                 },
+                        ansible = { lsp_format = "first", "ansible-lint" },
+                        lua = { lsp_format = "first" },
+                        python = { lsp_format = "first", "isort", "black" },
+                        javascript = { lsp_format = "first", "prettierd", },
+                        typescript = { lsp_format = "first", "prettierd", },
+                        typescriptreact = { lsp_format = "first", "prettierd" },
+                        yaml = { lsp_format = "first", "yamlfix", "yamlfmt" },
+                        terraform = { lsp_format = "first", "terraform_fmt" },
+                        go = { lsp_format = "first", "golangci-lint" },
+                        markdown = { lsp_format = "first", "markdownfmt" },
+                        json = { "fixjson" },
+                        php = { lsp_format = "first", "php_cs_fixer" },
+                        sh = { lsp_format = "first", "shfmt" },
                     },
-                    exclude_path_patterns = {
-                        "/node_modules/",
-                        ".local/share/nvim/lazy",
+                    log_level = vim.log.levels.ERROR,
+                    notify_on_error = true,
+                    notify_no_formatters = true,
+                    default_format_opts = {
+                        lsp_format = "fallback",
                     },
-                    formatter_by_ft = {
-                        css = formatters.lsp,
-                        html = formatters.lsp,
-                        java = formatters.lsp,
-                        json = formatters.lsp,
-                        lua = formatters.lsp,
-                        -- go = formatters.lsp,
-                        markdown = formatters.prettierd,
-                        openscad = formatters.lsp,
-                        rust = formatters.lsp,
-                        scad = formatters.lsp,
-                        scss = formatters.lsp,
-                        -- sh = formatters.shfmt,
-                        terraform = formatters.lsp,
-                        typescript = formatters.prettierd,
-                        typescriptreact = formatters.prettierd,
-                        yaml = formatters.lsp,
-                        -- php = formatters.lsp,
-                        php = {
-                            -- formatters.lsp,
-                            formatters.if_file_exists({
-                                pattern = ".php-cs-fixer.php.*",
-                                formatter = formatters.shell({ cmd = "php-cs-fixer" }),
-                                -- formatter = formatters.eslint_d_fix
-                            }),
-                        },
-
-                        -- Add lazy formatter that will only run when formatting:
-                        my_custom_formatter = function()
-                            if vim.api.nvim_buf_get_name(0):match("/README.md$") then
-                                return formatters.prettierd
-                            else
-                                return formatters.lsp()
-                            end
-                        end,
-
-                        -- Add custom formatter
-                        -- filetype1 = formatters.remove_trailing_whitespace,
-                        -- filetype2 = formatters.custom({
-                        --     format = function(lines)
-                        --         return vim.tbl_map(function(line)
-                        --             return line:gsub("true", "false")
-                        --         end, lines)
-                        --     end
-                        -- }),
-
-                        -- Concatenate formatters
-                        python = {
-                            formatters.remove_trailing_whitespace,
-                            -- formatters.shell({ cmd = "tidy-imports" }),
-                            -- formatters.black,
-                            -- formatters.ruff,
-                        },
-
-                        -- Use a tempfile instead of stdin
-                        -- go = {
-                        --     formatters.shell({
-                        --         cmd = { "goimports-reviser", "-set-alias", "-format", "%" },
-                        --         tempfile = function()
-                        --             return vim.fn.expand("%") .. '.formatter-tmp'
-                        --         end
-                        --     }),
-                        --     -- formatters.shell({ cmd = { "gofmt" } }),
-                        -- },
-
+                    format_on_save = {
+                        -- These options will be passed to conform.format()
+                        -- timeout_ms = 500,
+                        lsp_format = "fallback",
                     },
-
-                    -- Optional: fallback formatter to use when no formatters match the current filetype
-                    fallback_formatter = {
-                        formatters.remove_trailing_whitespace,
-                        formatters.remove_trailing_newlines,
-                        -- formatters.prettierd,
-                    },
-
-                    -- By default, all shell commands are prefixed with "sh -c" (see PR #3)
-                    -- To prevent that set `run_with_sh` to `false`.
-                    run_with_sh = false,
                 })
             end
         },
