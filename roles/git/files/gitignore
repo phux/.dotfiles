@@ -28,3 +28,4 @@ bin/
 .vim-bookmarks
 .phpactor.json
 .ai/
+.serena

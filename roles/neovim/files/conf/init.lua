@@ -64,10 +64,10 @@ vim.o.hidden = true
 vim.o.splitbelow = true
 vim.o.splitright = true
 
-
-vim.cmd("set diffopt+=algorithm:patience")
+vim.cmd("set diffopt+=algorithm:histogram")
 vim.cmd("set diffopt+=vertical")
 vim.cmd("set diffopt+=indent-heuristic")
+vim.cmd("set diffopt+=hiddenoff")
 
 vim.o.wildmenu = true
 vim.o.wildmode = "longest,list,full"
@@ -312,7 +312,7 @@ require("lazy").setup(
                     contrast = "",  -- can be "hard", "soft" or empty string
                     palette_overrides = {},
                     overrides = {
-                        -- DiffAdd = { bg = "#355E3B" },
+                        DiffAdd = { bg = "#335E00" },
                         -- DiffDelete = { bg = "#801919" },
                         -- DiffChange = { bg = "#1d2739" },
                         -- DiffText = { bg = "#3c4e77" },
@@ -362,7 +362,7 @@ require("lazy").setup(
                     }
                 })
 
-                local ignore_filetypes = { 'neo-tree', 'Outline', 'DiffviewFiles' }
+                local ignore_filetypes = { 'neo-tree', 'Outline' }
                 local ignore_buftypes = { 'nofile', 'prompt', 'popup' }
 
                 local augroup =
@@ -1439,8 +1439,8 @@ require("lazy").setup(
                         -- 'tsserver',
                         'marksman', -- markdown
                         -- 'spectral', -- openapi
-                        -- 'phpactor',
-                        'intelephense',
+                        'phpactor',
+                        -- 'intelephense',
                         'pyright',
                         -- 'ruby_ls',
                         'sqlls',
@@ -1872,13 +1872,15 @@ require("lazy").setup(
                         javascript = { lsp_format = "first", "prettierd", },
                         typescript = { lsp_format = "first", "prettierd", },
                         typescriptreact = { lsp_format = "first", "prettierd" },
-                        yaml = { lsp_format = "first", "yamlfix", "yamlfmt" },
+                        -- yaml = { lsp_format = "first", "yamlfix", "yamlfmt" },
                         terraform = { lsp_format = "first", "terraform_fmt" },
                         go = { lsp_format = "first", "golangci-lint" },
-                        markdown = { lsp_format = "first", "markdownfmt" },
+                        markdown = { lsp_format = "first", "tidymarkdown" },
                         json = { "fixjson" },
-                        php = { lsp_format = "first", "php_cs_fixer" },
+                        php = { "php_cs_fixer", lsp_format = "last" },
                         sh = { lsp_format = "first", "shfmt" },
+                        -- sql = { "sqlfmt", "sql_formatter" },
+                        sql = { "sqruff" },
                     },
                     log_level = vim.log.levels.ERROR,
                     notify_on_error = true,
@@ -1892,6 +1894,10 @@ require("lazy").setup(
                         lsp_format = "fallback",
                     },
                 })
+                require("conform").formatters.tidymarkdown = {
+                    inherit = false,
+                    command = "tidy-markdown",
+                }
             end
         },
         {
@@ -2436,27 +2442,29 @@ require('mason-lspconfig').setup({
                 },
             })
         end,
-        intelephense = function()
-            require('lspconfig').intelephense.setup {
-                settings = {
-                    intelephense = {
-                        files = {
-                            exclude = {
-                                "**/var/cache/**"
-                            }
-                        },
-                    },
-                },
-            }
-        end,
-        -- phpactor = function()
-        --     require 'lspconfig'.phpactor.setup {
-        --         init_options = {
-        --             ["language_server_phpstan.enabled"] = false,
-        --             ["language_server_psalm.enabled"] = false,
-        --         }
+        -- intelephense = function()
+        --     require('lspconfig').intelephense.setup {
+        --         settings = {
+        --             intelephense = {
+        --                 files = {
+        --                     exclude = {
+        --                         "**/var/cache/**"
+        --                     }
+        --                 },
+        --             },
+        --         },
         --     }
         -- end,
+        phpactor = function()
+            require 'lspconfig'.phpactor.setup {
+                init_options = {
+                    ["language_server_phpstan.enabled"] = false,
+                    ["language_server_psalm.enabled"] = false,
+                    ["language_server_symfony.enabled"] = true,
+                    ["language_server_phpunit.enabled"] = true,
+                }
+            }
+        end,
         jsonls = function()
             require('lspconfig').jsonls.setup {
                 settings = {

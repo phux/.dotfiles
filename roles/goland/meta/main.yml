@@ -1,0 +1,29 @@
+---
+galaxy_info:
+  author: Your Name
+  description: Installs JetBrains GoLand IDE
+  license: MIT
+  min_ansible_version: "2.10"
+
+  platforms:
+    - name: EL
+      versions:
+        - "8"
+    - name: Fedora
+      versions:
+        - "34"
+    - name: Debian
+      versions:
+        - bullseye
+    - name: Ubuntu
+      versions:
+        - focal
+        - jammy
+
+  galaxy_tags:
+    - goland
+    - ide
+    - jetbrains
+    - go
+
+dependencies: []

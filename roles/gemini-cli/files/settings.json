@@ -1,6 +1,4 @@
 {
-  "theme": "GitHub",
-  "selectedAuthType": "oauth-personal",
   "mcpServers": {
     "sequential-thinking": {
       "command": "npx",
@@ -51,5 +49,8 @@
       ]
     }
   },
-  "preferredEditor": "vscode"
+  "preferredEditor": "vscode",
+  "selectedAuthType": "gemini-api-key",
+  "theme": "GitHub",
+  "useRipgrep": true
 }

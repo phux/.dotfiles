@@ -9,19 +9,19 @@ setlocal shiftwidth=4
 setlocal softtabstop=4
 
 
-nnoremap <buffer> <leader>nn :call phpactor#Navigate()<cr>
+" nnoremap <buffer> <leader>nn :call phpactor#Navigate()<cr>
 nnoremap <buffer> <leader>na :call SymfonySwitchToAlternateFile()<cr>
-nnoremap <buffer> <leader>rm :PhpactorMoveFile<cr>
-vnoremap <buffer> <leader>rem :<C-U>PhpactorExtractMethod<CR>
+" nnoremap <buffer> <leader>rm :PhpactorMoveFile<cr>
+" vnoremap <buffer> <leader>rem :<C-U>PhpactorExtractMethod<CR>
 nnoremap <buffer> <leader>rd :call UpdatePhpDocIfExists()<CR>
-nnoremap <buffer> <leader>rt :PhpactorTransform<CR>
-nnoremap <buffer> <leader>rep :call PhpExtractClassProperty()<cr>
-nnoremap <buffer> <Leader>ref :PhpactorClassExpand<cr>
-nnoremap <buffer> <leader>reu :call PhpExtractUse()<CR>
-nnoremap <buffer> <leader>ru :PhpactorImportMissingClasses<cr>
+" nnoremap <buffer> <leader>rt :PhpactorTransform<CR>
+" nnoremap <buffer> <leader>rep :call PhpExtractClassProperty()<cr>
+" nnoremap <buffer> <Leader>ref :PhpactorClassExpand<cr>
+" nnoremap <buffer> <leader>reu :call PhpExtractUse()<CR>
+" nnoremap <buffer> <leader>ru :PhpactorImportMissingClasses<cr>
 
-nnoremap <buffer> <leader>c :PhpactorContextMenu<cr>
-vnoremap <buffer> <leader>c :PhpactorContextMenu<cr>
+" nnoremap <buffer> <leader>c :PhpactorContextMenu<cr>
+" vnoremap <buffer> <leader>c :PhpactorContextMenu<cr>
 
 let g:PHP_removeCRwhenUnix = 1
 

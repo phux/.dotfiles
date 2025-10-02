@@ -1,0 +1,65 @@
+---
+- name: Ensure GoLand dependencies are installed
+  ansible.builtin.package:
+    name:
+      - unzip
+      - libfuse2 # Required for AppImage on some systems
+    state: present
+
+- name: Define GoLand version (if not already defined)
+  ansible.builtin.set_fact:
+    goland_version: "2023.3.4" # Example version, update as needed
+  when: goland_version is not defined
+
+- name: Define GoLand install directory
+  ansible.builtin.set_fact:
+    goland_install_dir: "{{ ansible_user_dir }}/.local/share/JetBrains/GoLand-{{ goland_version }}"
+
+- name: Define GoLand download URL
+  ansible.builtin.set_fact:
+    goland_download_url: "https://download.jetbrains.com/go/goland-{{ goland_version }}.tar.gz"
+
+- name: Create JetBrains installation directory
+  ansible.builtin.file:
+    path: "{{ ansible_user_dir }}/.local/share/JetBrains"
+    state: directory
+    mode: '0755'
+
+- name: Download GoLand tarball
+  ansible.builtin.get_url:
+    url: "{{ goland_download_url }}"
+    dest: "/tmp/goland-{{ goland_version }}.tar.gz"
+    mode: '0644'
+    checksum: "sha256:{{ goland_checksum | default('') }}" # Add checksum for security if known
+  register: download_goland
+  ignore_errors: true # Allow to proceed if checksum is not provided or fails
+
+- name: Extract GoLand tarball
+  ansible.builtin.unarchive:
+    src: "/tmp/goland-{{ goland_version }}.tar.gz"
+    dest: "{{ ansible_user_dir }}/.local/share/JetBrains"
+    remote_src: yes
+    creates: "{{ goland_install_dir }}"
+  when: download_goland is success or download_goland.status_code == 200
+
+- name: Create symlink for GoLand executable
+  ansible.builtin.file:
+    src: "{{ goland_install_dir }}/bin/goland.sh"
+    dest: "{{ ansible_user_dir }}/.local/bin/goland"
+    state: link
+    force: yes
+
+- name: Create GoLand desktop entry
+  ansible.builtin.template:
+    src: goland.desktop.j2
+    dest: "{{ ansible_user_dir }}/.local/share/applications/jetbrains-goland.desktop"
+    mode: '0644'
+  vars:
+    goland_exec_path: "{{ goland_install_dir }}/bin/goland.sh"
+    goland_icon_path: "{{ goland_install_dir }}/bin/goland.svg" # Assuming SVG icon exists
+  when: download_goland is success or download_goland.status_code == 200
+
+- name: Clean up downloaded tarball
+  ansible.builtin.file:
+    path: "/tmp/goland-{{ goland_version }}.tar.gz"
+    state: absent

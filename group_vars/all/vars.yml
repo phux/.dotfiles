@@ -6,8 +6,8 @@ node_version: v24.5.0
 activitywatch_version: v0.13.2
 firacode_version: v6.2
 go_version: go1.24.0
-go_mockery_version: v3.5.4
-go_golangcilint_version: v2.4.0
+go_mockery_version: v3.5.5
+go_golangcilint_version: v2.5.0
 ruby_version: v3.4.4
 rbenv_version: v1.3.2
 bat_version: v0.25.0
@@ -18,7 +18,7 @@ pandoc_themes_version: master
 hack_font_version: v3.003
 fnm_version: v1.38.1
 terraform_version: 1.12.0
-neovim_version: v0.11.3
+neovim_version: v0.11.4
 
 
 packages:

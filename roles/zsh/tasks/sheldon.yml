@@ -6,7 +6,7 @@
 
 - name: Execute the sheldon installer
   
-  shell: curl --proto '=https' -fLsS https://rossmacarthur.github.io/install/crate.sh | bash -s -- --repo rossmacarthur/sheldon --force --to ~/.local/bin
+  shell: set -euxo pipefail; curl --proto '=https' -fLsS https://rossmacarthur.github.io/install/crate.sh | bash -s -- --repo rossmacarthur/sheldon --force --to ~/.local/bin
 
 - name: Link zsh files
   file: >
