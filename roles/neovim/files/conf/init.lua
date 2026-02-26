@@ -331,7 +331,7 @@ require("lazy").setup(
             "nvim-focus/focus.nvim",
             config = function()
                 require("focus").setup({
-                    enable = true,            -- Enable module
+                    enable = false,           -- Enable module
                     commands = true,          -- Create Focus commands
                     autoresize = {
                         enable = true,        -- Enable or disable auto-resizing of splits
