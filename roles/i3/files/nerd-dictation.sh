@@ -73,7 +73,7 @@ else
   # If using a large model, wait a few seconds before saying "Ready"
   # Adjust this sleep based on your manual test!
   if [[ "$MODEL_NAME" == *"large"* ]] || [[ "$MODEL_NAME" == *"giga"* ]] || [[ "$MODEL_NAME" == *"0.22"* ]]; then
-    sleep 5
+    sleep 2
   fi
 
   # NOW notify that we are actually listening

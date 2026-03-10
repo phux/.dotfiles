@@ -10,8 +10,7 @@ urxvtcd -q -o -f
 
 # ~/.config/i3/wp-changer.sh &
 
-
-# sleep 5; dropbox start -i &
+dropbox start -i &
 
 # fluxgui &
 
@@ -26,3 +25,5 @@ xinput --set-prop "TPPS/2 Elan TrackPoint" "libinput Accel Speed" 0
 ~/.dotfiles/roles/i3/files/i3/keyboard.sh &
 
 ~/Downloads/activitywatch/aw-qt &
+
+~/tools/nerd-dictation/.venv/bin/python ~/tools/nerd-dictation/nerd-dictation begin --continuous
