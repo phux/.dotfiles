@@ -114,7 +114,7 @@ alias grep='grep --color'
 #alias cat='bat'
 alias bat='batcat'
 alias c='batcat --style plain'
-alias cat='batcat'
+# alias cat='batcat'
 export MANPAGER="sh -c 'col -bx | batcat -l man -p'"
 export MANROFFOPT="-c"
 
@@ -287,6 +287,11 @@ alias tl='tmux new-session -A -s local'
 
 alias rg='rg --color=always --line-number --follow --smart-case --hidden --max-columns=150 --max-columns-preview --glob "!.git/*" --glob "!node_modules/*" --glob "!vendor/*" --glob "!var/*"'
 
+alias gf="gemini --model gemini-3-flash-preview"
+alias gfl="gemini --model gemini-2.5-flash-lite"
+alias g='gemini'
+alias gpro="gemini --model gemini-3.1-pro-preview"
+
 if [ -f $XDG_CONFIG_HOME/zsh/notifyosd.zsh ]; then
     source $XDG_CONFIG_HOME/zsh/notifyosd.zsh
 fi
@@ -396,3 +401,6 @@ fi
 . "$HOME/.local/share/../bin/env"
 
 source ~/.zshenv
+
+# opencode
+export PATH=/home/jm/.opencode/bin:$PATH

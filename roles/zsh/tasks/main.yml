@@ -13,7 +13,7 @@
         dest: /etc/zsh/zshenv
         owner: root
         group: root
-        mode: '0644'
+        mode: "0644"
         backup: true
 
 - name: Create zsh config directory
@@ -29,7 +29,6 @@
   with_fileglob:
     - zsh/*
     - zsh/.*
-
-- name: Import sheldon tasks
-  ansible.builtin.import_tasks:
-    file: sheldon.yml
+# - name: Import sheldon tasks
+#   ansible.builtin.import_tasks:
+#     file: sheldon.yml
