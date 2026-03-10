@@ -29,3 +29,6 @@ bin/
 .phpactor.json
 .ai/
 .serena
+.code-intelligence
+.specs-mcp-cache/
+.specs-mcp/
