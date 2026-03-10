@@ -18,7 +18,7 @@ function! s:align()
   endif
 endfunction
 
-nmap <leader><enter> :exe "!chromium-browser ".shellescape(expand("<cWORD>"))<cr><cr>
+" nmap <leader><enter> :exe "!chromium-browser ".shellescape(expand("<cWORD>"))<cr><cr>
 nmap gx :exe "!chromium-browser ".shellescape(expand("<cWORD>"))<cr><cr>
 " function! HandleURL()
 "   let s:uri = matchstr(getline("."), '[a-z]*:\/\/[^ >,;()]*')
@@ -38,7 +38,8 @@ nmap gx :exe "!chromium-browser ".shellescape(expand("<cWORD>"))<cr><cr>
 " nnoremap gx :call HandleURL()<CR>¬
 " vnoremap gx :call HandleURL()<CR>¬
 
-setlocal conceallevel=2
+" setlocal conceallevel=2
+setlocal conceallevel=0
 " let g:indentLine_enabled = 0
 setlocal shiftwidth=2
 setlocal softtabstop=2

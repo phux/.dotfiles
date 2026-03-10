@@ -264,28 +264,6 @@ vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup(
     {
-        -- {
-        --     -- This is the path to your local plugin directory
-        --     dir = '/home/jm/code/obsidian-tasks/obsidian-tasks.nvim',
-        --
-        --     -- Dependencies are still needed
-        --     dependencies = { 'nvim-lua/plenary.nvim', 'nvim-telescope/telescope.nvim' },
-        --
-        --     -- Set dev=true for local development.
-        --     -- This tells lazy.nvim to load the plugin directly from the `dir`
-        --     -- and not try to clone it from GitHub.
-        --     dev = true,
-        --
-        --     -- Your configuration options go here
-        --     opts = {
-        --         vault_path = '~/Dropbox/DropsyncFiles/Main Vault',
-        --     },
-        --     -- The main change is here in the config function
-        --     config = function(_, opts)
-        --         -- Use 'obsidian-tasks' which matches the folder name in your 'lua' directory
-        --         require('obsidian-tasks').setup(opts)
-        --     end
-        -- },
         {
             'ellisonleao/gruvbox.nvim',
             lazy = false,
@@ -328,73 +306,6 @@ require("lazy").setup(
             cmd = "Tabularize",
         },
         {
-            "nvim-focus/focus.nvim",
-            config = function()
-                require("focus").setup({
-                    enable = false,           -- Enable module
-                    commands = true,          -- Create Focus commands
-                    autoresize = {
-                        enable = true,        -- Enable or disable auto-resizing of splits
-                        width = 0,            -- Force width for the focused window
-                        height = 0,           -- Force height for the focused window
-                        minwidth = 0,         -- Force minimum width for the unfocused window
-                        minheight = 0,        -- Force minimum height for the unfocused window
-                        height_quickfix = 10, -- Set the height of quickfix panel
-                    },
-                    split = {
-                        bufnew = false, -- Create blank buffer for new split windows
-                        tmux = false,   -- Create tmux splits instead of neovim splits
-                    },
-                    ui = {
-                        number = false,                    -- Display line numbers in the focussed window only
-                        relativenumber = false,            -- Display relative line numbers in the focussed window only
-                        hybridnumber = false,              -- Display hybrid line numbers in the focussed window only
-                        absolutenumber_unfocussed = false, -- Preserve absolute numbers in the unfocussed windows
-
-                        cursorline = true,                 -- Display a cursorline in the focussed window only
-                        cursorcolumn = false,              -- Display cursorcolumn in the focussed window only
-                        colorcolumn = {
-                            enable = false,                -- Display colorcolumn in the foccused window only
-                            list = '+1',                   -- Set the comma-saperated list for the colorcolumn
-                        },
-                        signcolumn = true,                 -- Display signcolumn in the focussed window only
-                        winhighlight = false,              -- Auto highlighting for focussed/unfocussed windows
-                    }
-                })
-
-                local ignore_filetypes = { 'neo-tree', 'Outline' }
-                local ignore_buftypes = { 'nofile', 'prompt', 'popup' }
-
-                local augroup =
-                    vim.api.nvim_create_augroup('FocusDisable', { clear = true })
-
-                vim.api.nvim_create_autocmd('WinEnter', {
-                    group = augroup,
-                    callback = function(_)
-                        if vim.tbl_contains(ignore_buftypes, vim.bo.buftype)
-                        then
-                            vim.w.focus_disable = true
-                        else
-                            vim.w.focus_disable = false
-                        end
-                    end,
-                    desc = 'Disable focus autoresize for BufType',
-                })
-
-                vim.api.nvim_create_autocmd('FileType', {
-                    group = augroup,
-                    callback = function(_)
-                        if vim.tbl_contains(ignore_filetypes, vim.bo.filetype) then
-                            vim.b.focus_disable = true
-                        else
-                            vim.b.focus_disable = false
-                        end
-                    end,
-                    desc = 'Disable focus autoresize for FileType',
-                })
-            end
-        },
-        {
             "yggdroot/indentLine",
             event = "VeryLazy",
         },
@@ -425,7 +336,7 @@ require("lazy").setup(
                 function _G.pushIfNotMainMasterOrStaging()
                     vim.cmd([[
                         let gitBranch = system("git rev-parse --abbrev-ref HEAD")
-                        if "main" ==# gitBranch || "staging" ==# gitBranch
+                        if "main" ==# gitBranch || "staging" ==# gitBranch|| "master" ==# gitBranch
                             echo "you are in main/staging - no direct push"
                         else
                             execute ":Git push"
@@ -450,25 +361,41 @@ require("lazy").setup(
             "sindrets/diffview.nvim",
             event = "VeryLazy",
             config = function()
-                -- vim.g.git_messenger_include_diff = "current"
-                -- vim.g.git_messenger_always_into_popup = 1
                 require("diffview").setup({
                     enhanced_diff_hl = false,
                 })
                 vim.api.nvim_set_keymap("n", "<leader>do", ":DiffviewOpen<cr>", { noremap = true })
-                -- vim.api.nvim_set_keymap("n", "<leader>do", ":DiffviewOpen<cr>", { noremap = true })
                 vim.api.nvim_set_keymap("n", "<leader>gs", ":DiffviewOpen<cr>", { noremap = true })
                 vim.api.nvim_set_keymap("n", "<leader>gc", ":DiffviewOpen<cr>", { noremap = true })
                 vim.keymap.set({ "n", "v" }, "<leader>df", ":DiffviewFileHistory", { noremap = true })
             end
         },
         {
-            "whiteinge/diffconflicts",
-            cmd = "DiffConflicts",
+            "junegunn/gv.vim",
+            cmd = "GV",
             config = function()
-                vim.g.git_messenger_include_diff = "current"
-                vim.g.git_messenger_always_into_popup = 1
+                vim.api.nvim_set_keymap("v", "<leader>gl", ":GV<cr>", { noremap = true })
+                vim.api.nvim_set_keymap("n", "<leader>gS", ":GV! -S", { noremap = true })
             end
+        },
+        {
+            'nvim-pack/nvim-spectre',
+            cmd = "Spectre",
+            config = function()
+                vim.api.nvim_set_keymap("n", "<leader>SR", ":Spectre", { noremap = true })
+            end
+        },
+        {
+            "aaronhallaert/advanced-git-search.nvim",
+            config = function()
+                vim.api.nvim_set_keymap("n", "<leader>gf", ":AdvancedGitSearch search_log_content_file<cr>",
+                    { noremap = true })
+                -- vim.api.nvim_set_keymap("v", "<leader>gl", ":AdvancedGitSearch<cr>", { noremap = true })
+                vim.api.nvim_set_keymap("n", "<leader>gl", ":AdvancedGitSearch<cr>", { noremap = true })
+            end,
+            dependencies = {
+                --- See dependencies
+            },
         },
         {
             "lewis6991/gitsigns.nvim",
@@ -562,6 +489,8 @@ require("lazy").setup(
                         -- Actions
                         map("n", "<leader>hs", gs.stage_hunk)
                         map("n", "<leader>hr", gs.reset_hunk)
+
+                        map('n', '<leader>hq', function() gitsigns.setqflist('all') end)
                         map(
                             "v",
                             "<leader>hs",
@@ -580,6 +509,7 @@ require("lazy").setup(
                         -- map("n", "<leader>hu", gs.undo_stage_hunk)
                         map("n", "<leader>hR", gs.reset_buffer)
                         map("n", "<leader>hp", gs.preview_hunk)
+                        map("n", "<leader>hi", gs.preview_hunk_inline)
                         map(
                             "n",
                             "<leader>hb",
@@ -625,7 +555,6 @@ require("lazy").setup(
                 })
 
                 vim.keymap.set('n', '<leader>j', require('treesj').toggle)
-                -- getting used to it
                 vim.keymap.set('n', '<leader>k', require('treesj').toggle)
             end,
         },
@@ -1091,6 +1020,14 @@ require("lazy").setup(
             end
         },
         {
+            "hedyhli/markdown-toc.nvim",
+            ft = "markdown",  -- Lazy load on markdown filetype
+            cmd = { "Mtoc" }, -- Or, lazy load on "Mtoc" command
+            opts = {
+                -- Your configuration here (optional)
+            },
+        },
+        {
             "metiulekm/nvim-treesitter-endwise",
             event = "VeryLazy",
             config = function()
@@ -1398,7 +1335,6 @@ require("lazy").setup(
                     -- php = { 'php' },
                     php = { 'php', 'phpstan' },
                     go = { 'golangcilint' },
-                    dockerfile = { 'hadolint' },
                     bash = { 'shellcheck' },
                     -- lua = { 'luacheck' },
                     html = { 'tidy' },
@@ -1439,13 +1375,13 @@ require("lazy").setup(
                         -- 'tsserver',
                         'marksman', -- markdown
                         -- 'spectral', -- openapi
-                        'phpactor',
-                        -- 'intelephense',
+                        -- 'phpactor',
+                        'intelephense',
                         'pyright',
                         -- 'ruby_ls',
                         'sqlls',
                         'taplo', -- toml
-                        'terraformls',
+                        -- 'terraformls',
                         'vimls',
                         'lemminx',
                         'yamlls',
@@ -1716,15 +1652,6 @@ require("lazy").setup(
                 require('lsp-progress').setup()
             end
         },
-        {
-            "junegunn/gv.vim",
-            cmd = "GV",
-            config = function()
-                vim.api.nvim_set_keymap("v", "<leader>gl", ":GV<cr>", { noremap = true })
-                vim.api.nvim_set_keymap("n", "<leader>gS", ":GV! -S", { noremap = true })
-            end
-        },
-
         {
             "hedyhli/outline.nvim",
             cmd = { "Outline", "OutlineOpen" },
@@ -2110,12 +2037,56 @@ require("lazy").setup(
                             override_file_sorter = true
                         },
                         obsidian_todo = {
-                            search_path = "$HOME/Dropbox/DropsyncFiles/Main Vault",
+                            search_path = "$HOME/Dropbox/Apps/remotely-save/ObsidianVault",
                             search_pattern = "- [ ] ", -- This is the default value
                         },
+                        advanced_git_search = {
+                            {
+                                -- Browse command to open commits in browser. Default fugitive GBrowse.
+                                -- {commit_hash} is the placeholder for the commit hash.
+                                browse_command = "GBrowse {commit_hash}",
+                                -- when {commit_hash} is not provided, the commit will be appended to the specified command seperated by a space
+                                -- browse_command = "GBrowse",
+                                -- => both will result in calling `:GBrowse commit`
+
+                                -- fugitive or diffview
+                                diff_plugin = "diffview",
+                                -- customize git in previewer
+                                -- e.g. flags such as { "--no-pager" }, or { "-c", "delta.side-by-side=false" }
+                                git_flags = {},
+                                -- customize git diff in previewer
+                                -- e.g. flags such as { "--raw" }
+                                git_diff_flags = {},
+                                git_log_flags = {},
+                                -- Show builtin git pickers when executing "show_custom_functions" or :AdvancedGitSearch
+                                -- show_builtin_git_pickers = false,
+                                entry_default_author_or_date = "both", -- one of "author", "date" or "both"
+                                keymaps = {
+                                    -- following keymaps can be overridden
+                                    toggle_date_author = "<C-w>",
+                                    open_commit_in_browser = "<C-o>",
+                                    copy_commit_hash = "<C-y>",
+                                    copy_commit_patch = "<C-m>", -- telescope only
+                                    show_entire_commit = "<C-e>",
+                                },
+
+                                -- Telescope layout setup
+                                telescope_theme = {
+                                    function_name_1 = {
+                                        -- Theme options
+                                    },
+                                    function_name_2 = "dropdown",
+                                    -- e.g. realistic example
+                                    show_custom_functions = {
+                                        layout_config = { width = 0.4, height = 0.4 },
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
 
+                telescope.load_extension("advanced_git_search")
                 telescope.load_extension("fzy_native")
                 telescope.load_extension('vim_bookmarks')
                 telescope.load_extension("egrepify")
@@ -2308,7 +2279,7 @@ require("lazy").setup(
                     -- },
                     {
                         name = "work",
-                        path = "~/Dropbox/DropsyncFiles/Main Vault",
+                        path = "~/Dropbox/Apps/remotely-save/ObsidianVault",
                     },
                 },
 
