@@ -20,6 +20,5 @@
     - tmux
     - pandoc
     - gemini-cli
-    - {role: "tfenv", "tags": "tf"}
+    - { role: "tfenv", "tags": "tf" }
     - pyenv
-    - goland
