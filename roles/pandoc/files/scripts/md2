@@ -4,22 +4,22 @@ file_name="${1##*/}"
 file_extension="${file_name##*.}"
 file="${file_name%.*}"
 out="/tmp/${file}_$(date +"%Y-%m-%d").pdf"
-    # -H ~/.dotfiles/roles/pandoc/files/headers/chapter_break.tex \
+# -H ~/.dotfiles/roles/pandoc/files/headers/chapter_break.tex \
+#-H ~/.dotfiles/roles/pandoc/files/headers/syntax_highlight.tex \
 pandoc "$1" \
-    -f markdown \
-    --toc -N \
-    -V colorlinks -V urlcolor=NavyBlue \
-    -H ~/.dotfiles/roles/pandoc/files/headers/syntax_highlight.tex \
-    -H ~/.dotfiles/roles/pandoc/files/headers/bullet_list.tex \
-    -H ~/.dotfiles/roles/pandoc/files/headers/deeplist.tex \
-    -F mermaid-filter \
-    -V geometry:a4paper \
-    -V geometry:"top=2cm, bottom=1.5cm, left=2cm, right=2cm" \
-    -V mainfont="DejaVu Serif" \
-    -V monofont="DejaVu Sans Mono" \
-    --pdf-engine=xelatex \
-    --template=gitbook-azure.tex \
-    -o "${out}"
-echo "created pdf at ${out}";
+  -f markdown \
+  --toc -N \
+  -V colorlinks -V urlcolor=NavyBlue \
+  -H ~/.dotfiles/roles/pandoc/files/headers/bullet_list.tex \
+  -H ~/.dotfiles/roles/pandoc/files/headers/deeplist.tex \
+  -F mermaid-filter \
+  -V geometry:a4paper \
+  -V geometry:"top=2cm, bottom=1.5cm, left=2cm, right=2cm" \
+  -V mainfont="DejaVu Serif" \
+  -V monofont="DejaVu Sans Mono" \
+  --pdf-engine=xelatex \
+  --template=gitbook-azure.tex \
+  -o "${out}"
+echo "created pdf at ${out}"
 
 xdg-open "${out}"
