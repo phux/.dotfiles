@@ -1,7 +1,7 @@
 ---
 - name: Install gemini-cli
   npm:
-    name: '@google/gemini-cli'
+    name: "@google/gemini-cli"
     global: yes
     state: latest
 

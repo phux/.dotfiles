@@ -1,56 +1,118 @@
 {
   "mcpServers": {
-    "sequential-thinking": {
-      "command": "npx",
+    "code-intelligence": {
+      "command": "uv",
       "args": [
-        "-y",
-        "@modelcontextprotocol/server-sequential-thinking"
-      ]
-    },
-    "github": {
-      "command": "npx",
-      "args": [
-        "-y",
-        "@modelcontextprotocol/server-github@latest"
+        "--directory",
+        "/home/jm/code/code-intelligence",
+        "run",
+        "python",
+        "-m",
+        "code_intelligence.server"
       ],
-      "disabled": false,
-      "alwaysAllow": []
+      "trust": true
     },
-    "git": {
-      "command": "uvx",
+    "specs": {
+      "command": "uv",
       "args": [
-        "mcp-server-git"
+        "--directory",
+        "/home/jm/code/specs-mcp",
+        "run",
+        "python",
+        "-m",
+        "specs_mcp.server"
       ],
-      "disabled": false,
-      "alwaysAllow": []
+      "trust": true
     },
-    "shell": {
-      "command": "uvx",
+    "atlassian-mcp": {
+      "command": "uv",
       "args": [
-        "mcp-shell-server"
+        "run",
+        "--directory",
+        "/home/jm/code/atlassian-mcp",
+        "atlassian-mcp"
       ],
       "env": {
-        "ALLOW_COMMANDS": "ls,cat,pwd,grep,wc,touch,find"
+        "ATLASSIAN_EMAIL": "$JIRA_EMAIL",
+        "ATLASSIAN_URL": "$JIRA_URL",
+        "ATLASSIAN_API_TOKEN": "$JIRA_API_TOKEN"
       },
-      "disabled": false,
-      "alwaysAllow": []
-    },
-    "code-analysis": {
-      "command": "/home/jm/tools/code-analysis-mcp/venv/bin/python3",
-      "args": [
-        "/home/jm/tools/code-analysis-mcp/code_analysis.py"
-      ]
-    },
-    "context7": {
-      "command": "npx",
-      "args": [
-        "-y",
-        "@upstash/context7-mcp"
-      ]
+      "trust": true
     }
   },
-  "preferredEditor": "vscode",
-  "selectedAuthType": "gemini-api-key",
-  "theme": "GitHub",
-  "useRipgrep": true
+  "general": {
+    "preferredEditor": "vscode",
+    "previewFeatures": true,
+    "enablePromptCompletion": true,
+    "sessionRetention": {
+      "warningAcknowledged": true,
+      "enabled": true,
+      "maxAge": "30d"
+    }
+  },
+  "security": {
+    "auth": {
+      "selectedType": "gemini-api-key"
+    },
+    "enablePermanentToolApproval": true,
+    "allowedEnvironmentVariables": [
+      "JIRA_URL",
+      "JIRA_EMAIL",
+      "JIRA_API_TOKEN"
+    ]
+  },
+  "ui": {
+    "theme": "Default",
+    "showModelInfoInChat": true,
+    "accessibility": {
+      "disableLoadingPhrases": true,
+      "enableLoadingPhrases": false
+    },
+    "hideBanner": true,
+    "footer": {
+      "hideContextPercentage": false
+    },
+    "showCitations": true,
+    "loadingPhrases": "off"
+  },
+  "tools": {
+    "useRipgrep": true,
+    "autoAccept": true
+  },
+  "experimental": {
+    "codebaseInvestigatorSettings": {
+      "enabled": true,
+      "maxNumTurns": 40
+    },
+    "enableAgents": true,
+    "plan": true
+  },
+  "output": {
+    "format": "text"
+  },
+  "agents": {
+    "overrides": {
+      "codebase_investigator": {
+        "enabled": true,
+        "runConfig": {
+          "maxTurns": 40
+        }
+      }
+    }
+  },
+  "hooks": {
+    "SessionStart": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "name": "context-loader",
+            "type": "command",
+            "command": "~/.gemini/hooks/context-loader.sh",
+            "timeout": 10000
+          }
+        ]
+      }
+    ]
+  }
 }
