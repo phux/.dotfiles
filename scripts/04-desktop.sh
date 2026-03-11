@@ -17,6 +17,8 @@ DESKTOP_PACKAGES=(
     brightnessctl
     blueman
     graphviz
+    dropbox
+    arandr
 )
 
 install_packages "${DESKTOP_PACKAGES[@]}"
