@@ -8,6 +8,7 @@ mkdir -p "$HOME/.config"
 mkdir -p "$HOME/.local/bin"
 mkdir -p "$HOME/.local/share"
 mkdir -p "$HOME/tools"
+mkdir -p "$HOME/tmp/screenshots"
 
 STOW_DIR="$(pwd)/stow"
 

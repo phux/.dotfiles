@@ -17,11 +17,25 @@ DESKTOP_PACKAGES=(
     brightnessctl
     blueman
     graphviz
-    dropbox
     arandr
+    python3-gpg
 )
 
 install_packages "${DESKTOP_PACKAGES[@]}"
+
+# Setup Dropbox
+if ! command -v dropbox &> /dev/null; then
+    print_info "Installing Dropbox"
+    # libpango1.0-0 was renamed to libpango-1.0-0 in newer Ubuntu; install it first
+    # then force-install the deb to bypass the stale dependency name
+    sudo apt-get install -y libpango-1.0-0
+    curl -L "https://www.dropbox.com/download?dl=packages/ubuntu/dropbox_2020.03.04_amd64.deb" -o /tmp/dropbox.deb
+    sudo dpkg -i --force-depends /tmp/dropbox.deb
+    rm -f /tmp/dropbox.deb
+    print_success "Dropbox installed"
+else
+    print_info "Dropbox already installed. Skipping."
+fi
 
 # Setup ActivityWatch
 AW_DIR="$HOME/.local/opt/activitywatch"

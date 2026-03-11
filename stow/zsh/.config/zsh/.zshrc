@@ -398,8 +398,6 @@ if [ -d "$FNM_PATH" ]; then
   eval "`fnm env`"
 fi
 
-. "$HOME/.local/share/../bin/env"
-
 source ~/.zshenv
 
 # opencode
