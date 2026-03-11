@@ -64,13 +64,40 @@ else
     print_info "Updating Tfenv"
     (cd "$HOME/.tfenv" && git pull)
 fi
-
 # Setup FNM (Fast Node Manager)
 if ! command -v fnm &> /dev/null; then
     print_info "Installing FNM (Node Version Manager)"
     curl -fsSL https://fnm.vercel.app/install | bash -s -- --install-dir "$HOME/.local/bin" --skip-shell
 fi
 
+# Ensure fnm and node are available in the current session
+export PATH="$HOME/.local/bin:$HOME/.local/share/fnm:$PATH"
+if command -v fnm &> /dev/null; then
+    eval "$(fnm env)"
+    if ! fnm current &> /dev/null; then
+        print_info "Installing default Node.js version via fnm"
+        fnm install 20
+        fnm default 20
+        fnm use 20
+    fi
+fi
+
+# Setup global npm packages
+if command -v npm &> /dev/null; then
+    print_info "Installing global npm packages (yarn, neovim, linters, etc.)"
+    npm install -g yarn neovim instant-markdown-d live-server jsonlint fixjson markdownlint-cli serverless stylelint write-good remark-lint remark-preset-lint-recommended tern eslint tern-lint typescript eslint-config-standard eslint-plugin-node eslint-plugin-promise eslint-plugin-standard htmllint textlint textlint-rule-write-good eslint_d csslint prettier @fsouza/prettierd lua-fmt @ocular-d/vale-bin markmap-cli
+else
+    print_warning "npm is not available yet in this session. Skipping npm global packages."
+fi
+
+# Setup Composer
+if ! command -v composer &> /dev/null; then
+    print_info "Installing Composer"
+    curl -sS https://getcomposer.org/installer | sudo php -- --install-dir=/usr/local/bin --filename=composer
+    print_success "Composer installed."
+else
+    print_info "Composer is already installed."
+fi
 
 # Setup AI Tools
 
