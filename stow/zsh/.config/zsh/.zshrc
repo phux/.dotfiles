@@ -402,3 +402,5 @@ source ~/.zshenv
 
 # opencode
 export PATH=/home/jm/.opencode/bin:$PATH
+
+. "$HOME/.local/share/../bin/env"

@@ -10,3 +10,12 @@ npm-debug.log
 playbook.retry
 /.gtm/
 coc-settings.json
+
+# Stow directories that contain state/secrets
+stow/gemini-cli/.gemini/*
+!stow/gemini-cli/.gemini/settings.json
+stow/tmux/.tmux/plugins/
+stow/zsh/.config/zsh/.zsh_history
+stow/zsh/.config/zsh/.zcompdump*
+!stow/gemini-cli/.gemini/hooks/
+!stow/gemini-cli/.gemini/hooks/*

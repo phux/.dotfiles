@@ -75,6 +75,14 @@ else
 	(cd "$HOME/.pyenv" && git pull)
 fi
 
+# Setup uv
+if ! command -v uv &>/dev/null && [ ! -f "$HOME/.cargo/bin/uv" ] && [ ! -f "$HOME/.local/bin/uv" ]; then
+	print_info "Installing uv"
+	curl -LsSf https://astral.sh/uv/install.sh | sh
+else
+	print_info "uv is already installed."
+fi
+
 # Setup Tfenv
 if [ ! -d "$HOME/.tfenv" ]; then
 	print_info "Installing Tfenv"
@@ -152,17 +160,12 @@ if command -v npm &>/dev/null; then
 
 	print_info "Installing @google/gemini-cli globally via npm"
 	npm install -g @google/gemini-cli
+
+	print_info "Installing opencode-ai globally via npm"
+	npm install -g opencode-ai
 else
 	print_info "npm is not available yet in this session. Skipping npm-based AI tools."
 	print_info "You may need to run 'fnm install 20 && fnm use 20' and then run this script again."
-fi
-
-# Install Opencode
-if [ ! -d "$HOME/.opencode" ]; then
-	print_info "Installing Opencode"
-	curl -fsSL https://raw.githubusercontent.com/janmollowitz/opencode/main/install.sh | bash
-else
-	print_info "Opencode is already installed."
 fi
 
 print_success "Phase 03: Development Environments completed"

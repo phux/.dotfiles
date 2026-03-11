@@ -9,6 +9,8 @@ mkdir -p "$HOME/.local/bin"
 mkdir -p "$HOME/.local/share"
 mkdir -p "$HOME/tools"
 mkdir -p "$HOME/tmp/screenshots"
+mkdir -p "$HOME/.gemini"
+mkdir -p "$HOME/.tmux"
 
 STOW_DIR="$(pwd)/stow"
 
