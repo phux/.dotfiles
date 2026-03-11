@@ -22,7 +22,7 @@ blueman-applet &
 
 xinput --set-prop "TPPS/2 Elan TrackPoint" "libinput Accel Speed" 0
 
-~/.dotfiles/roles/i3/files/i3/keyboard.sh &
+~/.config/i3/keyboard.sh &
 
 ~/Downloads/activitywatch/aw-qt &
 

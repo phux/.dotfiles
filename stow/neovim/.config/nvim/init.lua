@@ -29,11 +29,11 @@ vim.cmd("language en_US.utf8")
 vim.api.nvim_set_keymap("", "<Space>", "<Nop>", { noremap = true })
 vim.g.mapleader = " "
 
-vim.api.nvim_set_keymap("n", "<leader>vi", ":e ~/.dotfiles/roles/neovim/files/conf/init.lua<cr>", { noremap = true })
+vim.api.nvim_set_keymap("n", "<leader>vi", ":e ~/.config/nvim/init.lua<cr>", { noremap = true })
 vim.api.nvim_set_keymap("n", "<leader>vc", "<cmd>lua EditFtPluginFile()<cr>",
     { noremap = true })
 function _G.EditFtPluginFile()
-    vim.cmd("e ~/.dotfiles/roles/neovim/files/ftplugin/" .. vim.bo.filetype ..
+    vim.cmd("e ~/.config/nvim/ftplugin/" .. vim.bo.filetype ..
         ".vim")
 end
 
@@ -1636,7 +1636,7 @@ require("lazy").setup(
                     " inoremap <silent> <S-Tab> <cmd>lua require'luasnip'.jump(-1)<Cr>
                     inoremap <silent> <c-k> <cmd>lua require'luasnip'.jump(-1)<Cr>
                 ]])
-                require("luasnip.loaders.from_vscode").load({ paths = { "~/.dotfiles/roles/neovim/files/luasnippets" } })
+                require("luasnip.loaders.from_vscode").load({ paths = { "~/.config/nvim/luasnippets" } })
             end
         },
         {
@@ -2096,7 +2096,7 @@ require("lazy").setup(
                 vim.keymap.set("n", "<leader>oh", builtin.help_tags, {})
                 vim.keymap.set("n", "<leader>om", telescope.extensions.vim_bookmarks.all, {})
                 vim.keymap.set("n", "<leader>oo", builtin.resume, {})
-                vim.api.nvim_set_keymap("n", "<leader>vl", ":Telescope find_files cwd=~/.dotfiles/roles/neovim<cr>",
+                vim.api.nvim_set_keymap("n", "<leader>vl", ":Telescope find_files cwd=~/.config/nvim<cr>",
                     { noremap = true })
 
                 vim.api.nvim_set_keymap("n", "<leader>GL", ":Telescope git_bcommits<cr>", { noremap = true })
@@ -2189,9 +2189,9 @@ require("lazy").setup(
             config = function()
                 require('telekasten').setup({
                     home = vim.fn.expand("~/Dropbox/1vimwiki/zettel"), -- Put the name of your notes directory here
-                    templates = vim.fn.expand("~/.dotfiles/roles/neovim/files/zettel"),
+                    templates = vim.fn.expand("~/.config/nvim/zettel"),
                     new_note_filename = "uuid-title",
-                    template_new_note = vim.fn.expand("~/.dotfiles/roles/neovim/files/zettel/new_note"),
+                    template_new_note = vim.fn.expand("~/.config/nvim/zettel/new_note"),
                 })
 
                 vim.keymap.set("n", "<leader>z", "<cmd>Telekasten panel<CR>")

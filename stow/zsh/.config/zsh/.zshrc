@@ -215,7 +215,7 @@ alias 7='cd +7'
 alias 8='cd +8'
 alias 9='cd +9'
 
-fpath=($fpath ~/.dotfiles/roles/zsh/files/autoloaded)
+fpath=($fpath ~/.config/zsh/autoloaded)
 autoload fo
 autoload git_current_branch
 autoload custom-backward-delete-word
@@ -242,7 +242,7 @@ alias gtb='go test -bench=. -benchmem -cpuprofile cprofile.out -memprofile mprof
 alias cprof='go tool pprof -http=":9001" cprofile.out'
 alias mprof='go tool pprof -http=":9001" mprofile.out'
 
-alias ez='n ~/.dotfiles/roles/zsh/files/zsh/.zshrc;source $ZDOTDIR/.zshrc'
+alias ez='n ~/.config/zsh/.zshrc;source $ZDOTDIR/.zshrc'
 alias nx='n ~/.Xresources;xrdb -m ~/.Xresources;exit'
 alias .d='cd ~/.dotfiles'
 alias ma='make'
