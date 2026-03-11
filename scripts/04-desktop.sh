@@ -51,4 +51,19 @@ else
     print_info "ActivityWatch already exists at $AW_DIR. Skipping download."
 fi
 
+
+# Setup Slack
+if ! command -v slack &> /dev/null; then
+    print_info "Installing Slack"
+    if command -v snap &> /dev/null; then
+        sudo snap install slack --classic
+        print_success "Slack installed via snap."
+    else
+        print_warning "Snap is not installed. Skipping Slack installation."
+        print_info "You can install Slack manually from https://slack.com/downloads/linux"
+    fi
+else
+    print_info "Slack is already installed."
+fi
+
 print_success "Phase 04: Desktop Applications completed"
