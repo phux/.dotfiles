@@ -1,9 +1,6 @@
-.PHONY: all provision update-versions
+.PHONY: all provision
 
 all: provision
 
 provision:
 	./install.sh
-
-update-versions:
-	./scripts/update-versions.sh
