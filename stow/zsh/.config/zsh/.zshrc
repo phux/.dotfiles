@@ -401,6 +401,7 @@ fi
 source ~/.zshenv
 
 # opencode
-export PATH=/home/jm/.opencode/bin:$PATH
+export PATH=$HOME/.opencode/bin:$PATH
+alias oc="opencode"
 
 ssh-add -q ~/.ssh/id_ed25519

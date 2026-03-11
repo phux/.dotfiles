@@ -73,7 +73,8 @@
       "hideContextPercentage": false
     },
     "showCitations": true,
-    "loadingPhrases": "off"
+    "loadingPhrases": "off",
+    "errorVerbosity": "full"
   },
   "tools": {
     "useRipgrep": true,

@@ -9,7 +9,6 @@ npm-debug.log
 .vagrant/
 playbook.retry
 /.gtm/
-coc-settings.json
 
 # Stow directories that contain state/secrets
 stow/gemini-cli/.gemini/*
