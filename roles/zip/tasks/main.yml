@@ -1,8 +1,0 @@
----
-- name: Install zip and unzip
-  become: true
-  ansible.builtin.package:
-    name:
-      - zip
-      - unzip
-    state: present

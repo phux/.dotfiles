@@ -1,6 +1,0 @@
----
-- name: Install URxvt
-  become: true
-  ansible.builtin.package:
-    name: rxvt-unicode
-    state: present
