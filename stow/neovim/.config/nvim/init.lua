@@ -880,7 +880,7 @@ require("lazy").setup(
             end
         },
         {
-            "nvim-treesitter/nvim-treesitter",
+            "nvim-treesitter/nvim-treesitter", lazy = true,
             -- build = ":TSUpdate",
             config = function()
                 require("nvim-treesitter.configs").setup {
@@ -1231,7 +1231,7 @@ require("lazy").setup(
                 })
             end,
             dependencies = {
-                { "nvim-treesitter/nvim-treesitter", lazy = true }
+                 { "nvim-treesitter/nvim-treesitter", lazy = true } 
             }
         },
         {
@@ -1277,7 +1277,7 @@ require("lazy").setup(
         },
         -- {
         --     "lukas-reineke/headlines.nvim",
-        --     dependencies = "nvim-treesitter/nvim-treesitter",
+        --     dependencies = { "nvim-treesitter/nvim-treesitter", lazy = true },
         --     config = true, -- or `opts = {}`
         -- },
         {
