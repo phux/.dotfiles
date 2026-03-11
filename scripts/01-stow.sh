@@ -4,13 +4,15 @@ source ./lib/helpers.sh
 print_info "Phase 01: Symlinking dotfiles using GNU Stow"
 
 # Ensure common target directories exist
-mkdir -p "$HOME/.config"
-mkdir -p "$HOME/.local/bin"
-mkdir -p "$HOME/.local/share"
-mkdir -p "$HOME/tools"
-mkdir -p "$HOME/tmp/screenshots"
-mkdir -p "$HOME/.gemini"
-mkdir -p "$HOME/.tmux"
+ensure_dir "$HOME/.config"
+ensure_dir "$HOME/.local/bin"
+ensure_dir "$HOME/.local/share"
+ensure_dir "$HOME/tools"
+ensure_dir "$HOME/tmp/screenshots"
+ensure_dir "$HOME/.gemini"
+ensure_dir "$HOME/.config/opencode"
+ensure_dir "$HOME/.claude"
+ensure_dir "$HOME/.tmux"
 
 STOW_DIR="$(pwd)/stow"
 

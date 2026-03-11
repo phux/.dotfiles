@@ -84,15 +84,9 @@ else
 fi
 
 # Setup Tfenv
-if [ ! -d "$HOME/.tfenv" ]; then
-	print_info "Installing Tfenv"
-	git clone --depth=1 https://github.com/tfutils/tfenv.git "$HOME/.tfenv"
-	ln -sf "$HOME/.tfenv/bin/tfenv" "$HOME/.local/bin/tfenv"
-	ln -sf "$HOME/.tfenv/bin/terraform" "$HOME/.local/bin/terraform"
-else
-	print_info "Updating Tfenv"
-	(cd "$HOME/.tfenv" && git pull)
-fi
+clone_or_update_repo "https://github.com/tfutils/tfenv.git" "$HOME/.tfenv" 1
+symlink_bin "$HOME/.tfenv/bin/tfenv" tfenv
+symlink_bin "$HOME/.tfenv/bin/terraform" terraform
 # Setup FNM (Fast Node Manager)
 if ! command -v fnm &>/dev/null; then
 	print_info "Installing FNM (Node Version Manager)"
@@ -112,9 +106,44 @@ if command -v fnm &>/dev/null; then
 fi
 
 # Setup global npm packages
-if command -v npm &>/dev/null; then
-	print_info "Installing global npm packages (yarn, neovim, linters, etc.)"
-	npm install -g yarn neovim instant-markdown-d live-server jsonlint fixjson markdownlint-cli serverless stylelint write-good remark-lint remark-preset-lint-recommended tern eslint tern-lint typescript eslint-config-standard eslint-plugin-node eslint-plugin-promise eslint-plugin-standard htmllint textlint textlint-rule-write-good eslint_d csslint prettier @fsouza/prettierd lua-fmt @ocular-d/vale-bin markmap-cli
+if command_exists npm; then
+	print_info "Installing global npm packages"
+	NPM_GLOBALS=(
+		yarn
+		neovim
+		instant-markdown-d
+		live-server
+		jsonlint
+		fixjson
+		markdownlint-cli
+		serverless
+		stylelint
+		write-good
+		remark-lint
+		remark-preset-lint-recommended
+		tern
+		eslint
+		tern-lint
+		typescript
+		eslint-config-standard
+		eslint-plugin-node
+		eslint-plugin-promise
+		eslint-plugin-standard
+		htmllint
+		textlint
+		textlint-rule-write-good
+		eslint_d
+		csslint
+		prettier
+		@fsouza/prettierd
+		lua-fmt
+		@ocular-d/vale-bin
+		markmap-cli
+		@anthropic-ai/claude-code
+		@google/gemini-cli
+		opencode-ai
+	)
+	npm install -g "${NPM_GLOBALS[@]}"
 else
 	print_warning "npm is not available yet in this session. Skipping npm global packages."
 fi
@@ -138,34 +167,13 @@ if ! command -v nvim &>/dev/null; then
 	install_packages ninja-build gettext libtool libtool-bin autoconf automake cmake g++ pkg-config unzip curl luajit
 
 	# Clone and build
-	mkdir -p "$HOME/tools"
-	if [ ! -d "$HOME/tools/neovim" ]; then
-		git clone https://github.com/neovim/neovim.git "$HOME/tools/neovim"
-	else
-		(cd "$HOME/tools/neovim" && git pull)
-	fi
+	ensure_dir "$HOME/tools"
+	clone_or_update_repo "https://github.com/neovim/neovim.git" "$HOME/tools/neovim"
 
-	(cd "$HOME/tools/neovim" && make CMAKE_BUILD_TYPE=Release && sudo make install)
+	(cd "$HOME/tools/neovim" && make CMAKE_BUILD_TYPE=Release && sudo make install) || print_error "Failed to build Neovim"
 	print_success "Neovim installed."
 else
 	print_info "Neovim is already installed."
-fi
-
-print_info "Installing AI CLI tools (Claude, Gemini, Opencode)"
-
-# Install Claude (via npm if fnm/node is available)
-if command -v npm &>/dev/null; then
-	print_info "Installing @anthropic-ai/claude-code globally via npm"
-	npm install -g @anthropic-ai/claude-code
-
-	print_info "Installing @google/gemini-cli globally via npm"
-	npm install -g @google/gemini-cli
-
-	print_info "Installing opencode-ai globally via npm"
-	npm install -g opencode-ai
-else
-	print_info "npm is not available yet in this session. Skipping npm-based AI tools."
-	print_info "You may need to run 'fnm install 20 && fnm use 20' and then run this script again."
 fi
 
 print_success "Phase 03: Development Environments completed"

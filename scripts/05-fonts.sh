@@ -4,7 +4,7 @@ source ./lib/helpers.sh
 print_info "Phase 05: Fonts"
 
 FONT_DIR="$HOME/.local/share/fonts"
-mkdir -p "$FONT_DIR"
+ensure_dir "$FONT_DIR"
 
 if [ ! -f "$FONT_DIR/HackNerdFontMono-Regular.ttf" ]; then
     print_info "Installing Hack Nerd Font..."

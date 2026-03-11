@@ -14,6 +14,11 @@ coc-settings.json
 # Stow directories that contain state/secrets
 stow/gemini-cli/.gemini/*
 !stow/gemini-cli/.gemini/settings.json
+stow/claude-code/.claude/*
+!stow/claude-code/.claude/settings.json
+!stow/claude-code/.claude/.gitkeep
+stow/opencode/.opencode/*
+!stow/opencode/.opencode/.gitkeep
 stow/tmux/.tmux/plugins/
 stow/zsh/.config/zsh/.zsh_history
 stow/zsh/.config/zsh/.zcompdump*

@@ -20,14 +20,12 @@ sudo apt update
 install_packages "${SHELL_PACKAGES[@]}"
 
 # Handle bat -> batcat and fd -> fdfind aliases for Ubuntu
-if command -v batcat &> /dev/null && [ ! -L "$HOME/.local/bin/bat" ]; then
-    ln -s "$(command -v batcat)" "$HOME/.local/bin/bat"
-    print_info "Created symlink for batcat -> bat"
+if command_exists batcat; then
+    symlink_bin batcat bat
 fi
 
-if command -v fdfind &> /dev/null && [ ! -L "$HOME/.local/bin/fd" ]; then
-    ln -s "$(command -v fdfind)" "$HOME/.local/bin/fd"
-    print_info "Created symlink for fdfind -> fd"
+if command_exists fdfind; then
+    symlink_bin fdfind fd
 fi
 
 # Change default shell to zsh safely
@@ -41,16 +39,10 @@ fi
 
 # Clone TPM for tmux
 TPM_DIR="$HOME/.tmux/plugins/tpm"
-if [ ! -d "$TPM_DIR" ]; then
-    print_info "Cloning Tmux Plugin Manager (TPM)"
-    git clone https://github.com/tmux-plugins/tpm "$TPM_DIR"
-else
-    print_info "TPM already installed. Updating..."
-    (cd "$TPM_DIR" && git pull)
-fi
+clone_or_update_repo "https://github.com/tmux-plugins/tpm" "$TPM_DIR"
 
 # Install Sheldon plugin manager
-if ! command -v sheldon &> /dev/null; then
+if ! command_exists sheldon; then
     print_info "Installing Sheldon for zsh plugin management..."
     curl --proto '=https' -fLsS https://rossmacarthur.github.io/install/crate.sh \
     | bash -s -- --repo rossmacarthur/sheldon --to "$HOME/.local/bin"
