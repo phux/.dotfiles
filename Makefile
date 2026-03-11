@@ -1,16 +1,28 @@
-all: bootstrap
+.PHONY: all provision stow shell dev desktop fonts verify update
 
-bootstrap:
-	ansible-galaxy collection install community.crypto
-	# ansible-galaxy collection install community.general
-	sudo apt update
-	sudo apt install software-properties-common
-	sudo add-apt-repository --yes --update ppa:ansible/ansible
-	sudo apt install ansible
-
-update-versions:
-	./scripts/update-versions.sh
+all: provision
 
 provision:
-	# ansible-playbook -i ./hosts playbook.yml -e ansible_python_interpreter=/usr/bin/python3 --tags="tf"
-	ansible-playbook -i ./hosts playbook.yml -e ansible_python_interpreter=/usr/bin/python3
+	./install.sh
+
+stow:
+	./install.sh 01-stow
+
+shell:
+	./install.sh 02-shell
+
+dev:
+	./install.sh 03-dev-tools
+
+desktop:
+	./install.sh 04-desktop
+
+fonts:
+	./install.sh 05-fonts
+
+verify:
+	./install.sh 06-verify
+
+update:
+	git pull
+	./install.sh 01-stow

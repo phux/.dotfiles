@@ -1,0 +1,35 @@
+{
+  "version": 1,
+  "total_calls": 4,
+  "total_input_tokens": 122,
+  "total_output_tokens": 709,
+  "total_duration_ms": 33.92242001427803,
+  "tool_stats": {
+    "index_project": {
+      "calls": 1,
+      "input_tokens": 26,
+      "output_tokens": 482,
+      "total_duration_ms": 2.5694080104585737
+    },
+    "get_smart_tree": {
+      "calls": 2,
+      "input_tokens": 45,
+      "output_tokens": 173,
+      "total_duration_ms": 6.622383996727876
+    },
+    "search_text": {
+      "calls": 1,
+      "input_tokens": 51,
+      "output_tokens": 54,
+      "total_duration_ms": 24.730628007091582
+    }
+  },
+  "embedding_calls": 0,
+  "embedding_total_latency_ms": 0.0,
+  "embedding_total_texts": 0,
+  "embedding_total_saturation_sum": 0.0,
+  "indexing_lock_contention_ms": 0.0,
+  "indexing_chunk_fragmentation_sum": 0.0,
+  "indexing_total_chunks": 0,
+  "indexing_total_files": 0
+}

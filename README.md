@@ -1,8 +1,8 @@
 # ✨ My Awesome Dotfiles ✨
 
-Welcome to my personal dotfiles repository! 🎉 This collection is designed to streamline and automate the setup of my development environment across various machines, all powered by [Ansible](https://www.ansible.com/).
+Welcome to my personal dotfiles repository! 🎉 This collection is designed to streamline and automate the setup of my development environment on Ubuntu LTS machines.
 
-These dotfiles are more than just configuration files; they are the blueprint for a consistent, efficient, and delightful computing experience. Say goodbye to manual setups and hello to instant productivity!
+Recently migrated from Ansible, this repository now uses **shell scripts + GNU Stow** for a faster, simpler, and more robust configuration experience. These dotfiles are the blueprint for a consistent, efficient, and delightful computing experience. Say goodbye to manual setups and hello to instant productivity!
 
 ## 📖 Table of Contents
 
@@ -13,52 +13,38 @@ These dotfiles are more than just configuration files; they are the blueprint fo
   - [🛠️ System & Desktop Utilities](#️-system--desktop-utilities)
 - [🚀 Getting Started](#-getting-started)
   - [Requirements](#requirements)
-- [🔧 Customization](#-customization)
-- [📂 Project Structure](#-project-structure)
+  - [Installation Steps](#installation-steps)
+- [📂 Architecture & Project Structure](#-architecture--project-structure)
+- [🔧 Conventions & Customization](#-conventions--customization)
 - [🤝 Contributing](#-contributing)
 
 ## 🚀 Features at a Glance
 
-This repository automates the installation and configuration of a wide array of essential tools and applications, ensuring you have everything you need right out of the box. Here's a peek at what's included:
+This repository automates the installation and configuration of a wide array of essential tools and applications:
 
 ### 💻 Development Essentials
 
-- **`pip`**: Python package installer for all your Pythonic needs.
-- **`rbenv` & `ruby`**: Seamless Ruby version management and installation.
-- **`nvm` & `node`**: Effortless Node.js version management and setup.
-- **`gvm` & `go`**: Go version management for robust Go development.
-- **`composer`**: The indispensable dependency manager for PHP projects.
-- **`pyenv`**: Manage multiple Python versions with ease.
-- **`tfenv`**: Keep your Terraform versions organized and switch between them effortlessly.
-- **`docker`**: Get up and running with containerization for modern application deployment.
-- **`php` & `golang` linters**: Maintain high code quality with integrated linting for PHP and Go.
+- **Languages**: Node.js (via `fnm`), Python (via `pyenv`), Go, PHP, and Ruby.
+- **Docker**: Containerization for modern application deployment.
+- **AI CLIs**: Tools for interacting with Anthropic's Claude and Google's Gemini models.
 
 ### 🐚 Shell & Terminal Power-Ups
 
 - **`zsh`**: A powerful shell, supercharged with `sheldon` for lightning-fast plugin management.
 - **`tmux`**: Boost your terminal productivity with persistent sessions and window management.
-- **`git`**: Enhanced Git configurations, including `delta` for beautiful diffs, `git-fuzzy` for fuzzy finding, and `gitui` for a terminal UI.
-- **`rg` (Ripgrep)**: Blazing-fast recursive line-oriented search tool.
-- **`fd`**: A user-friendly and incredibly fast alternative to the `find` command.
-- **`terminal`**: Core terminal configurations, including Xresources for a personalized look and feel.
-- **`urxvt`**: Fine-tuned configurations for the rxvt-unicode terminal emulator.
+- **`git` & Utilities**: Enhanced Git configurations, `gitui`, and fuzzy matching tools.
+- **`rg` (Ripgrep) & `fd`**: Blazing-fast search and find tools.
+- **Terminal Emulators**: Core terminal configurations and `urxvt` setup.
 
 ### ✍️ Editors & IDEs
 
-- **`neovim`**: A highly customized Neovim setup, packed with plugins and configurations for an unparalleled editing experience (linters, beautiful color schemes, and more!).
-- **`gemini-cli`**: Specific configurations for the Gemini CLI, enhancing your command-line interactions.
+- **`neovim`**: Built from source and heavily customized for an unparalleled editing experience.
 
 ### 🛠️ System & Desktop Utilities
 
-- **`common`**: Foundational system configurations, including `rofi` for a sleek application launcher and refined `sudo` settings.
-- **`font`**: Ensures you have all the necessary fonts for a visually appealing terminal and UI.
-- **`i3`**: My preferred configuration for the i3 tiling window manager, maximizing screen real estate and workflow efficiency.
-- **`keepassxc`**: Secure and convenient password management integration.
-- **`mysql`**: Essential MySQL client configurations for database interactions.
-- **`nix`**: Configurations for the powerful Nix package manager.
-- **`pandoc`**: Streamlined document conversion setups.
-- **`pkg_manager`**: Automated package manager configurations (e.g., `apt` for Debian/Ubuntu-based systems).
-- **`zip`**: Handy configurations for archive management.
+- **`i3` & `rofi`**: My preferred configuration for the i3 tiling window manager and application launcher.
+- **Fonts**: Beautiful UI and terminal fonts, including Hack Nerd Font.
+- **Desktop Apps**: Slack, ActivityWatch, and other essential desktop utilities.
 
 ## 🚀 Getting Started
 
@@ -66,49 +52,64 @@ Ready to transform your development environment? Follow these simple steps:
 
 ### Requirements
 
-- **Ansible**: This project relies on Ansible for provisioning. Ensure you have it installed on your system.
+- A fresh or existing Ubuntu LTS installation.
+- `git` installed to clone the repository.
+- `make` (optional, for convenience).
 
 ### Installation Steps
 
 1. **Clone the repository:**
 
-  ```bash
-  git clone https://github.com/phux/.dotfiles.git
-  cd .dotfiles
-  ```
+   ```bash
+   git clone https://github.com/phux/.dotfiles.git
+   cd .dotfiles
+   ```
 
-2. **Install Ansible and dependencies:**
+2. **Run the full installation:**
 
-  ```bash
-  make
-  ```
+   This command will execute all installation phases sequentially, installing packages and applying your dotfiles using GNU Stow.
 
-  This command will install Ansible and any other necessary Python dependencies required to run the playbooks on your system.
+   ```bash
+   make
+   # or
+   ./install.sh
+   ```
 
-3. **Install on localhost (use with caution!):**
+3. **Run a specific phase (optional):**
 
-  This step will apply all the configurations directly to your current machine. **Please be aware that this process will overwrite your existing configuration files, and no automatic backup is made. It's highly recommended to back up your current dotfiles before proceeding.**
+   If you only want to apply symlinks or install specific tools, you can run individual scripts instead of the full installer:
 
-  ```bash
-  make provision
-  ```
+   ```bash
+   # Apply dotfiles only (stow symlinks)
+   bash scripts/01-stow.sh
 
-## 🔧 Customization
+   # Install just development tools
+   bash scripts/03-dev-tools.sh
+   ```
 
-These dotfiles are designed to be flexible! Feel free to tailor them to your unique preferences:
+## 📂 Architecture & Project Structure
 
-- **Variables:** Adjust global settings by modifying the variables in `group_vars/all/vars.yml`.
-- **Roles:** Dive into the `roles/` directory to understand how each application is configured. You can easily enable, disable, or modify specific tasks within these roles to suit your needs.
+This project uses a clean, three-layer system to keep everything organized and idempotent:
 
-## 📂 Project Structure
+1. **`install.sh`** — The main entry point. Iterates and executes all scripts in `scripts/` sequentially.
+2. **`lib/helpers.sh`** — Shared, idempotent helper functions (e.g., `install_packages`, `clone_or_update_repo`, formatting tools) to prevent raw apt/echo usage.
+3. **`scripts/`** — Numbered phases executed in order:
+   - `00-core.sh` — Sudo keepalive, apt update, base dependencies.
+   - `01-stow.sh` — Symlinks all packages in `stow/` to your home directory using GNU Stow with backup-based conflict resolution.
+   - `02-shell.sh` — Zsh, tmux, CLI tools, sheldon, TPM.
+   - `03-dev-tools.sh` — Languages, Docker, neovim from source, AI CLIs.
+   - `04-desktop.sh` — i3, rofi, desktop apps, ActivityWatch, Slack.
+   - `05-fonts.sh` — Hack Nerd Font installation.
 
-This repository follows a standard Ansible project structure:
+**`stow/`** — Each subdirectory is a Stow package mirroring your home directory `~`. All packages are applied at once via `stow -t ~ -d ./stow */`.
 
-- **`playbook.yml`**: The main Ansible playbook that orchestrates the execution of roles.
-- **`roles/`**: Contains individual Ansible roles, each responsible for configuring a specific tool or aspect of the system.
-- **`group_vars/`**: Stores variables that apply to groups of hosts. `group_vars/all/vars.yml` contains global variables.
-- **`hosts`**: The Ansible inventory file, defining the hosts to be managed.
-- **`Makefile`**: Provides convenient shortcuts for common tasks like installing dependencies and running the playbook.
+## 🔧 Conventions & Customization
+
+These dotfiles are designed to be flexible and safe to re-run!
+
+- **Idempotency**: All scripts must be safe to re-run. Use helper functions like `pkg_installed` and `clone_or_update_repo` rather than raw install commands.
+- **Adding Configurations**: New tool configurations go in `stow/<toolname>/` mirroring the home directory path (e.g., `stow/foo/.config/foo/config`).
+- **Extending Installation**: New installation phases get a new numbered script in `scripts/`. Always use helper functions from `lib/helpers.sh` for logging and package management.
 
 ## 🤝 Contributing
 
