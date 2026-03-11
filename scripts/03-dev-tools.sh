@@ -73,6 +73,28 @@ fi
 
 
 # Setup AI Tools
+
+# Setup Neovim
+if ! command -v nvim &> /dev/null; then
+    print_info "Installing Neovim from source"
+    
+    # Install build dependencies
+    install_packages ninja-build gettext libtool libtool-bin autoconf automake cmake g++ pkg-config unzip curl luajit
+    
+    # Clone and build
+    mkdir -p "$HOME/tools"
+    if [ ! -d "$HOME/tools/neovim" ]; then
+        git clone https://github.com/neovim/neovim.git "$HOME/tools/neovim"
+    else
+        (cd "$HOME/tools/neovim" && git pull)
+    fi
+    
+    (cd "$HOME/tools/neovim" && make CMAKE_BUILD_TYPE=Release && sudo make install)
+    print_success "Neovim installed."
+else
+    print_info "Neovim is already installed."
+fi
+
 print_info "Installing AI CLI tools (Claude, Gemini, Opencode)"
 
 # Install Claude (via npm if fnm/node is available)
