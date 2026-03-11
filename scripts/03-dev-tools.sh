@@ -71,4 +71,28 @@ if ! command -v fnm &> /dev/null; then
     curl -fsSL https://fnm.vercel.app/install | bash -s -- --install-dir "$HOME/.local/bin" --skip-shell
 fi
 
+
+# Setup AI Tools
+print_info "Installing AI CLI tools (Claude, Gemini, Opencode)"
+
+# Install Claude (via npm if fnm/node is available)
+if command -v npm &> /dev/null; then
+    print_info "Installing @anthropic-ai/claude-code globally via npm"
+    npm install -g @anthropic-ai/claude-code
+    
+    print_info "Installing @google/gemini-cli globally via npm"
+    npm install -g @google/gemini-cli
+else
+    print_info "npm is not available yet in this session. Skipping npm-based AI tools."
+    print_info "You may need to run 'fnm install 20 && fnm use 20' and then run this script again."
+fi
+
+# Install Opencode
+if [ ! -d "$HOME/.opencode" ]; then
+    print_info "Installing Opencode"
+    curl -fsSL https://raw.githubusercontent.com/janmollowitz/opencode/main/install.sh | bash
+else
+    print_info "Opencode is already installed."
+fi
+
 print_success "Phase 03: Development Environments completed"
