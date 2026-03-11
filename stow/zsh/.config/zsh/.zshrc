@@ -79,7 +79,7 @@ export LESS_TERMCAP_md="${yellow}";
 
 alias sdn='sudo shutdown now -h'
 # alias update="sudo apt update && sudo apt upgrade -y && npm -g install tree-sitter && .d && git pull && make provision;sheldon lock --update;nvim +PackerUpdate +PackerCompile"
-alias update="sudo apt update && sudo apt upgrade -y && .d && make provision;sheldon lock --update;"
+alias update=".d && make provision;sheldon lock --update;"
 alias agi='sudo apt install'
 
 alias vu='vagrant up'
@@ -403,4 +403,4 @@ source ~/.zshenv
 # opencode
 export PATH=/home/jm/.opencode/bin:$PATH
 
-. "$HOME/.local/share/../bin/env"
+ssh-add -q ~/.ssh/id_ed25519

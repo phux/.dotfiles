@@ -52,14 +52,54 @@ get_latest_github_release() {
     curl -s "https://api.github.com/repos/$repo/releases/latest" | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/'
 }
 
+command_exists() {
+    command -v "$1" &> /dev/null
+}
+
+ensure_dir() {
+    local dir="$1"
+    if [ ! -d "$dir" ]; then
+        print_info "Creating directory: $dir"
+        mkdir -p "$dir"
+    fi
+}
+
+symlink_bin() {
+    local target_cmd="$1"
+    local link_name="$2"
+    local bin_dir="$HOME/.local/bin"
+    ensure_dir "$bin_dir"
+    
+    local target_path
+    if [[ "$target_cmd" == /* ]]; then
+        target_path="$target_cmd"
+    else
+        target_path=$(command -v "$target_cmd")
+    fi
+
+    if [ -n "$target_path" ] && [ ! -L "$bin_dir/$link_name" ]; then
+        print_info "Symlinking $target_cmd to $bin_dir/$link_name"
+        ln -sf "$target_path" "$bin_dir/$link_name"
+    elif [ -z "$target_path" ]; then
+        print_warning "Target command '$target_cmd' not found for symlinking."
+    fi
+}
+
 clone_or_update_repo() {
     local url="$1"
     local dest="$2"
+    local depth="${3:-}"
+    
+    local depth_flag=""
+    if [ -n "$depth" ]; then
+        depth_flag="--depth $depth"
+    fi
+
     if [ ! -d "$dest" ]; then
         print_info "Cloning $url to $dest"
-        git clone "$url" "$dest"
+        git clone $depth_flag "$url" "$dest" || print_error "Failed to clone $url"
     else
         print_info "Updating $dest"
-        (cd "$dest" && git pull --quiet)
+        (cd "$dest" && git pull --quiet) || print_warning "Failed to update $dest"
     fi
 }

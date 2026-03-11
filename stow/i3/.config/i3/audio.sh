@@ -1,17 +1,14 @@
 #!/bin/bash
 
-# ACTIVESYNC=$(pacmd list-sinks | grep \* | awk '{print $3}')
-#ACTIVESYNC=3
-
 case "$1" in
     raise)
-         pactl set-sink-volume @DEFAULT_SINK@ +5%
+         wpctl set-volume -l 1.5 @DEFAULT_AUDIO_SINK@ 5%+
          ;;
     lower)
-         pactl set-sink-volume @DEFAULT_SINK@ -5%
+         wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-
          ;;
 
     mute)
-         pactl set-sink-mute @DEFAULT_SINK@ toggle
+         wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle
          ;;
 esac

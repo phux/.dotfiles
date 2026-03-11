@@ -19,13 +19,27 @@ fi
 
 source lib/helpers.sh
 
+# Determine which scripts to run
+if [ "$#" -gt 0 ]; then
+    SCRIPTS=()
+    for arg in "$@"; do
+        if [ -f "scripts/${arg}.sh" ]; then
+            SCRIPTS+=("scripts/${arg}.sh")
+        else
+            print_warning "Script scripts/${arg}.sh not found. Skipping."
+        fi
+    done
+else
+    SCRIPTS=(scripts/*.sh)
+fi
+
 # Run core scripts in sequence
-for script in scripts/*.sh; do
-    if [ -x "$script" ]; then
+for script in "${SCRIPTS[@]}"; do
+    if [ -f "$script" ]; then
         print_info "Executing $script..."
         bash "$script"
     else
-        print_warning "Skipping $script (not executable)."
+        print_warning "Skipping $script (not found)."
     fi
 done
 
