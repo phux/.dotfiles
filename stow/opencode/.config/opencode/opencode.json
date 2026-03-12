@@ -3,7 +3,6 @@
   "model": "google/gemini-3.1-pro-preview",
   "autoupdate": true,
   "small_model": "google/gemini-3-flash-preview",
-  "default_agent": "planner",
   "agent": {
     "planner": {
       "description": "Expert planning specialist for complex features and refactoring. Use for generating PRD from initial user queries",
@@ -12,7 +11,7 @@
       "prompt": "{file:~/.config/opencode/skills/product-manager/SKILL.md}",
       "tools": {
         "read": true,
-        "bash": true,
+        "bash": false,
         "write": false,
         "edit": false
       }
@@ -24,7 +23,7 @@
       "prompt": "{file:~/.config/opencode/skills/architect/SKILL.md}",
       "tools": {
         "read": true,
-        "bash": true,
+        "bash": false,
         "write": false,
         "edit": false
       }
@@ -95,6 +94,30 @@
       "description": "Create a detailed implementation plan for complex features",
       "template": "{file:~/.config/opencode/commands/plan.md}\n\n$ARGUMENTS",
       "agent": "planner",
+      "subtask": true
+    },
+    "review": {
+      "description": "Review code changes for correctness, quality, and potential issues",
+      "template": "Review the following code changes. Identify bugs, code smells, security issues, and improvement opportunities. Be specific and actionable.\n\n$ARGUMENTS",
+      "agent": "reviewer",
+      "subtask": true
+    },
+    "debug": {
+      "description": "Diagnose and fix failing tests, stack traces, or runtime errors",
+      "template": "Debug the following issue. Identify the root cause, explain why it occurs, and provide a fix.\n\n$ARGUMENTS",
+      "agent": "debugger",
+      "subtask": true
+    },
+    "test": {
+      "description": "Generate a test suite for the specified code or feature",
+      "template": "Generate a comprehensive test suite for the following. Cover happy paths, edge cases, and error conditions.\n\n$ARGUMENTS",
+      "agent": "qa-engineer",
+      "subtask": true
+    },
+    "document": {
+      "description": "Generate documentation for code, APIs, or features",
+      "template": "Generate clear, thorough documentation for the following. Include usage examples where appropriate.\n\n$ARGUMENTS",
+      "agent": "documenter",
       "subtask": true
     }
   }
