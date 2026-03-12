@@ -30,6 +30,9 @@ DESKTOP_PACKAGES=(
     libpulse-dev
     pulseaudio-utils
     pavucontrol
+    v4l-utils
+    xdg-desktop-portal
+    xdg-desktop-portal-gtk
 )
 
 install_packages "${DESKTOP_PACKAGES[@]}"
@@ -113,4 +116,12 @@ else
     print_info "Obsidian is already installed."
 fi
 
+
+
+# Setup Camera Permissions for Snaps
+if command_exists snap; then
+    print_info "Connecting Snap camera interfaces..."
+    sudo snap connect chromium:camera || true
+    sudo snap connect slack:camera || true
+fi
 print_success "Phase 04: Desktop Applications completed"

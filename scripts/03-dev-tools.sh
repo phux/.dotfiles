@@ -61,6 +61,7 @@ if ! command -v docker &>/dev/null; then
 	sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 
 	sudo usermod -aG docker "$USER"
+	sudo usermod -aG video "$USER"
 	print_success "Docker installed. Added $USER to docker group."
 else
 	print_info "Docker is already installed."
