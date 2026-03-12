@@ -548,7 +548,7 @@ require("lazy").setup(
         {
             'Wansmer/treesj',
             keys = { '<space>k', '<space>j', },
-            dependencies = { 'nvim-treesitter/nvim-treesitter' },
+            dependencies = { 'nvim-treesitter/nvim-treesitter', branch = "master" },
             config = function()
                 require('treesj').setup({
                     use_default_keymaps = false,
@@ -880,7 +880,7 @@ require("lazy").setup(
             end
         },
         {
-            "nvim-treesitter/nvim-treesitter", lazy = true,
+            "nvim-treesitter/nvim-treesitter", branch = "master", lazy = true,
             -- build = ":TSUpdate",
             config = function()
                 require("nvim-treesitter.configs").setup {
@@ -955,7 +955,7 @@ require("lazy").setup(
         {
             'simondrake/gomodifytags',
             ft = "go",
-            dependencies = { 'nvim-treesitter/nvim-treesitter', build = ':TSUpdate' },
+            dependencies = { 'nvim-treesitter/nvim-treesitter', branch = "master", build = ':TSUpdate' },
             opts = {
                 transformation = "camelcase",
                 skip_unexported = true,
@@ -1231,7 +1231,7 @@ require("lazy").setup(
                 })
             end,
             dependencies = {
-                 { "nvim-treesitter/nvim-treesitter", lazy = true } 
+                 { "nvim-treesitter/nvim-treesitter", branch = "master", lazy = true } 
             }
         },
         {

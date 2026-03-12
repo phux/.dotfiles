@@ -31,6 +31,10 @@ DESKTOP_PACKAGES=(
     pulseaudio-utils
     pavucontrol
     v4l-utils
+    v4l2loopback-dkms
+    v4l2-relayd
+    libcamhal-ipu7x
+    gstreamer1.0-icamera
     xdg-desktop-portal
     xdg-desktop-portal-gtk
 )

@@ -96,6 +96,12 @@
       "agent": "planner",
       "subtask": true
     },
+    "plan-spec": {
+      "description": "Create a detailed implementation plan for complex features",
+      "template": "Create a technical implementation plan for the given feature description. Use @architect, @implmenter, @reviewer, @qa-engineer and @documenter in this order for the following task.\n\n$ARGUMENTS",
+      "agent": "planner",
+      "subtask": true
+    },
     "review": {
       "description": "Review code changes for correctness, quality, and potential issues",
       "template": "Review the following code changes. Identify bugs, code smells, security issues, and improvement opportunities. Be specific and actionable.\n\n$ARGUMENTS",
