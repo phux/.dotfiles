@@ -189,9 +189,9 @@ bindsym $MOD+Shift+o exec --no-startup-id ~/.local/bin/nerd-dictation.sh en_giga
 bindsym $MOD+t exec --no-startup-id ~/.local/bin/nerd-dictation.sh de_small
 bindsym $MOD+Shift+t exec --no-startup-id ~/.local/bin/nerd-dictation.sh de_large
 bindsym $MOD+p exec --no-startup-id keepassxc
-bindsym $mod+Shift+p exec --no-startup-id sh ~/.config/i3/i3lock.sh
+bindsym $mod+Shift+p exec --no-startup-id ~/.config/i3/i3lock.sh
 # bindsym Print exec gnome-screenshot -i
-bindsym --release $mod+s exec --no-startup-id sh ~/.config/i3/screenshot.sh
+bindsym --release $mod+s exec --no-startup-id ~/.config/i3/screenshot.sh
 
 bindsym $mod+Shift+a exec --no-startup-id autorandr -c
 
