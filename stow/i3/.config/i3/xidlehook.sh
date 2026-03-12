@@ -8,11 +8,9 @@ export PRIMARY_DISPLAY="$(xrandr | awk '/ primary/{print $1}')"
 
 # Run xidlehook
 xidlehook \
-  --not-when-fullscreen \
-  --not-when-audio \
-  --timer 600 \
-    'notify-send --urgency=low -t 2000 "LOCKING screen in 30 seconds"' \
+  --timer 170 \
+    'notify-send --urgency=low -t 2000 "LOCKING screen in 10 seconds"' \
     '' \
-  --timer 30 \
+  --timer 10 \
     'sh ~/.config/i3/i3lock.sh' \
     ''
