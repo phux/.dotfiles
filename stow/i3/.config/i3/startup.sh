@@ -9,6 +9,7 @@ chromium-browser &
 urxvtcd -q -o -f
 
 # ~/.config/i3/wp-changer.sh &
+~/.local/bin/battery-notify.sh &
 
 dropbox start -i &
 
