@@ -36,8 +36,7 @@
         "ATLASSIAN_EMAIL": "$JIRA_EMAIL",
         "ATLASSIAN_URL": "$JIRA_URL",
         "ATLASSIAN_API_TOKEN": "$JIRA_API_TOKEN"
-      },
-      "trust": true
+      }
     }
   },
   "general": {
