@@ -51,3 +51,6 @@ Explicit instructions on how the system should behave when things go wrong (e.g.
 
 ### Out of Scope
 A clear, definitive list of features deliberately excluded from this build.
+
+## Next Agent
+The next agent is the @architect. After my approval of the PRD, hand over the PRD to the architect.
