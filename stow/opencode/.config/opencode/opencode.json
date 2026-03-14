@@ -33,6 +33,12 @@
       "agent": "planner",
       "subtask": true
     },
+    "bughunter": {
+      "description": "Scan for logic errors, security flaws, and code smells",
+      "template": "{file:~/.config/opencode/commands/bughunter.md}\n\n$ARGUMENTS",
+      "agent": "reviewer",
+      "subtask": true
+    },
     "review": {
       "description": "Review code changes for correctness, quality, and potential issues",
       "template": "Review the following code changes. Identify bugs, code smells, security issues, and improvement opportunities. Be specific and actionable.\n\n$ARGUMENTS",
