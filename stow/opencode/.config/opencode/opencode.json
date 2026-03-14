@@ -80,6 +80,12 @@
       "template": "{file:~/.config/opencode/commands/perf-analysis.md}\n\n$ARGUMENTS",
       "agent": "perf-expert",
       "subtask": true
+    },
+    "optimize-prompt": {
+      "description": "Optimize a raw prompt for perfect AI consumption",
+      "template": "{file:~/.config/opencode/commands/optimize-prompt.md}\n\n$ARGUMENTS",
+      "agent": "prompt-engineer",
+      "subtask": true
     }
   }
 }

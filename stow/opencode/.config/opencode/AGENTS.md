@@ -25,6 +25,10 @@ For every coding request, you MUST strictly adhere to the **Understand-Plan-Impl
 * **ALWAYS before starting a task**: read `AGENTS.md` files from relevant subdirectories if existing to get a proper understanding of the business logic and constraints.
 * **ALWAYS before starting a task**: Check `docs/specs/INDEX.md` and the relevant subdirectories in `docs/specs/**/*.md` for relevant business logic specifications.
 
+## Phase 0: THE PROMPT QUALITY GATE
+* **Trigger Conditions**: Before initiating any task, evaluate the input. You MUST invoke `@prompt-engineer` if the request is vague, missing constraints, or requires assumptions.
+* **Action**: If triggered, HALT the loop and call the subagent: `@prompt-engineer: The current request fails the Quality Gate. Please interrogate the user to gather missing context and reconstruct this into a highly optimized, structurally perfect prompt before I proceed.`
+
 ## Phase 1: UNDERSTAND (Map the Territory)
 * **Goal**: Validate assumptions and map the codebase.
 * **Tools**: Use the best available tools.
@@ -104,6 +108,7 @@ The following subagents are available via `@mention`. Invoke them as described:
 | `@explorer-lite` | Need to find files/functions quickly → read-only codebase search |
 | `@implementer-lite` | Atomic single-file change in orchestrated loop |
 | `@orchestrator-lite` | Run a full automated dev loop from a spec document |
+| `@prompt-engineer` | User request is vague, complex, or unstructured → Interrogate user and generate an optimized, context-rich prompt |
 
 ---
 
