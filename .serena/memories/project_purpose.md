@@ -1,1 +1,0 @@
-This repository contains personal dotfiles designed to streamline and automate the setup of a development environment across various machines using Ansible. It aims to provide a consistent, efficient, and productive computing experience by automating the installation and configuration of essential tools and applications.
