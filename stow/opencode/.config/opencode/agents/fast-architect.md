@@ -8,6 +8,7 @@ tools:
   bash: false
   write: false
   edit: false
+  task: true
 ---
 
 # Role: Principal Software Architect

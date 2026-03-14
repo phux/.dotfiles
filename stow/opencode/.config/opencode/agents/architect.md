@@ -9,6 +9,7 @@ tools:
   bash: false
   write: false
   edit: false
+  task: true
   todowrite: true
   todoread: true
 ---

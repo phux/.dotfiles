@@ -8,6 +8,7 @@ tools:
   bash: true
   write: true
   edit: true
+  task: true
 ---
 
 # Role: Senior Systems Debugger

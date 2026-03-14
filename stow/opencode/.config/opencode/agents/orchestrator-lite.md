@@ -6,7 +6,8 @@ tools:
   read: true
   bash: false
   write: false
-  edit: false
+  edit: true
+  task: true
   todowrite: true
   todoread: true
 ---
