@@ -1,7 +1,13 @@
 ---
-name: logic-indexer
-description: Scans a directory or file list to produce a machine-readable manifest of all analyzable source files. Generates a checklist index under docs/specs/indexes/ for downstream logic extraction.
-version: 1.0.0
+description: Scans a directory to produce a machine-readable manifest of all analyzable source files. Generates checklist indexes for downstream logic extraction.
+mode: subagent
+model: google/gemini-3-flash-preview
+temperature: 0.1
+tools:
+  read: true
+  bash: true
+  write: true
+  edit: true
 ---
 
 # Role: Lead Repository Librarian

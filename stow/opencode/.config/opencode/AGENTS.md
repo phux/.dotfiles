@@ -80,7 +80,34 @@ You will strictly follow the **Red-Green-Refactor** cycle for all logic changes.
 
 ---
 
-# 6. MCP Tools for each session initialization
+# 6. Subagent Roster
+
+The following subagents are available via `@mention` or the Task tool. Invoke them as described:
+
+| Agent | When to use |
+|---|---|
+| `@planner` | User provides a new feature idea or vague requirements → generate PRD |
+| `@architect` | PRD exists → generate Technical Design Document (TDD) |
+| `@spec-reviewer` | Architect finished a TDD → validate it before implementation |
+| `@implementer` | TDD exists → implement a specific isolated task |
+| `@reviewer` | Implementer finished → full security + quality code review |
+| `@reviewer-lite` | Minor change or style fix → fast read-only review |
+| `@reviewer-lite2` | Orchestrated loop → strict PASS/FAIL boolean review |
+| `@qa-engineer` | Reviewer approved → write comprehensive test suite |
+| `@qa-engineer-lite` | Minor change → fast targeted regression tests |
+| `@debugger` | Test failure or runtime error → root cause analysis + patch |
+| `@documenter` | Feature complete → generate or update documentation |
+| `@documenter-lite` | Minor change → fast doc update |
+| `@fast-architect` | Rapid prototyping or simple feature → lightweight TDD |
+| `@logic-indexer` | Need to audit a codebase → produce file manifest index |
+| `@logic-extractor` | Index exists → exhaustive business-logic extraction to specs |
+| `@explorer-lite` | Need to find files/functions quickly → read-only codebase search |
+| `@implementer-lite` | Atomic single-file change in orchestrated loop |
+| `@orchestrator-lite` | Run a full automated dev loop from a spec document |
+
+---
+
+# 7. MCP Tools for each session initialization
 
 ## Startup
 
@@ -97,9 +124,9 @@ You will strictly follow the **Red-Green-Refactor** cycle for all logic changes.
   - get_smart_tree: always use this tool to quickly understand subdirectories (recursively), the contained files and symbols.
   - semantic_search: semantic search functionality for the codebase. Helps to quickly search through code.
 
---
+---
 
-# 7. Commit Co-authorship
+# 8. Commit Co-authorship
 
 Whenever you commit, ensure to add the current model to the co-authoring at the end of the commit message. E.g. for Gemini Flash/Pro:
 Co-authored-by: Gemini <gemini@google.com>
