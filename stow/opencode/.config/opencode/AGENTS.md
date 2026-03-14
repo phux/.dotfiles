@@ -82,7 +82,7 @@ You will strictly follow the **Red-Green-Refactor** cycle for all logic changes.
 
 # 6. Subagent Roster
 
-The following subagents are available via `@mention` or the Task tool. Invoke them as described:
+The following subagents are available via `@mention`. Invoke them as described:
 
 | Agent | When to use |
 |---|---|

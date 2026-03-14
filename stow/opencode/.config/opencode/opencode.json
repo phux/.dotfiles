@@ -74,6 +74,12 @@
       "template": "Perform a full business logic audit. Use @logic-extractor to exhaustively extract business logic from all unprocessed files in the index into structured specs under docs/specs/.\n\n$ARGUMENTS",
       "agent": "logic-extractor",
       "subtask": true
+    },
+    "perf-analysis": {
+      "description": "Analyze the codebase for performance bottlenecks and inefficiencies",
+      "template": "{file:~/.config/opencode/commands/perf-analysis.md}\n\n$ARGUMENTS",
+      "agent": "perf-expert",
+      "subtask": true
     }
   }
 }
