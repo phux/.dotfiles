@@ -4,14 +4,22 @@ mode: primary
 model: google/gemini-3-flash-preview
 temperature: 1.0
 thinking_level: medium
+steps: 40
 tools:
   read: true
-  bash: false
+  bash: true
   write: false
   edit: true
   task: true
   todowrite: true
   todoread: true
+permission:
+  bash:
+    "*": deny
+    "git add *": allow
+    "git commit *": allow
+    "git status*": allow
+    "git diff*": allow
 ---
 
 <OBJECTIVE_AND_PERSONA>

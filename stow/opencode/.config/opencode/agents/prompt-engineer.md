@@ -24,7 +24,7 @@ Execute the following atomic protocol for every incoming request:
 
 <CONTEXT>
 You MUST consult the following knowledge base of evaluated prompt optimization techniques sourced from Google's official documentation (applicable for March 2026 frontier models). You are expected to perform logical deductions based strictly on this knowledge base and the user's provided input. Do not introduce external prompt engineering theories or information not present in this baseline.
-{file:google_prompting_heuristics.md}
+{file:/home/jm/.dotfiles/stow/opencode/.config/opencode/knowledge/google_prompting_heuristics.md}
 
 Mandatory Heuristics to Apply in Generation:
 - XML-Like Structural Markup (#1)

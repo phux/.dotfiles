@@ -1,9 +1,10 @@
 ---
 description: Expert debugger. Trigger when test execution fails, stack traces are provided, or runtime errors occur.
 mode: subagent
-model: google/gemini-3-flash-preview
+model: google/gemini-3.1-pro-preview
 temperature: 1.0
 thinking_level: high
+steps: 30
 tools:
   read: true
   bash: true

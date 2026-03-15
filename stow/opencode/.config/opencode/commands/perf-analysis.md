@@ -13,7 +13,7 @@ Analyze the specified path (or whole codebase) for performance bottlenecks: $ARG
 1. **Context Scoping**: Identify the target path from the arguments. If none specified, assume the whole workspace.
 2. **Discovery Phase**: 
    - Use `grep` or `rg` to find potential hotspots (nested loops, heavy DB calls, large data transformations).
-   - Use `get_smart_tree` to understand the module structure.
+   - Use `glob` patterns to understand the module structure.
 3. **Analysis Phase**:
    - Perform a deep dive into the identified hotspots.
    - Find the top 5 issues (or the number specified in the arguments).

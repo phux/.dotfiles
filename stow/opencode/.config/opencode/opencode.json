@@ -1,12 +1,12 @@
 {
   "$schema": "https://opencode.ai/config.json",
   "model": "google/gemini-3-flash-preview",
-  "small_model": "google/gemini-3-flash-preview",
+  "small_model": "google/gemini-3.1-flash-lite-preview",
   "autoupdate": true,
   "command": {
     "full": {
-      "description": "Full pipeline: plan, architect, implement, review, test, and document",
-      "template": "Create a technical implementation plan for the given feature description, implement and test it. Use @architect, @spec-reviewer, @implementer, @reviewer, @qa-engineer and @documenter in this order for the following task.\n\n$ARGUMENTS",
+      "description": "Full pipeline: plan, architect, spec-review, implement, review, test, and document",
+      "template": "1. Use @planner to create a formal Product Requirements Document (PRD). STOP and wait for explicit user approval before proceeding to the next step.\n2. Once the PRD is approved, use @architect to create a Technical Design Document (TDD). Then use @spec-reviewer to validate the TDD. STOP and wait for explicit user approval of the reviewed plan before proceeding to implementation.\n3. After the plan is approved, implement and test it using @implementer, @reviewer, @qa-engineer and @documenter.\n\n$ARGUMENTS",
       "subtask": true
     },
     "fast-path": {
@@ -23,7 +23,7 @@
     },
     "fix": {
       "description": "Quickly diagnose and fix a specific bug or error",
-      "template": "Analyze the error, implement a fix, and review the changes. Use @debugger, @implementer, and @reviewer in this order.\n\n$ARGUMENTS",
+      "template": "Analyze the error, implement a fix, review the changes, and verify with a quick regression test. Use @debugger, @implementer, @reviewer, and @qa-engineer-lite in this order.\n\n$ARGUMENTS",
       "agent": "debugger",
       "subtask": true
     },
@@ -73,6 +73,12 @@
       "description": "Full business logic audit: extract all logic into specs",
       "template": "Perform a full business logic audit. Use @logic-extractor to exhaustively extract business logic from all unprocessed files in the index into structured specs under docs/specs/.\n\n$ARGUMENTS",
       "agent": "logic-extractor",
+      "subtask": true
+    },
+    "full-audit": {
+      "description": "Index all source files, then extract complete business logic specs",
+      "template": "Step 1: Use @logic-indexer to scan the given scope and produce a file manifest index under docs/specs/indexes/. Step 2: Use @logic-extractor to process every unchecked file in the index and save specs to docs/specs/.\n\n$ARGUMENTS",
+      "agent": "logic-indexer",
       "subtask": true
     },
     "perf-analysis": {

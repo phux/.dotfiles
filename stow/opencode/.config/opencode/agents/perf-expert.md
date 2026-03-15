@@ -1,8 +1,9 @@
 ---
 description: Specialist in identifying algorithmic inefficiencies, memory leaks, and I/O bottlenecks.
 mode: subagent
-model: anthropic/claude-sonnet-4-6
+model: anthropic/claude-opus-4-6
 temperature: 0.1
+thinking_level: high
 tools:
   read: true
   bash: true

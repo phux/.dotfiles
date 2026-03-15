@@ -4,6 +4,7 @@ mode: subagent
 model: google/gemini-3.1-pro-preview
 temperature: 1.0
 thinking_level: high
+steps: 50
 tools:
   read: true
   bash: true
