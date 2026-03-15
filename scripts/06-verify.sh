@@ -18,6 +18,7 @@ BINS=(
     npm
     go
     python3
+    gcloud
 )
 
 MISSING_BINS=()

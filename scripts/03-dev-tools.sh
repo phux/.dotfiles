@@ -160,6 +160,18 @@ else
 	print_info "Composer is already installed."
 fi
 
+# Setup gcloud CLI
+if ! command -v gcloud &>/dev/null; then
+	print_info "Installing gcloud CLI"
+	sudo mkdir -p /etc/apt/keyrings
+	curl -fsSL https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo gpg --dearmor -o /etc/apt/keyrings/cloud.google.gpg
+	echo "deb [signed-by=/etc/apt/keyrings/cloud.google.gpg] https://packages.cloud.google.com/apt cloud-sdk main" | sudo tee /etc/apt/sources.list.d/google-cloud-sdk.list >/dev/null
+	sudo apt-get update && sudo apt-get install -y google-cloud-cli
+	print_success "gcloud CLI installed."
+else
+	print_info "gcloud CLI is already installed."
+fi
+
 # Setup AI Tools
 
 # Setup Neovim

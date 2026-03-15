@@ -27,6 +27,7 @@ This repository automates the installation and configuration of a wide array of 
 - **Languages**: Node.js (via `fnm`), Python (via `pyenv`), Go, PHP, and Ruby.
 - **Docker**: Containerization for modern application deployment.
 - **AI CLIs**: Tools for interacting with Anthropic's Claude and Google's Gemini models.
+- **Cloud CLIs**: `gcloud` CLI for Google Cloud Platform management.
 
 ### 🐚 Shell & Terminal Power-Ups
 
