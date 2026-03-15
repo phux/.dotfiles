@@ -14,6 +14,13 @@
   <rule name="Agent Definitions">Agent prompts live in `stow/opencode/.config/opencode/agents/<name>.md`. Commands live in `stow/opencode/.config/opencode/commands/<name>.md`. Register commands in `opencode.json`.</rule>
 </project_conventions>
 
+<project_conventions_extended>
+  <rule name="Permission Model">In `opencode.json`, use granular permission patterns: `read` for file access, `bash` for shell commands. Default bash to `"allow"` but explicitly deny destructive patterns (`rm -rf *`: `"ask"`, `git push --force*`: `"deny"`). Never use a top-level `"*": "ask"` catch-all — it blocks agent autonomy.</rule>
+  <rule name="Agent Model Selection">Use `google/gemini-3.1-pro-preview` for agents requiring deep reasoning (spec-reviewer, multi-evaluator, primary model). Use `google/gemini-3.1-flash-lite-preview` for small/fast tasks. Specify model in agent frontmatter, not globally.</rule>
+  <rule name="Command Registration">Every command `.md` file in `commands/` MUST have a corresponding entry in `opencode.json` under `"command"`. The `template` field uses `{file:~/.config/opencode/commands/<name>.md}` for external templates.</rule>
+  <rule name="Gitignored Generated Files">Add lock files and generated artifacts (e.g., `lazy-lock.json`) to `.gitignore` rather than tracking them. They cause noisy diffs.</rule>
+</project_conventions_extended>
+
 <operational_protocol name="UPIV_LOOP">
   <description>For every coding request, you MUST strictly adhere to the Understand-Plan-Implement-Verify sequence.</description>
 
@@ -49,28 +56,6 @@
     </phase>
   </phases>
 </operational_protocol>
-
-<tdd_guardrails>
-  <description>Strictly follow the Red-Green-Refactor cycle for all logic changes.</description>
-  <cycle>
-    <step name="RED">Write a unit test that fails (or reproduces the bug).</step>
-    <step name="GREEN">Write the minimum code necessary to pass the test.</step>
-    <step name="REFACTOR">Clean up the code while keeping the test green. A test is a natural language specification that grounds your reasoning in objective reality.</step>
-  </cycle>
-</tdd_guardrails>
-
-<architectural_guidelines>
-  <monorepo_structure>
-    <rule name="Separation of Concerns">Strictly separate Logic from UI/CLI. Never import CLI code into Core.</rule>
-    <rule name="Build Filters">When running tests, use package filters (e.g., `pnpm --filter <pkg> test`) to avoid running the entire suite.</rule>
-  </monorepo_structure>
-  <documentation>
-    <rule name="No Fluff">Avoid comments like "Here is the code." Just provide the code.</rule>
-  </documentation>
-  <tech_stack>
-    <rule name="State">Prefer O(1) state lookups over array iterations.</rule>
-  </tech_stack>
-</architectural_guidelines>
 
 <negative_constraints>
   <constraint>DO NOT remove comments or TODOs unless explicitly asked.</constraint>
@@ -108,3 +93,8 @@
     <instruction>Retrospector: Maintain signal density. Propose removals of stale rules when adding new ones. Keep project-local `AGENTS.md` surgical.</instruction>
   </instructions>
 </compounding_protocol>
+
+<knowledge_index>
+  <description>Extended engineering guidelines live in modular files to keep this AGENTS.md under 100 lines.</description>
+  <entry file="docs/ai-knowledge/software-engineering.md">TDD guardrails, monorepo patterns, separation of concerns, O(1) state preference.</entry>
+</knowledge_index>
