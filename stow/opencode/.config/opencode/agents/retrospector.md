@@ -13,6 +13,14 @@ tools:
   task: false
   glob: true
   grep: true
+permission:
+  bash:
+    "*": deny
+    "git diff*": allow
+    "git log*": allow
+    "git status*": allow
+    "grep *": allow
+    "rg *": allow
 ---
 
 <OBJECTIVE_AND_PERSONA>

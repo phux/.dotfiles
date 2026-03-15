@@ -10,6 +10,8 @@ tools:
   bash: true
   write: true
   edit: true
+  glob: true
+  grep: true
 ---
 
 <OBJECTIVE_AND_PERSONA>

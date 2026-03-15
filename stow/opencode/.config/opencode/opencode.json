@@ -52,7 +52,6 @@
     "fast-path": {
       "description": "Rapidly design, implement, and test a feature using light models",
       "template": "Create a brief tech spec, implement it, and verify with tests. Use @fast-architect, @implementer, and @qa-engineer in this order.\n\n$ARGUMENTS",
-      "agent": "fast-architect",
       "subtask": true
     },
     "quick-update": {
@@ -70,7 +69,7 @@
     "brainstorm": {
       "description": "Orchestrate a 'Mixture of Experts' brainstorming session to find the perfect solution",
       "template": "{file:~/.config/opencode/commands/brainstorm.md}\n\n$ARGUMENTS",
-      "agent": "orchestrator",
+      "agent": "multi-evaluator",
       "subtask": true
     },
     "plan": {
@@ -117,14 +116,13 @@
     },
     "audit": {
       "description": "Full business logic audit: extract all logic into specs",
-      "template": "Perform a full business logic audit. Use @logic-extractor to exhaustively extract business logic from all unprocessed files in the index into structured specs under docs/specs/.\n\n$ARGUMENTS",
+      "template": "Perform a full business logic audit. Exhaustively extract business logic from all unprocessed files in the index into structured specs under docs/specs/.\n\n$ARGUMENTS",
       "agent": "logic-extractor",
       "subtask": true
     },
     "full-audit": {
       "description": "Index all source files, then extract complete business logic specs",
       "template": "Step 1: Use @logic-indexer to scan the given scope and produce a file manifest index under docs/specs/indexes/. Step 2: Use @logic-extractor to process every unchecked file in the index and save specs to docs/specs/.\n\n$ARGUMENTS",
-      "agent": "logic-indexer",
       "subtask": true
     },
     "perf-analysis": {
