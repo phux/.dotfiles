@@ -50,17 +50,8 @@
   <constraint>DO NOT leave "placeholder" code (e.g., `// ... rest of code`). Always provide the full functional block or a surgical edit.</constraint>
   <constraint>DO NOT use `rm -rf` or destructive commands without explicit user confirmation.</constraint>
   <constraint>DO NOT assume file paths; always verify with `ls`.</constraint>
+  <constraint>DO NOT use `git push` or any commands that interact with remote repositories. This is a strict prohibition.</constraint>
 </negative_constraints>
-
-<subagent_roster>
-  <tiers>
-    <tier name="Design">@planner, @architect, @fast-architect, @spec-reviewer</tier>
-    <tier name="Execution">@implementer, @implementer-flash, @debugger, @qa-engineer, @qa-engineer-flash</tier>
-    <tier name="Audit">@reviewer, @reviewer-flash, @reviewer-flash2, @perf-expert, @logic-extractor, @multi-evaluator</tier>
-    <tier name="Support">@logic-indexer, @explorer-flash, @documenter, @documenter-flash, @retrospector, @prompt-engineer</tier>
-    <tier name="Orchestration">@orchestrator, @orchestrator-flash</tier>
-  </tiers>
-</subagent_roster>
 
 <git_coauthorship>
   <rule>Whenever you commit to git, add the model FAMILY (not the specific model ID) to the co-authoring footer. Use ONLY these canonical values:</rule>
@@ -75,7 +66,6 @@
   <description>The system must learn from every session. Institutional knowledge must compound.</description>
   <instructions>
     <instruction>All agents: Flag learnable moments (anti-patterns, project-specific conventions discovered, recurring bugs) with `[CODIFY]: <lesson>` inline in your output.</instruction>
-    <instruction>Orchestrators: Always trigger `/retrospect` or prompt the user to run it after completing a major task or loop.</instruction>
     <instruction>Retrospector: Maintain signal density. Propose removals of stale rules when adding new ones. Keep project-local `AGENTS.md` surgical.</instruction>
   </instructions>
 </compounding_protocol>

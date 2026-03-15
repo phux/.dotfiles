@@ -19,7 +19,7 @@
       "git status*": "allow",
       "git diff*": "allow",
       "rm -rf *": "ask",
-      "git push --force*": "deny"
+      "git push*": "deny"
     },
     "doom_loop": "ask"
   },
