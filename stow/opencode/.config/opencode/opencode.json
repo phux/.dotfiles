@@ -3,6 +3,46 @@
   "model": "google/gemini-3.1-pro-preview",
   "small_model": "google/gemini-3.1-flash-lite-preview",
   "autoupdate": true,
+  "permission": {
+    "*": "ask",
+    "read": {
+      "*": "allow",
+      "*.env": "deny",
+      "*credentials*": "deny",
+      "*secret*": "deny"
+    },
+    "edit": "allow",
+    "write": "allow",
+    "bash": {
+      "*": "ask",
+      "git add *": "allow",
+      "git commit *": "allow",
+      "git status*": "allow",
+      "git diff*": "allow",
+      "rm -rf *": "deny",
+      "git push --force*": "deny"
+    },
+    "doom_loop": "ask"
+  },
+  "compaction": {
+    "auto": true,
+    "prune": true,
+    "reserved": 10000
+  },
+  "watcher": {
+    "ignore": [
+      "node_modules/**",
+      "dist/**",
+      "build/**",
+      ".git/**",
+      "*.lock"
+    ]
+  },
+  "instructions": [
+    "CONTRIBUTING.md",
+    "docs/specs/INDEX.md",
+    "AGENTS.md"
+  ],
   "command": {
     "full": {
       "description": "Full SDLC: PRD -> TDD -> Implement -> Test -> Document -> Retrospect",
