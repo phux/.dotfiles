@@ -4,7 +4,6 @@
   "small_model": "google/gemini-3.1-flash-lite-preview",
   "autoupdate": true,
   "permission": {
-    "*": "ask",
     "read": {
       "*": "allow",
       "*.env": "deny",
@@ -14,12 +13,12 @@
     "edit": "allow",
     "write": "allow",
     "bash": {
-      "*": "ask",
+      "*": "allow",
       "git add *": "allow",
       "git commit *": "allow",
       "git status*": "allow",
       "git diff*": "allow",
-      "rm -rf *": "deny",
+      "rm -rf *": "ask",
       "git push --force*": "deny"
     },
     "doom_loop": "ask"
