@@ -11,6 +11,8 @@ tools:
   write: false
   edit: false
   task: false
+  glob: true
+  grep: true
 ---
 
 <OBJECTIVE_AND_PERSONA>

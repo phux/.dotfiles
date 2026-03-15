@@ -9,6 +9,11 @@
   </core_mandates>
 </persona>
 
+<project_conventions>
+  <rule name="Stow Structure">All application configs live under `stow/<app-name>/.config/<app-name>/`. Never create config files outside this structure.</rule>
+  <rule name="Agent Definitions">Agent prompts live in `stow/opencode/.config/opencode/agents/<name>.md`. Commands live in `stow/opencode/.config/opencode/commands/<name>.md`. Register commands in `opencode.json`.</rule>
+</project_conventions>
+
 <operational_protocol name="UPIV_LOOP">
   <description>For every coding request, you MUST strictly adhere to the Understand-Plan-Implement-Verify sequence.</description>
 
@@ -72,92 +77,27 @@
   <constraint>DO NOT leave "placeholder" code (e.g., `// ... rest of code`). Always provide the full functional block or a surgical edit.</constraint>
   <constraint>DO NOT use `rm -rf` or destructive commands without explicit user confirmation.</constraint>
   <constraint>DO NOT assume file paths; always verify with `ls`.</constraint>
+  <constraint>DO NOT add `glob: true` or `grep: true` to agent frontmatter for agents with `mode: primary` — primary agents delegate search to @explorer-lite via `task: true`.</constraint>
 </negative_constraints>
 
 <subagent_roster>
-  <description>The following subagents are available via `@mention`. Invoke them as described.</description>
-  <agents>
-    <!-- Design Tier: High Reasoning & Strategic Planning -->
-    <agent name="@planner">
-      <when_to_use>User provides a new feature idea or vague requirements → generate PRD</when_to_use>
-    </agent>
-    <agent name="@architect">
-      <when_to_use>PRD exists → generate Technical Design Document (TDD)</when_to_use>
-    </agent>
-    <agent name="@fast-architect">
-      <when_to_use>Rapid prototyping or simple feature → lightweight TDD</when_to_use>
-    </agent>
-    <agent name="@spec-reviewer">
-      <when_to_use>Architect finished a TDD → validate it before implementation</when_to_use>
-    </agent>
-
-    <!-- Execution Tier: Implementation & Verification -->
-    <agent name="@implementer">
-      <when_to_use>TDD exists → implement a specific isolated task</when_to_use>
-    </agent>
-    <agent name="@debugger">
-      <when_to_use>Test failure or runtime error → root cause analysis + patch</when_to_use>
-    </agent>
-    <agent name="@qa-engineer">
-      <when_to_use>Reviewer approved → write comprehensive test suite</when_to_use>
-    </agent>
-    <agent name="@qa-engineer-lite">
-      <when_to_use>Minor change → fast targeted regression tests</when_to_use>
-    </agent>
-
-    <!-- Audit Tier: Security, Quality & Performance -->
-    <agent name="@reviewer">
-      <when_to_use>Implementer finished → full security + quality code review</when_to_use>
-    </agent>
-    <agent name="@reviewer-lite">
-      <when_to_use>Minor change or style fix → fast read-only review</when_to_use>
-    </agent>
-    <agent name="@reviewer-lite2">
-      <when_to_use>Orchestrated loop → strict PASS/FAIL boolean review</when_to_use>
-    </agent>
-    <agent name="@perf-expert">
-      <when_to_use>Deep dive into performance bottlenecks, memory leaks, and I/O inefficiencies</when_to_use>
-    </agent>
-    <agent name="@logic-extractor">
-      <when_to_use>Index exists → exhaustive business-logic extraction to specs</when_to_use>
-    </agent>
-
-    <!-- Support Tier: Indexing, Discovery & Documentation -->
-    <agent name="@logic-indexer">
-      <when_to_use>Need to audit a codebase → produce file manifest index</when_to_use>
-    </agent>
-    <agent name="@explorer-lite">
-      <when_to_use>Need to find files/functions quickly → read-only codebase search</when_to_use>
-    </agent>
-    <agent name="@documenter">
-      <when_to_use>Feature complete → generate or update documentation</when_to_use>
-    </agent>
-    <agent name="@documenter-lite">
-      <when_to_use>Minor change → fast doc update</when_to_use>
-    </agent>
-    <agent name="@retrospector">
-      <when_to_use>Session end → extract lessons, update project knowledge, prune stale rules</when_to_use>
-    </agent>
-    <agent name="@prompt-engineer">
-      <when_to_use>User request is vague, complex, or unstructured → Interrogate user and generate an optimized, context-rich prompt</when_to_use>
-    </agent>
-
-    <!-- Automation Tier: Autonomous Orchestration -->
-    <agent name="@orchestrator-lite">
-      <when_to_use>Run a full automated dev loop from a spec document</when_to_use>
-    </agent>
-    <agent name="@orchestrator">
-      <when_to_use>Full SDLC management: PRD → TDD → Implementation → Test → Document → Retrospect</when_to_use>
-    </agent>
-    <agent name="@implementer-lite">
-      <when_to_use>Atomic single-file change in orchestrated loop</when_to_use>
-    </agent>
-  </agents>
+  <description>Agents are defined in `agents/*.md`. Each file's frontmatter contains `description` and `mode`. Invoke via @agent-name.</description>
+  <tiers>
+    <tier name="Design">@planner, @architect, @fast-architect, @spec-reviewer</tier>
+    <tier name="Execution">@implementer, @implementer-lite, @debugger, @qa-engineer, @qa-engineer-lite</tier>
+    <tier name="Audit">@reviewer, @reviewer-lite, @reviewer-lite2, @perf-expert, @logic-extractor</tier>
+    <tier name="Support">@logic-indexer, @explorer-lite, @documenter, @documenter-lite, @retrospector, @prompt-engineer</tier>
+    <tier name="Orchestration">@orchestrator, @orchestrator-lite</tier>
+  </tiers>
 </subagent_roster>
 
 <git_coauthorship>
-  <rule>Whenever you commit to git, add the current model to the co-authoring footer of the commit message.</rule>
-  <example>Co-authored-by: Claude &lt;claude@anthropic.com&gt;</example>
+  <rule>Whenever you commit to git, add the model FAMILY (not the specific model ID) to the co-authoring footer. Use ONLY these canonical values:</rule>
+  <mapping>
+    <entry pattern="anthropic/claude-*">Co-authored-by: Claude <claude@anthropic.com></entry>
+    <entry pattern="google/gemini-*">Co-authored-by: Gemini <gemini@google.com></entry>
+  </mapping>
+  <anti_pattern>WRONG: "Co-authored-by: gemini-3-flash-preview <google/gemini-3-flash-preview>" — this leaks the specific model ID.</anti_pattern>
 </git_coauthorship>
 
 <compounding_protocol>
