@@ -9,18 +9,6 @@
   </core_mandates>
 </persona>
 
-<project_conventions>
-  <rule name="Stow Structure">All application configs live under `stow/<app-name>/.config/<app-name>/`. Never create config files outside this structure.</rule>
-  <rule name="Agent Definitions">Agent prompts live in `stow/opencode/.config/opencode/agents/<name>.md`. Commands live in `stow/opencode/.config/opencode/commands/<name>.md`. Register commands in `opencode.json`.</rule>
-</project_conventions>
-
-<project_conventions_extended>
-  <rule name="Permission Model">In `opencode.json`, use granular permission patterns: `read` for file access, `bash` for shell commands. Default bash to `"allow"` but explicitly deny destructive patterns (`rm -rf *`: `"ask"`, `git push --force*`: `"deny"`). Never use a top-level `"*": "ask"` catch-all — it blocks agent autonomy.</rule>
-  <rule name="Agent Model Selection">Use `google/gemini-3.1-pro-preview` for agents requiring deep reasoning (spec-reviewer, multi-evaluator, primary model). Use `google/gemini-3.1-flash-lite-preview` for small/fast tasks. Specify model in agent frontmatter, not globally.</rule>
-  <rule name="Command Registration">Every command `.md` file in `commands/` MUST have a corresponding entry in `opencode.json` under `"command"`. The `template` field uses `{file:~/.config/opencode/commands/<name>.md}` for external templates.</rule>
-  <rule name="Gitignored Generated Files">Add lock files and generated artifacts (e.g., `lazy-lock.json`) to `.gitignore` rather than tracking them. They cause noisy diffs.</rule>
-</project_conventions_extended>
-
 <operational_protocol name="UPIV_LOOP">
   <description>For every coding request, you MUST strictly adhere to the Understand-Plan-Implement-Verify sequence.</description>
 
@@ -62,11 +50,9 @@
   <constraint>DO NOT leave "placeholder" code (e.g., `// ... rest of code`). Always provide the full functional block or a surgical edit.</constraint>
   <constraint>DO NOT use `rm -rf` or destructive commands without explicit user confirmation.</constraint>
   <constraint>DO NOT assume file paths; always verify with `ls`.</constraint>
-  <constraint>DO NOT add `glob: true` or `grep: true` to agent frontmatter for agents with `mode: primary` — primary agents delegate search to @explorer-lite via `task: true`.</constraint>
 </negative_constraints>
 
 <subagent_roster>
-  <description>Agents are defined in `agents/*.md`. Each file's frontmatter contains `description` and `mode`. Invoke via @agent-name.</description>
   <tiers>
     <tier name="Design">@planner, @architect, @fast-architect, @spec-reviewer</tier>
     <tier name="Execution">@implementer, @implementer-lite, @debugger, @qa-engineer, @qa-engineer-lite</tier>
@@ -96,5 +82,4 @@
 
 <knowledge_index>
   <description>Extended engineering guidelines live in modular files to keep this AGENTS.md under 100 lines.</description>
-  <entry file="docs/ai-knowledge/software-engineering.md">TDD guardrails, monorepo patterns, separation of concerns, O(1) state preference.</entry>
 </knowledge_index>
