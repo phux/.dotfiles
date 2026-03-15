@@ -23,3 +23,4 @@ stow/zsh/.config/zsh/.zsh_history
 stow/zsh/.config/zsh/.zcompdump*
 !stow/gemini-cli/.gemini/hooks/
 !stow/gemini-cli/.gemini/hooks/*
+stow/neovim/.config/nvim/lazy-lock.json

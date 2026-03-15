@@ -358,13 +358,19 @@ require("lazy").setup(
             event = "VeryLazy",
         },
         {
+            'axkirillov/unified.nvim',
+            config = function()
+                require('unified').setup({})
+                vim.keymap.set('n', '<leader>do', require('unified').toggle, { desc = 'Toggle unified diff' })
+            end
+        },
+        {
             "sindrets/diffview.nvim",
             event = "VeryLazy",
             config = function()
                 require("diffview").setup({
                     enhanced_diff_hl = false,
                 })
-                vim.api.nvim_set_keymap("n", "<leader>do", ":DiffviewOpen<cr>", { noremap = true })
                 vim.api.nvim_set_keymap("n", "<leader>gs", ":DiffviewOpen<cr>", { noremap = true })
                 vim.api.nvim_set_keymap("n", "<leader>gc", ":DiffviewOpen<cr>", { noremap = true })
                 vim.keymap.set({ "n", "v" }, "<leader>df", ":DiffviewFileHistory", { noremap = true })
@@ -880,7 +886,9 @@ require("lazy").setup(
             end
         },
         {
-            "nvim-treesitter/nvim-treesitter", branch = "master", lazy = true,
+            "nvim-treesitter/nvim-treesitter",
+            branch = "master",
+            lazy = true,
             -- build = ":TSUpdate",
             config = function()
                 require("nvim-treesitter.configs").setup {
@@ -1231,7 +1239,7 @@ require("lazy").setup(
                 })
             end,
             dependencies = {
-                 { "nvim-treesitter/nvim-treesitter", branch = "master", lazy = true } 
+                { "nvim-treesitter/nvim-treesitter", branch = "master", lazy = true }
             }
         },
         {
