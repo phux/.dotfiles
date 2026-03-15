@@ -55,10 +55,10 @@
 <subagent_roster>
   <tiers>
     <tier name="Design">@planner, @architect, @fast-architect, @spec-reviewer</tier>
-    <tier name="Execution">@implementer, @implementer-lite, @debugger, @qa-engineer, @qa-engineer-lite</tier>
-    <tier name="Audit">@reviewer, @reviewer-lite, @reviewer-lite2, @perf-expert, @logic-extractor, @multi-evaluator</tier>
-    <tier name="Support">@logic-indexer, @explorer-lite, @documenter, @documenter-lite, @retrospector, @prompt-engineer</tier>
-    <tier name="Orchestration">@orchestrator, @orchestrator-lite</tier>
+    <tier name="Execution">@implementer, @implementer-flash, @debugger, @qa-engineer, @qa-engineer-flash</tier>
+    <tier name="Audit">@reviewer, @reviewer-flash, @reviewer-flash2, @perf-expert, @logic-extractor, @multi-evaluator</tier>
+    <tier name="Support">@logic-indexer, @explorer-flash, @documenter, @documenter-flash, @retrospector, @prompt-engineer</tier>
+    <tier name="Orchestration">@orchestrator, @orchestrator-flash</tier>
   </tiers>
 </subagent_roster>
 

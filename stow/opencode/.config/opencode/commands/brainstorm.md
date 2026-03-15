@@ -15,10 +15,13 @@ Assess the complexity of the request. Decide on the number of options ($N$) to g
 - **High Complexity**: 4-5 options (e.g., Architecture changes, security protocols)
 
 ## Step 2: Define Personas & Angles
-Formulate $N$ distinct perspectives to explore. Examples:
-- **Angle A**: The Minimalist (fewest lines, native APIs).
-- **Angle B**: The Scalability Expert (performance-first, O(1) lookups).
-- **Angle C**: The Maintainability Guru (clarity, documentation, standard patterns).
+Formulate $N$ distinct perspectives to explore based on the context. Examples:
+- **The Minimalist**: Fewest lines, native APIs.
+- **The Scalability Expert**: Performance-first, O(1) lookups.
+- **The Maintainability Guru**: Clarity, documentation, standard patterns.
+- **The Security Specialist**: Zero-trust, rigorous input validation, edge cases, safe defaults.
+- **The Performance Optimizer**: Low-latency, caching strategies, efficient memory layout, minimizing CPU cycles.
+- **The Future-Proofer**: Extensibility, loose coupling, interface-driven design. Anticipates changes.
 
 ## Step 3: Concurrent Generation
 Use the `task` tool to launch $N$ sub-agents in parallel.
@@ -26,7 +29,7 @@ Use the `task` tool to launch $N$ sub-agents in parallel.
 - Ensure they output their proposal clearly as "Option X".
 
 ## Step 4: Multi-Evaluation
-Once all tasks are complete, take the raw output of all $N$ options and pass them to the `@multi-evaluator` agent.
+Once all tasks are complete, take the raw output of all $N$ options and synthesize them yourself.
 
 ## Step 5: Presentation
-Present the `@multi-evaluator`'s final synthesized solution to the user.
+Present your final synthesized solution to the user.

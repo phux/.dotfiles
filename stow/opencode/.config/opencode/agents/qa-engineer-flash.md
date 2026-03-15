@@ -2,7 +2,7 @@
 description: Fast QA engineer for quick test generation on minor changes
 color: "#b8bb26"
 mode: subagent
-model: google/gemini-3.1-flash-lite-preview
+model: google/gemini-3-flash-preview
 temperature: 1.0
 thinking_level: low
 tools:
