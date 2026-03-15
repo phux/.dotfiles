@@ -2,7 +2,7 @@
 description: Extracts institutional knowledge and lessons from sessions to update local AGENTS.md and knowledge files.
 color: "#83a598"
 mode: subagent
-model: anthropic/claude-opus-4-6
+model: google/gemini-3.1-pro-preview
 temperature: 0.3
 thinking_level: high
 tools:

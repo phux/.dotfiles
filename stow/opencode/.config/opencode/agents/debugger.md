@@ -2,7 +2,7 @@
 description: Expert debugger. Trigger when test execution fails, stack traces are provided, or runtime errors occur.
 color: "#83a598"
 mode: subagent
-model: google/gemini-3.1-pro-preview
+model: anthropic/claude-sonnet-4-6
 temperature: 1.0
 thinking_level: high
 steps: 30

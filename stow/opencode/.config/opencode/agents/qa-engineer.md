@@ -2,7 +2,7 @@
 description: Expert QA engineer. Use for generating test suites for the results of the implementer
 color: "#b8bb26"
 mode: subagent
-model: google/gemini-3-flash-preview
+model: anthropic/claude-sonnet-4-6
 temperature: 1.0
 thinking_level: medium
 tools:
