@@ -67,6 +67,12 @@
       "agent": "debugger",
       "subtask": true
     },
+    "brainstorm": {
+      "description": "Orchestrate a 'Mixture of Experts' brainstorming session to find the perfect solution",
+      "template": "{file:~/.config/opencode/commands/brainstorm.md}\n\n$ARGUMENTS",
+      "agent": "orchestrator",
+      "subtask": true
+    },
     "plan": {
       "description": "Create a detailed implementation plan for complex features",
       "template": "{file:~/.config/opencode/commands/plan.md}\n\n$ARGUMENTS",

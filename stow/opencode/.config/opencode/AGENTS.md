@@ -85,7 +85,7 @@
   <tiers>
     <tier name="Design">@planner, @architect, @fast-architect, @spec-reviewer</tier>
     <tier name="Execution">@implementer, @implementer-lite, @debugger, @qa-engineer, @qa-engineer-lite</tier>
-    <tier name="Audit">@reviewer, @reviewer-lite, @reviewer-lite2, @perf-expert, @logic-extractor</tier>
+    <tier name="Audit">@reviewer, @reviewer-lite, @reviewer-lite2, @perf-expert, @logic-extractor, @multi-evaluator</tier>
     <tier name="Support">@logic-indexer, @explorer-lite, @documenter, @documenter-lite, @retrospector, @prompt-engineer</tier>
     <tier name="Orchestration">@orchestrator, @orchestrator-lite</tier>
   </tiers>
