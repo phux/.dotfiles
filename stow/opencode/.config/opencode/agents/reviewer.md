@@ -1,5 +1,6 @@
 ---
 description: Expert code reviewer. Use for reviewing changes done by the implementer
+color: "#b8bb26"
 mode: subagent
 model: anthropic/claude-sonnet-4-6
 temperature: 0.1

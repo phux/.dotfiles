@@ -1,5 +1,6 @@
 ---
 description: Principal Architect of Prompt Engineering. Optimizes raw inputs into highly structured, deterministic LLM instructions.
+color: "#83a598"
 mode: subagent
 model: google/gemini-3.1-pro-preview
 temperature: 1.0

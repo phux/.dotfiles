@@ -1,5 +1,6 @@
 ---
 description: Quick architecture specialist. Use for rapid prototyping and simple feature specs.
+color: "#fb4934"
 mode: subagent
 model: google/gemini-3-flash-preview
 temperature: 1.0
@@ -10,6 +11,8 @@ tools:
   write: false
   edit: false
   task: true
+  glob: true
+  grep: true
 ---
 
 <OBJECTIVE_AND_PERSONA>

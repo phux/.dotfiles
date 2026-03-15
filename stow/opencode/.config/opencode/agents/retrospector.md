@@ -1,5 +1,6 @@
 ---
 description: Extracts institutional knowledge and lessons from sessions to update local AGENTS.md and knowledge files.
+color: "#83a598"
 mode: subagent
 model: anthropic/claude-opus-4-6
 temperature: 0.3

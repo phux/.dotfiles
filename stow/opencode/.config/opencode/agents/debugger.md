@@ -1,5 +1,6 @@
 ---
 description: Expert debugger. Trigger when test execution fails, stack traces are provided, or runtime errors occur.
+color: "#83a598"
 mode: subagent
 model: google/gemini-3.1-pro-preview
 temperature: 1.0
@@ -11,6 +12,10 @@ tools:
   write: true
   edit: true
   task: true
+  glob: true
+  grep: true
+  todowrite: true
+  todoread: true
 ---
 
 <OBJECTIVE_AND_PERSONA>

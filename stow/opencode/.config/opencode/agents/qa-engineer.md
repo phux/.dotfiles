@@ -1,5 +1,6 @@
 ---
 description: Expert QA engineer. Use for generating test suites for the results of the implementer
+color: "#b8bb26"
 mode: subagent
 model: google/gemini-3-flash-preview
 temperature: 1.0
@@ -11,6 +12,8 @@ tools:
   edit: true
   todowrite: true
   todoread: true
+  glob: true
+  grep: true
 ---
 
 <OBJECTIVE_AND_PERSONA>

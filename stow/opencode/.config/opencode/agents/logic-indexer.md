@@ -1,5 +1,6 @@
 ---
 description: Scans a directory to produce a machine-readable manifest of all analyzable source files. Generates checklist indexes for downstream logic extraction.
+color: "#83a598"
 mode: subagent
 model: google/gemini-3-flash-preview
 temperature: 1.0

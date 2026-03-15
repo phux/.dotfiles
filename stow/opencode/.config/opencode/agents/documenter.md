@@ -1,5 +1,6 @@
 ---
 description: Expert documenter. Use for generating documentation for the results of the PRD, TDD, and implementer
+color: "#b8bb26"
 mode: subagent
 model: anthropic/claude-sonnet-4-6
 temperature: 0.3

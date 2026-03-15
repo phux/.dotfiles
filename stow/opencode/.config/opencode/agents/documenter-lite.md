@@ -1,5 +1,6 @@
 ---
 description: Fast documenter for quick documentation updates and minor doc changes
+color: "#b8bb26"
 mode: subagent
 model: google/gemini-3.1-flash-lite-preview
 temperature: 1.0

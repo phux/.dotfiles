@@ -1,5 +1,6 @@
 ---
 description: Fast code reviewer for minor changes and style checks. Returns strict PASS/FAIL only.
+color: "#b8bb26"
 mode: subagent
 model: google/gemini-3.1-flash-lite-preview
 temperature: 1.0

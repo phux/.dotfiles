@@ -1,7 +1,8 @@
 ---
 description: Expert reviewer for technical specifications. Verifies the output of @architect.
+color: "#b8bb26"
 mode: subagent
-model: google/gemini-3.1-pro-preview
+model: google/gemini-3-flash-preview
 temperature: 1.0
 thinking_level: high
 tools:

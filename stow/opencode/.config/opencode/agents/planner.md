@@ -1,5 +1,6 @@
 ---
 description: Expert planning specialist for complex features and refactoring. Use for generating PRD from initial user queries
+color: "#fb4934"
 mode: subagent
 model: anthropic/claude-opus-4-6
 temperature: 0.3

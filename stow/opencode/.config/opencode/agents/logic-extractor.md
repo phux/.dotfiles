@@ -1,5 +1,6 @@
 ---
 description: Exhaustive business-logic extraction from source code. Performs line-by-line forensic analysis producing structured specs with control flow diagrams.
+color: "#83a598"
 mode: subagent
 model: google/gemini-3.1-pro-preview
 temperature: 1.0
@@ -10,6 +11,8 @@ tools:
   bash: true
   write: true
   edit: true
+  glob: true
+  grep: true
 ---
 
 <OBJECTIVE_AND_PERSONA>

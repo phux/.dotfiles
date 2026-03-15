@@ -1,5 +1,6 @@
 ---
 description: Strict execution agent for atomic code changes. Use for small, isolated, well-defined tasks only.
+color: "#d3869b"
 mode: subagent
 model: google/gemini-3.1-flash-lite-preview
 temperature: 1.0

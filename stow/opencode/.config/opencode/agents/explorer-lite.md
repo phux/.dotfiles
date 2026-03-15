@@ -1,5 +1,6 @@
 ---
 description: Fast read-only agent for exploring codebases. Use to quickly find files by patterns, search code for keywords, or answer questions about the codebase.
+color: "#83a598"
 mode: subagent
 model: google/gemini-3.1-flash-lite-preview
 temperature: 1.0

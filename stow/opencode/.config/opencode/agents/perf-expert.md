@@ -1,5 +1,6 @@
 ---
 description: Specialist in identifying algorithmic inefficiencies, memory leaks, and I/O bottlenecks.
+color: "#83a598"
 mode: subagent
 model: anthropic/claude-opus-4-6
 temperature: 0.1

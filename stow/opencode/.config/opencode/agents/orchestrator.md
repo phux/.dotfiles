@@ -1,5 +1,6 @@
 ---
 description: End-to-end lifecycle orchestrator. Manages the full SDLC pipeline from requirements to compounding.
+color: "#83a598"
 mode: primary
 model: google/gemini-3-flash-preview
 temperature: 1.0
