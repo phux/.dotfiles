@@ -1,12 +1,13 @@
 {
   "$schema": "https://opencode.ai/config.json",
-  "model": "google/gemini-3-flash-preview",
+  "model": "google/gemini-3.1-pro-preview",
   "small_model": "google/gemini-3.1-flash-lite-preview",
   "autoupdate": true,
   "command": {
     "full": {
-      "description": "Full pipeline: plan, architect, spec-review, implement, review, test, and document",
-      "template": "1. Use @planner to create a formal Product Requirements Document (PRD). STOP and wait for explicit user approval before proceeding to the next step.\n2. Once the PRD is approved, use @architect to create a Technical Design Document (TDD). Then use @spec-reviewer to validate the TDD. STOP and wait for explicit user approval of the reviewed plan before proceeding to implementation.\n3. After the plan is approved, implement and test it using @implementer, @reviewer, @qa-engineer and @documenter.\n\n$ARGUMENTS",
+      "description": "Full SDLC: PRD -> TDD -> Implement -> Test -> Document -> Retrospect",
+      "template": "Execute the full development lifecycle for: $ARGUMENTS",
+      "agent": "orchestrator",
       "subtask": true
     },
     "fast-path": {
@@ -91,6 +92,18 @@
       "description": "Optimize a raw prompt for perfect AI consumption",
       "template": "{file:~/.config/opencode/commands/optimize-prompt.md}\n\n$ARGUMENTS",
       "agent": "prompt-engineer",
+      "subtask": true
+    },
+    "retrospect": {
+      "description": "Extract technical lessons and update project knowledge",
+      "template": "{file:~/.config/opencode/commands/retrospect.md}\n\n$ARGUMENTS",
+      "agent": "retrospector",
+      "subtask": true
+    },
+    "codify": {
+      "description": "Immediately codify a specific lesson into project knowledge",
+      "template": "{file:~/.config/opencode/commands/codify.md}\n\n$ARGUMENTS",
+      "agent": "retrospector",
       "subtask": true
     }
   }

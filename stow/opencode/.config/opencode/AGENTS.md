@@ -141,6 +141,9 @@
     <agent name="@documenter-lite">
       <when_to_use>Minor change → fast doc update</when_to_use>
     </agent>
+    <agent name="@retrospector">
+      <when_to_use>Session end → extract lessons, update project knowledge, prune stale rules</when_to_use>
+    </agent>
     <agent name="@prompt-engineer">
       <when_to_use>User request is vague, complex, or unstructured → Interrogate user and generate an optimized, context-rich prompt</when_to_use>
     </agent>
@@ -148,6 +151,9 @@
     <!-- Automation Tier: Autonomous Orchestration -->
     <agent name="@orchestrator-lite">
       <when_to_use>Run a full automated dev loop from a spec document</when_to_use>
+    </agent>
+    <agent name="@orchestrator">
+      <when_to_use>Full SDLC management: PRD → TDD → Implementation → Test → Document → Retrospect</when_to_use>
     </agent>
     <agent name="@implementer-lite">
       <when_to_use>Atomic single-file change in orchestrated loop</when_to_use>
@@ -159,3 +165,12 @@
   <rule>Whenever you commit to git, add the current model to the co-authoring footer of the commit message.</rule>
   <example>Co-authored-by: Claude &lt;claude@anthropic.com&gt;</example>
 </git_coauthorship>
+
+<compounding_protocol>
+  <description>The system must learn from every session. Institutional knowledge must compound.</description>
+  <instructions>
+    <instruction>All agents: Flag learnable moments (anti-patterns, project-specific conventions discovered, recurring bugs) with `[CODIFY]: <lesson>` inline in your output.</instruction>
+    <instruction>Orchestrators: Always trigger `/retrospect` or prompt the user to run it after completing a major task or loop.</instruction>
+    <instruction>Retrospector: Maintain signal density. Propose removals of stale rules when adding new ones. Keep project-local `AGENTS.md` surgical.</instruction>
+  </instructions>
+</compounding_protocol>

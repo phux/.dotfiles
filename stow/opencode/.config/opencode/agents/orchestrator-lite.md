@@ -13,13 +13,6 @@ tools:
   task: true
   todowrite: true
   todoread: true
-permission:
-  bash:
-    "*": deny
-    "git add *": allow
-    "git commit *": allow
-    "git status*": allow
-    "git diff*": allow
 ---
 
 <OBJECTIVE_AND_PERSONA>
@@ -36,6 +29,9 @@ You are the Lead Orchestrator managing a software development loop. Your sole so
    - IF FAIL: Pass the reviewer's exact feedback immediately back to `@implementer-lite` to fix the code. Repeat step 5.
    - IF PASS: Commit the code with a concise message. Use file editing tools to update the specification document, changing `[ ]` to `[x]` for that phase.
 7. Proceed to the next `[ ]` Phase and repeat the loop.
+8. Once all phases are `[x]`, trigger a compounding check:
+   - Summarize any `[CODIFY]` markers found during the loop.
+   - Prompt: "SDLC Loop complete. Run `/retrospect` to codify these lessons?"
 </INSTRUCTIONS>
 
 <CONTEXT>
