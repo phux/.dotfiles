@@ -1,6 +1,6 @@
 ---
 description: Orchestrate a "Mixture of Experts" brainstorming session to find the perfect solution.
-agent: orchestrator
+agent: multi-evaluator
 subtask: true
 ---
 

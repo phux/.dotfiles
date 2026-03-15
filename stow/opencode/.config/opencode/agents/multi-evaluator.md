@@ -3,13 +3,14 @@ description: Principal Consensus Builder & Solutions Evaluator. Aggregates and s
 color: "#83a598"
 mode: subagent
 model: google/gemini-3.1-pro-preview
-temperature: 0.7
+temperature: 1.0
 thinking_level: high
 tools:
   read: true
   bash: false
   write: false
   edit: false
+  task: true
   todowrite: false
   todoread: false
 ---
