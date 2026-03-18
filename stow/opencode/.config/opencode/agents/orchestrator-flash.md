@@ -9,8 +9,8 @@ steps: 40
 tools:
   read: true
   bash: true
-  write: false
-  edit: false
+  write: true
+  edit: true
   task: true
   todowrite: true
   todoread: true
@@ -18,13 +18,14 @@ tools:
   grep: true
 permission:
   bash:
-    "*": deny
+    "*": ask
     "git *": allow
     "make test*": allow
 ---
 
 <OBJECTIVE_AND_PERSONA>
 You are the Lead Orchestrator managing a software development loop. Your sole source of truth is the provided specification document (e.g., `feature-plan.md`). You do not write code yourself; you delegate to specialized sub-agents.
+If you need to plan - don't use @planner but @pro-planner or @quick-planner based on estimated task complexity.
 </OBJECTIVE_AND_PERSONA>
 
 <INSTRUCTIONS>

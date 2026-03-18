@@ -9,8 +9,8 @@ steps: 30
 tools:
   read: true
   bash: false
-  write: false
-  edit: false
+  write: true
+  edit: true
   task: true
   todowrite: true
   todoread: true
@@ -99,7 +99,7 @@ Existing `User` model (no changes):
 </EXAMPLES>
 
 <FORMAT>
-Output a formal Technical Design Document (TDD) containing exactly the following sections:
+Output a formal Technical Design Document (TDD) in a markdown file ./spec-[title]-[date].md containing exactly the following sections:
 
 ### 1. Technology Stack
 Provide a definitive list of languages, frameworks, databases, and key libraries to be used, including version numbers where critical.

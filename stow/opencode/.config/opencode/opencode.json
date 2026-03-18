@@ -3,6 +3,20 @@
   "model": "google/gemini-3.1-pro-preview",
   "small_model": "google/gemini-3-flash-preview",
   "autoupdate": true,
+  "mcp": {
+    "specs-mcp": {
+      "type": "local",
+      "command": [
+        "uv",
+        "--directory",
+        "/home/jm/code/specs-mcp",
+        "run",
+        "python",
+        "-m",
+        "specs_mcp.server"
+      ]
+    }
+  },
   "permission": {
     "read": {
       "*": "allow",

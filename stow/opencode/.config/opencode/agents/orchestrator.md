@@ -16,7 +16,7 @@ tools:
   grep: true
 permission:
   bash:
-    "*": deny
+    "*": ask
     "git *": allow
     "make test*": allow
 ---
