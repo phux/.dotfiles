@@ -130,9 +130,9 @@ alias gb="git for-each-ref --sort=committerdate refs/heads/ --format='%(committe
 alias gbd="git for-each-ref --sort=committerdate refs/heads/ --format='%(HEAD) %(color:yellow)%(refname:short)%(color:reset) - %(color:red)%(objectname:short)%(color:reset) - %(contents:subject) - %(authorname) (%(color:green)%(committerdate:relative)%(color:reset))'"
 
 alias gst='git status'
-alias gs='n +"DiffviewOpen"'
+alias gs='n +"CodeDiff"'
 
-alias gdt='n +"DiffviewOpen"'
+alias gdt='n +"CodeDiff"'
 # alias glog='n +GV'
 alias glog='gitui'
 
@@ -190,9 +190,7 @@ alias gl='git pull'
 # alias glog="git log --graph --abbrev-commit --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset'"
 alias glp="git log --first-parent --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset'"
 alias glm="git log --first-parent --merges --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset'"
-alias gm='git merge -X patience'
-alias gmh='git merge -X histogram'
-alias gmd='git merge'
+alias gm='git merge'
 alias gp='git push'
 alias gr='git restore'
 alias gss='git stash save'
