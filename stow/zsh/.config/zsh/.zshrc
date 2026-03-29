@@ -76,7 +76,6 @@ export NEXTWORD_DATA_PATH=~/tools/nextword-data/nextword-data-large
 export LESS_TERMCAP_md="${yellow}";
 
 # Don’t clear the screen after quitting a manual page.
-
 alias sdn='sudo shutdown now -h'
 # alias update="sudo apt update && sudo apt upgrade -y && npm -g install tree-sitter && .d && git pull && make provision;sheldon lock --update;nvim +PackerUpdate +PackerCompile"
 alias update=".d && make provision;sheldon lock --update;"
@@ -115,8 +114,8 @@ alias grep='grep --color'
 alias bat='batcat'
 alias c='batcat --style plain'
 # alias cat='batcat'
-export MANPAGER="sh -c 'col -bx | batcat -l man -p'"
-export MANROFFOPT="-c"
+# export MANPAGER="sh -c 'col -bx | batcat -l man -p'"
+# export MANROFFOPT="-c"
 
 # disable c-s and c-q freeze
 # stty stop ''
@@ -290,6 +289,8 @@ alias gfl="gemini --model gemini-2.5-flash-lite"
 alias g='gemini'
 alias gpro="gemini --model gemini-3.1-pro-preview"
 
+alias switch-opencode="$HOME/.dotfiles/stow/opencode/.config/opencode/bin/switch-opencode"
+
 if [ -f $XDG_CONFIG_HOME/zsh/notifyosd.zsh ]; then
     source $XDG_CONFIG_HOME/zsh/notifyosd.zsh
 fi
@@ -403,3 +404,6 @@ export PATH=$HOME/.opencode/bin:$PATH
 alias oc="opencode"
 
 ssh-add -q ~/.ssh/id_ed25519
+
+# bun completions
+[ -s "/home/jm/.bun/_bun" ] && source "/home/jm/.bun/_bun"

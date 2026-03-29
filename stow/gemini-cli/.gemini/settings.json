@@ -1,17 +1,5 @@
 {
   "mcpServers": {
-    "code-intelligence": {
-      "command": "uv",
-      "args": [
-        "--directory",
-        "/home/jm/code/code-intelligence",
-        "run",
-        "python",
-        "-m",
-        "code_intelligence.server"
-      ],
-      "trust": true
-    },
     "specs": {
       "command": "uv",
       "args": [
@@ -21,6 +9,16 @@
         "python",
         "-m",
         "specs_mcp.server"
+      ],
+      "trust": true
+    },
+    "code-search-mcp": {
+      "command": "uv",
+      "args": [
+        "--directory",
+        "/home/jm/code/code-search-mcp",
+        "run",
+        "code-search-mcp"
       ],
       "trust": true
     },
@@ -64,7 +62,6 @@
     "theme": "Default",
     "showModelInfoInChat": true,
     "accessibility": {
-      "disableLoadingPhrases": true,
       "enableLoadingPhrases": false
     },
     "hideBanner": true,
@@ -80,10 +77,6 @@
     "autoAccept": true
   },
   "experimental": {
-    "codebaseInvestigatorSettings": {
-      "enabled": true,
-      "maxNumTurns": 40
-    },
     "enableAgents": true,
     "plan": true
   },
@@ -112,7 +105,43 @@
             "timeout": 10000
           }
         ]
+      },
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"/home/jm/.gemini/hooks/gsd-check-update.js\""
+          }
+        ]
+      }
+    ],
+    "AfterTool": [
+      {
+        "matcher": "Bash|Edit|Write|MultiEdit|Agent|Task",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"/home/jm/.gemini/hooks/gsd-context-monitor.js\"",
+            "timeout": 10
+          }
+        ]
+      }
+    ],
+    "BeforeTool": [
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"/home/jm/.gemini/hooks/gsd-prompt-guard.js\"",
+            "timeout": 5
+          }
+        ]
       }
     ]
+  },
+  "statusLine": {
+    "type": "command",
+    "command": "node \"/home/jm/.gemini/hooks/gsd-statusline.js\""
   }
 }

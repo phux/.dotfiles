@@ -3,20 +3,15 @@
   "model": "google/gemini-3.1-pro-preview",
   "small_model": "google/gemini-3-flash-preview",
   "autoupdate": true,
-  "plugin": [
-    "true-mem"
-  ],
   "mcp": {
-    "specs-mcp": {
+    "code-search-mcp": {
       "type": "local",
       "command": [
         "uv",
         "--directory",
-        "/home/jm/code/specs-mcp",
+        "/home/jm/code/code-search-mcp",
         "run",
-        "python",
-        "-m",
-        "specs_mcp.server"
+        "code-search-mcp"
       ]
     },
     "atlassian-mcp": {
@@ -28,30 +23,6 @@
         "/home/jm/code/atlassian-mcp",
         "atlassian-mcp"
       ]
-    }
-  },
-  "permission": {
-    "read": {
-      "*": "allow",
-      "*.env": "deny",
-      "*credentials*": "deny",
-      "*secret*": "deny",
-      "~/.config/opencode/get-shit-done/*": "allow"
-    },
-    "edit": "allow",
-    "write": "allow",
-    "bash": {
-      "*": "allow",
-      "git add *": "allow",
-      "git commit *": "allow",
-      "git status*": "allow",
-      "git diff*": "allow",
-      "rm -rf *": "ask",
-      "git push*": "deny"
-    },
-    "doom_loop": "ask",
-    "external_directory": {
-      "~/.config/opencode/get-shit-done/*": "allow"
     }
   },
   "compaction": {
@@ -74,104 +45,6 @@
     "AGENTS.md"
   ],
   "command": {
-    "full": {
-      "description": "Full SDLC: PRD -> TDD -> Implement -> Test -> Document -> Retrospect",
-      "template": "Execute the full development lifecycle for: $ARGUMENTS",
-      "agent": "orchestrator"
-    },
-    "fast-path": {
-      "description": "Rapidly design, implement, and test a feature using light models",
-      "template": "Create a brief tech spec, implement it, and verify with tests. Use @fast-architect, @implementer-flash, and @qa-engineer in this order.\n\n$ARGUMENTS"
-    },
-    "quick-update": {
-      "description": "Minor code change, docs, and review using the Lite tier",
-      "template": "Apply the change, document it, and perform a quick review. Use @implementer, @documenter-flash, and @reviewer-flash.\n\n$ARGUMENTS",
-      "agent": "implementer"
-    },
-    "fix": {
-      "description": "Quickly diagnose and fix a specific bug or error",
-      "template": "Analyze the error, implement a fix, review the changes, and verify with a quick regression test. Use @debugger, @implementer, @reviewer, and @qa-engineer-flash in this order.\n\n$ARGUMENTS",
-      "agent": "debugger"
-    },
-    "brainstorm": {
-      "description": "Orchestrate a 'Mixture of Experts' brainstorming session to find the perfect solution",
-      "template": "{file:~/.config/opencode/commands/brainstorm.md}\n\n$ARGUMENTS",
-      "agent": "multi-evaluator"
-    },
-    "plan": {
-      "description": "Create a detailed implementation plan for complex features",
-      "template": "{file:~/.config/opencode/commands/plan.md}\n\n$ARGUMENTS",
-      "agent": "planner"
-    },
-    "bughunter": {
-      "description": "Scan for logic errors, security flaws, and code smells",
-      "template": "{file:~/.config/opencode/commands/bughunter.md}\n\n$ARGUMENTS",
-      "agent": "reviewer"
-    },
-    "review": {
-      "description": "Review code changes for correctness, quality, and potential issues",
-      "template": "Review the following code changes. Identify bugs, code smells, security issues, and improvement opportunities. Be specific and actionable.\n\n$ARGUMENTS",
-      "agent": "reviewer"
-    },
-    "debug": {
-      "description": "Diagnose and fix failing tests, stack traces, or runtime errors",
-      "template": "Debug the following issue. Identify the root cause, explain why it occurs, and provide a fix.\n\n$ARGUMENTS",
-      "agent": "debugger"
-    },
-    "test": {
-      "description": "Generate a test suite for the specified code or feature",
-      "template": "Generate a comprehensive test suite for the following. Cover happy paths, edge cases, and error conditions.\n\n$ARGUMENTS",
-      "agent": "qa-engineer"
-    },
-    "document": {
-      "description": "Generate documentation for code, APIs, or features",
-      "template": "Generate clear, thorough documentation for the following. Include usage examples where appropriate.\n\n$ARGUMENTS",
-      "agent": "documenter",
-      "subtask": true
-    },
-    "index": {
-      "description": "Generate a file index manifest for a directory or scope",
-      "template": "Scan the given scope and produce a checklist index of all analyzable source files. Save the index to docs/specs/indexes/.\n\n$ARGUMENTS",
-      "agent": "logic-indexer"
-    },
-    "audit": {
-      "description": "Full business logic audit: extract all logic into specs",
-      "template": "Perform a full business logic audit. Exhaustively extract business logic from all unprocessed files in the index into structured specs under docs/specs/.\n\n$ARGUMENTS",
-      "agent": "logic-extractor"
-    },
-    "full-audit": {
-      "description": "Index all source files, then extract complete business logic specs",
-      "template": "Step 1: Use @logic-indexer to scan the given scope and produce a file manifest index under docs/specs/indexes/. Step 2: Use @logic-extractor to process every unchecked file in the index and save specs to docs/specs/.\n\n$ARGUMENTS"
-    },
-    "perf-analysis": {
-      "description": "Analyze the codebase for performance bottlenecks and inefficiencies",
-      "template": "{file:~/.config/opencode/commands/perf-analysis.md}\n\n$ARGUMENTS",
-      "agent": "perf-expert"
-    },
-    "optimize-prompt": {
-      "description": "Optimize a raw prompt for perfect AI consumption",
-      "template": "{file:~/.config/opencode/commands/optimize-prompt.md}\n\n$ARGUMENTS",
-      "agent": "prompt-engineer",
-      "subtask": true
-    },
-    "retrospect": {
-      "description": "Extract technical lessons and update project knowledge",
-      "template": "{file:~/.config/opencode/commands/retrospect.md}\n\n$ARGUMENTS",
-      "agent": "retrospector",
-      "subtask": true
-    },
-    "codify": {
-      "description": "Immediately codify a specific lesson into project knowledge",
-      "template": "{file:~/.config/opencode/commands/codify.md}\n\n$ARGUMENTS",
-      "agent": "retrospector",
-      "subtask": true
-    },
-    "prd": {
-      "description": "Create a Product Requirements Document (PRD)",
-      "template": "{file:~/.config/opencode/commands/prd.md}\n\n$ARGUMENTS",
-      "agent": "planner",
-      "subtask": true
-    },
     "ticket-validator": {
       "description": "Grade ticket or PRD quality against project specs",
       "template": "{file:~/.config/opencode/commands/ticket-validator.md}\n\n$ARGUMENTS",
