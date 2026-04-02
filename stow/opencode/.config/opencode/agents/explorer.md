@@ -4,7 +4,7 @@ mode: subagent
 model: google/gemini-3-flash-preview
 hidden: false
 permission:
-  edit: deny
+  edit: allow
   bash: allow
 ---
 
@@ -74,11 +74,17 @@ Patterns the implementing agent should follow (naming, error handling, data acce
 ### Open Questions
 Any ambiguities the primary agent should clarify before implementing.
 
+## Output Persistence
+
+Before returning to the Orchestrator, you MUST write your complete intelligence report to the handoff path specified by the Orchestrator in your prompt (format: `.ai/handoffs/<session-id>/explorer.md`). Use the `write` tool — it will create parent directories automatically. This file will be passed as context to the `planner` agent. You MUST ONLY write to your designated handoff path — never modify source code files.
+
+After writing, include this line in your response: `Handoff persisted → <path>` (substituting the actual path).
+
 ## Directives
 - **Never guess file paths.** Verify with search tools before citing.
 - **Do not rely on grep or glob alone** for conceptual questions; `search_code` is your primary discovery engine. Use `rg` only for exact lexical matches.
 - **Synthesize, don't dump.** The report must be actionable, not a raw list of search results.
-- **Stay read-only.** You have no write permissions. Your bash permissions are strictly for read-only tools like `rg`. If you find yourself wanting to modify something, note it in Open Questions instead.
+- **Write permission is ONLY for your designated handoff path.** Never modify source code. Your `bash` permissions are strictly for read-only tools like `rg`.
 
 ### 🧠 Lessons Learned
 At the very end of your final report, you MUST include a list titled "Lessons learned:". Record any project-specific architectural patterns, undocumented quirks, effective semantic search strategies, or domain invariants discovered during this exploration session. These will be codified by the Orchestrator to improve future runs. If absolutely nothing new was learned, write "Lessons learned: None".

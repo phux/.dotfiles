@@ -25,6 +25,36 @@
       ]
     }
   },
+  "provider": {
+    "google": {
+      "models": {
+        "gemini-3.1-pro-preview": {
+          "variants": {
+            "low": {
+              "thinkingConfig": {
+                "thinkingLevel": "low"
+              }
+            },
+            "high": {
+              "thinkingConfig": {
+                "thinkingLevel": "high"
+              }
+            }
+          }
+        },
+        "gemini-3-flash-preview": {
+          "variants": {
+            "low": {
+              "thinkingConfig": {
+                "thinkingLevel": "low"
+              }
+            }
+          }
+        },
+        "gemini-3.1-flash-lite-preview": {}
+      }
+    }
+  },
   "compaction": {
     "auto": true,
     "prune": true,
@@ -45,6 +75,12 @@
     "AGENTS.md"
   ],
   "command": {
+    "bugs-analyzer": {
+      "description": "Analyze the last N bugfix commits for root cause clusters and hot spots",
+      "template": "{file:~/.config/opencode/commands/bugs-analyzer.md}\n\n$ARGUMENTS",
+      "agent": "bugs-analyzer",
+      "subtask": true
+    },
     "ticket-validator": {
       "description": "Grade ticket or PRD quality against project specs",
       "template": "{file:~/.config/opencode/commands/ticket-validator.md}\n\n$ARGUMENTS",

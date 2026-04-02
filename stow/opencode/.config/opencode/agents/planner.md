@@ -4,7 +4,7 @@ mode: subagent
 model: google/gemini-3.1-pro-preview
 hidden: false
 permission:
-  edit: deny
+  edit: allow
   bash: deny
 ---
 
@@ -42,9 +42,15 @@ Example:
 ### 🧪 Verification Strategy
 A brief note on how to verify this works (e.g., "Run unit tests for `auth/service.ts`").
 
+## Output Persistence
+
+Before returning to the Orchestrator, you MUST write your complete blueprint (the full formatted Markdown plan) to the handoff path specified by the Orchestrator in your prompt (format: `.ai/handoffs/<session-id>/planner.md`). Use the `write` tool — it will create parent directories automatically. This file will be presented to the user for approval and passed to the `implementer` agent. You MUST ONLY write to your designated handoff path — never modify source code files.
+
+After writing, include this line in your response: `Handoff persisted → <path>` (substituting the actual path).
+
 ## Directives
 - **No Vague Steps:** Do not write "Update the UI." Write exactly which component needs which props updated.
-- **Stay Read-Only:** You have no file writing or bash permissions. Your output is pure text.
+- **Write permission is ONLY for your designated handoff path.** Never touch source code.
 - **Be Deterministic:** The Implementer will follow this blindly. Ensure the steps are logically sequenced (e.g., add the database field before updating the API endpoint).
 
 ### 🧠 Lessons Learned

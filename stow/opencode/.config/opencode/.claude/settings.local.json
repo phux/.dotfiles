@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python3 -m json.tool /home/jm/.dotfiles/stow/opencode/.config/opencode/opencode.json)",
+      "WebFetch(domain:opencode.ai)",
+      "WebSearch",
+      "WebFetch(domain:learnopencode.com)",
+      "Bash(for f:*)",
+      "Bash(do echo:*)",
+      "Read(//home/jm/.dotfiles/stow/opencode/.config/opencode/**)",
+      "Bash(done)"
+    ]
+  }
+}
