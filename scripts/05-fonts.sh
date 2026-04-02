@@ -17,4 +17,12 @@ else
     print_info "Hack Nerd Font already installed."
 fi
 
+# Install DejaVu fonts for md2 script
+if ! pkg_installed "fonts-dejavu-core"; then
+    print_info "Installing DejaVu fonts..."
+    install_packages "fonts-dejavu-core" "fonts-dejavu-extra"
+else
+    print_info "DejaVu fonts already installed."
+fi
+
 print_success "Phase 05: Fonts completed"

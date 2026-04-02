@@ -23,6 +23,12 @@ DEV_PACKAGES=(
 	libxmlsec1-dev
 	libffi-dev
 	liblzma-dev
+	pandoc
+	texlive-xetex
+	texlive-latex-recommended
+	texlive-latex-extra
+	texlive-fonts-extra
+	librsvg2-bin
 )
 
 install_packages "${DEV_PACKAGES[@]}"
@@ -145,6 +151,7 @@ if command_exists npm; then
 		@anthropic-ai/claude-code
 		@google/gemini-cli
 		opencode-ai
+		mermaid-filter
 	)
 	npm install -g "${NPM_GLOBALS[@]}"
 else
@@ -189,6 +196,30 @@ if ! command -v nvim &>/dev/null; then
 	print_success "Neovim installed."
 else
 	print_info "Neovim is already installed."
+fi
+
+# Setup Eisvogel Pandoc Template
+EISVOGEL_STOW_DIR="stow/pandoc/.local/share/pandoc/templates"
+if [ ! -f "$EISVOGEL_STOW_DIR/eisvogel.tex" ]; then
+    print_info "Installing Eisvogel Pandoc template..."
+    ensure_dir "$EISVOGEL_STOW_DIR"
+    LATEST_EISVOGEL=$(get_latest_github_release "Wandmalfarbe/pandoc-latex-template")
+    # Clean the version tag if it contains 'v'
+    VERSION_CLEAN=${LATEST_EISVOGEL#v}
+    curl -L "https://github.com/Wandmalfarbe/pandoc-latex-template/releases/download/${LATEST_EISVOGEL}/Eisvogel-${VERSION_CLEAN}.zip" -o /tmp/eisvogel.zip
+    mkdir -p /tmp/eisvogel_unzipped
+    unzip -q /tmp/eisvogel.zip -d /tmp/eisvogel_unzipped
+    # Find and copy the .latex file regardless of directory structure and rename to .tex
+    find /tmp/eisvogel_unzipped -name "eisvogel.latex" -exec cp {} "$EISVOGEL_STOW_DIR/eisvogel.tex" \;
+    rm -rf /tmp/eisvogel.zip /tmp/eisvogel_unzipped
+    
+    if [ -f "$EISVOGEL_STOW_DIR/eisvogel.tex" ]; then
+        print_success "Eisvogel template downloaded to $EISVOGEL_STOW_DIR"
+    else
+        print_error "Failed to download/extract Eisvogel template."
+    fi
+else
+    print_info "Eisvogel template already exists."
 fi
 
 print_success "Phase 03: Development Environments completed"
