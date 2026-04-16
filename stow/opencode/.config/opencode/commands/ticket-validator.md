@@ -1,53 +1,58 @@
 ---
 description: Grade ticket or PRD quality against project specs
-agent: planner
-subtask: true
 ---
 
 <TASK>
-Grade the quality of a PRD or Jira ticket against the project's specifications. Produce a formal grading report with a score, category breakdown, discrepancies, and concrete improvement suggestions.
+Grade PRD or Jira ticket against project specs. Produce formal grading report: score, category breakdown, discrepancies, improvement suggestions.
 
 **Input (file path or Jira ticket key):**
 $ARGUMENTS
 </TASK>
 
 <INPUT_VALIDATION>
-If `$ARGUMENTS` is empty or contains only whitespace, output `[MISSING_INPUT]: Provide a file path (e.g., path/to/prd.md) or Jira ticket key (e.g., KEY-123).` and STOP.
-If `specs-mcp` or `atlassian-mcp` tools are unavailable when needed, proceed with available tools and note the limitation explicitly in the report.
+If `$ARGUMENTS` empty or whitespace, output `[MISSING_INPUT]: Provide a file path (e.g., path/to/prd.md) or Jira ticket key (e.g., KEY-123).` and STOP.
+If `code-search-mcp` (via skill primary-code-search) or `atlassian-mcp` unavailable when needed, proceed with available tools and note limitation in report.
 </INPUT_VALIDATION>
 
 <INSTRUCTIONS>
+## Phase 0: initialize code-intelligence mcp via "index_project" and load `primary-code-search` skill and activate via `index_code`.
+
 ## Phase 1: Input Resolution & Context Gathering
 
-1. **Resolve the input**:
-   - If `$ARGUMENTS` is a file path (ends in `.md` or similar), read its contents.
-   - If `$ARGUMENTS` contains Jira ticket key(s) (e.g., `KEY-123`), use `atlassian-mcp` tools to fetch the ticket(s) and all associated subtasks.
+1. **Resolve input**:
+   - If `$ARGUMENTS` is file path (ends in `.md` or similar), read contents.
+   - If `$ARGUMENTS` contains Jira ticket key(s) (e.g., `KEY-123`), use `atlassian-mcp` to fetch ticket(s), all parent tickets (stories/epics) if defined, all subtasks.
 
-2. **Build specification context** (iterative — do not skip):
-   - Extract key domain terms, features, workflows, and entities from the resolved input.
-   - Use `specs-mcp_search_specs` with these terms. Search at least twice with varied queries to cast a wide net.
-   - For each highly relevant result, use `specs-mcp_read_spec` to read the full specification.
-   - After reading specs, identify new terminology or concepts and run additional `specs-mcp_search_specs` calls to deepen coverage.
-   - Goal: gather comprehensive business logic, constraint data, and architectural decisions before grading.
+2. **Build spec context** (iterative — do not skip):
+   - Extract key domain terms, features, workflows, entities from resolved input.
+   - Use `code-search-mcp_search_code` with these terms. Search at least twice with varied queries.
+   - For each highly relevant result, use `read_file` for full spec.
+   - After reading specs, identify new terms/concepts, run additional searches.
+   - Goal: gather comprehensive business logic, constraints, architectural decisions before grading.
+   - **Targeted surface extraction** (use directly during grading):
+     - **Domain Vocabulary** (Section 1): compare against PRD terminology for Domain Alignment — flag PRD terms conflicting with spec vocabulary mappings.
+     - **Acceptance Criteria** (Section 4, per rule): compare against PRD acceptance criteria for Clarity & Actionability — flag missing GIVEN/WHEN/THEN coverage.
+     - **API Contract** (Section 8, when present): compare against PRD's interface for Completeness — flag missing error responses, undocumented parameters, unaddressed auth requirements.
+     - **System Invariants** (from `docs/specs/ARCHITECTURE.md` if present): check PRD doesn't violate cross-cutting invariants.
 
 ## Phase 2: Grading
 
-Score each category 1-10 using this rubric:
+Score each category 1-10:
 
 | Score | Meaning |
 |-------|---------|
-| 1-3 | Fundamental gaps: missing business rules, contradicts specs, or ambiguous to the point of being unimplementable |
+| 1-3 | Fundamental gaps: missing business rules, contradicts specs, or ambiguous to point of being unimplementable |
 | 4-6 | Partially addresses specs: notable omissions in edge cases, error handling, or architectural alignment |
 | 7-8 | Solid coverage: implementable with minor clarifications on 1-2 points |
 | 9-10 | Comprehensive: fully aligned with specs, unambiguous, all edge cases addressed |
 
 **Scoring categories:**
-- **Domain Alignment** — Does the ticket respect existing business rules, terminology, and data models defined in the specs?
-- **Completeness** — Does it account for edge cases, validation rules, error states, and prerequisites mentioned in the specs?
-- **Clarity & Actionability** — Are the acceptance criteria unambiguous and implementable by an engineer without further questions?
-- **Architectural Consistency** — Does the proposal align with documented technical constraints or architectural decisions?
+- **Domain Alignment** — Ticket respect existing business rules, terminology, data models in specs?
+- **Completeness** — Accounts for edge cases, validation rules, error states, prerequisites from specs?
+- **Clarity & Actionability** — Acceptance criteria unambiguous and implementable without further questions?
+- **Architectural Consistency** — Proposal aligns with documented technical constraints or architectural decisions?
 
-**Overall score** = weighted average of the four categories (equal weights). If any category scores below 6, the overall score cannot exceed 7.
+**Overall score** = weighted average of four categories (equal weights). Any category below 6 → overall cannot exceed 7.
 </INSTRUCTIONS>
 
 <FORMAT>
@@ -65,26 +70,26 @@ For each category: score, one-sentence justification.
 | Architectural Consistency | X/10 | ... |
 
 ### 3. Failures & Discrepancies
-Detailed list of where the ticket fails. For each item:
-- What is missing or contradicted
-- The specific spec document that defines the correct behavior (cite by name/path)
+Detailed list of where ticket fails. For each:
+- What missing or contradicted
+- Specific spec document defining correct behavior (cite by name/path)
 
 ### 4. Suggestions for Refinement
-Concrete, actionable list of improvements for the ticket author. Ordered by impact.
+Concrete, actionable improvements for ticket author. Ordered by impact.
 </FORMAT>
 
 <CONSTRAINTS>
-Positive constraints:
-- Cite the specific spec document for every discrepancy in Section 3.
-- Overall score must be a weighted average — not a subjective impression.
+Positive:
+- Cite specific spec for every discrepancy in Section 3.
+- Overall score must be weighted average — not subjective impression.
 - Perform at least two rounds of spec searches with varied queries.
 
-Negative constraints:
-- DO NOT award a score of 8 or higher if any individual category scores below 6.
-- DO NOT suggest implementation approaches — focus purely on spec coverage and requirement quality.
-- DO NOT grade based on personal preference; ground every critique in a cited spec.
+Negative:
+- DO NOT award 8+ if any category scores below 6.
+- DO NOT suggest implementation approaches — focus on spec coverage and requirement quality.
+- DO NOT grade on personal preference; ground every critique in cited spec.
 </CONSTRAINTS>
 
 <RECAP>
-Resolve input → iterative spec search (2+ rounds) → grade 4 categories using rubric → weighted overall score → cite specs for every discrepancy → actionable suggestions. Score ≥ 8 requires all categories ≥ 6.
+Resolve input → iterative spec search (2+ rounds) → grade 4 categories via rubric → weighted overall score → cite specs for every discrepancy → actionable suggestions. Score ≥ 8 requires all categories ≥ 6.
 </RECAP>

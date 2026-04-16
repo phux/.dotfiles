@@ -14,6 +14,12 @@
         "code-search-mcp"
       ]
     },
+    "code-intelligence": {
+      "type": "local",
+      "command": [
+        "/home/jm/code/code-intelligence/target/release/code-intelligence"
+      ]
+    },
     "atlassian-mcp": {
       "type": "local",
       "command": [
@@ -53,6 +59,31 @@
         },
         "gemini-3.1-flash-lite-preview": {}
       }
+    },
+    "ollama": {
+      "options": {
+        "baseURL": "http://127.0.0.1:11434/v1"
+      },
+      "models": {
+        "deepseek-coder-v3:27b-q4_K_M": {
+          "options": {}
+        },
+        "gemma4:26b": {
+          "options": {}
+        },
+        "codestral:22b-q4_K_M": {
+          "options": {}
+        },
+        "qwen3.5:35b-q4_K_M": {
+          "options": {}
+        },
+        "qwen3.5:9b-q4_K_M": {
+          "options": {}
+        },
+        "hf.co/bartowski/Codestral-22B-v0.1-GGUF:Q4_K_M": {
+          "options": {}
+        }
+      }
     }
   },
   "compaction": {
@@ -78,14 +109,60 @@
     "bugs-analyzer": {
       "description": "Analyze the last N bugfix commits for root cause clusters and hot spots",
       "template": "{file:~/.config/opencode/commands/bugs-analyzer.md}\n\n$ARGUMENTS",
-      "agent": "bugs-analyzer",
-      "subtask": true
+      "agent": "bugs-analyzer"
     },
     "ticket-validator": {
       "description": "Grade ticket or PRD quality against project specs",
-      "template": "{file:~/.config/opencode/commands/ticket-validator.md}\n\n$ARGUMENTS",
-      "agent": "planner",
-      "subtask": true
+      "template": "{file:~/.config/opencode/commands/ticket-validator.md}\n\n$ARGUMENTS"
+    },
+    "optimize-knowledge": {
+      "description": "Clean up obsolete/conflicting knowledge and update the INDEX.md",
+      "template": "{file:~/.config/opencode/commands/knowledge-optimizer.md}\n\n$ARGUMENTS",
+      "agent": "knowledge-optimizer"
+    },
+    "index": {
+      "description": "Generate a file index manifest for a directory or scope",
+      "template": "Scan the given scope and produce a checklist index of all analyzable source files. Save the index to docs/specs/indexes/.\n\n$ARGUMENTS",
+      "agent": "logic-indexer"
+    },
+    "audit": {
+      "description": "Full business logic audit: staleness check, then extract all unprocessed or stale specs",
+      "template": "Run the SPEC_MAINTENANCE_PIPELINE: Phase 0 (STALENESS_CHECK), Phase 1 (AUDIT), then Phase 3 (EXTRACTION) for all unprocessed or stale files. Skip Phase 2 (INDEXING) unless no index exists for the requested scope.\n\n$ARGUMENTS",
+      "agent": "specs"
+    },
+    "full-audit": {
+      "description": "Index all source files, then extract complete business logic specs",
+      "template": "Run the complete SPEC_MAINTENANCE_PIPELINE: Phase 0 (STALENESS_CHECK), Phase 1 (AUDIT), Phase 2 (INDEXING), Phase 3 (EXTRACTION), Phase 4 (VALIDATION), Phase 5 (CODIFY), and Phase 6 (ARCHITECTURE).\n\n$ARGUMENTS",
+      "agent": "specs"
+    },
+    "staleness": {
+      "description": "Check which existing specs are out of date without triggering extraction",
+      "template": "Run Phase 0 (STALENESS_CHECK) only: for each existing spec in docs/specs/, read its Commit field, run git log to check if the source file has changed, and produce a staleness report table showing which specs are current vs stale and by how many commits.\n\n$ARGUMENTS",
+      "agent": "specs"
+    },
+    "spec-validate": {
+      "description": "Run quality gates against existing specs and report pass/fail per gate",
+      "template": "Run Phase 4 (VALIDATION) only against existing specs in docs/specs/. Check all four gates: structural completeness (7 sections), coverage of exported symbols, cross-reference link resolution, and commit freshness. Output a validation report table. Do not re-extract anything.\n\n$ARGUMENTS",
+      "agent": "specs"
+    },
+    "architecture": {
+      "description": "Generate or refresh ARCHITECTURE.md from all current specs",
+      "template": "Run Phase 6 (ARCHITECTURE) only: read all specs in docs/specs/, extract their dependency and cross-reference sections, and generate/update docs/specs/ARCHITECTURE.md with a Mermaid component diagram, module responsibilities table, hot spots, and data flow overview. Also update the ARCHITECTURE.md link in docs/specs/INDEX.md.\n\n$ARGUMENTS",
+      "agent": "specs"
+    },
+    "multi-plan": {
+      "description": "Standalone multi-perspective planner: bootstraps its own router+explorer session, then runs four parallel lens agents (Correctness, Risk, Architecture, Simplicity) synthesized into one conflict-aware blueprint",
+      "template": "$ARGUMENTS",
+      "agent": "multi-planner"
+    },
+    "orch": {
+      "description": "Starts orchestration for tasks",
+      "template": "index_project and index_code; Using your @router, start the orchestration for:\n$ARGUMENTS",
+      "agent": "orchestrator"
+    },
+    "context-audit": {
+      "description": "Evaluate and rewrite an AGENTS.md or CLAUDE.md to be lean, high-signal, and actually effective",
+      "template": "{file:~/.config/opencode/commands/context-auditor.md}\n\n$ARGUMENTS"
     }
   }
 }

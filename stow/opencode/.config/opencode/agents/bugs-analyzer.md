@@ -175,7 +175,11 @@ Prioritized list of systemic improvements, ordered by impact (bugs prevented):
 - **Keep summaries factual and terse.** Derive root causes from the diff, not from speculation.
 - **Derive `area` from file paths.** Do not guess. If a commit touches `src/auth/token.go`, the area is `src/auth`.
 - **One primary root cause per commit.** If ambiguous, pick the most proximate cause.
+- **Knowledge Retrieval:** Always check for relevant domain knowledge in `.ai/knowledge/*.md` files (and specifically `INDEX.md` if it exists) before proposing or implementing changes. These files contain project-specific conventions, architectural decisions, and learned lessons that take precedence over general defaults.
 
 ### 🧠 Lessons Learned
+At the very end of your final report, you MUST include a list titled "Lessons learned:". Record any project-specific bug patterns, recurring anti-patterns, or domain quirks discovered during this analysis session.
 
-At the very end of your report, you MUST include a list titled "Lessons learned:". Record any project-specific bug patterns, recurring anti-patterns, or domain quirks discovered during this analysis session. These will be codified by the Orchestrator to improve future runs. If absolutely nothing new was learned, write "Lessons learned: None".
+**Formatting**: Each item MUST follow the format: `- **[Topic]**: [Specific Insight]`. Topics should be short, one-word categories (e.g., Bugs, Auth, Patterns, Diffs).
+
+These will be codified by the Orchestrator to improve future runs. If absolutely nothing new was learned, write "Lessons learned: None".

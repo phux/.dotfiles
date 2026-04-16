@@ -137,14 +137,21 @@ User → Orchestrator (primary)
           ↓
        router (subagent) — classifies complexity
           ↓
-    [Low complexity]          [Medium/High complexity]
-          ↓                         ↓
-    implementer            explorer → planner → (user approval)
-    (subagent)                                      ↓
-          ↓                                   implementer
-       verifier                                    ↓
-    (subagent)                                 verifier
-          ↓
+    --------------------------------------------------------------
+    ↓                       ↓                          ↓
+ [Trivial/Low]           [Medium]                   [High]
+    ↓                       ↓                          ↓
+ implementer-lite      explorer → planner         explorer → planner
+    (subagent)              ↓                          ↓
+    ↓                (user approval)            (user approval)
+    ↓                       ↓                          ↓
+    ↓                implementer-quick            implementer
+    ↓                       ↓                          ↓
+    --------------------------------------------------------------
+                                                       ↓
+                                                    verifier
+                                                   verifier
+                                                       ↓
     Orchestrator codifies lessons → .ai/knowledge/
 ```
 
