@@ -1,6 +1,6 @@
 {
   "$schema": "https://opencode.ai/config.json",
-  "model": "google/gemini-3.1-pro-preview",
+  "model": "google/gemini-3-flash-preview",
   "small_model": "google/gemini-3-flash-preview",
   "autoupdate": true,
   "mcp": {
@@ -69,7 +69,24 @@
           "options": {}
         },
         "gemma4:26b": {
-          "options": {}
+          "options": {
+            "num_gpu": 99,
+            "num_ctx": 32768,
+            "temperature": 0.2,
+            "top_p": 0.95,
+            "top_k": 64,
+            "repeat_penalty": 1.1
+          }
+        },
+        "gemma4:e4b-it-q4_K_M": {
+          "options": {
+            "num_gpu": 1,
+            "num_ctx": 8192,
+            "temperature": 0.1,
+            "top_p": 0.9,
+            "top_k": 40,
+            "repeat_penalty": 1.1
+          }
         },
         "codestral:22b-q4_K_M": {
           "options": {}
@@ -163,6 +180,10 @@
     "context-audit": {
       "description": "Evaluate and rewrite an AGENTS.md or CLAUDE.md to be lean, high-signal, and actually effective",
       "template": "{file:~/.config/opencode/commands/context-auditor.md}\n\n$ARGUMENTS"
+    },
+    "refine": {
+      "description": "Break down Stories & Epics by Jira issue key using SPIDR guidelines",
+      "template": "{file:~/.config/opencode/commands/refine.md}\n\n$ARGUMENTS"
     }
   }
 }

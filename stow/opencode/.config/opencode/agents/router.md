@@ -22,7 +22,7 @@ Implicit access to `code-search-mcp` and `code-intelligence` MCPs via environmen
 
 ### PHASE 1: ANALYZE & SEARCH
 1. **Initial Search:** Run 1-2 rapid `code-search-mcp_search_code` calls to verify mentioned concepts exist. Use `code-intelligence_get_workspace_symbols(project_root, query="<Name>")` for fast AST-backed symbol lookup.
-2. **Coupling Probe (for cross-cutting detection):** For any potentially shared symbol, call `code-intelligence_find_usage_graph(project_root, symbol_name)` to count direct callers. Callers span 5+ unrelated modules → classify `high`. Use `code-intelligence_analyze_dependency_impact(project_root, symbol_name)` for ranked blast-radius when scope is ambiguous between `medium` and `high`.
+2. **Coupling Probe (for cross-cutting detection):** For any potentially shared symbol, call `code-intelligence_find_usage_graph(project_root, symbol_name)` to count direct callers. Callers span 5+ unrelated modules → classify `high`. Callers span 10+ modules OR cross multiple domain boundaries (e.g., auth + schema + API + frontend) → classify `critical`. Use `code-intelligence_analyze_dependency_impact(project_root, symbol_name)` for ranked blast-radius when scope is ambiguous between levels.
 3. **Classify:** Identify intent, complexity, domain scope from search results and coupling evidence.
 
 ### PHASE 2: SYNTHESIS
@@ -43,7 +43,7 @@ Before returning to Orchestrator:
 Output MUST contain Markdown table or JSON object with these fields:
 
 - **`query_intent`**: Core action required (e.g., `feature_addition`, `bug_fix`, `refactor`, `documentation`, `code_explanation`, `configuration`).
-- **`complexity_estimation`**: (`trivial`, `low`, `medium`, `high`, `unknown`). See **Complexity Rubric** below.
+- **`complexity_estimation`**: (`trivial`, `low`, `medium`, `high`, `critical`, `unknown`). See **Complexity Rubric** below.
 - **`domain_scope`**: Codebase areas impacted (e.g., `frontend`, `backend/api`, `database/schema`, `ci-cd`, `core-logic`).
 - **`identified_context`**: Array of key file paths or spec docs found via `code-search-mcp` that downstream agents MUST read.
 - **`missing_context_or_ambiguities`**: Specific questions Orchestrator should ask if request is vague (e.g., "User asked to add button, didn't specify which page"). If none, output "None".
@@ -51,8 +51,9 @@ Output MUST contain Markdown table or JSON object with these fields:
 - **`recommended_agent_flow`**: Pipeline sequence suggestion. Use canonical agent names:
   - `router` — this agent (triage only)
   - `explorer` — codebase research (flash:low, **STRICTLY READ-ONLY**)
-  - `planner` — architecture & implementation blueprint (pro:high, **STRICTLY READ-ONLY**)
-  - `multi-planner` — architecture & implementation blueprint for complex tasks (pro:high, **STRICTLY READ-ONLY**)
+  - `planner-quick` — fast architecture & blueprint for **medium and below** tasks (flash, **STRICTLY READ-ONLY**)
+  - `planner` — architecture & implementation blueprint for **high** complexity (pro:high, **STRICTLY READ-ONLY**)
+  - `multi-planner` — multi-lens architecture & blueprint for **critical** complexity only (pro:high, **STRICTLY READ-ONLY**)
   - `implementer` — full code execution for **high complexity** (pro:high, read+write)
   - `implementer-quick` — surgical code execution for **medium complexity** changes (flash, read+write)
   - `implementer-lite` — ultra-lightweight execution for **trivial and low** changes (flash-lite, read+write)
@@ -69,14 +70,16 @@ Assign `complexity_estimation` using these criteria. Conflicting signals → err
 |-------|----------------|----------|-----------------|--------------|
 | `trivial` | 1-2 files, minor logic | Localized only | Minimal; verification via simple check | `implementer-lite → verifier` |
 | `low` | Up to 4 files, mechanical | No breaking changes to shared interfaces | Contained; standard tests suffice | `implementer-lite → verifier` |
-| `medium` | 5-10 files, or significant logic rewrite | Touches internal service boundaries | Requires planning; moderate blast radius | `explorer → planner → implementer-quick → verifier` |
-| `high` | 10+ files, or core abstraction change | Cross-cutting (auth, base types, schema) | High risk; requires multi-perspective planning | `explorer → multi-planner → implementer → verifier` |
+| `medium` | 5-10 files, or significant logic rewrite | Touches internal service boundaries | Requires planning; moderate blast radius | `explorer → planner-quick → implementer-quick → verifier` |
+| `high` | 10-20 files, or core abstraction change | Cross-cutting within one domain (auth, base types, schema) | High risk; single-architect planning sufficient | `explorer → planner → implementer → verifier` |
+| `critical` | 20+ files, or foundational architectural overhaul | Systemic cross-cutting across multiple domains | Maximum risk; requires multi-perspective conflict-aware planning | `explorer → multi-planner → implementer → verifier` |
 | `unknown` | Search returned < 2 relevant results | Cannot determine scope | — | Set `missing_context_or_ambiguities` and halt |
 
 ### Calibration rules
 
 - **Search result count = signal, not rule.** 20 results for "auth" = noise if edit targets one middleware function. 1 result = still `high` if that file is shared interface imported across codebase.
-- **Cross-cutting = high, always.** Symbol imported/referenced in 5+ unrelated modules → `high` regardless of line count.
+- **Cross-cutting thresholds matter.** Symbol in 5-9 unrelated modules within one domain → `high`. Symbol in 10+ modules OR spanning multiple domains (e.g., auth + DB schema + API surface + UI) → `critical`.
+- **Architectural overhaul = critical.** Replacing a foundational abstraction (ORM, auth system, event bus) → `critical` regardless of file count.
 - **Intent adjusts baseline.** `bug_fix` tends one level lower than `feature_addition` for same scope — fixes surgical, features need design.
 - **`unknown` not fallback for ambiguity.** Use only when searches return nothing useful. Found 1 relevant file but query still vague → output `medium`, flag ambiguity in `missing_context_or_ambiguities`.
 

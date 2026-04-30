@@ -78,6 +78,12 @@ Detailed list of where ticket fails. For each:
 Concrete, actionable improvements for ticket author. Ordered by impact.
 </FORMAT>
 
+## Final step Comment in jira ticket
+
+IF score above 8: skip this step.
+IF score below 8 or equal 8:
+Use atlassian-mcp to write a comment into the originally pasted ticket key (if jira key provided.)
+
 <CONSTRAINTS>
 Positive:
 - Cite specific spec for every discrepancy in Section 3.
