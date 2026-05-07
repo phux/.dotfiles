@@ -62,19 +62,19 @@ hidden: false
         **`complexity_estimation: medium`**, **`high`**, or **`critical`**:
           1. Spin up `explorer` with: "RESEARCH TASK: " + original user query + ". Goal: gather codebase intelligence for this task to inform the planner. DO NOT attempt to implement or modify any code." + full router table (all fields) + "The router's full triage is in `.ai/handoffs/SESSION_ID/router.md` — read it for full context. **MANDATORY**: Write your handoff to `.ai/handoffs/SESSION_ID/explorer.md`."
           2. **Verify Explorer Handoff:** Confirm `.ai/handoffs/SESSION_ID/explorer.md` exists. If not, re-run `explorer` once with stern reminder.
-          3. **QA Planning:** Spin up `qa-expert` with: "QA TASK: " + original user query + ". Goal: produce a test plan for this task." + full router table (all fields) + "The router's full triage is in `.ai/handoffs/SESSION_ID/router.md` — read it. The explorer's full intelligence report is in `.ai/handoffs/SESSION_ID/explorer.md` — read it. SESSION_ID is SESSION_ID. Write your test plan to `.ai/handoffs/SESSION_ID/qa-plan.md`."
-          4. **Verify QA Handoff:** Confirm `.ai/handoffs/SESSION_ID/qa-plan.md` exists. If not, re-run `qa-expert` once.
-          5. **Choose planner strategy:**
+          3. **Choose planner strategy:**
              - `complexity_estimation: medium`: Spin up `planner-quick` (fast flash model, single-perspective, sufficient for medium scope).
              - `complexity_estimation: high`: Spin up `planner` (pro model, single-perspective deep analysis).
              - `complexity_estimation: critical`: Spin up `multi-planner` (four parallel lenses, conflict-aware synthesis). Reserved for critical complexity only.
-             Pass to chosen planner: "PLANNING TASK: " + original user query + ". Goal: synthesize explorer intelligence into step-by-step blueprint. DO NOT implement or modify any code." + router table + "The explorer's full intelligence report is in `.ai/handoffs/SESSION_ID/explorer.md` — read it. The router's full triage is in `.ai/handoffs/SESSION_ID/router.md`. The QA test plan is in `.ai/handoffs/SESSION_ID/qa-plan.md` — read it and incorporate test requirements into the blueprint's Verification Strategy section. SESSION_ID is SESSION_ID. Write your final handoff to `.ai/handoffs/SESSION_ID/planner.md`."
-          6. **Verify Planner Handoff:** Confirm `.ai/handoffs/SESSION_ID/planner.md` exists. If not, re-run chosen planner.
+             Pass to chosen planner: "PLANNING TASK: " + original user query + ". Goal: synthesize explorer intelligence into step-by-step blueprint. DO NOT implement or modify any code." + router table + "The explorer's full intelligence report is in `.ai/handoffs/SESSION_ID/explorer.md` — read it. The router's full triage is in `.ai/handoffs/SESSION_ID/router.md`. SESSION_ID is SESSION_ID. Write your final handoff to `.ai/handoffs/SESSION_ID/planner.md`."
+          4. **Verify Planner Handoff:** Confirm `.ai/handoffs/SESSION_ID/planner.md` exists. If not, re-run chosen planner.
 
-          7. **CRITICAL — User Approval Gate:** Present planner's blueprint (read from handoff file) to user. Halt until they respond.
-             - **Approved:** continue to step 8.
+          5. **CRITICAL — User Approval Gate:** Present planner's blueprint (read from handoff file) to user. Halt until they respond.
+             - **Approved:** continue to step 6.
              - **Changes requested:** re-run the same planner used above with original inputs plus user's revision notes. Repeat until approved.
              - **Rejected:** halt. Ask user what direction to take before continuing.
+          6. **QA Planning:** Spin up `qa-expert` with: "QA TASK: " + original user query + ". Goal: produce a test plan against the approved implementation blueprint." + full router table (all fields) + "The router's full triage is in `.ai/handoffs/SESSION_ID/router.md` — read it. The explorer's full intelligence report is in `.ai/handoffs/SESSION_ID/explorer.md` — read it. The approved blueprint is in `.ai/handoffs/SESSION_ID/planner.md` — read it. SESSION_ID is SESSION_ID. Write your test plan to `.ai/handoffs/SESSION_ID/qa-plan.md`."
+          7. **Verify QA Handoff:** Confirm `.ai/handoffs/SESSION_ID/qa-plan.md` exists. If not, re-run `qa-expert` once.
           8. **Execute implementation:**
              - `complexity_estimation: medium`: Spin up `implementer-quick` with: original user query + "The approved blueprint is in `.ai/handoffs/SESSION_ID/planner.md` — read it. The explorer's full intelligence report is in `.ai/handoffs/SESSION_ID/explorer.md` — read it. The QA test plan is in `.ai/handoffs/SESSION_ID/qa-plan.md` — read it and ensure all required test files are created or updated as specified. Write your handoff to `.ai/handoffs/SESSION_ID/implementer-quick.md`."
              - `complexity_estimation: high` or `critical`: Spin up `implementer` with: original user query + "The approved blueprint is in `.ai/handoffs/SESSION_ID/planner.md` — read it. The explorer's full intelligence report is in `.ai/handoffs/SESSION_ID/explorer.md` — read it. The QA test plan is in `.ai/handoffs/SESSION_ID/qa-plan.md` — read it and ensure all required test files are created or updated as specified. Write your handoff to `.ai/handoffs/SESSION_ID/implementer.md`."

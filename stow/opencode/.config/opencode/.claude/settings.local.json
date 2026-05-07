@@ -8,7 +8,9 @@
       "Bash(for f:*)",
       "Bash(do echo:*)",
       "Read(//home/jm/.dotfiles/stow/opencode/.config/opencode/**)",
-      "Bash(done)"
+      "Bash(done)",
+      "Bash(python3 -m scripts /home/jm/.dotfiles/stow/opencode/.config/opencode/agents/orchestrator.md)",
+      "Bash(python3 -m scripts /home/jm/.dotfiles/stow/opencode/.config/opencode/agents/router.md)"
     ]
   }
 }

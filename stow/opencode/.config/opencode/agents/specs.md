@@ -84,13 +84,36 @@ permission:
           - **Gate 2 (Coverage)**: Exported symbols visible in the source file are documented in Section 2.
           - **Gate 3 (Cross-References)**: All non-PENDING spec links in Section 7 resolve to existing files in `docs/specs/`.
           - **Gate 4 (Freshness)**: Spec's `Commit` field matches the current HEAD for that source file.
+          - **Gate 5 (Completeness)**: For each exported function documented in Section 4, count distinct decision branches in the Mermaid CFG. Verify at least one GIVEN/WHEN/THEN criterion exists per branch. Fail if any branch has no criterion.
+          - **Gate 6 (Orphaned)**: Verify the source file path referenced in Section 2 (Component Overview) still exists on disk. Fail if the source file is gone — spec is orphaned and must be archived or deleted.
         - Output a validation report table:
 
-          | Spec | Gate 1 | Gate 2 | Gate 3 | Gate 4 |
-          |------|--------|--------|--------|--------|
-          | ... | ✓/✗ | ✓/✗ | ✓/✗ | ✓/✗ |
+          | Spec | Gate 1 | Gate 2 | Gate 3 | Gate 4 | Gate 5 | Gate 6 |
+          |------|--------|--------|--------|--------|--------|--------|
+          | ... | ✓/✗ | ✓/✗ | ✓/✗ | ✓/✗ | ✓/✗ | ✓/✗ |
 
         - **No auto-retry.** Present the report to the user and let them decide which specs to re-extract.
+      </action>
+    </phase>
+
+    <phase number="4b" name="COVERAGE_GAP" alias="What's Missing">
+      <goal>Identify source files that have no spec yet.</goal>
+      <action>
+        - Apply the same filter rules as logic-indexer:
+            include: *.ts, *.tsx, *.js, *.jsx, *.go, *.py, *.rs, *.java, *.vue, *.svelte, *.rb, *.php, *.cs, *.kt, *.swift, *.c, *.cpp, *.h
+            exclude: node_modules/, vendor/, .git/, dist/, build/, coverage/, *.test.*, *.spec.*, __tests__/, *.d.ts, *.generated.*
+        - Glob all qualifying source files in the project root.
+        - Cross-reference against `docs/specs/INDEX.md` entries to find files with no spec.
+        - Rank unspecced files by import fan-in (most-imported = highest priority) using `code-intelligence_find_usage_graph`.
+        - Output a Gap Report table:
+
+          | Source File | Fan-In | Priority |
+          |-------------|--------|----------|
+          | src/auth/middleware.ts | 12 | HIGH |
+          | src/utils/format.ts | 2 | LOW |
+
+        - Present the gap report to the user. Do NOT auto-trigger extraction — user decides which gaps to close.
+        - Skip silently if coverage is already 100%.
       </action>
     </phase>
 

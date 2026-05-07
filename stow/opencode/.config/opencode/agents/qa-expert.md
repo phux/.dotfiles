@@ -30,9 +30,10 @@ permission:
   <phases>
     <phase number="1" name="ORIENT">
       <action>
-        1. Read `.ai/handoffs/SESSION_ID/router.md` — extract: query_intent, complexity_estimation, domain_scope, identified_context, required_capabilities.
+        1. Read `.ai/handoffs/SESSION_ID/router.md` — extract: query_intent, complexity_estimation, domain_scope, identified_context.
         2. Read `.ai/handoffs/SESSION_ID/explorer.md` — extract: key files, architecture, business logic constraints, symbols reference, conventions observed.
-        3. Check `.ai/knowledge/*.md` for testing conventions, patterns, forbidden approaches.
+        3. Read `.ai/handoffs/SESSION_ID/planner.md` — extract: exact files to change, function signatures, interface contracts, execution steps, risk register. This is the primary input for test case design.
+        4. Check `.ai/knowledge/*.md` for testing conventions, patterns, forbidden approaches.
       </action>
     </phase>
 
