@@ -1,0 +1,8 @@
+# Global ignore file for ripgrep and fd (both read .ignore from the search root and every parent dir).
+# One place for the exclusions that used to be repeated in .zshrc and the Neovim pickers.
+# Re-include inside a project with a local .ignore, e.g. `!vendor/`.
+.git/
+node_modules/
+vendor/
+var/
+dist/

@@ -1,0 +1,17 @@
+{
+  "minimum-stability": "dev",
+  "prefer-stable": true,
+  "require": {
+    "phpstan/phpstan": "^2.3",
+    "phpmd/phpmd": "^3.0",
+    "squizlabs/php_codesniffer": "^4.0",
+    "friendsofphp/php-cs-fixer": "^3.95",
+    "phpstan/phpstan-doctrine": "^2.0",
+    "phpstan/phpstan-phpunit": "^2.1",
+    "phpstan/phpstan-strict-rules": "^2.1",
+    "phpstan/phpstan-symfony": "^2.1",
+    "escapestudios/symfony2-coding-standard": "^3.18",
+    "dominikb/composer-license-checker": "^3.0",
+    "phpactor/phpactor": "^2026.10"
+  }
+}

@@ -1,0 +1,3 @@
+gittake() {
+	git checkout $1 $2 && git add $2
+}

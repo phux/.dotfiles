@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+# This repo is public: block a commit that stages a secret. Bypass once with `git commit --no-verify`.
+command -v gitleaks > /dev/null || { echo "pre-commit: gitleaks not found. Run 'make shell'." >&2; exit 1; }
+exec gitleaks git --pre-commit --staged --redact --no-banner -v

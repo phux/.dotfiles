@@ -1,0 +1,147 @@
+{
+  "mcpServers": {
+    "specs": {
+      "command": "uv",
+      "args": [
+        "--directory",
+        "/home/jm/code/specs-mcp",
+        "run",
+        "python",
+        "-m",
+        "specs_mcp.server"
+      ],
+      "trust": true
+    },
+    "code-search-mcp": {
+      "command": "uv",
+      "args": [
+        "--directory",
+        "/home/jm/code/code-search-mcp",
+        "run",
+        "code-search-mcp"
+      ],
+      "trust": true
+    },
+    "atlassian-mcp": {
+      "command": "uv",
+      "args": [
+        "run",
+        "--directory",
+        "/home/jm/code/atlassian-mcp",
+        "atlassian-mcp"
+      ],
+      "env": {
+        "ATLASSIAN_EMAIL": "$JIRA_EMAIL",
+        "ATLASSIAN_URL": "$JIRA_URL",
+        "ATLASSIAN_API_TOKEN": "$JIRA_API_TOKEN"
+      }
+    }
+  },
+  "general": {
+    "preferredEditor": "vscode",
+    "previewFeatures": true,
+    "enablePromptCompletion": true,
+    "sessionRetention": {
+      "warningAcknowledged": true,
+      "enabled": true,
+      "maxAge": "30d"
+    }
+  },
+  "security": {
+    "auth": {
+      "selectedType": "gemini-api-key"
+    },
+    "enablePermanentToolApproval": true,
+    "allowedEnvironmentVariables": [
+      "JIRA_URL",
+      "JIRA_EMAIL",
+      "JIRA_API_TOKEN"
+    ]
+  },
+  "ui": {
+    "theme": "Default",
+    "showModelInfoInChat": true,
+    "accessibility": {
+      "enableLoadingPhrases": false
+    },
+    "hideBanner": true,
+    "footer": {
+      "hideContextPercentage": false
+    },
+    "showCitations": true,
+    "loadingPhrases": "off",
+    "errorVerbosity": "full"
+  },
+  "tools": {
+    "useRipgrep": true,
+    "autoAccept": true
+  },
+  "experimental": {
+    "enableAgents": true,
+    "plan": true
+  },
+  "output": {
+    "format": "text"
+  },
+  "agents": {
+    "overrides": {
+      "codebase_investigator": {
+        "enabled": true,
+        "runConfig": {
+          "maxTurns": 40
+        }
+      }
+    }
+  },
+  "hooks": {
+    "SessionStart": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "name": "context-loader",
+            "type": "command",
+            "command": "~/.gemini/hooks/context-loader.sh",
+            "timeout": 10000
+          }
+        ]
+      },
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"/home/jm/.gemini/hooks/gsd-check-update.js\""
+          }
+        ]
+      }
+    ],
+    "AfterTool": [
+      {
+        "matcher": "Bash|Edit|Write|MultiEdit|Agent|Task",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"/home/jm/.gemini/hooks/gsd-context-monitor.js\"",
+            "timeout": 10
+          }
+        ]
+      }
+    ],
+    "BeforeTool": [
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"/home/jm/.gemini/hooks/gsd-prompt-guard.js\"",
+            "timeout": 5
+          }
+        ]
+      }
+    ]
+  },
+  "statusLine": {
+    "type": "command",
+    "command": "node \"/home/jm/.gemini/hooks/gsd-statusline.js\""
+  }
+}

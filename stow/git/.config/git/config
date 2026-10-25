@@ -1,0 +1,52 @@
+[init]
+	templatedir = ~/.git_templates
+[core]
+	pager = delta
+[alias]
+	ri = rebase --interactive --autosquash
+[pull]
+	rebase = true
+[fetch]
+	prune = true
+[rebase]
+	autoStash = true
+[rerere]
+	enabled = false
+	autoupdate = false
+[advice]
+	statusHints = false
+[diff]
+	algorithm = histogram
+	renames = copies
+	mnemonicprefix = true
+	tool = nvimdiff
+	colorMoved = default
+[difftool]
+	prompt = false
+	trustExitCode = true
+[merge]
+	tool = nvimdiff
+[mergetool]
+	prompt = false
+	keepBackup = false
+[commit]
+	verbose = true
+[color]
+	ui = true
+[color "diff-highlight"]
+	oldNormal = red bold
+	oldHighlight = red bold 52
+	newNormal = green bold
+	newHighlight = green bold 22
+[color "diff"]
+	meta = yellow
+	frag = magenta bold
+	commit = yellow bold
+	old = red bold
+	new = green bold
+	whitespace = red reverse
+[interactive]
+	diffFilter = delta --color-only
+[delta]
+	features = line-numbers decorations side-by-side
+	syntax-theme = Sublime Snazzy

@@ -1,0 +1,26 @@
+#!/bin/bash
+
+file_name="${1##*/}"
+file_extension="${file_name##*.}"
+file="${file_name%.*}"
+out="/tmp/${file}_$(date +"%Y-%m-%d").pdf"
+# -H $HOME/.local/share/pandoc/headers/chapter_break.tex \
+#-H $HOME/.local/share/pandoc/headers/syntax_highlight.tex \
+pandoc "$1" \
+  -f markdown \
+  --toc -N \
+  -V colorlinks -V urlcolor=NavyBlue \
+  -H $HOME/.local/share/pandoc/headers/bullet_list.tex \
+  -H $HOME/.local/share/pandoc/headers/deeplist.tex \
+  -F mermaid-filter \
+  --lua-filter=$HOME/.local/share/pandoc/luafilters/table-widths.lua \
+  -V geometry:a4paper \
+  -V geometry:"top=2cm, bottom=1.5cm, left=2cm, right=2cm" \
+  -V mainfont="DejaVu Serif" \
+  -V monofont="DejaVu Sans Mono" \
+  --pdf-engine=xelatex \
+  --template=$HOME/.local/share/pandoc/templates/eisvogel.tex \
+  -o "${out}"
+echo "created pdf at ${out}"
+
+xdg-open "${out}"

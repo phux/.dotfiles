@@ -1,0 +1,394 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "model": "google/gemini-3.8-flash",
+  "agents": {
+    "title": {
+      "model": "google/gemini-3.8-flash"
+    }
+  },
+  "update": "auto",
+  "mcp": {
+    "servers": {
+      "agentmemory": {
+        "type": "local",
+        "command": [
+          "npx",
+          "-y",
+          "@agentmemory/mcp"
+        ],
+        "disabled": false
+      },
+      "code-search-mcp": {
+        "type": "local",
+        "command": [
+          "uv",
+          "run",
+          "--project",
+          "/home/jm/code/code-search-mcp",
+          "code-search-mcp"
+        ]
+      },
+      "code-intelligence": {
+        "type": "local",
+        "command": [
+          "/home/jm/code/code-intelligence/target/release/code-intelligence"
+        ]
+      },
+      "atlassian-mcp": {
+        "type": "local",
+        "command": [
+          "uv",
+          "run",
+          "--directory",
+          "/home/jm/mcps/atlassian-mcp",
+          "atlassian-mcp"
+        ]
+      }
+    }
+  },
+  "providers": {
+    "google": {
+      "models": {
+        "gemini-3.7-flash": {
+          "variants": [
+            {
+              "id": "low",
+              "settings": {
+                "thinkingConfig": {
+                  "thinkingLevel": "low"
+                }
+              }
+            },
+            {
+              "id": "medium",
+              "settings": {
+                "thinkingConfig": {
+                  "thinkingLevel": "medium"
+                }
+              }
+            },
+            {
+              "id": "high",
+              "settings": {
+                "thinkingConfig": {
+                  "thinkingLevel": "high"
+                }
+              }
+            }
+          ]
+        },
+        "gemini-3.8-flash": {
+          "variants": [
+            {
+              "id": "low",
+              "settings": {
+                "thinkingConfig": {
+                  "thinkingLevel": "low"
+                }
+              }
+            },
+            {
+              "id": "medium",
+              "settings": {
+                "thinkingConfig": {
+                  "thinkingLevel": "medium"
+                }
+              }
+            },
+            {
+              "id": "high",
+              "settings": {
+                "thinkingConfig": {
+                  "thinkingLevel": "high"
+                }
+              }
+            }
+          ]
+        },
+        "gemini-3.1-pro-preview": {
+          "variants": [
+            {
+              "id": "low",
+              "settings": {
+                "thinkingConfig": {
+                  "thinkingLevel": "low"
+                }
+              }
+            },
+            {
+              "id": "medium",
+              "settings": {
+                "thinkingConfig": {
+                  "thinkingLevel": "medium"
+                }
+              }
+            },
+            {
+              "id": "high",
+              "settings": {
+                "thinkingConfig": {
+                  "thinkingLevel": "high"
+                }
+              }
+            }
+          ]
+        },
+        "gemini-4-argon": {
+          "variants": [
+            {
+              "id": "low",
+              "settings": {
+                "thinkingConfig": {
+                  "thinkingLevel": "low"
+                }
+              }
+            },
+            {
+              "id": "medium",
+              "settings": {
+                "thinkingConfig": {
+                  "thinkingLevel": "medium"
+                }
+              }
+            },
+            {
+              "id": "high",
+              "settings": {
+                "thinkingConfig": {
+                  "thinkingLevel": "high"
+                }
+              }
+            }
+          ]
+        }
+      }
+    },
+    "ollama": {
+      "settings": {
+        "baseURL": "http://127.0.0.1:11434/v1"
+      },
+      "models": {
+        "deepseek-coder-v3:27b-q4_K_M": {
+          "settings": {}
+        },
+        "gemma4:26b": {
+          "settings": {
+            "num_gpu": 99,
+            "num_ctx": 32768,
+            "temperature": 0.2,
+            "top_p": 0.95,
+            "top_k": 64,
+            "repeat_penalty": 1.1
+          }
+        },
+        "gemma4:e4b-it-q4_K_M": {
+          "settings": {
+            "num_gpu": 1,
+            "num_ctx": 8192,
+            "temperature": 0.1,
+            "top_p": 0.9,
+            "top_k": 40,
+            "repeat_penalty": 1.1
+          }
+        },
+        "codestral:22b-q4_K_M": {
+          "settings": {}
+        },
+        "qwen3.5:35b-q4_K_M": {
+          "settings": {}
+        },
+        "qwen3.5:9b-q4_K_M": {
+          "settings": {}
+        },
+        "hf.co/bartowski/Codestral-22B-v0.1-GGUF:Q4_K_M": {
+          "settings": {}
+        }
+      }
+    }
+  },
+  "compaction": {
+    "auto": true,
+    "buffer": 15000,
+    "keep": {
+      "tokens": 20000
+    }
+  },
+  "watcher": {
+    "ignore": [
+      "node_modules/**",
+      "dist/**",
+      "build/**",
+      ".git/**",
+      "*.lock"
+    ]
+  },
+  "instructions": [
+    "CONTRIBUTING.md",
+    "docs/specs/INDEX.md",
+    "AGENTS.md"
+  ],
+  "commands": {
+    "bugs-analyzer": {
+      "description": "Analyze the last N bugfix commits for root cause clusters and hot spots",
+      "template": "{file:~/.config/opencode/commands/bugs-analyzer.md}\n\n$ARGUMENTS",
+      "agent": "bugs-analyzer"
+    },
+    "ticket-validator": {
+      "description": "Grade ticket or PRD quality against project specs",
+      "template": "{file:~/.config/opencode/commands/ticket-validator.md}\n\n$ARGUMENTS"
+    },
+    "optimize-knowledge": {
+      "description": "Clean up obsolete/conflicting knowledge and update the INDEX.md",
+      "template": "{file:~/.config/opencode/commands/knowledge-optimizer.md}\n\n$ARGUMENTS",
+      "agent": "knowledge-optimizer"
+    },
+    "index": {
+      "description": "Generate a file index manifest for a directory or scope",
+      "template": "Scan the given scope and produce a checklist index of all analyzable source files. Save the index to docs/specs/indexes/.\n\n$ARGUMENTS",
+      "agent": "logic-indexer"
+    },
+    "audit": {
+      "description": "Full business logic audit: staleness check, then extract all unprocessed or stale specs",
+      "template": "Run the SPEC_MAINTENANCE_PIPELINE: Phase 0 (STALENESS_CHECK), Phase 1 (AUDIT), then Phase 3 (EXTRACTION) for all unprocessed or stale files. Skip Phase 2 (INDEXING) unless no index exists for the requested scope.\n\n$ARGUMENTS",
+      "agent": "specs"
+    },
+    "full-audit": {
+      "description": "Index all source files, then extract complete business logic specs",
+      "template": "Run the complete SPEC_MAINTENANCE_PIPELINE: Phase 0 (STALENESS_CHECK), Phase 1 (AUDIT), Phase 2 (INDEXING), Phase 3 (EXTRACTION), Phase 4 (VALIDATION), Phase 5 (CODIFY), and Phase 6 (ARCHITECTURE).\n\n$ARGUMENTS",
+      "agent": "specs"
+    },
+    "staleness": {
+      "description": "Check which existing specs are out of date without triggering extraction",
+      "template": "Run Phase 0 (STALENESS_CHECK) only: for each existing spec in docs/specs/, read its Commit field, run git log to check if the source file has changed, and produce a staleness report table showing which specs are current vs stale and by how many commits.\n\n$ARGUMENTS",
+      "agent": "specs"
+    },
+    "spec-validate": {
+      "description": "Run quality gates against existing specs and report pass/fail per gate",
+      "template": "Run Phase 4 (VALIDATION) only against existing specs in docs/specs/. Check all four gates: structural completeness (7 sections), coverage of exported symbols, cross-reference link resolution, and commit freshness. Output a validation report table. Do not re-extract anything.\n\n$ARGUMENTS",
+      "agent": "specs"
+    },
+    "architecture": {
+      "description": "Generate or refresh ARCHITECTURE.md from all current specs",
+      "template": "Run Phase 6 (ARCHITECTURE) only: read all specs in docs/specs/, extract their dependency and cross-reference sections, and generate/update docs/specs/ARCHITECTURE.md with a Mermaid component diagram, module responsibilities table, hot spots, and data flow overview. Also update the ARCHITECTURE.md link in docs/specs/INDEX.md.\n\n$ARGUMENTS",
+      "agent": "specs"
+    },
+    "multi-plan": {
+      "description": "Standalone multi-perspective planner: bootstraps its own router+explorer session, then runs four parallel lens agents (Correctness, Risk, Architecture, Simplicity) synthesized into one conflict-aware blueprint",
+      "template": "$ARGUMENTS",
+      "agent": "multi-planner"
+    },
+    "orch": {
+      "description": "Starts orchestration for tasks",
+      "template": "index_project and index_code once for this session (the file watcher keeps both live afterwards — subagents are told INDEX: ready and must not re-index); Using your @router, start the orchestration for:\n$ARGUMENTS",
+      "agent": "orchestrator"
+    },
+    "context-audit": {
+      "description": "Evaluate and rewrite an AGENTS.md or CLAUDE.md to be lean, high-signal, and actually effective",
+      "template": "{file:~/.config/opencode/commands/context-auditor.md}\n\n$ARGUMENTS"
+    },
+    "refine": {
+      "description": "Break down Stories & Epics by Jira issue key using SPIDR guidelines",
+      "template": "{file:~/.config/opencode/commands/refine.md}\n\n$ARGUMENTS"
+    },
+    "create-ticket": {
+      "description": "Create a well-structured ticket (User Story, Bug, Spike, Tech Debt, Epic) following engineering best practices",
+      "template": "{file:~/.config/opencode/commands/create-ticket.md}\n\n$ARGUMENTS"
+    },
+    "refine-tasks": {
+      "description": "Draft markdown ticket bodies for the original ticket and each subtask from a /refine session",
+      "template": "{file:~/.config/opencode/commands/refine-tasks.md}\n\n$ARGUMENTS"
+    },
+    "ticket-validate": {
+      "description": "Grade ticket or PRD quality against project specs",
+      "template": "{file:~/.config/opencode/commands/ticket-validator.md}\n\n$ARGUMENTS"
+    },
+    "pr-review-remediate": {
+      "description": "Verifies and remediates open GitHub PR review threads (bot or human) against the real codebase. Never trusts a comment as fact, and never writes back to GitHub — v1 is read-only against the PR.",
+      "template": "PR_REVIEW_TARGET: $ARGUMENTS. Remediate every open GitHub PR review thread for this PR.\n$ARGUMENTS",
+      "agent": "orchestrator"
+    }
+  },
+  "permissions": [
+    {
+      "action": "shell",
+      "resource": "*",
+      "effect": "allow"
+    },
+    {
+      "action": "shell",
+      "resource": "git push*",
+      "effect": "deny"
+    },
+    {
+      "action": "shell",
+      "resource": "rm -rf*",
+      "effect": "deny"
+    },
+    {
+      "action": "shell",
+      "resource": "sudo *",
+      "effect": "deny"
+    },
+    {
+      "action": "shell",
+      "resource": "git reset --hard*",
+      "effect": "deny"
+    },
+    {
+      "action": "shell",
+      "resource": "git clean*",
+      "effect": "deny"
+    },
+    {
+      "action": "shell",
+      "resource": "rm -fr*",
+      "effect": "deny"
+    }
+  ],
+  "policies": [
+    {
+      "action": "tool.use",
+      "resource": "shell:git push *",
+      "effect": "deny"
+    },
+    {
+      "action": "tool.use",
+      "resource": "shell:rm -rf*",
+      "effect": "deny"
+    },
+    {
+      "action": "tool.use",
+      "resource": "shell:rm -fr*",
+      "effect": "deny"
+    },
+    {
+      "action": "tool.use",
+      "resource": "shell:sudo *",
+      "effect": "deny"
+    },
+    {
+      "action": "tool.use",
+      "resource": "shell:git reset --hard*",
+      "effect": "deny"
+    },
+    {
+      "action": "tool.use",
+      "resource": "shell:git clean*",
+      "effect": "deny"
+    },
+    {
+      "action": "tool.use",
+      "resource": "edit:*.env*",
+      "effect": "deny"
+    },
+    {
+      "action": "tool.use",
+      "resource": "edit:*.git/**",
+      "effect": "deny"
+    }
+  ],
+  "plugins": [
+    "file:///home/jm/mcps/opencode-claude-code-plugin"
+  ]
+}
+

@@ -1,0 +1,10 @@
+tags
+.scratch.vim
+.php_cs.cache
+.cfg
+.gtm
+phpactor.log
+npm-debug.log
+
+.code-intelligence/
+**/.claude/settings.local.json

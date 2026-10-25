@@ -1,0 +1,22 @@
+{
+    "append": {
+        "prefix": "ap",
+        "body": [
+            "${1:slice} = append($1, ${2:item})"
+        ],
+        "description": "append to slice"
+    },
+    "t.Parallel()": {
+        "prefix": "tp",
+        "body": [
+            "t.Parallel()"
+        ],
+        "description": "t.Parallel()"
+    },
+    "gock": {
+        "prefix": "goc",
+        "body": [
+            "defer gock.Off()\ngock.Observe(gock.DumpRequest)\nassert.True(t, gock.IsDone())"
+        ]
+    }
+}

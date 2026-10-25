@@ -1,0 +1,101 @@
+@page {
+  size: A4;
+  margin: 20mm 18mm 22mm;
+
+  @bottom-right {
+    content: counter(page) " / " counter(pages);
+    font: 9pt Inter, sans-serif;
+    color: #6b7280;
+  }
+}
+
+html {
+  font: 10.5pt/1.55 Inter, "DejaVu Sans", sans-serif;
+  color: #1f2937;
+}
+
+body {
+  max-width: none;
+  margin: 0;
+}
+
+h1 {
+  font-size: 22pt;
+  line-height: 1.2;
+  margin: 0 0 4pt;
+  color: #0f3d5e;
+}
+
+h1+p {
+  color: #6b7280;
+  font-size: 9.5pt;
+  margin-top: 0;
+}
+
+h2 {
+  font-size: 13.5pt;
+  color: #0f3d5e;
+  border-bottom: 1.5px solid #0f3d5e;
+  padding-bottom: 2pt;
+  margin: 20pt 0 8pt;
+  break-after: avoid;
+}
+
+p,
+li {
+  orphans: 3;
+  widows: 3;
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 8pt 0 12pt;
+  font-size: 9.5pt;
+}
+
+th {
+  background: #0f3d5e;
+  color: #fff;
+  text-align: left;
+}
+
+th,
+td {
+  padding: 5pt 7pt;
+  vertical-align: top;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+tr {
+  break-inside: avoid;
+}
+
+tbody tr:nth-child(even) {
+  background: #f3f6f9;
+}
+
+strong {
+  color: #0f3d5e;
+}
+
+img {
+  max-width: 100%;
+}
+
+pre {
+  background: #f3f6f9;
+  padding: 8pt 10pt;
+  border-radius: 4pt;
+  font-size: 9pt;
+  break-inside: avoid;
+}
+
+code {
+  font-family: "DejaVu Sans Mono", monospace;
+}
+
+pre > code.sourceCode > span {
+  text-indent: 0;
+  padding-left: 0;
+}

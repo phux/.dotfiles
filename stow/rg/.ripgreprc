@@ -1,0 +1,7 @@
+# Don't let ripgrep vomit really long lines (minified JS, JSON) to my terminal or a picker.
+# Tools that pass their own --max-columns (snacks: 500, the `rg` alias: 150) override this value.
+--max-columns=200
+--max-columns-preview
+
+# Because who cares about case!?
+--smart-case
