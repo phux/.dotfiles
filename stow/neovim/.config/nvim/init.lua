@@ -1461,8 +1461,14 @@ require("lazy").setup(
                 local tables = require("markview.config.markdown")
                 .tables                                                   -- the wiki's spec.default.markdown no longer exists
                 local no_border = require("markview.presets").tables.none
+                -- the default heading icons and signs are U+F0000+ glyphs, which urxvt draws as boxes
+                local headings = { enable = true }
+                for level = 1, 6 do
+                    headings["heading_" .. level] = { style = "simple", hl = "MarkviewHeading" .. level }
+                end
                 require("markview").setup({
                     markdown = {
+                        headings = headings,
                         tables = function(buffer)
                             if buffer and vim.b[buffer].noborder == true then
                                 return vim.tbl_deep_extend("force", tables, no_border)

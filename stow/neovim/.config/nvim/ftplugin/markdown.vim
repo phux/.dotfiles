@@ -1,8 +1,11 @@
 " markview reuses this filetype in a scratch buffer for its preview split
 if &buftype ==# ''
     setlocal spell
-    " markview renders tables as raw pipes in a wrapping window
-    setlocal nowrap
+    " markview renders tables as raw pipes in a wrapping window, so only a buffer with a table stays nowrap
+    setlocal wrap linebreak breakindent
+    if search('^\s*|.*|\s*$', 'nw')
+        setlocal nowrap
+    endif
     " fold sections, see queries/markdown/folds.scm; foldlevel=99 opens every fold on load, foldnestmax=6 for h1 to h6
     setlocal foldexpr=v:lua.vim.treesitter.foldexpr() foldtext= foldlevel=99 foldnestmax=6
     " the treesitter parser starts after this ftplugin runs, so enable expr folding once idle
