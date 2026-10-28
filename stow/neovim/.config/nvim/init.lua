@@ -1466,7 +1466,30 @@ require("lazy").setup(
                 for level = 1, 6 do
                     headings["heading_" .. level] = { style = "simple", hl = "MarkviewHeading" .. level }
                 end
+                -- markview draws a stripped table in a wrapping window ("BUG, wrap breaks table rendering" in its renderer)
+                -- and none at 90% of the window width; a table that fits the window renders fine, so draw it as in a nowrap window
+                local function render_table(buffer, item)
+                    local render = require("markview.renderers.markdown").table
+                    local win = require("markview.utils").buf_getwin(buffer)
+                    if type(win) ~= "number" or not vim.wo[win].wrap then return render(buffer, item) end
+                    local width = 0
+                    for _, line in ipairs(vim.api.nvim_buf_get_lines(buffer, item.range.row_start, item.range.row_end, false)) do
+                        width = math.max(width, vim.fn.strdisplaywidth(line))
+                    end
+                    if width + 2 > vim.api.nvim_win_get_width(win) - vim.fn.getwininfo(win)[1].textoff then
+                        return render(buffer, item)
+                    end
+                    -- the OptionSet handler of markview would re-render on this toggle
+                    local ignore = vim.o.eventignore
+                    vim.o.eventignore = "OptionSet"
+                    vim.wo[win].wrap = false
+                    local ok, err = pcall(render, buffer, item)
+                    vim.wo[win].wrap = true
+                    vim.o.eventignore = ignore
+                    if not ok then error(err) end
+                end
                 require("markview").setup({
+                    renderers = { markdown_table = render_table },
                     markdown = {
                         headings = headings,
                         tables = function(buffer)
