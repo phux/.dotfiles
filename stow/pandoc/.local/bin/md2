@@ -7,7 +7,7 @@ out="/tmp/${file}_$(date +"%Y-%m-%d").pdf"
 # -H $HOME/.local/share/pandoc/headers/chapter_break.tex \
 #-H $HOME/.local/share/pandoc/headers/syntax_highlight.tex \
 pandoc "$1" \
-  -f markdown \
+  -f markdown+lists_without_preceding_blankline \
   --toc -N \
   -V colorlinks -V urlcolor=NavyBlue \
   -H $HOME/.local/share/pandoc/headers/bullet_list.tex \

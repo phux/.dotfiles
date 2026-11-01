@@ -11,7 +11,7 @@ work="$(mktemp -d -p "$HOME" md2h.XXXXXX)"
 trap 'rm -rf "$work"' EXIT
 
 pandoc "$1" \
-  -f markdown -s --metadata pagetitle="$file" \
+  -f markdown+lists_without_preceding_blankline -s --metadata pagetitle="$file" \
   --lua-filter="$pandoc_dir/luafilters/table-widths.lua" \
   -c "$pandoc_dir/themes/modern.css" --embed-resources \
   -o "$work/doc.html"
