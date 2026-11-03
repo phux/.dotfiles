@@ -1031,11 +1031,6 @@ require("lazy").setup(
                         end,
                     }
                 })
-                -- <leader>nd/nr/nD/ni open the same lookups in the picker (lua/picker.lua)
-                vim.keymap.set('n', 'gd', '<CMD>Glance definitions<CR>')
-                vim.keymap.set('n', 'gr', '<CMD>Glance references<CR>')
-                vim.keymap.set('n', 'gD', '<CMD>Glance type_definitions<CR>')
-                vim.keymap.set('n', 'gi', '<CMD>Glance implementations<CR>')
             end,
         },
         {
@@ -1299,6 +1294,12 @@ vim.api.nvim_create_autocmd('LspAttach', {
             vim.keymap.set(mode, lhs, rhs, { buffer = true })
         end
 
+        -- glance, per buffer so gd/gD/gi keep their built-in meaning without an LSP client.
+        -- <leader>nd/nr/nD/ni open the same lookups in the snacks picker.
+        bufmap('n', 'gd', '<CMD>Glance definitions<CR>')
+        bufmap('n', 'gr', '<CMD>Glance references<CR>')
+        bufmap('n', 'gD', '<CMD>Glance type_definitions<CR>')
+        bufmap('n', 'gi', '<CMD>Glance implementations<CR>')
         bufmap('n', '<leader>rr', vim.lsp.buf.rename)
         bufmap('n', '<leader>F', vim.lsp.buf.format)
         bufmap('n', 'gl', vim.diagnostic.open_float)
