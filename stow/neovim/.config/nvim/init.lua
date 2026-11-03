@@ -1492,6 +1492,9 @@ require("lazy").setup(
                     renderers = { markdown_table = render_table },
                     markdown = {
                         headings = headings,
+                        -- its wrap indent guesses the wrap column from the raw text width, ignoring concealed urls and
+                        -- link icons, so it pads mid-word; 'breakindent' already indents wrapped list lines
+                        list_items = { wrap = false },
                         tables = function(buffer)
                             if buffer and vim.b[buffer].noborder == true then
                                 return vim.tbl_deep_extend("force", tables, no_border)
