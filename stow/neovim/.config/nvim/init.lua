@@ -337,7 +337,6 @@ require("lazy").setup(
             cmd = "CodeDiff",
             keys = {
                 { "<leader>gs", "<cmd>CodeDiff<cr>" },
-                { "<leader>gc", "<cmd>CodeDiff<cr>" },
                 { "<leader>df", ":CodeDiff history %",     mode = { "n" } },
                 { "<leader>df", ":CodeDiff history %<cr>", mode = { "v" } },
             },
@@ -735,7 +734,7 @@ require("lazy").setup(
 
         {
             'Wansmer/treesj',
-            keys = { '<space>k', '<space>j', },
+            keys = { '<leader>j' },
             dependencies = { 'nvim-treesitter/nvim-treesitter' },
             config = function()
                 require('treesj').setup({
@@ -743,7 +742,6 @@ require("lazy").setup(
                 })
 
                 vim.keymap.set('n', '<leader>j', require('treesj').toggle)
-                vim.keymap.set('n', '<leader>k', require('treesj').toggle)
             end,
         },
         {
@@ -1038,7 +1036,6 @@ require("lazy").setup(
             "aznhe21/actions-preview.nvim",
             keys = {
                 { "<leader>ca", function() require("actions-preview").code_actions() end, mode = { "v", "n" } },
-                { "<leader>ll", function() require("actions-preview").code_actions() end, mode = { "v", "n" } },
             },
         },
         {
