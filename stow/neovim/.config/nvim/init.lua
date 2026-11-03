@@ -635,7 +635,7 @@ require("lazy").setup(
             end
         }, -- nvim abolish alternative
         -- { "adoy/vim-php-refactoring-toolbox", ft = "php" },
-        { "phux/php-doc-modded",    ft = "php" },
+        { "phux/php-doc-modded", ft = "php" },
         {
             "olexsmir/gopher.nvim",
             ft = "go",
@@ -819,7 +819,7 @@ require("lazy").setup(
                 }
                 -- markdownlint-cli2 only reads configs from the working directory. --config adds a base that project configs override.
                 require('lint').linters['markdownlint-cli2'].args = { '--config', vim.fn.expand(
-                '~/.markdownlint-cli2.yaml'), '-' }
+                    '~/.markdownlint-cli2.yaml'), '-' }
                 vim.api.nvim_create_autocmd({ "BufWritePost" }, {
                     callback = function()
                         -- try_lint without arguments runs the linters defined in `linters_by_ft`
@@ -1237,7 +1237,7 @@ require("lazy").setup(
             -- no hybrid_modes: it re-parses and re-renders the whole buffer on every j/k (~45ms on a 225-line file)
             config = function()
                 local tables = require("markview.config.markdown")
-                .tables                                                   -- the wiki's spec.default.markdown no longer exists
+                    .tables -- the wiki's spec.default.markdown no longer exists
                 local no_border = require("markview.presets").tables.none
                 -- the default heading icons and signs are U+F0000+ glyphs, which urxvt draws as boxes
                 local headings = { enable = true }
