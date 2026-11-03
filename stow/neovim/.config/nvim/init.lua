@@ -846,8 +846,6 @@ require("lazy").setup(
         {
             "saghen/blink.cmp",
             version = "1.*", -- release tags ship a prebuilt fuzzy matcher
-            event = "InsertEnter",
-            dependencies = { "L3MON4D3/LuaSnip" },
             opts = function()
                 local function has_words_before()
                     local col = vim.api.nvim_win_get_cursor(0)[2]
@@ -927,7 +925,8 @@ require("lazy").setup(
         },
         {
             "L3MON4D3/LuaSnip",
-            event = "VeryLazy",
+            event = "InsertEnter",
+            cmd = "ES",
             dependencies = {
                 "rafamadriz/friendly-snippets",
             },
@@ -1160,6 +1159,7 @@ require("lazy").setup(
         },
         {
             "lowitea/aw-watcher.nvim",
+            event = "VeryLazy",
             opts = { -- required, but can be empty table: {}
                 -- add any options here
                 -- for example:
