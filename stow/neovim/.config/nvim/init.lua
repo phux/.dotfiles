@@ -1300,7 +1300,6 @@ vim.api.nvim_create_autocmd('LspAttach', {
         bufmap('n', 'gr', '<CMD>Glance references<CR>')
         bufmap('n', 'gD', '<CMD>Glance type_definitions<CR>')
         bufmap('n', 'gi', '<CMD>Glance implementations<CR>')
-        bufmap('n', '<leader>rr', vim.lsp.buf.rename)
         bufmap('n', '<leader>F', vim.lsp.buf.format)
         bufmap('n', 'gl', vim.diagnostic.open_float)
         bufmap('n', '<c-p>', function() vim.diagnostic.jump({ count = -1, float = true }) end)
