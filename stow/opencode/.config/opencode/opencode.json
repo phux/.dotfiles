@@ -31,6 +31,8 @@
       "code-intelligence": {
         "type": "local",
         "command": [
+          "env",
+          "CI_MCP_TOOLS=explore",
           "/home/jm/code/code-intelligence/target/release/code-intelligence"
         ]
       },
