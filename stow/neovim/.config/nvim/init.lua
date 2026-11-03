@@ -748,6 +748,16 @@ require("lazy").setup(
                         { class = 'mode',    item = require('hardline.parts.line').get_item },
                     },
                 }
+                -- Since nvim 0.12 a float shows a window-local 'statusline'. hardline sets one on every
+                -- window. The extra row sits inside the snacks input float and hides the first list item.
+                -- This autocmd is defined after the hardline autocmds, so it runs after them.
+                vim.api.nvim_create_autocmd({ "WinEnter", "WinLeave", "BufEnter", "BufLeave", "BufWinEnter" }, {
+                    callback = function()
+                        for _, w in ipairs(vim.api.nvim_list_wins()) do
+                            if vim.api.nvim_win_get_config(w).relative ~= "" then vim.wo[w].statusline = "" end
+                        end
+                    end,
+                })
             end
 
         },
