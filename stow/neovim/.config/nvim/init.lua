@@ -789,7 +789,7 @@ require("lazy").setup(
                 require('numb').setup()
             end
         }, -- peek lines
-        { 'williamboman/mason.nvim' },
+        { 'mason-org/mason.nvim' },
         {
             "mfussenegger/nvim-lint",
             event = "VeryLazy",
@@ -818,7 +818,7 @@ require("lazy").setup(
                 })
             end
         },
-        { "williamboman/mason-lspconfig.nvim" },
+        { "mason-org/mason-lspconfig.nvim" },
         {
             "neovim/nvim-lspconfig",
             -- event = "VeryLazy",
