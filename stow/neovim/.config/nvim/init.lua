@@ -980,8 +980,8 @@ require("lazy").setup(
                         ansible = { lsp_format = "first", "ansible-lint" },
                         lua = { lsp_format = "first" },
                         python = { lsp_format = "first", "ruff_organize_imports", "ruff_format" },
-                        javascript = { lsp_format = "first", "prettierd", },
-                        typescript = { lsp_format = "first", "prettierd", },
+                        javascript = { "prettierd", lsp_format = "never" },
+                        typescript = { "prettierd", lsp_format = "never" },
                         -- typescriptreact = { lsp_format = "first", "prettierd" },
                         -- yaml = { lsp_format = "first", "yamlfix", "yamlfmt" },
                         terraform = { lsp_format = "first", "terraform_fmt" },
@@ -1392,6 +1392,10 @@ vim.lsp.config('gopls', {
 --     },
 -- })
 
+-- tsc --lsp is the official server for TypeScript 7 and newer. It runs the project's tsc, else the one on
+-- $PATH, so mason does not install it. ts_ls cannot load a TypeScript 7 workspace.
+vim.lsp.enable('tsc')
+
 vim.lsp.config('jsonls', {
     before_init = function(_, config)
         config.settings.json.schemas = require('schemastore').json.schemas()
@@ -1434,7 +1438,6 @@ require('mason-lspconfig').setup({
         'graphql',
         'html',
         'jsonls',
-        -- 'tsserver',
         'marksman', -- markdown
         -- 'spectral', -- openapi
         -- 'phpactor',
