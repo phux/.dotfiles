@@ -1082,8 +1082,6 @@ require("lazy").setup(
                 require("other-nvim").setup({
                     mappings = { "golang" },
                 })
-
-                vim.api.nvim_set_keymap("n", "<leader>na", "<cmd>:Other<CR>", { noremap = true, silent = true })
             end
         },
         {

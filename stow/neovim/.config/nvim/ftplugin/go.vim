@@ -14,3 +14,5 @@ nnoremap <buffer> <leader>oc :CoverageToggle<cr>
 nnoremap <buffer> <leader>OC :CoverageSummary<cr>
 
 command! Mockery execute 'normal! O//go:generate mockery --name '.expand('<cword>').' --structname '.expand('<cword>').' --output=internal/mocks'
+
+nnoremap <buffer> <leader>na :Other<cr>
