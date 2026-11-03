@@ -8,3 +8,4 @@ npm-debug.log
 
 .code-intelligence/
 **/.claude/settings.local.json
+stow/neovim/.config/nvim/lazy-lock.json
