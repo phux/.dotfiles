@@ -21,6 +21,15 @@ DEV_PACKAGES=(
 
 install_packages "${DEV_PACKAGES[@]}"
 
+# php-cli ships with opcache.enable_cli=0. A 99- file in the CLI scan dir overrides it for the CLI only.
+PHP_CLI_INI="$(php -r 'echo PHP_CONFIG_FILE_SCAN_DIR;')/99-dotfiles.ini"
+if grep -qx 'opcache.enable_cli=1' "$PHP_CLI_INI" 2>/dev/null; then
+  print_info "php-cli opcache is already enabled."
+else
+  echo 'opcache.enable_cli=1' | sudo tee "$PHP_CLI_INI" >/dev/null
+  print_success "Enabled opcache for php-cli in $PHP_CLI_INI."
+fi
+
 # Setup GVM (Go Version Manager)
 if [ ! -d "$HOME/.gvm" ]; then
   print_info "Installing GVM"

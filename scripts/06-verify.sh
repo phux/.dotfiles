@@ -55,4 +55,13 @@ if command_exists docker; then
     fi
 fi
 
+# 4. Verify php-cli opcache
+if command_exists php; then
+    if [ "$(php -r 'echo ini_get("opcache.enable_cli");')" = "1" ]; then
+        print_success "php-cli opcache is enabled."
+    else
+        print_warning "php-cli opcache is disabled. Run 'make dev'."
+    fi
+fi
+
 print_success "Phase 06: Verification completed."
