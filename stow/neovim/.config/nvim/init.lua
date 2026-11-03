@@ -277,18 +277,28 @@ require("lazy").setup(
             cmd = "Tabularize",
         },
         {
-            "talek/obvious-resize",
-            keys = {
-                "<C-Up>", "<C-Down>", "<C-Left>", "<C-Right>"
+            "smart-splits-nvim/smart-splits.nvim",
+            version = "^3.0.0",
+            dependencies = {
+                -- v3 has no built-in multiplexer support. Keys reach nvim through the vim-tmux-navigator
+                -- bindings in .tmux.conf, so this loads on the first key and sets no @pane-is-vim.
+                { "smart-splits-nvim/backend-tmux", main = "smart-splits-backend-tmux" },
             },
-            config = function()
-                vim.g.obvious_resize_run_tmux = 1
-                vim.g.obvious_resize_default = 5
-                vim.api.nvim_set_keymap("n", "<C-Up>", ":<C-U>ObviousResizeUp<CR>", { noremap = true })
-                vim.api.nvim_set_keymap("n", "<C-Down>", ":<C-U>ObviousResizeDown<CR>", { noremap = true })
-                vim.api.nvim_set_keymap("n", "<C-Left>", ":<C-U>ObviousResizeLeft<CR>", { noremap = true })
-                vim.api.nvim_set_keymap("n", "<C-Right>", ":<C-U>ObviousResizeRight<CR>", { noremap = true })
-            end
+            opts = {
+                mux = { backend = "smart-splits-backend-tmux" },
+                resize = { amount = 5 },
+            },
+            keys = {
+                { "<C-h>",     function() require("smart-splits").move_cursor_left() end },
+                { "<C-j>",     function() require("smart-splits").move_cursor_down() end },
+                { "<C-k>",     function() require("smart-splits").move_cursor_up() end },
+                { "<C-l>",     function() require("smart-splits").move_cursor_right() end },
+                { "<C-\\>",    function() require("smart-splits").move_cursor_previous() end },
+                { "<C-Up>",    function() require("smart-splits").resize_up() end },
+                { "<C-Down>",  function() require("smart-splits").resize_down() end },
+                { "<C-Left>",  function() require("smart-splits").resize_left() end },
+                { "<C-Right>", function() require("smart-splits").resize_right() end },
+            },
         },
         {
             "tpope/vim-fugitive",
@@ -986,10 +996,6 @@ require("lazy").setup(
                 require('numb').setup()
             end
         }, -- peek lines
-        {
-            "christoomey/vim-tmux-navigator",
-            event = "VeryLazy",
-        },
         { 'williamboman/mason.nvim' },
         {
             "mfussenegger/nvim-lint",
