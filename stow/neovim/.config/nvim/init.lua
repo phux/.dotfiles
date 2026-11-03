@@ -220,6 +220,7 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 local dark = vim.o.background == "dark"
+local coverage_rocks = vim.fn.stdpath("data") .. "/coverage-rocks"
 
 require("lazy").setup(
     {
@@ -1150,7 +1151,23 @@ require("lazy").setup(
             "andythigpen/nvim-coverage",
             ft = { "go", "php" },
             dependencies = "nvim-lua/plenary.nvim",
+            -- The PHP cobertura parser needs the C rock lua-xmlreader. The plugin ships no rockspec, so lazy.nvim
+            -- does not install it. The build needs luarocks and the libxml2 headers (apt: luarocks libxml2-dev).
+            build = function()
+                if vim.fn.executable("luarocks") == 0 then
+                    vim.notify("nvim-coverage: luarocks not found, PHP coverage needs lua-xmlreader", vim.log.levels
+                        .WARN)
+                    return
+                end
+                local res = vim.system(
+                    { "luarocks", "--lua-version", "5.1", "--tree", coverage_rocks, "install", "lua-xmlreader" },
+                    { text = true }):wait()
+                if res.code ~= 0 then
+                    vim.notify("nvim-coverage: installing lua-xmlreader failed:\n" .. res.stderr, vim.log.levels.ERROR)
+                end
+            end,
             config = function()
+                package.cpath = package.cpath .. ";" .. coverage_rocks .. "/lib/lua/5.1/?.so"
                 require("coverage").setup()
             end,
         },
