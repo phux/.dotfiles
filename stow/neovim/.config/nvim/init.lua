@@ -2,6 +2,8 @@ vim.loader.enable()
 
 local U = require "utils"
 
+local vault = vim.fn.expand("~/Dropbox/Apps/remotely-save/ObsidianVault")
+
 vim.o.termguicolors = true
 
 vim.g.loaded_gzip = 1
@@ -359,7 +361,7 @@ require("lazy").setup(
             cmd = "Octo",
             opts = {
                 -- or "fzf-lua" or "snacks" or "default"
-                picker = require("picker").octo,
+                picker = "snacks",
                 -- bare Octo command opens picker of commands
                 enable_builtin = true,
             },
@@ -404,14 +406,7 @@ require("lazy").setup(
             },
             dependencies = { "tpope/vim-fugitive" },
             config = function()
-                local opts = { diff_plugin = "fugitive" }
-                local picker = require("picker").current
-                if picker == "telescope" then
-                    require("telescope").setup({ extensions = { advanced_git_search = opts } })
-                    require("telescope").load_extension("advanced_git_search")
-                else
-                    require("advanced_git_search." .. (picker == "fzf" and "fzf" or "snacks")).setup(opts)
-                end
+                require("advanced_git_search.snacks").setup({ diff_plugin = "fugitive" })
             end,
         },
         {
@@ -624,16 +619,10 @@ require("lazy").setup(
         },
         {
             "johmsalas/text-case.nvim",
-            keys = {
-                "ga", -- Default invocation prefix
-                { "ga.", "<cmd>TextCaseOpenTelescope<CR>", mode = { "n", "x" }, desc = "Telescope" },
-            },
+            keys = { "ga" }, -- Default invocation prefix
             cmd = {
                 -- NOTE: The Subs command name can be customized via the option "substitude_command_name"
                 "Subs",
-                "TextCaseOpenTelescope",
-                "TextCaseOpenTelescopeQuickChange",
-                "TextCaseOpenTelescopeLSPChange",
                 "TextCaseStartReplacingCommand",
             },
             config = function()
@@ -920,16 +909,16 @@ require("lazy").setup(
                 },
             },
             keys = {
-                { "<leader>P", function() require("picker").run("yanky") end, desc = "Open Yank History" },
-                { "y",         "<Plug>(YankyYank)",                           mode = { "n", "x" },                           desc = "Yank text" },
-                { "p",         "<Plug>(YankyPutAfter)",                       mode = { "n", "x" },                           desc = "Put yanked text after cursor" },
-                { "P",         "<Plug>(YankyPutBefore)",                      mode = { "n", "x" },                           desc = "Put yanked text before cursor" },
-                { "]p",        "<Plug>(YankyPutIndentAfterLinewise)",         desc = "Put indented after cursor (linewise)" },
-                { "[p",        "<Plug>(YankyPutIndentBeforeLinewise)",        desc = "Put indented before cursor (linewise)" },
+                { "<leader>P", function() Snacks.picker.yanky() end,    desc = "Open Yank History" },
+                { "y",         "<Plug>(YankyYank)",                     mode = { "n", "x" },                           desc = "Yank text" },
+                { "p",         "<Plug>(YankyPutAfter)",                 mode = { "n", "x" },                           desc = "Put yanked text after cursor" },
+                { "P",         "<Plug>(YankyPutBefore)",                mode = { "n", "x" },                           desc = "Put yanked text before cursor" },
+                { "]p",        "<Plug>(YankyPutIndentAfterLinewise)",   desc = "Put indented after cursor (linewise)" },
+                { "[p",        "<Plug>(YankyPutIndentBeforeLinewise)",  desc = "Put indented before cursor (linewise)" },
                 -- { "]P",        "<Plug>(YankyPutIndentAfterLinewise)",                                        desc = "Put indented after cursor (linewise)" },
                 -- { "[P",        "<Plug>(YankyPutIndentBeforeLinewise)",                                       desc = "Put indented before cursor (linewise)" },
-                { ">p",        "<Plug>(YankyPutIndentAfterShiftRight)",       desc = "Put and indent right" },
-                { "<p",        "<Plug>(YankyPutIndentAfterShiftLeft)",        desc = "Put and indent left" },
+                { ">p",        "<Plug>(YankyPutIndentAfterShiftRight)", desc = "Put and indent right" },
+                { "<p",        "<Plug>(YankyPutIndentAfterShiftLeft)",  desc = "Put and indent left" },
                 -- { ">P",        "<Plug>(YankyPutIndentBeforeShiftRight)",                                     desc = "Put before and indent right" },
                 -- { "<P",        "<Plug>(YankyPutIndentBeforeShiftLeft)",                                      desc = "Put before and indent left" },
                 -- { "=p",        "<Plug>(YankyPutAfterFilter)",                                                desc = "Put after applying a filter" },
@@ -1107,8 +1096,27 @@ require("lazy").setup(
             priority = 1000,
             lazy = false, -- bigfile, quickfile and replace_netrw only work when snacks loads at startup
             keys = {
-                { "<leader>ot", function() Snacks.explorer() end,           desc = "Explorer" },
-                { "<leader>rf", function() Snacks.rename.rename_file() end, desc = "Rename file" },
+                { "<leader>ot", function() Snacks.explorer() end,                                                                   desc = "Explorer" },
+                { "<leader>rf", function() Snacks.rename.rename_file() end,                                                         desc = "Rename file" },
+                { "<leader>of", function() Snacks.picker.files() end,                                                               desc = "Files" },
+                { "<leader>og", function() Snacks.picker.git_files() end,                                                           desc = "Git files" },
+                { "<leader>ob", function() Snacks.picker.buffers() end,                                                             desc = "Buffers" },
+                { "<leader>oh", function() Snacks.picker.help() end,                                                                desc = "Help" },
+                { "<leader>oo", function() Snacks.picker.resume() end,                                                              desc = "Resume" },
+                { "<leader>vl", function() Snacks.picker.files({ cwd = vim.fn.stdpath("config") }) end,                             desc = "Config files" },
+                { "<leader>GL", function() Snacks.picker.git_log_file() end,                                                        desc = "Git log (file)" },
+                { "<leader>sg", function() Snacks.picker.grep({ cwd = U.GitRoot(), hidden = true }) end,                            desc = "Grep (git root)" },
+                { "<leader>SG", function() Snacks.picker.grep_word({ cwd = U.GitRoot(), hidden = true }) end,                       desc = "Grep word (git root)" },
+                { "<leader>su", function() Snacks.picker.grep_word() end,                                                           mode = { "n", "x" },          desc = "Grep word" },
+                { "<leader>st", function() Snacks.picker.grep() end,                                                                desc = "Grep" },
+                { "<leader>li", function() Snacks.picker.lsp_incoming_calls() end,                                                  desc = "Incoming calls" },
+                { "<leader>lo", function() Snacks.picker.lsp_outgoing_calls() end,                                                  desc = "Outgoing calls" },
+                { "<leader>nd", function() Snacks.picker.lsp_definitions() end,                                                     desc = "Definitions" },
+                { "<leader>nr", function() Snacks.picker.lsp_references() end,                                                      desc = "References" },
+                { "<leader>nD", function() Snacks.picker.lsp_type_definitions() end,                                                desc = "Type definitions" },
+                { "<leader>ni", function() Snacks.picker.lsp_implementations() end,                                                 desc = "Implementations" },
+                { "<leader>u",  function() Snacks.picker.undo() end,                                                                desc = "Undo history" },
+                { "<leader>oT", function() Snacks.picker.grep({ cwd = vault, search = "- [ ] ", regex = false, live = false }) end, desc = "Open todos" },
             },
             opts = {
                 bigfile = { enabled = true },
@@ -1120,7 +1128,7 @@ require("lazy").setup(
                     enabled = true,
                     layout = { preset = "ivy_split" },
                     formatters = { file = { filename_first = true } },
-                    -- one <Esc> closes the picker (same as the old telescope mapping) instead of leaving insert mode
+                    -- one <Esc> closes the picker instead of leaving insert mode
                     win = { input = { keys = { ["<Esc>"] = { "close", mode = { "n", "i" } } } } },
                     previewers = { file = { max_size = 100000 } },
                     sources = {
@@ -1128,65 +1136,6 @@ require("lazy").setup(
                         files = { hidden = true },
                         grep = { hidden = true, exclude = { "mocks" } },
                     },
-                },
-            },
-        },
-        {
-            "nvim-telescope/telescope.nvim",
-            branch = "master",
-            lazy = true,
-            dependencies = {
-                "nvim-lua/plenary.nvim",
-                { "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
-                "debugloop/telescope-undo.nvim",
-            },
-            config = function()
-                local telescope = require("telescope")
-                telescope.setup({
-                    defaults = {
-                        layout_strategy = "vertical",
-                        layout_config = { height = 0.95, width = 0.95 },
-                        dynamic_preview_title = true,
-                        color_devicons = false,
-                        preview = { filesize_limit = 0.1 }, -- MB
-                        vimgrep_arguments = {
-                            "rg", "--color=never", "--no-heading", "--with-filename", "--line-number", "--column",
-                            "--smart-case", "--glob=!mocks/",
-                        },
-                        mappings = { i = { ["<esc>"] = require("telescope.actions").close } },
-                    },
-                    extensions = {
-                        undo = {
-                            side_by_side = true,
-                            layout_strategy = "vertical",
-                            layout_config = { preview_height = 0.8 },
-                            mappings = {
-                                i = {
-                                    ["<cr>"] = function(...) return require("telescope-undo.actions").yank_additions(...) end,
-                                    ["<c-y>"] = function(...) return require("telescope-undo.actions").yank_deletions(...) end,
-                                    ["<c-r>"] = function(...) return require("telescope-undo.actions").restore(...) end,
-                                },
-                                n = {
-                                    ["y"] = function(...) return require("telescope-undo.actions").yank_additions(...) end,
-                                    ["Y"] = function(...) return require("telescope-undo.actions").yank_deletions(...) end,
-                                    ["r"] = function(...) return require("telescope-undo.actions").restore(...) end,
-                                },
-                            },
-                        },
-                    },
-                })
-                telescope.load_extension("fzf")
-                telescope.load_extension("undo")
-            end,
-        },
-        {
-            "ibhagwan/fzf-lua",
-            lazy = true,
-            dependencies = { "nvim-tree/nvim-web-devicons" },
-            opts = {
-                grep = {
-                    rg_opts =
-                    "--column --line-number --no-heading --color=always --smart-case --max-columns=4096 --glob=!mocks/ -e",
                 },
             },
         },
@@ -1230,8 +1179,8 @@ require("lazy").setup(
             version = "*", -- recommended, use latest release instead of latest commit
             cmd = "Obsidian",
             event = {
-                "BufReadPre " .. vim.fn.expand("~/Dropbox/Apps/remotely-save/ObsidianVault") .. "/*.md",
-                "BufNewFile " .. vim.fn.expand("~/Dropbox/Apps/remotely-save/ObsidianVault") .. "/*.md",
+                "BufReadPre " .. vault .. "/*.md",
+                "BufNewFile " .. vault .. "/*.md",
             },
             -- lazy = true,
             -- ft = "markdown",
@@ -1248,7 +1197,7 @@ require("lazy").setup(
 
             opts = {
                 legacy_commands = false,
-                picker = { name = require("picker").obsidian },
+                picker = { name = "snacks.picker" },
                 workspaces = {
                     -- {
                     --     name = "personal",
@@ -1256,7 +1205,7 @@ require("lazy").setup(
                     -- },
                     {
                         name = "work",
-                        path = "~/Dropbox/Apps/remotely-save/ObsidianVault",
+                        path = vault,
                     },
                 },
 
@@ -1342,8 +1291,6 @@ require("lazy").setup(
         -- },
     }
 )
-
-require("picker").setup()
 
 vim.api.nvim_create_autocmd('LspAttach', {
     desc = 'LSP actions',
