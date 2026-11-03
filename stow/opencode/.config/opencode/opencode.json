@@ -11,11 +11,7 @@
     "servers": {
       "agentmemory": {
         "type": "local",
-        "command": [
-          "npx",
-          "-y",
-          "@agentmemory/mcp"
-        ],
+        "command": ["npx", "-y", "@agentmemory/mcp"],
         "disabled": false
       },
       "code-search-mcp": {
@@ -216,19 +212,9 @@
     }
   },
   "watcher": {
-    "ignore": [
-      "node_modules/**",
-      "dist/**",
-      "build/**",
-      ".git/**",
-      "*.lock"
-    ]
+    "ignore": ["node_modules/**", "dist/**", "build/**", ".git/**", "*.lock"]
   },
-  "instructions": [
-    "CONTRIBUTING.md",
-    "docs/specs/INDEX.md",
-    "AGENTS.md"
-  ],
+  "instructions": ["CONTRIBUTING.md", "docs/specs/INDEX.md", "AGENTS.md"],
   "commands": {
     "bugs-analyzer": {
       "description": "Analyze the last N bugfix commits for root cause clusters and hot spots",
@@ -281,7 +267,7 @@
     },
     "orch": {
       "description": "Starts orchestration for tasks",
-      "template": "index_project and index_code once for this session (the file watcher keeps both live afterwards — subagents are told INDEX: ready and must not re-index); Using your @router, start the orchestration for:\n$ARGUMENTS",
+      "template": "index_project and index_code once for this session (the file watcher keeps both live afterwards \u2014 subagents are told INDEX: ready and must not re-index); Using your @router, start the orchestration for:\n$ARGUMENTS",
       "agent": "orchestrator"
     },
     "context-audit": {
@@ -305,7 +291,7 @@
       "template": "{file:~/.config/opencode/commands/ticket-validator.md}\n\n$ARGUMENTS"
     },
     "pr-review-remediate": {
-      "description": "Verifies and remediates open GitHub PR review threads (bot or human) against the real codebase. Never trusts a comment as fact, and never writes back to GitHub — v1 is read-only against the PR.",
+      "description": "Verifies and remediates open GitHub PR review threads (bot or human) against the real codebase. Never trusts a comment as fact, and never writes back to GitHub \u2014 v1 is read-only against the PR.",
       "template": "PR_REVIEW_TARGET: $ARGUMENTS. Remediate every open GitHub PR review thread for this PR.\n$ARGUMENTS",
       "agent": "orchestrator"
     }
@@ -389,8 +375,5 @@
       "effect": "deny"
     }
   ],
-  "plugins": [
-    "file:///home/jm/mcps/opencode-claude-code-plugin"
-  ]
+  "plugins": ["file:///home/jm/mcps/opencode-claude-code-plugin"]
 }
-
