@@ -812,7 +812,7 @@ require("lazy").setup(
                     text = { 'proselint' },
                     yaml = { 'yamllint' },
                     -- php = { 'php' },
-                    php = { 'php', 'phpstan' },
+                    php = { 'phpstan' },
                     -- lua = { 'luacheck' },
                     html = { 'tidy' },
                     typescript = { 'eslint_d' },
