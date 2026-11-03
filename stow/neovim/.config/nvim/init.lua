@@ -1338,10 +1338,6 @@ vim.api.nvim_create_autocmd("BufWritePre", {
     end
 })
 
-vim.lsp.config('*', {
-    capabilities = require('blink.cmp').get_lsp_capabilities(),
-})
-
 vim.lsp.config('gopls', {
     settings = {
         gopls = {
