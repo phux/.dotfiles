@@ -265,6 +265,9 @@ require("lazy").setup(
                         EndOfBuffer = { fg = dark and "#504945" or "#d5c4a1" },
                         Comment = { fg = dark and "#a8a8a8" or "#6c6c6c", italic = true },
                         CodeDiffExplorerSelected = { bg = dark and "#504945" or "#d5c4a1" },
+                        -- Gruvbox's PmenuSel bg (#83a598) equals blink's BlinkCmpLabelMatch fg, so typed
+                        -- letters had no contrast on the selected row. Use bg3 for a quiet bar.
+                        PmenuSel = { fg = dark and "#ebdbb2" or "#3c3836", bg = dark and "#665c54" or "#bdae93", bold = true },
                         -- DiffDelete = { bg = "#801919" },
                         -- DiffChange = { bg = "#1d2739" },
                         -- DiffText = { bg = "#3c4e77" },
@@ -888,7 +891,8 @@ require("lazy").setup(
                     },
                     completion = {
                         list = { selection = { preselect = false } }, -- <CR> only accepts an item you picked
-                        documentation = { auto_show = true },
+                        menu = { border = "rounded" },
+                        documentation = { auto_show = true, window = { border = "rounded" } },
                     },
                     cmdline = { enabled = false },
                     snippets = { preset = "luasnip" },
@@ -899,7 +903,7 @@ require("lazy").setup(
                             buffer = { min_keyword_length = 2 },
                         },
                     },
-                    signature = { enabled = true },
+                    signature = { enabled = true, window = { border = "rounded" } },
                 }
             end,
         }, -- completion plugin
