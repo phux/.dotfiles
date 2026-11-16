@@ -1,6 +1,6 @@
 {
   "$schema": "https://opencode.ai/config.json",
-  "model": "google/gemini-3.8-flash",
+  "model": "google/gemini-4-hydrogen",
   "agents": {
     "title": {
       "model": "google/gemini-3.8-flash"
@@ -27,8 +27,6 @@
       "code-intelligence": {
         "type": "local",
         "command": [
-          "env",
-          "CI_MCP_TOOLS=explore",
           "/home/jm/code/code-intelligence/target/release/code-intelligence"
         ]
       },
@@ -158,6 +156,70 @@
               }
             }
           ]
+        },
+        "gemini-4-hydrogen": {
+          "variants": [
+            {
+              "id": "low",
+              "settings": {
+                "thinkingConfig": {
+                  "thinkingLevel": "low"
+                }
+              }
+            },
+            {
+              "id": "medium",
+              "settings": {
+                "thinkingConfig": {
+                  "thinkingLevel": "medium"
+                }
+              }
+            },
+            {
+              "id": "high",
+              "settings": {
+                "thinkingConfig": {
+                  "thinkingLevel": "high"
+                }
+              }
+            },
+            {
+              "id": "xhigh",
+              "settings": {
+                "thinkingConfig": {
+                  "thinkingLevel": "xhigh"
+                }
+              }
+            }
+          ]
+        },
+        "gemini-4-carbon": {
+          "variants": [
+            {
+              "id": "low",
+              "settings": {
+                "thinkingConfig": {
+                  "thinkingLevel": "low"
+                }
+              }
+            },
+            {
+              "id": "medium",
+              "settings": {
+                "thinkingConfig": {
+                  "thinkingLevel": "medium"
+                }
+              }
+            },
+            {
+              "id": "high",
+              "settings": {
+                "thinkingConfig": {
+                  "thinkingLevel": "high"
+                }
+              }
+            }
+          ]
         }
       }
     },
@@ -261,13 +323,13 @@
       "agent": "specs"
     },
     "multi-plan": {
-      "description": "Standalone multi-perspective planner: bootstraps its own router+explorer session, then runs four parallel lens agents (Correctness, Risk, Architecture, Simplicity) synthesized into one conflict-aware blueprint",
+      "description": "Standalone multi-perspective planner: bootstraps its own scout+explorer session, then runs four parallel lens agents (Correctness, Risk, Architecture, Simplicity) synthesized into one conflict-aware blueprint",
       "template": "$ARGUMENTS",
       "agent": "multi-planner"
     },
     "orch": {
       "description": "Starts orchestration for tasks",
-      "template": "index_project and index_code once for this session (the file watcher keeps both live afterwards \u2014 subagents are told INDEX: ready and must not re-index); Using your @router, start the orchestration for:\n$ARGUMENTS",
+      "template": "index_project and index_code once for this session (the file watcher keeps both live afterwards \u2014 subagents are told INDEX: ready and must not re-index); Using your @scout, start the orchestration for:\n$ARGUMENTS",
       "agent": "orchestrator"
     },
     "context-audit": {
@@ -375,5 +437,5 @@
       "effect": "deny"
     }
   ],
-  "plugins": ["file:///home/jm/mcps/opencode-claude-code-plugin"]
+  "plugins": []
 }

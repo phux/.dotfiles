@@ -312,9 +312,7 @@ require("lazy").setup(
             config = function()
                 vim.api.nvim_set_keymap("n", "<leader>gw", ":Gwrite<cr>", { noremap = true })
                 vim.api.nvim_set_keymap("n", "<leader>ge", ":Gedit<cr>", { noremap = true })
-                -- vim.api.nvim_set_keymap("n", "<leader>gs", ":Git<cr>", {noremap = true})
                 vim.api.nvim_set_keymap("n", "<leader>gb", ":Git blame<cr>", { noremap = true })
-                -- vim.api.nvim_set_keymap("n", "<leader>gc", ":Gcommit -v<cr>", {noremap = true}) -- replaced by diffview
 
                 function _G.pushIfNotMainMasterOrStaging()
                     local branch = vim.trim(vim.fn.system("git branch --show-current"))
@@ -730,6 +728,12 @@ require("lazy").setup(
         {
             'ojroques/nvim-hardline',
             config = function()
+                -- The editor window is inactive while a picker has focus. The stock inactive state is
+                -- #928374 on #665c54 (1.8:1). All states share this one table, so one edit covers them.
+                -- Greys are exact xterm-256 entries, because tmux snaps other colors.
+                local theme = require('hardline.themes.gruvbox')
+                local inactive = theme.mode.inactive
+                inactive.guifg, inactive.guibg, inactive.ctermfg, inactive.ctermbg = '#bcbcbc', '#444444', '250', '238'
                 require('hardline').setup {
                     bufferline = false,           -- disable bufferline
                     bufferline_settings = {
@@ -737,7 +741,7 @@ require("lazy").setup(
                         show_index = false,       -- show buffer indexes (not the actual buffer numbers) in bufferline
                     },
                     -- theme = 'default',            -- change theme
-                    theme = 'gruvbox', -- change theme
+                    theme = theme,
                     sections = {       -- define sections
                         { class = 'mode', item = require('hardline.parts.mode').get_item },
                         { class = 'high', item = require('hardline.parts.git').get_item,     hide = 100 },
@@ -991,7 +995,7 @@ require("lazy").setup(
                         terraform = { lsp_format = "first", "terraform_fmt" },
                         markdown = { lsp_format = "first", "prettierd" },
                         json = { "prettierd" },
-                        php = { "php_cs_fixer", lsp_format = "last" },
+                        php = { "php_cs_fixer" },
                         sh = { lsp_format = "first", "shfmt" },
                         -- sql = { "sqlfmt", "sql_formatter" },
                         sql = { "sqruff" },
@@ -1426,6 +1430,14 @@ vim.lsp.config('yamlls', {
     end,
 })
 
+-- testing
+vim.lsp.config('phpactor', {
+    cmd = { 'php', vim.fn.expand('~/tmp/phpactor-daily/bin/phpactor'), 'language-server' },
+    cmd_env = { PHP_INI_SCAN_DIR = ':' .. vim.fn.expand('~/tmp/phpactor-perf/ini-daily') },
+})
+-- vim.lsp.enable('phpactor')
+-- vim.lsp.enable('intelephense', false)
+
 require('mason').setup({})
 require('mason-lspconfig').setup({
     ensure_installed = {
@@ -1443,8 +1455,9 @@ require('mason-lspconfig').setup({
         'marksman', -- markdown
         -- 'spectral', -- openapi
         -- 'phpactor',
-        'intelephense',
+        -- 'intelephense',
         -- 'php_ls',
+        'phpantom_lsp',
         'pyright',
         -- 'ruby_ls',
         'sqlls',

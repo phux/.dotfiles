@@ -3,7 +3,8 @@ description: Scans a directory to produce a machine-readable manifest of all ana
 color: "#83a598"
 mode: subagent
 hidden: false
-model: google/gemini-3.7-flash
+model: google/gemini-4-hydrogen
+variant: medium
 temperature: 1.0
 steps: 60
 tools:
@@ -36,10 +37,11 @@ Include extensions:
 *.ts, *.tsx, *.js, *.jsx, *.go, *.py, *.rs, *.java, *.vue, *.svelte, *.rb, *.php, *.cs, *.kt, *.swift, *.c, *.cpp, *.h
 
 Exclude patterns (never include):
+
 - node_modules/, vendor/, .git/, dist/, build/, out/, .next/, .nuxt/, coverage/
-- *.test.ts, *.test.js, *.spec.ts, *.spec.js, **/__tests__/**
+- *.test.ts, *.test.js, *.spec.ts, *.spec.js, **/**tests**/**
 - *.d.ts, *.map, *.min.js, *.min.css
-- *.lock, *.snap, *.generated.*, *.pb.go
+- *.lock, *.snap, _.generated._, *.pb.go
 - Binary files, images, fonts, fixtures
 
 Override: if the user provides explicit include/exclude globs in `$ARGUMENTS`, those take precedence.
@@ -56,6 +58,7 @@ Positive Constraints:
 - Dependency accuracy: Only record intra-project imports (relative paths or src-aliased paths). Never list external package names.
 
 Negative Constraints:
+
 - NEVER write code. Produce only the index manifest.
 - DO NOT analyze, summarize, or interpret file contents beyond import statements.
 - DO NOT include line numbers, descriptions, or annotations in the file checklist.
@@ -87,24 +90,26 @@ sources:
 
 ## Dependencies
 
-| File | Local Imports |
-|------|---------------|
+| File             | Local Imports                    |
+| ---------------- | -------------------------------- |
 | path/to/file1.ts | path/to/dep1.ts, path/to/dep2.ts |
-| path/to/file2.ts | _(none)_ |
+| path/to/file2.ts | _(none)_                         |
 
 ## Hot Spots
 
 Top imported files (most likely architectural hubs):
+
 1. path/to/hub1.ts — imported by N files
 2. path/to/hub2.ts — imported by N files
 
 ## Suggested Extraction Order
 
 Process in this order (leaves first, hubs last) to enable cross-referencing:
+
 1. path/to/leaf1.ts
 2. path/to/leaf2.ts
-...
-N. path/to/hub1.ts
+   ...
+   N. path/to/hub1.ts
 
 If the scope resolves to zero files, output exactly:
 **[BLOCKER]** No analyzable files found in the given scope.

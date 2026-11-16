@@ -1,8 +1,8 @@
 ---
 description: Git history bug analysis agent. Mines bugfix commits, analyzes diffs for root causes, and produces a clustered report grouped by root cause category, ticket, and PR to prioritize systemic improvements.
 mode: primary
-model: google/gemini-3.7-flash
-variant: high
+model: google/gemini-4-hydrogen
+variant: medium
 hidden: false
 permission:
   edit: deny

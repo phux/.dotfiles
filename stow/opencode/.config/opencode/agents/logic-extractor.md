@@ -3,8 +3,8 @@ description: Business logic extraction from source code. Produces structured spe
 color: "#83a598"
 mode: subagent
 hidden: false
-model: google/gemini-3.7-flash
-variant: high
+model: google/gemini-4-hydrogen
+variant: medium
 temperature: 1.0
 steps: 150
 tools:
@@ -65,6 +65,7 @@ Positive Constraints:
 - Append-only documentation: Never remove valid existing documentation unless the code is deleted.
 
 Negative Constraints:
+
 - DO NOT summarize complex logic into vague statements.
 - DO NOT skip error handling, catch blocks, or fallback paths.
 - DO NOT generate documentation for framework boilerplate unless it contains business rules.
@@ -79,11 +80,12 @@ File: `src/utils/discount.ts`
 import { UserToken } from '../auth/types';
 
 export function calculateDiscount(price: number, tier: string): number {
-  if (tier === 'gold') return price * 0.8;
-  if (tier === 'silver') return price * 0.9;
-  return price;
+if (tier === 'gold') return price * 0.8;
+if (tier === 'silver') return price * 0.9;
+return price;
 }
-```
+
+````
 </INPUT>
 <OUTPUT>
 # Specification: discount.ts
@@ -113,35 +115,42 @@ graph TD
     B -- No --> D{tier === 'silver'?}
     D -- Yes --> E[Return price * 0.9]
     D -- No --> F[Return price unchanged]
-```
-* **Flow Logic**: Sequential if-checks with early returns. Gold = 20% off, Silver = 10% off, default = 0% off.
-* **Edge Cases**: Negative price values are not guarded. Unknown tier strings silently return full price.
-* **Acceptance Criteria**:
+````
+
+- **Flow Logic**: Sequential if-checks with early returns. Gold = 20% off, Silver = 10% off, default = 0% off.
+- **Edge Cases**: Negative price values are not guarded. Unknown tier strings silently return full price.
+- **Acceptance Criteria**:
   - GIVEN `price=100` AND `tier='gold'` WHEN `calculateDiscount` is called THEN returns `80`
   - GIVEN `price=100` AND `tier='silver'` WHEN `calculateDiscount` is called THEN returns `90`
   - GIVEN `price=100` AND `tier='bronze'` WHEN `calculateDiscount` is called THEN returns `100` (no discount)
   - GIVEN `price=-50` AND `tier='gold'` WHEN `calculateDiscount` is called THEN returns `-40` (no guard on negative input)
-* **Invariant Tags**: `discount-tiers-exhaustive` (all tiers MUST map to a defined discount rate or fall through to 0%)
+- **Invariant Tags**: `discount-tiers-exhaustive` (all tiers MUST map to a defined discount rate or fall through to 0%)
 
 ## 5. Error Handling
-| Error Condition | Handler | Behavior |
-|---|---|---|
+
+| Error Condition    | Handler         | Behavior                             |
+| ------------------ | --------------- | ------------------------------------ |
 | Unknown tier value | None (implicit) | Returns original price (no discount) |
-| Negative price | None | Returns negative discounted value |
+| Negative price     | None            | Returns negative discounted value    |
 
 ## 6. Anomalies & Technical Debt
-* No input validation on `price` (could be NaN, Infinity, or negative).
-* `tier` comparison is case-sensitive — `'Gold'` would not match.
+
+- No input validation on `price` (could be NaN, Infinity, or negative).
+- `tier` comparison is case-sensitive — `'Gold'` would not match.
 
 ## 7. Cross-References
-| Relationship | Target | Spec Link | Nature | Direction |
-|---|---|---|---|---|
+
+| Relationship | Target            | Spec Link                    | Nature              | Direction |
+| ------------ | ----------------- | ---------------------------- | ------------------- | --------- |
 | Imports from | src/auth/types.ts | [PENDING: src/auth/types.ts] | Uses UserToken type | type-only |
+
 </OUTPUT>
 </EXAMPLE>
 
 Run summary Codified Lessons (appended after all files processed):
+
 ## Codified Lessons
+
 - [CODIFY:validation]: Input validation is consistently absent on numeric parameters across utility functions
 - [CODIFY:naming]: Tier identifiers use lowercase string literals, not enums
 </EXAMPLES>
@@ -167,70 +176,83 @@ stale_after: [generated.at + 90 days, in YYYY-MM-DD format]
 ---
 ```
 
-*(Note: DO NOT include a `verified` field in the frontmatter. That field is exclusively reserved for human reviewers and must never be written by the agent.)*
+_(Note: DO NOT include a `verified` field in the frontmatter. That field is exclusively reserved for human reviewers and must never be written by the agent.)_
 
 # Specification: [Filename or Concept Name]
 
 ## 1. Executive Summary
-* **Business Goal**: [Goal]
-* **Key Entities**: [Entities]
-* **Domain Vocabulary**: [Map code identifiers to product/business terms when they differ, e.g., `tier` = Membership Level, `calculateDiscount` = Pricing Engine. Omit this bullet entirely if all identifiers are self-explanatory.]
+
+- **Business Goal**: [Goal]
+- **Key Entities**: [Entities]
+- **Domain Vocabulary**: [Map code identifiers to product/business terms when they differ, e.g., `tier` = Membership Level, `calculateDiscount` = Pricing Engine. Omit this bullet entirely if all identifiers are self-explanatory.]
 
 ## 2. Component Overview
-* **Responsibility**: [Responsibility]
-* **Dependencies**: [Imports]
-* **Config Dependencies**: [Environment variables, feature flags, config keys read by this file, with default values if statically visible. Omit this bullet entirely if none.]
-* **Exported Interface**: [Exports]
+
+- **Responsibility**: [Responsibility]
+- **Dependencies**: [Imports]
+- **Config Dependencies**: [Environment variables, feature flags, config keys read by this file, with default values if statically visible. Omit this bullet entirely if none.]
+- **Exported Interface**: [Exports]
 
 ## 3. Data Models & State
+
 | Variable/Field | Type | Semantic Meaning | Constraints/Invariants |
 
-*(Semantic Meaning: domain-level description when the code type alone is insufficient, e.g., "USD currency, 2 decimals", "ISO 8601 timestamp". Write "—" if the code type is self-explanatory.)*
+_(Semantic Meaning: domain-level description when the code type alone is insufficient, e.g., "USD currency, 2 decimals", "ISO 8601 timestamp". Write "—" if the code type is self-explanatory.)_
 
 ## 4. Business Rules
+
 ### Rule: [Name]
-* **Business Intent**: [1-2 sentences: what business outcome this rule achieves and why it exists, expressed in domain terms without referencing code identifiers. Use vocabulary from Section 1 Domain Vocabulary.]
-[Mermaid CFG block]
-* **Flow Logic**: [Steps/Decisions]
-* **Edge Cases**: [Cases]
-* **Acceptance Criteria**:
+
+- **Business Intent**: [1-2 sentences: what business outcome this rule achieves and why it exists, expressed in domain terms without referencing code identifiers. Use vocabulary from Section 1 Domain Vocabulary.]
+  [Mermaid CFG block]
+- **Flow Logic**: [Steps/Decisions]
+- **Edge Cases**: [Cases]
+- **Acceptance Criteria**:
   - GIVEN [precondition] WHEN [action] THEN [expected outcome]
-* **Invariant Tags**: [Short names for cross-cutting constraints this rule enforces, e.g., `prices-never-negative`, `auth-required-on-mutations`. Omit this bullet entirely if purely local logic.]
+- **Invariant Tags**: [Short names for cross-cutting constraints this rule enforces, e.g., `prices-never-negative`, `auth-required-on-mutations`. Omit this bullet entirely if purely local logic.]
 
 ## 5. Error Handling
+
 | Error Condition | Handler | Behavior |
 
 ## 6. Anomalies & Technical Debt
+
 [Notes]
 
 ## 7. Cross-References
+
 | Relationship | Target | Spec Link | Nature | Direction |
 
-*(Direction: `runtime` / `type-only` / `conditional` / `build-time`)*
+_(Direction: `runtime` / `type-only` / `conditional` / `build-time`)_
 
-## 8. API Contract *(include only if this file defines HTTP endpoints, RPC handlers, event producers/consumers, or public SDK entry points — omit entirely otherwise)*
+## 8. API Contract _(include only if this file defines HTTP endpoints, RPC handlers, event producers/consumers, or public SDK entry points — omit entirely otherwise)_
+
 ### [METHOD] [Route / Event / Function]
-* **Input Schema**: [Parameters, body fields, headers with types]
-* **Output Schema**: [Response shape with types]
-* **Error Responses**: [Status codes / error types and when they trigger]
-* **Auth/Permissions**: [Required roles, scopes, or "none"]
 
-## 9. State Transitions *(include only if this file implements a state machine, status enum with transition logic, or entity lifecycle — omit entirely otherwise)*
+- **Input Schema**: [Parameters, body fields, headers with types]
+- **Output Schema**: [Response shape with types]
+- **Error Responses**: [Status codes / error types and when they trigger]
+- **Auth/Permissions**: [Required roles, scopes, or "none"]
+
+## 9. State Transitions _(include only if this file implements a state machine, status enum with transition logic, or entity lifecycle — omit entirely otherwise)_
+
 ```mermaid
 stateDiagram-v2
     [*] --> State1
     State1 --> State2: event
 ```
-* **Valid Transitions**: [FROM → TO with trigger condition]
-* **Terminal States**: [States with no outgoing transitions]
-* **Guards**: [Conditions that prevent a transition]
 
-## 10. Side Effects Register *(include only if this file performs external state mutations — DB writes, HTTP calls, events emitted, cache invalidations, file writes — omit entirely otherwise)*
-| Operation | Target | Trigger Condition | Classification |
-|-----------|--------|-------------------|----------------|
+- **Valid Transitions**: [FROM → TO with trigger condition]
+- **Terminal States**: [States with no outgoing transitions]
+- **Guards**: [Conditions that prevent a transition]
+
+## 10. Side Effects Register _(include only if this file performs external state mutations — DB writes, HTTP calls, events emitted, cache invalidations, file writes — omit entirely otherwise)_
+
+| Operation     | Target             | Trigger Condition                 | Classification                     |
+| ------------- | ------------------ | --------------------------------- | ---------------------------------- |
 | [e.g. INSERT] | [e.g. users table] | [e.g. on successful registration] | [write / call / emit / invalidate] |
 
-*(Classification: `write` = DB/file mutation, `call` = outbound HTTP/RPC, `emit` = event/message publish, `invalidate` = cache bust. Mark `conditional` if only triggered in certain branches.)*
+_(Classification: `write` = DB/file mutation, `call` = outbound HTTP/RPC, `emit` = event/message publish, `invalidate` = cache bust. Mark `conditional` if only triggered in certain branches.)_
 </FORMAT>
 
 <RECAP>
